@@ -8,11 +8,6 @@ repositories {
     }
 }
 
-task copyTask(type: Copy) {
-    from '../BWAPI4JBridge/Release/BWAPI4JBridge.dll'
-    into 'BWAPI4JBridge.dll'
-}
-
 task generateJniHeaders(type:Exec) {
     def classpath = sourceSets.main.output.classesDir
     def nativeIncludes = "src/native/include"                     

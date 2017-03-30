@@ -10,10 +10,10 @@ extern "C" {
 /*
  * Class:     org_openbw_bwapi4j_BW
  * Method:    startGame
- * Signature: ()V
+ * Signature: (Lorg/openbw/bwapi4j/BW;)V
  */
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame
-  (JNIEnv *, jobject);
+  (JNIEnv *, jobject, jobject);
 
 /*
  * Class:     org_openbw_bwapi4j_BW
