@@ -1,0 +1,22 @@
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+    jcenter()
+    flatDir {
+        dirs 'lib'
+    }
+}
+
+task copyTask(type: Copy) {
+    from '../BWAPI4JBridge/Release/BWAPI4JBridge.dll'
+    into 'BWAPI4JBridge.dll'
+}
+
+task generateJniHeaders(type:Exec) {
+    def classpath = sourceSets.main.output.classesDir
+    def nativeIncludes = "src/native/include"                     
+    commandLine "javah", "-d", nativeIncludes, "-classpath", classpath, "$mainClassName"
+
+    dependsOn classes
+}
