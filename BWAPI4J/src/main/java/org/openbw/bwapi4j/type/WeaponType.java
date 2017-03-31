@@ -106,6 +106,7 @@ public enum WeaponType {
     None,
     Unknown;
 	
+	private int id;
 	private TechType tech;
 	private UnitType whatUses;
 	private int damageAmount;
@@ -130,6 +131,16 @@ public enum WeaponType {
 	private boolean targetsOrgOrMech;
 	private boolean targetsOwn;
 	
+	public int getId() {
+		return this.id;
+	}
+	
+	/**
+	 * Retrieves the technology type that must be researched before this weapon
+	 * can be used. Returns TechType required by this weapon. Return values
+	 * TechTypes::None if no tech type is required to use this weapon. See also
+	 * TechType::getWeapon
+	 */
 	public TechType getTech() {
         return this.tech;
     }

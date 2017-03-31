@@ -248,11 +248,11 @@ public enum UnitType {
 	private int id;
 	private Race race;
 	private Pair<UnitType, Integer> whatBuilds;
-	private Map<UnitType, Integer> requiredUnits;
+	private HashMap<UnitType, Integer> requiredUnits;
 	private TechType requiredTech;
 	private TechType cloakingTech;
-	private List<TechType> abilities;
-	private List<UpgradeType> upgrades;
+	private ArrayList<TechType> abilities;
+	private ArrayList<UpgradeType> upgrades;
 	private UpgradeType armorUpgrade;
 	private int maxHitPoints;
 	private int maxShields;
@@ -323,8 +323,8 @@ public enum UnitType {
 	private boolean isMineralField;
 	private boolean isCritter;
 	private boolean canBuildAddon;
-	private List<TechType> researchesWhat;
-	private List<UpgradeType> upgradesWhat;
+	private ArrayList<TechType> researchesWhat;
+	private ArrayList<UpgradeType> upgradesWhat;
 
 	private UnitType() {
 		

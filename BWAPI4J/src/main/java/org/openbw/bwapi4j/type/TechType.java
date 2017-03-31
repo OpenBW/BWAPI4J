@@ -39,6 +39,7 @@ public enum TechType {
     Nuclear_Strike,
     Unknown;
 	
+	private int id;
 	private Race race;
 	private int mineralPrice;
 	private int gasPrice;
@@ -50,6 +51,10 @@ public enum TechType {
 	private boolean targetsPosition;
 	private Order order;
 	private UnitType requiredUnit;
+	
+	public int getId() {
+		return this.id;
+	}
 	
 	/**
 	 * Retrieves the race that is required to research or use the TechType. Note

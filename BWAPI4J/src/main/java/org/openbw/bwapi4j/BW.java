@@ -3,6 +3,9 @@ package org.openbw.bwapi4j;
 import java.io.File;
 
 import org.openbw.bwapi4j.type.Race;
+import org.openbw.bwapi4j.type.UnitType;
+import org.openbw.bwapi4j.type.UpgradeType;
+import org.openbw.bwapi4j.type.WeaponType;
 
 public class BW {
 
@@ -35,18 +38,6 @@ public class BW {
 	private void onStart() {
 		
 		System.out.println("game started.");
-		
-		int[] typeIds = this.getUnitTypes();
-		for (int i = 0; i < typeIds.length; i++) {
-			//System.out.println(typeIds[i]);
-		}
-		System.out.println("Race ID: " + Race.Protoss.getId());
-		System.out.println(Race.Protoss.getWorker().mineralPrice());
-		System.out.println(Race.Protoss.getCenter());
-		System.out.println(Race.Protoss.getRefinery().mineralPrice());
-		System.out.println(Race.Protoss.getTransport());
-		System.out.println(Race.Protoss.getSupplyProvider());
-		
 	}
 
 	

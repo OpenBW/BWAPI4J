@@ -53,8 +53,10 @@ public enum UpgradeType {
     Anabolic_Synthesis,
     Charon_Boosters,
     Upgrade_60,
-    None;
+    None,
+    Unknown;
 	
+	private int id;
 	private Race race;
 	private int[] mineralPrices;
 	private int mineralPriceFactor;
@@ -66,6 +68,10 @@ public enum UpgradeType {
 	private UnitType whatUpgrades;
 	private UnitType[] whatsRequired;
 
+	public int getId() {
+		return this.id;
+	}
+	
 	/**
 	 * Retrieves the race the upgrade is for. For example,
 	 * UpgradeTypes::Terran_Infantry_Armor.getRace() will return Races::Terran.
