@@ -1,5 +1,7 @@
 package org.openbw.bwapi4j.type;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,160 +10,250 @@ import org.openbw.bwapi4j.util.Pair;
 
 public enum UnitType {
 
-	Terran_Marine(0), Terran_Ghost(1), Terran_Vulture(2), Terran_Goliath(3),
-	// 4 Goliath Turret
-	Terran_Siege_Tank_Tank_Mode(5),
-	// 6 Siege Tank Turret (Tank Mode)
-	Terran_SCV(7), Terran_Wraith(8), Terran_Science_Vessel(9), Hero_Gui_Montag(10), Terran_Dropship(
-			11), Terran_Battlecruiser(12), Terran_Vulture_Spider_Mine(13), Terran_Nuclear_Missile(
-					14), Terran_Civilian(15), Hero_Sarah_Kerrigan(16), Hero_Alan_Schezar(17),
-	// 18 Alan Schezar Turret
-	Hero_Jim_Raynor_Vulture(19), Hero_Jim_Raynor_Marine(20), Hero_Tom_Kazansky(21), Hero_Magellan(
-			22), Hero_Edmund_Duke_Tank_Mode(23),
-	// 24 Edmund Duke Turret (Tank Mode)
-	Hero_Edmund_Duke_Siege_Mode(25),
-	// 26 Edmund Duke Turret (Siege Mode)
-	Hero_Arcturus_Mengsk(27), Hero_Hyperion(28), Hero_Norad_II(29), Terran_Siege_Tank_Siege_Mode(30),
-	// 31 Siege Tank Turret (Siege Mode)
-	Terran_Firebat(32), Spell_Scanner_Sweep(33), Terran_Medic(34), Zerg_Larva(35), Zerg_Egg(36), Zerg_Zergling(
-			37), Zerg_Hydralisk(38), Zerg_Ultralisk(39), Zerg_Broodling(40), Zerg_Drone(41), Zerg_Overlord(
-					42), Zerg_Mutalisk(43), Zerg_Guardian(44), Zerg_Queen(45), Zerg_Defiler(
-							46), Zerg_Scourge(47), Hero_Torrasque(48), Hero_Matriarch(
-									49), Zerg_Infested_Terran(50), Hero_Infested_Kerrigan(51), Hero_Unclean_One(
-											52), Hero_Hunter_Killer(53), Hero_Devouring_One(54), Hero_Kukulza_Mutalisk(
-													55), Hero_Kukulza_Guardian(56), Hero_Yggdrasill(
-															57), Terran_Valkyrie(58), Zerg_Cocoon(59), Protoss_Corsair(
-																	60), Protoss_Dark_Templar(61), Zerg_Devourer(
-																			62), Protoss_Dark_Archon(63), Protoss_Probe(
-																					64), Protoss_Zealot(
-																							65), Protoss_Dragoon(
-																									66), Protoss_High_Templar(
-																											67), Protoss_Archon(
-																													68), Protoss_Shuttle(
-																															69), Protoss_Scout(
-																																	70), Protoss_Arbiter(
-																																			71), Protoss_Carrier(
-																																					72), Protoss_Interceptor(
-																																							73), Hero_Dark_Templar(
-																																									74), Hero_Zeratul(
-																																											75), Hero_Tassadar_Zeratul_Archon(
-																																													76), Hero_Fenix_Zealot(
-																																															77), Hero_Fenix_Dragoon(
-																																																	78), Hero_Tassadar(
-																																																			79), Hero_Mojo(
-																																																					80), Hero_Warbringer(
-																																																							81), Hero_Gantrithor(
-																																																									82), Protoss_Reaver(
-																																																											83), Protoss_Observer(
-																																																													84), Protoss_Scarab(
-																																																															85), Hero_Danimoth(
-																																																																	86), Hero_Aldaris(
-																																																																			87), Hero_Artanis(
-																																																																					88), Critter_Rhynadon(
-																																																																							89), Critter_Bengalaas(
-																																																																									90), Special_Cargo_Ship(
-																																																																											91), Special_Mercenary_Gunship(
-																																																																													92), Critter_Scantid(
-																																																																															93), Critter_Kakaru(
-																																																																																	94), Critter_Ragnasaur(
-																																																																																			95), Critter_Ursadon(
-																																																																																					96), Zerg_Lurker_Egg(
-																																																																																							97), Hero_Raszagal(
-																																																																																									98), Hero_Samir_Duran(
-																																																																																											99), Hero_Alexei_Stukov(
-																																																																																													100), Special_Map_Revealer(
-																																																																																															101), Hero_Gerard_DuGalle(
-																																																																																																	102), Zerg_Lurker(
-																																																																																																			103), Hero_Infested_Duran(
-																																																																																																					104), Spell_Disruption_Web(
-																																																																																																							105), Terran_Command_Center(
-																																																																																																									106), Terran_Comsat_Station(
-																																																																																																											107), Terran_Nuclear_Silo(
-																																																																																																													108), Terran_Supply_Depot(
-																																																																																																															109), Terran_Refinery(
-																																																																																																																	110), Terran_Barracks(
-																																																																																																																			111), Terran_Academy(
-																																																																																																																					112), Terran_Factory(
-																																																																																																																							113), Terran_Starport(
-																																																																																																																									114), Terran_Control_Tower(
-																																																																																																																											115), Terran_Science_Facility(
-																																																																																																																													116), Terran_Covert_Ops(
-																																																																																																																															117), Terran_Physics_Lab(
-																																																																																																																																	118),
-	// 119 Starbase (Unused)
-	Terran_Machine_Shop(120),
-	// 121 Repair Bay (Unused)
-	Terran_Engineering_Bay(122), Terran_Armory(123), Terran_Missile_Turret(124), Terran_Bunker(
-			125), Special_Crashed_Norad_II(126), Special_Ion_Cannon(127), Powerup_Uraj_Crystal(
-					128), Powerup_Khalis_Crystal(129), Zerg_Infested_Command_Center(130), Zerg_Hatchery(131), Zerg_Lair(
-							132), Zerg_Hive(133), Zerg_Nydus_Canal(134), Zerg_Hydralisk_Den(135), Zerg_Defiler_Mound(
-									136), Zerg_Greater_Spire(137), Zerg_Queens_Nest(138), Zerg_Evolution_Chamber(
-											139), Zerg_Ultralisk_Cavern(140), Zerg_Spire(141), Zerg_Spawning_Pool(
-													142), Zerg_Creep_Colony(143), Zerg_Spore_Colony(144),
-	// 144 Unused Zerg Building 1
-	Zerg_Sunken_Colony(146), Special_Overmind_With_Shell(147), Special_Overmind(148), Zerg_Extractor(
-			149), Special_Mature_Chrysalis(150), Special_Cerebrate(151), Special_Cerebrate_Daggoth(152),
-	// 153 Unused Zerg Building 2
-	Protoss_Nexus(154), Protoss_Robotics_Facility(155), Protoss_Pylon(156), Protoss_Assimilator(157),
-	// 158 Unused Protoss Building 1
-	Protoss_Observatory(159), Protoss_Gateway(160),
-	// 161 Unused Protoss Building 2
-	Protoss_Photon_Cannon(162), Protoss_Citadel_of_Adun(163), Protoss_Cybernetics_Core(164), Protoss_Templar_Archives(
-			165), Protoss_Forge(166), Protoss_Stargate(167), Special_Stasis_Cell_Prison(168), Protoss_Fleet_Beacon(
-					169), Protoss_Arbiter_Tribunal(170), Protoss_Robotics_Support_Bay(171), Protoss_Shield_Battery(
-							172), Special_Khaydarin_Crystal_Form(173), Special_Protoss_Temple(
-									174), Special_XelNaga_Temple(175), Resource_Mineral_Field(
-											176), Resource_Mineral_Field_Type_2(
-													177), Resource_Mineral_Field_Type_3(178),
-	// 179 Cave (Unused)
-	// 180 Cave-in (Unused)
-	// 181 Cantina (Unused)
-	// 182 Mining Platform (Unused)
-	// 183 Independent Command Center (Unused)
-	Special_Independant_Starport(184),
-	// 185 Independent Jump Gate (Unused)
-	// 186 Ruins (Unused)
-	// 187 Khaydarin Crystal Formation (Unused)
-	Resource_Vespene_Geyser(188), Special_Warp_Gate(189), Special_Psi_Disrupter(190),
-	// 191 Zerg Marker (Unused)
-	// 192 Terran Marker (Unused)
-	// 193 Protoss Marker (Unused)
-	Special_Zerg_Beacon(194), Special_Terran_Beacon(195), Special_Protoss_Beacon(196), Special_Zerg_Flag_Beacon(
-			197), Special_Terran_Flag_Beacon(198), Special_Protoss_Flag_Beacon(199), Special_Power_Generator(
-					200), Special_Overmind_Cocoon(201), Spell_Dark_Swarm(202), Special_Floor_Missile_Trap(
-							203), Special_Floor_Hatch(204), Special_Upper_Level_Door(
-									205), Special_Right_Upper_Level_Door(206), Special_Pit_Door(
-											207), Special_Right_Pit_Door(208), Special_Floor_Gun_Trap(
-													209), Special_Wall_Missile_Trap(210), Special_Wall_Flame_Trap(
-															211), Special_Right_Wall_Missile_Trap(
-																	212), Special_Right_Wall_Flame_Trap(
-																			213), Special_Start_Location(
-																					214), Powerup_Flag(
-																							215), Powerup_Young_Chrysalis(
-																									216), Powerup_Psi_Emitter(
-																											217), Powerup_Data_Disk(
-																													218), Powerup_Khaydarin_Crystal(
-																															219), Powerup_Mineral_Cluster_Type_1(
-																																	220), Powerup_Mineral_Cluster_Type_2(
-																																			221), Powerup_Protoss_Gas_Orb_Type_1(
-																																					222), Powerup_Protoss_Gas_Orb_Type_2(
-																																							223), Powerup_Zerg_Gas_Sac_Type_1(
-																																									224), Powerup_Zerg_Gas_Sac_Type_2(
-																																											225), Powerup_Terran_Gas_Tank_Type_1(
-																																													226), Powerup_Terran_Gas_Tank_Type_2(
-																																															227), None(
-																																																	228),
-	// 229 All Units (BWAPI4)
-	// 230 Men (BWAPI4)
-	// 231 Buildings (BWAPI4)
-	// 232 Factories (BWAPI4)
-	Unknown(233);
+	Terran_Marine,
+    Terran_Ghost,
+    Terran_Vulture,
+    Terran_Goliath,
+    Terran_Goliath_Turret,
+    Terran_Siege_Tank_Tank_Mode,
+    Terran_Siege_Tank_Tank_Mode_Turret,
+    Terran_SCV,
+    Terran_Wraith,
+    Terran_Science_Vessel,
+    Hero_Gui_Montag,
+    Terran_Dropship,
+    Terran_Battlecruiser,
+    Terran_Vulture_Spider_Mine,
+    Terran_Nuclear_Missile,
+    Terran_Civilian,
+    Hero_Sarah_Kerrigan,
+    Hero_Alan_Schezar,
+    Hero_Alan_Schezar_Turret,
+    Hero_Jim_Raynor_Vulture,
+    Hero_Jim_Raynor_Marine,
+    Hero_Tom_Kazansky,
+    Hero_Magellan,
+    Hero_Edmund_Duke_Tank_Mode,
+    Hero_Edmund_Duke_Tank_Mode_Turret,
+    Hero_Edmund_Duke_Siege_Mode,
+    Hero_Edmund_Duke_Siege_Mode_Turret,
+    Hero_Arcturus_Mengsk,
+    Hero_Hyperion,
+    Hero_Norad_II,
+    Terran_Siege_Tank_Siege_Mode,
+    Terran_Siege_Tank_Siege_Mode_Turret,
+    Terran_Firebat,
+    Spell_Scanner_Sweep,
+    Terran_Medic,
+    Zerg_Larva,
+    Zerg_Egg,
+    Zerg_Zergling,
+    Zerg_Hydralisk,
+    Zerg_Ultralisk,
+    Zerg_Broodling,
+    Zerg_Drone,
+    Zerg_Overlord,
+    Zerg_Mutalisk,
+    Zerg_Guardian,
+    Zerg_Queen,
+    Zerg_Defiler,
+    Zerg_Scourge,
+    Hero_Torrasque,
+    Hero_Matriarch,
+    Zerg_Infested_Terran,
+    Hero_Infested_Kerrigan,
+    Hero_Unclean_One,
+    Hero_Hunter_Killer,
+    Hero_Devouring_One,
+    Hero_Kukulza_Mutalisk,
+    Hero_Kukulza_Guardian,
+    Hero_Yggdrasill,
+    Terran_Valkyrie,
+    Zerg_Cocoon,
+    Protoss_Corsair,
+    Protoss_Dark_Templar,
+    Zerg_Devourer,
+    Protoss_Dark_Archon,
+    Protoss_Probe,
+    Protoss_Zealot,
+    Protoss_Dragoon,
+    Protoss_High_Templar,
+    Protoss_Archon,
+    Protoss_Shuttle,
+    Protoss_Scout,
+    Protoss_Arbiter,
+    Protoss_Carrier,
+    Protoss_Interceptor,
+    Hero_Dark_Templar,
+    Hero_Zeratul,
+    Hero_Tassadar_Zeratul_Archon,
+    Hero_Fenix_Zealot,
+    Hero_Fenix_Dragoon,
+    Hero_Tassadar,
+    Hero_Mojo,
+    Hero_Warbringer,
+    Hero_Gantrithor,
+    Protoss_Reaver,
+    Protoss_Observer,
+    Protoss_Scarab,
+    Hero_Danimoth,
+    Hero_Aldaris,
+    Hero_Artanis,
+    Critter_Rhynadon,
+    Critter_Bengalaas,
+    Special_Cargo_Ship,
+    Special_Mercenary_Gunship,
+    Critter_Scantid,
+    Critter_Kakaru,
+    Critter_Ragnasaur,
+    Critter_Ursadon,
+    Zerg_Lurker_Egg,
+    Hero_Raszagal,
+    Hero_Samir_Duran,
+    Hero_Alexei_Stukov,
+    Special_Map_Revealer,
+    Hero_Gerard_DuGalle,
+    Zerg_Lurker,
+    Hero_Infested_Duran,
+    Spell_Disruption_Web,
+    Terran_Command_Center,
+    Terran_Comsat_Station,
+    Terran_Nuclear_Silo,
+    Terran_Supply_Depot,
+    Terran_Refinery,
+    Terran_Barracks,
+    Terran_Academy,
+    Terran_Factory,
+    Terran_Starport,
+    Terran_Control_Tower,
+    Terran_Science_Facility,
+    Terran_Covert_Ops,
+    Terran_Physics_Lab,
+    Unused_Terran1,
+    Terran_Machine_Shop,
+    Unused_Terran2,
+    Terran_Engineering_Bay,
+    Terran_Armory,
+    Terran_Missile_Turret,
+    Terran_Bunker,
+    Special_Crashed_Norad_II,
+    Special_Ion_Cannon,
+    Powerup_Uraj_Crystal,
+    Powerup_Khalis_Crystal,
+    Zerg_Infested_Command_Center,
+    Zerg_Hatchery,
+    Zerg_Lair,
+    Zerg_Hive,
+    Zerg_Nydus_Canal,
+    Zerg_Hydralisk_Den,
+    Zerg_Defiler_Mound,
+    Zerg_Greater_Spire,
+    Zerg_Queens_Nest,
+    Zerg_Evolution_Chamber,
+    Zerg_Ultralisk_Cavern,
+    Zerg_Spire,
+    Zerg_Spawning_Pool,
+    Zerg_Creep_Colony,
+    Zerg_Spore_Colony,
+    Unused_Zerg1,
+    Zerg_Sunken_Colony,
+    Special_Overmind_With_Shell,
+    Special_Overmind,
+    Zerg_Extractor,
+    Special_Mature_Chrysalis,
+    Special_Cerebrate,
+    Special_Cerebrate_Daggoth,
+    Unused_Zerg2,
+    Protoss_Nexus,
+    Protoss_Robotics_Facility,
+    Protoss_Pylon,
+    Protoss_Assimilator,
+    Unused_Protoss1,
+    Protoss_Observatory,
+    Protoss_Gateway,
+    Unused_Protoss2,
+    Protoss_Photon_Cannon,
+    Protoss_Citadel_of_Adun,
+    Protoss_Cybernetics_Core,
+    Protoss_Templar_Archives,
+    Protoss_Forge,
+    Protoss_Stargate,
+    Special_Stasis_Cell_Prison,
+    Protoss_Fleet_Beacon,
+    Protoss_Arbiter_Tribunal,
+    Protoss_Robotics_Support_Bay,
+    Protoss_Shield_Battery,
+    Special_Khaydarin_Crystal_Form,
+    Special_Protoss_Temple,
+    Special_XelNaga_Temple,
+    Resource_Mineral_Field,
+    Resource_Mineral_Field_Type_2,
+    Resource_Mineral_Field_Type_3,
+    Unused_Cave,
+    Unused_Cave_In,
+    Unused_Cantina,
+    Unused_Mining_Platform,
+    Unused_Independant_Command_Center,
+    Special_Independant_Starport,
+    Unused_Independant_Jump_Gate,
+    Unused_Ruins,
+    Unused_Khaydarin_Crystal_Formation,
+    Resource_Vespene_Geyser,
+    Special_Warp_Gate,
+    Special_Psi_Disrupter,
+    Unused_Zerg_Marker,
+    Unused_Terran_Marker,
+    Unused_Protoss_Marker,
+    Special_Zerg_Beacon,
+    Special_Terran_Beacon,
+    Special_Protoss_Beacon,
+    Special_Zerg_Flag_Beacon,
+    Special_Terran_Flag_Beacon,
+    Special_Protoss_Flag_Beacon,
+    Special_Power_Generator,
+    Special_Overmind_Cocoon,
+    Spell_Dark_Swarm,
+    Special_Floor_Missile_Trap,
+    Special_Floor_Hatch,
+    Special_Upper_Level_Door,
+    Special_Right_Upper_Level_Door,
+    Special_Pit_Door,
+    Special_Right_Pit_Door,
+    Special_Floor_Gun_Trap,
+    Special_Wall_Missile_Trap,
+    Special_Wall_Flame_Trap,
+    Special_Right_Wall_Missile_Trap,
+    Special_Right_Wall_Flame_Trap,
+    Special_Start_Location,
+    Powerup_Flag,
+    Powerup_Young_Chrysalis,
+    Powerup_Psi_Emitter,
+    Powerup_Data_Disk,
+    Powerup_Khaydarin_Crystal,
+    Powerup_Mineral_Cluster_Type_1,
+    Powerup_Mineral_Cluster_Type_2,
+    Powerup_Protoss_Gas_Orb_Type_1,
+    Powerup_Protoss_Gas_Orb_Type_2,
+    Powerup_Zerg_Gas_Sac_Type_1,
+    Powerup_Zerg_Gas_Sac_Type_2,
+    Powerup_Terran_Gas_Tank_Type_1,
+    Powerup_Terran_Gas_Tank_Type_2,
+    None,
+    AllUnits,
+    Men,
+    Buildings,
+    Factories,
+    Unknown;
 
 	private int id;
 	private Race race;
-	private int whatBuildID;
-	private int requiredTechID;
-	private int armorUpgradeID;
+	private Pair<UnitType, Integer> whatBuilds;
+	private Map<UnitType, Integer> requiredUnits;
+	private TechType requiredTech;
+	private TechType cloakingTech;
+	private List<TechType> abilities;
+	private List<UpgradeType> upgrades;
+	private UpgradeType armorUpgrade;
 	private int maxHitPoints;
 	private int maxShields;
 	private int maxEnergy;
@@ -175,50 +267,79 @@ public enum UnitType {
 	private int spaceProvided;
 	private int buildScore;
 	private int destroyScore;
-	private int sizeID;
+	private UnitSizeType size;
 	private int tileWidth;
 	private int tileHeight;
+	private TilePosition tileSize;
 	private int dimensionLeft;
 	private int dimensionUp;
 	private int dimensionRight;
 	private int dimensionDown;
+	private int width;
+	private int height;
 	private int seekRange;
 	private int sightRange;
-	private int groundWeaponID;
+	private WeaponType groundWeapon;
 	private int maxGroundHits;
-	private int airWeaponID;
+	private WeaponType airWeapon;
 	private int maxAirHits;
 	private double topSpeed;
 	private int acceleration;
 	private int haltDistance;
 	private int turnRadius;
-	private boolean produceCapable;
-	private boolean attackCapable;
+	private boolean canProduce;
+	private boolean canAttack;
 	private boolean canMove;
-	private boolean flyer;
-	private boolean regenerates;
-	private boolean spellcaster;
-	private boolean invincible;
-	private boolean organic;
-	private boolean mechanical;
-	private boolean robotic;
-	private boolean detector;
-	private boolean resourceContainer;
-	private boolean refinery;
-	private boolean worker;
+	private boolean isFlyer;
+	private boolean regeneratesHP;
+	private boolean isSpellcaster;
+	private boolean hasPermanentCloak;
+	private boolean isInvincible;
+	private boolean isOrganic;
+	private boolean isMechanical;
+	private boolean isRobotic;
+	private boolean isDetector;
+	private boolean isResourceContainer;
+	private boolean isResourceDepot;
+	private boolean isRefinery;
+	private boolean isWorker;
 	private boolean requiresPsi;
 	private boolean requiresCreep;
-	private boolean burrowable;
-	private boolean cloakable;
-	private boolean building;
-	private boolean addon;
-	private boolean flyingBuilding;
-	private boolean spell;
+	private boolean isTwoUnitsInOneEgg;
+	private boolean isBurrowable;
+	private boolean isCloakable;
+	private boolean isBuilding;
+	private boolean isAddon;
+	private boolean isFlyingBuilding;
+	private boolean isNeutral;
+	private boolean isHero;
+	private boolean isPowerup;
+	private boolean isBeacon;
+	private boolean isFlagBeacon;
+	private boolean isSpecialBuilding;
+	private boolean isSpell;
+	private boolean producesCreep;
+	private boolean producesLarva;
+	private boolean isMineralField;
+	private boolean isCritter;
+	private boolean canBuildAddon;
+	private List<TechType> researchesWhat;
+	private List<UpgradeType> upgradesWhat;
 
-	UnitType(int id) {
-		this.id = id;
+	private UnitType() {
+		
+		this.whatBuilds = new Pair<UnitType, Integer>();
+		this.requiredUnits = new HashMap<UnitType, Integer>();
+		this.abilities = new ArrayList<TechType>();
+		this.upgrades = new ArrayList<UpgradeType>();
+		this.researchesWhat = new ArrayList<TechType>();
+		this.upgradesWhat = new ArrayList<UpgradeType>();
 	}
-
+	
+	public int getId() {
+		return this.id;
+	}
+	
 	/**
 	 * Retrieves the Race that the unit type belongs to. Returns Race indicating
 	 * the race that owns this unit type. Return values Race::None indicating
@@ -238,7 +359,7 @@ public enum UnitType {
 	 * pair(UnitTypes::None,0) If this unit type cannot be made by the player.
 	 */
 	public Pair<UnitType, Integer> whatBuilds() {
-		return whatBuilds_native(pointer);
+		return this.whatBuilds;
 	}
 
 	/**
@@ -247,7 +368,7 @@ public enum UnitType {
 	 * UnitTypes required.
 	 */
 	public Map<UnitType, Integer> requiredUnits() {
-		return requiredUnits_native(pointer);
+		return this.requiredUnits;
 	}
 
 	/**
@@ -259,7 +380,7 @@ public enum UnitType {
 	 * to be researched.
 	 */
 	public TechType requiredTech() {
-		return requiredTech_native(pointer);
+		return this.requiredTech;
 	}
 
 	/**
@@ -269,7 +390,7 @@ public enum UnitType {
 	 * an active cloak ability.
 	 */
 	public TechType cloakingTech() {
-		return cloakingTech_native(pointer);
+		return this.cloakingTech;
 	}
 
 	/**
@@ -278,7 +399,7 @@ public enum UnitType {
 	 * information.
 	 */
 	public List<TechType> abilities() {
-		return abilities_native(pointer);
+		return this.abilities;
 	}
 
 	/**
@@ -287,7 +408,7 @@ public enum UnitType {
 	 * that will impact this unit type.
 	 */
 	public List<UpgradeType> upgrades() {
-		return upgrades_native(pointer);
+		return this.upgrades;
 	}
 
 	/**
@@ -297,7 +418,7 @@ public enum UnitType {
 	 * amount.
 	 */
 	public UpgradeType armorUpgrade() {
-		return armorUpgrade_native(pointer);
+		return this.armorUpgrade;
 	}
 
 	/**
@@ -307,7 +428,7 @@ public enum UnitType {
 	 * of hit points for this unit type.
 	 */
 	public int maxHitPoints() {
-		return maxHitPoints_native(pointer);
+		return this.maxHitPoints;
 	}
 
 	/**
@@ -318,7 +439,7 @@ public enum UnitType {
 	 * does not have shields.
 	 */
 	public int maxShields() {
-		return maxShields_native(pointer);
+		return this.maxShields;
 	}
 
 	/**
@@ -328,7 +449,7 @@ public enum UnitType {
 	 * abilities.
 	 */
 	public int maxEnergy() {
-		return maxEnergy_native(pointer);
+		return this.maxEnergy;
 	}
 
 	/**
@@ -338,7 +459,7 @@ public enum UnitType {
 	 * unit type has.
 	 */
 	public int armor() {
-		return armor_native(pointer);
+		return this.armor;
 	}
 
 	/**
@@ -347,7 +468,7 @@ public enum UnitType {
 	 * game type. Returns Mineral cost of the unit.
 	 */
 	public int mineralPrice() {
-		return mineralPrice_native(pointer);
+		return this.mineralPrice;
 	}
 
 	/**
@@ -356,7 +477,7 @@ public enum UnitType {
 	 * game type. Returns Vespene gas cost of the unit.
 	 */
 	public int gasPrice() {
-		return gasPrice_native(pointer);
+		return this.gasPrice;
 	}
 
 	/**
@@ -366,7 +487,7 @@ public enum UnitType {
 	 * build the unit. See also UnitInterface::getRemainingBuildTime
 	 */
 	public int buildTime() {
-		return buildTime_native(pointer);
+		return this.buildTime;
 	}
 
 	/**
@@ -379,7 +500,7 @@ public enum UnitType {
 	 * PlayerInterface::supplyUsed
 	 */
 	public int supplyRequired() {
-		return supplyRequired_native(pointer);
+		return this.supplyRequired;
 	}
 
 	/**
@@ -390,17 +511,17 @@ public enum UnitType {
 	 * supplyRequired, PlayerInterface::supplyTotal, PlayerInterface::supplyUsed
 	 */
 	public int supplyProvided() {
-		return supplyProvided_native(pointer);
+		return this.supplyProvided;
 	}
 
 	/**
 	 * Retrieves the amount of space required by this unit type to fit inside a
 	 * Bunker or Transport(Dropship, Shuttle, Overlord ). Returns Amount of
-	 * space required by this unit type for transport. Return values 255 If this
+	 * space required by this unit type for transport. return values 255 If this
 	 * unit type can not be transported. See also spaceProvided
 	 */
 	public int spaceRequired() {
-		return spaceRequired_native(pointer);
+		return this.spaceRequired;
 	}
 
 	/**
@@ -409,7 +530,7 @@ public enum UnitType {
 	 * The number of slots provided by this unit type. See also spaceRequired
 	 */
 	public int spaceProvided() {
-		return spaceProvided_native(pointer);
+		return this.spaceProvided;
 	}
 
 	/**
@@ -419,7 +540,7 @@ public enum UnitType {
 	 * See also destroyScore
 	 */
 	public int buildScore() {
-		return buildScore_native(pointer);
+		return this.buildScore;
 	}
 
 	/**
@@ -429,7 +550,7 @@ public enum UnitType {
 	 * buildScore
 	 */
 	public int destroyScore() {
-		return destroyScore_native(pointer);
+		return this.destroyScore;
 	}
 
 	/**
@@ -439,7 +560,7 @@ public enum UnitType {
 	 * conceptual size of the unit type. See also WeaponType::damageType
 	 */
 	public UnitSizeType size() {
-		return size_native(pointer);
+		return this.size;
 	}
 
 	/**
@@ -447,7 +568,7 @@ public enum UnitType {
 	 * tile size of structures. Returns Width of this unit type, in tiles.
 	 */
 	public int tileWidth() {
-		return tileWidth_native(pointer);
+		return this.tileWidth;
 	}
 
 	/**
@@ -455,7 +576,7 @@ public enum UnitType {
 	 * the tile size of structures. Returns Height of this unit type, in tiles.
 	 */
 	public int tileHeight() {
-		return tileHeight_native(pointer);
+		return this.tileHeight;
 	}
 
 	/**
@@ -464,7 +585,7 @@ public enum UnitType {
 	 * height (y) of the unit type, in tiles.
 	 */
 	public TilePosition tileSize() {
-		return tileSize_native(pointer);
+		return this.tileSize;
 	}
 
 	/**
@@ -473,7 +594,7 @@ public enum UnitType {
 	 * pixels.
 	 */
 	public int dimensionLeft() {
-		return dimensionLeft_native(pointer);
+		return this.dimensionLeft;
 	}
 
 	/**
@@ -481,7 +602,7 @@ public enum UnitType {
 	 * Returns Distance to this unit type's top edge from its center, in pixels.
 	 */
 	public int dimensionUp() {
-		return dimensionUp_native(pointer);
+		return this.dimensionUp;
 	}
 
 	/**
@@ -490,7 +611,7 @@ public enum UnitType {
 	 * pixels.
 	 */
 	public int dimensionRight() {
-		return dimensionRight_native(pointer);
+		return this.dimensionRight;
 	}
 
 	/**
@@ -499,7 +620,7 @@ public enum UnitType {
 	 * in pixels.
 	 */
 	public int dimensionDown() {
-		return dimensionDown_native(pointer);
+		return this.dimensionDown;
 	}
 
 	/**
@@ -508,7 +629,7 @@ public enum UnitType {
 	 * pixels.
 	 */
 	public int width() {
-		return width_native(pointer);
+		return this.width;
 	}
 
 	/**
@@ -517,7 +638,7 @@ public enum UnitType {
 	 * pixels.
 	 */
 	public int height() {
-		return height_native(pointer);
+		return this.height;
 	}
 
 	/**
@@ -526,7 +647,7 @@ public enum UnitType {
 	 * units, in pixels.
 	 */
 	public int seekRange() {
-		return seekRange_native(pointer);
+		return this.seekRange;
 	}
 
 	/**
@@ -534,7 +655,7 @@ public enum UnitType {
 	 * unit type, measured in pixels.
 	 */
 	public int sightRange() {
-		return sightRange_native(pointer);
+		return this.sightRange;
 	}
 
 	/**
@@ -543,7 +664,7 @@ public enum UnitType {
 	 * also maxGroundHits, airWeapon
 	 */
 	public WeaponType groundWeapon() {
-		return groundWeapon_native(pointer);
+		return this.groundWeapon;
 	}
 
 	/**
@@ -554,7 +675,7 @@ public enum UnitType {
 	 * maxAirHits
 	 */
 	public int maxGroundHits() {
-		return maxGroundHits_native(pointer);
+		return this.maxGroundHits;
 	}
 
 	/**
@@ -563,7 +684,7 @@ public enum UnitType {
 	 * maxAirHits, groundWeapon
 	 */
 	public WeaponType airWeapon() {
-		return airWeapon_native(pointer);
+		return this.airWeapon;
 	}
 
 	/**
@@ -573,7 +694,7 @@ public enum UnitType {
 	 * number of hits given to air targets. See also airWeapon, maxGroundHits
 	 */
 	public int maxAirHits() {
-		return maxAirHits_native(pointer);
+		return this.maxAirHits;
 	}
 
 	/**
@@ -584,7 +705,7 @@ public enum UnitType {
 	 * movement speed while lifted.
 	 */
 	public double topSpeed() {
-		return topSpeed_native(pointer);
+		return this.topSpeed;
 	}
 
 	/**
@@ -592,7 +713,7 @@ public enum UnitType {
 	 * accelerate to its top speed.
 	 */
 	public int acceleration() {
-		return acceleration_native(pointer);
+		return this.acceleration;
 	}
 
 	/**
@@ -600,7 +721,7 @@ public enum UnitType {
 	 * can stop moving. Returns A halting distance value.
 	 */
 	public int haltDistance() {
-		return haltDistance_native(pointer);
+		return this.haltDistance;
 	}
 
 	/**
@@ -608,7 +729,7 @@ public enum UnitType {
 	 * turn. Returns A turn radius value.
 	 */
 	public int turnRadius() {
-		return turnRadius_native(pointer);
+		return this.turnRadius;
 	}
 
 	/**
@@ -620,7 +741,7 @@ public enum UnitType {
 	 * production queue, and false otherwise.
 	 */
 	public boolean canProduce() {
-		return canProduce_native(pointer);
+		return this.canProduce;
 	}
 
 	/**
@@ -630,7 +751,7 @@ public enum UnitType {
 	 * damaging other units with a standard attack, and false otherwise.
 	 */
 	public boolean canAttack() {
-		return canAttack_native(pointer);
+		return this.canAttack;
 	}
 
 	/**
@@ -640,7 +761,7 @@ public enum UnitType {
 	 * and false if they cannot move.
 	 */
 	public boolean canMove() {
-		return canMove_native(pointer);
+		return this.canMove;
 	}
 
 	/**
@@ -649,7 +770,7 @@ public enum UnitType {
 	 * default, and false otherwise.
 	 */
 	public boolean isFlyer() {
-		return isFlyer_native(pointer);
+		return this.isFlyer;
 	}
 
 	/**
@@ -658,7 +779,7 @@ public enum UnitType {
 	 * points, and false otherwise.
 	 */
 	public boolean regeneratesHP() {
-		return regeneratesHP_native(pointer);
+		return this.regeneratesHP;
 	}
 
 	/**
@@ -667,7 +788,7 @@ public enum UnitType {
 	 * false if it does not have an energy pool.
 	 */
 	public boolean isSpellcaster() {
-		return isSpellcaster_native(pointer);
+		return this.isSpellcaster;
 	}
 
 	/**
@@ -676,7 +797,7 @@ public enum UnitType {
 	 * true if this unit type is permanently cloaked, and false otherwise.
 	 */
 	public boolean hasPermanentCloak() {
-		return hasPermanentCloak_native(pointer);
+		return this.hasPermanentCloak;
 	}
 
 	/**
@@ -685,7 +806,7 @@ public enum UnitType {
 	 * false if it is vulnerable to attacks.
 	 */
 	public boolean isInvincible() {
-		return isInvincible_native(pointer);
+		return this.isInvincible;
 	}
 
 	/**
@@ -694,7 +815,7 @@ public enum UnitType {
 	 * organic property, and false otherwise.
 	 */
 	public boolean isOrganic() {
-		return isOrganic_native(pointer);
+		return this.isOrganic;
 	}
 
 	/**
@@ -703,7 +824,7 @@ public enum UnitType {
 	 * mechanical property, and false otherwise.
 	 */
 	public boolean isMechanical() {
-		return isMechanical_native(pointer);
+		return this.isMechanical;
 	}
 
 	/**
@@ -713,7 +834,7 @@ public enum UnitType {
 	 * and false otherwise.
 	 */
 	public boolean isRobotic() {
-		return isRobotic_native(pointer);
+		return this.isRobotic;
 	}
 
 	/**
@@ -722,7 +843,7 @@ public enum UnitType {
 	 * false if it does not have this property
 	 */
 	public boolean isDetector() {
-		return isDetector_native(pointer);
+		return this.isDetector;
 	}
 
 	/**
@@ -732,7 +853,7 @@ public enum UnitType {
 	 * otherwise.
 	 */
 	public boolean isResourceContainer() {
-		return isResourceContainer_native(pointer);
+		return this.isResourceContainer;
 	}
 
 	/**
@@ -746,7 +867,7 @@ public enum UnitType {
 	 * unit type is a resource depot, false if it is not.
 	 */
 	public boolean isResourceDepot() {
-		return isResourceDepot_native(pointer);
+		return this.isResourceDepot;
 	}
 
 	/**
@@ -767,7 +888,7 @@ public enum UnitType {
 	 * a refinery, and false if it is not.
 	 */
 	public boolean isRefinery() {
-		return isRefinery_native(pointer);
+		return this.isRefinery;
 	}
 
 	/**
@@ -777,7 +898,7 @@ public enum UnitType {
 	 * if it is not.
 	 */
 	public boolean isWorker() {
-		return isWorker_native(pointer);
+		return this.isWorker;
 	}
 
 	/**
@@ -789,7 +910,7 @@ public enum UnitType {
 	 * successful state: isBuilding(), getRace() == Races::Protoss
 	 */
 	public boolean requiresPsi() {
-		return requiresPsi_native(pointer);
+		return this.requiresPsi;
 	}
 
 	/**
@@ -799,7 +920,7 @@ public enum UnitType {
 	 * return a successful state: isBuilding(), getRace() == Races::Zerg
 	 */
 	public boolean requiresCreep() {
-		return requiresCreep_native(pointer);
+		return this.requiresCreep;
 	}
 
 	/**
@@ -809,7 +930,7 @@ public enum UnitType {
 	 * spawned.
 	 */
 	public boolean isTwoUnitsInOneEgg() {
-		return isTwoUnitsInOneEgg_native(pointer);
+		return this.isTwoUnitsInOneEgg;
 	}
 
 	/**
@@ -822,7 +943,7 @@ public enum UnitType {
 	 * !isBuilding(), canMove()
 	 */
 	public boolean isBurrowable() {
-		return isBurrowable_native(pointer);
+		return this.isBurrowable;
 	}
 
 	/**
@@ -833,7 +954,7 @@ public enum UnitType {
 	 * TechTypes::Cloaking_Field, TechTypes::Personnel_Cloaking
 	 */
 	public boolean isCloakable() {
-		return isCloakable_native(pointer);
+		return this.isCloakable;
 	}
 
 	/**
@@ -842,7 +963,7 @@ public enum UnitType {
 	 * otherwise.
 	 */
 	public boolean isBuilding() {
-		return isBuilding_native(pointer);
+		return this.isBuilding;
 	}
 
 	/**
@@ -853,7 +974,7 @@ public enum UnitType {
 	 * successful state: getRace() == Races::Terran, isBuilding()
 	 */
 	public boolean isAddon() {
-		return isAddon_native(pointer);
+		return this.isAddon;
 	}
 
 	/**
@@ -863,7 +984,7 @@ public enum UnitType {
 	 * function calls will also return a successful state: isBuilding()
 	 */
 	public boolean isFlyingBuilding() {
-		return isFlyingBuilding_native(pointer);
+		return this.isFlyingBuilding;
 	}
 
 	/**
@@ -872,7 +993,7 @@ public enum UnitType {
 	 * otherwise.
 	 */
 	public boolean isNeutral() {
-		return isNeutral_native(pointer);
+		return this.isNeutral;
 	}
 
 	/**
@@ -883,7 +1004,7 @@ public enum UnitType {
 	 * this unit type is a hero type, and false otherwise.
 	 */
 	public boolean isHero() {
-		return isHero_native(pointer);
+		return this.isHero;
 	}
 
 	/**
@@ -893,7 +1014,7 @@ public enum UnitType {
 	 * false otherwise.
 	 */
 	public boolean isPowerup() {
-		return isPowerup_native(pointer);
+		return this.isPowerup;
 	}
 
 	/**
@@ -904,7 +1025,7 @@ public enum UnitType {
 	 * race beacons, and false otherwise.
 	 */
 	public boolean isBeacon() {
-		return isBeacon_native(pointer);
+		return this.isBeacon;
 	}
 
 	/**
@@ -917,7 +1038,7 @@ public enum UnitType {
 	 * otherwise.
 	 */
 	public boolean isFlagBeacon() {
-		return isFlagBeacon_native(pointer);
+		return this.isFlagBeacon;
 	}
 
 	/**
@@ -928,7 +1049,7 @@ public enum UnitType {
 	 * isBuilding()
 	 */
 	public boolean isSpecialBuilding() {
-		return isSpecialBuilding_native(pointer);
+		return this.isSpecialBuilding;
 	}
 
 	/**
@@ -940,7 +1061,7 @@ public enum UnitType {
 	 * used for an ability, and false otherwise.
 	 */
 	public boolean isSpell() {
-		return isSpell_native(pointer);
+		return this.isSpell;
 	}
 
 	/**
@@ -952,7 +1073,7 @@ public enum UnitType {
 	 * 4.1.2
 	 */
 	public boolean producesCreep() {
-		return producesCreep_native(pointer);
+		return this.producesCreep;
 	}
 
 	/**
@@ -963,7 +1084,7 @@ public enum UnitType {
 	 * state: getRace() == Races::Zerg, isBuilding()
 	 */
 	public boolean producesLarva() {
-		return producesLarva_native(pointer);
+		return this.producesLarva;
 	}
 
 	/**
@@ -975,7 +1096,7 @@ public enum UnitType {
 	 * is a mineral field resource.
 	 */
 	public boolean isMineralField() {
-		return isMineralField_native(pointer);
+		return this.isMineralField;
 	}
 
 	/**
@@ -992,7 +1113,7 @@ public enum UnitType {
 	 * myQueen->useTech(BWAPI::TechTypes::Parasite, u); } }
 	 */
 	public boolean isCritter() {
-		return isCritter_native(pointer);
+		return this.isCritter;
 	}
 
 	/**
@@ -1003,7 +1124,7 @@ public enum UnitType {
 	 * isAddon
 	 */
 	public boolean canBuildAddon() {
-		return canBuildAddon_native(pointer);
+		return this.canBuildAddon;
 	}
 
 	/**
@@ -1015,7 +1136,7 @@ public enum UnitType {
 	 * researched. See also PlayerInterface::isResearchAvailable Since 4.1.2
 	 */
 	public List<TechType> researchesWhat() {
-		return researchesWhat_native(pointer);
+		return this.researchesWhat;
 	}
 
 	/**
@@ -1026,169 +1147,6 @@ public enum UnitType {
 	 * upgraded. See also PlayerInterface::getMaxUpgradeLevel Since 4.1.2
 	 */
 	public List<UpgradeType> upgradesWhat() {
-		return upgradesWhat_native(pointer);
+		return this.upgradesWhat;
 	}
-
-	private long pointer;
-
-	private native String toString_native(long pointer);
-
-	private native Race getRace_native(long pointer);
-
-	private native Pair<UnitType, Integer> whatBuilds_native(long pointer);
-
-	private native Map<UnitType, Integer> requiredUnits_native(long pointer);
-
-	private native TechType requiredTech_native(long pointer);
-
-	private native TechType cloakingTech_native(long pointer);
-
-	private native List<TechType> abilities_native(long pointer);
-
-	private native List<UpgradeType> upgrades_native(long pointer);
-
-	private native UpgradeType armorUpgrade_native(long pointer);
-
-	private native int maxHitPoints_native(long pointer);
-
-	private native int maxShields_native(long pointer);
-
-	private native int maxEnergy_native(long pointer);
-
-	private native int armor_native(long pointer);
-
-	private native int mineralPrice_native(long pointer);
-
-	private native int gasPrice_native(long pointer);
-
-	private native int buildTime_native(long pointer);
-
-	private native int supplyRequired_native(long pointer);
-
-	private native int supplyProvided_native(long pointer);
-
-	private native int spaceRequired_native(long pointer);
-
-	private native int spaceProvided_native(long pointer);
-
-	private native int buildScore_native(long pointer);
-
-	private native int destroyScore_native(long pointer);
-
-	private native UnitSizeType size_native(long pointer);
-
-	private native int tileWidth_native(long pointer);
-
-	private native int tileHeight_native(long pointer);
-
-	private native TilePosition tileSize_native(long pointer);
-
-	private native int dimensionLeft_native(long pointer);
-
-	private native int dimensionUp_native(long pointer);
-
-	private native int dimensionRight_native(long pointer);
-
-	private native int dimensionDown_native(long pointer);
-
-	private native int width_native(long pointer);
-
-	private native int height_native(long pointer);
-
-	private native int seekRange_native(long pointer);
-
-	private native int sightRange_native(long pointer);
-
-	private native WeaponType groundWeapon_native(long pointer);
-
-	private native int maxGroundHits_native(long pointer);
-
-	private native WeaponType airWeapon_native(long pointer);
-
-	private native int maxAirHits_native(long pointer);
-
-	private native double topSpeed_native(long pointer);
-
-	private native int acceleration_native(long pointer);
-
-	private native int haltDistance_native(long pointer);
-
-	private native int turnRadius_native(long pointer);
-
-	private native boolean canProduce_native(long pointer);
-
-	private native boolean canAttack_native(long pointer);
-
-	private native boolean canMove_native(long pointer);
-
-	private native boolean isFlyer_native(long pointer);
-
-	private native boolean regeneratesHP_native(long pointer);
-
-	private native boolean isSpellcaster_native(long pointer);
-
-	private native boolean hasPermanentCloak_native(long pointer);
-
-	private native boolean isInvincible_native(long pointer);
-
-	private native boolean isOrganic_native(long pointer);
-
-	private native boolean isMechanical_native(long pointer);
-
-	private native boolean isRobotic_native(long pointer);
-
-	private native boolean isDetector_native(long pointer);
-
-	private native boolean isResourceContainer_native(long pointer);
-
-	private native boolean isResourceDepot_native(long pointer);
-
-	private native boolean isRefinery_native(long pointer);
-
-	private native boolean isWorker_native(long pointer);
-
-	private native boolean requiresPsi_native(long pointer);
-
-	private native boolean requiresCreep_native(long pointer);
-
-	private native boolean isTwoUnitsInOneEgg_native(long pointer);
-
-	private native boolean isBurrowable_native(long pointer);
-
-	private native boolean isCloakable_native(long pointer);
-
-	private native boolean isBuilding_native(long pointer);
-
-	private native boolean isAddon_native(long pointer);
-
-	private native boolean isFlyingBuilding_native(long pointer);
-
-	private native boolean isNeutral_native(long pointer);
-
-	private native boolean isHero_native(long pointer);
-
-	private native boolean isPowerup_native(long pointer);
-
-	private native boolean isBeacon_native(long pointer);
-
-	private native boolean isFlagBeacon_native(long pointer);
-
-	private native boolean isSpecialBuilding_native(long pointer);
-
-	private native boolean isSpell_native(long pointer);
-
-	private native boolean producesCreep_native(long pointer);
-
-	private native boolean producesLarva_native(long pointer);
-
-	private native boolean isMineralField_native(long pointer);
-
-	private native boolean isCritter_native(long pointer);
-
-	private native boolean canBuildAddon_native(long pointer);
-
-	private native List<TechType> researchesWhat_native(long pointer);
-
-	private native List<UpgradeType> upgradesWhat_native(long pointer);
-
 }

@@ -41,9 +41,9 @@ public class BW {
 			//System.out.println(typeIds[i]);
 		}
 		System.out.println("Race ID: " + Race.Protoss.getId());
-		System.out.println(Race.Protoss.getWorker());
+		System.out.println(Race.Protoss.getWorker().mineralPrice());
 		System.out.println(Race.Protoss.getCenter());
-		System.out.println(Race.Protoss.getRefinery());
+		System.out.println(Race.Protoss.getRefinery().mineralPrice());
 		System.out.println(Race.Protoss.getTransport());
 		System.out.println(Race.Protoss.getSupplyProvider());
 		
