@@ -1,15 +1,21 @@
 package org.openbw.bwapi4j;
 
 import java.io.File;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.openbw.bwapi4j.type.Race;
 import org.openbw.bwapi4j.type.UnitType;
-import org.openbw.bwapi4j.type.UpgradeType;
-import org.openbw.bwapi4j.type.WeaponType;
+import org.openbw.bwapi4j.unit.Unit;
+import org.openbw.bwapi4j.unit.UnitFactory;
 
 public class BW {
 
 	private BWEventListener listener;
+	
+	private Map<Integer, Player> players;
+	private Map<Integer, Unit> units;
+	private UnitFactory unitFactory;
 	
 	static {
 		
@@ -20,125 +26,139 @@ public class BW {
 		System.loadLibrary("../BWAPI4JBridge/Release/BWAPI4JBridge");
 	}
 	
-	public BW() {
+	public BW(BWEventListener listener) {
 		
+		this.players = new HashMap<Integer, Player>();
+		this.units = new HashMap<Integer, Unit>();
+		this.listener = listener;
+		this.unitFactory = new UnitFactory();
 	}
 	
-	public native void startGame(BW bw);
+	private native void startGame(BW bw);
+	private native Player[] getPlayers();
+	private native int[] getAllUnitsData();
 	
-	private native int[] getUnitTypes();
-	
-	public static void main(String[] args) {
+	private void updateAllUnits() {
 		
-		BW bw = new BW();
-		bw.startGame(bw);
+		int[] unitData = this.getAllUnitsData();
+		
+		for (int index = 0; index < unitData.length; index += Unit.TOTAL_PROPERTIES) {
+			
+			int unitId = unitData[index + 0];
+			int typeId = unitData[index + 3];
+			Unit unit = this.units.get(unitId);
+			if (unit == null) {
+				unit = unitFactory.createUnit(unitId, UnitType.values()[typeId]);
+				this.units.put(unitId, unit);
+				unit.initialize(unitData, index, this.units);
+				System.out.println(UnitType.values()[typeId] + ": initial position: " + unit.getInitialTilePosition());
+			}
+			unit.update(unitData, index);
+		}
 	}
-
+	public Collection<Unit> getAllUnits() {
+		return units.values();
+	}
+	
+	public void startGame() {
+		startGame(this);
+	}
 	
 	private void onStart() {
 		
-		System.out.println("game started.");
+		updateAllUnits();
+		listener.onStart();
 	}
 
-	
 	private void onEnd(boolean isWinner) {
 		
-		System.out.println("game ended.");
+		listener.onEnd(isWinner);
 	}
-
 	
 	private void onFrame() {
-		// TODO Auto-generated method stub
 		
+		updateAllUnits();
+		listener.onFrame();
 	}
 
-	
 	private void onSendText(String text) {
-		// TODO Auto-generated method stub
 		
+		listener.onSendText(text);
 	}
 
+	private void onReceiveText(int playerId, String text) {
+		
+		Player player = this.players.get(playerId);
+		listener.onReceiveText(player, text);
+	}
 	
-	private void onReceiveText(Player player, String text) {
-		// TODO Auto-generated method stub
+	private void onPlayerLeft(int playerId) {
 		
+		Player player = this.players.get(playerId);
+		listener.onPlayerLeft(player);
 	}
 
+	private void onNukeDetect(int x, int y) {
+		
+		listener.onNukeDetect(new Position(x, y));
+	}
+
+	private void onUnitDiscover(int unitId) {
+		
+		Unit unit = this.units.get(unitId);
+		listener.onUnitDiscover(unit);
+	}
+
+	private void onUnitEvade(int unitId) {
+
+		Unit unit = this.units.get(unitId);
+		listener.onUnitEvade(unit);
+	}
+
+	private void onUnitShow(int unitId) {
+
+		Unit unit = this.units.get(unitId);
+		listener.onUnitShow(unit);
+	}
+
+	private void onUnitHide(int unitId) {
+
+		Unit unit = this.units.get(unitId);
+		listener.onUnitHide(unit);
+	}
 	
-	private void onPlayerLeft(Player player) {
-		// TODO Auto-generated method stub
-		
+	private void onUnitCreate(int unitId) {
+
+		Unit unit = this.units.get(unitId);
+		listener.onUnitCreate(unit);
 	}
 
-	
-	private void onNukeDetect(Position target) {
-		// TODO Auto-generated method stub
-		
+	private void onUnitDestroy(int unitId) {
+
+		Unit unit = this.units.get(unitId);
+		listener.onUnitDestroy(unit);
 	}
 
-	
-	private void onUnitDiscover(Unit unit) {
-		// TODO Auto-generated method stub
-		
+	private void onUnitMorph(int unitId) {
+
+		Unit unit = this.units.get(unitId);
+		listener.onUnitMorph(unit);
 	}
 
-	
-	private void onUnitEvade(Unit unit) {
-		// TODO Auto-generated method stub
-		
-	}
+	private void onUnitRenegade(int unitId) {
 
-	
-	private void onUnitShow(Unit unit) {
-		// TODO Auto-generated method stub
-		
+		Unit unit = this.units.get(unitId);
+		listener.onUnitRenegade(unit);
 	}
-
-	
-	private void onUnitHide(Unit unit) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	
-	private void onUnitCreate(Unit unit) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	
-	private void onUnitDestroy(Unit unit) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	
-	private void onUnitMorph(Unit unit) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	
-	private void onUnitRenegade(Unit unit) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	
 	private void onSaveGame(String gameName) {
-		// TODO Auto-generated method stub
 		
-	}
-
-	
-	private void onUnitComplete(Unit unit) {
-		// TODO Auto-generated method stub
-		
+		listener.onSaveGame(gameName);
 	}
 	
-	private void onPlayerDropped(Player player) {
-		// TODO Auto-generated method stub
-		
-	}
+	private void onUnitComplete(int unitId) {
 
+		Unit unit = this.units.get(unitId);
+		listener.onUnitComplete(unit);
+	}
 }

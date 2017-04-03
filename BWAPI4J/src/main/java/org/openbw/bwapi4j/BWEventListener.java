@@ -1,5 +1,7 @@
 package org.openbw.bwapi4j;
 
+import org.openbw.bwapi4j.unit.Unit;
+
 public interface BWEventListener {
 
 	public void onStart();
@@ -35,6 +37,4 @@ public interface BWEventListener {
 	public void onSaveGame(String gameName);
 
 	public void onUnitComplete(Unit unit);
-
-	public void onPlayerDropped(Player player);
 }

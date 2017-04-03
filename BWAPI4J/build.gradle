@@ -11,7 +11,7 @@ repositories {
 task generateJniHeaders(type:Exec) {
     def classpath = sourceSets.main.output.classesDir
     def nativeIncludes = "src/native/include"                     
-    commandLine "javah", "-d", nativeIncludes, "-classpath", classpath, "$mainClassName"
+    commandLine "javah", "-d", nativeIncludes, "-classpath", classpath, "$mainClassName", "org.openbw.bwapi4j.unit.Unit"
 
     dependsOn classes
 }

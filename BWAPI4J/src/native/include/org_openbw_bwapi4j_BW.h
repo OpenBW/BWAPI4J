@@ -17,10 +17,18 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame
 
 /*
  * Class:     org_openbw_bwapi4j_BW
- * Method:    getUnitTypes
+ * Method:    getPlayers
+ * Signature: ()[Lorg/openbw/bwapi4j/Player;
+ */
+JNIEXPORT jobjectArray JNICALL Java_org_openbw_bwapi4j_BW_getPlayers
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     org_openbw_bwapi4j_BW
+ * Method:    getAllUnitsData
  * Signature: ()[I
  */
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUnitTypes
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllUnitsData
   (JNIEnv *, jobject);
 
 #ifdef __cplusplus
