@@ -3,17 +3,16 @@ package org.openbw.bwapi4j.unit;
 import java.util.Map;
 
 import org.openbw.bwapi4j.type.TechType;
-import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
-public class Academy extends Building implements Mechanical {
+public class Academy extends Building implements Mechanical, ResearchingFacility {
 
-	private boolean isUpgrading;
-	private boolean isResearching;
+	private Researcher researcher;
 	
 	Academy(int id) {
 		super(id,  UnitType.Terran_Academy);
+		this.researcher = new Researcher();
 	}
 
 	@Override
@@ -25,46 +24,49 @@ public class Academy extends Building implements Mechanical {
 	@Override
 	public int update(int[] unitData, int index) {
 		
-		index = super.update(unitData, index);
-		this.isUpgrading = unitData[index++] == 1;
-		this.isResearching = unitData[index++] == 1;
+		super.update(unitData, index);
+		this.researcher.update(unitData, index);
 		
 		return index;
 	}
 	
-	public boolean isUpgrading() {
-		return this.isUpgrading;
-	}
-
-	public boolean isResearching() {
-		return this.isResearching;
-	}
-	
-	public boolean cancelResearch() {
-		return issueCommand(this.id, UnitCommandType.Cancel_Research.ordinal(), -1, -1, -1, -1);
-	}
-	
-	public boolean cancelUpgrade() {
-		return issueCommand(this.id, UnitCommandType.Cancel_Upgrade.ordinal(), -1, -1, -1, -1);
-	}
-	
 	public boolean researchStimPacks() {
-		return issueCommand(this.id, UnitCommandType.Research.ordinal(), -1, -1, -1, TechType.Stim_Packs.getId());
+		return this.researcher.research(TechType.Stim_Packs);
 	}
 	
 	public boolean researchRestoration() {
-		return issueCommand(this.id, UnitCommandType.Research.ordinal(), -1, -1, -1, TechType.Restoration.getId());
+		return this.researcher.research(TechType.Restoration);
 	}
 	
 	public boolean researchOpticalFlare() {
-		return issueCommand(this.id, UnitCommandType.Research.ordinal(), -1, -1, -1, TechType.Optical_Flare.getId());
+		return this.researcher.research(TechType.Optical_Flare);
 	}
 	
 	public boolean upgradeU238Shells() {
-		return issueCommand(this.id, UnitCommandType.Upgrade.ordinal(), -1, -1, -1, UpgradeType.U_238_Shells.getId());
+		return this.researcher.upgrade(UpgradeType.U_238_Shells);
 	}
 	
 	public boolean upgradeCaduceusReactor() {
-		return issueCommand(this.id, UnitCommandType.Upgrade.ordinal(), -1, -1, -1, UpgradeType.Caduceus_Reactor.getId());
+		return this.researcher.upgrade(UpgradeType.Caduceus_Reactor);
+	}
+
+	@Override
+	public boolean isUpgrading() {
+		return this.researcher.isUpgrading();
+	}
+
+	@Override
+	public boolean isResearching() {
+		return this.researcher.isResearching();
+	}
+
+	@Override
+	public boolean cancelResearch() {
+		return this.researcher.cancelResearch();
+	}
+
+	@Override
+	public boolean cancelUpgrade() {
+		return this.researcher.cancelUpgrade();
 	}
 }

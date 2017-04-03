@@ -48,10 +48,11 @@ public class BW {
 			int typeId = unitData[index + 3];
 			Unit unit = this.units.get(unitId);
 			if (unit == null) {
+				System.out.print("creating unit for id " + unitId + " and type " + typeId + " ...");
 				unit = unitFactory.createUnit(unitId, UnitType.values()[typeId]);
 				this.units.put(unitId, unit);
 				unit.initialize(unitData, index, this.units);
-				System.out.println(UnitType.values()[typeId] + ": initial position: " + unit.getInitialTilePosition());
+				System.out.println(" done.");
 			}
 			unit.update(unitData, index);
 		}

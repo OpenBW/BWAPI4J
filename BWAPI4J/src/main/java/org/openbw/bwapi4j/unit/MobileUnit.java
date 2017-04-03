@@ -6,6 +6,18 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public abstract class MobileUnit extends PlayerUnit {
 
+	private boolean isFollowing;
+	private boolean isHoldingPosition;
+	private boolean isStuck;
+	private boolean isStasised;
+	private boolean isUnderDarkSwarm;
+	private boolean isUnderDisruptionWeb;
+	private boolean isUnderStorm;
+	private boolean isMoving;
+	private boolean isParasited;
+	private boolean isPatrolling;
+	private boolean isPlagued;
+	
 	MobileUnit(int id, UnitType unitType) {
 		super(id, unitType);
 	}

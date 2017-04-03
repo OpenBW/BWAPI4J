@@ -6,16 +6,17 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
-public class CommandCenter extends Building implements Mechanical {
+public class CommandCenter extends Building implements Mechanical, FlyingBuilding, TrainingFacility {
 
-	private boolean isTraining;
-	private boolean isLifted;
-	private int trainingQueueSize;
-	
 	private int addonId;
+	
+	private Flyer flyer;
+	private Trainer trainer;
 	
 	public CommandCenter(int id) {
 		super(id, UnitType.Terran_Command_Center);
+		this.flyer = new Flyer();
+		this.trainer = new Trainer();
 	}
 
 	@Override
@@ -29,10 +30,8 @@ public class CommandCenter extends Building implements Mechanical {
 	public int update(int[] unitData, int index) {
 		
 		super.update(unitData, index);
-		
-		this.isTraining = unitData[index + Unit.IS_TRAINING_INDEX] == 1;
-		this.isLifted = unitData[index + Unit.IS_LIFTED_INDEX] == 1;
-		this.trainingQueueSize = unitData[index + Unit.TRAINING_QUEUE_SIZE_INDEX];
+		this.flyer.update(unitData, index);
+		this.trainer.update(unitData, index);
 		this.addonId = unitData[index + Unit.ADDON_INDEX];
 		
 		return index;
@@ -58,18 +57,6 @@ public class CommandCenter extends Building implements Mechanical {
 		}
 	}
 	
-	public boolean isLifted() {
-		return this.isLifted;
-	}
-	
-	public boolean isTraining() {
-		return this.isTraining;
-	}
-
-	public int getTrainingQueueSize() {
-		return this.trainingQueueSize;
-	}
-	
 	public boolean buildComsatStation() {
 		return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), UnitType.Terran_Comsat_Station.getId(), -1, -1, -1);
 	}
@@ -79,22 +66,56 @@ public class CommandCenter extends Building implements Mechanical {
 	}
 	
 	public boolean trainWorker() {
-		return issueCommand(this.id, UnitCommandType.Train.ordinal(), UnitType.Terran_SCV.getId(), -1, -1, -1);
+		return this.trainer.train(UnitType.Terran_SCV);
 	}
 	
-	public boolean setRallyPoint(Position p) {
-		return issueCommand(this.id, UnitCommandType.Set_Rally_Position.ordinal(), -1, p.getX(), p.getY(), -1);
+	@Override
+	public boolean isLifted() {
+		return this.flyer.isLifted();
 	}
 	
-	public boolean setRallyPoint(Unit target) {
-		return issueCommand(this.id, UnitCommandType.Set_Rally_Unit.ordinal(), target.getId(), -1, -1, -1);
+	@Override
+	public boolean lift() {
+		return this.flyer.lift();
 	}
 	
+	@Override
+	public boolean land(Position p) {
+		return this.flyer.land(p);
+	}
+	
+	@Override
+	public boolean move(Position p) {
+		return this.flyer.move(p);
+	}
+
+	@Override
+	public boolean isTraining() {
+		return this.trainer.isTraining();
+	}
+
+	@Override
+	public int getTrainingQueueSize() {
+		return this.trainer.getTrainingQueueSize();
+	}
+
+	@Override
 	public boolean cancelTrain(int slot) {
-		return issueCommand(this.id, UnitCommandType.Cancel_Train_Slot.ordinal(), -1, -1, -1, slot);
+		return this.trainer.cancelTrain(slot);
 	}
-	
+
+	@Override
 	public boolean cancelTrain() {
-		return issueCommand(this.id, UnitCommandType.Cancel_Train.ordinal(), -1, -1, -1, -1);
+		return this.trainer.cancelTrain();
+	}
+
+	@Override
+	public boolean setRallyPoint(Position p) {
+		return this.trainer.setRallyPoint(p);
+	}
+
+	@Override
+	public boolean setRallyPoint(Unit target) {
+		return this.trainer.setRallyPoint(target);
 	}
 }

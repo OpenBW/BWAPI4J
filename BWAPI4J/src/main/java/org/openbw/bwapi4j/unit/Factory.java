@@ -3,63 +3,92 @@ package org.openbw.bwapi4j.unit;
 import java.util.Map;
 
 import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
-public class Factory extends Building implements Mechanical {
+public class Factory extends Building implements Mechanical, FlyingBuilding, TrainingFacility {
 
-	private boolean isTraining;
-	private int trainingQueueSize;
+	private Flyer flyer;
+	private Trainer trainer;
 	
 	public Factory(int id) {
 		super(id, UnitType.Terran_Factory);
+		this.flyer = new Flyer();
+		this.trainer = new Trainer();
 	}
 
 	@Override
 	public int initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return super.initialize(unitData, index, allUnits);
 	}
 
 	@Override
 	public int update(int[] unitData, int index) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
-	public boolean isTraining() {
-		return this.isTraining;
-	}
-
-	public int getTrainingQueueSize() {
-		return this.trainingQueueSize;
+		
+		this.flyer.update(unitData, index);
+		this.trainer.update(unitData, index);
+		return super.update(unitData, index);
 	}
 	
 	public boolean trainVulture() {
-		return issueCommand(this.id, UnitCommandType.Train.ordinal(), UnitType.Terran_Vulture.getId(), -1, -1, -1);
+		return this.trainer.train(UnitType.Terran_Vulture);
 	}
 
 	public boolean trainSiegeTank() {
-		return issueCommand(this.id, UnitCommandType.Train.ordinal(), UnitType.Terran_Siege_Tank_Tank_Mode.getId(), -1, -1, -1);
+		return this.trainer.train(UnitType.Terran_Siege_Tank_Tank_Mode);
 	}
 
 	public boolean trainGoliath() {
-		return issueCommand(this.id, UnitCommandType.Train.ordinal(), UnitType.Terran_Goliath.getId(), -1, -1, -1);
+		return this.trainer.train(UnitType.Terran_Goliath);
 	}
 
-	public boolean setRallyPoint(Position p) {
-		return issueCommand(this.id, UnitCommandType.Set_Rally_Position.ordinal(), -1, p.getX(), p.getY(), -1);
+	@Override
+	public boolean isLifted() {
+		return this.flyer.isLifted();
 	}
 	
-	public boolean setRallyPoint(Unit target) {
-		return issueCommand(this.id, UnitCommandType.Set_Rally_Unit.ordinal(), target.getId(), -1, -1, -1);
+	@Override
+	public boolean lift() {
+		return this.flyer.lift();
 	}
 	
+	@Override
+	public boolean land(Position p) {
+		return this.flyer.land(p);
+	}
+	
+	@Override
+	public boolean move(Position p) {
+		return this.flyer.move(p);
+	}
+	
+	@Override
+	public boolean isTraining() {
+		return this.trainer.isTraining();
+	}
+
+	@Override
+	public int getTrainingQueueSize() {
+		return this.trainer.getTrainingQueueSize();
+	}
+
+	@Override
 	public boolean cancelTrain(int slot) {
-		return issueCommand(this.id, UnitCommandType.Cancel_Train_Slot.ordinal(), -1, -1, -1, slot);
+		return this.trainer.cancelTrain(slot);
 	}
-	
+
+	@Override
 	public boolean cancelTrain() {
-		return issueCommand(this.id, UnitCommandType.Cancel_Train.ordinal(), -1, -1, -1, -1);
+		return this.trainer.cancelTrain();
+	}
+
+	@Override
+	public boolean setRallyPoint(Position p) {
+		return this.trainer.setRallyPoint(p);
+	}
+
+	@Override
+	public boolean setRallyPoint(Unit target) {
+		return this.trainer.setRallyPoint(target);
 	}
 }

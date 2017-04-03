@@ -643,13 +643,14 @@ int addUnitDataToBuffer(Unit &u, int index) {
 	intBuf[index++] = u->isPowered() ? 1 : 0;
 	intBuf[index++] = u->isUpgrading() ? 1 : 0;
 	intBuf[index++] = u->isVisible() ? 1 : 0;
+	intBuf[index++] = u->isResearching() ? 1 : 0;
 	return index;
 }
 
 /**
 * Returns the list of active units in the game.
 *
-* Each unit takes up a fixed number of integer values. Currently: 123
+* Each unit takes up a fixed number of integer values. Currently: 124
 */
 JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllUnitsData(JNIEnv * env, jobject jObj) {
 

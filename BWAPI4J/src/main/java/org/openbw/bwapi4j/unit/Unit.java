@@ -138,8 +138,9 @@ public abstract class Unit {
 	protected static int IS_POWERED_INDEX		 		= 120;
 	protected static int IS_UPGRADING_INDEX		 		= 121;
 	protected static int IS_VISIBLE_INDEX		 		= 122;
+	protected static int IS_RESEARCHING_INDEX	 		= 123;
 	
-	public static int TOTAL_PROPERTIES		 			= 123;
+	public static int TOTAL_PROPERTIES		 			= 124;
 	
 	// static
 	protected int id;
@@ -207,14 +208,6 @@ public abstract class Unit {
 		return issueCommand(this.id, UnitCommandType.Unburrow.ordinal(), -1, -1, -1, -1);
 	}
 	
-	protected boolean lift() {
-		return issueCommand(this.id, UnitCommandType.Lift.ordinal(), -1, -1, -1, -1);
-	}
-	
-	protected boolean land(Position p) {
-		return issueCommand(this.id, UnitCommandType.Land.ordinal(), -1, p.getX(), p.getY(), -1);
-	}
-	
 	protected boolean rightClick(Position p, boolean queued) {
 		return issueCommand(this.id, UnitCommandType.Right_Click_Position.ordinal(), -1, p.getX(), p.getY(), queued ? 1 : 0);
 	}
@@ -248,17 +241,14 @@ public abstract class Unit {
 		// dynamic
 		private boolean exists;
 		private int replayID;
-		private Player player;
 		
 		private Region region;
 		private int left;
 		private int top;
 		private int right;
 		private int bottom;
-		private int hitPoints;
 		private int shields;
 		private int energy;
-		private int resources;
 		private int resourceGroup;
 		private int lastCommandFrame;
 		private UnitCommandType lastCommand;
@@ -314,46 +304,30 @@ public abstract class Unit {
 		private boolean isAttacking;
 		private boolean isAttackFrame;
 		private boolean isBeingConstructed;
-		private boolean isBeingGathered;
 		private boolean isBeingHealed;
 		private boolean isBlind;
 		private boolean isBraking;
 		private boolean isBurrowed;
-		private boolean isCloaked;
+		
 		private boolean isCompleted;
 		private boolean isDefenseMatrixed;
 		private boolean isDetected;
 		private boolean isEnsnared;
 		private boolean isFlying;
-		private boolean isFollowing;
+		
 		private boolean isHallucination;
-		private boolean isHoldingPosition;
 		private boolean isIdle;
 		private boolean isInterruptible;
 		private boolean isInvincible;
 		private boolean isInWeaponRange;
 		private boolean isIrradiated;
-		private boolean isLifted;
-		private boolean isLoaded;
 		private boolean isLockedDown;
 		private boolean isMaelstrommed;
 		private boolean isMorphing;
-		private boolean isMoving;
-		private boolean isParasited;
-		private boolean isPatrolling;
-		private boolean isPlagued;
 		
 		private boolean isSelected;
-		private boolean isSieged;
 		private boolean isStartingAttack;
-		private boolean isStasised;
-		private boolean isStimmed;
-		private boolean isStuck;
-		private boolean isTraining;
 		private boolean isUnderAttack;
-		private boolean isUnderDarkSwarm;
-		private boolean isUnderDisruptionWeb;
-		private boolean isUnderStorm;
 		private boolean isPowered;
 		private boolean isTargetable;
 }

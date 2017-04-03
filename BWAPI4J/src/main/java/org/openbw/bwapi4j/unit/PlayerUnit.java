@@ -2,15 +2,15 @@ package org.openbw.bwapi4j.unit;
 
 import java.util.Map;
 
+import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.type.UnitType;
 
 public abstract class PlayerUnit extends Unit {
 
 	protected int initialHitPoints;
-	protected int initialResources;
-	
 	protected int hitPoints;
-	protected int resources;
+	
+	protected Player player;
 	
 	PlayerUnit(int id, UnitType unitType) {
 		super(id, unitType);
@@ -21,7 +21,6 @@ public abstract class PlayerUnit extends Unit {
 		
 		index = super.initialize(unitData, index, allUnits);
 		this.initialHitPoints = unitData[index + Unit.INITIAL_HITPOINTS_INDEX];
-		this.initialResources = unitData[index + Unit.INITIAL_RESOURCES_INDEX];
 		
 		return index;
 	}
@@ -31,7 +30,6 @@ public abstract class PlayerUnit extends Unit {
 		
 		index = super.update(unitData, index);
 		this.hitPoints = unitData[index  + Unit.HITPOINTS_INDEX];
-		this.resources = unitData[index  + Unit.RESOURCES_INDEX];
 		
 		return index;
 	}
