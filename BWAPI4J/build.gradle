@@ -1,4 +1,6 @@
 apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'java-library-distribution'
 
 repositories {
     mavenCentral()
@@ -14,4 +16,12 @@ task generateJniHeaders(type:Exec) {
     commandLine "javah", "-d", nativeIncludes, "-classpath", classpath, "$mainClassName", "org.openbw.bwapi4j.unit.Unit"
 
     dependsOn classes
+}
+
+distributions {
+    main {
+        contents {
+            from { '../BWAPI4JBridge/Release/BWAPI4JBridge.dll' }
+        }
+    }
 }
