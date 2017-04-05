@@ -644,15 +644,17 @@ int addUnitDataToBuffer(Unit &u, int index) {
 	intBuf[index++] = u->isUpgrading() ? 1 : 0;
 	intBuf[index++] = u->isVisible() ? 1 : 0;
 	intBuf[index++] = u->isResearching() ? 1 : 0;
+	intBuf[index++] = u->isFlying() ? 1 : 0;
+
 	return index;
 }
 
 /**
 * Returns the list of active units in the game.
 *
-* Each unit takes up a fixed number of integer values. Currently: 124
+* Each unit takes up a fixed number of integer values. Currently: 125
 */
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllUnitsData(JNIEnv * env, jobject jObj) {
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllUnitsData(JNIEnv * env, jobject jObject) {
 
 	// std::cout << "processing units..." << std::endl;;
 
@@ -674,3 +676,93 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllUnitsData(JNIEnv * 
 	return result;
 }
 
+int addPlayerDataToBuffer(Player &player, int index) {
+
+	intBuf[index++] = player->getID();
+	intBuf[index++] = player->getRace();
+	intBuf[index++] = player->getStartLocation().x;
+	intBuf[index++] = player->getStartLocation().y;
+	intBuf[index++] = player->getColor();
+	intBuf[index++] = player->getTextColor();
+	intBuf[index++] = player->getType();
+	intBuf[index++] = player->getForce()->getID();
+	intBuf[index++] = player->isNeutral() ? 1 : 0;
+	intBuf[index++] = player->isVictorious() ? 1 : 0;
+	intBuf[index++] = player->isDefeated() ? 1 : 0;
+	intBuf[index++] = player->leftGame() ? 1 : 0;
+	intBuf[index++] = player->minerals();
+	intBuf[index++] = player->gas();
+	intBuf[index++] = player->gatheredMinerals();
+	intBuf[index++] = player->gatheredGas();
+	intBuf[index++] = player->repairedMinerals();
+	intBuf[index++] = player->repairedGas();
+	intBuf[index++] = player->refundedMinerals();
+	intBuf[index++] = player->refundedGas();
+	intBuf[index++] = player->spentMinerals();
+	intBuf[index++] = player->spentGas();
+	intBuf[index++] = player->supplyTotal();
+	intBuf[index++] = player->getUnitScore();
+	intBuf[index++] = player->getKillScore();
+	intBuf[index++] = player->getBuildingScore();
+	intBuf[index++] = player->getRazingScore();
+	intBuf[index++] = player->getCustomScore();
+	intBuf[index++] = player->isObserver() ? 1 : 0;
+	intBuf[index++] = player->supplyUsed();
+
+	return index;
+}
+
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllPlayersData(JNIEnv *env, jobject jObject) {
+
+	int index = 0;
+
+	for (Player player : Broodwar->getPlayers()) {
+
+		index = addPlayerDataToBuffer(player, index);
+	}
+
+	jintArray result = env->NewIntArray(index);
+	env->SetIntArrayRegion(result, 0, index, intBuf);
+	return result;
+}
+
+JNIEXPORT jbyteArray JNICALL Java_org_openbw_bwapi4j_BW_getPlayerName(JNIEnv *env, jobject jObj, jint playerID) {
+
+	// NewStringUTF causes issues with unusual characters like Korean symbols
+	std::string str = Broodwar->getPlayer(playerID)->getName();
+	jbyteArray jbArray = env->NewByteArray(str.length());
+	env->SetByteArrayRegion(jbArray, 0, str.length(), (jbyte*)str.c_str());
+	return jbArray;
+}
+
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getResearchStatus(JNIEnv* env, jobject jObj, jint playerID) {
+
+	int index = 0;
+	Player p = Broodwar->getPlayer(playerID);
+
+	for (TechType techType : TechTypes::allTechTypes()) {
+		intBuf[index++] = techType.getID();
+		intBuf[index++] = p->hasResearched((techType)) ? 1 : 0;
+		intBuf[index++] = p->isResearching((techType)) ? 1 : 0;
+	}
+
+	jintArray result = env->NewIntArray(index);
+	env->SetIntArrayRegion(result, 0, index, intBuf);
+	return result;
+}
+
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUpgradeStatus(JNIEnv* env, jobject jObj, jint playerID) {
+
+	int index = 0;
+	Player p = Broodwar->getPlayer(playerID);
+
+	for (UpgradeType upgradeType : UpgradeTypes::allUpgradeTypes()) {
+		intBuf[index++] = upgradeType.getID();
+		intBuf[index++] = p->getUpgradeLevel((upgradeType));
+		intBuf[index++] = p->isUpgrading((upgradeType)) ? 1 : 0;
+	}
+
+	jintArray result = env->NewIntArray(index);
+	env->SetIntArrayRegion(result, 0, index, intBuf);
+	return result;
+}

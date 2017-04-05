@@ -12,7 +12,8 @@ extern "C" {
  * Method:    issueCommand
  * Signature: (IIIIII)Z
  */
-JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_Unit_issueCommand (JNIEnv *, jobject, jint, jint, jint, jint, jint, jint);
+JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_Unit_issueCommand
+  (JNIEnv *, jobject, jint, jint, jint, jint, jint, jint);
 
 #ifdef __cplusplus
 }

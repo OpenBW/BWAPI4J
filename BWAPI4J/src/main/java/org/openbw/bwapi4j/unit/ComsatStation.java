@@ -9,8 +9,8 @@ public class ComsatStation extends Addon implements Mechanical, SpellCaster {
 
 	private int energy;
 	
-	public ComsatStation(int id) {
-		super(id, UnitType.Terran_Comsat_Station);
+	public ComsatStation(int id, int timeSpotted) {
+		super(id, UnitType.Terran_Comsat_Station, timeSpotted);
 	}
 	
 	public boolean scannerSweep(Position p) {

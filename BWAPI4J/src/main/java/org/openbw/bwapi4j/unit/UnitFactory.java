@@ -4,45 +4,45 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class UnitFactory {
 
-	public Unit createUnit(int unitId, UnitType unitType) {
+	public Unit createUnit(int unitId, UnitType unitType, int timeSpotted) {
 		
 		Unit unit;
 		switch (unitType) {
 		case Terran_Academy:
-			unit = new Academy(unitId);
+			unit = new Academy(unitId, timeSpotted);
 			break;
 		case Terran_Armory:
-			unit = new Armory(unitId);
+			unit = new Armory(unitId, timeSpotted);
 			break;
 		case Terran_Barracks:
-			unit = new Barracks(unitId);
+			unit = new Barracks(unitId, timeSpotted);
 			break;
 		case Terran_Battlecruiser:
 			unit = new BattleCruiser(unitId);
 			break;
 		case Terran_Bunker:
-			unit = new Bunker(unitId);
+			unit = new Bunker(unitId, timeSpotted);
 			break;
 		case Terran_Command_Center:
-			unit = new CommandCenter(unitId);
+			unit = new CommandCenter(unitId, timeSpotted);
 			break;
 		case Terran_Comsat_Station:
-			unit = new ComsatStation(unitId);
+			unit = new ComsatStation(unitId, timeSpotted);
 			break;
 		case Terran_Control_Tower:
-			unit = new ControlTower(unitId);
+			unit = new ControlTower(unitId, timeSpotted);
 			break;
 		case Terran_Covert_Ops:
-			unit = new CovertOps(unitId);
+			unit = new CovertOps(unitId, timeSpotted);
 			break;
 		case Terran_Dropship:
 			unit = new Dropship(unitId);
 			break;
 		case Terran_Engineering_Bay:
-			unit = new EngineeringBay(unitId);
+			unit = new EngineeringBay(unitId, timeSpotted);
 			break;
 		case Terran_Factory:
-			unit = new Factory(unitId);
+			unit = new Factory(unitId, timeSpotted);
 			break;
 		case Terran_Firebat:
 			unit = new Firebat(unitId);
@@ -54,7 +54,7 @@ public class UnitFactory {
 			unit = new Goliath(unitId);
 			break;
 		case Terran_Machine_Shop:
-			unit = new MachineShop(unitId);
+			unit = new MachineShop(unitId, timeSpotted);
 			break;
 		case Terran_Marine:
 			unit = new Marine(unitId);
@@ -63,19 +63,19 @@ public class UnitFactory {
 			unit = new Medic(unitId);
 			break;
 		case Terran_Missile_Turret:
-			unit = new MissileTurret(unitId);
+			unit = new MissileTurret(unitId, timeSpotted);
 			break;
 		case Terran_Nuclear_Silo:
-			unit = new NuclearSilo(unitId);
+			unit = new NuclearSilo(unitId, timeSpotted);
 			break;
 		case Terran_Physics_Lab:
-			unit = new PhysicsLab(unitId);
+			unit = new PhysicsLab(unitId, timeSpotted);
 			break;
 		case Terran_Refinery:
-			unit = new Refinery(unitId);
+			unit = new Refinery(unitId, timeSpotted);
 			break;
 		case Terran_Science_Facility:
-			unit = new ScienceFacility(unitId);
+			unit = new ScienceFacility(unitId, timeSpotted);
 			break;
 		case Terran_Science_Vessel:
 			unit = new ScienceVessel(unitId);
@@ -90,10 +90,10 @@ public class UnitFactory {
 			unit = new SpiderMine(unitId);
 			break;
 		case Terran_Starport:
-			unit = new Starport(unitId);
+			unit = new Starport(unitId, timeSpotted);
 			break;
 		case Terran_Supply_Depot:
-			unit = new SupplyDepot(unitId);
+			unit = new SupplyDepot(unitId, timeSpotted);
 			break;
 		case Terran_Valkyrie:
 			unit = new Valkyrie(unitId);

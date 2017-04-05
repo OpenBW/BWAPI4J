@@ -10,8 +10,8 @@ public class Factory extends Building implements Mechanical, FlyingBuilding, Tra
 	private Flyer flyer;
 	private Trainer trainer;
 	
-	public Factory(int id) {
-		super(id, UnitType.Terran_Factory);
+	public Factory(int id, int timeSpotted) {
+		super(id, UnitType.Terran_Factory, timeSpotted);
 		this.flyer = new Flyer();
 		this.trainer = new Trainer();
 	}

@@ -13,8 +13,8 @@ public class CommandCenter extends Building implements Mechanical, FlyingBuildin
 	private Flyer flyer;
 	private Trainer trainer;
 	
-	public CommandCenter(int id) {
-		super(id, UnitType.Terran_Command_Center);
+	public CommandCenter(int id, int timeSpotted) {
+		super(id, UnitType.Terran_Command_Center, timeSpotted);
 		this.flyer = new Flyer();
 		this.trainer = new Trainer();
 	}

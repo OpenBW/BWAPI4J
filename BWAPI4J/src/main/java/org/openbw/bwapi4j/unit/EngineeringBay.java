@@ -11,8 +11,8 @@ public class EngineeringBay extends Building implements Mechanical, FlyingBuildi
 	private Flyer flyer;
 	private Researcher researcher;
 	
-	public EngineeringBay(int id) {
-		super(id, UnitType.Terran_Engineering_Bay);
+	public EngineeringBay(int id, int timeSpotted) {
+		super(id, UnitType.Terran_Engineering_Bay, timeSpotted);
 		this.flyer = new Flyer();
 		this.researcher = new Researcher();
 	}

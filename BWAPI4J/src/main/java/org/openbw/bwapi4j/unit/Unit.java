@@ -1,7 +1,10 @@
 package org.openbw.bwapi4j.unit;
 
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
@@ -13,7 +16,7 @@ import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
-public abstract class Unit {
+public abstract class Unit implements Comparable<Unit>{
 
 	protected static int ID_INDEX 						= 0;
 	protected static int REPLAY_ID_INDEX 				= 1;
@@ -139,8 +142,9 @@ public abstract class Unit {
 	protected static int IS_UPGRADING_INDEX		 		= 121;
 	protected static int IS_VISIBLE_INDEX		 		= 122;
 	protected static int IS_RESEARCHING_INDEX	 		= 123;
+	protected static int IS_FLYING_INDEX	 			= 124;
 	
-	public static int TOTAL_PROPERTIES		 			= 124;
+	public static int TOTAL_PROPERTIES		 			= 125;
 	
 	// static
 	protected int id;
@@ -150,14 +154,19 @@ public abstract class Unit {
 	
 	// dynamic
 	protected UnitType type;
+	protected int x;
+	protected int y;
 	protected Position position;
 	protected TilePosition tilePosition;
 	protected double angle;
-	protected double velocityX;
-	protected double velocityY;
+	protected Region region; // TODO region
+	protected boolean isVisible;
+	protected boolean exists;
+	protected boolean isSelected;
 	
 	// internal
 	private Map<Integer, Unit> allUnits;
+	private int lastSpotted;
 	
 	Unit(int id, UnitType unitType) {
 		this.id = id;
@@ -177,12 +186,15 @@ public abstract class Unit {
 	public int update(int[] unitData, int index) {
 		
 		this.type = UnitType.values()[unitData[index + Unit.TYPE_ID_INDEX]];
-		this.position = new Position(unitData[index + Unit.POSITION_X_INDEX], unitData[index + Unit.POSITION_Y_INDEX]);
+		this.x = unitData[index + Unit.POSITION_X_INDEX];
+		this.y = unitData[index + Unit.POSITION_Y_INDEX];
+		this.position = new Position(x, y);
 		this.tilePosition = new TilePosition(unitData[index + Unit.TILEPOSITION_X_INDEX], unitData[index + Unit.TILEPOSITION_Y_INDEX]);
 		this.angle = unitData[index + Unit.ANGLE_INDEX] / 100.0;
-		this.velocityX = unitData[index + Unit.VELOCITY_X_INDEX] / 100.0;
-		this.velocityY = unitData[index + Unit.VELOCITY_Y_INDEX] / 100.0;
-
+		this.isVisible = unitData[index + Unit.IS_VISIBLE_INDEX] == 1;
+		this.exists = unitData[index + Unit.EXISTS_INDEX] == 1;
+		this.isSelected = unitData[index + Unit.IS_SELECTED_INDEX] == 1;
+		
 		return index;
 	}
 	
@@ -193,6 +205,183 @@ public abstract class Unit {
 	public int getId() {
 		return this.id;
 	}
+	
+	public int getLeft() {
+		return this.x - this.type.dimensionLeft();
+	}
+	
+	public int getTop() {
+		return this.y -this.type.dimensionUp();
+	}
+	
+	public int getRight() {
+		return this.x + this.type.dimensionRight();
+	}
+	
+	public int getBottom() {
+		return this.y + this.type.dimensionDown();
+	}
+	
+	public Position getMiddle(Unit unit) {
+	
+		int x = this.getPosition().getX();
+		int y = this.getPosition().getY();
+		
+		int dx = unit.getPosition().getX() - x;
+		int dy = unit.getPosition().getY() - y;
+		
+		return new Position(x + dx / 2, y + dy / 2);
+	}
+	
+	public <T extends Unit> T getClosest(Collection<T> group) {
+	
+		Comparator<T> comp = (u1, u2) -> Double.compare(this.getDistance(u1), this.getDistance(u2));
+		return group.parallelStream().min(comp).get();
+	}
+	
+	public <T extends Unit> List<T> getUnitsInRadius(int radius, Collection<T> group) {
+		
+		return group.parallelStream().filter(t -> this.getDistance(t) <= radius).collect(Collectors.toList());
+	}
+	
+	public void update(int timeSpotted) {
+		this.lastSpotted = timeSpotted;
+	}
+	
+	public int getX() {
+		return this.position.getX();
+	}
+	
+	public int getY() {
+		return this.position.getY();
+	}
+	
+	public int height() {
+		return this.type.height();
+	}
+	
+	public int width() {
+		return this.type.width();
+	}
+	
+	public int tileHeight() {
+		return this.type.tileHeight();
+	}
+	
+	public int tileWidth() {
+		return this.type.tileWidth();
+	}
+	
+	public Region getRegion() {
+		return this.region;
+	}
+	
+	public TilePosition getTilePosition() {
+		return this.tilePosition;
+	}
+
+	public Position getPosition() {
+		return this.position;
+	}
+	
+	public double getDistance(Position target) {
+		return getDistance(target.getX(), target.getY());
+	}
+	
+	public double getDistance(int x, int y) {
+		if (!this.exists)
+			return Integer.MAX_VALUE;
+		int xDist = getLeft() - (x + 1);
+		if (xDist < 0) {
+			xDist = x - (getRight() + 1);
+			if (xDist < 0) {
+				xDist = 0;
+			}
+		}
+		int yDist = getTop() - (y + 1);
+		if (yDist < 0) {
+			yDist = y - (getBottom() + 1);
+			if (yDist < 0) {
+				yDist = 0;
+			}
+		}
+		return new Position(0, 0).getDistance(new Position(xDist, yDist));
+	}
+	
+	public double getDistance(Unit target) {
+		if (!this.exists || target == null || !target.exists())
+			return Integer.MAX_VALUE;
+		
+		if (this == target)
+			return 0;
+		
+		int xDist = getLeft() - (target.getRight() + 1);
+		if (xDist < 0) {
+			xDist = target.getLeft() - (getRight() + 1);
+			if (xDist < 0) {
+				xDist = 0;
+			}
+		}
+		int yDist = getTop() - (target.getBottom() + 1);
+		if (yDist < 0) {
+			yDist = target.getTop() - (getBottom() + 1);
+			if (yDist < 0) {
+				yDist = 0;
+			}
+		}
+		return new Position(0, 0).getDistance(new Position(xDist, yDist));
+	}
+	
+	public boolean isVisible() {
+		return this.isVisible;
+	}
+	
+	public boolean isSelected() {
+		return this.isSelected;
+	}
+	
+	public boolean exists() {
+		return this.exists;
+	}
+	
+	public UnitType getInitialType() {
+		return initialType;
+	}
+
+	public Position getInitialPosition() {
+		return initialPosition;
+	}
+
+	public TilePosition getInitialTilePosition() {
+		return initialTilePosition;
+	}
+	
+	@Override
+	public int hashCode() {
+		return this.id;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		
+		if (obj instanceof Unit) {
+			return this.getId() == ((Unit)obj).getId();
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public String toString() {
+		return this.getId() + ":" + this.type;
+	}
+
+	@Override
+	public int compareTo(Unit otherUnit) {
+		return this.getId() - otherUnit.getId();
+	}
+	
+	//--------------------------------------------------
 	
 	protected native boolean issueCommand(int unitID, int unitCommandTypeID, int targetUnitID, int x, int y, int extra);
 	
@@ -224,29 +413,10 @@ public abstract class Unit {
 		return issueCommand(this.id, UnitCommandType.Cancel_Morph.ordinal(), -1, -1, -1, -1);
 	}
 	
-	
-	public UnitType getInitialType() {
-		return initialType;
-	}
-
-	public Position getInitialPosition() {
-		return initialPosition;
-	}
-
-	public TilePosition getInitialTilePosition() {
-		return initialTilePosition;
-	}
-
 
 		// dynamic
-		private boolean exists;
 		private int replayID;
 		
-		private Region region;
-		private int left;
-		private int top;
-		private int right;
-		private int bottom;
 		private int shields;
 		private int energy;
 		private int resourceGroup;
@@ -281,8 +451,6 @@ public abstract class Unit {
 		private int remainingResearchTime;
 		private int remainingUpgradeTime;
 		private Unit buildUnit;
-		private Unit target;
-		private Position targetPosition;
 		private Order order;
 		private Order secondaryOrder;
 		private Unit orderTarget;
@@ -305,18 +473,14 @@ public abstract class Unit {
 		private boolean isAttackFrame;
 		private boolean isBeingConstructed;
 		private boolean isBeingHealed;
+		
 		private boolean isBlind;
 		private boolean isBraking;
 		private boolean isBurrowed;
-		
-		private boolean isCompleted;
 		private boolean isDefenseMatrixed;
-		private boolean isDetected;
 		private boolean isEnsnared;
-		private boolean isFlying;
 		
 		private boolean isHallucination;
-		private boolean isIdle;
 		private boolean isInterruptible;
 		private boolean isInvincible;
 		private boolean isInWeaponRange;
@@ -325,7 +489,6 @@ public abstract class Unit {
 		private boolean isMaelstrommed;
 		private boolean isMorphing;
 		
-		private boolean isSelected;
 		private boolean isStartingAttack;
 		private boolean isUnderAttack;
 		private boolean isPowered;

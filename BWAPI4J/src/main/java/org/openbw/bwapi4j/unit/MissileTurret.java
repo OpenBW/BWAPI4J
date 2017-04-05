@@ -3,10 +3,10 @@ package org.openbw.bwapi4j.unit;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
-public class MissileTurret extends Building implements Mechanical {
+public class MissileTurret extends Building implements Mechanical, Detector {
 
-	public MissileTurret(int id) {
-		super(id, UnitType.Terran_Missile_Turret);
+	public MissileTurret(int id, int timeSpotted) {
+		super(id, UnitType.Terran_Missile_Turret, timeSpotted);
 	}
 	
 	protected boolean attack(Unit target, boolean queued) {

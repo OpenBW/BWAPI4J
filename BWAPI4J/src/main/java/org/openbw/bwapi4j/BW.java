@@ -1,28 +1,37 @@
 package org.openbw.bwapi4j;
 
 import java.io.File;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.charset.UnsupportedCharsetException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.unit.UnitFactory;
 
 public class BW {
 
+	private static final Logger logger = LogManager.getLogger();
+	
 	private BWEventListener listener;
 	
 	private Map<Integer, Player> players;
 	private Map<Integer, Unit> units;
 	private UnitFactory unitFactory;
+	private int frame;
+	private Charset charset;
 	
 	static {
 		
 		System.setProperty("java.library.path", ".");
 		
-		System.out.println(new File("../BWAPI4JBridge/Release/BWAPI4JBridge.dll").exists());
-		System.out.println(System.getProperty("user.dir"));
+		logger.debug(new File("../BWAPI4JBridge/Release/BWAPI4JBridge.dll").exists());
+		logger.debug(System.getProperty("user.dir"));
 		System.loadLibrary("../BWAPI4JBridge/Release/BWAPI4JBridge");
 	}
 	
@@ -32,13 +41,23 @@ public class BW {
 		this.units = new HashMap<Integer, Unit>();
 		this.listener = listener;
 		this.unitFactory = new UnitFactory();
+		
+		try {
+			charset = Charset.forName("Cp949"); // Korean char set
+		} catch (UnsupportedCharsetException e) {
+			logger.warn("Korean character set not available. Some characters may not be read properly.");
+			charset = StandardCharsets.ISO_8859_1;
+		}
 	}
 	
 	private native void startGame(BW bw);
-	private native Player[] getPlayers();
 	private native int[] getAllUnitsData();
+	private native int[] getAllPlayersData();
+	private native byte[] getPlayerName(int playerID);
+	private native int[] getResearchStatus(int playerID);
+	private native int[] getUpgradeStatus(int playerID);
 	
-	private void updateAllUnits() {
+	private void updateAllUnits(int frame) {
 		
 		int[] unitData = this.getAllUnitsData();
 		
@@ -48,17 +67,43 @@ public class BW {
 			int typeId = unitData[index + 3];
 			Unit unit = this.units.get(unitId);
 			if (unit == null) {
-				System.out.print("creating unit for id " + unitId + " and type " + typeId + " ...");
-				unit = unitFactory.createUnit(unitId, UnitType.values()[typeId]);
+				logger.debug("creating unit for id " + unitId + " and type " + typeId + " ...");
+				unit = unitFactory.createUnit(unitId, UnitType.values()[typeId], frame);
 				this.units.put(unitId, unit);
 				unit.initialize(unitData, index, this.units);
-				System.out.println(" done.");
+				logger.debug(" done.");
 			}
 			unit.update(unitData, index);
 		}
 	}
+	
+	private void updateAllPlayers() {
+		
+		int[] playerData = this.getAllPlayersData();
+		
+		for (int index = 0; index < playerData.length; index += Player.TOTAL_PROPERTIES) {
+			
+			int playerId = playerData[index + 0];
+			Player player = this.players.get(playerId);
+			if (player == null) {
+				
+				logger.debug("creating player for id " + playerId + " ...");
+				String playerName = new String(this.getPlayerName(playerId), this.charset);
+				player = new Player(playerId, playerName);
+				this.players.put(playerId, player);
+				player.initialize(playerData, index, this.units);
+				logger.debug(" done.");
+			}
+			player.update(playerData, index);
+		}
+	}
+	
+	public Collection<Player> getAllPlayers() {
+		return this.players.values();
+	}
+	
 	public Collection<Unit> getAllUnits() {
-		return units.values();
+		return this.units.values();
 	}
 	
 	public void startGame() {
@@ -67,7 +112,9 @@ public class BW {
 	
 	private void onStart() {
 		
-		updateAllUnits();
+		this.frame = 0;
+		updateAllPlayers();
+		updateAllUnits(this.frame);
 		listener.onStart();
 	}
 
@@ -78,7 +125,9 @@ public class BW {
 	
 	private void onFrame() {
 		
-		updateAllUnits();
+		this.frame++;
+		updateAllPlayers();
+		updateAllUnits(this.frame);
 		listener.onFrame();
 	}
 

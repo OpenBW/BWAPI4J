@@ -9,8 +9,8 @@ public class Bunker extends Building implements Mechanical {
 
 	private boolean isLoaded;
 	
-	public Bunker(int id) {
-		super(id, UnitType.Terran_Bunker);
+	public Bunker(int id, int timeSpotted) {
+		super(id, UnitType.Terran_Bunker, timeSpotted);
 	}
 	
 	@Override

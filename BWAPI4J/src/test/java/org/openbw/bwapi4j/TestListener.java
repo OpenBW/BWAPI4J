@@ -4,6 +4,8 @@ import org.openbw.bwapi4j.unit.Unit;
 
 public class TestListener implements BWEventListener {
 
+	private BW bw;
+	
 	@Override
 	public void onStart() {
 		System.out.println("onStart");
@@ -17,6 +19,9 @@ public class TestListener implements BWEventListener {
 	@Override
 	public void onFrame() {
 		System.out.println("onFrame");
+		for (Player player : bw.getAllPlayers()) {
+			System.out.println("Player " + player.getName() + " has minerals " + player.minerals());
+		}
 	}
 
 	@Override
@@ -91,8 +96,10 @@ public class TestListener implements BWEventListener {
 
 	public static void main(String[] args) {
 		
-		BWEventListener listener = new TestListener();
+		TestListener listener = new TestListener();
 		BW bw = new BW(listener);
+		listener.bw = bw;
+		
 		bw.startGame();
 	}
 }

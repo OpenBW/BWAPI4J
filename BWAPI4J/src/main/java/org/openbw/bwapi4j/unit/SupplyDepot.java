@@ -4,7 +4,7 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class SupplyDepot extends Building implements Mechanical {
 
-	public SupplyDepot(int id) {
-		super(id, UnitType.Terran_Supply_Depot);
+	public SupplyDepot(int id, int timeSpotted) {
+		super(id, UnitType.Terran_Supply_Depot, timeSpotted);
 	}
 }

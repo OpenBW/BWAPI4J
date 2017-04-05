@@ -7,7 +7,7 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
-public class ScienceVessel extends MobileUnit implements Mechanical, SpellCaster {
+public class ScienceVessel extends MobileUnit implements Mechanical, SpellCaster, Detector {
 
 	private int energy;
 	

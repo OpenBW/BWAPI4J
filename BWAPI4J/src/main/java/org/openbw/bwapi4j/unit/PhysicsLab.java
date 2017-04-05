@@ -10,8 +10,8 @@ public class PhysicsLab extends Addon implements Mechanical, ResearchingFacility
 
 	private Researcher researcher;
 	
-	public PhysicsLab(int id) {
-		super(id, UnitType.Terran_Physics_Lab);
+	public PhysicsLab(int id, int timeSpotted) {
+		super(id, UnitType.Terran_Physics_Lab, timeSpotted);
 		this.researcher = new Researcher();
 	}
 	

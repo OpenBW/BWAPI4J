@@ -1,12 +1,10 @@
 package org.openbw.bwapi4j.unit;
 
-import java.util.Map;
-
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
-public class SCV extends Unit implements Mechanical {
+public class SCV extends MobileUnit implements Mechanical {
 
 	private boolean isGatheringGas;
 	private boolean isGatheringMinerals;
@@ -89,17 +87,5 @@ public class SCV extends Unit implements Mechanical {
 	
 	public boolean repair(Mechanical unit) {
 		return issueCommand(this.id, UnitCommandType.Repair.ordinal(), ((Unit)unit).getId(), -1, -1, -1);
-	}
-
-	@Override
-	public int initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int update(int[] unitData, int index) {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 }

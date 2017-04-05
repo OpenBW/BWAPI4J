@@ -10,8 +10,8 @@ public class Barracks extends Building implements Mechanical, FlyingBuilding, Tr
 	private Flyer flyer;
 	private Trainer trainer;
 	
-	public Barracks(int id) {
-		super(id, UnitType.Terran_Barracks);
+	public Barracks(int id, int timeSpotted) {
+		super(id, UnitType.Terran_Barracks, timeSpotted);
 		this.flyer = new Flyer();
 		this.trainer = new Trainer();
 	}

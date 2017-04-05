@@ -2,6 +2,7 @@ package org.openbw.bwapi4j;
 
 import java.awt.Color;
 import java.util.List;
+import java.util.Map;
 
 import org.openbw.bwapi4j.type.PlayerType;
 import org.openbw.bwapi4j.type.Race;
@@ -9,6 +10,39 @@ import org.openbw.bwapi4j.unit.Unit;
 
 public class Player {
 
+	public static int ID_INDEX 					= 0;
+	public static int RACE_INDEX 				= 1;
+	public static int POSITION_X_INDEX 			= 2;
+	public static int POSITION_Y_INDEX 			= 3;
+	public static int COLOR_INDEX 				= 4;
+	public static int TEXT_COLOR_INDEX 			= 5;
+	public static int TYPE_INDEX 				= 6;
+	public static int FORCE_ID_INDEX 			= 7;
+	public static int IS_NEUTRAL_INDEX 			= 8;
+	public static int IS_VICTORIOUS_INDEX 		= 9;
+	public static int IS_DEFEATED_INDEX 		= 10;
+	public static int LEFT_GAME_INDEX 			= 11;
+	public static int MINERALS_INDEX 			= 12;
+	public static int GAS_INDEX 				= 13;
+	public static int GATHERED_MINERALS_INDEX 	= 14;
+	public static int GATHERED_GAS_INDEX 		= 15;
+	public static int REPAIRED_MINERALS_INDEX 	= 16;
+	public static int REPAIRED_GAS_INDEX 		= 17;
+	public static int REFUNDED_MINERALS_INDEX 	= 18;
+	public static int REFUNDED_GAS_INDEX 		= 19;
+	public static int SPENT_MINERALS_INDEX 		= 20;
+	public static int SPENT_GAS_INDEX 			= 21;
+	public static int SUPPLY_TOTAL_INDEX 		= 22;
+	public static int UNIT_SCORE_INDEX 			= 23;
+	public static int KILL_SCORE_INDEX 			= 24;
+	public static int BUILDING_SCORE_INDEX 		= 25;
+	public static int RAZING_SCORE_INDEX 		= 26;
+	public static int CUSTOM_SCORE_INDEX 		= 27;
+	public static int IS_OBSERVER_INDEX 		= 28;
+	public static int SUPPLY_USED_INDEX 		= 29;
+	
+	public static int TOTAL_PROPERTIES = 30;
+	
 	// constant
 	private int id;
 	private String name;
@@ -19,7 +53,6 @@ public class Player {
 	private PlayerType playerType;
 	
 	// dynamic: update per frame
-	private List<Unit> units;
 	private int forceID;
 	private boolean isNeutral;
 	private boolean isVictorious;
@@ -36,6 +69,13 @@ public class Player {
 	private int spentMinerals;
 	private int spentGas;
 	private int supplyTotal;
+	private int unitScore;
+	private int killScore;
+	private int buildingScore;
+	private int razingScore;
+	private int customScore;
+	private boolean isObserver;
+	
 	private int[] supplyTotalRace;
 	private int supplyUsed;
 	private int[] supplyUsedRace;
@@ -51,19 +91,54 @@ public class Player {
 	private int[] deadUnitCountType;
 	private int killedUnitCount;
 	private int[] killedUnitCountType;
-	private int unitScore;
-	private int killScore;
-	private int buildingScore;
-	private int razingScore;
-	private int customScore;
-	private boolean isObserver;
+	private List<Unit> units;
 	
+	Player(int id, String name) {
+		this.id = id;
+		this.name = name;
+	}
+	
+	public void initialize(int[] playerData, int index, Map<Integer, Unit> allUnits) {
+		
+		this.race = Race.values()[playerData[index + Player.RACE_INDEX]];
+		this.startLocation = new TilePosition(playerData[index + Player.POSITION_X_INDEX], playerData[index + Player.POSITION_Y_INDEX]);
+		this.color = new Color(playerData[index + Player.COLOR_INDEX]);
+		this.textColor = (char)playerData[index + Player.TEXT_COLOR_INDEX];
+		this.playerType = PlayerType.values()[playerData[index + Player.TYPE_INDEX]];
+	}
+
+	public void update(int[] playerData, int index) {
+		
+		this.forceID = playerData[index + Player.FORCE_ID_INDEX];
+		this.isNeutral = playerData[index + Player.IS_NEUTRAL_INDEX] == 1;
+		this.isVictorious = playerData[index + Player.IS_VICTORIOUS_INDEX] == 1;
+		this.isDefeated = playerData[index + Player.IS_DEFEATED_INDEX] == 1;
+		this.leftGame = playerData[index + Player.LEFT_GAME_INDEX] == 1;
+		this.minerals = playerData[index + Player.MINERALS_INDEX];
+		this.gas = playerData[index + Player.GAS_INDEX];
+		this.gatheredMinerals = playerData[index + Player.GATHERED_MINERALS_INDEX];
+		this.gatheredGas = playerData[index + Player.GATHERED_GAS_INDEX];
+		this.repairedMinerals = playerData[index + Player.REPAIRED_MINERALS_INDEX];
+		this.repairedGas = playerData[index + Player.REPAIRED_GAS_INDEX];
+		this.refundedMinerals = playerData[index + Player.REFUNDED_MINERALS_INDEX];
+		this.refundedGas = playerData[index + Player.REFUNDED_GAS_INDEX];
+		this.spentMinerals = playerData[index + Player.SPENT_MINERALS_INDEX];
+		this.spentGas = playerData[index + Player.SPENT_GAS_INDEX];
+		this.supplyTotal = playerData[index + Player.SUPPLY_TOTAL_INDEX];
+		this.unitScore = playerData[index + Player.UNIT_SCORE_INDEX];
+		this.killScore = playerData[index + Player.KILL_SCORE_INDEX];
+		this.buildingScore = playerData[index + Player.BUILDING_SCORE_INDEX];
+		this.razingScore = playerData[index + Player.RAZING_SCORE_INDEX];
+		this.customScore = playerData[index + Player.CUSTOM_SCORE_INDEX];
+		this.isObserver = playerData[index + Player.IS_OBSERVER_INDEX] == 1;
+		this.supplyUsed = playerData[index + Player.SUPPLY_USED_INDEX];
+	}
 	
 	/**
 	 * Retrieves a unique ID that represents the player. Returns An integer
 	 * representing the ID of the player.
 	 */
-	public int getID() {
+	public int getId() {
 		return this.id;
 	}
 
@@ -119,15 +194,15 @@ public class Player {
 	public PlayerType getType() {
 		return this.playerType;
 	}
+
+	/**
+	 * Retrieves the player's force. A force is the team that the player is
+	 * playing on. Returns The Force object that the player is part of.
+	 */
+	public int getForceID() {
+		return this.forceID;
+	}
 // TODO
-//	/**
-//	 * Retrieves the player's force. A force is the team that the player is
-//	 * playing on. Returns The Force object that the player is part of.
-//	 */
-//	public int getForceID() {
-//		return this.forceID;
-//	}
-//
 //	/**
 //	 * Checks if this player is allied to the specified player. Parameters
 //	 * player The player to check alliance with. Return values true if this
@@ -152,183 +227,183 @@ public class Player {
 //		return isEnemy_native(pointer, player);
 //	}
 //
-//	/**
-//	 * Checks if this player is the neutral player. Return values true if this
-//	 * player is the neutral player. false if this player is any other player.
-//	 */
-//	public boolean isNeutral() {
-//		return this.isNeutral;
-//	}
-//
-//	/**
-//	 * Retrieve's the player's starting location. Returns A TilePosition
-//	 * containing the position of the start location. Return values
-//	 * TilePositions::None if the player does not have a start location.
-//	 * TilePositions::Unknown if an error occured while trying to retrieve the
-//	 * start location. See also Game::getStartLocations, Game::getLastError
-//	 */
-//	public TilePosition getStartLocation() {
-//		return this.startLocation;
-//	}
-//
-//	/**
-//	 * Checks if the player has achieved victory. Returns true if this player
-//	 * has achieved victory, otherwise false
-//	 */
-//	public boolean isVictorious() {
-//		return this.isVictorious;
-//	}
-//
-//	/**
-//	 * Checks if the player has been defeated. Returns true if the player is
-//	 * defeated, otherwise false
-//	 */
-//	public boolean isDefeated() {
-//		return this.isDefeated;
-//	}
-//
-//	/**
-//	 * Checks if the player has left the game. Returns true if the player has
-//	 * left the game, otherwise false
-//	 */
-//	public boolean leftGame() {
-//		return this.leftGame;
-//	}
-//
-//	/**
-//	 * Retrieves the current amount of minerals/ore that this player has. Note
-//	 * This function will return 0 if the player is inaccessible. Returns Amount
-//	 * of minerals that the player currently has for spending.
-//	 */
-//	public int minerals() {
-//		return this.minerals;
-//	}
-//
-//	/**
-//	 * Retrieves the current amount of vespene gas that this player has. Note
-//	 * This function will return 0 if the player is inaccessible. Returns Amount
-//	 * of gas that the player currently has for spending.
-//	 */
-//	public int gas() {
-//		return this.gas;
-//	}
-//
-//	/**
-//	 * Retrieves the cumulative amount of minerals/ore that this player has
-//	 * gathered since the beginning of the game, including the amount that the
-//	 * player starts the game with (if any). Note This function will return 0 if
-//	 * the player is inaccessible. Returns Cumulative amount of minerals that
-//	 * the player has gathered.
-//	 */
-//	public int gatheredMinerals() {
-//		return this.gatheredMinerals;
-//	}
-//
-//	/**
-//	 * Retrieves the cumulative amount of vespene gas that this player has
-//	 * gathered since the beginning of the game, including the amount that the
-//	 * player starts the game with (if any). Note This function will return 0 if
-//	 * the player is inaccessible. Returns Cumulative amount of gas that the
-//	 * player has gathered.
-//	 */
-//	public int gatheredGas() {
-//		return this.gatheredGas;
-//	}
-//
-//	/**
-//	 * Retrieves the cumulative amount of minerals/ore that this player has
-//	 * spent on repairing units since the beginning of the game. This function
-//	 * only applies to Terran players. Note This function will return 0 if the
-//	 * player is inaccessible. Returns Cumulative amount of minerals that the
-//	 * player has spent repairing.
-//	 */
-//	public int repairedMinerals() {
-//		return this.repairedMinerals;
-//	}
-//
-//	/**
-//	 * Retrieves the cumulative amount of vespene gas that this player has spent
-//	 * on repairing units since the beginning of the game. This function only
-//	 * applies to Terran players. Note This function will return 0 if the player
-//	 * is inaccessible. Returns Cumulative amount of gas that the player has
-//	 * spent repairing.
-//	 */
-//	public int repairedGas() {
-//		return this.repairedGas;
-//	}
-//
-//	/**
-//	 * Retrieves the cumulative amount of minerals/ore that this player has
-//	 * gained from refunding (cancelling) units and structures. Note This
-//	 * function will return 0 if the player is inaccessible. Returns Cumulative
-//	 * amount of minerals that the player has received from refunds.
-//	 */
-//	public int refundedMinerals() {
-//		return this.refundedMinerals;
-//	}
-//
-//	/**
-//	 * Retrieves the cumulative amount of vespene gas that this player has
-//	 * gained from refunding (cancelling) units and structures. Note This
-//	 * function will return 0 if the player is inaccessible. Returns Cumulative
-//	 * amount of gas that the player has received from refunds.
-//	 */
-//	public int refundedGas() {
-//		return this.refundedGas;
-//	}
-//
-//	/**
-//	 * Retrieves the cumulative amount of minerals/ore that this player has
-//	 * spent, excluding repairs. Note This function will return 0 if the player
-//	 * is inaccessible. Returns Cumulative amount of minerals that the player
-//	 * has spent.
-//	 */
-//	public int spentMinerals() {
-//		return this.spentMinerals;
-//	}
-//
-//	/**
-//	 * Retrieves the cumulative amount of vespene gas that this player has
-//	 * spent, excluding repairs. Note This function will return 0 if the player
-//	 * is inaccessible. Returns Cumulative amount of gas that the player has
-//	 * spent.
-//	 */
-//	public int spentGas() {
-//		return this.spentGas;
-//	}
-//
-//	/**
-//	 * Retrieves the total amount of supply the player has available for unit
-//	 * control. Note In Starcraft programming, the managed supply values are
-//	 * double than what they appear in the game. The reason for this is because
-//	 * Zerglings use 0.5 visible supply. In Starcraft, the supply for each race
-//	 * is separate. Having a Pylon and an Overlord will not give you 32 supply.
-//	 * It will instead give you 16 Protoss supply and 16 Zerg supply. Parameters
-//	 * race (optional) The race to query the total supply for. If this is
-//	 * omitted, then the player's current race will be used. Returns The total
-//	 * supply available for this player and the given race. Example usage: if (
-//	 * BWAPI::Broodwar->self()->supplyUsed() + 8 >=
-//	 * BWAPI::Broodwar->self()->supplyTotal() ) { // Construct pylons, supply
-//	 * depots, or overlords } See also supplyUsed
-//	 */
-//	public int supplyTotal() {
-//		return this.supplyTotal;
-//	}
-//
+	/**
+	 * Checks if this player is the neutral player. Return values true if this
+	 * player is the neutral player. false if this player is any other player.
+	 */
+	public boolean isNeutral() {
+		return this.isNeutral;
+	}
+
+	/**
+	 * Retrieve's the player's starting location. Returns A TilePosition
+	 * containing the position of the start location. Return values
+	 * TilePositions::None if the player does not have a start location.
+	 * TilePositions::Unknown if an error occured while trying to retrieve the
+	 * start location. See also Game::getStartLocations, Game::getLastError
+	 */
+	public TilePosition getStartLocation() {
+		return this.startLocation;
+	}
+
+	/**
+	 * Checks if the player has achieved victory. Returns true if this player
+	 * has achieved victory, otherwise false
+	 */
+	public boolean isVictorious() {
+		return this.isVictorious;
+	}
+
+	/**
+	 * Checks if the player has been defeated. Returns true if the player is
+	 * defeated, otherwise false
+	 */
+	public boolean isDefeated() {
+		return this.isDefeated;
+	}
+
+	/**
+	 * Checks if the player has left the game. Returns true if the player has
+	 * left the game, otherwise false
+	 */
+	public boolean leftGame() {
+		return this.leftGame;
+	}
+
+	/**
+	 * Retrieves the current amount of minerals/ore that this player has. Note
+	 * This function will return 0 if the player is inaccessible. Returns Amount
+	 * of minerals that the player currently has for spending.
+	 */
+	public int minerals() {
+		return this.minerals;
+	}
+
+	/**
+	 * Retrieves the current amount of vespene gas that this player has. Note
+	 * This function will return 0 if the player is inaccessible. Returns Amount
+	 * of gas that the player currently has for spending.
+	 */
+	public int gas() {
+		return this.gas;
+	}
+
+	/**
+	 * Retrieves the cumulative amount of minerals/ore that this player has
+	 * gathered since the beginning of the game, including the amount that the
+	 * player starts the game with (if any). Note This function will return 0 if
+	 * the player is inaccessible. Returns Cumulative amount of minerals that
+	 * the player has gathered.
+	 */
+	public int gatheredMinerals() {
+		return this.gatheredMinerals;
+	}
+
+	/**
+	 * Retrieves the cumulative amount of vespene gas that this player has
+	 * gathered since the beginning of the game, including the amount that the
+	 * player starts the game with (if any). Note This function will return 0 if
+	 * the player is inaccessible. Returns Cumulative amount of gas that the
+	 * player has gathered.
+	 */
+	public int gatheredGas() {
+		return this.gatheredGas;
+	}
+
+	/**
+	 * Retrieves the cumulative amount of minerals/ore that this player has
+	 * spent on repairing units since the beginning of the game. This function
+	 * only applies to Terran players. Note This function will return 0 if the
+	 * player is inaccessible. Returns Cumulative amount of minerals that the
+	 * player has spent repairing.
+	 */
+	public int repairedMinerals() {
+		return this.repairedMinerals;
+	}
+
+	/**
+	 * Retrieves the cumulative amount of vespene gas that this player has spent
+	 * on repairing units since the beginning of the game. This function only
+	 * applies to Terran players. Note This function will return 0 if the player
+	 * is inaccessible. Returns Cumulative amount of gas that the player has
+	 * spent repairing.
+	 */
+	public int repairedGas() {
+		return this.repairedGas;
+	}
+
+	/**
+	 * Retrieves the cumulative amount of minerals/ore that this player has
+	 * gained from refunding (cancelling) units and structures. Note This
+	 * function will return 0 if the player is inaccessible. Returns Cumulative
+	 * amount of minerals that the player has received from refunds.
+	 */
+	public int refundedMinerals() {
+		return this.refundedMinerals;
+	}
+
+	/**
+	 * Retrieves the cumulative amount of vespene gas that this player has
+	 * gained from refunding (cancelling) units and structures. Note This
+	 * function will return 0 if the player is inaccessible. Returns Cumulative
+	 * amount of gas that the player has received from refunds.
+	 */
+	public int refundedGas() {
+		return this.refundedGas;
+	}
+
+	/**
+	 * Retrieves the cumulative amount of minerals/ore that this player has
+	 * spent, excluding repairs. Note This function will return 0 if the player
+	 * is inaccessible. Returns Cumulative amount of minerals that the player
+	 * has spent.
+	 */
+	public int spentMinerals() {
+		return this.spentMinerals;
+	}
+
+	/**
+	 * Retrieves the cumulative amount of vespene gas that this player has
+	 * spent, excluding repairs. Note This function will return 0 if the player
+	 * is inaccessible. Returns Cumulative amount of gas that the player has
+	 * spent.
+	 */
+	public int spentGas() {
+		return this.spentGas;
+	}
+
+	/**
+	 * Retrieves the total amount of supply the player has available for unit
+	 * control. Note In Starcraft programming, the managed supply values are
+	 * double than what they appear in the game. The reason for this is because
+	 * Zerglings use 0.5 visible supply. In Starcraft, the supply for each race
+	 * is separate. Having a Pylon and an Overlord will not give you 32 supply.
+	 * It will instead give you 16 Protoss supply and 16 Zerg supply. Parameters
+	 * race (optional) The race to query the total supply for. If this is
+	 * omitted, then the player's current race will be used. Returns The total
+	 * supply available for this player and the given race. Example usage: if (
+	 * BWAPI::Broodwar->self()->supplyUsed() + 8 >=
+	 * BWAPI::Broodwar->self()->supplyTotal() ) { // Construct pylons, supply
+	 * depots, or overlords } See also supplyUsed
+	 */
+	public int supplyTotal() {
+		return this.supplyTotal;
+	}
+	// TODO
 //	public int supplyTotal(Race race) {
 //		return supplyTotal_native(pointer, race);
 //	}
 //
-//	/**
-//	 * Retrieves the current amount of supply that the player is using for unit
-//	 * control. Parameters race (optional) The race to query the used supply
-//	 * for. If this is omitted, then the player's current race will be used.
-//	 * Returns The supply that is in use for this player and the given race. See
-//	 * also supplyTotal
-//	 */
-//	public int supplyUsed() {
-//		return this.supplyUsed;
-//	}
+	/**
+	 * Retrieves the current amount of supply that the player is using for unit
+	 * control. Parameters race (optional) The race to query the used supply
+	 * for. If this is omitted, then the player's current race will be used.
+	 * Returns The supply that is in use for this player and the given race. See
+	 * also supplyTotal
+	 */
+	public int supplyUsed() {
+		return this.supplyUsed;
+	}
 //
 //	public int supplyUsed(Race race) {
 //		return supplyUsed_native(pointer, race);
@@ -495,24 +570,24 @@ public class Player {
 //	public boolean isUpgrading(UpgradeType upgrade) {
 //		return isUpgrading_native(pointer, upgrade);
 //	}
-//
-//	/**
-//	 * Retrieves the color value of the current player. Returns Color object
-//	 * that represents the color of the current player.
-//	 */
-//	public Color getColor() {
-//		return this.color;
-//	}
-//
-//	/**
-//	 * Retrieves the control code character that changes the color of text
-//	 * messages to represent this player. Returns character code to use for text
-//	 * in Broodwar.
-//	 */
-//	public char getTextColor() {
-//		return this.textColor;
-//	}
-//
+
+	/**
+	 * Retrieves the color value of the current player. Returns Color object
+	 * that represents the color of the current player.
+	 */
+	public Color getColor() {
+		return this.color;
+	}
+
+	/**
+	 * Retrieves the control code character that changes the color of text
+	 * messages to represent this player. Returns character code to use for text
+	 * in Broodwar.
+	 */
+	public char getTextColor() {
+		return this.textColor;
+	}
+
 //	/**
 //	 * Retrieves the maximum amount of energy that a unit type will have, taking
 //	 * the player's energy upgrades into consideration. Parameters unit The
@@ -582,56 +657,56 @@ public class Player {
 //		return damage_native(pointer, wpn);
 //	}
 //
-//	/**
-//	 * Retrieves the total unit score, as seen in the end-game score screen.
-//	 * Returns The player's unit score.
-//	 */
-//	public int getUnitScore() {
-//		return this.unitScore;
-//	}
-//
-//	/**
-//	 * Retrieves the total kill score, as seen in the end-game score screen.
-//	 * Returns The player's kill score.
-//	 */
-//	public int getKillScore() {
-//		return this.killScore;
-//	}
-//
-//	/**
-//	 * Retrieves the total building score, as seen in the end-game score screen.
-//	 * Returns The player's building score.
-//	 */
-//	public int getBuildingScore() {
-//		return this.buildingScore;
-//	}
-//
-//	/**
-//	 * Retrieves the total razing score, as seen in the end-game score screen.
-//	 * Returns The player's razing score.
-//	 */
-//	public int getRazingScore() {
-//		return this.razingScore;
-//	}
-//
-//	/**
-//	 * Retrieves the player's custom score. This score is used in Use Map
-//	 * Settings game types. Returns The player's custom score.
-//	 */
-//	public int getCustomScore() {
-//		return this.customScore;
-//	}
-//
-//	/**
-//	 * Checks if the player is an observer player, typically in a Use Map
-//	 * Settings observer game. An observer player does not participate in the
-//	 * game. Returns true if the player is observing, or false if the player is
-//	 * capable of playing in the game.
-//	 */
-//	public boolean isObserver() {
-//		return this.isObserver;
-//	}
-//
+	/**
+	 * Retrieves the total unit score, as seen in the end-game score screen.
+	 * Returns The player's unit score.
+	 */
+	public int getUnitScore() {
+		return this.unitScore;
+	}
+
+	/**
+	 * Retrieves the total kill score, as seen in the end-game score screen.
+	 * Returns The player's kill score.
+	 */
+	public int getKillScore() {
+		return this.killScore;
+	}
+
+	/**
+	 * Retrieves the total building score, as seen in the end-game score screen.
+	 * Returns The player's building score.
+	 */
+	public int getBuildingScore() {
+		return this.buildingScore;
+	}
+
+	/**
+	 * Retrieves the total razing score, as seen in the end-game score screen.
+	 * Returns The player's razing score.
+	 */
+	public int getRazingScore() {
+		return this.razingScore;
+	}
+
+	/**
+	 * Retrieves the player's custom score. This score is used in Use Map
+	 * Settings game types. Returns The player's custom score.
+	 */
+	public int getCustomScore() {
+		return this.customScore;
+	}
+
+	/**
+	 * Checks if the player is an observer player, typically in a Use Map
+	 * Settings observer game. An observer player does not participate in the
+	 * game. Returns true if the player is observing, or false if the player is
+	 * capable of playing in the game.
+	 */
+	public boolean isObserver() {
+		return this.isObserver;
+	}
+
 //	/**
 //	 * Retrieves the maximum upgrades available specific to the player. This
 //	 * value is only different from UpgradeType::maxRepeats in Use Map Settings

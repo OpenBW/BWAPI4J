@@ -1,6 +1,7 @@
 package org.openbw.bwapi4j.unit;
 
 import org.openbw.bwapi4j.Position;
+import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
@@ -112,7 +113,76 @@ public abstract class Building extends PlayerUnit {
 		}
 	};
 	
-	Building(int id, UnitType unitType) {
-		super(id, unitType);
+	protected int probableConstructionStart;
+	
+	Building(int id, UnitType type, int timeSpotted) {
+		super(id, type);
+		this.probableConstructionStart = calculateProbableConstructionStart(timeSpotted);
+	}
+	
+	public int buildTime() {
+		return this.type.buildTime();
+	}
+
+	private int calculateProbableConstructionStart(int currentFrame) {
+		
+		int time = currentFrame;
+		if (this.isCompleted()) {
+			time = currentFrame - this.type.buildTime();
+		} else {
+			time = currentFrame - (this.getHitPoints() / this.type.maxHitPoints()) * this.type.buildTime();
+		}
+		return time;
+	}
+
+	public int getProbableConstructionStart() {
+		return this.probableConstructionStart;
+	}
+
+	public int getLastKnownDistance(TilePosition position) {
+		
+		// compute x distance
+		int xDist = super.getLastKnownTilePosition().getX() - position.getX();
+		if (xDist < 0) {
+			xDist = position.getX() - (super.getLastKnownTilePosition().getX() + this.type.tileWidth());
+			if (xDist < 0)
+				xDist = 0;
+		}
+
+		// compute y distance
+		int yDist = super.getLastKnownTilePosition().getY() - position.getY();
+		if (yDist < 0) {
+			yDist = position.getY() - (super.getLastKnownTilePosition().getY() + this.type.tileHeight());
+			if (yDist < 0) {
+				yDist = 0;
+			}
+		}
+		return (int)Math.sqrt(xDist * xDist + yDist * yDist);
+	}
+
+	public double getLastKnownDistance(Position position) {
+		
+		int left = position.getX() - 1;
+		int top = position.getY() - 1;
+		int right = position.getX() + 1;
+		int bottom = position.getY() + 1;
+
+		// compute x distance
+		int xDist = (super.getLastKnownPosition().getX() - this.type.dimensionLeft()) - right;
+		if (xDist < 0) {
+			xDist = left - (super.getLastKnownPosition().getX() + this.type.dimensionRight());
+			if (xDist < 0)
+				xDist = 0;
+		}
+
+		// compute y distance
+		int yDist = (super.getLastKnownPosition().getY() - this.type.dimensionUp()) - bottom;
+		if (yDist < 0) {
+			yDist = top - (super.getLastKnownPosition().getY() + this.type.dimensionDown());
+			if (yDist < 0) {
+				yDist = 0;
+			}
+		}
+		return (int)Math.sqrt(xDist * xDist + yDist * yDist);
 	}
 }

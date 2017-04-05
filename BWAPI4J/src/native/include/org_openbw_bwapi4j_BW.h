@@ -17,19 +17,42 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame
 
 /*
  * Class:     org_openbw_bwapi4j_BW
- * Method:    getPlayers
- * Signature: ()[Lorg/openbw/bwapi4j/Player;
- */
-JNIEXPORT jobjectArray JNICALL Java_org_openbw_bwapi4j_BW_getPlayers
-  (JNIEnv *, jobject);
-
-/*
- * Class:     org_openbw_bwapi4j_BW
  * Method:    getAllUnitsData
  * Signature: ()[I
  */
 JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllUnitsData
   (JNIEnv *, jobject);
+
+/*
+ * Class:     org_openbw_bwapi4j_BW
+ * Method:    getAllPlayersData
+ * Signature: ()[I
+ */
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllPlayersData
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     org_openbw_bwapi4j_BW
+ * Method:    getPlayerName
+ * Signature: (I)[B
+ */
+JNIEXPORT jbyteArray JNICALL Java_org_openbw_bwapi4j_BW_getPlayerName(JNIEnv *, jobject, jint);
+
+/*
+ * Class:     org_openbw_bwapi4j_BW
+ * Method:    getResearchStatus
+ * Signature: (I)[I
+ */
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getResearchStatus
+  (JNIEnv *, jobject, jint);
+
+/*
+ * Class:     org_openbw_bwapi4j_BW
+ * Method:    getUpgradeStatus
+ * Signature: (I)[I
+ */
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUpgradeStatus
+  (JNIEnv *, jobject, jint);
 
 #ifdef __cplusplus
 }

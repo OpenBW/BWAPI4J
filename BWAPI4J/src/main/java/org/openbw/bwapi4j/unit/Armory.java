@@ -9,8 +9,8 @@ public class Armory extends Building implements Mechanical, ResearchingFacility 
 
 	private Researcher researcher;
 	
-	public Armory(int id) {
-		super(id, UnitType.Terran_Armory);
+	public Armory(int id, int timeSpotted) {
+		super(id, UnitType.Terran_Armory, timeSpotted);
 		this.researcher = new Researcher();
 	}
 
