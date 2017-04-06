@@ -749,7 +749,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_openbw_bwapi4j_BW_getPlayerName(JNIEnv *en
 	return jbArray;
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getResearchStatus(JNIEnv* env, jobject jObj, jint playerID) {
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getResearchStatus(JNIEnv *env, jobject jObj, jint playerID) {
 
 	int index = 0;
 	Player p = Broodwar->getPlayer(playerID);
@@ -765,7 +765,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getResearchStatus(JNIEnv*
 	return result;
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUpgradeStatus(JNIEnv* env, jobject jObj, jint playerID) {
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUpgradeStatus(JNIEnv *env, jobject jObj, jint playerID) {
 
 	int index = 0;
 	Player p = Broodwar->getPlayer(playerID);
