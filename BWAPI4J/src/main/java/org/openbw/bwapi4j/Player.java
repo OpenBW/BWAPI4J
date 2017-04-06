@@ -6,42 +6,56 @@ import java.util.Map;
 
 import org.openbw.bwapi4j.type.PlayerType;
 import org.openbw.bwapi4j.type.Race;
+import org.openbw.bwapi4j.type.TechType;
+import org.openbw.bwapi4j.type.UpgradeType;
 import org.openbw.bwapi4j.unit.Unit;
 
 public class Player {
 
-	public static int ID_INDEX 					= 0;
-	public static int RACE_INDEX 				= 1;
-	public static int POSITION_X_INDEX 			= 2;
-	public static int POSITION_Y_INDEX 			= 3;
-	public static int COLOR_INDEX 				= 4;
-	public static int TEXT_COLOR_INDEX 			= 5;
-	public static int TYPE_INDEX 				= 6;
-	public static int FORCE_ID_INDEX 			= 7;
-	public static int IS_NEUTRAL_INDEX 			= 8;
-	public static int IS_VICTORIOUS_INDEX 		= 9;
-	public static int IS_DEFEATED_INDEX 		= 10;
-	public static int LEFT_GAME_INDEX 			= 11;
-	public static int MINERALS_INDEX 			= 12;
-	public static int GAS_INDEX 				= 13;
-	public static int GATHERED_MINERALS_INDEX 	= 14;
-	public static int GATHERED_GAS_INDEX 		= 15;
-	public static int REPAIRED_MINERALS_INDEX 	= 16;
-	public static int REPAIRED_GAS_INDEX 		= 17;
-	public static int REFUNDED_MINERALS_INDEX 	= 18;
-	public static int REFUNDED_GAS_INDEX 		= 19;
-	public static int SPENT_MINERALS_INDEX 		= 20;
-	public static int SPENT_GAS_INDEX 			= 21;
-	public static int SUPPLY_TOTAL_INDEX 		= 22;
-	public static int UNIT_SCORE_INDEX 			= 23;
-	public static int KILL_SCORE_INDEX 			= 24;
-	public static int BUILDING_SCORE_INDEX 		= 25;
-	public static int RAZING_SCORE_INDEX 		= 26;
-	public static int CUSTOM_SCORE_INDEX 		= 27;
-	public static int IS_OBSERVER_INDEX 		= 28;
-	public static int SUPPLY_USED_INDEX 		= 29;
+	public static int ID_INDEX 						= 0;
+	public static int RACE_INDEX 					= 1;
+	public static int POSITION_X_INDEX 				= 2;
+	public static int POSITION_Y_INDEX 				= 3;
+	public static int COLOR_INDEX 					= 4;
+	public static int TEXT_COLOR_INDEX 				= 5;
+	public static int TYPE_INDEX 					= 6;
+	public static int FORCE_ID_INDEX 				= 7;
+	public static int IS_NEUTRAL_INDEX 				= 8;
+	public static int IS_VICTORIOUS_INDEX 			= 9;
+	public static int IS_DEFEATED_INDEX 			= 10;
+	public static int LEFT_GAME_INDEX 				= 11;
+	public static int MINERALS_INDEX 				= 12;
+	public static int GAS_INDEX 					= 13;
+	public static int GATHERED_MINERALS_INDEX 		= 14;
+	public static int GATHERED_GAS_INDEX 			= 15;
+	public static int REPAIRED_MINERALS_INDEX 		= 16;
+	public static int REPAIRED_GAS_INDEX 			= 17;
+	public static int REFUNDED_MINERALS_INDEX 		= 18;
+	public static int REFUNDED_GAS_INDEX 			= 19;
+	public static int SPENT_MINERALS_INDEX 			= 20;
+	public static int SPENT_GAS_INDEX 				= 21;
+	public static int SUPPLY_TOTAL_INDEX 			= 22;
+	public static int UNIT_SCORE_INDEX 				= 23;
+	public static int KILL_SCORE_INDEX 				= 24;
+	public static int BUILDING_SCORE_INDEX 			= 25;
+	public static int RAZING_SCORE_INDEX 			= 26;
+	public static int CUSTOM_SCORE_INDEX 			= 27;
+	public static int IS_OBSERVER_INDEX 			= 28;
+	public static int SUPPLY_USED_INDEX 			= 29;
+	public static int SUPPLY_TOTAL_ZERG_INDEX 		= 30;
+	public static int SUPPLY_TOTAL_TERRAN_INDEX		= 31;
+	public static int SUPPLY_TOTAL_PROTOSS_INDEX 	= 32;
+	public static int SUPPLY_USED_ZERG_INDEX 		= 33;
+	public static int SUPPLY_USED_TERRAN_INDEX		= 34;
+	public static int SUPPLY_USED_PROTOSS_INDEX		= 35;
+	public static int ALL_UNIT_COUNT_INDEX 			= 36;
+	public static int VISIBLE_UNIT_COUNT_INDEX 		= 37;
+	public static int COMPLETED_UNIT_COUNT_INDEX 	= 38;
+	public static int INCOMPLETE_UNIT_COUNT_INDEX 	= 39;
+	public static int DEAD_UNIT_COUNT_INDEX 		= 40;
+	public static int KILLED_UNIT_COUNT_INDEX 		= 41;
 	
-	public static int TOTAL_PROPERTIES = 30;
+	public static int TOTAL_PROPERTIES = 41;
 	
 	// constant
 	private int id;
@@ -75,27 +89,27 @@ public class Player {
 	private int razingScore;
 	private int customScore;
 	private boolean isObserver;
-	
-	private int[] supplyTotalRace;
 	private int supplyUsed;
+	private int[] supplyTotalRace;
 	private int[] supplyUsedRace;
 	private int allUnitCount;
-	private int[] allUnitCountType;
 	private int visibleUnitCount;
-	private int[] visibleUnitCountType;
 	private int completedUnitCount;
-	private int[] completedUnitCountType;
 	private int incompleteUnitCount;
-	private int[] incompleteUnitCountType;
 	private int deadUnitCount;
-	private int[] deadUnitCountType;
 	private int killedUnitCount;
-	private int[] killedUnitCountType;
+	
+	int[] researchStatus;
+	int[] upgradeStatus;
+	
 	private List<Unit> units;
 	
 	Player(int id, String name) {
+		
 		this.id = id;
 		this.name = name;
+		this.supplyTotalRace = new int[3];
+		this.supplyUsedRace = new int[3];
 	}
 	
 	public void initialize(int[] playerData, int index, Map<Integer, Unit> allUnits) {
@@ -107,7 +121,7 @@ public class Player {
 		this.playerType = PlayerType.values()[playerData[index + Player.TYPE_INDEX]];
 	}
 
-	public void update(int[] playerData, int index) {
+	public void update(int[] playerData, int index, int[] researchStatus, int[] upgradeStatus) {
 		
 		this.forceID = playerData[index + Player.FORCE_ID_INDEX];
 		this.isNeutral = playerData[index + Player.IS_NEUTRAL_INDEX] == 1;
@@ -132,6 +146,21 @@ public class Player {
 		this.customScore = playerData[index + Player.CUSTOM_SCORE_INDEX];
 		this.isObserver = playerData[index + Player.IS_OBSERVER_INDEX] == 1;
 		this.supplyUsed = playerData[index + Player.SUPPLY_USED_INDEX];
+		this.supplyTotalRace[0] = playerData[index + Player.SUPPLY_TOTAL_ZERG_INDEX];
+		this.supplyTotalRace[1] = playerData[index + Player.SUPPLY_TOTAL_TERRAN_INDEX];
+		this.supplyTotalRace[2] = playerData[index + Player.SUPPLY_TOTAL_PROTOSS_INDEX];
+		this.supplyUsedRace[0] = playerData[index + Player.SUPPLY_USED_ZERG_INDEX];
+		this.supplyUsedRace[1] = playerData[index + Player.SUPPLY_USED_TERRAN_INDEX];
+		this.supplyUsedRace[2] = playerData[index + Player.SUPPLY_USED_PROTOSS_INDEX];
+		this.allUnitCount = playerData[index + Player.SUPPLY_USED_PROTOSS_INDEX];
+		this.visibleUnitCount = playerData[index + Player.VISIBLE_UNIT_COUNT_INDEX];
+		this.completedUnitCount = playerData[index + Player.COMPLETED_UNIT_COUNT_INDEX];
+		this.incompleteUnitCount = playerData[index + Player.INCOMPLETE_UNIT_COUNT_INDEX];
+		this.deadUnitCount = playerData[index + Player.DEAD_UNIT_COUNT_INDEX];
+		this.killedUnitCount = playerData[index + Player.KILLED_UNIT_COUNT_INDEX];
+		
+		this.researchStatus = researchStatus;
+		this.upgradeStatus = upgradeStatus;
 	}
 	
 	/**
@@ -389,11 +418,11 @@ public class Player {
 	public int supplyTotal() {
 		return this.supplyTotal;
 	}
-	// TODO
-//	public int supplyTotal(Race race) {
-//		return supplyTotal_native(pointer, race);
-//	}
-//
+
+	public int supplyTotal(Race race) {
+		return this.supplyTotalRace[race.ordinal()];
+	}
+
 	/**
 	 * Retrieves the current amount of supply that the player is using for unit
 	 * control. Parameters race (optional) The race to query the used supply
@@ -404,172 +433,172 @@ public class Player {
 	public int supplyUsed() {
 		return this.supplyUsed;
 	}
-//
-//	public int supplyUsed(Race race) {
-//		return supplyUsed_native(pointer, race);
-//	}
-//
-//	/**
-//	 * Retrieves the total number of units that the player has. If the
-//	 * information about the player is limited, then this function will only
-//	 * return the number of visible units. Parameters unit (optional) The unit
-//	 * type to query. UnitType macros are accepted. If this parameter is
-//	 * omitted, then it will use UnitTypes::AllUnits by default. Returns The
-//	 * total number of units of the given type that the player owns. See also
-//	 * visibleUnitCount, completedUnitCount, incompleteUnitCount
-//	 */
-//	public int allUnitCount() {
-//		return this.allUnitCount;
-//	}
-//
+
+	public int supplyUsed(Race race) {
+		return this.supplyUsedRace[race.ordinal()];
+	}
+
+	/**
+	 * Retrieves the total number of units that the player has. If the
+	 * information about the player is limited, then this function will only
+	 * return the number of visible units. Parameters unit (optional) The unit
+	 * type to query. UnitType macros are accepted. If this parameter is
+	 * omitted, then it will use UnitTypes::AllUnits by default. Returns The
+	 * total number of units of the given type that the player owns. See also
+	 * visibleUnitCount, completedUnitCount, incompleteUnitCount
+	 */
+	public int allUnitCount() {
+		return this.allUnitCount;
+	}
+
 //	public int allUnitCount(UnitType unit) {
 //		return allUnitCount_native(pointer, unit);
 //	}
-//
-//	/**
-//	 * Retrieves the total number of strictly visible units that the player has,
-//	 * even if information on the player is unrestricted. Parameters unit
-//	 * (optional) The unit type to query. UnitType macros are accepted. If this
-//	 * parameter is omitted, then it will use UnitTypes::AllUnits by default.
-//	 * Returns The total number of units of the given type that the player owns,
-//	 * and is visible to the BWAPI player. See also allUnitCount,
-//	 * completedUnitCount, incompleteUnitCount
-//	 */
-//	public int visibleUnitCount() {
-//		return this.visibleUnitCount;
-//	}
-//
+
+	/**
+	 * Retrieves the total number of strictly visible units that the player has,
+	 * even if information on the player is unrestricted. Parameters unit
+	 * (optional) The unit type to query. UnitType macros are accepted. If this
+	 * parameter is omitted, then it will use UnitTypes::AllUnits by default.
+	 * Returns The total number of units of the given type that the player owns,
+	 * and is visible to the BWAPI player. See also allUnitCount,
+	 * completedUnitCount, incompleteUnitCount
+	 */
+	public int visibleUnitCount() {
+		return this.visibleUnitCount;
+	}
+
 //	public int visibleUnitCount(UnitType unit) {
 //		return visibleUnitCount_native(pointer, unit);
 //	}
-//
-//	/**
-//	 * Retrieves the number of completed units that the player has. If the
-//	 * information about the player is limited, then this function will only
-//	 * return the number of visible completed units. Parameters unit (optional)
-//	 * The unit type to query. UnitType macros are accepted. If this parameter
-//	 * is omitted, then it will use UnitTypes::AllUnits by default. Returns The
-//	 * number of completed units of the given type that the player owns. Example
-//	 * usage: bool obtainNextUpgrade(BWAPI::UpgradeType upgType) { BWAPI::Player
-//	 * self = BWAPI::Broodwar->self(); int maxLvl =
-//	 * self->getMaxUpgradeLevel(upgType); int currentLvl =
-//	 * self->getUpgradeLevel(upgType); if ( !self->isUpgrading(upgType) &&
-//	 * currentLvl < maxLvl &&
-//	 * self->completedUnitCount(upgType.whatsRequired(currentLvl+1)) > 0 &&
-//	 * self->completedUnitCount(upgType.whatUpgrades()) > 0 ) return
-//	 * self->getUnits().upgrade(upgType); return false; } See also allUnitCount,
-//	 * visibleUnitCount, incompleteUnitCount
-//	 */
-//	public int completedUnitCount() {
-//		return this.completedUnitCount;
-//	}
-//
+
+	/**
+	 * Retrieves the number of completed units that the player has. If the
+	 * information about the player is limited, then this function will only
+	 * return the number of visible completed units. Parameters unit (optional)
+	 * The unit type to query. UnitType macros are accepted. If this parameter
+	 * is omitted, then it will use UnitTypes::AllUnits by default. Returns The
+	 * number of completed units of the given type that the player owns. Example
+	 * usage: bool obtainNextUpgrade(BWAPI::UpgradeType upgType) { BWAPI::Player
+	 * self = BWAPI::Broodwar->self(); int maxLvl =
+	 * self->getMaxUpgradeLevel(upgType); int currentLvl =
+	 * self->getUpgradeLevel(upgType); if ( !self->isUpgrading(upgType) &&
+	 * currentLvl < maxLvl &&
+	 * self->completedUnitCount(upgType.whatsRequired(currentLvl+1)) > 0 &&
+	 * self->completedUnitCount(upgType.whatUpgrades()) > 0 ) return
+	 * self->getUnits().upgrade(upgType); return false; } See also allUnitCount,
+	 * visibleUnitCount, incompleteUnitCount
+	 */
+	public int completedUnitCount() {
+		return this.completedUnitCount;
+	}
+
 //	public int completedUnitCount(UnitType unit) {
 //		return completedUnitCount_native(pointer, unit);
 //	}
-//
-//	/**
-//	 * Retrieves the number of incomplete units that the player has. If the
-//	 * information about the player is limited, then this function will only
-//	 * return the number of visible incomplete units. Note This function is a
-//	 * macro for allUnitCount() - completedUnitCount(). Parameters unit
-//	 * (optional) The unit type to query. UnitType macros are accepted. If this
-//	 * parameter is omitted, then it will use UnitTypes::AllUnits by default.
-//	 * Returns The number of incomplete units of the given type that the player
-//	 * owns. See also allUnitCount, visibleUnitCount, completedUnitCount
-//	 */
-//	public int incompleteUnitCount() {
-//		return this.incompleteUnitCount;
-//	}
-//
+
+	/**
+	 * Retrieves the number of incomplete units that the player has. If the
+	 * information about the player is limited, then this function will only
+	 * return the number of visible incomplete units. Note This function is a
+	 * macro for allUnitCount() - completedUnitCount(). Parameters unit
+	 * (optional) The unit type to query. UnitType macros are accepted. If this
+	 * parameter is omitted, then it will use UnitTypes::AllUnits by default.
+	 * Returns The number of incomplete units of the given type that the player
+	 * owns. See also allUnitCount, visibleUnitCount, completedUnitCount
+	 */
+	public int incompleteUnitCount() {
+		return this.incompleteUnitCount;
+	}
+
 //	public int incompleteUnitCount(UnitType unit) {
 //		return incompleteUnitCount_native(pointer, unit);
 //	}
-//
-//	/**
-//	 * Retrieves the number units that have died for this player. Parameters
-//	 * unit (optional) The unit type to query. UnitType macros are accepted. If
-//	 * this parameter is omitted, then it will use UnitTypes::AllUnits by
-//	 * default. Returns The total number of units that have died throughout the
-//	 * game.
-//	 */
-//	public int deadUnitCount() {
-//		return this.deadUnitCount;
-//	}
-//
+
+	/**
+	 * Retrieves the number units that have died for this player. Parameters
+	 * unit (optional) The unit type to query. UnitType macros are accepted. If
+	 * this parameter is omitted, then it will use UnitTypes::AllUnits by
+	 * default. Returns The total number of units that have died throughout the
+	 * game.
+	 */
+	public int deadUnitCount() {
+		return this.deadUnitCount;
+	}
+
 //	public int deadUnitCount(UnitType unit) {
 //		return deadUnitCount_native(pointer, unit);
 //	}
-//
-//	/**
-//	 * Retrieves the number units that the player has killed. Parameters unit
-//	 * (optional) The unit type to query. UnitType macros are accepted. If this
-//	 * parameter is omitted, then it will use UnitTypes::AllUnits by default.
-//	 * Returns The total number of units that the player has killed throughout
-//	 * the game.
-//	 */
-//	public int killedUnitCount() {
-//		return this.killedUnitCount;
-//	}
-//
+
+	/**
+	 * Retrieves the number units that the player has killed. Parameters unit
+	 * (optional) The unit type to query. UnitType macros are accepted. If this
+	 * parameter is omitted, then it will use UnitTypes::AllUnits by default.
+	 * Returns The total number of units that the player has killed throughout
+	 * the game.
+	 */
+	public int killedUnitCount() {
+		return this.killedUnitCount;
+	}
+
 //	public int killedUnitCount(UnitType unit) {
 //		return killedUnitCount_native(pointer, unit);
 //	}
-//
-//	/**
-//	 * Retrieves the current upgrade level that the player has attained for a
-//	 * given upgrade type. Parameters upgrade The UpgradeType to query. Returns
-//	 * The number of levels that the upgrade has been upgraded for this player.
-//	 * Example usage: bool obtainNextUpgrade(BWAPI::UpgradeType upgType) {
-//	 * BWAPI::Player self = BWAPI::Broodwar->self(); int maxLvl =
-//	 * self->getMaxUpgradeLevel(upgType); int currentLvl =
-//	 * self->getUpgradeLevel(upgType); if ( !self->isUpgrading(upgType) &&
-//	 * currentLvl < maxLvl &&
-//	 * self->completedUnitCount(upgType.whatsRequired(currentLvl+1)) > 0 &&
-//	 * self->completedUnitCount(upgType.whatUpgrades()) > 0 ) return
-//	 * self->getUnits().upgrade(upgType); return false; } See also
-//	 * UnitInterface::upgrade, getMaxUpgradeLevel
-//	 */
-//	public int getUpgradeLevel(UpgradeType upgrade) {
-//		return getUpgradeLevel_native(pointer, upgrade);
-//	}
-//
-//	/**
-//	 * Checks if the player has already researched a given technology.
-//	 * Parameters tech The TechType to query. Returns true if the player has
-//	 * obtained the given tech, or false if they have not See also
-//	 * isResearching, UnitInterface::research, isResearchAvailable
-//	 */
-//	public boolean hasResearched(TechType tech) {
-//		return hasResearched_native(pointer, tech);
-//	}
-//
-//	/**
-//	 * Checks if the player is researching a given technology type. Parameters
-//	 * tech The TechType to query. Returns true if the player is currently
-//	 * researching the tech, or false otherwise See also
-//	 * UnitInterface::research, hasResearched
-//	 */
-//	public boolean isResearching(TechType tech) {
-//		return isResearching_native(pointer, tech);
-//	}
-//
-//	/**
-//	 * Checks if the player is upgrading a given upgrade type. Parameters
-//	 * upgrade The upgrade type to query. Returns true if the player is
-//	 * currently upgrading the given upgrade, false otherwise Example usage:
-//	 * bool obtainNextUpgrade(BWAPI::UpgradeType upgType) { BWAPI::Player self =
-//	 * BWAPI::Broodwar->self(); int maxLvl = self->getMaxUpgradeLevel(upgType);
-//	 * int currentLvl = self->getUpgradeLevel(upgType); if (
-//	 * !self->isUpgrading(upgType) && currentLvl < maxLvl &&
-//	 * self->completedUnitCount(upgType.whatsRequired(currentLvl+1)) > 0 &&
-//	 * self->completedUnitCount(upgType.whatUpgrades()) > 0 ) return
-//	 * self->getUnits().upgrade(upgType); return false; } See also
-//	 * UnitInterface::upgrade
-//	 */
-//	public boolean isUpgrading(UpgradeType upgrade) {
-//		return isUpgrading_native(pointer, upgrade);
-//	}
+
+	/**
+	 * Retrieves the current upgrade level that the player has attained for a
+	 * given upgrade type. Parameters upgrade The UpgradeType to query. Returns
+	 * The number of levels that the upgrade has been upgraded for this player.
+	 * Example usage: bool obtainNextUpgrade(BWAPI::UpgradeType upgType) {
+	 * BWAPI::Player self = BWAPI::Broodwar->self(); int maxLvl =
+	 * self->getMaxUpgradeLevel(upgType); int currentLvl =
+	 * self->getUpgradeLevel(upgType); if ( !self->isUpgrading(upgType) &&
+	 * currentLvl < maxLvl &&
+	 * self->completedUnitCount(upgType.whatsRequired(currentLvl+1)) > 0 &&
+	 * self->completedUnitCount(upgType.whatUpgrades()) > 0 ) return
+	 * self->getUnits().upgrade(upgType); return false; } See also
+	 * UnitInterface::upgrade, getMaxUpgradeLevel
+	 */
+	public int getUpgradeLevel(UpgradeType upgrade) {
+		return this.upgradeStatus[upgrade.ordinal() * 3 + 1];
+	}
+
+	/**
+	 * Checks if the player has already researched a given technology.
+	 * Parameters tech The TechType to query. Returns true if the player has
+	 * obtained the given tech, or false if they have not See also
+	 * isResearching, UnitInterface::research, isResearchAvailable
+	 */
+	public boolean hasResearched(TechType tech) {
+		return this.researchStatus[tech.ordinal() * 3 + 1] == 1;
+	}
+
+	/**
+	 * Checks if the player is researching a given technology type. Parameters
+	 * tech The TechType to query. Returns true if the player is currently
+	 * researching the tech, or false otherwise See also
+	 * UnitInterface::research, hasResearched
+	 */
+	public boolean isResearching(TechType tech) {
+		return this.researchStatus[tech.ordinal() * 3 + 2] == 1;
+	}
+
+	/**
+	 * Checks if the player is upgrading a given upgrade type. Parameters
+	 * upgrade The upgrade type to query. Returns true if the player is
+	 * currently upgrading the given upgrade, false otherwise Example usage:
+	 * bool obtainNextUpgrade(BWAPI::UpgradeType upgType) { BWAPI::Player self =
+	 * BWAPI::Broodwar->self(); int maxLvl = self->getMaxUpgradeLevel(upgType);
+	 * int currentLvl = self->getUpgradeLevel(upgType); if (
+	 * !self->isUpgrading(upgType) && currentLvl < maxLvl &&
+	 * self->completedUnitCount(upgType.whatsRequired(currentLvl+1)) > 0 &&
+	 * self->completedUnitCount(upgType.whatUpgrades()) > 0 ) return
+	 * self->getUnits().upgrade(upgType); return false; } See also
+	 * UnitInterface::upgrade
+	 */
+	public boolean isUpgrading(UpgradeType upgrade) {
+		return this.upgradeStatus[upgrade.ordinal() * 3 + 2] == 1;
+	}
 
 	/**
 	 * Retrieves the color value of the current player. Returns Color object

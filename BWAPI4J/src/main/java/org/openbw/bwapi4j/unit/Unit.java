@@ -8,13 +8,14 @@ import java.util.stream.Collectors;
 
 import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.Region;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.Order;
 import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
+
+import bwta.Region;
 
 public abstract class Unit implements Comparable<Unit>{
 
@@ -381,9 +382,10 @@ public abstract class Unit implements Comparable<Unit>{
 		return this.getId() - otherUnit.getId();
 	}
 	
+	protected native boolean issueCommand(int unitID, int unitCommandTypeID, int targetUnitID, int x, int y, int extra);
+	
 	//--------------------------------------------------
 	
-	protected native boolean issueCommand(int unitID, int unitCommandTypeID, int targetUnitID, int x, int y, int extra);
 	
 	protected boolean morph(UnitType type) {
 		return issueCommand(this.id, UnitCommandType.Morph.ordinal(), type.getId(), -1, -1, -1);
@@ -428,9 +430,6 @@ public abstract class Unit implements Comparable<Unit>{
 		private int interceptorCount;
 		private int scarabCount;
 		private int spiderMineCount;
-		private int groundWeaponCooldown;
-		private int airWeaponCooldown;
-		private int spellCooldown;
 		private int defenseMatrixPoints;
 		private int defenseMatrixTimer;
 		private int ensnareTimer;
@@ -446,7 +445,6 @@ public abstract class Unit implements Comparable<Unit>{
 		private List<UnitType> trainingQueue;
 		private TechType tech;
 		private UpgradeType uppgrade;
-		private int remainingBuildTime;
 		private int remainingTrainTime;
 		private int remainingResearchTime;
 		private int remainingUpgradeTime;

@@ -11,7 +11,9 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include "org_openbw_bwapi4j_BW.h"
+#include "org_openbw_bwapi4j_InteractionHandler.h"
 #include "org_openbw_bwapi4j_unit_Unit.h"
+
 
 using namespace BWAPI;
 
@@ -708,6 +710,18 @@ int addPlayerDataToBuffer(Player &player, int index) {
 	intBuf[index++] = player->getCustomScore();
 	intBuf[index++] = player->isObserver() ? 1 : 0;
 	intBuf[index++] = player->supplyUsed();
+	intBuf[index++] = player->supplyTotal(Races::Zerg);
+	intBuf[index++] = player->supplyTotal(Races::Terran);
+	intBuf[index++] = player->supplyTotal(Races::Protoss);
+	intBuf[index++] = player->supplyUsed(Races::Zerg);
+	intBuf[index++] = player->supplyUsed(Races::Terran);
+	intBuf[index++] = player->supplyUsed(Races::Protoss);
+	intBuf[index++] = player->allUnitCount();
+	intBuf[index++] = player->visibleUnitCount();
+	intBuf[index++] = player->completedUnitCount();
+	intBuf[index++] = player->incompleteUnitCount();
+	intBuf[index++] = player->deadUnitCount();
+	intBuf[index++] = player->killedUnitCount();
 
 	return index;
 }
@@ -765,4 +779,61 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUpgradeStatus(JNIEnv* 
 	jintArray result = env->NewIntArray(index);
 	env->SetIntArrayRegion(result, 0, index, intBuf);
 	return result;
+}
+
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getGameData(JNIEnv *env, jobject jObj) {
+	
+	int index = 0;
+
+	intBuf[index++] = Broodwar->getLastError();
+	intBuf[index++] = Broodwar->getScreenPosition().x;
+	intBuf[index++] = Broodwar->getScreenPosition().y;
+	intBuf[index++] = Broodwar->getMousePosition().x;
+	intBuf[index++] = Broodwar->getMousePosition().y;
+	intBuf[index++] = Broodwar->getFrameCount();
+	intBuf[index++] = Broodwar->getFPS();
+	intBuf[index++] = Broodwar->isLatComEnabled() ? 1 : 0;
+	intBuf[index++] = Broodwar->getRemainingLatencyFrames();
+	intBuf[index++] = Broodwar->getLatencyFrames();
+	intBuf[index++] = Broodwar->getLatency();
+	
+	jintArray result = env->NewIntArray(index);
+	env->SetIntArrayRegion(result, 0, index, intBuf);
+
+	return result;
+}
+
+JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_InteractionHandler_getKeyState(JNIEnv *env, jobject jObj, jint keyValue) {
+
+	jboolean result = Broodwar->getKeyState((Key)keyValue);
+
+	return result;
+}
+
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enableLatCom(JNIEnv *, jobject jObj, jboolean enabled) {
+
+	Broodwar->setLatCom(enabled != JNI_FALSE);
+}
+
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_leaveGame(JNIEnv *env, jobject jObj) {
+	Broodwar->leaveGame();
+}
+
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_sendText(JNIEnv *env, jobject jObj, jstring message) {
+
+	const char* messagechars = env->GetStringUTFChars(message, 0);
+	Broodwar->sendText("%s", messagechars);
+	env->ReleaseStringUTFChars(message, messagechars);
+}
+
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_setLocalSpeed(JNIEnv *env, jobject jObj, jint speed) {
+	Broodwar->setLocalSpeed(speed);
+}
+
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enablePlayerInteraction(JNIEnv *env, jobject jObj) {
+	Broodwar->enableFlag(Flag::UserInput);
+}
+
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enableCompleteMapInformation(JNIEnv *env, jobject jObj) {
+	Broodwar->enableFlag(Flag::CompleteMapInformation);
 }

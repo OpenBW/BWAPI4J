@@ -1,5 +1,6 @@
 package org.openbw.bwapi4j;
 
+import org.openbw.bwapi4j.type.Key;
 import org.openbw.bwapi4j.unit.Unit;
 
 public class TestListener implements BWEventListener {
@@ -9,6 +10,7 @@ public class TestListener implements BWEventListener {
 	@Override
 	public void onStart() {
 		System.out.println("onStart");
+		this.bw.getInteractionHandler().enablePlayerInteraction();
 	}
 
 	@Override
@@ -18,7 +20,11 @@ public class TestListener implements BWEventListener {
 
 	@Override
 	public void onFrame() {
+		
 		System.out.println("onFrame");
+		if (bw.getInteractionHandler().isKeyPressed(Key.K_D)) {
+			System.out.println("D");
+		}
 		for (Player player : bw.getAllPlayers()) {
 			System.out.println("Player " + player.getName() + " has minerals " + player.minerals());
 		}

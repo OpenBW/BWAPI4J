@@ -1,10 +1,12 @@
-package org.openbw.bwapi4j;
+package bwta;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
+
+import org.openbw.bwapi4j.Position;
 
 /**
  * Represents a region in a StarCraft map.

@@ -56,51 +56,51 @@ public abstract class MobileUnit extends PlayerUnit {
 		return index;
 	}
 	
-	protected boolean attack(Position p) {
+	public boolean attack(Position p) {
 		return attack(p, false);
 	}
 	
-	protected boolean attack(Position p, boolean queued) {
+	public boolean attack(Position p, boolean queued) {
 		return issueCommand(this.id, UnitCommandType.Attack_Move.ordinal(), -1, p.getX(), p.getY(), queued ? 1 : 0);
 	}
 	
-	protected boolean attack(Unit target) {
+	public boolean attack(Unit target) {
 		return attack(target, false);
 	}
 	
-	protected boolean attack(Unit target, boolean queued) {
+	public boolean attack(Unit target, boolean queued) {
 		return issueCommand(this.id, UnitCommandType.Attack_Unit.ordinal(), target.getId(), -1, -1, queued ? 1 : 0);
 	}
 	
-	protected boolean move(Position p) {
+	public boolean move(Position p) {
 		return move(p, false);
 	}
 	
-	protected boolean move(Position p, boolean queued) {
+	public boolean move(Position p, boolean queued) {
 		return issueCommand(this.id, UnitCommandType.Move.ordinal(), -1, p.getX(), p.getY(), queued ? 1 : 0);
 	}
 	
-	protected boolean patrol(Position p) {
+	public boolean patrol(Position p) {
 		return patrol(p, false);
 	}
 	
-	protected boolean patrol(Position p, boolean queued) {
+	public boolean patrol(Position p, boolean queued) {
 		return issueCommand(this.id, UnitCommandType.Patrol.ordinal(), -1, p.getX(), p.getY(), queued ? 1 : 0);
 	}
 	
-	protected boolean holdPosition() {
+	public boolean holdPosition() {
 		return holdPosition(false);
 	}
 	
-	protected boolean holdPosition(boolean queued) {
+	public boolean holdPosition(boolean queued) {
 		return issueCommand(this.id, UnitCommandType.Hold_Position.ordinal(), -1, -1, -1, queued ? 1 : 0);
 	}
 	
-	protected boolean stop(boolean queued) {
+	public boolean stop(boolean queued) {
 		return issueCommand(this.id, UnitCommandType.Stop.ordinal(), -1, -1, -1, queued ? 1 : 0);
 	}
 	
-	protected boolean follow(Unit target, boolean queued) {
+	public boolean follow(Unit target, boolean queued) {
 		return issueCommand(this.id, UnitCommandType.Follow.ordinal(), target.getId(), -1, -1, queued ? 1 : 0);
 	}
 	

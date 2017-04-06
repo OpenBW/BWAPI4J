@@ -33,10 +33,19 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllPlayersData
 
 /*
  * Class:     org_openbw_bwapi4j_BW
+ * Method:    getGameData
+ * Signature: ()[I
+ */
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getGameData
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     org_openbw_bwapi4j_BW
  * Method:    getPlayerName
  * Signature: (I)[B
  */
-JNIEXPORT jbyteArray JNICALL Java_org_openbw_bwapi4j_BW_getPlayerName(JNIEnv *, jobject, jint);
+JNIEXPORT jbyteArray JNICALL Java_org_openbw_bwapi4j_BW_getPlayerName
+  (JNIEnv *, jobject, jint);
 
 /*
  * Class:     org_openbw_bwapi4j_BW

@@ -55,9 +55,7 @@ public class Position extends AbstractPoint<Position>{
 
     @Override
     public int hashCode() {
-        int result = x;
-        result = 31 * result + y;
-        return result;
+        return x  * 256 * 32 + y;
     }
 
 

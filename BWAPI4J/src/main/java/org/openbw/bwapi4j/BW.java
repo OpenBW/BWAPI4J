@@ -19,6 +19,7 @@ public class BW {
 	private static final Logger logger = LogManager.getLogger();
 	
 	private BWEventListener listener;
+	private InteractionHandler interactionHandler;
 	
 	private Map<Integer, Player> players;
 	private Map<Integer, Unit> units;
@@ -28,11 +29,12 @@ public class BW {
 	
 	static {
 		
-		System.setProperty("java.library.path", ".");
+		System.setProperty("java.library.path", "./../BWAPI4JBridge/Release/");
 		
-		logger.debug(new File("../BWAPI4JBridge/Release/BWAPI4JBridge.dll").exists());
+		logger.debug("DLL exists: {}", new File(System.getProperty("java.library.path") + "BWAPI4JBridge.dll").exists());
 		logger.debug(System.getProperty("user.dir"));
-		System.loadLibrary("../BWAPI4JBridge/Release/BWAPI4JBridge");
+		
+		System.loadLibrary(System.getProperty("java.library.path") + "BWAPI4JBridge");
 	}
 	
 	public BW(BWEventListener listener) {
@@ -41,6 +43,7 @@ public class BW {
 		this.units = new HashMap<Integer, Unit>();
 		this.listener = listener;
 		this.unitFactory = new UnitFactory();
+		this.interactionHandler = new InteractionHandler(this);
 		
 		try {
 			charset = Charset.forName("Cp949"); // Korean char set
@@ -53,9 +56,20 @@ public class BW {
 	private native void startGame(BW bw);
 	private native int[] getAllUnitsData();
 	private native int[] getAllPlayersData();
+	private native int[] getGameData();
 	private native byte[] getPlayerName(int playerID);
 	private native int[] getResearchStatus(int playerID);
 	private native int[] getUpgradeStatus(int playerID);
+	
+	public InteractionHandler getInteractionHandler() {
+		return this.interactionHandler;
+	}
+	
+	private void updateGame() {
+		
+		int[] data = this.getAllUnitsData();
+		this.interactionHandler.update(data);
+	}
 	
 	private void updateAllUnits(int frame) {
 		
@@ -94,7 +108,7 @@ public class BW {
 				player.initialize(playerData, index, this.units);
 				logger.debug(" done.");
 			}
-			player.update(playerData, index);
+			player.update(playerData, index, this.getResearchStatus(playerId), this.getUpgradeStatus(playerId));
 		}
 	}
 	
@@ -126,6 +140,7 @@ public class BW {
 	private void onFrame() {
 		
 		this.frame++;
+		updateGame();
 		updateAllPlayers();
 		updateAllUnits(this.frame);
 		listener.onFrame();

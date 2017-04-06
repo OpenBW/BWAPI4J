@@ -3,6 +3,7 @@ package org.openbw.bwapi4j.unit;
 import java.util.Map;
 
 import org.openbw.bwapi4j.Position;
+import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class Factory extends Building implements Mechanical, FlyingBuilding, TrainingFacility {
@@ -10,10 +11,13 @@ public class Factory extends Building implements Mechanical, FlyingBuilding, Tra
 	private Flyer flyer;
 	private Trainer trainer;
 	
+	private MachineShop machineShop;
+	
 	public Factory(int id, int timeSpotted) {
 		super(id, UnitType.Terran_Factory, timeSpotted);
 		this.flyer = new Flyer();
 		this.trainer = new Trainer();
+		this.machineShop = null;
 	}
 
 	@Override
@@ -42,6 +46,19 @@ public class Factory extends Building implements Mechanical, FlyingBuilding, Tra
 		return this.trainer.train(UnitType.Terran_Goliath);
 	}
 
+	public boolean buildMachineShop() {
+		return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), UnitType.Terran_Machine_Shop.getId(), -1, -1, -1);
+	}
+	
+	public MachineShop getMachineShop() {
+		return machineShop;
+	}
+	
+	// TODO probably shouldn't be public
+	public void setMachineShop(MachineShop machineShop) {
+		this.machineShop = machineShop;
+	}
+	
 	@Override
 	public boolean isLifted() {
 		return this.flyer.isLifted();

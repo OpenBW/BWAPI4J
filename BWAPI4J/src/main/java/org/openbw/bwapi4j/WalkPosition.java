@@ -5,12 +5,12 @@ import java.util.Map;
 
 import org.openbw.bwapi4j.util.AbstractPoint;
 
-public class TilePosition extends AbstractPoint<TilePosition>{
+public class WalkPosition extends AbstractPoint<WalkPosition>{
     private int x, y;
 
-    public static final int SIZE_IN_PIXELS = 32;
+    public static final int SIZE_IN_PIXELS = 8;
 
-    public TilePosition(int x, int y) {
+    public WalkPosition(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -21,7 +21,7 @@ public class TilePosition extends AbstractPoint<TilePosition>{
 
     public native boolean isValid();
 
-    public native TilePosition makeValid();
+    public native WalkPosition makeValid();
 
     public native double getLength();
 
@@ -33,22 +33,22 @@ public class TilePosition extends AbstractPoint<TilePosition>{
         return y;
     }
 
-    public static TilePosition Invalid;
+    public static WalkPosition Invalid;
 
-    public static TilePosition None;
+    public static WalkPosition None;
 
-    public static TilePosition Unknown;
+    public static WalkPosition Unknown;
 
-    private static Map<Long, TilePosition> instances = new HashMap<Long, TilePosition>();
+    private static Map<Long, WalkPosition> instances = new HashMap<Long, WalkPosition>();
 
-    private TilePosition(long pointer) {
+    private WalkPosition(long pointer) {
         this.pointer = pointer;
     }
 
-    private static TilePosition get(long pointer) {
-        TilePosition instance = instances.get(pointer);
+    private static WalkPosition get(long pointer) {
+        WalkPosition instance = instances.get(pointer);
         if (instance == null) {
-            instance = new TilePosition(pointer);
+            instance = new WalkPosition(pointer);
             instances.put(pointer, instance);
         }
         return instance;
@@ -60,9 +60,9 @@ public class TilePosition extends AbstractPoint<TilePosition>{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof TilePosition)) return false;
+        if (!(o instanceof WalkPosition)) return false;
 
-        TilePosition that = (TilePosition) o;
+        WalkPosition that = (WalkPosition) o;
 
         if (x != that.x) return false;
         if (y != that.y) return false;
@@ -72,10 +72,10 @@ public class TilePosition extends AbstractPoint<TilePosition>{
 
     @Override
     public int hashCode() {
-        return x * 256 + y;
+        return x * 256 * 4 + y;
     }
 
-    public TilePosition getPoint(){
+    public WalkPosition getPoint() {
         return this;
     }
 

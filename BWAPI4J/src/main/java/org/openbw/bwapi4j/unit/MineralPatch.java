@@ -8,6 +8,8 @@ public class MineralPatch extends Unit {
 
 	private int initialResources;
 	private int resources;
+	private int lastKnownResources;
+	
 	private boolean isBeingGathered;
 	
 	public MineralPatch(int id) {
@@ -30,6 +32,9 @@ public class MineralPatch extends Unit {
 		this.resources = unitData[index  + Unit.RESOURCES_INDEX];
 		this.isBeingGathered = unitData[index  + Unit.IS_BEING_GATHERED_INDEX] == 1;
 		
+		if (super.isVisible) {
+			this.lastKnownResources = this.resources;
+		}
 		return index;
 	}
 	
@@ -39,6 +44,10 @@ public class MineralPatch extends Unit {
 	
 	public int getInitialResources() {
 		return this.initialResources;
+	}
+	
+	public int getLastKnownResources() {
+		return this.lastKnownResources;
 	}
 	
 	public boolean isBeingGathered() {

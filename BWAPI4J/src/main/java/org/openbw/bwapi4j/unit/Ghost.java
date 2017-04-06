@@ -2,6 +2,8 @@ package org.openbw.bwapi4j.unit;
 
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitCommandType;
@@ -9,6 +11,8 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class Ghost extends MobileUnit implements SpellCaster, Organic {
 
+	private static final Logger logger = LogManager.getLogger();
+	
 	private int energy;
 	
 	public Ghost(int id) {
@@ -41,7 +45,12 @@ public class Ghost extends MobileUnit implements SpellCaster, Organic {
 	}
 	
 	public boolean lockdown(Mechanical unit) {
-		return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), ((Unit)unit).getId(), -1, -1, TechType.Lockdown.getId());
+		if (unit instanceof Unit) {
+			return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), ((Unit)unit).getId(), -1, -1, TechType.Lockdown.getId());
+		} else {
+			logger.error("unit {} is not a valid target for lockDown.", unit);
+			return false;
+		}
 	}
 	
 	public boolean nuclearStrike(Position p) {

@@ -1,6 +1,8 @@
-package org.openbw.bwapi4j;
+package bwta;
 
 import java.util.Map;
+
+import org.openbw.bwapi4j.Position;
 
 /**
  * Represents a choke point in a StarCraft map.

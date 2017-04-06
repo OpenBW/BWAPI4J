@@ -8,6 +8,9 @@ public class VespeneGeyser extends Unit {
 
 	private int initialResources;
 	private int resources;
+	private int lastKnownResources;
+	
+	private boolean isBeingGathered;
 	
 	public VespeneGeyser(int id) {
 		super(id, UnitType.Resource_Vespene_Geyser);
@@ -27,7 +30,11 @@ public class VespeneGeyser extends Unit {
 		
 		super.update(unitData, index);
 		this.resources = unitData[index  + Unit.RESOURCES_INDEX];
+		this.isBeingGathered = unitData[index  + Unit.IS_BEING_GATHERED_INDEX] == 1;
 		
+		if (super.isVisible) {
+			this.lastKnownResources = this.resources;
+		}
 		return index;
 	}
 	
@@ -37,5 +44,13 @@ public class VespeneGeyser extends Unit {
 	
 	public int getInitialResources() {
 		return this.initialResources;
+	}
+	
+	public int getLastKnownResources() {
+		return this.lastKnownResources;
+	}
+	
+	public boolean isBeingGathered() {
+		return this.isBeingGathered;
 	}
 }

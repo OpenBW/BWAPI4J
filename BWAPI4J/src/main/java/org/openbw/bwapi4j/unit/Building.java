@@ -114,14 +114,34 @@ public abstract class Building extends PlayerUnit {
 	};
 	
 	protected int probableConstructionStart;
+	protected int remainingBuildTime;
+	private int builderId;
+	
 	
 	Building(int id, UnitType type, int timeSpotted) {
 		super(id, type);
 		this.probableConstructionStart = calculateProbableConstructionStart(timeSpotted);
 	}
 	
-	public int buildTime() {
+	public int update(int[] unitData, int index) {
+		
+		super.update(unitData, index);
+		this.builderId = unitData[index + Unit.BUILD_UNIT_ID_INDEX];
+		this.remainingBuildTime = unitData[index + Unit.REMAINING_BUILD_TIME_INDEX];
+		
+		return index;
+	}
+	
+	public SCV getBuildUnit() {
+		return (SCV) super.getUnit(builderId);
+	}
+	
+	public int getBuildTime() {
 		return this.type.buildTime();
+	}
+	
+	public int getRemainingBuildTime() {
+		return this.remainingBuildTime;
 	}
 
 	private int calculateProbableConstructionStart(int currentFrame) {

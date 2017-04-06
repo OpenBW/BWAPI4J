@@ -23,7 +23,10 @@ public abstract class PlayerUnit extends Unit {
 	protected double velocityX;
 	protected double velocityY;
 	protected boolean isIdle;
-	private boolean isCompleted;
+	protected boolean isCompleted;
+	protected int groundWeaponCooldown;
+	protected int airWeaponCooldown;
+	protected int spellCooldown;
 	
 	protected Player player;
 	
@@ -57,6 +60,9 @@ public abstract class PlayerUnit extends Unit {
 		this.velocityY = unitData[index + Unit.VELOCITY_Y_INDEX] / 100.0;
 		this.isIdle = unitData[index + Unit.IS_IDLE_INDEX] == 1;
 		this.isCompleted = unitData[index + Unit.IS_COMPLETED_INDEX] == 1;
+		this.groundWeaponCooldown = unitData[index  + Unit.GROUND_WEAPON_COOLDOWN_INDEX];
+		this.airWeaponCooldown = unitData[index  + Unit.AIR_WEAPON_COOLDOWN_INDEX];
+		this.spellCooldown = unitData[index  + Unit.SPELL_COOLDOWN_INDEX];
 		
 		if (super.isVisible) {
 			this.lastKnownPosition = super.position;
@@ -97,6 +103,22 @@ public abstract class PlayerUnit extends Unit {
 		return this.hitPoints;
 	}
 	
+	public int getGroundWeaponCooldown() {
+		return groundWeaponCooldown;
+	}
+
+	public int getAirWeaponCooldown() {
+		return airWeaponCooldown;
+	}
+
+	public int getSpellCooldown() {
+		return spellCooldown;
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+
 	public int getInitialHitPoints() {
 		return this.initialHitPoints;
 	}
