@@ -55,7 +55,7 @@ public class Player {
 	public static int DEAD_UNIT_COUNT_INDEX 		= 40;
 	public static int KILLED_UNIT_COUNT_INDEX 		= 41;
 	
-	public static int TOTAL_PROPERTIES = 41;
+	public static int TOTAL_PROPERTIES = 42;
 	
 	// constant
 	private int id;
