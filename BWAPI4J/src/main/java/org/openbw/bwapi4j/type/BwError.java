@@ -1,6 +1,6 @@
 package org.openbw.bwapi4j.type;
 
-public enum Error {
+public enum BwError {
 
 	Unit_Does_Not_Exist,
     Unit_Not_Visible,

@@ -3,6 +3,7 @@ package org.openbw.bwapi4j;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.openbw.bwapi4j.type.BwError;
 import org.openbw.bwapi4j.type.Key;
 import org.openbw.bwapi4j.unit.Unit;
 
@@ -22,10 +23,14 @@ public final class InteractionHandler {
 	public static int REMAINING_LATENCY_FRAMES_INDEX 	= 8;
 	public static int LATENCY_FRAMES_INDEX 				= 9;
 	public static int LATENCY_INDEX 					= 10;
+	public static int SELF_ID_INDEX 					= 11;
+	public static int ENEMY_ID_INDEX 					= 12;
+	
+	public static int TOTAL_PROPERTIES 					= 13;
 	
 	private BW bw;
 	
-	private Error lastError;
+	private BwError lastError;
 	private int screenPositionX;
 	private int screenPositionY;
 	private int mousePositionX;
@@ -36,17 +41,39 @@ public final class InteractionHandler {
 	private int remainingLatencyFrames;
 	private int latencyFrames;
 	private int latency;
+	private int selfId;
+	private int enemyId;
 	
-	public InteractionHandler(BW bw) {
+	/* default */ InteractionHandler(BW bw) {
 		this.bw = bw;
 	}
 	
 	void update(int[] data) {
 		
-		// TODO fill keys
+		this.lastError = BwError.values()[data[LAST_ERROR_INDEX]];
+		this.screenPositionX = data[SCREEN_POSITION_X_INDEX];
+		this.screenPositionY = data[SCREEN_POSITION_Y_INDEX];
+		this.mousePositionX = data[MOUSE_POSITION_X_INDEX];
+		this.mousePositionY = data[MOUSE_POSITION_Y_INDEX];
+		this.frameCount = data[FRAMECOUNT_INDEX];
+		this.fps = data[FPS_INDEX];
+		this.latComEnabled = data[LATCOM_ENABLED_INDEX] == 1;
+		this.remainingLatencyFrames = data[REMAINING_LATENCY_FRAMES_INDEX];
+		this.latencyFrames = data[LATENCY_FRAMES_INDEX];
+		this.latency = data[LATENCY_FRAMES_INDEX];
+		this.selfId = data[SELF_ID_INDEX];
+		this.enemyId = data[ENEMY_ID_INDEX];
 	}
 	
-	public Error getLastError() {
+	public Player self() {
+		return this.bw.getPlayer(this.selfId);
+	}
+	
+	public Player enemy() {
+		return this.bw.getPlayer(this.enemyId);
+	}
+	
+	public BwError getLastError() {
 		return this.lastError;
 	}
 	
@@ -100,7 +127,7 @@ public final class InteractionHandler {
 
 	public native void enableLatCom(boolean enabled);
 	
-	public native void enablePlayerInteraction();
+	public native void enableUserInput();
 	
 	public native void enableCompleteMapInformation();
 }

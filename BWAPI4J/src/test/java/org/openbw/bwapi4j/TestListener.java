@@ -10,7 +10,7 @@ public class TestListener implements BWEventListener {
 	@Override
 	public void onStart() {
 		System.out.println("onStart");
-		this.bw.getInteractionHandler().enablePlayerInteraction();
+		this.bw.getInteractionHandler().enableUserInput();
 	}
 
 	@Override

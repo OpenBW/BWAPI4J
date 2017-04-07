@@ -1,9 +1,9 @@
 package org.openbw.bwapi4j;
 
-import java.awt.Color;
 import java.util.List;
 import java.util.Map;
 
+import org.openbw.bwapi4j.type.Color;
 import org.openbw.bwapi4j.type.PlayerType;
 import org.openbw.bwapi4j.type.Race;
 import org.openbw.bwapi4j.type.TechType;
@@ -116,7 +116,7 @@ public class Player {
 		
 		this.race = Race.values()[playerData[index + Player.RACE_INDEX]];
 		this.startLocation = new TilePosition(playerData[index + Player.POSITION_X_INDEX], playerData[index + Player.POSITION_Y_INDEX]);
-		this.color = new Color(playerData[index + Player.COLOR_INDEX]);
+		this.color = Color.valueOf(playerData[index + Player.COLOR_INDEX]);
 		this.textColor = (char)playerData[index + Player.TEXT_COLOR_INDEX];
 		this.playerType = PlayerType.values()[playerData[index + Player.TYPE_INDEX]];
 	}

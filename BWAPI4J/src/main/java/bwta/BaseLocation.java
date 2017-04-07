@@ -1,75 +1,114 @@
 package bwta;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
+import org.openbw.bwapi4j.unit.Unit;
 
-/**
- * Represents a StarCraft base location.
- * 
- * For a description of fields see: http://code.google.com/p/bwta/wiki/BaseLocation
- */
-public class BaseLocation {
-	
-	public static final int numAttributes = 10;
-	
-	private final Position center;
-	private final TilePosition position;
-	private final Region region;
-	private final int minerals;
-	private final int gas;
-	private final boolean island;
-	private final boolean mineralOnly;
-	private final boolean startLocation;
-	
-	public BaseLocation(int[] data, int index,  Map<Integer, Region> idToRegion) {
-		int x = data[index++];
-		int y = data[index++];
-		center = new Position(x, y);
-		int tx = data[index++];
-		int ty = data[index++];
-		position = new TilePosition(tx, ty);
-		int regionID = data[index++];
-		region = idToRegion.get(regionID);
-		minerals = data[index++];
-		gas = data[index++];
-		island = (data[index++] == 1);
-		mineralOnly = (data[index++] == 1);
-		startLocation = (data[index++] == 1);
-	}
-	
-	/** The Position of the center of the BaseLocation */
-	public Position getCenter() {
-		return center;
-	}
-	
-	/** The Position of the top left of the BaseLocation */
-	public TilePosition getPosition() {
-		return position;
-	}
-	
-	public Region getRegion() {
-		return region;
-	}
-	
-	public int getMinerals() {
-		return minerals;
-	}
-	
-	public int getGas() {
-		return gas;
-	}
-	
-	public boolean isIsland() {
-		return island;
-	}
-	
-	public boolean isMineralOnly() {
-		return mineralOnly;
-	}
-	
-	public boolean isStartLocation() {
-		return startLocation;
-	}
+public class BaseLocation extends PositionedObject 
+{
+
+    public Position getPosition() {
+        return getPosition_native(pointer);
+    }
+
+    public TilePosition getTilePosition() {
+        return getTilePosition_native(pointer);
+    }
+
+    public Region getRegion() {
+        return getRegion_native(pointer);
+    }
+
+    public int minerals() {
+        return minerals_native(pointer);
+    }
+
+    public int gas() {
+        return gas_native(pointer);
+    }
+
+    public List<Unit> getMinerals() {
+        return getMinerals_native(pointer);
+    }
+
+    public List<Unit> getStaticMinerals() {
+        return getStaticMinerals_native(pointer);
+    }
+
+    public List<Unit> getGeysers() {
+        return getGeysers_native(pointer);
+    }
+
+    public double getGroundDistance(BaseLocation other) {
+        return getGroundDistance_native(pointer, other);
+    }
+
+    public double getAirDistance(BaseLocation other) {
+        return getAirDistance_native(pointer, other);
+    }
+
+    public boolean isIsland() {
+        return isIsland_native(pointer);
+    }
+
+    public boolean isMineralOnly() {
+        return isMineralOnly_native(pointer);
+    }
+
+    public boolean isStartLocation() {
+        return isStartLocation_native(pointer);
+    }
+
+
+    private static Map<Long, BaseLocation> instances = new HashMap<Long, BaseLocation>();
+
+    private BaseLocation(long pointer) {
+        this.pointer = pointer;
+    }
+
+    private static BaseLocation get(long pointer) {
+        if (pointer == 0 ) {
+            return null;
+        }
+        BaseLocation instance = instances.get(pointer);
+        if (instance == null ) {
+            instance = new BaseLocation(pointer);
+            instances.put(pointer, instance);
+        }
+        return instance;
+    }
+
+    private long pointer;
+
+    private native Position getPosition_native(long pointer);
+
+    private native TilePosition getTilePosition_native(long pointer);
+
+    private native Region getRegion_native(long pointer);
+
+    private native int minerals_native(long pointer);
+
+    private native int gas_native(long pointer);
+
+    private native List<Unit> getMinerals_native(long pointer);
+
+    private native List<Unit> getStaticMinerals_native(long pointer);
+
+    private native List<Unit> getGeysers_native(long pointer);
+
+    private native double getGroundDistance_native(long pointer, BaseLocation other);
+
+    private native double getAirDistance_native(long pointer, BaseLocation other);
+
+    private native boolean isIsland_native(long pointer);
+
+    private native boolean isMineralOnly_native(long pointer);
+
+    private native boolean isStartLocation_native(long pointer);
+
+
 }

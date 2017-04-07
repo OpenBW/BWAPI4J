@@ -12,6 +12,8 @@
 #include <math.h>
 #include "org_openbw_bwapi4j_BW.h"
 #include "org_openbw_bwapi4j_InteractionHandler.h"
+#include "org_openbw_bwapi4j_DamageEvaluator.h"
+#include "org_openbw_bwapi4j_MapDrawer.h"
 #include "org_openbw_bwapi4j_unit_Unit.h"
 
 
@@ -796,7 +798,9 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getGameData(JNIEnv *env, 
 	intBuf[index++] = Broodwar->getRemainingLatencyFrames();
 	intBuf[index++] = Broodwar->getLatencyFrames();
 	intBuf[index++] = Broodwar->getLatency();
-	
+	intBuf[index++] = Broodwar->self()->getID();
+	intBuf[index++] = Broodwar->enemy()->getID();
+
 	jintArray result = env->NewIntArray(index);
 	env->SetIntArrayRegion(result, 0, index, intBuf);
 
@@ -830,10 +834,78 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_setLocalSpeed(
 	Broodwar->setLocalSpeed(speed);
 }
 
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enablePlayerInteraction(JNIEnv *env, jobject jObj) {
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enableUserInput(JNIEnv *env, jobject jObj) {
 	Broodwar->enableFlag(Flag::UserInput);
 }
 
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enableCompleteMapInformation(JNIEnv *env, jobject jObj) {
 	Broodwar->enableFlag(Flag::CompleteMapInformation);
+}
+
+/*
+//
+//	DamageEvaluator
+//
+*/
+JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_DamageEvaluator_getDamageFrom_1native__Lorg_openbw_bwapi4j_type_UnitType_2Lorg_openbw_bwapi4j_type_UnitType_2Lorg_openbw_bwapi4j_Player_2(JNIEnv *, jobject, jint fromType, jint toType, jint fromPlayer) {
+	return Broodwar->getDamageFrom((UnitType)fromType, (UnitType)toType, Broodwar->getPlayer(fromPlayer));
+}
+
+JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_DamageEvaluator_getDamageFrom_1native__Lorg_openbw_bwapi4j_type_UnitType_2Lorg_openbw_bwapi4j_type_UnitType_2(JNIEnv *, jobject, jint fromType, jint toType) {
+	return Broodwar->getDamageFrom((UnitType)fromType, (UnitType)toType);
+}
+
+JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_DamageEvaluator_getDamageFrom_1native__Lorg_openbw_bwapi4j_type_UnitType_2Lorg_openbw_bwapi4j_type_UnitType_2Lorg_openbw_bwapi4j_Player_2Lorg_openbw_bwapi4j_Player_2(JNIEnv *, jobject, jint fromType, jint toType, jint fromPlayer, jint toPlayer) {
+	return Broodwar->getDamageFrom((UnitType)fromType, (UnitType)toType, Broodwar->getPlayer(fromPlayer), Broodwar->getPlayer(toPlayer));
+}
+
+JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_DamageEvaluator_getDamageTo_1native__Lorg_openbw_bwapi4j_type_UnitType_2Lorg_openbw_bwapi4j_type_UnitType_2Lorg_openbw_bwapi4j_Player_2(JNIEnv *, jobject, jint fromType, jint toType, jint fromPlayer) {
+	return Broodwar->getDamageTo((UnitType)fromType, (UnitType)toType, Broodwar->getPlayer(fromPlayer));
+}
+
+JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_DamageEvaluator_getDamageTo_1native__Lorg_openbw_bwapi4j_type_UnitType_2Lorg_openbw_bwapi4j_type_UnitType_2(JNIEnv *, jobject, jint fromType, jint toType) {
+	return Broodwar->getDamageTo((UnitType)fromType, (UnitType)toType);
+}
+
+JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_DamageEvaluator_getDamageTo_1native__Lorg_openbw_bwapi4j_type_UnitType_2Lorg_openbw_bwapi4j_type_UnitType_2Lorg_openbw_bwapi4j_Player_2Lorg_openbw_bwapi4j_Player_2(JNIEnv *, jobject, jint fromType, jint toType, jint fromPlayer, jint toPlayer) {
+	return Broodwar->getDamageTo((UnitType)fromType, (UnitType)toType, Broodwar->getPlayer(fromPlayer), Broodwar->getPlayer(toPlayer));
+}
+
+/*
+//
+//	DamageEvaluator
+//
+*/
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawCircleMap_1native__IIII(JNIEnv *, jobject, jint x, jint y, jint radius, jint color) {
+	Broodwar->drawCircleMap(x, y, radius, (Color)color);
+}
+
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawCircleMap_1native__IIIIZ(JNIEnv *, jobject, jint x, jint y, jint radius, jint color, jboolean isSolid) {
+	Broodwar->drawCircleMap(x, y, radius, (Color)color, isSolid);
+}
+
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawTextScreen_1native(JNIEnv *env, jobject, jint x, jint y, jstring cstr_format) {
+	const char* messagechars = env->GetStringUTFChars(cstr_format, 0);
+	Broodwar->drawTextScreen(x, y, messagechars);
+}
+
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawBoxMap_1native__IIIII(JNIEnv *, jobject, int left, int top, int right, int bottom, int color) {
+	Broodwar->drawBoxMap(left, top, right, bottom, (Color)color);
+}
+
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawBoxMap_1native__IIIIIZ(JNIEnv *, jobject, int left, int top, int right, int bottom, int color, jboolean isSolid) {
+	Broodwar->drawBoxMap(left, top, right, bottom, (Color)color, isSolid);
+}
+
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawBoxScreen_1native(JNIEnv *, jobject, int left, int top, int right, int bottom, int color, jboolean isSolid) {
+	Broodwar->drawBoxScreen(left, top, right, bottom, (Color)color, isSolid);
+}
+
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawLineMap_1native__IIIII(JNIEnv *, jobject, int x1, int y1, int x2, int y2, int color) {
+	Broodwar->drawLineMap(x1, y1, x2, y2, (Color)color);
+}
+
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawTextMap_1native__IILjava_lang_String_2(JNIEnv *env, jobject, int x, int y, jstring cstr_format) {
+	const char* messagechars = env->GetStringUTFChars(cstr_format, 0);
+	Broodwar->drawTextMap(x, y, messagechars);
 }

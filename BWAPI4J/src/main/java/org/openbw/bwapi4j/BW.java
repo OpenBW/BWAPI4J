@@ -20,6 +20,8 @@ public class BW {
 	
 	private BWEventListener listener;
 	private InteractionHandler interactionHandler;
+	private MapDrawer mapDrawer;
+	private DamageEvaluator damageEvaluator;
 	
 	private Map<Integer, Player> players;
 	private Map<Integer, Unit> units;
@@ -61,13 +63,24 @@ public class BW {
 	private native int[] getResearchStatus(int playerID);
 	private native int[] getUpgradeStatus(int playerID);
 	
+	public BWMap getBWMap() {
+		return null; // TODO
+	}
+	public MapDrawer getMapDrawer() {
+		return mapDrawer;
+	}
+
+	public DamageEvaluator getDamageEvaluator() {
+		return damageEvaluator;
+	}
+
 	public InteractionHandler getInteractionHandler() {
 		return this.interactionHandler;
 	}
 	
 	private void updateGame() {
 		
-		int[] data = this.getAllUnitsData();
+		int[] data = this.getGameData();
 		this.interactionHandler.update(data);
 	}
 	
@@ -112,6 +125,10 @@ public class BW {
 		}
 	}
 	
+	public Player getPlayer(int id) {
+		return this.players.get(id);
+	}
+	
 	public Collection<Player> getAllPlayers() {
 		return this.players.values();
 	}
@@ -127,6 +144,7 @@ public class BW {
 	private void onStart() {
 		
 		this.frame = 0;
+		updateGame();
 		updateAllPlayers();
 		updateAllUnits(this.frame);
 		listener.onStart();

@@ -49,10 +49,10 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enableLatCom
 
 /*
  * Class:     org_openbw_bwapi4j_InteractionHandler
- * Method:    enablePlayerInteraction
+ * Method:    enableUserInput
  * Signature: ()V
  */
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enablePlayerInteraction
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enableUserInput
   (JNIEnv *, jobject);
 
 /*

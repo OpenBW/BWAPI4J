@@ -1,320 +1,80 @@
 package bwta;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.PriorityQueue;
+import java.util.Map;
 
+import org.openbw.bwapi4j.Player;
+import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
-import org.openbw.bwapi4j.WalkPosition;
+import org.openbw.bwapi4j.util.Pair;
 
-/**
- * Stores information about a StarCraft map.
- */
 public class BWTA {
-	public static final int TILE_SIZE = 32;
-	
-	private final TilePosition size;
-	private final String name;
-	private final String fileName;
-	private final String hash;
-	private final int[] heightMap;
-	private final boolean[] buildable;
-	private final boolean[] walkable;
-	/** Walkability of build tiles */
-	private final boolean[] lowResWalkable;
-	
-	// The following are set in initialize() method
-	/** Region ID for each build tile */
-	private int[] regionMap = null;
-	private List<Region> regions = null;
-	private List<ChokePoint> chokePoints = null;
-	private List<BaseLocation> baseLocations = null;
-	private HashMap<Integer, Region> idToRegion = null;
-	
-	public BWTA(int width, int height, String name, String fileName, String hash, int[] heightMap,
-			int[] buildable, int[] walkable) {
-		
-		size = new TilePosition(width, height);
-		this.name = name;
-		this.fileName = fileName;
-		this.hash = hash;
-		assert(heightMap != null && heightMap.length == size.getX() * size.getY());
-		assert(buildable != null && buildable.length == size.getX() * size.getY());
-		assert(walkable != null && walkable.length == size.getX() * size.getY() * 16);
-		this.heightMap = heightMap;
-		this.buildable = new boolean[buildable.length];
-		this.walkable = new boolean[walkable.length];
-		
-		for (int i = 0; i < buildable.length; i++) {
-			this.buildable[i] = (buildable[i] == 1);
-		}
-		
-		for (int i = 0; i < walkable.length; i++) {
-			this.walkable[i] = (walkable[i] == 1);
-		}
-		
-		// Fill lowResWalkable for A* search
-		lowResWalkable = new boolean[width * height];
-		Arrays.fill(lowResWalkable, true);
-		for (int wx = 0; wx < size.getX() * 4; wx++) {
-			for (int wy = 0; wy < size.getY() * 4; wy++) {
-				lowResWalkable[wx / 4 + width * (wy / 4)] &= isWalkable(
-						new WalkPosition(wx, wy));
-			}
-		}
-	}
-	
-	/** Initialise the map with regions and base locations */
-	protected void initialize(int[] regionMapData, int[] regionData,
-			HashMap<Integer, int[]> regionPolygons, int[] chokePointData, int[] baseLocationData) {
-		// regionMap
-		assert(regionMapData != null && regionMapData.length == size.getX() * size.getY());
-		regionMap = regionMapData;
-		
-		// regions
-		regions = new ArrayList<>();
-		if (regionData != null) {
-			for (int index = 0; index < regionData.length; index += Region.numAttributes) {
-				int[] coordinates = regionPolygons.get(regionData[index]);
-				Region region = new Region(regionData, index, coordinates);
-				regions.add(region);
-			}
-		}
-		idToRegion = new HashMap<>();
-		for (Region region : regions) {
-			idToRegion.put(region.getID(), region);
-		}
-		
-		// choke points
-		chokePoints = new ArrayList<>();
-		if (chokePointData != null) {
-			for (int index = 0; index < chokePointData.length; index += ChokePoint.numAttributes) {
-				ChokePoint chokePoint = new ChokePoint(chokePointData, index, idToRegion);
-				chokePoints.add(chokePoint);
-			}
-		}
-		
-		// base locations
-		baseLocations = new ArrayList<>();
-		if (baseLocationData != null) {
-			for (int index = 0; index < baseLocationData.length; index += BaseLocation.numAttributes) {
-				BaseLocation baseLocation = new BaseLocation(baseLocationData, index, idToRegion);
-				baseLocations.add(baseLocation);
-			}
-		}
-		
-		// connect the region graph
-		for (ChokePoint chokePoint : chokePoints) {
-			chokePoint.getFirstRegion().addChokePoint(chokePoint);
-			chokePoint.getFirstRegion().addConnectedRegion(chokePoint.getSecondRegion());
-			chokePoint.getSecondRegion().addChokePoint(chokePoint);
-			chokePoint.getSecondRegion().addConnectedRegion(chokePoint.getFirstRegion());
-		}
-	}
-	
-	/** Get the map size as a Position object */
-	public TilePosition getSize() {
-		return size;
-	}
-	
-	/** The name of the current map */
-	public String getName() {
-		return name;
-	}
-	
-	/** The file name of the current map / replay file */
-	public String getFileName() {
-		return fileName;
-	}
-	
-	/** Returns the sha1 hash of the map file in an alpha-numeric string. */
-	public String getHash() {
-		return hash;
-	}
-	
-	/** Converts a position to a 1-dimensional build tile array index for this map */
-	private int getBuildTileArrayIndex(TilePosition p) {
-		return p.getX() + size.getX() * p.getY();
-	}
-	
-	public int getGroundHeight(TilePosition p) {
-		if (p.isValid()) {
-			return heightMap[getBuildTileArrayIndex(p)];
-		}
-		else {
-			return 0;
-		}
-	}
-	
-	/**
-	 * Works only after initialize(). Returns null if the specified position is invalid. Build tile
-	 * accuracy (so may not precisely agree with region polygons).
-	 */
-	public Region getRegion(TilePosition p) {
-		if (p.isValid()) {
-			return idToRegion.get(regionMap[getBuildTileArrayIndex(p)]);
-		} else {
-			return null;
-		}
-	}
-	
-	public boolean isBuildable(TilePosition p) {
-		if (p.isValid()) {
-			return buildable[getBuildTileArrayIndex(p)];
-		} else {
-			return false;
-		}
-	}
-	
-	public boolean isWalkable(WalkPosition p) {
-		if (p.isValid()) {
-			return walkable[p.getX() + size.getX() * p.getY()];
-		} else {
-			return false;
-		}
-	}
-	
-	/** Checks whether all 16 walk tiles in a build tile are walkable */
-	public boolean isLowResWalkable(TilePosition p) {
-		if (p.isValid()) {
-			return lowResWalkable[getBuildTileArrayIndex(p)];
-		} else {
-			return false;
-		}
-	}
-	
-	/** Works only after initialize() */
-	public List<Region> getRegions() {
-		return Collections.unmodifiableList(regions);
-	}
-	
-	/** Works only after initialize() */
-	public Region getRegion(int regionID) {
-		return idToRegion.get(regionID);
-	}
-	
-	/** Works only after initialize() */
-	public List<ChokePoint> getChokePoints() {
-		return Collections.unmodifiableList(chokePoints);
-	}
-	
-	/** Works only after initialize() */
-	public List<BaseLocation> getBaseLocations() {
-		return Collections.unmodifiableList(baseLocations);
-	}
-	
-	/** Works only after initialize() */
-	public List<BaseLocation> getStartLocations() {
-		List<BaseLocation> startLocations = new ArrayList<>();
-		for (BaseLocation bl : baseLocations) {
-			if (bl.isStartLocation()) {
-				startLocations.add(bl);
-			}
-		}
-		return startLocations;
-	}
-	
-	/**
-	 * Find the shortest walkable distance, in pixels, between two tile positions or -1 if not
-	 * reachable. Works only after initialize(). Ported from BWTA.
-	 */
-	public double getGroundDistance(TilePosition start, TilePosition end) {
-		if (!isConnected(start, end))
-			return -1;
-		return aStarSearchDistance(start, end);
-	}
-	
-	/**
-	 * Based on map connectedness only. Ignores buildings. Works only after initialize(). Ported
-	 * from BWTA.
-	 */
-	public boolean isConnected(TilePosition start, TilePosition end) {
-		if (getRegion(start) == null)
-			return false;
-		if (getRegion(end) == null)
-			return false;
-		return getRegion(start).getAllConnectedRegions().contains(getRegion(end));
-	}
-	
-	/**
-	 * Performs an A* search. Intended to be called from
-	 * {@link #getGroundDistance(int, int, int, int)}. Ported from BWTA.
-	 */
-	private double aStarSearchDistance(TilePosition start, TilePosition end) {
-		// Distance of 10 per build tile, or sqrt(10^2 + 10^2) ~= 14 diagonally
-		final int mvmtCost = 10;
-		final int mvmtCostDiag = 14;
-		PriorityQueue<AStarTile> openTiles = new PriorityQueue<AStarTile>(); // min heap
-		// Map from tile to distance
-		HashMap<TilePosition, Integer> gmap = new HashMap<>();
-		HashSet<TilePosition> closedTiles = new HashSet<>();
-		openTiles.add(new AStarTile(start, 0));
-		gmap.put(start, 0);
-		while (!openTiles.isEmpty()) {
-			TilePosition p = openTiles.poll().tilePos;
-			if (p.equals(end))
-				return gmap.get(p) * TILE_SIZE / (double) mvmtCost;
-			int gvalue = gmap.get(p);
-			closedTiles.add(p);
-			// Explore the neighbours of p
-			int bx = p.getX();
-			int by = p.getY();
-			int minx = Math.max(bx - 1, 0);
-			int maxx = Math.min(bx + 1, size.getX() - 1);
-			int miny = Math.max(by - 1, 0);
-			int maxy = Math.min(by + 1, size.getY() - 1);
-			for (int x = minx; x <= maxx; x++)
-				for (int y = miny; y <= maxy; y++) {
-					TilePosition t = new TilePosition(x, y);
-					if (!isLowResWalkable(t))
-						continue;
-					if (bx != x && by != y
-							&& !isLowResWalkable(new TilePosition(bx, y))
-							&& !isLowResWalkable(new TilePosition(x, by)))
-						continue; // Not diagonally accessible
-					if (closedTiles.contains(t))
-						continue;
-					
-					int g = gvalue + mvmtCost;
-					if (x != bx && y != by)
-						g = gvalue + mvmtCostDiag;
-					int dx = Math.abs(x - end.getX());
-					int dy = Math.abs(y - end.getY());
-					// Heuristic for remaining distance:
-					// min(dx, dy) is the minimum diagonal distance, so costs mvmtCostDiag
-					// abs(dx - dy) is the rest of the distance, so costs mvmtCost
-					int h = Math.abs(dx - dy) * mvmtCost + Math.min(dx, dy) * mvmtCostDiag;
-					int f = g + h;
-					if (!gmap.containsKey(t) || gmap.get(t) > g) {
-						gmap.put(t, g);
-						for (Iterator<AStarTile> it = openTiles.iterator(); it.hasNext();)
-							if (it.next().tilePos.equals(t))
-								it.remove();
-						openTiles.add(new AStarTile(t, f));
-					}
-				}
-		}
-		// Not found
-		return -1;
-	}
-	
-	private static class AStarTile implements Comparable<AStarTile> {
-		TilePosition tilePos;
-		int distPlusCost;
-		
-		public AStarTile(TilePosition tile, int distance) {
-			tilePos = tile;
-			distPlusCost = distance;
-		}
-		
-		@Override
-		public int compareTo(AStarTile o) {
-			return Integer.compare(distPlusCost, o.distPlusCost);
-		}
-	}
+
+    public static native void readMap();
+
+    public static native void analyze();
+
+    public static native void computeDistanceTransform();
+
+    public static native void balanceAnalysis();
+
+    public static native void cleanMemory();
+
+    public static native int getMaxDistanceTransform();
+
+    public static native List<Region> getRegions();
+
+    public static native List<Chokepoint> getChokepoints();
+
+    public static native List<BaseLocation> getBaseLocations();
+
+    public static native List<BaseLocation> getStartLocations();
+
+    public static native List<Polygon> getUnwalkablePolygons();
+
+    public static native BaseLocation getStartLocation(Player player);
+
+    public static native Region getRegion(int x, int y);
+
+    public static native Region getRegion(TilePosition tileposition);
+
+    public static native Region getRegion(Position position);
+
+    public static native Chokepoint getNearestChokepoint(int x, int y);
+
+    public static native Chokepoint getNearestChokepoint(TilePosition tileposition);
+
+    public static native Chokepoint getNearestChokepoint(Position position);
+
+    public static native BaseLocation getNearestBaseLocation(int x, int y);
+
+    public static native BaseLocation getNearestBaseLocation(TilePosition tileposition);
+
+    public static native BaseLocation getNearestBaseLocation(Position position);
+
+    public static native Polygon getNearestUnwalkablePolygon(int x, int y);
+
+    public static native Polygon getNearestUnwalkablePolygon(TilePosition tileposition);
+
+    public static native Position getNearestUnwalkablePosition(Position position);
+
+    public static native boolean isConnected(int x1, int y1, int x2, int y2);
+
+    public static native boolean isConnected(TilePosition a, TilePosition b);
+
+    public static native double getGroundDistance(TilePosition start, TilePosition end);
+
+    public static native Pair<TilePosition, Double> getNearestTilePosition(TilePosition start, List<TilePosition> targets);
+
+    public static native Map<TilePosition, Double> getGroundDistances(TilePosition start, List<TilePosition> targets);
+
+    public static native List<TilePosition> getShortestPath(TilePosition start, TilePosition end);
+
+    public static native List<TilePosition> getShortestPath(TilePosition start, List<TilePosition> targets);
+
+    public static native void buildChokeNodes();
+
+    public static native int getGroundDistance2(TilePosition start, TilePosition end);
+
+
 }
