@@ -36,7 +36,6 @@ public class Polygon {
         return getPoints_native(pointer);
     }
 
-
     private static Map<Long, Polygon> instances = new HashMap<Long, Polygon>();
 
     private Polygon(long pointer) {
@@ -44,11 +43,11 @@ public class Polygon {
     }
 
     private static Polygon get(long pointer) {
-        if (pointer == 0 ) {
+        if (pointer == 0) {
             return null;
         }
         Polygon instance = instances.get(pointer);
-        if (instance == null ) {
+        if (instance == null) {
             instance = new Polygon(pointer);
             instances.put(pointer, instance);
         }
@@ -70,6 +69,5 @@ public class Polygon {
     private native List<Polygon> getHoles_native(long pointer);
 
     private native List<Position> getPoints_native(long pointer);
-
 
 }

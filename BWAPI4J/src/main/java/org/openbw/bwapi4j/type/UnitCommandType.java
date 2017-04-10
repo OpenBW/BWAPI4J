@@ -1,8 +1,8 @@
 package org.openbw.bwapi4j.type;
 
 public enum UnitCommandType {
-	
-	Attack_Move,
+
+    Attack_Move,
     Attack_Unit,
     Build,
     Build_Addon,

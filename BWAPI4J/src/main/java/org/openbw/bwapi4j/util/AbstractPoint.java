@@ -4,11 +4,11 @@ public abstract class AbstractPoint<T extends AbstractPoint> {
 
     public abstract T getPoint();
 
-    public int getX(){
+    public int getX() {
         return getPoint().getX();
     }
 
-    public int getY(){
+    public int getY() {
         return getPoint().getY();
     }
 

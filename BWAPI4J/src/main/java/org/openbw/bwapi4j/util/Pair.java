@@ -1,6 +1,7 @@
 package org.openbw.bwapi4j.util;
 
-public class Pair<K,V> {
+public class Pair<K, V> {
+
     public K first;
     public V second;
 
@@ -14,21 +15,26 @@ public class Pair<K,V> {
 
     @Override
     public String toString() {
-        return "Pair{" +
-                "first=" + first +
-                ", second=" + second +
-                '}';
+        return "Pair{" + "first=" + first + ", second=" + second + '}';
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Pair<?, ?> pair = (Pair<?, ?>) o;
 
-        if (first != null ? !first.equals(pair.first) : pair.first != null) return false;
-        if (second != null ? !second.equals(pair.second) : pair.second != null) return false;
+        if (first != null ? !first.equals(pair.first) : pair.first != null) {
+            return false;
+        }
+        if (second != null ? !second.equals(pair.second) : pair.second != null) {
+            return false;
+        }
 
         return true;
     }

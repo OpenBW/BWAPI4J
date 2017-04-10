@@ -6,8 +6,7 @@ import java.util.Map;
 
 import org.openbw.bwapi4j.Position;
 
-public class Region extends CenteredObject 
-{
+public class Region extends CenteredObject {
 
     public Polygon getPolygon() {
         return getPolygon_native(pointer);
@@ -37,7 +36,6 @@ public class Region extends CenteredObject
         return getMaxDistance_native(pointer);
     }
 
-
     private static Map<Long, Region> instances = new HashMap<Long, Region>();
 
     private Region(long pointer) {
@@ -45,11 +43,11 @@ public class Region extends CenteredObject
     }
 
     private static Region get(long pointer) {
-        if (pointer == 0 ) {
+        if (pointer == 0) {
             return null;
         }
         Region instance = instances.get(pointer);
-        if (instance == null ) {
+        if (instance == null) {
             instance = new Region(pointer);
             instances.put(pointer, instance);
         }
@@ -71,6 +69,5 @@ public class Region extends CenteredObject
     private native List<Region> getReachableRegions_native(long pointer);
 
     private native int getMaxDistance_native(long pointer);
-
 
 }

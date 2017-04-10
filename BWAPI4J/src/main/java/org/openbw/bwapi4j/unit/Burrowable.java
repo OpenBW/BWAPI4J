@@ -5,7 +5,7 @@ package org.openbw.bwapi4j.unit;
  */
 public interface Burrowable {
 
-public boolean burrow();
-	
-	public boolean unburrow();
+    public boolean burrow();
+
+    public boolean unburrow();
 }

@@ -5,9 +5,10 @@ import java.util.Map;
 
 import org.openbw.bwapi4j.util.AbstractPoint;
 
-public class Position extends AbstractPoint<Position>{
+public class Position extends AbstractPoint<Position> {
 
-    private int x, y;
+    private int x;
+    private int y;
 
     public Position(int x, int y) {
         this.x = x;
@@ -42,22 +43,29 @@ public class Position extends AbstractPoint<Position>{
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Position)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Position)) {
+            return false;
+        }
 
         Position position = (Position) o;
 
-        if (x != position.x) return false;
-        if (y != position.y) return false;
+        if (x != position.x) {
+            return false;
+        }
+        if (y != position.y) {
+            return false;
+        }
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return x  * 256 * 32 + y;
+        return x * 256 * 32 + y;
     }
-
 
     private static Map<Long, Position> instances = new HashMap<Long, Position>();
 
@@ -76,11 +84,11 @@ public class Position extends AbstractPoint<Position>{
 
     private long pointer;
 
-    public Position getPoint(){
+    public Position getPoint() {
         return this;
     }
 
-    public TilePosition toTilePosition(){
+    public TilePosition toTilePosition() {
         return new TilePosition(x / TilePosition.SIZE_IN_PIXELS, y / TilePosition.SIZE_IN_PIXELS);
     }
 }

@@ -2,110 +2,98 @@ package org.openbw.bwapi4j;
 
 import java.util.List;
 
-import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.UnitType;
-import org.openbw.bwapi4j.unit.Unit;
 
-import bwta.Region;
-
-/**
- * Contains all map-related bwapi functionality.
- */
 public final class BWMap {
 
-	/* default */ BWMap() {
-	
-	}
-	
-	public List<Region> getAllRegions() {
-		return null;
-	}	
-	
-	public Region getRegion(int pos) {
-		return null;
-	}	
-	
-	public Region getRegionAt(Position position) {
-		return null;
-	}
-	
-	public Region getRegionAt(int x, int y) {
-		return null;
-	}
-	
-	public String mapHash() {
-		return null;
-	}
-	
-	public String mapFileName() {
-		return null;
-	}
-	
-	public int getGroundHeight(TilePosition position) {
-		return 0;
-	}
+    private static int GROUND_HEIGHT = 0;
+    private static int WALKABILITY = 1;
 
-	public int getGroundHeight(int tileX, int tileY) {
-		return 0;
-	}
-	
-	public List<TilePosition> getStartLocations() {
-		return null;
-	}
-	
-	public TilePosition getMyStartLocation() {
-		return null;
-	}
+    private String mapHash;
+    private String mapFileName;
+    private int[][][] mapInfo;
+    private int width;
+    private int height;
 
-	public boolean isVisible(int tileX, int tileY) {
-		return false;
-	}
+    /* default */ BWMap() {
 
-	public boolean isWalkable(int walkX, int walkY) {
-		return false;
-	}
+    }
 
-	public boolean hasPath(Position source, Position destination) {
-		return false;
-	}
-	
-	public int mapWidth() {
-		return 0;
-	}
+    public String mapHash() {
+        return this.mapHash;
+    }
 
-	public int mapHeight() {
-		return 0;
-	}
-	
-	public boolean isVisible(TilePosition position) {
-		return false;
-	}
-	
-	/**
-	 * {@link bwapi.Game#canBuildHere(TilePosition, UnitType)}
-	 */
-	public boolean canBuildHere(TilePosition position, UnitType type) {
-		return false;
-	}
-	
-	public boolean canBuildHere(TilePosition position, UnitType type, boolean accountForUnits) {
-		return false;
-//		if (!accountForUnits) {
-//			return canBuildHere(position, type);
-//		}
-//		if (game.canBuildHere(position, type)) {
-//			for (Unit unit : game.getAllUnits()) {
-//					
-//				if (unit.getTilePosition().getX() + unit.tileWidth() > position.getX() &&  unit.getTilePosition().getX() < position.getX() + type.tileWidth()
-//						&& unit.getTilePosition().getY() + unit.tileHeight() > position.getY() && unit.getTilePosition().getY() < position.getY() + type.tileHeight()) {
-//					
-//					
-//					return false;
-//				}
-//			}
-//			return true;
-//		}
-//		return false;
-	}
+    public String mapFileName() {
+        return this.mapFileName;
+    }
+
+    public int getGroundHeight(TilePosition position) {
+        return this.mapInfo[position.getX() * 4][position.getY() * 4][GROUND_HEIGHT];
+    }
+
+    public int getGroundHeight(int tileX, int tileY) {
+        return this.mapInfo[tileX * 4][tileY * 4][GROUND_HEIGHT];
+    }
+
+    public List<TilePosition> getStartLocations() {
+        return null;
+    }
+
+    public TilePosition getMyStartLocation() {
+        return null;
+    }
+
+    public boolean isWalkable(int walkX, int walkY) {
+        return this.mapInfo[walkX][walkY][WALKABILITY] == 1;
+    }
+
+    public int mapWidth() {
+        return this.width;
+    }
+
+    public int mapHeight() {
+        return this.height;
+    }
+
+    public native boolean isVisible(int tileX, int tileY);
+
+    public boolean isVisible(TilePosition position) {
+        return isVisible(position.getX(), position.getY());
+    }
+
+    private native boolean hasPath(int x1, int y1, int x2, int y2);
+
+    public boolean hasPath(Position source, Position destination) {
+        return hasPath(source.getX(), source.getY(), destination.getX(), destination.getY());
+    }
+
+    private native boolean canBuildHere(int x, int y, int typeId);
+
+    public boolean canBuildHere(TilePosition position, UnitType type) {
+        return canBuildHere(position.getX(), position.getY(), type.getId());
+    }
+
+    public boolean canBuildHere(TilePosition position, UnitType type, boolean accountForUnits) {
+        return false;
+        // if (!accountForUnits) {
+        // return canBuildHere(position, type);
+        // }
+        // if (game.canBuildHere(position, type)) {
+        // for (Unit unit : game.getAllUnits()) {
+        //
+        // if (unit.getTilePosition().getX() + unit.tileWidth() >
+        // position.getX() && unit.getTilePosition().getX() < position.getX() +
+        // type.tileWidth()
+        // && unit.getTilePosition().getY() + unit.tileHeight() >
+        // position.getY() && unit.getTilePosition().getY() < position.getY() +
+        // type.tileHeight()) {
+        //
+        //
+        // return false;
+        // }
+        // }
+        // return true;
+        // }
+        // return false;
+    }
 }

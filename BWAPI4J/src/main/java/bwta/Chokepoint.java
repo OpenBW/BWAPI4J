@@ -6,8 +6,7 @@ import java.util.Map;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.util.Pair;
 
-public class Chokepoint extends CenteredObject 
-{
+public class Chokepoint extends CenteredObject {
 
     public Pair<Region, Region> getRegions() {
         return getRegions_native(pointer);
@@ -33,11 +32,11 @@ public class Chokepoint extends CenteredObject
     }
 
     private static Chokepoint get(long pointer) {
-        if (pointer == 0 ) {
+        if (pointer == 0) {
             return null;
         }
         Chokepoint instance = instances.get(pointer);
-        if (instance == null ) {
+        if (instance == null) {
             instance = new Chokepoint(pointer);
             instances.put(pointer, instance);
         }

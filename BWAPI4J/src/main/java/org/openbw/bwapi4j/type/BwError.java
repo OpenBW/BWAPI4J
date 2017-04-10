@@ -2,7 +2,7 @@ package org.openbw.bwapi4j.type;
 
 public enum BwError {
 
-	Unit_Does_Not_Exist,
+    Unit_Does_Not_Exist,
     Unit_Not_Visible,
     Unit_Not_Owned,
     Unit_Busy,

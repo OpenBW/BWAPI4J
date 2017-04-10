@@ -5,8 +5,10 @@ import java.util.Map;
 
 import org.openbw.bwapi4j.util.AbstractPoint;
 
-public class WalkPosition extends AbstractPoint<WalkPosition>{
-    private int x, y;
+public class WalkPosition extends AbstractPoint<WalkPosition> {
+
+    private int x;
+    private int y;
 
     public static final int SIZE_IN_PIXELS = 8;
 
@@ -56,16 +58,23 @@ public class WalkPosition extends AbstractPoint<WalkPosition>{
 
     private long pointer;
 
-
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof WalkPosition)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof WalkPosition)) {
+            return false;
+        }
 
         WalkPosition that = (WalkPosition) o;
 
-        if (x != that.x) return false;
-        if (y != that.y) return false;
+        if (x != that.x) {
+            return false;
+        }
+        if (y != that.y) {
+            return false;
+        }
 
         return true;
     }
@@ -79,7 +88,7 @@ public class WalkPosition extends AbstractPoint<WalkPosition>{
         return this;
     }
 
-    public Position toPosition(){
+    public Position toPosition() {
         return new Position(x * SIZE_IN_PIXELS, y * SIZE_IN_PIXELS);
     }
 }

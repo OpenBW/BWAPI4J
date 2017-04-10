@@ -5,5 +5,5 @@ package org.openbw.bwapi4j.unit;
  */
 public interface SpellCaster {
 
-	public int getEnergy();
+    public int getEnergy();
 }

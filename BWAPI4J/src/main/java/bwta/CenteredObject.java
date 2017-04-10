@@ -8,7 +8,7 @@ import org.openbw.bwapi4j.util.AbstractPoint;
  */
 public abstract class CenteredObject extends AbstractPoint<Position> {
 
-    public Position getPoint(){
+    public Position getPoint() {
         return getCenter();
     }
 

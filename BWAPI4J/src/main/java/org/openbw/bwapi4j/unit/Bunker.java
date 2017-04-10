@@ -7,35 +7,35 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class Bunker extends Building implements Mechanical {
 
-	private boolean isLoaded;
-	
-	public Bunker(int id, int timeSpotted) {
-		super(id, UnitType.Terran_Bunker, timeSpotted);
-	}
-	
-	@Override
-	public int initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
-		
-		return super.initialize(unitData, index, allUnits);
-		
-	}
+    private boolean isLoaded;
 
-	@Override
-	public int update(int[] unitData, int index) {
-		
-		this.isLoaded = unitData[Unit.IS_LOADED_INDEX] == 1;
-		return super.update(unitData, index);
-	}
-	
-	public boolean isLoaded() {
-		return this.isLoaded;
-	}
-	
-	protected boolean unload(Unit target) {
-		return issueCommand(this.id, UnitCommandType.Unload.ordinal(), target.getId(), -1, -1, -1);
-	}
-	
-	protected boolean unloadAll(boolean queued) {
-		return issueCommand(this.id, UnitCommandType.Unload_All.ordinal(), -1, -1, -1, queued ? 1 : 0);
-	}
+    public Bunker(int id, int timeSpotted) {
+        super(id, UnitType.Terran_Bunker, timeSpotted);
+    }
+
+    @Override
+    public int initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
+
+        return super.initialize(unitData, index, allUnits);
+
+    }
+
+    @Override
+    public int update(int[] unitData, int index) {
+
+        this.isLoaded = unitData[Unit.IS_LOADED_INDEX] == 1;
+        return super.update(unitData, index);
+    }
+
+    public boolean isLoaded() {
+        return this.isLoaded;
+    }
+
+    protected boolean unload(Unit target) {
+        return issueCommand(this.id, UnitCommandType.Unload.ordinal(), target.getId(), -1, -1, -1);
+    }
+
+    protected boolean unloadAll(boolean queued) {
+        return issueCommand(this.id, UnitCommandType.Unload_All.ordinal(), -1, -1, -1, queued ? 1 : 0);
+    }
 }

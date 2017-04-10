@@ -18,7 +18,7 @@ dependencies {
 task generateJniHeaders(type:Exec) {
     def classpath = sourceSets.main.output.classesDir
     def nativeIncludes = "src/native/include"                     
-    commandLine "javah", "-d", nativeIncludes, "-classpath", classpath, "$mainClassName", "org.openbw.bwapi4j.InteractionHandler", "org.openbw.bwapi4j.MapDrawer", "org.openbw.bwapi4j.DamageEvaluator", "org.openbw.bwapi4j.unit.Unit"
+    commandLine "javah", "-d", nativeIncludes, "-classpath", classpath, "$mainClassName", "bwta.BWTA", "org.openbw.bwapi4j.BWMap", "org.openbw.bwapi4j.InteractionHandler", "org.openbw.bwapi4j.MapDrawer", "org.openbw.bwapi4j.DamageEvaluator", "org.openbw.bwapi4j.unit.Unit"
 
     dependsOn classes
 }

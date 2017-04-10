@@ -8,8 +8,7 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.unit.Unit;
 
-public class BaseLocation extends PositionedObject 
-{
+public class BaseLocation extends PositionedObject {
 
     public Position getPosition() {
         return getPosition_native(pointer);
@@ -71,11 +70,11 @@ public class BaseLocation extends PositionedObject
     }
 
     private static BaseLocation get(long pointer) {
-        if (pointer == 0 ) {
+        if (pointer == 0) {
             return null;
         }
         BaseLocation instance = instances.get(pointer);
-        if (instance == null ) {
+        if (instance == null) {
             instance = new BaseLocation(pointer);
             instances.put(pointer, instance);
         }

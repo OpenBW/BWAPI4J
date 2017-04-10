@@ -2,7 +2,7 @@ package org.openbw.bwapi4j.type;
 
 public enum PlayerType {
 
-	None,
+    None,
     Computer,
     Player,
     RescuePassive,
