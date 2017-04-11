@@ -18,6 +18,9 @@ public class BW {
 
     private static final Logger logger = LogManager.getLogger();
 
+    public static int TILE_SIZE = TilePosition.SIZE_IN_PIXELS;
+    public static int WALK_SIZE = WalkPosition.SIZE_IN_PIXELS;
+    
     private BWEventListener listener;
     private InteractionHandler interactionHandler;
     private MapDrawer mapDrawer;
@@ -33,12 +36,14 @@ public class BW {
     static {
 
         System.setProperty("java.library.path", "./../BWAPI4JBridge/Release/");
+//        System.setProperty("java.library.path", "./");
 
         logger.debug("DLL exists: {}",
                 new File(System.getProperty("java.library.path") + "BWAPI4JBridge.dll").exists());
         logger.debug(System.getProperty("user.dir"));
 
         System.loadLibrary(System.getProperty("java.library.path") + "BWAPI4JBridge");
+        logger.debug("DLL loaded.");
     }
 
     public BW(BWEventListener listener) {

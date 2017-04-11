@@ -16,7 +16,7 @@ public class TilePosition extends AbstractPoint<TilePosition> {
         this.x = x;
         this.y = y;
     }
-
+    
     public String toString() {
         return "[" + x + ", " + y + "]";
     }

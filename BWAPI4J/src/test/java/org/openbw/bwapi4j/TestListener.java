@@ -100,6 +100,10 @@ public class TestListener implements BWEventListener {
         System.out.println("onUnitComplete: " + unit);
     }
 
+    /**
+     * Test method.
+     * @param args arguments
+     */
     public static void main(String[] args) {
 
         TestListener listener = new TestListener();

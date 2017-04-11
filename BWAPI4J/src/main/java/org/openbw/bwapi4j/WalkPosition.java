@@ -17,6 +17,11 @@ public class WalkPosition extends AbstractPoint<WalkPosition> {
         this.y = y;
     }
 
+    public WalkPosition(TilePosition p) {
+        this.x = p.getX() * TilePosition.SIZE_IN_PIXELS / WalkPosition.SIZE_IN_PIXELS;
+        this.y = p.getY() * TilePosition.SIZE_IN_PIXELS / WalkPosition.SIZE_IN_PIXELS;
+    }
+    
     public String toString() {
         return "[" + x + ", " + y + "]";
     }
