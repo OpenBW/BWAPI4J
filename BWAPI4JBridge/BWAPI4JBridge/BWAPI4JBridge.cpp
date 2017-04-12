@@ -10,12 +10,14 @@
 #include <stdio.h>
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include <BWTA.h>
 #include "org_openbw_bwapi4j_BW.h"
 #include "org_openbw_bwapi4j_InteractionHandler.h"
 #include "org_openbw_bwapi4j_DamageEvaluator.h"
 #include "org_openbw_bwapi4j_MapDrawer.h"
+#include "org_openbw_bwapi4j_BWMap.h"
 #include "org_openbw_bwapi4j_unit_Unit.h"
-
+#include "bwta_BWTA.h"
 
 using namespace BWAPI;
 
@@ -78,6 +80,14 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 		}
 
 		jclass arrayListClass = env->FindClass("java/util/ArrayList");
+		jmethodID arrayListAdd = env->GetMethodID(arrayListClass, "add", "(Ljava/lang/Object;)Z");
+
+		jclass hashMapClass = env->FindClass("java/util/HashMap");
+		jmethodID hashMapPut = env->GetMethodID(hashMapClass, "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
+
+		jclass integerClass = env->FindClass("java/lang/Integer");
+		jmethodID integerNew = env->GetMethodID(integerClass, "<init>", "(I)V");
+
 		jclass weaponTypeClass = env->FindClass("org/openbw/bwapi4j/type/WeaponType");
 		jclass techTypeClass = env->FindClass("org/openbw/bwapi4j/type/TechType");
 		jclass unitTypeClass = env->FindClass("org/openbw/bwapi4j/type/UnitType");
@@ -87,11 +97,14 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 		jclass raceClass = env->FindClass("org/openbw/bwapi4j/type/Race");
 		jclass unitSizeTypeClass = env->FindClass("org/openbw/bwapi4j/type/UnitSizeType");
 		jclass orderClass = env->FindClass("org/openbw/bwapi4j/type/Order");
+		jclass pairClass = env->FindClass("org/openbw/bwapi4j/util/Pair");
+		jmethodID pairNew = env->GetMethodID(pairClass, "<init>", "(Ljava/lang/Object;Ljava/lang/Object;)V");
+
+		jclass bwMapClass = env->FindClass("org/openbw/bwapi4j/BWMap");
 
 		// read static data: UpgradeType
 		println("reading upgrade types...");
-		const UpgradeType::set& upgradeTypes = UpgradeTypes::allUpgradeTypes();
-		for_each(upgradeTypes.begin(), upgradeTypes.end(), [&env, &upgradeTypeClass, &raceClass, &unitTypeClass](UpgradeType upgradeType) {
+		for (UpgradeType upgradeType : UpgradeTypes::allUpgradeTypes()) {
 
 			if (upgradeType.getName().empty()) {
 				return;
@@ -142,13 +155,12 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 			jobject whatUpgrades = env->GetStaticObjectField(unitTypeClass, env->GetStaticFieldID(unitTypeClass, upgradeType.whatUpgrades().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;"));
 			env->SetObjectField(CurrentUpgradeType, env->GetFieldID(upgradeTypeClass, "whatUpgrades", "Lorg/openbw/bwapi4j/type/UnitType;"), whatUpgrades);
 
-		});
+		}
 		println("done.");
 
 		// read static data: TechType
 		println("reading tech types...");
-		const TechType::set& techTypes = TechTypes::allTechTypes();
-		for_each(techTypes.begin(), techTypes.end(), [&env, &techTypeClass, &raceClass, &weaponTypeClass, &unitTypeClass, &orderClass](TechType techType) {
+		for (TechType techType : TechTypes::allTechTypes()) {
 
 			if (techType.getName().empty()) {
 				return;
@@ -181,13 +193,12 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 			jobject requiredUnit = env->GetStaticObjectField(unitTypeClass, env->GetStaticFieldID(unitTypeClass, techType.requiredUnit().getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;"));
 			env->SetObjectField(CurrentTechType, env->GetFieldID(techTypeClass, "requiredUnit", "Lorg/openbw/bwapi4j/type/UnitType;"), requiredUnit);
 
-		});
+		}
 		println("done.");
 
 		// read static data: WeaponType
 		println("reading weapon types...");
-		const WeaponType::set& weaponTypes = WeaponTypes::allWeaponTypes();
-		for_each(weaponTypes.begin(), weaponTypes.end(), [&env, &weaponTypeClass, &techTypeClass, &unitTypeClass, &upgradeTypeClass, &damageTypeClass, &explosionTypeClass](WeaponType weaponType) {
+		for (WeaponType weaponType : WeaponTypes::allWeaponTypes()) {
 
 			if (weaponType.getName().empty()) {
 				return;
@@ -232,13 +243,12 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 			
 			jobject explosionType = env->GetStaticObjectField(explosionTypeClass, env->GetStaticFieldID(explosionTypeClass, weaponType.explosionType().getName().c_str(), "Lorg/openbw/bwapi4j/type/ExplosionType;"));
 			env->SetObjectField(CurrentWeaponType, env->GetFieldID(weaponTypeClass, "explosionType", "Lorg/openbw/bwapi4j/type/ExplosionType;"), whatUses);
-		});
+		}
 		println("done.");
 
 		// read static data: UnitType
 		println("reading unit types...");
-		const UnitType::set& types = UnitTypes::allUnitTypes();
-		for_each(types.begin(), types.end(), [&env, &unitTypeClass, &raceClass, &upgradeTypeClass, &techTypeClass, &weaponTypeClass, &unitSizeTypeClass, &arrayListClass](UnitType unitType) {
+		for (UnitType unitType : UnitTypes::allUnitTypes()) {
 
 			if (unitType.getName().empty()) {
 				return;
@@ -340,53 +350,55 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 			env->SetObjectField(CurrentUnitType, env->GetFieldID(unitTypeClass, "airWeapon", "Lorg/openbw/bwapi4j/type/WeaponType;"), airWeapon);
 
 			// set complex values
-			jmethodID arrayListAdd = env->GetMethodID(arrayListClass, "add", "(Ljava/lang/Object;)Z");
-
 			jobject upgradesList = env->GetObjectField(CurrentUnitType, env->GetFieldID(unitTypeClass, "upgrades", "Ljava/util/ArrayList;"));
-			const UpgradeType::set& upgradeTypes = unitType.upgrades();
-			for_each(upgradeTypes.begin(), upgradeTypes.end(), [&env, &upgradeTypeClass, &upgradesList, &arrayListAdd](UpgradeType upgradeType) {
+			for(UpgradeType upgradeType : unitType.upgrades()) {
 				
 				jobject upgradesMemberType = env->GetStaticObjectField(upgradeTypeClass, env->GetStaticFieldID(upgradeTypeClass, upgradeType.getName().c_str(), "Lorg/openbw/bwapi4j/type/UpgradeType;"));
 				env->CallObjectMethod(upgradesList, arrayListAdd, upgradesMemberType);
-			});
+			}
 
 			jobject upgradesWhatList = env->GetObjectField(CurrentUnitType, env->GetFieldID(unitTypeClass, "upgradesWhat", "Ljava/util/ArrayList;"));
-			const UpgradeType::set& upgradesWhatTypes = unitType.upgradesWhat();
-			for_each(upgradesWhatTypes.begin(), upgradesWhatTypes.end(), [&env, &upgradeTypeClass, &upgradesWhatList, &arrayListAdd](UpgradeType upgradeType) {
+			for (UpgradeType upgradeType : unitType.upgradesWhat()) {
 
 				jobject upgradesWhatMemberType = env->GetStaticObjectField(upgradeTypeClass, env->GetStaticFieldID(upgradeTypeClass, upgradeType.getName().c_str(), "Lorg/openbw/bwapi4j/type/UpgradeType;"));
 				env->CallObjectMethod(upgradesWhatList, arrayListAdd, upgradesWhatMemberType);
-			});
+			}
 
 			jobject abilitiesList = env->GetObjectField(CurrentUnitType, env->GetFieldID(unitTypeClass, "abilities", "Ljava/util/ArrayList;"));
-			const TechType::set& abilitiesTypes = unitType.abilities();
-			for_each(abilitiesTypes.begin(), abilitiesTypes.end(), [&env, &techTypeClass, &abilitiesList, &arrayListAdd](TechType techType) {
+			for (TechType techType : unitType.abilities()) {
 
 				jobject abilitiesMemberType = env->GetStaticObjectField(techTypeClass, env->GetStaticFieldID(techTypeClass, techType.getName().c_str(), "Lorg/openbw/bwapi4j/type/TechType;"));
 				env->CallObjectMethod(abilitiesList, arrayListAdd, abilitiesMemberType);
-			});
+			}
 
 			jobject researchesWhatList = env->GetObjectField(CurrentUnitType, env->GetFieldID(unitTypeClass, "researchesWhat", "Ljava/util/ArrayList;"));
-			const TechType::set& researchesWhatTypes = unitType.researchesWhat();
-			for_each(researchesWhatTypes.begin(), researchesWhatTypes.end(), [&env, &techTypeClass, &researchesWhatList, &arrayListAdd](TechType techType) {
+			for(TechType techType : unitType.researchesWhat()) {
 
 				jobject researchesWhatMemberType = env->GetStaticObjectField(techTypeClass, env->GetStaticFieldID(techTypeClass, techType.getName().c_str(), "Lorg/openbw/bwapi4j/type/TechType;"));
 				env->CallObjectMethod(researchesWhatList, arrayListAdd, researchesWhatMemberType);
-			});
-			/* TODO:
-
-	private TilePosition tileSize;
-	private Pair<UnitType, Integer> whatBuilds;
-	private Map<UnitType, Integer> requiredUnits;
+			}
 			
-			*/
-		});
+			// create a new Pair object and fill in UnitType,Integer
+			jfieldID whatBuildsField = env->GetStaticFieldID(unitTypeClass, unitType.whatBuilds().first.getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;");
+			jobject whatBuildsType = env->GetStaticObjectField(unitTypeClass, whatBuildsField);
+			
+			jobject pairObject = env->NewObject(pairClass, pairNew, whatBuildsType, env->NewObject(integerClass, integerNew, unitType.whatBuilds().second));
+			env->SetObjectField(CurrentUnitType, env->GetFieldID(unitTypeClass, "whatBuilds", "Lorg.openbw.bwapi4j.util.Pair;"), pairObject);
+			
+			// read existing requiredUnits map and put <UnitType,Integer> entries
+			jobject requiredUnitsMap = env->GetObjectField(CurrentUnitType, env->GetFieldID(unitTypeClass, "requiredUnits", "Ljava/util/HashMap;"));
+			for (auto const& req : unitType.requiredUnits()) {
+
+				jfieldID reqField = env->GetStaticFieldID(unitTypeClass, req.first.getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;");
+				jobject reqType = env->GetStaticObjectField(unitTypeClass, reqField);
+				env->CallObjectMethod(requiredUnitsMap, hashMapPut, reqType, env->NewObject(integerClass, integerNew, req.second));
+			}
+		}
 		println("done.");
 
 		// read static data: Race
 		println("reading race types...");
-		const Race::set& races = Races::allRaces();
-		for_each(races.begin(), races.end(), [&env, &unitTypeClass, &raceClass](Race race) {
+		for (Race race : Races::allRaces()) {
 
 			if (race.getName().empty()) {
 				return;
@@ -413,7 +425,15 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 				env->SetObjectField(CurrentRace, typeField, unitType);
 			}
 
-		});
+		}
+		println("done.");
+
+		// read map information
+		println("reading map information...");
+		jfieldID mapInfoField = env->GetStaticFieldID(bwMapClass, "mapInfo", "[I");
+		
+		jobject mapInfo = env->GetObjectField(bwMapClass, mapInfoField);
+		// TODO...
 		println("done.");
 
 		if (Broodwar->isReplay()) {
@@ -421,7 +441,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 		} else {
 			
 			env->CallObjectMethod(classref, env->GetMethodID(jc, "onStart", "()V"));
-
+			println("game on."); // TODO wtf? if this statement is removed a weird crash occurs... must be some async issue
 			jmethodID onEndCallback = env->GetMethodID(jc, "onEnd", "(Z)V");
 			jmethodID onFrameCallback = env->GetMethodID(jc, "onFrame", "()V");
 			jmethodID onSendCallback = env->GetMethodID(jc, "onSend", "(Ljava.lang.String;)V");
@@ -440,11 +460,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 			jmethodID onUnitCompleteCallback = env->GetMethodID(jc, "onUnitComplete", "(I)V");
 
 			while (Broodwar->isInGame()) {
-
-				// TODO update all relevant objects here
-				// all players
-				// all units
-
+				
 				for (auto &e : Broodwar->getEvents()) {
 
 					switch (e.getType()) {
@@ -909,3 +925,158 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawTextMap_1native__II
 	const char* messagechars = env->GetStringUTFChars(cstr_format, 0);
 	Broodwar->drawTextMap(x, y, messagechars);
 }
+
+/*
+//
+//	BWMap
+//
+*/
+JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMap_isVisible(JNIEnv *, jobject, jint tileX, jint tileY) {
+	return Broodwar->isVisible(tileX, tileX);
+}
+
+JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMap_hasPath(JNIEnv *, jobject, jint x1, jint y1, jint x2, jint y2) {
+	return Broodwar->hasPath(BWAPI::Position(x1, y1), BWAPI::Position(x2, y2));
+}
+
+JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMap_canBuildHere(JNIEnv *, jobject, jint x, jint y, jint typeId) {
+	return Broodwar->canBuildHere(BWAPI::TilePosition(x, y), (UnitType)typeId);
+}
+
+/*
+//
+//	BWTA
+//
+
+JNIEXPORT void JNICALL Java_bwta_BWTA_readMap(JNIEnv *, jclass) {
+	BWTA::readMap();
+}
+
+JNIEXPORT void JNICALL Java_bwta_BWTA_analyze(JNIEnv *, jclass) {
+	BWTA::analyze();
+}
+
+JNIEXPORT void JNICALL Java_bwta_BWTA_computeDistanceTransform(JNIEnv *, jclass) {
+	BWTA::computeDistanceTransform();
+}
+
+JNIEXPORT void JNICALL Java_bwta_BWTA_balanceAnalysis(JNIEnv *, jclass) {
+	BWTA::balanceAnalysis();
+}
+
+JNIEXPORT void JNICALL Java_bwta_BWTA_cleanMemory(JNIEnv *, jclass) {
+	BWTA::cleanMemory();
+}
+
+JNIEXPORT jint JNICALL Java_bwta_BWTA_getMaxDistanceTransform(JNIEnv *, jclass) {
+	return BWTA::getMaxDistanceTransform();
+}
+/*
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getRegions(JNIEnv *, jclass) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getChokepoints(JNIEnv *, jclass) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getBaseLocations(JNIEnv *, jclass) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getStartLocations(JNIEnv *, jclass) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getUnwalkablePolygons(JNIEnv *, jclass) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getStartLocation(JNIEnv *, jclass, jobject) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getRegion__II(JNIEnv *, jclass, jint, jint) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getRegion__Lorg_openbw_bwapi4j_TilePosition_2(JNIEnv *, jclass, jobject) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getRegion__Lorg_openbw_bwapi4j_Position_2(JNIEnv *, jclass, jobject) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getNearestChokepoint__II(JNIEnv *, jclass, jint, jint) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getNearestChokepoint__Lorg_openbw_bwapi4j_TilePosition_2(JNIEnv *, jclass, jobject) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getNearestChokepoint__Lorg_openbw_bwapi4j_Position_2(JNIEnv *, jclass, jobject) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getNearestBaseLocation__II(JNIEnv *, jclass, jint, jint) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getNearestBaseLocation__Lorg_openbw_bwapi4j_TilePosition_2(JNIEnv *, jclass, jobject) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getNearestBaseLocation__Lorg_openbw_bwapi4j_Position_2(JNIEnv *, jclass, jobject) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getNearestUnwalkablePolygon__II(JNIEnv *, jclass, jint, jint) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getNearestUnwalkablePolygon__Lorg_openbw_bwapi4j_TilePosition_2(JNIEnv *, jclass, jobject) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getNearestUnwalkablePosition(JNIEnv *, jclass, jobject) {
+
+}
+
+JNIEXPORT jboolean JNICALL Java_bwta_BWTA_isConnected__IIII(JNIEnv *, jclass, jint, jint, jint, jint) {
+
+}
+
+JNIEXPORT jboolean JNICALL Java_bwta_BWTA_isConnected__Lorg_openbw_bwapi4j_TilePosition_2Lorg_openbw_bwapi4j_TilePosition_2(JNIEnv *, jclass, jobject, jobject) {
+
+}
+
+JNIEXPORT jdouble JNICALL Java_bwta_BWTA_getGroundDistance(JNIEnv *, jclass, jobject, jobject) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getNearestTilePosition(JNIEnv *, jclass, jobject, jobject) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getGroundDistances(JNIEnv *, jclass, jobject, jobject) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getShortestPath__Lorg_openbw_bwapi4j_TilePosition_2Lorg_openbw_bwapi4j_TilePosition_2(JNIEnv *, jclass, jobject, jobject) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getShortestPath__Lorg_openbw_bwapi4j_TilePosition_2Ljava_util_List_2(JNIEnv *, jclass, jobject, jobject) {
+
+}
+
+JNIEXPORT void JNICALL Java_bwta_BWTA_buildChokeNodes(JNIEnv *, jclass) {
+
+}
+
+JNIEXPORT jint JNICALL Java_bwta_BWTA_getGroundDistance2(JNIEnv *, jclass, jobject, jobject) {
+
+}
+*/

@@ -270,7 +270,6 @@ public enum UnitType {
     private UnitSizeType size;
     private int tileWidth;
     private int tileHeight;
-    private TilePosition tileSize;
     private int dimensionLeft;
     private int dimensionUp;
     private int dimensionRight;
@@ -328,7 +327,7 @@ public enum UnitType {
 
     private UnitType() {
 
-        this.whatBuilds = new Pair<UnitType, Integer>();
+        // this.whatBuilds will be created via JNI
         this.requiredUnits = new HashMap<UnitType, Integer>();
         this.abilities = new ArrayList<TechType>();
         this.upgrades = new ArrayList<UpgradeType>();
@@ -585,7 +584,7 @@ public enum UnitType {
      * height (y) of the unit type, in tiles.
      */
     public TilePosition tileSize() {
-        return this.tileSize;
+        return new TilePosition(this.tileWidth, this.tileHeight);
     }
 
     /**

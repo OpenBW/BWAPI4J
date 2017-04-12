@@ -234,6 +234,24 @@
     <ClInclude Include="BWAPI\Client\UnitImpl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BWTA.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BWTA\BaseLocation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BWTA\Chokepoint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BWTA\Polygon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BWTA\RectangleArray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BWTA\Region.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -245,5 +263,8 @@
     <ClCompile Include="dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="BWTA.lib" />
   </ItemGroup>
 </Project>
