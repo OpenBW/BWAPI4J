@@ -46,9 +46,11 @@ namespace BWAPI
         n.erase( std::remove_if(n.begin(), n.end(), [](char const &c){ return isspace(c) || c == '_'; }), n.end() );
 
         // Make lowercase
-        std::transform (n.begin (), n.end (), n.begin (), ::tolower);
+        std::transform(n.begin(), n.end(), n.begin(), 
+          [](std::string::const_reference c) { return static_cast<char>(std::tolower(c)); }
+        );
 
-        result.insert( typeMapT::value_type(n, T(i)) );
+        result.insert( typename typeMapT::value_type(n, T(i)) );
       }
       return result;
     }
@@ -61,7 +63,7 @@ namespace BWAPI
     ///   The id that corresponds to this type. It is typically an integer value that corresponds
     ///   to an internal Broodwar type. If the given id is invalid, then it becomes Types::Unknown.
     /// </param>
-    explicit Type(int id) : tid( id < 0 || id > UnknownId ? UnknownId : id ) {};
+    explicit constexpr Type(int id) : tid( id < 0 || id > UnknownId ? UnknownId : id ) {};
 
     /// <summary>A set type that contains the current type.</summary>
     typedef SetContainer<T> set;
@@ -72,12 +74,12 @@ namespace BWAPI
     /// <summary>Conversion/convenience operator to convert this type to its primitive type.</summary>
     ///
     /// @returns An integer representation of this type.
-    inline operator int() const { return this->tid; };
+    constexpr operator int() const { return this->tid; };
 
     /// <summary>Retrieves this type's identifier as an integer.</summary>
     ///
     /// @returns An integer representation of this type.
-    inline int getID() const { return this->tid; };
+    constexpr int getID() const { return this->tid; };
 
     /// <summary>Checks if the current type has a valid identifier.</summary> The purpose of
     /// this function is to prevent buffer overflows if a type has been handled improperly.
@@ -85,7 +87,7 @@ namespace BWAPI
     /// A type is valid if it is between 0 and Unknown (inclusive).
     ///
     /// @returns true If this type is valid and false otherwise.
-    inline bool isValid() const { return this->tid >= 0 && this->tid <= UnknownId; };
+    constexpr bool isValid() const { return this->tid >= 0 && this->tid <= UnknownId; };
 
     /// <summary>Retrieves the variable name of the type.</summary>
     ///
@@ -113,21 +115,21 @@ namespace BWAPI
     /// <summary>Output stream operator overload.</summary> Allows printing of the type without
     /// calling Type::getName.
     ///
-    /// <param name="out">
+    /// <param name="os">
     ///     The destination output stream.
     /// </param>
     /// <param name="t">
     ///     The type to write as a string.
     /// </param>
-    friend inline std::ostream &operator << (std::ostream &out, const Type<T, UnknownId> &t)
+    friend inline std::ostream &operator << (std::ostream &os, const Type<T, UnknownId> &t)
     {
-      return out << t.getName();
+      return os << t.getName();
     };
     /// @overload
-    friend inline std::wostream &operator << (std::wostream &out, const Type<T, UnknownId> &t)
+    friend inline std::wostream &operator << (std::wostream &os, const Type<T, UnknownId> &t)
     {
       std::wstring wideName{ t.getName().begin(), t.getName().end() };
-      return out << wideName;
+      return os << wideName;
     };
 
     /// <summary>Searches for the type associated with the given string and returns it.</summary>
@@ -145,7 +147,9 @@ namespace BWAPI
       name.erase( std::remove_if(name.begin(), name.end(), [](char const &c){ return isspace(c) || c == '_'; }), name.end() );
 
       // Make lowercase
-      std::transform (name.begin (), name.end (), name.begin (), ::tolower);
+      std::transform(name.begin(), name.end(), name.begin(),
+        [](std::string::const_reference c) { return static_cast<char>(std::tolower(c)); }
+      );
 
       // Find the type
       auto it = typeMap.find(name);

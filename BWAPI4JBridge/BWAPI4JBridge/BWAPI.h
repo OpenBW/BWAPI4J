@@ -29,10 +29,11 @@
 #include <BWAPI/Playerset.h>
 #include <BWAPI/PlayerType.h>
 #include <BWAPI/Position.h>
-#include <BWAPI/PositionUnit.h>
 #include <BWAPI/Race.h>
 #include <BWAPI/Region.h>
 #include <BWAPI/Regionset.h>
+#include <BWAPI/SetContainer.h>
+#include <BWAPI/Streams.h>
 #include <BWAPI/TechType.h>
 #include <BWAPI/TournamentAction.h>
 #include <BWAPI/Type.h>
@@ -44,7 +45,6 @@
 #include <BWAPI/UnitType.h>
 #include <BWAPI/UpgradeType.h>
 #include <BWAPI/WeaponType.h>
-#include <BWAPI/WindowsTypes.h>
 
 /// <summary>The primary namespace for the BWAPI interface.</summary> Everything that is BWAPI is
 /// contained within it.
@@ -65,6 +65,13 @@ namespace BWAPI
   ///
   /// @threadsafe
   bool BWAPI_isDebug();
+  
+  /// <summary>The client version that this header file was compiled with.</summary>
+  /// Used to determine a client's compatibility with the BWAPI server process.
+  ///
+  /// @note This value is purposely high to avoid collisions with revision values.
+  /// @since 4.2.0
+  const int CLIENT_VERSION = 10002;
 }
 
 #endif

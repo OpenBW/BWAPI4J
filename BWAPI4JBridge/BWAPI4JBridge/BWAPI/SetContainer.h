@@ -1,6 +1,5 @@
 #pragma once
 #include <unordered_set>
-#include <set>
 
 namespace BWAPI
 {
@@ -18,14 +17,10 @@ namespace BWAPI
   class SetContainer : public SetContainerUnderlyingT < T, HashT >
   {
   public:
-    SetContainer() : SetContainerUnderlyingT<T, HashT>() {}
-    SetContainer(SetContainer const &other) : SetContainerUnderlyingT<T, HashT>(other) {}
-    SetContainer(SetContainer &&other) : SetContainerUnderlyingT<T, HashT>(std::forward<SetContainer>(other)) {}
-    SetContainer(std::initializer_list<T> ilist) : SetContainerUnderlyingT<T, HashT>(ilist) {}
-    
-    template <class IterT>
-    SetContainer(IterT _begin, IterT _end) : SetContainerUnderlyingT<T, HashT>(_begin, _end) {}
-    
+#ifndef SWIG
+    using SetContainerUnderlyingT<T, HashT>::SetContainerUnderlyingT;
+#endif
+
     /// <summary>Iterates the set and erases each element x where pred(x) returns true.</summary>
     ///
     /// <param name="pred">
@@ -39,7 +34,7 @@ namespace BWAPI
         if (pred(*it)) it = this->erase(it);
         else ++it;
       }
-    };
+    }
 
     /// <summary>Checks if this set contains a specific value.</summary>
     ///
@@ -48,7 +43,7 @@ namespace BWAPI
     /// </param>
     bool contains(T const &value) const
     {
-      return count(value) != 0;
+      return this->count(value) != 0;
     }
   };
 

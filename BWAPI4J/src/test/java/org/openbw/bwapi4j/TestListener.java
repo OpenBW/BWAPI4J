@@ -1,11 +1,15 @@
 package org.openbw.bwapi4j;
 
+import org.openbw.bwapi4j.type.BwError;
+import org.openbw.bwapi4j.type.Color;
 import org.openbw.bwapi4j.type.Key;
+import org.openbw.bwapi4j.type.PlayerType;
 import org.openbw.bwapi4j.unit.Unit;
 
 public class TestListener implements BWEventListener {
 
     private BW bw;
+    private int frame = 0;
 
     @Override
     public void onStart() {
@@ -21,7 +25,7 @@ public class TestListener implements BWEventListener {
     @Override
     public void onFrame() {
 
-        System.out.println("onFrame");
+        System.out.println("onFrame " + frame++);
         if (bw.getInteractionHandler().isKeyPressed(Key.K_D)) {
             System.out.println("D");
         }
@@ -106,6 +110,11 @@ public class TestListener implements BWEventListener {
      */
     public static void main(String[] args) {
 
+        new TilePosition(1, 1);
+        BwError.values();
+        Color.values();
+        PlayerType.values();
+        
         TestListener listener = new TestListener();
         BW bw = new BW(listener);
         listener.bw = bw;

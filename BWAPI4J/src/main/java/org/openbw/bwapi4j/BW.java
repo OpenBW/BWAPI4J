@@ -73,7 +73,7 @@ public class BW {
 
     private native int[] getGameData();
 
-    private native byte[] getPlayerName(int playerId);
+    private native String getPlayerName(int playerId);
 
     private native int[] getResearchStatus(int playerId);
 
@@ -128,7 +128,7 @@ public class BW {
     private void updateAllPlayers() {
 
         int[] playerData = this.getAllPlayersData();
-
+        
         for (int index = 0; index < playerData.length; index += Player.TOTAL_PROPERTIES) {
 
             int playerId = playerData[index + 0];
@@ -136,10 +136,11 @@ public class BW {
             if (player == null) {
 
                 logger.debug("creating player for id " + playerId + " ...");
-                String playerName = new String(this.getPlayerName(playerId), this.charset);
-                player = new Player(playerId, playerName);
+                //String playerName = new String(this.getPlayerName(playerId), this.charset);
+                player = new Player(playerId, this.getPlayerName(playerId));
+                logger.debug("player name: {}", player.getName());
                 this.players.put(playerId, player);
-                player.initialize(playerData, index, this.units);
+                player.initialize(playerData, index);
                 logger.debug(" done.");
             }
             player.update(playerData, index, this.getResearchStatus(playerId), this.getUpgradeStatus(playerId));

@@ -1,22 +1,24 @@
 package org.openbw.bwapi4j;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openbw.bwapi4j.type.UnitType;
 
 public final class BWMap {
 
-    private static int GROUND_HEIGHT = 0;
-    private static int WALKABILITY = 1;
-
     private String mapHash;
     private String mapFileName;
-    private int[][][] mapInfo;
+    // Walk resolution
+    private int[][] walkabilityInfo;
+    // Tile resolution
+    private int[][] groundInfo;
     private int width;
     private int height;
+    private ArrayList<TilePosition> startLocations;
 
     /* default */ BWMap() {
-
+        this.startLocations = new ArrayList<TilePosition>();
     }
 
     public String mapHash() {
@@ -28,23 +30,19 @@ public final class BWMap {
     }
 
     public int getGroundHeight(TilePosition position) {
-        return this.mapInfo[position.getX() * 4][position.getY() * 4][GROUND_HEIGHT];
+        return this.groundInfo[position.getX()][position.getY()];
     }
 
     public int getGroundHeight(int tileX, int tileY) {
-        return this.mapInfo[tileX * 4][tileY * 4][GROUND_HEIGHT];
+        return this.groundInfo[tileX][tileY];
     }
 
     public List<TilePosition> getStartLocations() {
-        return null;
-    }
-
-    public TilePosition getMyStartLocation() {
-        return null;
+        return this.startLocations;
     }
 
     public boolean isWalkable(int walkX, int walkY) {
-        return this.mapInfo[walkX][walkY][WALKABILITY] == 1;
+        return this.walkabilityInfo[walkX][walkY] == 1;
     }
 
     public int mapWidth() {
@@ -73,6 +71,7 @@ public final class BWMap {
         return canBuildHere(position.getX(), position.getY(), type.getId());
     }
 
+    // TODO where to move this?
     public boolean canBuildHere(TilePosition position, UnitType type, boolean accountForUnits) {
         return false;
         // if (!accountForUnits) {

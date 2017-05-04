@@ -1,6 +1,5 @@
 package bwta;
 
-import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.util.AbstractPoint;
 
 /**

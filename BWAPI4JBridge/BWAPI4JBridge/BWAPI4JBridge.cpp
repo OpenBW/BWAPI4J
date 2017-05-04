@@ -17,7 +17,7 @@
 #include "org_openbw_bwapi4j_MapDrawer.h"
 #include "org_openbw_bwapi4j_BWMap.h"
 #include "org_openbw_bwapi4j_unit_Unit.h"
-#include "bwta_BWTA.h"
+//#include "bwta_BWTA.h"
 
 using namespace BWAPI;
 
@@ -60,7 +60,7 @@ JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_Unit_issueCommand(JNIEnv
 	return JNI_FALSE;
 }
 
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobject jObj, jobject classref) {
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobject bwObject, jobject classref) {
 
 	jclass jc = env->GetObjectClass(classref);
 
@@ -88,6 +88,9 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 		jclass integerClass = env->FindClass("java/lang/Integer");
 		jmethodID integerNew = env->GetMethodID(integerClass, "<init>", "(I)V");
 
+		jclass tilePositionClass = env->FindClass("org/openbw/bwapi4j/TilePosition");
+		jmethodID tilePositionNew = env->GetMethodID(tilePositionClass, "<init>", "(II)V");
+
 		jclass weaponTypeClass = env->FindClass("org/openbw/bwapi4j/type/WeaponType");
 		jclass techTypeClass = env->FindClass("org/openbw/bwapi4j/type/TechType");
 		jclass unitTypeClass = env->FindClass("org/openbw/bwapi4j/type/UnitType");
@@ -101,6 +104,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 		jmethodID pairNew = env->GetMethodID(pairClass, "<init>", "(Ljava/lang/Object;Ljava/lang/Object;)V");
 
 		jclass bwMapClass = env->FindClass("org/openbw/bwapi4j/BWMap");
+		jmethodID bwMapNew = env->GetMethodID(bwMapClass, "<init>", "()V");
 
 		// read static data: UpgradeType
 		println("reading upgrade types...");
@@ -414,7 +418,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 
 			// set unit types
 			const char* fieldNames[] = { "worker", "center", "refinery", "transport", "supplyProvider" };
-			const char* fieldValues[] = { race.getWorker().getName().c_str(), race.getCenter().getName().c_str(), race.getRefinery().getName().c_str(), race.getTransport().getName().c_str(), race.getSupplyProvider().getName().c_str() };
+			const char* fieldValues[] = { race.getWorker().getName().c_str(), race.getResourceDepot().getName().c_str(), race.getRefinery().getName().c_str(), race.getTransport().getName().c_str(), race.getSupplyProvider().getName().c_str() };
 
 			for (int i = 0; i < 5; i++) {
 				
@@ -427,19 +431,75 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 
 		}
 		println("done.");
-
+		
 		// read map information
 		println("reading map information...");
-		jfieldID mapInfoField = env->GetStaticFieldID(bwMapClass, "mapInfo", "[I");
+		jfieldID bwMapField = env->GetFieldID(jc, "bwMap", "Lorg/openbw/bwapi4j/BWMap;");
+		jobject bwMap = env->GetObjectField(bwObject, bwMapField);
+
+		// set mapHash
+		jfieldID mapHashField = env->GetFieldID(bwMapClass, "mapHash", "Ljava.lang.String;");
+		jstring mapHash = env->NewStringUTF(Broodwar->mapHash().c_str());
+		env->SetObjectField(bwMap, mapHashField, mapHash);
+
+		//set mapFileName
+		jfieldID mapFileNameField = env->GetFieldID(bwMapClass, "mapFileName", "Ljava.lang.String;");
+		jstring mapFileName = env->NewStringUTF(Broodwar->mapFileName().c_str());
+		env->SetObjectField(bwMap, mapFileNameField, mapFileName);
+
+		// set width
+		jfieldID mapWidthField = env->GetFieldID(bwMapClass, "width", "I");
+		env->SetIntField(bwMap, mapWidthField, (jint)Broodwar->mapWidth());
 		
-		jobject mapInfo = env->GetObjectField(bwMapClass, mapInfoField);
-		// TODO...
+		// set height
+		jfieldID mapHeightField = env->GetFieldID(bwMapClass, "height", "I");
+		env->SetIntField(bwMap, mapHeightField, (jint)Broodwar->mapHeight());
+
+		// set groundInfo (tile resolution)
+		jfieldID groundInfoField = env->GetFieldID(bwMapClass, "groundInfo", "[Ljava/lang/Object;");
+		jobject* groundInfo2D = new jobject[Broodwar->mapWidth()];
+		jobjectArray groundInfo2DArray = env->NewObjectArray(Broodwar->mapWidth(), env->GetObjectClass(env->NewIntArray(Broodwar->mapHeight())), 0);
+		for (int i = 0; i < Broodwar->mapWidth(); ++i) {
+
+			jint* groundInfo = new jint[Broodwar->mapHeight()];
+			for (int j = 0; j < Broodwar->mapHeight(); ++j) {
+				groundInfo[j] = Broodwar->getGroundHeight(i, j);
+			}
+			jintArray groundInfoArray = env->NewIntArray(Broodwar->mapHeight());
+			env->SetIntArrayRegion(groundInfoArray, 0, Broodwar->mapHeight(), groundInfo);
+			env->SetObjectArrayElement(groundInfo2DArray, i, groundInfoArray);
+		}
+		env->SetObjectField(bwMap, groundInfoField, groundInfo2DArray);
+
+		// set walkabilityInfo (mini-tile resolution)
+		jfieldID walkabilityInfoField = env->GetFieldID(bwMapClass, "walkabilityInfo", "[Ljava/lang/Object;");
+		jobject* walkabilityInfo2D = new jobject[Broodwar->mapWidth() * 4];
+		jobjectArray walkabilityInfo2DArray = env->NewObjectArray(Broodwar->mapWidth() * 4, env->GetObjectClass(env->NewIntArray(Broodwar->mapHeight() * 4)), 0);
+		for (int i = 0; i < Broodwar->mapWidth(); ++i) {
+
+			jint* walkabilityInfo = new jint[Broodwar->mapHeight() * 4];
+			for (int j = 0; j < Broodwar->mapHeight() * 4; ++j) {
+				walkabilityInfo[j] = Broodwar->isWalkable(i, j) ? 1 : 0;
+			}
+			jintArray walkabilityInfoArray = env->NewIntArray(Broodwar->mapHeight() * 4);
+			env->SetIntArrayRegion(walkabilityInfoArray, 0, Broodwar->mapHeight(), walkabilityInfo);
+			env->SetObjectArrayElement(walkabilityInfo2DArray, i, walkabilityInfoArray);
+		}
+		env->SetObjectField(bwMap, walkabilityInfoField, walkabilityInfo2DArray);
+		
+		// set starting locations
+		jobject startLocationsList = env->GetObjectField(bwMap, env->GetFieldID(bwMapClass, "startLocations", "Ljava/util/ArrayList;"));
+		for (TilePosition tilePosition : Broodwar->getStartLocations()) {
+			jobject startLocation = env->NewObject(tilePositionClass, tilePositionNew, tilePosition.x, tilePosition.y);
+			env->CallObjectMethod(startLocationsList, arrayListAdd, startLocation);
+		}
+
 		println("done.");
 
 		if (Broodwar->isReplay()) {
 
 		} else {
-			
+			println("test");
 			env->CallObjectMethod(classref, env->GetMethodID(jc, "onStart", "()V"));
 			println("game on."); // TODO wtf? if this statement is removed a weird crash occurs... must be some async issue
 			jmethodID onEndCallback = env->GetMethodID(jc, "onEnd", "(Z)V");
@@ -758,13 +818,17 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllPlayersData(JNIEnv 
 	return result;
 }
 
-JNIEXPORT jbyteArray JNICALL Java_org_openbw_bwapi4j_BW_getPlayerName(JNIEnv *env, jobject jObj, jint playerID) {
+JNIEXPORT jstring JNICALL Java_org_openbw_bwapi4j_BW_getPlayerName(JNIEnv *env, jobject jObj, jint playerID) {
 
-	// NewStringUTF causes issues with unusual characters like Korean symbols
+	// NewStringUTF can cause issues with unusual characters like Korean symbols
+	return env->NewStringUTF(Broodwar->getPlayer(playerID)->getName().c_str());
+	/* alternatively, use byte array:
 	std::string str = Broodwar->getPlayer(playerID)->getName();
 	jbyteArray jbArray = env->NewByteArray(str.length());
 	env->SetByteArrayRegion(jbArray, 0, str.length(), (jbyte*)str.c_str());
+	
 	return jbArray;
+	*/
 }
 
 JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getResearchStatus(JNIEnv *env, jobject jObj, jint playerID) {
@@ -802,7 +866,6 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUpgradeStatus(JNIEnv *
 JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getGameData(JNIEnv *env, jobject jObj) {
 	
 	int index = 0;
-
 	intBuf[index++] = Broodwar->getLastError();
 	intBuf[index++] = Broodwar->getScreenPosition().x;
 	intBuf[index++] = Broodwar->getScreenPosition().y;
@@ -816,7 +879,6 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getGameData(JNIEnv *env, 
 	intBuf[index++] = Broodwar->getLatency();
 	intBuf[index++] = Broodwar->self()->getID();
 	intBuf[index++] = Broodwar->enemy()->getID();
-
 	jintArray result = env->NewIntArray(index);
 	env->SetIntArrayRegion(result, 0, index, intBuf);
 

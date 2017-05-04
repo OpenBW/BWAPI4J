@@ -16,7 +16,7 @@ namespace BWAPI
   template<int Scale> class Point<char, Scale> {};
   template<int Scale> class Point<unsigned char, Scale> {};
   template<int Scale> class Point<bool, Scale> {};
-  
+
   /// <summary>The Point class is a base class that implements convenience members and performs
   /// conversions for several different position scales.</summary> It is intended to be inherited
   /// or typedef'd for use with BWAPI. Users can extend the Point class, and implement their own
@@ -195,21 +195,21 @@ namespace BWAPI
     /// <summary>Ouput stream operator overload. Outputs the Point in the format "(x,y)" without
     /// quotations.</summary>
     ///
-    /// <param name="out">
+    /// <param name="os">
     ///   Output stream.
     /// </param>
     /// <param name="pt">
     ///   Point to output.
     /// </param>
     /// @returns Output stream \p out.
-    friend std::ostream &operator << (std::ostream &out, const Point<T, Scale> &pt)
+    friend std::ostream &operator << (std::ostream &os, const Point<T, Scale> &pt)
     {
-      return out << '(' << pt.x << ',' << pt.y << ')';
+      return os << '(' << pt.x << ',' << pt.y << ')';
     };
     /// @overload
-    friend std::wostream &operator << (std::wostream &out, const Point<T, Scale> &pt)
+    friend std::wostream &operator << (std::wostream &os, const Point<T, Scale> &pt)
     {
-      return out << L'(' << pt.x << L',' << pt.y << L')';
+      return os << L'(' << pt.x << L',' << pt.y << L')';
     };
 
     /// <summary>Input stream operator overload. Reads the input in the form "x y" without
@@ -257,6 +257,8 @@ namespace BWAPI
 
     /// <summary>Gets an accurate distance measurement from this point to the given position.</summary>
     ///
+    /// @note This is a direct distance calculation that ignores all collision.
+    ///
     /// @note This function impedes performance. In most cases you should use getApproxDistance.
     ///
     /// <param name="position">
@@ -284,6 +286,8 @@ namespace BWAPI
     };
     
     /// <summary>Retrieves the approximate distance using an algorithm from Starcraft: Broodwar.</summary>
+    ///
+    /// @note This is a direct distance calculation that ignores all collision.
     ///
     /// @note This function is desired because it uses the same "imperfect" algorithm used in
     /// Broodwar, so that calculations will be consistent with the game. It is also optimized
@@ -366,7 +370,11 @@ namespace BWAPI
     /// <summary>The x and y members for this class.</summary>
     ///
     /// Simply reference these members when retrieving a position's x and y values.
+#ifndef SWIG
     T x = T{}, y = T{};
+#else
+    T x, y;
+#endif
   };
 
   /// <summary>The scale of a @ref Position. Each position corresponds to a 1x1 pixel area.</summary>

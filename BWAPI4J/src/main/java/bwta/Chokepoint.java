@@ -3,7 +3,6 @@ package bwta;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.util.Pair;
 
 public class Chokepoint extends CenteredObject {

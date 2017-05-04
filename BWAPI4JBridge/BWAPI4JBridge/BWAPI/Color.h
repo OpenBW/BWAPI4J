@@ -18,7 +18,7 @@ namespace BWAPI
       /// <param name="id">
       ///   The index of the color in the 256-color palette.
       /// </param>
-      Color(int id = 0);
+      constexpr Color(int id = 0) : Type(id) {}
 
       /// <summary>A constructor that uses the color index in the palette that is closest to the
       /// given rgb values.</summary> On its first call, the colors in the palette will be sorted
@@ -59,40 +59,40 @@ namespace BWAPI
   namespace Colors
   {
     /// <summary>The default color for Player 1.</summary>
-    extern const Color Red;
+    constexpr Color Red{ 111 };
 
     /// <summary>The default color for Player 2.</summary>
-    extern const Color Blue;
+    constexpr Color Blue{ 165 };
 
     /// <summary>The default color for Player 3.</summary>
-    extern const Color Teal;
+    constexpr Color Teal{ 159 };
 
     /// <summary>The default color for Player 4.</summary>
-    extern const Color Purple;
+    constexpr Color Purple{ 164 };
 
     /// <summary>The default color for Player 5.</summary>
-    extern const Color Orange;
+    constexpr Color Orange{ 179 };
 
     /// <summary>The default color for Player 6.</summary>
-    extern const Color Brown;
+    constexpr Color Brown{ 19 };
 
     /// <summary>A bright white. Note that this is lighter than Player 7's white.</summary>
-    extern const Color White;
+    constexpr Color White{ 255 };
 
     /// <summary>The default color for Player 8.</summary>
-    extern const Color Yellow;
+    constexpr Color Yellow{ 135 };
 
     /// <summary>The alternate color for Player 7 on Ice tilesets.</summary>
-    extern const Color Green;
+    constexpr Color Green{ 117 };
 
     /// <summary>The default color for Neutral (Player 12).</summary>
-    extern const Color Cyan;
+    constexpr Color Cyan{ 128 };
     
     /// <summary>The color black</summary>
-    extern const Color Black;
+    constexpr Color Black{ 0 };
 
     /// <summary>The color grey</summary>
-    extern const Color Grey;
+    constexpr Color Grey{ 74 };
   }
   
   /// <summary>Namespace containing text formatting codes.</summary> Such codes are used in calls
@@ -184,6 +184,14 @@ namespace BWAPI
       /// <summary>A bright blue color.</summary>
       Turquoise    = 31
     };
+
+    /// <summary>Checks if the given character is a color-changing control code.</summary>
+    /// @returns true if \p c is a regular color, not Text::Previous, Text::Invisible* or Text::Align*
+    /// @since 4.2.0
+    inline bool isColor(Text::Enum c)
+    {
+      return (2 <= c && c <= 8) || (14 <= c && c <= 17) || (21 <= c && c <= 31);
+    }
 
     /// <summary>Namespace containing text sizes.</summary>
     namespace Size

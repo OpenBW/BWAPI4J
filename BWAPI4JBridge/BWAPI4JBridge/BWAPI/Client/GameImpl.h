@@ -65,7 +65,7 @@ namespace BWAPI
       Playerset _enemies;
       Playerset _observers;
       mutable Error lastError;
-      Text::Size::Enum textSize;
+      Text::Size::Enum textSize = Text::Size::Default;
 
     public :
       Event makeEvent(BWAPIC::Event e);
@@ -178,6 +178,7 @@ namespace BWAPI
       virtual int  getRemainingLatencyFrames() const override;
       virtual int  getRemainingLatencyTime() const override;
       virtual int  getRevision() const override;
+      virtual int  getClientVersion() const override;
       virtual bool isDebug() const override;
       virtual bool isLatComEnabled() const override;
       virtual void setLatCom(bool isEnabled) override;
@@ -196,5 +197,6 @@ namespace BWAPI
       virtual BWAPI::Region getRegionAt(int x, int y) const override;
       virtual int getLastEventTime() const override;
       virtual bool setRevealAll(bool reveal = true) override;
+      virtual unsigned getRandomSeed() const override;
   };
 }

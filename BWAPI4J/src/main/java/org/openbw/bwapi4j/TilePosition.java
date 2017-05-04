@@ -1,11 +1,6 @@
 package org.openbw.bwapi4j;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.openbw.bwapi4j.util.AbstractPoint;
-
-public class TilePosition extends AbstractPoint<TilePosition> {
+public class TilePosition {
 
     public static final int SIZE_IN_PIXELS = 32;
 
@@ -21,12 +16,6 @@ public class TilePosition extends AbstractPoint<TilePosition> {
         return "[" + x + ", " + y + "]";
     }
 
-    public native boolean isValid();
-
-    public native TilePosition makeValid();
-
-    public native double getLength();
-
     public int getX() {
         return x;
     }
@@ -34,29 +23,6 @@ public class TilePosition extends AbstractPoint<TilePosition> {
     public int getY() {
         return y;
     }
-
-    public static TilePosition Invalid;
-
-    public static TilePosition None;
-
-    public static TilePosition Unknown;
-
-    private static Map<Long, TilePosition> instances = new HashMap<Long, TilePosition>();
-
-    private TilePosition(long pointer) {
-        this.pointer = pointer;
-    }
-
-    private static TilePosition get(long pointer) {
-        TilePosition instance = instances.get(pointer);
-        if (instance == null) {
-            instance = new TilePosition(pointer);
-            instances.put(pointer, instance);
-        }
-        return instance;
-    }
-
-    private long pointer;
 
     @Override
     public boolean equals(Object o) {
@@ -82,10 +48,6 @@ public class TilePosition extends AbstractPoint<TilePosition> {
     @Override
     public int hashCode() {
         return x * 256 + y;
-    }
-
-    public TilePosition getPoint() {
-        return this;
     }
 
     public Position toPosition() {

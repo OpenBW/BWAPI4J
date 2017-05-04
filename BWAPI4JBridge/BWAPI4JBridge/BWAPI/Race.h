@@ -41,7 +41,7 @@ namespace BWAPI
   {
     public:
       /// @copydoc Type::Type(int)
-      Race(int id = Races::Enum::None);
+      constexpr Race(int id = Races::Enum::None) : Type(id) {}
 
       /// <summary>Retrieves the default worker type for this Race.</summary>
       /// 
@@ -50,13 +50,23 @@ namespace BWAPI
       /// @returns UnitType of the worker that this race uses.
       UnitType getWorker() const;
 
-      /// <summary>Retrieves the default resource center UnitType that is used to create expansions for
-      /// this Race.</summary>
+      /// <summary>Retrieves the default resource depot UnitType that workers of this race can
+      /// construct and return resources to.</summary>
       ///
       /// @note In Starcraft, the center is the very first structure of the Race's technology
       /// tree. Also known as its base of operations or resource depot.
       /// 
       /// @returns UnitType of the center that this race uses.
+      ///
+      /// @since 4.2.0
+      UnitType getResourceDepot() const;
+
+      /// <summary>Deprecated. Use getResourceDepot instead.</summary>
+      /// @deprecated As of 4.2.0 due to naming inconsistency. Use #getResourceDepot instead.
+      /// See https://github.com/bwapi/bwapi/issues/621 for more information.
+#ifndef SWIG // Deprecated tags not supported https://github.com/swig/swig/issues/490
+      [[deprecated("getCenter() was renamed to getResourceDepot()")]]
+#endif
       UnitType getCenter() const;
 
       /// <summary>Retrieves the default structure UnitType for this Race that is used to harvest gas from
@@ -95,12 +105,12 @@ namespace BWAPI
     /// @returns Race::set containing all the Race types.
     const Race::set& allRaces();
 
-    extern const Race Zerg;
-    extern const Race Terran;
-    extern const Race Protoss;
-    extern const Race Random;
-    extern const Race None;
-    extern const Race Unknown;
+    constexpr Race Zerg{Enum::Zerg};
+    constexpr Race Terran{Enum::Terran};
+    constexpr Race Protoss{Enum::Protoss};
+    constexpr Race Random{Enum::Random};
+    constexpr Race None{Enum::None};
+    constexpr Race Unknown{Enum::Unknown};
   }
 
   static_assert(sizeof(Race) == sizeof(int), "Expected type to resolve to primitive size.");

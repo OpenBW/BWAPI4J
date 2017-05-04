@@ -1,7 +1,6 @@
 package org.openbw.bwapi4j;
 
 import java.util.List;
-import java.util.Map;
 
 import org.openbw.bwapi4j.type.Color;
 import org.openbw.bwapi4j.type.PlayerType;
@@ -112,7 +111,12 @@ public class Player {
         this.supplyUsedRace = new int[3];
     }
 
-    public void initialize(int[] playerData, int index, Map<Integer, Unit> allUnits) {
+    /**
+     * Initializes a player with static information (constant through the course of a game).
+     * @param playerData raw data array
+     * @param index current pointer
+     */
+    public void initialize(int[] playerData, int index) {
 
         this.race = Race.values()[playerData[index + Player.RACE_INDEX]];
         this.startLocation = new TilePosition(playerData[index + Player.POSITION_X_INDEX],
@@ -122,6 +126,13 @@ public class Player {
         this.playerType = PlayerType.values()[playerData[index + Player.TYPE_INDEX]];
     }
 
+    /**
+     * Updates dynamic player information. To be called once per frame.
+     * @param playerData raw data array
+     * @param index current pointer
+     * @param researchStatus status for each possible research
+     * @param upgradeStatus status for each possible upgrade
+     */
     public void update(int[] playerData, int index, int[] researchStatus, int[] upgradeStatus) {
 
         this.forceId = playerData[index + Player.FORCE_ID_INDEX];
