@@ -69,6 +69,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 
 	println("Connecting to Broodwar...");
 	reconnect();
+
 	println("Connection successful, starting match...");
 	while (true) {
 		while (!Broodwar->isInGame()) {
@@ -78,6 +79,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 				reconnect();
 			}
 		}
+		std::cout << "Client version: " << Broodwar->getClientVersion() << std::endl;;
 
 		jclass arrayListClass = env->FindClass("java/util/ArrayList");
 		jmethodID arrayListAdd = env->GetMethodID(arrayListClass, "add", "(Ljava/lang/Object;)Z");
@@ -524,68 +526,116 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 				for (auto &e : Broodwar->getEvents()) {
 
 					switch (e.getType()) {
-						case EventType::MatchEnd:
+						case EventType::MatchEnd: {
+							std::cout << "calling onEnd..." << std::endl;
 							env->CallObjectMethod(classref, onEndCallback, (jboolean)e.isWinner());
+							std::cout << "done." << std::endl;;
+						}
 							break;
-						case EventType::MatchFrame:
-							env->CallObjectMethod(classref, onFrameCallback);
+						case EventType::MatchFrame: {
+							std::cout << "calling onFrame..." << std::endl;
+							//env->CallObjectMethod(classref, onFrameCallback);
+							std::cout << "done." << std::endl;;
+						}
 							break;
 						case EventType::SendText: {
+							std::cout << "calling onSend..." << std::endl;
 							jstring string = env->NewStringUTF(e.getText().c_str());
 							env->CallObjectMethod(classref, onSendCallback, string);
 							env->DeleteLocalRef(string);
+							std::cout << "done." << std::endl;;
 							}
 							break;
 						case EventType::ReceiveText: {
+							std::cout << "calling onReceive..." << std::endl;
 							jstring string = env->NewStringUTF(e.getText().c_str());
 							env->CallObjectMethod(classref, onReceiveCallback, e.getPlayer()->getID(), string);
 							env->DeleteLocalRef(string);
+							std::cout << "done." << std::endl;;
 							}
 							break;
-						case EventType::PlayerLeft:
+						case EventType::PlayerLeft: {
+							std::cout << "calling onPlayerLeft..." << std::endl;
 							env->CallObjectMethod(classref, onPlayerLeftCallback, e.getPlayer()->getID());
+							std::cout << "done." << std::endl;;
+						}
 							break;
-						case EventType::NukeDetect:
+						case EventType::NukeDetect: {
+							std::cout << "calling onNukeDetect..." << std::endl;
 							env->CallObjectMethod(classref, onNukeDetectCallback, e.getPosition().x, e.getPosition().y);
+							std::cout << "done." << std::endl;;
+						}
 							break;
-						case EventType::UnitDiscover:
+						case EventType::UnitDiscover: {
+							std::cout << "calling onUnitDiscover..." << std::endl;
 							env->CallObjectMethod(classref, onUnitDiscoverCallback, e.getUnit()->getID());
+							std::cout << "done." << std::endl;;
+						}
 							break;
-						case EventType::UnitEvade:
+						case EventType::UnitEvade: {
+							std::cout << "calling onUnitEvade..." << std::endl;
 							env->CallObjectMethod(classref, onUnitEvadeCallback, e.getUnit()->getID());
+							std::cout << "done." << std::endl;;
+						}
 							break;
-						case EventType::UnitShow:
+						case EventType::UnitShow: {
+							std::cout << "calling onUnitShow..." << std::endl;
 							env->CallObjectMethod(classref, onUnitShowCallback, e.getUnit()->getID());
+							std::cout << "done." << std::endl;;
+						}
 							break;
-						case EventType::UnitHide:
+						case EventType::UnitHide: {
+							std::cout << "calling onUnitHide..." << std::endl;
 							env->CallObjectMethod(classref, onUnitHideCallback, e.getUnit()->getID());
+							std::cout << "done." << std::endl;;
+						}
 							break;
-						case EventType::UnitCreate:
+						case EventType::UnitCreate: {
+							std::cout << "calling onUnitCreate..." << std::endl;
 							env->CallObjectMethod(classref, onUnitCreateCallback, e.getUnit()->getID());
+							std::cout << "done." << std::endl;;
+						}
 							break;
-						case EventType::UnitDestroy:
+						case EventType::UnitDestroy: {
+							std::cout << "calling onUnitDestroy..." << std::endl;
 							env->CallObjectMethod(classref, onUnitDestroyCallback, e.getUnit()->getID());
+							std::cout << "done." << std::endl;;
+						}
 							break;
-						case EventType::UnitMorph:
+						case EventType::UnitMorph: {
+							std::cout << "calling onUnitMorph..." << std::endl;
 							env->CallObjectMethod(classref, onUnitMorphCallback, e.getUnit()->getID());
+							std::cout << "done." << std::endl;;
+						}
 							break;
-						case EventType::UnitRenegade:
+						case EventType::UnitRenegade: {
+							std::cout << "calling onUnitRenegade..." << std::endl;
 							env->CallObjectMethod(classref, onUnitRenegadeCallback, e.getUnit()->getID());
+							std::cout << "done." << std::endl;;
+						}
 							break;
 						case EventType::SaveGame: {
+							std::cout << "calling onSaveGame..." << std::endl;
 							jstring string = env->NewStringUTF(e.getText().c_str());
 							env->CallObjectMethod(classref, onSaveGameCallback, string);
 							env->DeleteLocalRef(string);
+							std::cout << "done." << std::endl;;
 							}
 							break;
-						case EventType::UnitComplete:
+						case EventType::UnitComplete: {
+							std::cout << "calling onUnitComplete..." << std::endl;
 							env->CallObjectMethod(classref, onUnitCompleteCallback, e.getUnit()->getID());
+							std::cout << "done." << std::endl;;
+						}
 							break;
 					}
 				}
 
+				std::cout << "updating to next frame..." << std::endl;
 				BWAPI::BWAPIClient.update();
+				std::cout << "done." << std::endl;;
 				if (!BWAPI::BWAPIClient.isConnected()) {
+					std::cout << "reconnecting..." << std::endl;;
 					reconnect();
 				}
 			}
@@ -816,6 +866,11 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllPlayersData(JNIEnv 
 	jintArray result = env->NewIntArray(index);
 	env->SetIntArrayRegion(result, 0, index, intBuf);
 	return result;
+}
+
+JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BW_getClientVersion(JNIEnv *env, jobject jObj) {
+
+	return (jint)Broodwar->getClientVersion();
 }
 
 JNIEXPORT jstring JNICALL Java_org_openbw_bwapi4j_BW_getPlayerName(JNIEnv *env, jobject jObj, jint playerID) {

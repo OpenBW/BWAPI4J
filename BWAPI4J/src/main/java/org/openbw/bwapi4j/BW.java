@@ -73,6 +73,8 @@ public class BW {
 
     private native int[] getGameData();
 
+    private native int getClientVersion();
+
     private native String getPlayerName(int playerId);
 
     private native int[] getResearchStatus(int playerId);
@@ -179,11 +181,15 @@ public class BW {
 
     private void onFrame() {
 
-        this.frame++;
+        logger.debug("updating game state for frame {}...", this.frame);
         updateGame();
+        logger.debug("updated game.");
         updateAllPlayers();
+        logger.debug("updated players.");
         updateAllUnits(this.frame);
+        logger.debug("updated all units.");
         listener.onFrame();
+        this.frame++;
     }
 
     private void onSendText(String text) {

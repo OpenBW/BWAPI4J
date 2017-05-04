@@ -41,6 +41,14 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getGameData
 
 /*
  * Class:     org_openbw_bwapi4j_BW
+ * Method:    getClientVersion
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BW_getClientVersion
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     org_openbw_bwapi4j_BW
  * Method:    getPlayerName
  * Signature: (I)Ljava/lang/String;
  */
