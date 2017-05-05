@@ -1,9 +1,7 @@
 package org.openbw.bwapi4j.type;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.util.Pair;
@@ -248,7 +246,7 @@ public enum UnitType {
     private int id;
     private Race race;
     private Pair<UnitType, Integer> whatBuilds;
-    private HashMap<UnitType, Integer> requiredUnits;
+    private ArrayList<UnitType> requiredUnits;
     private TechType requiredTech;
     private TechType cloakingTech;
     private ArrayList<TechType> abilities;
@@ -328,7 +326,7 @@ public enum UnitType {
     private UnitType() {
 
         // this.whatBuilds will be created via JNI
-        this.requiredUnits = new HashMap<UnitType, Integer>();
+        this.requiredUnits = new ArrayList<UnitType>();
         this.abilities = new ArrayList<TechType>();
         this.upgrades = new ArrayList<UpgradeType>();
         this.researchesWhat = new ArrayList<TechType>();
@@ -366,8 +364,14 @@ public enum UnitType {
      * type. Returns std::map containing a UnitType to number mapping of
      * UnitTypes required.
      */
-    public Map<UnitType, Integer> requiredUnits() {
+    public ArrayList<UnitType> requiredUnits() {
         return this.requiredUnits;
+    }
+    
+    public void addRequiredUnit(int typeId, int amount) {
+        System.out.print("unit type: ");
+        System.out.println(UnitType.values()[typeId] + ":" + amount);
+        this.requiredUnits.add(UnitType.values()[typeId]);
     }
 
     /**

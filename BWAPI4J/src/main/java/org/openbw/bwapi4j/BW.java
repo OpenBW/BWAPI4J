@@ -117,8 +117,11 @@ public class BW {
             int typeId = unitData[index + 3];
             Unit unit = this.units.get(unitId);
             if (unit == null) {
-                logger.debug("creating unit for id " + unitId + " and type " + typeId + " ...");
+                logger.debug("creating unit for id " + unitId + " and type " + typeId + " (" + UnitType.values()[typeId] + ") ...");
                 unit = unitFactory.createUnit(unitId, UnitType.values()[typeId], frame);
+                if (unit == null) {
+                    logger.error("could not create unit for id " + unitId + " and type " + typeId);
+                }
                 this.units.put(unitId, unit);
                 unit.initialize(unitData, index, this.units);
                 logger.debug(" done.");
@@ -241,6 +244,9 @@ public class BW {
     private void onUnitCreate(int unitId) {
 
         Unit unit = this.units.get(unitId);
+        if (unit == null) {
+            logger.error("no unit found for ID {}.", unitId);
+        }
         listener.onUnitCreate(unit);
     }
 

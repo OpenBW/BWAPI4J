@@ -62,6 +62,7 @@ JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_Unit_issueCommand(JNIEnv
 
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobject bwObject, jobject classref) {
 
+	env->EnsureLocalCapacity(512);
 	jclass jc = env->GetObjectClass(classref);
 
 	// allocate "shared memory"
@@ -84,9 +85,6 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 		jclass arrayListClass = env->FindClass("java/util/ArrayList");
 		jmethodID arrayListAdd = env->GetMethodID(arrayListClass, "add", "(Ljava/lang/Object;)Z");
 
-		jclass hashMapClass = env->FindClass("java/util/HashMap");
-		jmethodID hashMapPut = env->GetMethodID(hashMapClass, "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
-
 		jclass integerClass = env->FindClass("java/lang/Integer");
 		jmethodID integerNew = env->GetMethodID(integerClass, "<init>", "(I)V");
 
@@ -107,6 +105,8 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 
 		jclass bwMapClass = env->FindClass("org/openbw/bwapi4j/BWMap");
 		jmethodID bwMapNew = env->GetMethodID(bwMapClass, "<init>", "()V");
+		
+		jmethodID addRequiredUnit = env->GetMethodID(unitTypeClass, "addRequiredUnit", "(II)V");
 
 		// read static data: UpgradeType
 		println("reading upgrade types...");
@@ -251,7 +251,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 			env->SetObjectField(CurrentWeaponType, env->GetFieldID(weaponTypeClass, "explosionType", "Lorg/openbw/bwapi4j/type/ExplosionType;"), whatUses);
 		}
 		println("done.");
-
+		
 		// read static data: UnitType
 		println("reading unit types...");
 		for (UnitType unitType : UnitTypes::allUnitTypes()) {
@@ -354,35 +354,43 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 
 			jobject airWeapon = env->GetStaticObjectField(weaponTypeClass, env->GetStaticFieldID(weaponTypeClass, unitType.airWeapon().getName().c_str(), "Lorg/openbw/bwapi4j/type/WeaponType;"));
 			env->SetObjectField(CurrentUnitType, env->GetFieldID(unitTypeClass, "airWeapon", "Lorg/openbw/bwapi4j/type/WeaponType;"), airWeapon);
-
+			
 			// set complex values
 			jobject upgradesList = env->GetObjectField(CurrentUnitType, env->GetFieldID(unitTypeClass, "upgrades", "Ljava/util/ArrayList;"));
 			for(UpgradeType upgradeType : unitType.upgrades()) {
 				
 				jobject upgradesMemberType = env->GetStaticObjectField(upgradeTypeClass, env->GetStaticFieldID(upgradeTypeClass, upgradeType.getName().c_str(), "Lorg/openbw/bwapi4j/type/UpgradeType;"));
 				env->CallObjectMethod(upgradesList, arrayListAdd, upgradesMemberType);
+				env->DeleteLocalRef(upgradesMemberType);
 			}
+			env->DeleteLocalRef(upgradesList);
 
 			jobject upgradesWhatList = env->GetObjectField(CurrentUnitType, env->GetFieldID(unitTypeClass, "upgradesWhat", "Ljava/util/ArrayList;"));
 			for (UpgradeType upgradeType : unitType.upgradesWhat()) {
 
 				jobject upgradesWhatMemberType = env->GetStaticObjectField(upgradeTypeClass, env->GetStaticFieldID(upgradeTypeClass, upgradeType.getName().c_str(), "Lorg/openbw/bwapi4j/type/UpgradeType;"));
 				env->CallObjectMethod(upgradesWhatList, arrayListAdd, upgradesWhatMemberType);
+				env->DeleteLocalRef(upgradesWhatMemberType);
 			}
+			env->DeleteLocalRef(upgradesWhatList);
 
 			jobject abilitiesList = env->GetObjectField(CurrentUnitType, env->GetFieldID(unitTypeClass, "abilities", "Ljava/util/ArrayList;"));
 			for (TechType techType : unitType.abilities()) {
 
 				jobject abilitiesMemberType = env->GetStaticObjectField(techTypeClass, env->GetStaticFieldID(techTypeClass, techType.getName().c_str(), "Lorg/openbw/bwapi4j/type/TechType;"));
 				env->CallObjectMethod(abilitiesList, arrayListAdd, abilitiesMemberType);
+				env->DeleteLocalRef(abilitiesMemberType);
 			}
+			env->DeleteLocalRef(abilitiesList);
 
 			jobject researchesWhatList = env->GetObjectField(CurrentUnitType, env->GetFieldID(unitTypeClass, "researchesWhat", "Ljava/util/ArrayList;"));
 			for(TechType techType : unitType.researchesWhat()) {
 
 				jobject researchesWhatMemberType = env->GetStaticObjectField(techTypeClass, env->GetStaticFieldID(techTypeClass, techType.getName().c_str(), "Lorg/openbw/bwapi4j/type/TechType;"));
 				env->CallObjectMethod(researchesWhatList, arrayListAdd, researchesWhatMemberType);
+				env->DeleteLocalRef(researchesWhatMemberType);
 			}
+			env->DeleteLocalRef(researchesWhatList);
 			
 			// create a new Pair object and fill in UnitType,Integer
 			jfieldID whatBuildsField = env->GetStaticFieldID(unitTypeClass, unitType.whatBuilds().first.getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;");
@@ -392,16 +400,15 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 			env->SetObjectField(CurrentUnitType, env->GetFieldID(unitTypeClass, "whatBuilds", "Lorg.openbw.bwapi4j.util.Pair;"), pairObject);
 			
 			// read existing requiredUnits map and put <UnitType,Integer> entries
-			jobject requiredUnitsMap = env->GetObjectField(CurrentUnitType, env->GetFieldID(unitTypeClass, "requiredUnits", "Ljava/util/HashMap;"));
 			for (auto const& req : unitType.requiredUnits()) {
 
-				jfieldID reqField = env->GetStaticFieldID(unitTypeClass, req.first.getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;");
-				jobject reqType = env->GetStaticObjectField(unitTypeClass, reqField);
-				env->CallObjectMethod(requiredUnitsMap, hashMapPut, reqType, env->NewObject(integerClass, integerNew, req.second));
+				std::cout << "putting " << req.first.getID() << ":" << req.second << std::endl;
+				env->CallObjectMethod(CurrentUnitType, addRequiredUnit, (jint)req.first.getID(), (jint)req.second);
 			}
+			env->DeleteLocalRef(CurrentUnitType);
 		}
 		println("done.");
-
+		
 		// read static data: Race
 		println("reading race types...");
 		for (Race race : Races::allRaces()) {
@@ -429,8 +436,9 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 
 				jfieldID typeField = env->GetFieldID(raceClass, fieldNames[i], "Lorg/openbw/bwapi4j/type/UnitType;");
 				env->SetObjectField(CurrentRace, typeField, unitType);
+				env->DeleteLocalRef(unitType);
 			}
-
+			env->DeleteLocalRef(CurrentRace);
 		}
 		println("done.");
 		
@@ -443,11 +451,13 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 		jfieldID mapHashField = env->GetFieldID(bwMapClass, "mapHash", "Ljava.lang.String;");
 		jstring mapHash = env->NewStringUTF(Broodwar->mapHash().c_str());
 		env->SetObjectField(bwMap, mapHashField, mapHash);
+		env->DeleteLocalRef(mapHash);
 
 		//set mapFileName
 		jfieldID mapFileNameField = env->GetFieldID(bwMapClass, "mapFileName", "Ljava.lang.String;");
 		jstring mapFileName = env->NewStringUTF(Broodwar->mapFileName().c_str());
 		env->SetObjectField(bwMap, mapFileNameField, mapFileName);
+		env->DeleteLocalRef(mapFileName);
 
 		// set width
 		jfieldID mapWidthField = env->GetFieldID(bwMapClass, "width", "I");
@@ -456,7 +466,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 		// set height
 		jfieldID mapHeightField = env->GetFieldID(bwMapClass, "height", "I");
 		env->SetIntField(bwMap, mapHeightField, (jint)Broodwar->mapHeight());
-
+		
 		// set groundInfo (tile resolution)
 		jfieldID groundInfoField = env->GetFieldID(bwMapClass, "groundInfo", "[Ljava/lang/Object;");
 		jobject* groundInfo2D = new jobject[Broodwar->mapWidth()];
@@ -495,15 +505,14 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 			jobject startLocation = env->NewObject(tilePositionClass, tilePositionNew, tilePosition.x, tilePosition.y);
 			env->CallObjectMethod(startLocationsList, arrayListAdd, startLocation);
 		}
-
+		
 		println("done.");
-
+		
 		if (Broodwar->isReplay()) {
 
 		} else {
-			println("test");
+			
 			env->CallObjectMethod(classref, env->GetMethodID(jc, "onStart", "()V"));
-			println("game on."); // TODO wtf? if this statement is removed a weird crash occurs... must be some async issue
 			jmethodID onEndCallback = env->GetMethodID(jc, "onEnd", "(Z)V");
 			jmethodID onFrameCallback = env->GetMethodID(jc, "onFrame", "()V");
 			jmethodID onSendCallback = env->GetMethodID(jc, "onSend", "(Ljava.lang.String;)V");
@@ -534,7 +543,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 							break;
 						case EventType::MatchFrame: {
 							std::cout << "calling onFrame..." << std::endl;
-							//env->CallObjectMethod(classref, onFrameCallback);
+							env->CallObjectMethod(classref, onFrameCallback);
 							std::cout << "done." << std::endl;;
 						}
 							break;
@@ -639,7 +648,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 					reconnect();
 				}
 			}
-			
+			std::cout << "game over." << std::endl;;
 		}
 	}
 }
@@ -792,13 +801,8 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllUnitsData(JNIEnv * 
 
 	for (Unit unit : Broodwar->getAllUnits()) {
 
-		//switch (unit->getType()) {
-
-			//case UnitTypes::Enum::Terran_Command_Center:
-		//default:
+			std::cout << "adding " << unit->getID() << ":" << unit->getType().getName() << std::endl;
 			index = addUnitDataToBuffer(unit, index);
-		//	break;
-		//}
 	}
 
 	jintArray result = env->NewIntArray(index);
