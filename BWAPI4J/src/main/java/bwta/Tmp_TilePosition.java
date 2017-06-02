@@ -1,13 +1,13 @@
 package bwta;
 
-public class TilePosition {
+public class Tmp_TilePosition {
 
     public static final int SIZE_IN_PIXELS = 32;
 
     private int x;
     private int y;
 
-    public TilePosition(int x, int y) {
+    public Tmp_TilePosition(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -29,11 +29,11 @@ public class TilePosition {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof TilePosition)) {
+        if (!(o instanceof Tmp_TilePosition)) {
             return false;
         }
 
-        TilePosition that = (TilePosition) o;
+        Tmp_TilePosition that = (Tmp_TilePosition) o;
 
         if (x != that.x) {
             return false;
@@ -50,7 +50,7 @@ public class TilePosition {
         return x * 256 + y;
     }
 
-    public Position toPosition() {
-        return new Position(x * SIZE_IN_PIXELS, y * SIZE_IN_PIXELS);
+    public Tmp_Position toPosition() {
+        return new Tmp_Position(x * SIZE_IN_PIXELS, y * SIZE_IN_PIXELS);
     }
 }

@@ -9,7 +9,7 @@ import org.openbw.bwapi4j.unit.Unit;
 
 public class BaseLocation extends PositionedObject {
 
-    public Position getPosition() {
+    public Tmp_Position getPosition() {
         return getPosition_native(pointer);
     }
 
@@ -82,7 +82,7 @@ public class BaseLocation extends PositionedObject {
 
     private long pointer;
 
-    private native Position getPosition_native(long pointer);
+    private native Tmp_Position getPosition_native(long pointer);
 
     private native TilePosition getTilePosition_native(long pointer);
 

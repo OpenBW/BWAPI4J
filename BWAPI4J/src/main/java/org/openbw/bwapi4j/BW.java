@@ -35,8 +35,8 @@ public class BW {
 
     static {
 
-        System.setProperty("java.library.path", "./../BWAPI4JBridge/Release/");
-//        System.setProperty("java.library.path", "./");
+//        System.setProperty("java.library.path", "./../BWAPI4JBridge/Release/");
+        System.setProperty("java.library.path", "./");
 
         logger.debug("DLL exists: {}",
                 new File(System.getProperty("java.library.path") + "BWAPI4JBridge.dll").exists());
@@ -121,12 +121,15 @@ public class BW {
                 unit = unitFactory.createUnit(unitId, UnitType.values()[typeId], frame);
                 if (unit == null) {
                     logger.error("could not create unit for id " + unitId + " and type " + typeId);
+                } else {
+                    this.units.put(unitId, unit);
+                    unit.initialize(unitData, index, this.units);
+                    unit.update(unitData, index);
+                    logger.debug(" done.");
                 }
-                this.units.put(unitId, unit);
-                unit.initialize(unitData, index, this.units);
-                logger.debug(" done.");
+            } else {
+                unit.update(unitData, index);
             }
-            unit.update(unitData, index);
         }
     }
 
@@ -165,12 +168,17 @@ public class BW {
     }
 
     public void startGame() {
+        
         startGame(this);
     }
 
     private void onStart() {
 
+        System.out.println("starting");
         this.frame = 0;
+        this.players.clear();
+        this.units.clear();
+        
         updateGame();
         updateAllPlayers();
         updateAllUnits(this.frame);

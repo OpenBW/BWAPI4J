@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Region extends CenteredObject {
+import org.openbw.bwapi4j.Position;
+
+public class Region {
 
     public Polygon getPolygon() {
         return getPolygon_native(pointer);

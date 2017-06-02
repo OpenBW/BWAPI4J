@@ -1,9 +1,13 @@
 package org.openbw.bwapi4j.unit;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class UnitFactory {
 
+    private static final Logger logger = LogManager.getLogger();
+    
     public Unit createUnit(int unitId, UnitType unitType, int timeSpotted) {
 
         Unit unit;
@@ -112,7 +116,23 @@ public class UnitFactory {
         case Resource_Vespene_Geyser:
             unit = new VespeneGeyser(unitId);
             break;
+            
+        case Critter_Rhynadon:
+        case Critter_Bengalaas:
+        case Critter_Scantid:
+        case Critter_Kakaru:
+        case Critter_Ragnasaur:
+        case Critter_Ursadon:
+        
+        case Special_Khaydarin_Crystal_Form:
+            
+        case Spell_Scanner_Sweep:
+            
+            // ignore critters and spells for now (TODO)
+            unit = null;
+            break;
         default:
+            logger.error("UnitType {} is not supported.", unitType);
             throw new UnsupportedUnitException("UnitType " + unitType + " is not supported.");
         }
         return unit;
