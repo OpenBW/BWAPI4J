@@ -120,7 +120,7 @@ public class BW {
                 logger.debug("creating unit for id " + unitId + " and type " + typeId + " (" + UnitType.values()[typeId] + ") ...");
                 unit = unitFactory.createUnit(unitId, UnitType.values()[typeId], frame);
                 if (unit == null) {
-                    logger.error("could not create unit for id " + unitId + " and type " + typeId);
+                    logger.error("could not create unit for id " + unitId + " and type " + UnitType.values()[typeId]);
                 } else {
                     this.units.put(unitId, unit);
                     unit.initialize(unitData, index, this.units);
@@ -136,7 +136,7 @@ public class BW {
     private void updateAllPlayers() {
 
         int[] playerData = this.getAllPlayersData();
-        
+
         for (int index = 0; index < playerData.length; index += Player.TOTAL_PROPERTIES) {
 
             int playerId = playerData[index + 0];
