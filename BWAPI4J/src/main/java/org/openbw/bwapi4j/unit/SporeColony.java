@@ -3,10 +3,10 @@ package org.openbw.bwapi4j.unit;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
-public class SunkenColony extends Building implements Organic {
+public class SporeColony extends Building implements Organic {
 
-    SunkenColony(int id, int timeSpotted) {
-        super(id, UnitType.Zerg_Sunken_Colony, timeSpotted);
+    SporeColony(int id, int timeSpotted) {
+        super(id, UnitType.Zerg_Spore_Colony, timeSpotted);
     }
 
     public boolean attack(Unit target) {

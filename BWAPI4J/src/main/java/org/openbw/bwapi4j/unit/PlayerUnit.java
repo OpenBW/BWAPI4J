@@ -28,6 +28,7 @@ public abstract class PlayerUnit extends Unit {
     protected int airWeaponCooldown;
     protected int spellCooldown;
 
+    // TODO set player
     protected Player player;
 
     // other

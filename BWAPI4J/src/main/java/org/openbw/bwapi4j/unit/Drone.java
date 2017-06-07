@@ -63,12 +63,12 @@ public class Drone extends MobileUnit implements Organic, Burrowable {
         return issueCommand(this.id, UnitCommandType.Return_Cargo.ordinal(), -1, -1, -1, queued ? 1 : 0);
     }
 
-    public boolean gather(Refinery refinery) {
-        return issueCommand(this.id, UnitCommandType.Gather.ordinal(), refinery.getId(), -1, -1, 0);
+    public boolean gather(Extractor extractor) {
+        return issueCommand(this.id, UnitCommandType.Gather.ordinal(), extractor.getId(), -1, -1, 0);
     }
 
-    public boolean gather(Refinery refinery, boolean shiftQueueCommand) {
-        return issueCommand(this.id, UnitCommandType.Gather.ordinal(), refinery.getId(), -1, -1,
+    public boolean gather(Extractor extractor, boolean shiftQueueCommand) {
+        return issueCommand(this.id, UnitCommandType.Gather.ordinal(), extractor.getId(), -1, -1,
                 shiftQueueCommand ? 1 : 0);
     }
 
@@ -94,5 +94,9 @@ public class Drone extends MobileUnit implements Organic, Burrowable {
     @Override
     public boolean isBurrowed() {
         return this.burrowed;
+    }
+    
+    public boolean morph(UnitType type) {
+        return issueCommand(this.id, UnitCommandType.Morph.ordinal(), -1, -1, -1, type.getId());
     }
 }

@@ -174,25 +174,58 @@ public class UnitFactory {
         case Terran_Nuclear_Missile:
             unit = new NuclearMissile(unitId);
             break;
-            
         case Zerg_Infested_Command_Center:
+            unit = new InfestedCommandCenter(unitId, timeSpotted);
+            break;
         case Zerg_Hatchery:
+            unit = new Hatchery(unitId, timeSpotted);
+            break;
         case Zerg_Lair:
+            unit = new Lair(unitId, timeSpotted);
+            break;
         case Zerg_Hive:
+            unit = new Hive(unitId, timeSpotted);
+            break;
         case Zerg_Nydus_Canal:
+            // TODO
+            unit = null;
+            break;
         case Zerg_Hydralisk_Den:
+            unit = new HydraliskDen(unitId, timeSpotted);
+            break;
         case Zerg_Defiler_Mound:
+            unit = new DefilerMound(unitId, timeSpotted);
+            break;
         case Zerg_Greater_Spire:
+            unit = new GreaterSpire(unitId, timeSpotted);
+            break;
         case Zerg_Queens_Nest:
+            unit = new QueensNest(unitId, timeSpotted);
+            break;
         case Zerg_Evolution_Chamber:
+            unit = new EvolutionChamber(unitId, timeSpotted);
+            break;
         case Zerg_Ultralisk_Cavern:
+            unit = new UltraliskCavern(unitId, timeSpotted);
+            break;
         case Zerg_Spire:
+            unit = new Spire(unitId, timeSpotted);
+            break;
         case Zerg_Spawning_Pool:
+            unit = new SpawningPool(unitId, timeSpotted);
+            break;
         case Zerg_Creep_Colony:
+            unit = new CreepColony(unitId, timeSpotted);
+            break;
         case Zerg_Spore_Colony:
+            unit = new SporeColony(unitId, timeSpotted);
+            break;
         case Zerg_Sunken_Colony:
+            unit = new SunkenColony(unitId, timeSpotted);
+            break;
         case Zerg_Extractor:
-        
+            unit = new Extractor(unitId, timeSpotted);
+            break;
         case Protoss_Corsair:
         case Protoss_Dark_Templar:
         case Protoss_Dark_Archon:
@@ -235,19 +268,20 @@ public class UnitFactory {
         case Spell_Dark_Swarm:
             unit = new DarkSwarm(unitId, timeSpotted);
             break;
-            
-        // ignore turrets (for now)
-        case Terran_Goliath_Turret:
-        case Terran_Siege_Tank_Tank_Mode_Turret:
-        case Terran_Siege_Tank_Siege_Mode_Turret:
-            
-        // ignore all critter units
+        // treat all critter units as the same class
         case Critter_Rhynadon:
         case Critter_Bengalaas:
         case Critter_Scantid:
         case Critter_Kakaru:
         case Critter_Ragnasaur:
         case Critter_Ursadon:
+            unit = new Critter(unitId, unitType);
+            break;
+            
+         // ignore turrets (for now)
+        case Terran_Goliath_Turret:
+        case Terran_Siege_Tank_Tank_Mode_Turret:
+        case Terran_Siege_Tank_Siege_Mode_Turret:
             
         // ignore all hero units
         case Hero_Gui_Montag:

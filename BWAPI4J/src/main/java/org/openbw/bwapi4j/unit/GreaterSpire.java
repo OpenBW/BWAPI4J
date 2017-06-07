@@ -2,17 +2,16 @@ package org.openbw.bwapi4j.unit;
 
 import java.util.Map;
 
-import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
-public class Academy extends Building implements Mechanical, ResearchingFacility {
+public class GreaterSpire extends Building implements Organic, ResearchingFacility {
 
     private Researcher researcher;
-
-    Academy(int id, int timeSpotted) {
+    
+    GreaterSpire(int id, int timeSpotted) {
         
-        super(id, UnitType.Terran_Academy, timeSpotted);
+        super(id, UnitType.Zerg_Greater_Spire, timeSpotted);
         this.researcher = new Researcher();
     }
 
@@ -30,27 +29,15 @@ public class Academy extends Building implements Mechanical, ResearchingFacility
 
         return index;
     }
-
-    public boolean researchStimPacks() {
-        return this.researcher.research(TechType.Stim_Packs);
+    
+    public boolean upgradeFlyerAttacks() {
+        return this.researcher.upgrade(UpgradeType.Zerg_Flyer_Attacks);
     }
-
-    public boolean researchRestoration() {
-        return this.researcher.research(TechType.Restoration);
+    
+    public boolean upgradeFlyerCarapace() {
+        return this.researcher.upgrade(UpgradeType.Zerg_Flyer_Carapace);
     }
-
-    public boolean researchOpticalFlare() {
-        return this.researcher.research(TechType.Optical_Flare);
-    }
-
-    public boolean upgradeU238Shells() {
-        return this.researcher.upgrade(UpgradeType.U_238_Shells);
-    }
-
-    public boolean upgradeCaduceusReactor() {
-        return this.researcher.upgrade(UpgradeType.Caduceus_Reactor);
-    }
-
+    
     @Override
     public boolean isUpgrading() {
         return this.researcher.isUpgrading();
