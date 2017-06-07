@@ -10,7 +10,7 @@ public class Starport extends Building implements Mechanical, FlyingBuilding, Tr
     private Flyer flyer;
     private Trainer trainer;
 
-    public Starport(int id, int timeSpotted) {
+    Starport(int id, int timeSpotted) {
         super(id, UnitType.Terran_Starport, timeSpotted);
         this.flyer = new Flyer();
         this.trainer = new Trainer();

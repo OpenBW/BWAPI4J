@@ -4,8 +4,7 @@ import java.util.Map;
 
 import org.openbw.bwapi4j.type.UnitType;
 
-// TODO position, etc.?
-public abstract class Spell extends Unit {
+public abstract class Spell extends PlayerUnit {
 
     protected int timeSpotted;
     

@@ -10,7 +10,7 @@ public class Marine extends MobileUnit implements Organic {
 
     private boolean isStimmed;
 
-    public Marine(int id) {
+    Marine(int id) {
         super(id, UnitType.Terran_Marine);
     }
 

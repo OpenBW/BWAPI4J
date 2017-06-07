@@ -387,18 +387,6 @@ public abstract class Unit implements Comparable<Unit> {
 
     // --------------------------------------------------
 
-    protected boolean morph(UnitType type) {
-        return issueCommand(this.id, UnitCommandType.Morph.ordinal(), type.getId(), -1, -1, -1);
-    }
-
-    protected boolean burrow() {
-        return issueCommand(this.id, UnitCommandType.Burrow.ordinal(), -1, -1, -1, -1);
-    }
-
-    protected boolean unburrow() {
-        return issueCommand(this.id, UnitCommandType.Unburrow.ordinal(), -1, -1, -1, -1);
-    }
-
     protected boolean rightClick(Position p, boolean queued) {
         return issueCommand(this.id, UnitCommandType.Right_Click_Position.ordinal(), -1, p.getX(), p.getY(),
                 queued ? 1 : 0);
@@ -411,10 +399,6 @@ public abstract class Unit implements Comparable<Unit> {
 
     protected boolean cancelAddon() {
         return issueCommand(this.id, UnitCommandType.Cancel_Addon.ordinal(), -1, -1, -1, -1);
-    }
-
-    protected boolean cancelMorph() {
-        return issueCommand(this.id, UnitCommandType.Cancel_Morph.ordinal(), -1, -1, -1, -1);
     }
 
     // dynamic

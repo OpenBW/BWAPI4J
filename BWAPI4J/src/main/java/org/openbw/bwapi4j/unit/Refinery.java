@@ -10,7 +10,7 @@ public class Refinery extends Building implements Mechanical {
     private int resources;
     private boolean isBeingGathered;
 
-    public Refinery(int id, int timeSpotted) {
+    Refinery(int id, int timeSpotted) {
         super(id, UnitType.Terran_Refinery, timeSpotted);
     }
 

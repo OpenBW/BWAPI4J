@@ -10,7 +10,7 @@ public class Medic extends MobileUnit implements SpellCaster, Organic {
 
     private int energy;
 
-    public Medic(int id) {
+    Medic(int id) {
         super(id, UnitType.Terran_Medic);
     }
 

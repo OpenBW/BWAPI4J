@@ -10,7 +10,7 @@ public class MachineShop extends Addon implements Mechanical, ResearchingFacilit
 
     private Researcher researcher;
 
-    public MachineShop(int id, int timeSpotted) {
+    MachineShop(int id, int timeSpotted) {
         super(id, UnitType.Terran_Machine_Shop, timeSpotted);
         this.researcher = new Researcher();
     }

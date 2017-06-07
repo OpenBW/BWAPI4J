@@ -9,7 +9,7 @@ public class SiegeTank extends MobileUnit implements Mechanical {
 
     private boolean isSieged;
 
-    public SiegeTank(int id) {
+    SiegeTank(int id) {
         super(id, UnitType.Terran_Siege_Tank_Tank_Mode);
     }
 

@@ -10,7 +10,7 @@ public class Firebat extends MobileUnit implements Organic {
 
     private boolean isStimmed;
 
-    public Firebat(int id) {
+    Firebat(int id) {
         super(id, UnitType.Terran_Firebat);
     }
 

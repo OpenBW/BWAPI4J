@@ -109,6 +109,60 @@ public class UnitFactory {
         case Terran_Wraith:
             unit = new Wraith(unitId);
             break;
+        case Zerg_Zergling:
+            unit = new Zergling(unitId);
+            break;
+        case Zerg_Hydralisk:
+            unit = new Hydralisk(unitId);
+            break;
+        case Zerg_Ultralisk:
+            unit = new Ultralisk(unitId);
+            break;
+        case Zerg_Broodling:
+            unit = new Broodling(unitId);
+            break;
+        case Zerg_Drone:
+            unit = new Drone(unitId);
+            break;
+        case Zerg_Overlord:
+            unit = new Overlord(unitId);
+            break;
+        case Zerg_Mutalisk:
+            unit = new Mutalisk(unitId);
+            break;
+        case Zerg_Guardian:
+            unit = new Guardian(unitId);
+            break;
+        case Zerg_Queen:
+            unit = new Queen(unitId);
+            break;
+        case Zerg_Defiler:
+            unit = new Defiler(unitId);
+            break;
+        case Zerg_Scourge:
+            unit = new Scourge(unitId);
+            break;
+        case Zerg_Lurker:
+            unit = new Lurker(unitId);
+            break;
+        case Zerg_Infested_Terran:
+            unit = new InfestedTerran(unitId);
+            break;
+        case Zerg_Devourer:
+            unit = new Devourer(unitId);
+            break;
+        case Zerg_Larva:
+            unit = new Larva(unitId);
+            break;
+        case Zerg_Egg:
+            unit = new Egg(unitId);
+            break;
+        case Zerg_Cocoon:
+            unit = new Cocoon(unitId);
+            break;
+        case Zerg_Lurker_Egg:
+            unit = new LurkerEgg(unitId);
+            break;
         case Resource_Mineral_Field:
         case Resource_Mineral_Field_Type_2:
         case Resource_Mineral_Field_Type_3:
@@ -117,27 +171,10 @@ public class UnitFactory {
         case Resource_Vespene_Geyser:
             unit = new VespeneGeyser(unitId);
             break;
-            
         case Terran_Nuclear_Missile:
+            unit = new NuclearMissile(unitId);
+            break;
             
-        case Zerg_Larva:
-        case Zerg_Egg:
-        case Zerg_Zergling:
-        case Zerg_Hydralisk:
-        case Zerg_Ultralisk:
-        case Zerg_Broodling:
-        case Zerg_Drone:
-        case Zerg_Overlord:
-        case Zerg_Mutalisk:
-        case Zerg_Guardian:
-        case Zerg_Queen:
-        case Zerg_Defiler:
-        case Zerg_Scourge:
-        case Zerg_Infested_Terran:
-        case Zerg_Cocoon:
-        case Zerg_Devourer:
-        case Zerg_Lurker_Egg:
-        case Zerg_Lurker:
         case Zerg_Infested_Command_Center:
         case Zerg_Hatchery:
         case Zerg_Lair:

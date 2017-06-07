@@ -8,4 +8,6 @@ public interface Burrowable {
     public boolean burrow();
 
     public boolean unburrow();
+    
+    public boolean isBurrowed();
 }

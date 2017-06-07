@@ -2,44 +2,40 @@ package org.openbw.bwapi4j.unit;
 
 import java.util.Map;
 
-import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
-public class SCV extends MobileUnit implements Mechanical {
+public class Drone extends MobileUnit implements Organic, Burrowable {
 
+    private boolean burrowed;
     private boolean isGatheringGas;
     private boolean isGatheringMinerals;
     private boolean isCarryingGas;
     private boolean isCarryingMinerals;
-    private boolean isConstructing;
-    private boolean isRepairing;
-
-    SCV(int id) {
-        super(id, UnitType.Terran_SCV);
+    
+    Drone(int id) {
+        super(id, UnitType.Zerg_Drone);
     }
-
+    
     @Override
     public int initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
 
+        this.burrowed = false;
         this.isGatheringGas = false;
         this.isGatheringMinerals = false;
         this.isCarryingGas = false;
         this.isCarryingMinerals = false;
-        this.isConstructing = false;
-        this.isRepairing = false;
         return super.initialize(unitData, index, allUnits);
     }
 
     @Override
     public int update(int[] unitData, int index) {
 
+        this.burrowed = unitData[index + Unit.IS_BURROWED_INDEX] == 1;
         this.isGatheringGas = unitData[index + Unit.IS_GATHERING_GAS_INDEX] == 1;
         this.isGatheringMinerals = unitData[index + Unit.IS_GATHERING_MINERALS_INDEX] == 1;
         this.isCarryingGas = unitData[index + Unit.IS_CARRYING_GAS_INDEX] == 1;
         this.isCarryingMinerals = unitData[index + Unit.IS_CARRYING_MINERALS_INDEX] == 1;
-        this.isConstructing = unitData[index + Unit.IS_CONSTRUCTING_INDEX] == 1;
-        this.isRepairing = unitData[index + Unit.IS_REPAIRING_INDEX] == 1;
         return super.update(unitData, index);
     }
     
@@ -55,16 +51,8 @@ public class SCV extends MobileUnit implements Mechanical {
         return this.isCarryingGas;
     }
 
-    public boolean isConstructing() {
-        return this.isConstructing;
-    }
-
     public boolean isGatheringGas() {
         return this.isGatheringGas;
-    }
-
-    public boolean isRepairing() {
-        return this.isRepairing;
     }
 
     public boolean returnCargo() {
@@ -73,18 +61,6 @@ public class SCV extends MobileUnit implements Mechanical {
     
     public boolean returnCargo(boolean queued) {
         return issueCommand(this.id, UnitCommandType.Return_Cargo.ordinal(), -1, -1, -1, queued ? 1 : 0);
-    }
-
-    public boolean repair(Mechanical target) {
-        return issueCommand(this.id, UnitCommandType.Repair.ordinal(), ((Unit) target).getId(), -1, -1, -1);
-    }
-    
-    public boolean repair(Mechanical target, boolean queued) {
-        return issueCommand(this.id, UnitCommandType.Repair.ordinal(), ((Unit) target).getId(), -1, -1, queued ? 1 : 0);
-    }
-
-    public boolean haltConstruction() {
-        return issueCommand(this.id, UnitCommandType.Halt_Construction.ordinal(), -1, -1, -1, -1);
     }
 
     public boolean gather(Refinery refinery) {
@@ -104,16 +80,19 @@ public class SCV extends MobileUnit implements Mechanical {
         return issueCommand(this.id, UnitCommandType.Gather.ordinal(), mineralPatch.getId(), -1, -1,
                 shiftQueueCommand ? 1 : 0);
     }
-
-    public boolean build(Position p, UnitType type) {
-        return issueCommand(this.id, UnitCommandType.Build.ordinal(), -1, p.getX(), p.getY(), type.getId());
+    
+    @Override
+    public boolean burrow() {
+        return issueCommand(this.id, UnitCommandType.Burrow.ordinal(), -1, -1, -1, -1);
     }
 
-    public boolean cancelConstruction() {
-        return issueCommand(this.id, UnitCommandType.Cancel_Construction.ordinal(), -1, -1, -1, -1);
+    @Override
+    public boolean unburrow() {
+        return issueCommand(this.id, UnitCommandType.Unburrow.ordinal(), -1, -1, -1, -1);
     }
 
-    public boolean resumeBuilding(Building building) {
-        return issueCommand(this.id, UnitCommandType.Right_Click_Unit.ordinal(), -1, -1, -1, building.getId());
+    @Override
+    public boolean isBurrowed() {
+        return this.burrowed;
     }
 }

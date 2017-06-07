@@ -10,7 +10,7 @@ public class BattleCruiser extends MobileUnit implements Mechanical, SpellCaster
 
     private int energy;
 
-    public BattleCruiser(int id) {
+    BattleCruiser(int id) {
         super(id, UnitType.Terran_Battlecruiser);
     }
 

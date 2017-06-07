@@ -10,7 +10,7 @@ public class ControlTower extends Addon implements Mechanical, ResearchingFacili
 
     private Researcher researcher;
 
-    public ControlTower(int id, int timeSpotted) {
+    ControlTower(int id, int timeSpotted) {
         super(id, UnitType.Terran_Control_Tower, timeSpotted);
         this.researcher = new Researcher();
     }

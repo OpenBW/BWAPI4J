@@ -5,12 +5,12 @@ import java.util.Map;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
-public class Wraith extends MobileUnit implements Mechanical, Cloakable {
+public class Mutalisk extends MobileUnit implements Organic {
 
-    Wraith(int id) {
-        super(id, UnitType.Terran_Wraith);
+    Mutalisk(int id) {
+        super(id, UnitType.Zerg_Mutalisk);
     }
-
+    
     @Override
     public int initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
 
@@ -22,12 +22,8 @@ public class Wraith extends MobileUnit implements Mechanical, Cloakable {
 
         return super.update(unitData, index);
     }
-
-    public boolean cloak() {
-        return issueCommand(this.id, UnitCommandType.Cloak.ordinal(), -1, -1, -1, -1);
-    }
-
-    public boolean decloak() {
-        return issueCommand(this.id, UnitCommandType.Decloak.ordinal(), -1, -1, -1, -1);
+    
+    public boolean morph() {
+        return issueCommand(this.id, UnitCommandType.Morph.ordinal(), -1, -1, -1, UnitType.Zerg_Guardian.getId());
     }
 }
