@@ -153,6 +153,52 @@ public class Map {
         return Valid(new TilePosition(p.getX() / TilePosition.SIZE_IN_PIXELS, p.getY() / TilePosition.SIZE_IN_PIXELS));
     }
 
+    private <TPosition> TPosition crop(TPosition p, int sizeX, int sizeY) {
+        int x;
+        int y;
+
+        if (p instanceof TilePosition) {
+            x = ((TilePosition) p).getX();
+            y = ((TilePosition) p).getY();
+        } else if (p instanceof WalkPosition) {
+            x = ((WalkPosition) p).getX();
+            y = ((WalkPosition) p).getY();
+        } else if (p instanceof Position) {
+            x = ((Position) p).getX();
+            y = ((Position) p).getY();
+        } else {
+            throw new IllegalStateException("failed to determine x and y: unsupported type");
+        }
+
+        if      (x < 0) x = 0;
+        else if (x >= sizeX) x = sizeX - 1;
+
+        if      (y < 0) y = 0;
+        else if (y >= sizeY) y = sizeY - 1;
+
+        if (p instanceof TilePosition) {
+            return (TPosition) new TilePosition(x, y);
+        } else if (p instanceof WalkPosition) {
+            return (TPosition) new WalkPosition(x, y);
+        } else if (p instanceof Position) {
+            return (TPosition) new Position(x, y);
+        } else {
+            throw new IllegalStateException("failed to create return object: unsupported type");
+        }
+    }
+
+    public TilePosition Crop(TilePosition p) {
+        return crop(p, Size().getX(), Size().getY());
+    }
+
+    public WalkPosition Crop(WalkPosition p) {
+        return crop(p, WalkSize().getX(), WalkSize().getY());
+    }
+
+    public Position Crop(Position p) {
+        return crop(p, Size().getX() * TilePosition.SIZE_IN_PIXELS, Size().getY() * TilePosition.SIZE_IN_PIXELS);
+    }
+
     // Computes walkability, buildability and groundHeight and doodad information, using BWAPI corresponding functions
     public void LoadData() {
         // Mark unwalkable minitiles (minitiles are walkable by default)
