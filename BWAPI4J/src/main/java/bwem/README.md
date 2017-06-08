@@ -41,8 +41,9 @@ assert(startingLocationsOK);
 
 | Location | Access | Original | Current | C++ | Java | Description |
 |-|-|-|-|-|-|-|
-| `area.h:54` | public | `Area::id` | N/A | `int16_t` | int | this appears to be used everwhere in the code in place of `int16_t` instead of a dedicated `Area::id` type |
-| `defs.h:54` | global | `altitude_t` | `Altitude` | `int16_t` | int | altitude type in pixels |
+| `area.h:54` | public | `Area::id` | N/A | `int16_t` | `int` | this appears to be used everwhere in the code in place of `int16_t` instead of a dedicated `Area::id` type |
+| `area.h:56` | public | `Area::groupId` | N/A | `int16_t` | `int` |  |
+| `defs.h:54` | global | `altitude_t` | `Altitude` | `int16_t` | `int` | altitude type in pixels |
 
 ### Code Trace
 
@@ -61,8 +62,13 @@ void MapImpl::Initialize() {
 `graph.cpp:392:const CPPath & Graph::GetPath`
 * ???
 
-`CPPath`
-* ???
+`Area`
+* Graph
 
 `Graph`
+* Area
+* Chokepoint
+* CPPath
+
+`CPPath`
 * ???
