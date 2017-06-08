@@ -16,31 +16,32 @@ public class Ghost extends MobileUnit implements SpellCaster, Organic {
     private int energy;
 
     protected Ghost(int id) {
+        
         super(id, UnitType.Terran_Ghost);
     }
 
     @Override
-    public int initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
+    public void initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
 
         this.energy = 0;
-        return super.initialize(unitData, index, allUnits);
+        super.initialize(unitData, index, allUnits);
     }
 
     @Override
-    public int update(int[] unitData, int index) {
+    public void update(int[] unitData, int index) {
 
         this.energy = unitData[index + Unit.ENERGY_INDEX];
         super.update(unitData, index);
-
-        return index;
     }
 
     @Override
     public int getEnergy() {
+        
         return this.energy;
     }
 
     public boolean personnelCloaking() {
+        
         return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), -1, -1, -1,
                 TechType.Personnel_Cloaking.getId());
     }
@@ -62,6 +63,7 @@ public class Ghost extends MobileUnit implements SpellCaster, Organic {
     }
 
     public boolean nuclearStrike(Position p) {
+        
         return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), -1, p.getX(), p.getY(),
                 TechType.Nuclear_Strike.getId());
     }

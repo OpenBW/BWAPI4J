@@ -14,27 +14,26 @@ public class CommandCenter extends Building implements Mechanical, FlyingBuildin
     private Trainer trainer;
 
     protected CommandCenter(int id, int timeSpotted) {
+        
         super(id, UnitType.Terran_Command_Center, timeSpotted);
         this.flyer = new Flyer();
         this.trainer = new Trainer();
     }
 
     @Override
-    public int initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
+    public void initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
 
         this.addonId = -1;
-        return super.initialize(unitData, index, allUnits);
+        super.initialize(unitData, index, allUnits);
     }
 
     @Override
-    public int update(int[] unitData, int index) {
+    public void update(int[] unitData, int index) {
 
-        super.update(unitData, index);
         this.flyer.update(unitData, index);
         this.trainer.update(unitData, index);
         this.addonId = unitData[index + Unit.ADDON_INDEX];
-
-        return index;
+        super.update(unitData, index);
     }
 
     /**
@@ -66,66 +65,79 @@ public class CommandCenter extends Building implements Mechanical, FlyingBuildin
     }
 
     public boolean buildComsatStation() {
+        
         return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), UnitType.Terran_Comsat_Station.getId(), -1,
                 -1, -1);
     }
 
     public boolean buildNuclearSilo() {
+        
         return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), UnitType.Terran_Nuclear_Silo.getId(), -1,
                 -1, -1);
     }
 
     public boolean trainWorker() {
+        
         return this.trainer.train(UnitType.Terran_SCV);
     }
 
     @Override
     public boolean isLifted() {
+        
         return this.flyer.isLifted();
     }
 
     @Override
     public boolean lift() {
+        
         return this.flyer.lift();
     }
 
     @Override
     public boolean land(Position p) {
+        
         return this.flyer.land(p);
     }
 
     @Override
     public boolean move(Position p) {
+        
         return this.flyer.move(p);
     }
 
     @Override
     public boolean isTraining() {
+        
         return this.trainer.isTraining();
     }
 
     @Override
     public int getTrainingQueueSize() {
+        
         return this.trainer.getTrainingQueueSize();
     }
 
     @Override
     public boolean cancelTrain(int slot) {
+        
         return this.trainer.cancelTrain(slot);
     }
 
     @Override
     public boolean cancelTrain() {
+        
         return this.trainer.cancelTrain();
     }
 
     @Override
     public boolean setRallyPoint(Position p) {
+        
         return this.trainer.setRallyPoint(p);
     }
 
     @Override
     public boolean setRallyPoint(Unit target) {
+        
         return this.trainer.setRallyPoint(target);
     }
 }

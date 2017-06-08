@@ -7,21 +7,24 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class Larva extends PlayerUnit implements Organic {
 
+    private int hatcheryId;
+    
     protected Larva(int id) {
         
         super(id, UnitType.Zerg_Larva);
     }
     
     @Override
-    public int initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
+    public void initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
 
-        return super.initialize(unitData, index, allUnits);
+        this.hatcheryId = unitData[index + Unit.HATCHERY_INDEX];
+        super.initialize(unitData, index, allUnits);
     }
 
-    @Override
-    public int update(int[] unitData, int index) {
-
-        return super.update(unitData, index);
+    public Unit getHatchery() {
+        
+        // TODO not type-safe. could be hatchery, lair, or hive
+        return super.getUnit(hatcheryId);
     }
     
     public boolean morph(UnitType type) {

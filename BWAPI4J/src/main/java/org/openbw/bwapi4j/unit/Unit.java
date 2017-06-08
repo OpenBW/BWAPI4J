@@ -173,18 +173,16 @@ public abstract class Unit implements Comparable<Unit> {
         this.initialType = unitType;
     }
 
-    public int initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
+    public void initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
 
         this.allUnits = allUnits;
         this.initialPosition = new Position(unitData[index + Unit.INITIAL_POSITION_X_INDEX],
                 unitData[index + Unit.INITIAL_POSITION_Y_INDEX]);
         this.initialTilePosition = new TilePosition(unitData[index + Unit.INITIAL_TILEPOSITION_X_INDEX],
                 unitData[index + Unit.INITIAL_TILEPOSITION_Y_INDEX]);
-
-        return index;
     }
 
-    public int update(int[] unitData, int index) {
+    public void update(int[] unitData, int index) {
 
         this.type = UnitType.values()[unitData[index + Unit.TYPE_ID_INDEX]];
         this.x = unitData[index + Unit.POSITION_X_INDEX];
@@ -196,12 +194,14 @@ public abstract class Unit implements Comparable<Unit> {
         this.isVisible = unitData[index + Unit.IS_VISIBLE_INDEX] == 1;
         this.exists = unitData[index + Unit.EXISTS_INDEX] == 1;
         this.isSelected = unitData[index + Unit.IS_SELECTED_INDEX] == 1;
-
-        return index;
     }
 
     protected Unit getUnit(int id) {
         return this.allUnits.get(id);
+    }
+    
+    protected Map<Integer, Unit> getAllUnits() {
+        return this.allUnits;
     }
 
     public int getId() {
@@ -404,17 +404,12 @@ public abstract class Unit implements Comparable<Unit> {
     // dynamic
     private int replayID;
 
-    private int shields;
-    private int energy;
     private int resourceGroup;
     private int lastCommandFrame;
     private UnitCommandType lastCommand;
     private Player lastAttackingPlayer;
-    private int killCount;
     private int acidSporeCount;
-    private int interceptorCount;
     private int scarabCount;
-    private int spiderMineCount;
     private int defenseMatrixPoints;
     private int defenseMatrixTimer;
     private int ensnareTimer;
@@ -441,15 +436,9 @@ public abstract class Unit implements Comparable<Unit> {
     private Position rallyPosition;
     private Unit rallyUnit;
     private Unit addon;
-    private Unit nydusExit;
     private Unit powerUp;
     private Unit transport;
-    private List<Unit> loadedUnits;
-    private int spaceRemaining;
-    private Unit carrier;
-    private List<Unit> interceptors;
     private Unit hatchery;
-    private List<Unit> larva;
     private boolean hasNuke;
     private boolean isAccelerating;
     private boolean isAttacking;

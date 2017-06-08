@@ -1,7 +1,5 @@
 package org.openbw.bwapi4j.unit;
 
-import java.util.Map;
-
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
@@ -29,17 +27,8 @@ public abstract class MobileUnit extends PlayerUnit {
     }
 
     @Override
-    public int initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
+    public void update(int[] unitData, int index) {
 
-        super.initialize(unitData, index, allUnits);
-
-        return index;
-    }
-
-    @Override
-    public int update(int[] unitData, int index) {
-
-        super.update(unitData, index);
         this.isFollowing = unitData[index + Unit.IS_FOLLOWING_INDEX] == 1;
         this.isHoldingPosition = unitData[index + Unit.IS_HOLDING_POSITION_INDEX] == 1;
         this.isStuck = unitData[index + Unit.IS_STUCK_INDEX] == 1;
@@ -55,122 +44,151 @@ public abstract class MobileUnit extends PlayerUnit {
                 unitData[index + Unit.TARGET_POSITION_Y_INDEX]);
         this.target = super.getUnit(unitData[index + Unit.TARGET_ID_INDEX]);
 
-        return index;
+        super.update(unitData, index);
     }
 
     public boolean attack(Position p) {
+        
         return attack(p, false);
     }
 
     public boolean attack(Position p, boolean queued) {
+        
         return issueCommand(this.id, UnitCommandType.Attack_Move.ordinal(), -1, p.getX(), p.getY(), queued ? 1 : 0);
     }
 
     public boolean attack(Unit target) {
+        
         return attack(target, false);
     }
 
     public boolean attack(Unit target, boolean queued) {
+        
         return issueCommand(this.id, UnitCommandType.Attack_Unit.ordinal(), target.getId(), -1, -1, queued ? 1 : 0);
     }
 
     public boolean move(Position p) {
+        
         return move(p, false);
     }
 
     public boolean move(Position p, boolean queued) {
+        
         return issueCommand(this.id, UnitCommandType.Move.ordinal(), -1, p.getX(), p.getY(), queued ? 1 : 0);
     }
 
     public boolean patrol(Position p) {
+        
         return patrol(p, false);
     }
 
     public boolean patrol(Position p, boolean queued) {
+        
         return issueCommand(this.id, UnitCommandType.Patrol.ordinal(), -1, p.getX(), p.getY(), queued ? 1 : 0);
     }
 
     public boolean holdPosition() {
+        
         return holdPosition(false);
     }
 
     public boolean holdPosition(boolean queued) {
+        
         return issueCommand(this.id, UnitCommandType.Hold_Position.ordinal(), -1, -1, -1, queued ? 1 : 0);
     }
 
     public boolean stop(boolean queued) {
+        
         return issueCommand(this.id, UnitCommandType.Stop.ordinal(), -1, -1, -1, queued ? 1 : 0);
     }
 
     public boolean follow(Unit target, boolean queued) {
+        
         return issueCommand(this.id, UnitCommandType.Follow.ordinal(), target.getId(), -1, -1, queued ? 1 : 0);
     }
 
     public boolean isFollowing() {
+        
         return isFollowing;
     }
 
     public boolean isHoldingPosition() {
+        
         return isHoldingPosition;
     }
 
     public boolean isStasised() {
+        
         return isStasised;
     }
 
     public boolean isUnderDarkSwarm() {
+        
         return isUnderDarkSwarm;
     }
 
     public boolean isUnderDisruptionWeb() {
+        
         return isUnderDisruptionWeb;
     }
 
     public boolean isUnderStorm() {
+        
         return isUnderStorm;
     }
 
     public boolean isParasited() {
+        
         return isParasited;
     }
 
     public boolean isPatrolling() {
+        
         return isPatrolling;
     }
 
     public boolean isPlagued() {
+        
         return isPlagued;
     }
 
     public boolean isMoving() {
+        
         return this.isMoving;
     }
 
     public Position getTargetPosition() {
+        
         return this.targetPosition;
     }
 
     public Unit getTargetUnit() {
+        
         return target;
     }
 
     public WeaponType getGroundWeapon() {
+        
         return this.type.groundWeapon();
     }
 
     public WeaponType getAirWeapon() {
+        
         return this.type.airWeapon();
     }
 
     public int getTurnRadius() {
+        
         return this.type.turnRadius();
     }
 
     public boolean isStuck() {
+        
         return this.isStuck;
     }
 
     public int getSupplyRequired() {
+        
         return this.type.supplyRequired();
     }
 }

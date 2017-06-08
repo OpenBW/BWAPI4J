@@ -10,16 +10,4 @@ public class Broodling extends MobileUnit implements Organic {
         
         super(id, UnitType.Zerg_Broodling);
     }
-    
-    @Override
-    public int initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
-
-        return super.initialize(unitData, index, allUnits);
-    }
-
-    @Override
-    public int update(int[] unitData, int index) {
-
-        return super.update(unitData, index);
-    }
 }

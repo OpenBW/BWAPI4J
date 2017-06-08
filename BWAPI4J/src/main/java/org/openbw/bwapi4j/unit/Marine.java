@@ -1,7 +1,5 @@
 package org.openbw.bwapi4j.unit;
 
-import java.util.Map;
-
 import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
@@ -16,16 +14,10 @@ public class Marine extends MobileUnit implements Organic {
     }
 
     @Override
-    public int initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
+    public void update(int[] unitData, int index) {
 
-        return super.initialize(unitData, index, allUnits);
-    }
-
-    @Override
-    public int update(int[] unitData, int index) {
-
-        this.isStimmed = unitData[Unit.IS_STIMMED_INDEX] == 1;
-        return super.update(unitData, index);
+        this.isStimmed = unitData[index + Unit.IS_STIMMED_INDEX] == 1;
+        super.update(unitData, index);
     }
 
     public boolean isStimmed() {
