@@ -2,6 +2,7 @@ package bwem;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.BW;
@@ -17,11 +18,15 @@ public class Map {
 
     private BW bw = null;
 
-    private int m_size = 0;
-    private TilePosition m_Size = null;
+    /* Note: originals were m_size and m_Size */
+    private int m_tileSize = 0;
+    private TilePosition m_TileSize = null;
 
     private int m_walkSize = 0;
     private WalkPosition m_WalkSize = null;
+
+    private int m_pixelSize = 0;
+    private Position m_PixelSize = null;
 
     private Position m_center = null;
     private List<Tile> m_Tiles = null;
@@ -29,8 +34,10 @@ public class Map {
 
     private List<TilePosition> m_StartingLocations = null;
 
-    private Map() {
+    private Random rng;
 
+    private Map() {
+        this.rng = new Random();
     }
 
     public static Map Instance() {
@@ -45,13 +52,16 @@ public class Map {
         this.m_MiniTiles = new ArrayList<>();
         this.m_StartingLocations = new ArrayList<>();
 
-        m_Size = new TilePosition(this.bw.getBWMap().mapWidth(), this.bw.getBWMap().mapHeight());
-        m_size = Size().getX() * Size().getY();
+        m_TileSize = new TilePosition(this.bw.getBWMap().mapWidth(), this.bw.getBWMap().mapHeight());
+        m_tileSize = TileSize().getX() * TileSize().getY();
 
-        m_WalkSize = new WalkPosition(Size());
+        m_WalkSize = new WalkPosition(TileSize());
         m_walkSize = WalkSize().getX() * WalkSize().getY();
 
-        m_center = new Position(Size().getX() / 2, Size().getY() / 2);
+        m_PixelSize = new Position(TileSize().getX() * TilePosition.SIZE_IN_PIXELS, TileSize().getY() * TilePosition.SIZE_IN_PIXELS);
+        m_pixelSize = PixelSize().getX() * PixelSize().getY();
+
+        m_center = new Position(PixelSize().getX() / 2, PixelSize().getY() / 2);
 
         for (TilePosition tilePosition : this.bw.getBWMap().getStartLocations()) {
             m_StartingLocations.add(tilePosition);
@@ -63,7 +73,7 @@ public class Map {
     }
 
     public boolean Initialized() {
-        return (m_size != 0);
+        return (m_tileSize != 0);
     }
 
 
@@ -97,16 +107,20 @@ public class Map {
 
 
 
-    public TilePosition Size() {
+    public TilePosition TileSize() {
         /* map.h:92:const BWAPI::TilePosition & Size() const { return m_Size; } */
         /* bwapi4j.TilePosition is not immutable. */
-        return new TilePosition(m_Size.getX(), m_Size.getY());
+        return new TilePosition(m_TileSize.getX(), m_TileSize.getY());
     }
 
     public WalkPosition WalkSize() {
         /* map.h:95:const BWAPI::WalkPosition & WalkSize() const { return m_WalkSize; } */
         /* bwapi4j.WalkPosition is not immutable. */
         return new WalkPosition(m_WalkSize.getX(), m_WalkSize.getY());
+    }
+
+    public Position PixelSize() {
+        return new Position(m_PixelSize.getX(), m_PixelSize.getY());
     }
 
     public Position Center() {
@@ -121,9 +135,14 @@ public class Map {
 /// map.h:101
 //////////////////////////////////////////////////////////////////////
 
-//	// Returns a random position in the Map in pixels.
-//	BWAPI::Position						RandomPosition() const;
-//
+    // Returns a random position in the Map in pixels.
+    /* map.h:101:BWAPI::Position RandomPosition() const; */
+    public Position RandomPosition() {
+        int x = this.rng.nextInt(PixelSize().getX());
+        int y = this.rng.nextInt(PixelSize().getY());
+        return new Position(x, y);
+    }
+
 //	// Returns the maximum altitude in the whole Map (Cf. MiniTile::Altitude()).
 //	virtual altitude_t					MaxAltitude() const = 0;
 //
@@ -149,7 +168,7 @@ public class Map {
         }
         BwemUtils.unused(checkMode);
         //TODO: The original C++ function is const. Solution: return new object?
-        return m_Tiles.get(Size().getX() * p.getY() + p.getX());
+        return m_Tiles.get(TileSize().getX() * p.getY() + p.getX());
     }
 
     public Tile GetTile(TilePosition p) {
@@ -197,8 +216,8 @@ public class Map {
     }
 
     public boolean Valid(TilePosition p) {
-        return (p.getX() >= 0 && p.getX() < Size().getX()
-                && p.getY() >= 0 && p.getY() < Size().getY());
+        return (p.getX() >= 0 && p.getX() < TileSize().getX()
+                && p.getY() >= 0 && p.getY() < TileSize().getY());
     }
 
     public boolean Valid(WalkPosition p) {
@@ -245,7 +264,7 @@ public class Map {
     }
 
     public TilePosition Crop(TilePosition p) {
-        return crop(p, Size().getX(), Size().getY());
+        return crop(p, TileSize().getX(), TileSize().getY());
     }
 
     public WalkPosition Crop(WalkPosition p) {
@@ -253,7 +272,7 @@ public class Map {
     }
 
     public Position Crop(Position p) {
-        return crop(p, Size().getX() * TilePosition.SIZE_IN_PIXELS, Size().getY() * TilePosition.SIZE_IN_PIXELS);
+        return crop(p, PixelSize().getX(), PixelSize().getY());
     }
 
 	// Returns a reference to the starting Locations.
@@ -366,8 +385,8 @@ public class Map {
         }
 
         // Mark buildable tiles (tiles are unbuildable by default)
-        for (int y = 0 ; y < Size().getY() ; y++)
-        for (int x = 0 ; x < Size().getX() ; x++) {
+        for (int y = 0 ; y < TileSize().getY() ; y++)
+        for (int x = 0 ; x < TileSize().getX() ; x++) {
             TilePosition t = new TilePosition(x, y);
 //            if (broodwar.getBWMap().isBuildable(t)) { /* isBuildable is not implemented yet. */
 //                // TODO

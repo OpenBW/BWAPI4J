@@ -7,11 +7,13 @@ public class BwemUtils {
         check
     }
 
+    //TODO: What is the reason for this function?
     /* utils.h:38:template <class T> void unused(const T &) {} */
     public static <T> void unused(T obj) {
         /* Do nothing. */
     }
 
+    //TODO
     /* map.cpp:29 */
 //    bool seaSide(WalkPosition p, const Map * pMap)
 //    {
