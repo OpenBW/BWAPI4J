@@ -25,13 +25,13 @@ import org.apache.commons.lang3.mutable.MutableInt;
 public class Tile {
 
 //    Neutral *			m_pNeutral = nullptr; // TODO
-    private int m_minAltitude;
+    private Altitude m_minAltitude;
     private int m_areaId;
     MutableInt m_internalData;
     Bits m_bits;
 
     public Tile() {
-        m_minAltitude = 0;
+        m_minAltitude = new Altitude(0);
         m_areaId = 0;
         m_internalData = new MutableInt(0);
         m_bits = new Bits();
@@ -55,8 +55,8 @@ public class Tile {
 
     // Tile::MinAltitude() somewhat aggregates the MiniTile::Altitude() values of the 4 x 4 sub-MiniTiles.
     // Returns the minimum value.
-	public int MinAltitude() {
-        return m_minAltitude;
+	public Altitude MinAltitude() {
+        return new Altitude(m_minAltitude);
     }
 
     // Tells if at least one of the sub-MiniTiles is Walkable.
@@ -78,7 +78,7 @@ public class Tile {
     // Tells if this Tile is part of a doodad.
     // Corresponds to BWAPI::getGroundHeight % 2
     public boolean Doodad() {
-        return (m_bits.doodad == 0x1);
+        return (m_bits.doodad != 0x0);
     }
 
     // TODO
@@ -105,9 +105,9 @@ public class Tile {
     }
 
     public void SetGroundHeight(int h) {
-//        assert ((0 <= h) && (h <= 2));
+//        assert ((0 <= h) && (h <= 2)); /* Assertions shouldn't be used in public methods as validation even though these methods are used by BWEM's internals. */
         if (!((h >= 0) && (h <= 2))) {
-            throw new IllegalArgumentException(); /* Assertions shouldn't be used in public methods as validation even though these methods are used by BWEM's internals. */
+            throw new IllegalArgumentException("h=" + h);
         }
         m_bits.groundHeight = (byte) h;
     }
@@ -135,12 +135,12 @@ public class Tile {
         m_areaId = 0;
     }
 
-    public void SetMinAltitude(int a) {
+    public void SetMinAltitude(Altitude altitude) {
 //        assert (a >= 0); /* Assertions shouldn't be used in public methods as validation even though these methods are used by BWEM's internals. */
-        if (!(a >= 0)) {
-            throw new IllegalArgumentException();
+        if (!(altitude.toInt() >= 0)) {
+            throw new IllegalArgumentException("altitude=" + altitude.toInt());
         }
-        m_minAltitude = a;
+        m_minAltitude = new Altitude(altitude);
     }
 
     // TODO
