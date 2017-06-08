@@ -2,7 +2,8 @@
 
 ### Abstract
 
-Port the BWEM C++ library to Java for compatibility with BWAPI4J. Main priority is the following method and its dependencies:
+Port the BWEM C++ library to Java for compatibility with BWAPI4J. Main priority is the following methods and their dependencies:
+* `map.h:204:virtual const CPPath &	GetPath(const BWAPI::Position & a, const BWAPI::Position & b, int * pLength = nullptr) const = 0;`
 * `graph.cpp:392:const CPPath & Graph::GetPath(const Position & a, const Position & b, int * pLength) const`
 
 ### Port Author
@@ -30,18 +31,18 @@ assert(startingLocationsOK);
 ### Porting Notes
 
 `BWEM::Map`
-* This class is a singleton and an interface/abstract. For now, everything will be ported into `Map.java` as a regular instantiatable class.
-* `BWEM::Map::Initialize()` code will be put into the constructor `public Map(org.openbw.bwapi4j.BW)`.
-* Parameterless constructor for `bwem.Map` has been publically disabled since the original `BWAPI::Broodwar` is required and a singleton.
+* This class is a singleton and an interface/abstract. For now, everything will be ported into `Map.java` as a ~~regular instantiatable class~~singleton.
+* `BWEM::Map::Initialize()` code will be put into ~~the constructor `public Map(org.openbw.bwapi4j.BW)`~~`MapInitialize()`.
+* ~~Parameterless constructor for `bwem.Map` has been publically disabled since the original `BWAPI::Broodwar` is required and a singleton~~. Instantiation, initialization, and access have been implemented to match `BWEM::Map::Instance()` and their counterparts.
 
 ### Modifications
 
 #### Types
 
-| Location | Original | Current | C++ | Java | Description |
-|-|-|-|-|-|-|
-| `area.h:54` | `public Area::id` | `Area.id` | `int16_t` | `int` | |
-| `defs.h:54` | `altitude_t` | N/A | `int16_t` | `int` | altitude type in pixels |
+| Location | Access | Original | Current | C++ | Java | Description |
+|-|-|-|-|-|-|-|
+| `area.h:54` | public | `Area::id` | N/A | `int16_t` | TBD | |
+| `defs.h:54` | global | `altitude_t` | N/A | `int16_t` | TBD | altitude type in pixels |
 
 ### Code Trace
 
