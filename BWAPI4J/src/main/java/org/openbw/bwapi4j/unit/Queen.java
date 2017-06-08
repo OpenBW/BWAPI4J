@@ -20,23 +20,22 @@ public class Queen extends MobileUnit implements Organic, SpellCaster {
     }
     
     @Override
-    public int initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
+    public void initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
 
         this.energy = 0;
-        return super.initialize(unitData, index, allUnits);
+        super.initialize(unitData, index, allUnits);
     }
 
     @Override
-    public int update(int[] unitData, int index) {
+    public void update(int[] unitData, int index) {
 
         this.energy = unitData[index + Unit.ENERGY_INDEX];
         super.update(unitData, index);
-
-        return index;
     }
 
     @Override
     public int getEnergy() {
+        
         return this.energy;
     }
     
@@ -48,8 +47,10 @@ public class Queen extends MobileUnit implements Organic, SpellCaster {
     public boolean infestation(CommandCenter commandCenter) {
         
         if (this.energy < TechType.Infestation.energyCost()) {
+            
             return false;
         } else {
+            
             return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), commandCenter.getId(), 
                     -1, -1, TechType.Infestation.getId());
         }
@@ -63,8 +64,10 @@ public class Queen extends MobileUnit implements Organic, SpellCaster {
     public boolean parasite(MobileUnit target) {
         
         if (this.energy < TechType.Parasite.energyCost()) {
+            
             return false;
         } else {
+            
             return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), target.getId(), 
                     -1, -1, TechType.Parasite.getId());
         }
@@ -73,11 +76,14 @@ public class Queen extends MobileUnit implements Organic, SpellCaster {
     public boolean spawnBroodling(MobileUnit target) {
         
         if (this.energy < TechType.Spawn_Broodlings.energyCost()) {
+            
             return false;
-        } else if (false) {// TODO (target instanceof Robotic || target instanceof Archon || target instanceof DarkArchon) {
+        } else if (target instanceof Robotic || target instanceof Archon || target instanceof DarkArchon) {
+            
             logger.info("Spawn Broodling spell cannot target a {}", target);
             return false;
         } else {
+            
             return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), target.getId(), -1, -1, TechType.Spawn_Broodlings.getId());
         }
     }
@@ -85,8 +91,10 @@ public class Queen extends MobileUnit implements Organic, SpellCaster {
     public boolean ensnare(Position position) {
         
         if (this.energy < TechType.Ensnare.energyCost()) {
+            
             return false;
         } else {
+            
             return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), -1, position.getX(), position.getY(), TechType.Ensnare.getId());
         }
     }

@@ -23,21 +23,19 @@ public class Defiler extends MobileUnit implements Organic, SpellCaster, Burrowa
     }
     
     @Override
-    public int initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
+    public void initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
 
         this.energy = 0;
         this.burrowed = false;
-        return super.initialize(unitData, index, allUnits);
+        super.initialize(unitData, index, allUnits);
     }
 
     @Override
-    public int update(int[] unitData, int index) {
+    public void update(int[] unitData, int index) {
 
         this.burrowed = unitData[index + Unit.IS_BURROWED_INDEX] == 1;
         this.energy = unitData[index + Unit.ENERGY_INDEX];
         super.update(unitData, index);
-
-        return index;
     }
 
     @Override

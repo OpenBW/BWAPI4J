@@ -194,8 +194,7 @@ public class UnitFactory {
             unit = new Hive(unitId, timeSpotted);
             break;
         case Zerg_Nydus_Canal:
-            // TODO
-            unit = null;
+            unit = new NydusCanal(unitId, timeSpotted);
             break;
         case Zerg_Hydralisk_Den:
             unit = new HydraliskDen(unitId, timeSpotted);
@@ -234,21 +233,53 @@ public class UnitFactory {
             unit = new Extractor(unitId, timeSpotted);
             break;
         case Protoss_Corsair:
+            unit = new Corsair(unitId);
+            break;
         case Protoss_Dark_Templar:
+            unit = new DarkTemplar(unitId);
+            break;
         case Protoss_Dark_Archon:
+            unit = new DarkArchon(unitId);
+            break;
         case Protoss_Probe:
+            unit = new Probe(unitId);
+            break;
         case Protoss_Zealot:
+            unit = new Zealot(unitId);
+            break;
         case Protoss_Dragoon:
+            unit = new Dragoon(unitId);
+            break;
         case Protoss_High_Templar:
+            unit = new HighTemplar(unitId);
+            break;
         case Protoss_Archon:
+            unit = new Archon(unitId);
+            break;
         case Protoss_Shuttle:
+            unit = new Shuttle(unitId);
+            break;
         case Protoss_Scout:
+            unit = new Scout(unitId);
+            break;
         case Protoss_Arbiter:
+            unit = new Arbiter(unitId);
+            break;
         case Protoss_Carrier:
+            unit = new Carrier(unitId);
+            break;
         case Protoss_Interceptor:
+            unit = new Interceptor(unitId);
+            break;
         case Protoss_Reaver:
+            unit = new Reaver(unitId);
+            break;
         case Protoss_Observer:
+            unit = new Observer(unitId);
+            break;
         case Protoss_Scarab:
+            unit = new Scarab(unitId);
+            break;
         case Protoss_Nexus:
         case Protoss_Robotics_Facility:
         case Protoss_Pylon:

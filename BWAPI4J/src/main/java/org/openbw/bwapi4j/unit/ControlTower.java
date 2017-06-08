@@ -11,50 +11,49 @@ public class ControlTower extends Addon implements Mechanical, ResearchingFacili
     private Researcher researcher;
 
     protected ControlTower(int id, int timeSpotted) {
+        
         super(id, UnitType.Terran_Control_Tower, timeSpotted);
         this.researcher = new Researcher();
     }
 
     @Override
-    public int initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
+    public void update(int[] unitData, int index) {
 
-        return super.initialize(unitData, index, allUnits);
-    }
-
-    @Override
-    public int update(int[] unitData, int index) {
-
-        super.update(unitData, index);
         this.researcher.update(unitData, index);
-
-        return index;
+        super.update(unitData, index);
     }
 
     public boolean researchCloakingField() {
+        
         return this.researcher.research(TechType.Cloaking_Field);
     }
 
     public boolean upgradeApolloReactor() {
+        
         return this.researcher.upgrade(UpgradeType.Apollo_Reactor);
     }
 
     @Override
     public boolean isUpgrading() {
+        
         return this.researcher.isUpgrading();
     }
 
     @Override
     public boolean isResearching() {
+        
         return this.researcher.isResearching();
     }
 
     @Override
     public boolean cancelResearch() {
+        
         return this.researcher.cancelResearch();
     }
 
     @Override
     public boolean cancelUpgrade() {
+        
         return this.researcher.cancelUpgrade();
     }
 }

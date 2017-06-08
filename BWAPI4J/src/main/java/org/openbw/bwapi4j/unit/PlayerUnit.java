@@ -17,6 +17,8 @@ public abstract class PlayerUnit extends Unit {
 
     // dynamic
     protected int hitPoints;
+    protected int shields;
+    protected int killCount;
     protected boolean isCloaked;
     protected boolean isDetected;
     protected boolean isFlying;
@@ -37,23 +39,23 @@ public abstract class PlayerUnit extends Unit {
     private int lastKnownHitPoints;
 
     protected PlayerUnit(int id, UnitType unitType) {
+        
         super(id, unitType);
     }
 
     @Override
-    public int initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
+    public void initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
 
-        index = super.initialize(unitData, index, allUnits);
         this.initialHitPoints = unitData[index + Unit.INITIAL_HITPOINTS_INDEX];
-
-        return index;
+        super.initialize(unitData, index, allUnits);
     }
 
     @Override
-    public int update(int[] unitData, int index) {
+    public void update(int[] unitData, int index) {
 
-        index = super.update(unitData, index);
         this.hitPoints = unitData[index + Unit.HITPOINTS_INDEX];
+        this.shields = unitData[index + Unit.SHIELDS_INDEX];
+        this.killCount = unitData[index + Unit.KILLCOUNT_INDEX];
         this.isCloaked = unitData[index + Unit.IS_CLOAKED_INDEX] == 1;
         this.isDetected = unitData[index + Unit.IS_DETECTED_INDEX] == 1;
         this.isFlying = unitData[index + Unit.IS_FLYING_INDEX] == 1;
@@ -70,7 +72,8 @@ public abstract class PlayerUnit extends Unit {
             this.lastKnownTilePosition = super.tilePosition;
             this.lastKnownHitPoints = this.hitPoints;
         }
-        return index;
+        
+        super.update(unitData, index);
     }
 
     /**
@@ -88,8 +91,10 @@ public abstract class PlayerUnit extends Unit {
         List<T> inRange = this.getUnitsInRadius(radius, units);
         T weakestUnit;
         if (inRange.isEmpty()) {
+            
             weakestUnit = this.getClosest(units);
         } else {
+            
             Comparator<T> comp = (u1, u2) -> Integer.compare(u1.getHitPoints(), u2.getHitPoints());
             weakestUnit = inRange.parallelStream().min(comp).get();
         }
@@ -97,98 +102,122 @@ public abstract class PlayerUnit extends Unit {
     }
 
     public boolean isCompleted() {
+        
         return this.isCompleted;
     }
 
     public int maxHitPoints() {
+        
         return this.type.maxHitPoints();
     }
 
     public int getHitPoints() {
+        
         return this.hitPoints;
     }
 
     public int getGroundWeaponCooldown() {
+        
         return groundWeaponCooldown;
     }
 
     public int getAirWeaponCooldown() {
+        
         return airWeaponCooldown;
     }
 
     public int getSpellCooldown() {
+        
         return spellCooldown;
     }
 
     public Player getPlayer() {
+        
         return player;
     }
 
     public int getInitialHitPoints() {
+        
         return this.initialHitPoints;
     }
 
     public int getMineralPrice() {
+        
         return this.type.mineralPrice();
     }
 
     public int getGasPrice() {
+        
         return this.type.gasPrice();
     }
 
     public int getLastKnownHitPoints() {
+        
         return this.lastKnownHitPoints;
     }
 
     public Position getLastKnownPosition() {
+        
         return this.lastKnownPosition;
     }
 
     public TilePosition getLastKnownTilePosition() {
+        
         return this.lastKnownTilePosition;
     }
 
     public int getSightRange() {
+        
         return this.type.sightRange();
     }
 
     public boolean isFlying() {
+        
         return this.isFlying;
     }
 
     public boolean isDetected() {
+        
         return this.isDetected;
     }
 
     public boolean isCloaked() {
+        
         return this.isCloaked;
     }
 
     public boolean isFlyer() {
+        
         return this.type.isFlyer();
     }
 
     public int tileWidth() {
+        
         return this.type.tileWidth();
     }
 
     public int tileHeight() {
+        
         return this.type.tileHeight();
     }
 
     public double topSpeed() {
+        
         return this.type.topSpeed();
     }
 
     public double getVelocityX() {
+        
         return this.velocityX;
     }
 
     public double getVelocityY() {
+        
         return this.velocityY;
     }
 
     public boolean isIdle() {
+        
         return this.isIdle;
     }
 

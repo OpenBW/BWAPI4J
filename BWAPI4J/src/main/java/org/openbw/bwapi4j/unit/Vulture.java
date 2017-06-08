@@ -1,5 +1,7 @@
 package org.openbw.bwapi4j.unit;
 
+import java.util.Map;
+
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitCommandType;
@@ -7,9 +9,30 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class Vulture extends MobileUnit implements Mechanical {
 
+    private int spiderMineCount;
+    
     protected Vulture(int id) {
         
         super(id, UnitType.Terran_Vulture);
+    }
+    
+    @Override
+    public void initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
+
+        this.spiderMineCount = 0;
+        super.initialize(unitData, index, allUnits);
+    }
+
+    @Override
+    public void update(int[] unitData, int index) {
+
+        this.spiderMineCount = unitData[index + Unit.SPIDERMINE_COUNT_INDEX];
+        super.update(unitData, index);
+    }
+    
+    public int getSpiderMineCount() {
+        
+        return this.spiderMineCount;
     }
     
     /**

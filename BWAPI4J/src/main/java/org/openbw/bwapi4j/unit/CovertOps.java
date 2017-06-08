@@ -1,7 +1,5 @@
 package org.openbw.bwapi4j.unit;
 
-import java.util.Map;
-
 import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
@@ -16,15 +14,10 @@ public class CovertOps extends Addon implements Mechanical, ResearchingFacility 
     }
 
     @Override
-    public int initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
-        return super.initialize(unitData, index, allUnits);
-    }
-
-    @Override
-    public int update(int[] unitData, int index) {
+    public void update(int[] unitData, int index) {
 
         this.researcher.update(unitData, index);
-        return super.update(unitData, index);
+        super.update(unitData, index);
     }
 
     public boolean researchPersonnelCloaking() {

@@ -16,19 +16,17 @@ public class BattleCruiser extends MobileUnit implements Mechanical, SpellCaster
     }
 
     @Override
-    public int initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
+    public void initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
 
         this.energy = 0;
-        return super.initialize(unitData, index, allUnits);
+        super.initialize(unitData, index, allUnits);
     }
 
     @Override
-    public int update(int[] unitData, int index) {
+    public void update(int[] unitData, int index) {
 
         this.energy = unitData[index + Unit.ENERGY_INDEX];
         super.update(unitData, index);
-
-        return index;
     }
 
     public boolean yamatoGun(PlayerUnit unit) {
