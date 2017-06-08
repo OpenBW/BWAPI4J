@@ -20,11 +20,11 @@ public class MiniTile {
 
     private static final int blockingCP = 0; // static const Area::id blockingCP;
 
-    private int m_altitude; // 0 for seas  ;  != 0 for terrain and lakes (-1 = not computed yet)  ;  1 = SeaOrLake intermediate value
+    private Altitude m_altitude; // 0 for seas  ;  != 0 for terrain and lakes (-1 = not computed yet)  ;  1 = SeaOrLake intermediate value
     private int m_areaId; // 0 -> unwalkable  ;  > 0 -> index of some Area  ;  < 0 -> some walkable terrain, but too small to be part of an Area
 
     public MiniTile() {
-        m_altitude = -1;
+        m_altitude = new Altitude(-1);
         m_areaId = -1;
     }
 
@@ -41,20 +41,20 @@ public class MiniTile {
     // Distance in pixels between the center of this MiniTile and the center of the nearest Sea-MiniTile
     // Sea-MiniTiles all have their Altitude() equal to 0.
     // MiniTiles having Altitude() > 0 are not Sea-MiniTiles. They can be either Terrain-MiniTiles or Lake-MiniTiles.
-    public int Altitude() {
+    public Altitude Altitude() {
         return m_altitude;
     }
 
     // Sea-MiniTiles are unwalkable MiniTiles that have their Altitude() equal to 0.
     public boolean Sea() {
-        return (m_altitude == 0);
+        return (m_altitude.toInt() == 0);
     }
 
     // Lake-MiniTiles are unwalkable MiniTiles that have their Altitude() > 0.
     // They form small zones (inside Terrain-zones) that can be eaysily walked around (e.g. Starcraft's doodads)
     // The intent is to preserve the continuity of altitudes inside Areas.
     public boolean Lake() {
-        return (m_altitude != 0 && !Walkable());
+        return (m_altitude.toInt() != 0 && !Walkable());
     }
 
     // Terrain MiniTiles are just walkable MiniTiles
@@ -79,11 +79,11 @@ public class MiniTile {
 
     public void SetWalkable(boolean walkable) {
         m_areaId = (walkable ? -1 : 0);
-        m_altitude = (walkable ? -1 : 1);
+        m_altitude = new Altitude((walkable ? -1 : 1));
     }
 
     public boolean SeaOrLake() {
-        return (m_altitude == 1);
+        return (m_altitude.toInt() == 1);
     }
 
     public void SetSea() {
@@ -91,7 +91,7 @@ public class MiniTile {
         if (!(!Walkable() && SeaOrLake())) {
             throw new IllegalStateException();
         }
-        m_altitude = 0;
+        m_altitude = new Altitude(0);
     }
 
     public void SetLake() {
@@ -99,17 +99,20 @@ public class MiniTile {
         if (!(!Walkable() && Sea())) {
             throw new IllegalStateException();
         }
-        m_altitude = -1;
+        m_altitude = new Altitude(-1);
     }
 
     public boolean AltitudeMissing() {
-        return (m_altitude == -1);
+        return (m_altitude.toInt() == -1);
     }
 
     public void SetAltitude(int a) {
 //        bwem_assert_debug_only(AltitudeMissing() && (a > 0));
-        assert (AltitudeMissing() && (a > 0)); /* Assertions can be disabled. */
-        m_altitude = a;
+//        assert (AltitudeMissing() && (a > 0)); /* Assertions shouldn't be used in public methods as validation even though these methods are used by BWEM's internals. */
+        if (!(AltitudeMissing() && (a > 0))) {
+            throw new IllegalStateException();
+        }
+        m_altitude = new Altitude(a);
     }
 
     public boolean AreaIdMissing() {
