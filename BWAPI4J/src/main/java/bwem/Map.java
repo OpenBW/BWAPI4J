@@ -71,7 +71,9 @@ public class Map {
 
         m_maxAltitude = new Altitude(0);
 
-        LoadData(); // TODO
+        LoadData();
+
+//        DecideSeasOrLakes(); // TODO
 
         // TODO
     }
@@ -174,6 +176,7 @@ public class Map {
         }
         BwemUtils.unused(checkMode);
         //TODO: The original C++ function is const. Solution: return new object?
+        //  - Update: No. Return the object so it can be modified.
         return m_Tiles.get(TileSize().getX() * p.getY() + p.getX());
     }
 
@@ -394,9 +397,24 @@ public class Map {
         for (int y = 0 ; y < TileSize().getY() ; y++)
         for (int x = 0 ; x < TileSize().getX() ; x++) {
             TilePosition t = new TilePosition(x, y);
+            //TODO
 //            if (broodwar.getBWMap().isBuildable(t)) { /* isBuildable is not implemented yet. */
-//                // TODO
-//            }
+            if (false) {
+                GetTile(t).SetBuildable();
+                // Ensures buildable ==> walkable:
+                for (int dy = 0 ; dy < 4 ; ++dy)
+                for (int dx = 0 ; dx < 4 ; ++dx) {
+                    WalkPosition w = new WalkPosition(t);
+                    GetMiniTile(new WalkPosition(w.getX() + dx, w.getY() + dy), BwemUtils.check_t.no_check).SetWalkable(true);
+                }
+            }
+
+            // Add groundHeight and doodad information:
+            int bwapiGroundHeight = bw.getBWMap().getGroundHeight(t);
+            GetTile(t).SetGroundHeight(bwapiGroundHeight / 2);
+            if (bwapiGroundHeight % 2 != 0) {
+                GetTile(t).SetDoodad();
+            }
         }
     }
 
