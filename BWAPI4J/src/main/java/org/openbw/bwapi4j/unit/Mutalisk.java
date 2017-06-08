@@ -7,7 +7,8 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class Mutalisk extends MobileUnit implements Organic {
 
-    Mutalisk(int id) {
+    protected Mutalisk(int id) {
+        
         super(id, UnitType.Zerg_Mutalisk);
     }
     
@@ -24,6 +25,7 @@ public class Mutalisk extends MobileUnit implements Organic {
     }
     
     public boolean morph() {
+        
         return issueCommand(this.id, UnitCommandType.Morph.ordinal(), -1, -1, -1, UnitType.Zerg_Guardian.getId());
     }
 }

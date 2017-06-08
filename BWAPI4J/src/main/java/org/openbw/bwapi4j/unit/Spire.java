@@ -10,7 +10,7 @@ public class Spire extends Building implements Organic, ResearchingFacility {
 
     private Researcher researcher;
     
-    Spire(int id, int timeSpotted) {
+    protected Spire(int id, int timeSpotted) {
         
         super(id, UnitType.Zerg_Spire, timeSpotted);
         this.researcher = new Researcher();

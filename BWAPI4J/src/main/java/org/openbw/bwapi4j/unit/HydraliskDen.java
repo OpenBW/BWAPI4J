@@ -10,7 +10,7 @@ public class HydraliskDen extends Building implements Organic, ResearchingFacili
 
     private Researcher researcher;
     
-    HydraliskDen(int id, int timeSpotted) {
+    protected HydraliskDen(int id, int timeSpotted) {
         
         super(id, UnitType.Zerg_Hydralisk_Den, timeSpotted);
         this.researcher = new Researcher();

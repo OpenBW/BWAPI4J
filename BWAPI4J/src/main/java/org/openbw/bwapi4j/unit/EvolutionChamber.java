@@ -9,7 +9,7 @@ public class EvolutionChamber extends Building implements Organic, ResearchingFa
 
     private Researcher researcher;
     
-    EvolutionChamber(int id, int timeSpotted) {
+    protected EvolutionChamber(int id, int timeSpotted) {
         
         super(id, UnitType.Zerg_Evolution_Chamber, timeSpotted);
         this.researcher = new Researcher();

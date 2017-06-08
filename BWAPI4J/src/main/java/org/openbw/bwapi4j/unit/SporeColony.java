@@ -5,7 +5,7 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class SporeColony extends Building implements Organic {
 
-    SporeColony(int id, int timeSpotted) {
+    protected SporeColony(int id, int timeSpotted) {
         super(id, UnitType.Zerg_Spore_Colony, timeSpotted);
     }
 

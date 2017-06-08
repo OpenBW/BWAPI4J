@@ -11,7 +11,8 @@ public class ScienceVessel extends MobileUnit implements Mechanical, SpellCaster
 
     private int energy;
 
-    ScienceVessel(int id) {
+    protected ScienceVessel(int id) {
+        
         super(id, UnitType.Terran_Science_Vessel);
     }
 

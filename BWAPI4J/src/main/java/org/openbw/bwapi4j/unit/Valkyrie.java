@@ -4,7 +4,7 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class Valkyrie extends MobileUnit implements Mechanical {
 
-    Valkyrie(int id) {
+    protected Valkyrie(int id) {
         super(id, UnitType.Terran_Valkyrie);
     }
 }

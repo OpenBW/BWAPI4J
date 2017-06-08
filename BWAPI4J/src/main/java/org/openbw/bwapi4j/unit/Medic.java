@@ -10,7 +10,8 @@ public class Medic extends MobileUnit implements SpellCaster, Organic {
 
     private int energy;
 
-    Medic(int id) {
+    protected Medic(int id) {
+        
         super(id, UnitType.Terran_Medic);
     }
 
@@ -31,22 +32,26 @@ public class Medic extends MobileUnit implements SpellCaster, Organic {
     }
 
     public boolean healing(PlayerUnit unit) {
+        
         return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), unit.getId(), -1, -1,
                 TechType.Healing.getId());
     }
 
     public boolean opticalFlare(PlayerUnit unit) {
+        
         return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), unit.getId(), -1, -1,
                 TechType.Optical_Flare.getId());
     }
 
     public boolean restoration(PlayerUnit unit) {
+        
         return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), unit.getId(), -1, -1,
                 TechType.Restoration.getId());
     }
 
     @Override
     public int getEnergy() {
+        
         return this.energy;
     }
 }

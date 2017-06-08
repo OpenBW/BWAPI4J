@@ -117,11 +117,12 @@ public abstract class Building extends PlayerUnit {
     protected int remainingBuildTime;
     private int builderId;
 
-    Building(int id, UnitType type, int timeSpotted) {
+    protected Building(int id, UnitType type, int timeSpotted) {
         super(id, type);
         this.probableConstructionStart = calculateProbableConstructionStart(timeSpotted);
     }
 
+    @Override
     public int update(int[] unitData, int index) {
 
         super.update(unitData, index);

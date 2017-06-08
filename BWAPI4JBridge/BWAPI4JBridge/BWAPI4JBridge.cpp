@@ -402,7 +402,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 			// read existing requiredUnits map and put <UnitType,Integer> entries
 			for (auto const& req : unitType.requiredUnits()) {
 
-				std::cout << "putting " << req.first.getID() << ":" << req.second << std::endl;
+				// std::cout << "putting " << req.first.getID() << ":" << req.second << std::endl;
 				env->CallObjectMethod(CurrentUnitType, addRequiredUnit, (jint)req.first.getID(), (jint)req.second);
 			}
 			env->DeleteLocalRef(CurrentUnitType);
@@ -514,6 +514,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 			
 			env->CallObjectMethod(classref, env->GetMethodID(jc, "onStart", "()V"));
 			jmethodID onEndCallback = env->GetMethodID(jc, "onEnd", "(Z)V");
+			jmethodID preFrameCallback = env->GetMethodID(jc, "preFrame", "()V");
 			jmethodID onFrameCallback = env->GetMethodID(jc, "onFrame", "()V");
 			jmethodID onSendCallback = env->GetMethodID(jc, "onSend", "(Ljava.lang.String;)V");
 			jmethodID onReceiveCallback = env->GetMethodID(jc, "onReceive", "(ILjava.lang.String;)V");
@@ -532,6 +533,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 
 			while (Broodwar->isInGame()) {
 				
+				env->CallObjectMethod(classref, preFrameCallback);
 				for (auto &e : Broodwar->getEvents()) {
 
 					switch (e.getType()) {

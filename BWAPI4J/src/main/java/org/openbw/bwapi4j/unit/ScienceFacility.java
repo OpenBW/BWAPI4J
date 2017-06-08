@@ -10,7 +10,8 @@ public class ScienceFacility extends Building implements Mechanical, Researching
 
     private Researcher researcher;
 
-    ScienceFacility(int id, int timeSpotted) {
+    protected ScienceFacility(int id, int timeSpotted) {
+        
         super(id, UnitType.Terran_Science_Facility, timeSpotted);
         this.researcher = new Researcher();
     }

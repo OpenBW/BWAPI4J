@@ -13,7 +13,7 @@ public class Drone extends MobileUnit implements Organic, Burrowable {
     private boolean isCarryingGas;
     private boolean isCarryingMinerals;
     
-    Drone(int id) {
+    protected Drone(int id) {
         super(id, UnitType.Zerg_Drone);
     }
     

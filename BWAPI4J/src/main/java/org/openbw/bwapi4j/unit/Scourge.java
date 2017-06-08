@@ -6,7 +6,7 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class Scourge extends MobileUnit implements Organic {
 
-    Scourge(int id) {
+    protected Scourge(int id) {
         super(id, UnitType.Zerg_Scourge);
     }
     

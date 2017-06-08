@@ -9,7 +9,7 @@ public class Hydralisk extends MobileUnit implements Organic, Burrowable {
 
     private boolean burrowed;
     
-    Hydralisk(int id) {
+    protected Hydralisk(int id) {
         super(id, UnitType.Zerg_Hydralisk);
     }
     

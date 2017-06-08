@@ -8,6 +8,13 @@ public class UnitFactory {
 
     private static final Logger logger = LogManager.getLogger();
     
+    /**
+     * Creates a unit for given ID and type.
+     * @param unitId ID of the unit to create
+     * @param unitType type of the unit to create
+     * @param timeSpotted time stamp when unit first appeared
+     * @return the created unit
+     */
     public Unit createUnit(int unitId, UnitType unitType, int timeSpotted) {
 
         Unit unit;
@@ -278,7 +285,7 @@ public class UnitFactory {
             unit = new Critter(unitId, unitType);
             break;
             
-         // ignore turrets (for now)
+        // ignore turrets (for now)
         case Terran_Goliath_Turret:
         case Terran_Siege_Tank_Tank_Mode_Turret:
         case Terran_Siege_Tank_Siege_Mode_Turret:

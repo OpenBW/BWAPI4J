@@ -10,7 +10,8 @@ public class BattleCruiser extends MobileUnit implements Mechanical, SpellCaster
 
     private int energy;
 
-    BattleCruiser(int id) {
+    protected BattleCruiser(int id) {
+        
         super(id, UnitType.Terran_Battlecruiser);
     }
 
@@ -31,12 +32,14 @@ public class BattleCruiser extends MobileUnit implements Mechanical, SpellCaster
     }
 
     public boolean yamatoGun(PlayerUnit unit) {
+        
         return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), unit.getId(), -1, -1,
                 TechType.Yamato_Gun.getId());
     }
 
     @Override
     public int getEnergy() {
+        
         return this.energy;
     }
 }

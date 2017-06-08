@@ -8,7 +8,7 @@ public abstract class Spell extends PlayerUnit {
 
     protected int timeSpotted;
     
-    Spell(int id, int timeSpotted, UnitType unitType) {
+    protected Spell(int id, int timeSpotted, UnitType unitType) {
         
         super(id, unitType);
         this.timeSpotted = timeSpotted;

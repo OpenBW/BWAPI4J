@@ -5,7 +5,7 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class SunkenColony extends Building implements Organic {
 
-    SunkenColony(int id, int timeSpotted) {
+    protected SunkenColony(int id, int timeSpotted) {
         super(id, UnitType.Zerg_Sunken_Colony, timeSpotted);
     }
 

@@ -10,7 +10,7 @@ public class Extractor extends Building implements Organic {
     private int resources;
     private boolean isBeingGathered;
 
-    Extractor(int id, int timeSpotted) {
+    protected Extractor(int id, int timeSpotted) {
         super(id, UnitType.Zerg_Extractor, timeSpotted);
     }
 

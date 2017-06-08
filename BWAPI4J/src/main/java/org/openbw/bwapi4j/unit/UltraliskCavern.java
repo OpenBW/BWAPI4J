@@ -9,7 +9,7 @@ public class UltraliskCavern extends Building implements Organic, ResearchingFac
 
     private Researcher researcher;
     
-    UltraliskCavern(int id, int timeSpotted) {
+    protected UltraliskCavern(int id, int timeSpotted) {
         
         super(id, UnitType.Zerg_Ultralisk_Cavern, timeSpotted);
         this.researcher = new Researcher();

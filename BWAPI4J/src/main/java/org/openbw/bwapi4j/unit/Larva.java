@@ -7,7 +7,8 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class Larva extends PlayerUnit implements Organic {
 
-    Larva(int id) {
+    protected Larva(int id) {
+        
         super(id, UnitType.Zerg_Larva);
     }
     
@@ -24,6 +25,7 @@ public class Larva extends PlayerUnit implements Organic {
     }
     
     public boolean morph(UnitType type) {
+        
         return issueCommand(this.id, UnitCommandType.Morph.ordinal(), -1, -1, -1, type.getId());
     }
 }

@@ -12,7 +12,7 @@ public class VespeneGeyser extends Unit {
 
     private boolean isBeingGathered;
 
-    VespeneGeyser(int id) {
+    protected VespeneGeyser(int id) {
         super(id, UnitType.Resource_Vespene_Geyser);
     }
 

@@ -7,7 +7,7 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class Wraith extends MobileUnit implements Mechanical, Cloakable {
 
-    Wraith(int id) {
+    protected Wraith(int id) {
         super(id, UnitType.Terran_Wraith);
     }
 

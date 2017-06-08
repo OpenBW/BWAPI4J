@@ -5,11 +5,13 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class LurkerEgg extends PlayerUnit implements Organic {
 
-    LurkerEgg(int id) {
+    protected LurkerEgg(int id) {
+        
         super(id, UnitType.Zerg_Lurker_Egg);
     }
     
     public boolean cancelMorph() {
+        
         return issueCommand(this.id, UnitCommandType.Cancel_Morph.ordinal(), -1, -1, -1, -1);
     }
 }

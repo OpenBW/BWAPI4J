@@ -10,7 +10,7 @@ public class Hive extends Building implements Organic, ResearchingFacility {
 
     private Researcher researcher;
     
-    Hive(int id, int timeSpotted) {
+    protected Hive(int id, int timeSpotted) {
         
         super(id, UnitType.Zerg_Hive, timeSpotted);
         this.researcher = new Researcher();

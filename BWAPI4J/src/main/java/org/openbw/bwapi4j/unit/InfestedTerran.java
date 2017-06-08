@@ -9,7 +9,8 @@ public class InfestedTerran extends MobileUnit implements Organic, Burrowable {
 
     private boolean burrowed;
     
-    InfestedTerran(int id) {
+    protected InfestedTerran(int id) {
+        
         super(id, UnitType.Zerg_Infested_Terran);
     }
     

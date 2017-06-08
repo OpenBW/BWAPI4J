@@ -17,7 +17,7 @@ public class Defiler extends MobileUnit implements Organic, SpellCaster, Burrowa
     private int energy;
     private boolean burrowed;
 
-    Defiler(int id) {
+    protected Defiler(int id) {
         
         super(id, UnitType.Zerg_Defiler);
     }

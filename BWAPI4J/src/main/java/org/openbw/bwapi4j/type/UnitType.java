@@ -369,8 +369,8 @@ public enum UnitType {
     }
     
     public void addRequiredUnit(int typeId, int amount) {
-        System.out.print("unit type: ");
-        System.out.println(UnitType.values()[typeId] + ":" + amount);
+//        System.out.print("unit type: ");
+//        System.out.println(UnitType.values()[typeId] + ":" + amount);
         this.requiredUnits.add(UnitType.values()[typeId]);
     }
 

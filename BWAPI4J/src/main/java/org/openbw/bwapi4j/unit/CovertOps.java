@@ -10,7 +10,7 @@ public class CovertOps extends Addon implements Mechanical, ResearchingFacility 
 
     private Researcher researcher;
 
-    CovertOps(int id, int timeSpotted) {
+    protected CovertOps(int id, int timeSpotted) {
         super(id, UnitType.Terran_Covert_Ops, timeSpotted);
         this.researcher = new Researcher();
     }

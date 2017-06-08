@@ -167,7 +167,7 @@ public abstract class Unit implements Comparable<Unit> {
     private Map<Integer, Unit> allUnits;
     private int lastSpotted;
 
-    Unit(int id, UnitType unitType) {
+    protected Unit(int id, UnitType unitType) {
         this.id = id;
         this.type = unitType;
         this.initialType = unitType;

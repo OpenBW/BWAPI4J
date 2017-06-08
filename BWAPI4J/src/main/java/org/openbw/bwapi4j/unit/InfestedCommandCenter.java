@@ -10,7 +10,7 @@ public class InfestedCommandCenter extends Building implements Organic, FlyingBu
     private Flyer flyer;
     private Trainer trainer;
 
-    InfestedCommandCenter(int id, int timeSpotted) {
+    protected InfestedCommandCenter(int id, int timeSpotted) {
         super(id, UnitType.Zerg_Infested_Command_Center, timeSpotted);
         this.flyer = new Flyer();
         this.trainer = new Trainer();

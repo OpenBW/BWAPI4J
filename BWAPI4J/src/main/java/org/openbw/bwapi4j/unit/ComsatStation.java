@@ -9,7 +9,7 @@ public class ComsatStation extends Addon implements Mechanical, SpellCaster {
 
     private int energy;
 
-    ComsatStation(int id, int timeSpotted) {
+    protected ComsatStation(int id, int timeSpotted) {
         super(id, UnitType.Terran_Comsat_Station, timeSpotted);
     }
 
