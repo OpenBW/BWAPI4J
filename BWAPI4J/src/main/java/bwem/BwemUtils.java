@@ -1,7 +1,13 @@
 package bwem;
 
+import org.openbw.bwapi4j.WalkPosition;
+
 public class BwemUtils {
 
+    /**
+     * Enum to satisfy its C++ counterpart:
+     *   defs.h:62:enum class check_t {no_check, check};
+     */
     public enum check_t {
         no_check,
         check
@@ -13,7 +19,6 @@ public class BwemUtils {
         /* Do nothing. */
     }
 
-    //TODO
     /* map.cpp:29 */
 //    bool seaSide(WalkPosition p, const Map * pMap)
 //    {
@@ -26,5 +31,21 @@ public class BwemUtils {
 //
 //        return false;
 //    }
+    public boolean seaSide(WalkPosition p, Map pMap) {
+        if (!pMap.GetMiniTile(p).Sea()) {
+            return false;
+        }
+
+        WalkPosition[] dirs = { new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(1, 0), new WalkPosition(0, 1) };
+        for (WalkPosition delta : dirs) {
+            WalkPosition pDelta = new WalkPosition(p.getX() + delta.getX(), p.getY() + delta.getY());
+            if (pMap.Valid(pDelta)
+                    && !pMap.GetMiniTile(pDelta, check_t.no_check).Sea()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
 }
