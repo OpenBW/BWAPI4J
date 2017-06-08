@@ -9,7 +9,7 @@ public class GreaterSpire extends Building implements Organic, ResearchingFacili
 
     private Researcher researcher;
     
-    GreaterSpire(int id, int timeSpotted) {
+    protected GreaterSpire(int id, int timeSpotted) {
         
         super(id, UnitType.Zerg_Greater_Spire, timeSpotted);
         this.researcher = new Researcher();

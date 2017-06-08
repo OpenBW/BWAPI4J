@@ -4,7 +4,8 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class DarkSwarm extends Spell {
 
-    DarkSwarm(int id, int timeSpotted) {
+    protected DarkSwarm(int id, int timeSpotted) {
+        
         super(id, timeSpotted, UnitType.Spell_Dark_Swarm);
     }
 

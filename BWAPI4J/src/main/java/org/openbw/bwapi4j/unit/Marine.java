@@ -10,7 +10,8 @@ public class Marine extends MobileUnit implements Organic {
 
     private boolean isStimmed;
 
-    Marine(int id) {
+    protected Marine(int id) {
+        
         super(id, UnitType.Terran_Marine);
     }
 
@@ -28,10 +29,12 @@ public class Marine extends MobileUnit implements Organic {
     }
 
     public boolean isStimmed() {
+        
         return this.isStimmed;
     }
 
     public boolean stimPack() {
+        
         return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), -1, -1, -1, TechType.Stim_Packs.getId());
     }
 }

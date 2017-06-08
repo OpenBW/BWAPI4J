@@ -11,7 +11,7 @@ public class Lair extends Building implements Organic, ResearchingFacility {
 
     private Researcher researcher;
     
-    Lair(int id, int timeSpotted) {
+    protected Lair(int id, int timeSpotted) {
         
         super(id, UnitType.Zerg_Lair, timeSpotted);
         this.researcher = new Researcher();
@@ -33,42 +33,51 @@ public class Lair extends Building implements Organic, ResearchingFacility {
     }
     
     public boolean researchBurrowing() {
+        
         return this.researcher.research(TechType.Burrowing);
     }
     
     public boolean upgradeVentralSacs() {
+        
         return this.researcher.upgrade(UpgradeType.Ventral_Sacs);
     }
     
     public boolean upgradeAntennae() {
+        
         return this.researcher.upgrade(UpgradeType.Antennae);
     }
     
     public boolean upgradePneumatizedCarapace() {
+        
         return this.researcher.upgrade(UpgradeType.Pneumatized_Carapace);
     }
     
     @Override
     public boolean isUpgrading() {
+        
         return this.researcher.isUpgrading();
     }
 
     @Override
     public boolean isResearching() {
+        
         return this.researcher.isResearching();
     }
 
     @Override
     public boolean cancelResearch() {
+        
         return this.researcher.cancelResearch();
     }
 
     @Override
     public boolean cancelUpgrade() {
+        
         return this.researcher.cancelUpgrade();
     }
     
     public boolean morph() {
+        
         return issueCommand(this.id, UnitCommandType.Morph.ordinal(), -1, -1, -1, UnitType.Zerg_Hive.getId());
     }
 }

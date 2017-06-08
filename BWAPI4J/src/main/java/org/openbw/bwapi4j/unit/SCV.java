@@ -15,7 +15,7 @@ public class SCV extends MobileUnit implements Mechanical {
     private boolean isConstructing;
     private boolean isRepairing;
 
-    SCV(int id) {
+    protected SCV(int id) {
         super(id, UnitType.Terran_SCV);
     }
 

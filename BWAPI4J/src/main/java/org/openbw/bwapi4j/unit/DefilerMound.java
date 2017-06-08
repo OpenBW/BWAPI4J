@@ -10,7 +10,7 @@ public class DefilerMound extends Building implements Organic, ResearchingFacili
 
     private Researcher researcher;
     
-    DefilerMound(int id, int timeSpotted) {
+    protected DefilerMound(int id, int timeSpotted) {
         
         super(id, UnitType.Zerg_Defiler_Mound, timeSpotted);
         this.researcher = new Researcher();

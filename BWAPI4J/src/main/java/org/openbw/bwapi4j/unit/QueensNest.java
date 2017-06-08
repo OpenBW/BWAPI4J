@@ -10,7 +10,7 @@ public class QueensNest extends Building implements Organic, ResearchingFacility
 
     private Researcher researcher;
     
-    QueensNest(int id, int timeSpotted) {
+    protected QueensNest(int id, int timeSpotted) {
         
         super(id, UnitType.Zerg_Queens_Nest, timeSpotted);
         this.researcher = new Researcher();

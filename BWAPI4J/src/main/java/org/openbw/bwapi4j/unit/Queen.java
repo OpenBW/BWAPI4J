@@ -15,7 +15,7 @@ public class Queen extends MobileUnit implements Organic, SpellCaster {
 
     private int energy;
 
-    Queen(int id) {
+    protected Queen(int id) {
         super(id, UnitType.Zerg_Queen);
     }
     
@@ -40,21 +40,33 @@ public class Queen extends MobileUnit implements Organic, SpellCaster {
         return this.energy;
     }
     
+    /**
+     * Infests a given Command Center.
+     * @param commandCenter Command Center to be infested
+     * @return true if command successful, false else
+     */
     public boolean infestation(CommandCenter commandCenter) {
         
         if (this.energy < TechType.Infestation.energyCost()) {
             return false;
         } else {
-            return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), commandCenter.getId(), -1, -1, TechType.Infestation.getId());
+            return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), commandCenter.getId(), 
+                    -1, -1, TechType.Infestation.getId());
         }
     }
     
+    /**
+     * Casts a parasite spell on target unit.
+     * @param target the unit to parasite
+     * @return true if command successful, false else
+     */
     public boolean parasite(MobileUnit target) {
         
         if (this.energy < TechType.Parasite.energyCost()) {
             return false;
         } else {
-            return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), target.getId(), -1, -1, TechType.Parasite.getId());
+            return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), target.getId(), 
+                    -1, -1, TechType.Parasite.getId());
         }
     }
     

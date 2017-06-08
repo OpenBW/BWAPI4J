@@ -9,7 +9,7 @@ public class Lurker extends MobileUnit implements Organic, Burrowable {
 
     private boolean burrowed;
     
-    Lurker(int id) {
+    protected Lurker(int id) {
         super(id, UnitType.Zerg_Lurker);
     }
     

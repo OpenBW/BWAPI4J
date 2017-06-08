@@ -4,7 +4,7 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class Critter extends PlayerUnit {
 
-    Critter(int id, UnitType unitType) {
+    protected Critter(int id, UnitType unitType) {
         super(id, unitType);
     }
 }

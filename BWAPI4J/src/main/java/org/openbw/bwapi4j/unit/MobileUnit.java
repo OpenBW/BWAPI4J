@@ -23,7 +23,8 @@ public abstract class MobileUnit extends PlayerUnit {
     private Position targetPosition;
     private Unit target;
 
-    MobileUnit(int id, UnitType unitType) {
+    protected MobileUnit(int id, UnitType unitType) {
+        
         super(id, unitType);
     }
 

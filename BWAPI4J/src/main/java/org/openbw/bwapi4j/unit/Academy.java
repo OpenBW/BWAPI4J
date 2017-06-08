@@ -10,7 +10,7 @@ public class Academy extends Building implements Mechanical, ResearchingFacility
 
     private Researcher researcher;
 
-    Academy(int id, int timeSpotted) {
+    protected Academy(int id, int timeSpotted) {
         
         super(id, UnitType.Terran_Academy, timeSpotted);
         this.researcher = new Researcher();

@@ -9,7 +9,7 @@ public class SpawningPool extends Building implements Organic, ResearchingFacili
 
     private Researcher researcher;
     
-    SpawningPool(int id, int timeSpotted) {
+    protected SpawningPool(int id, int timeSpotted) {
         
         super(id, UnitType.Zerg_Spawning_Pool, timeSpotted);
         this.researcher = new Researcher();

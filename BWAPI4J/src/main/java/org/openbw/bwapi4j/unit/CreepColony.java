@@ -7,7 +7,7 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class CreepColony extends Building implements Organic {
 
-    CreepColony(int id, int timeSpotted) {
+    protected CreepColony(int id, int timeSpotted) {
         
         super(id, UnitType.Zerg_Creep_Colony, timeSpotted);
     }

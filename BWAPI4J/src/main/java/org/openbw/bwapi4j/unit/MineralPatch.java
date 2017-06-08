@@ -12,7 +12,8 @@ public class MineralPatch extends Unit {
 
     private boolean isBeingGathered;
 
-    MineralPatch(int id) {
+    protected MineralPatch(int id) {
+        
         super(id, UnitType.Resource_Mineral_Field);
     }
 

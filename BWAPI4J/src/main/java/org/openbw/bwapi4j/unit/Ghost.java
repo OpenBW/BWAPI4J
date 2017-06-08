@@ -15,7 +15,7 @@ public class Ghost extends MobileUnit implements SpellCaster, Organic {
 
     private int energy;
 
-    Ghost(int id) {
+    protected Ghost(int id) {
         super(id, UnitType.Terran_Ghost);
     }
 

@@ -174,14 +174,11 @@ public class BW {
 
     private void onStart() {
 
-        System.out.println("starting");
         this.frame = 0;
         this.players.clear();
         this.units.clear();
         
-        updateGame();
-        updateAllPlayers();
-        updateAllUnits(this.frame);
+        preFrame();
         listener.onStart();
     }
 
@@ -190,8 +187,8 @@ public class BW {
         listener.onEnd(isWinner);
     }
 
-    private void onFrame() {
-
+    private void preFrame() {
+        
         logger.debug("updating game state for frame {}...", this.frame);
         updateGame();
         logger.debug("updated game.");
@@ -199,6 +196,10 @@ public class BW {
         logger.debug("updated players.");
         updateAllUnits(this.frame);
         logger.debug("updated all units.");
+    }
+    
+    private void onFrame() {
+
         listener.onFrame();
         this.frame++;
     }
@@ -228,24 +229,36 @@ public class BW {
     private void onUnitDiscover(int unitId) {
 
         Unit unit = this.units.get(unitId);
+        if (unit == null) {
+            logger.error("onUnitDiscover: no unit found for ID {}.", unitId);
+        }
         listener.onUnitDiscover(unit);
     }
 
     private void onUnitEvade(int unitId) {
 
         Unit unit = this.units.get(unitId);
+        if (unit == null) {
+            logger.error("onUnitEvade: no unit found for ID {}.", unitId);
+        }
         listener.onUnitEvade(unit);
     }
 
     private void onUnitShow(int unitId) {
 
         Unit unit = this.units.get(unitId);
+        if (unit == null) {
+            logger.error("onUnitShow: no unit found for ID {}.", unitId);
+        }
         listener.onUnitShow(unit);
     }
 
     private void onUnitHide(int unitId) {
 
         Unit unit = this.units.get(unitId);
+        if (unit == null) {
+            logger.error("onUnitHide: no unit found for ID {}.", unitId);
+        }
         listener.onUnitHide(unit);
     }
 
@@ -253,7 +266,7 @@ public class BW {
 
         Unit unit = this.units.get(unitId);
         if (unit == null) {
-            logger.error("no unit found for ID {}.", unitId);
+            logger.error("onUnitCreate: no unit found for ID {}.", unitId);
         }
         listener.onUnitCreate(unit);
     }
@@ -261,18 +274,27 @@ public class BW {
     private void onUnitDestroy(int unitId) {
 
         Unit unit = this.units.get(unitId);
+        if (unit == null) {
+            logger.error("onUnitDestroy: no unit found for ID {}.", unitId);
+        }
         listener.onUnitDestroy(unit);
     }
 
     private void onUnitMorph(int unitId) {
 
         Unit unit = this.units.get(unitId);
+        if (unit == null) {
+            logger.error("onUnitMorph: no unit found for ID {}.", unitId);
+        }
         listener.onUnitMorph(unit);
     }
 
     private void onUnitRenegade(int unitId) {
 
         Unit unit = this.units.get(unitId);
+        if (unit == null) {
+            logger.error("onUnitRenegade: no unit found for ID {}.", unitId);
+        }
         listener.onUnitRenegade(unit);
     }
 
@@ -284,6 +306,9 @@ public class BW {
     private void onUnitComplete(int unitId) {
 
         Unit unit = this.units.get(unitId);
+        if (unit == null) {
+            logger.error("onUnitComplete: no unit found for ID {}.", unitId);
+        }
         listener.onUnitComplete(unit);
     }
 }

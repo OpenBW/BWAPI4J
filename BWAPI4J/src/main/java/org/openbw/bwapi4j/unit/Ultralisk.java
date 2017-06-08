@@ -6,7 +6,7 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class Ultralisk extends MobileUnit implements Organic {
 
-    Ultralisk(int id) {
+    protected Ultralisk(int id) {
         super(id, UnitType.Zerg_Ultralisk);
     }
     

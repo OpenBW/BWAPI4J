@@ -14,7 +14,7 @@ public class Transporter extends MobileUnit {
 
     protected boolean isLoaded;
 
-    Transporter(int id, UnitType unitType) {
+    protected Transporter(int id, UnitType unitType) {
         super(id, unitType);
     }
 

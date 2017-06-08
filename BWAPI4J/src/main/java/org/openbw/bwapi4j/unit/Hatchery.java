@@ -10,7 +10,7 @@ public class Hatchery extends Building implements Organic, ResearchingFacility {
 
     private Researcher researcher;
     
-    Hatchery(int id, int timeSpotted) {
+    protected Hatchery(int id, int timeSpotted) {
         
         super(id, UnitType.Zerg_Hatchery, timeSpotted);
         this.researcher = new Researcher();

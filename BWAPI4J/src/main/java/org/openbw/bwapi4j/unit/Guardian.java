@@ -6,7 +6,8 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class Guardian extends MobileUnit implements Organic {
 
-    Guardian(int id) {
+    protected Guardian(int id) {
+        
         super(id, UnitType.Zerg_Guardian);
     }
     

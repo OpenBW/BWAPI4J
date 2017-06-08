@@ -5,7 +5,7 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class PhotonCannon extends Building implements Detector, Mechanical {
 
-    PhotonCannon(int id, int timeSpotted) {
+    protected PhotonCannon(int id, int timeSpotted) {
         super(id, UnitType.Protoss_Photon_Cannon, timeSpotted);
     }
 

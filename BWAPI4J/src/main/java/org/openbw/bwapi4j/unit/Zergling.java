@@ -9,7 +9,7 @@ public class Zergling extends MobileUnit implements Organic, Burrowable {
 
     private boolean burrowed;
     
-    Zergling(int id) {
+    protected Zergling(int id) {
         super(id, UnitType.Zerg_Zergling);
     }
     
