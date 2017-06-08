@@ -38,8 +38,8 @@ assert(startingLocationsOK);
 
 #### Types
 
-| Location | Original| Current | C++ | Java | Description |
-|-|
+| Location | Original | Current | C++ | Java | Description |
+|-|-|-|-|-|-|
 | `area.h:54` | `public Area::id` | `Area.id` | `int16_t` | `int` | |
 | `defs.h:54` | `altitude_t` | N/A | `int16_t` | `int` | altitude type in pixels |
 
