@@ -30,7 +30,7 @@ public final class Altitude {
     }
 
     /**
-     * Returns the value of the underlying type.
+     * Returns the integer value of the underlying type.
      */
     public int toInt() {
         return this.val;
