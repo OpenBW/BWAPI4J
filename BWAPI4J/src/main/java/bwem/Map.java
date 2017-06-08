@@ -34,6 +34,8 @@ public class Map {
 
     private List<TilePosition> m_StartingLocations = null;
 
+    Altitude m_maxAltitude = null;
+
     private Random rng;
 
     private Map() {
@@ -66,6 +68,8 @@ public class Map {
         for (TilePosition tilePosition : this.bw.getBWMap().getStartLocations()) {
             m_StartingLocations.add(tilePosition);
         }
+
+        m_maxAltitude = new Altitude(0);
 
         LoadData(); // TODO
 
@@ -144,7 +148,9 @@ public class Map {
     }
 
 //	// Returns the maximum altitude in the whole Map (Cf. MiniTile::Altitude()).
-//	virtual altitude_t					MaxAltitude() const = 0;
+    public Altitude MaxAltitude() {
+        return m_maxAltitude;
+    }
 //
 //	// Returns the number of Bases.
 //	virtual int							BaseCount() const = 0;
