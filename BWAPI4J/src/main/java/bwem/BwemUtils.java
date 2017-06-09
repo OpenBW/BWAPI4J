@@ -36,8 +36,8 @@ public class BwemUtils {
             return false;
         }
 
-        WalkPosition[] dirs = { new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(1, 0), new WalkPosition(0, 1) };
-        for (WalkPosition delta : dirs) {
+        WalkPosition[] deltas = { new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(1, 0), new WalkPosition(0, 1) };
+        for (WalkPosition delta : deltas) {
             WalkPosition pDelta = new WalkPosition(p.getX() + delta.getX(), p.getY() + delta.getY());
             if (pMap.Valid(pDelta)
                     && !pMap.GetMiniTile(pDelta, check_t.no_check).Sea()) {
