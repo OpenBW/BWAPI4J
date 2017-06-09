@@ -14,9 +14,9 @@ public class Bits {
     public byte doodad;
 
     public Bits() {
-        buildable = 0x0;
-        groundHeight = 0x0;
-        doodad = 0x0;
+        this.buildable = 0x0;
+        this.groundHeight = 0x0;
+        this.doodad = 0x0;
     }
 
 }
