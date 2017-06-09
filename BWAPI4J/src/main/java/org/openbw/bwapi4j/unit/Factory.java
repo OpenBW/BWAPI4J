@@ -6,24 +6,31 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class Factory extends Building implements Mechanical, FlyingBuilding, TrainingFacility {
 
+    private int addonId;
+    
     private Flyer flyer;
     private Trainer trainer;
-
-    private MachineShop machineShop;
 
     protected Factory(int id, int timeSpotted) {
         
         super(id, UnitType.Terran_Factory, timeSpotted);
         this.flyer = new Flyer();
         this.trainer = new Trainer();
-        this.machineShop = null;
     }
 
+    @Override
+    public void initialize(int[] unitData, int index) {
+
+        this.addonId = -1;
+        super.initialize(unitData, index);
+    }
+    
     @Override
     public void update(int[] unitData, int index) {
 
         this.flyer.update(unitData, index);
         this.trainer.update(unitData, index);
+        this.addonId = unitData[index + Unit.ADDON_INDEX];
         super.update(unitData, index);
     }
 
@@ -42,6 +49,15 @@ public class Factory extends Building implements Mechanical, FlyingBuilding, Tra
         return this.trainer.train(UnitType.Terran_Goliath);
     }
 
+    public boolean cancelAddon() {
+        
+        return issueCommand(this.id, UnitCommandType.Cancel_Addon.ordinal(), -1, -1, -1, -1);
+    }
+    
+    /**
+     * Builds a machine shop addon to this factory.
+     * @return true if command successful, false else
+     */
     public boolean buildMachineShop() {
         
         return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), UnitType.Terran_Machine_Shop.getId(), -1,
@@ -50,13 +66,7 @@ public class Factory extends Building implements Mechanical, FlyingBuilding, Tra
 
     public MachineShop getMachineShop() {
         
-        return machineShop;
-    }
-
-    // TODO probably shouldn't be public
-    public void setMachineShop(MachineShop machineShop) {
-        
-        this.machineShop = machineShop;
+        return (MachineShop) super.getUnit(this.addonId);
     }
 
     @Override

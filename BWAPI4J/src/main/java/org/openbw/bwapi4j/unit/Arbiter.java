@@ -1,7 +1,5 @@
 package org.openbw.bwapi4j.unit;
 
-import java.util.Map;
-
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitCommandType;
@@ -17,10 +15,10 @@ public class Arbiter extends MobileUnit implements Mechanical, SpellCaster {
     }
     
     @Override
-    public void initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
+    public void initialize(int[] unitData, int index) {
 
         this.energy = 0;
-        super.initialize(unitData, index, allUnits);
+        super.initialize(unitData, index);
     }
 
     @Override

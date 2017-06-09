@@ -1,10 +1,13 @@
 package org.openbw.bwapi4j.unit;
 
 import org.openbw.bwapi4j.Position;
+import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class Starport extends Building implements Mechanical, FlyingBuilding, TrainingFacility {
 
+    private int addonId;
+    
     private Flyer flyer;
     private Trainer trainer;
 
@@ -16,13 +19,41 @@ public class Starport extends Building implements Mechanical, FlyingBuilding, Tr
     }
 
     @Override
+    public void initialize(int[] unitData, int index) {
+
+        this.addonId = -1;
+        super.initialize(unitData, index);
+    }
+    
+    @Override
     public void update(int[] unitData, int index) {
 
         this.flyer.update(unitData, index);
         this.trainer.update(unitData, index);
+        this.addonId = unitData[index + Unit.ADDON_INDEX];
         super.update(unitData, index);
     }
 
+    public boolean cancelAddon() {
+        
+        return issueCommand(this.id, UnitCommandType.Cancel_Addon.ordinal(), -1, -1, -1, -1);
+    }
+    
+    /**
+     * Builds a control tower addon to this starport.
+     * @return true if command successful, false else
+     */
+    public boolean buildControlTower() {
+        
+        return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), UnitType.Terran_Control_Tower.getId(), -1,
+                -1, -1);
+    }
+
+    public ControlTower getControlTower() {
+        
+        return (ControlTower) super.getUnit(this.addonId);
+    }
+    
     public boolean trainWraith() {
         
         return this.trainer.train(UnitType.Terran_Wraith);

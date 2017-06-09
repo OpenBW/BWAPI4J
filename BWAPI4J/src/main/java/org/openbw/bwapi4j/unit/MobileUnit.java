@@ -19,7 +19,14 @@ public abstract class MobileUnit extends PlayerUnit {
     private boolean isPatrolling;
     private boolean isPlagued;
     private Position targetPosition;
-    private Unit target;
+    private int targetId;
+    private int transportId;
+    private int acidSporeCount;
+    private boolean isHallucination;
+    private boolean isBlind;
+    private boolean isBraking;
+    private boolean isDefenseMatrixed;
+    private boolean isEnsnared;
 
     protected MobileUnit(int id, UnitType unitType) {
         
@@ -42,8 +49,15 @@ public abstract class MobileUnit extends PlayerUnit {
         this.isPlagued = unitData[index + Unit.IS_PLAGUED_INDEX] == 1;
         this.targetPosition = new Position(unitData[index + Unit.TARGET_POSITION_X_INDEX],
                 unitData[index + Unit.TARGET_POSITION_Y_INDEX]);
-        this.target = super.getUnit(unitData[index + Unit.TARGET_ID_INDEX]);
-
+        this.targetId = unitData[index + Unit.TARGET_ID_INDEX];
+        this.transportId = unitData[index + Unit.TRANSPORT_INDEX];
+        this.acidSporeCount = unitData[index + Unit.ACID_SPORE_COUNT_INDEX];
+        this.isHallucination = unitData[index + Unit.IS_HALLUCINATION_INDEX] == 1;
+        this.isBlind = unitData[index + Unit.IS_BLIND_INDEX] == 1;
+        this.isBraking = unitData[index + Unit.IS_BRAKING_INDEX] == 1;
+        this.isDefenseMatrixed = unitData[index + Unit.IS_DEFENSE_MATRIXED_INDEX] == 1;
+        this.isEnsnared = unitData[index + Unit.IS_ENSNARED_INDEX] == 1;
+        
         super.update(unitData, index);
     }
 
@@ -107,6 +121,16 @@ public abstract class MobileUnit extends PlayerUnit {
         return issueCommand(this.id, UnitCommandType.Follow.ordinal(), target.getId(), -1, -1, queued ? 1 : 0);
     }
 
+    public int getAcidSporeCount() {
+        
+        return this.acidSporeCount;
+    }
+    
+    public Unit getTransport() {
+        
+        return super.getUnit(this.transportId);
+    }
+    
     public boolean isFollowing() {
         
         return isFollowing;
@@ -164,7 +188,7 @@ public abstract class MobileUnit extends PlayerUnit {
 
     public Unit getTargetUnit() {
         
-        return target;
+        return super.getUnit(this.targetId);
     }
 
     public WeaponType getGroundWeapon() {
@@ -190,5 +214,30 @@ public abstract class MobileUnit extends PlayerUnit {
     public int getSupplyRequired() {
         
         return this.type.supplyRequired();
+    }
+    
+    public boolean isHallucination() {
+    
+        return this.isHallucination;
+    }
+    
+    public boolean isBlind() {
+        
+        return this.isBlind;
+    }
+    
+    public boolean isBraking() {
+    
+        return this.isBraking;
+    }
+    
+    public boolean isDefenseMatrixed() {
+        
+        return this.isDefenseMatrixed;
+    }
+    
+    public boolean isEnsnared() {
+        
+        return this.isEnsnared;
     }
 }

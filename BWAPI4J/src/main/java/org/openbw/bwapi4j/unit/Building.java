@@ -13,34 +13,54 @@ public abstract class Building extends PlayerUnit {
 
         private boolean isUpgrading;
         private boolean isResearching;
+        private int remainingResearchTime;
+        private int remainingUpgradeTime;
 
         public void update(int[] unitData, int index) {
 
-            this.isUpgrading = unitData[Unit.IS_UPGRADING_INDEX] == 1;
-            this.isResearching = unitData[Unit.IS_RESEARCHING_INDEX] == 1;
+            this.isUpgrading = unitData[index + Unit.IS_UPGRADING_INDEX] == 1;
+            this.isResearching = unitData[index + Unit.IS_RESEARCHING_INDEX] == 1;
+            this.remainingResearchTime = unitData[index + Unit.REMAINING_RESEARCH_TIME_INDEX];
+            this.remainingUpgradeTime = unitData[index + Unit.REMAINING_UPGRADE_TIME_INDEX];
         }
 
+        public int getRemainingResearchTime() {
+            
+            return this.remainingResearchTime;
+        }
+        
+        public int getRemainingUpgradeTime() {
+            
+            return this.remainingUpgradeTime;
+        }
+        
         public boolean isUpgrading() {
+            
             return this.isUpgrading;
         }
 
         public boolean isResearching() {
+            
             return this.isResearching;
         }
 
         public boolean cancelResearch() {
+            
             return issueCommand(id, UnitCommandType.Cancel_Research.ordinal(), -1, -1, -1, -1);
         }
 
         public boolean cancelUpgrade() {
+            
             return issueCommand(id, UnitCommandType.Cancel_Upgrade.ordinal(), -1, -1, -1, -1);
         }
 
         public boolean research(TechType techType) {
+            
             return issueCommand(id, UnitCommandType.Research.ordinal(), -1, -1, -1, techType.getId());
         }
 
         public boolean upgrade(UpgradeType upgrade) {
+            
             return issueCommand(id, UnitCommandType.Research.ordinal(), -1, -1, -1, upgrade.getId());
         }
     }
@@ -49,37 +69,68 @@ public abstract class Building extends PlayerUnit {
 
         private boolean isTraining;
         private int trainingQueueSize;
+        private int remainingTrainTime;
+        private int rallyPositionX;
+        private int rallyPositionY;
+        private int rallyUnitId;
 
         public void update(int[] unitData, int index) {
+            
             this.isTraining = unitData[index + Unit.IS_TRAINING_INDEX] == 1;
             this.trainingQueueSize = unitData[index + Unit.TRAINING_QUEUE_SIZE_INDEX];
+            this.remainingTrainTime = unitData[index + Unit.TRAINING_QUEUE_SIZE_INDEX];
+            this.rallyUnitId = unitData[index + Unit.RALLY_UNIT_INDEX];
+            this.rallyPositionX = unitData[index + Unit.RALLY_POSITION_X_INDEX];
+            this.rallyPositionY = unitData[index + Unit.RALLY_POSITION_Y_INDEX];
         }
 
+        public Position getRallyPosition() {
+            
+            return new Position(rallyPositionX, rallyPositionY);
+        }
+        
+        public int getRemainingTrainingTime() {
+            
+            return this.remainingTrainTime;
+        }
+        
+        public Unit getRallyUnit() {
+            
+            return getUnit(this.rallyUnitId);
+        }
+        
         public boolean isTraining() {
+            
             return this.isTraining;
         }
 
         public int getTrainingQueueSize() {
+            
             return this.trainingQueueSize;
         }
 
         public boolean train(UnitType type) {
+            
             return issueCommand(id, UnitCommandType.Train.ordinal(), type.getId(), -1, -1, -1);
         }
 
         public boolean cancelTrain(int slot) {
+            
             return issueCommand(id, UnitCommandType.Cancel_Train_Slot.ordinal(), -1, -1, -1, slot);
         }
 
         public boolean cancelTrain() {
+            
             return issueCommand(id, UnitCommandType.Cancel_Train.ordinal(), -1, -1, -1, -1);
         }
 
         public boolean setRallyPoint(Position p) {
+            
             return issueCommand(id, UnitCommandType.Set_Rally_Position.ordinal(), -1, p.getX(), p.getY(), -1);
         }
 
         public boolean setRallyPoint(Unit target) {
+            
             return issueCommand(id, UnitCommandType.Set_Rally_Unit.ordinal(), target.getId(), -1, -1, -1);
         }
     }
@@ -89,26 +140,31 @@ public abstract class Building extends PlayerUnit {
         private boolean isLifted;
 
         public void update(int[] unitData, int index) {
+            
             this.isLifted = unitData[index + Unit.IS_LIFTED_INDEX] == 1;
         }
 
         @Override
         public boolean lift() {
+            
             return issueCommand(id, UnitCommandType.Lift.ordinal(), -1, -1, -1, -1);
         }
 
         @Override
         public boolean land(Position p) {
+            
             return issueCommand(id, UnitCommandType.Land.ordinal(), -1, p.getX(), p.getY(), -1);
         }
 
         @Override
         public boolean move(Position p) {
+            
             return issueCommand(id, UnitCommandType.Move.ordinal(), -1, p.getX(), p.getY(), -1);
         }
 
         @Override
         public boolean isLifted() {
+            
             return isLifted;
         }
     }
@@ -163,28 +219,38 @@ public abstract class Building extends PlayerUnit {
         return this.probableConstructionStart;
     }
 
+    /**
+     * Returns the distance to given position from where this unit was located when it last was visible.
+     * @param position tile position to measure distance to
+     * @return distance in tiles
+     */
     public int getLastKnownDistance(TilePosition position) {
 
         // compute x distance
-        int xDist = super.getLastKnownTilePosition().getX() - position.getX();
-        if (xDist < 0) {
-            xDist = position.getX() - (super.getLastKnownTilePosition().getX() + this.type.tileWidth());
-            if (xDist < 0) {
-                xDist = 0;
+        int distX = super.getLastKnownTilePosition().getX() - position.getX();
+        if (distX < 0) {
+            distX = position.getX() - (super.getLastKnownTilePosition().getX() + this.type.tileWidth());
+            if (distX < 0) {
+                distX = 0;
             }
         }
 
         // compute y distance
-        int yDist = super.getLastKnownTilePosition().getY() - position.getY();
-        if (yDist < 0) {
-            yDist = position.getY() - (super.getLastKnownTilePosition().getY() + this.type.tileHeight());
-            if (yDist < 0) {
-                yDist = 0;
+        int distY = super.getLastKnownTilePosition().getY() - position.getY();
+        if (distY < 0) {
+            distY = position.getY() - (super.getLastKnownTilePosition().getY() + this.type.tileHeight());
+            if (distY < 0) {
+                distY = 0;
             }
         }
-        return (int) Math.sqrt(xDist * xDist + yDist * yDist);
+        return (int) Math.sqrt(distX * distX + distY * distY);
     }
 
+    /**
+     * Returns the distance to given position from where this unit was located when it last was visible.
+     * @param position position to measure distance to
+     * @return distance in pixels
+     */
     public double getLastKnownDistance(Position position) {
 
         int left = position.getX() - 1;
@@ -193,22 +259,22 @@ public abstract class Building extends PlayerUnit {
         int bottom = position.getY() + 1;
 
         // compute x distance
-        int xDist = (super.getLastKnownPosition().getX() - this.type.dimensionLeft()) - right;
-        if (xDist < 0) {
-            xDist = left - (super.getLastKnownPosition().getX() + this.type.dimensionRight());
-            if (xDist < 0) {
-                xDist = 0;
+        int distX = (super.getLastKnownPosition().getX() - this.type.dimensionLeft()) - right;
+        if (distX < 0) {
+            distX = left - (super.getLastKnownPosition().getX() + this.type.dimensionRight());
+            if (distX < 0) {
+                distX = 0;
             }
         }
 
         // compute y distance
-        int yDist = (super.getLastKnownPosition().getY() - this.type.dimensionUp()) - bottom;
-        if (yDist < 0) {
-            yDist = top - (super.getLastKnownPosition().getY() + this.type.dimensionDown());
-            if (yDist < 0) {
-                yDist = 0;
+        int distY = (super.getLastKnownPosition().getY() - this.type.dimensionUp()) - bottom;
+        if (distY < 0) {
+            distY = top - (super.getLastKnownPosition().getY() + this.type.dimensionDown());
+            if (distY < 0) {
+                distY = 0;
             }
         }
-        return (int) Math.sqrt(xDist * xDist + yDist * yDist);
+        return (int) Math.sqrt(distX * distX + distY * distY);
     }
 }

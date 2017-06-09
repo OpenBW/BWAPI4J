@@ -21,10 +21,10 @@ public class CommandCenter extends Building implements Mechanical, FlyingBuildin
     }
 
     @Override
-    public void initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
+    public void initialize(int[] unitData, int index) {
 
         this.addonId = -1;
-        super.initialize(unitData, index, allUnits);
+        super.initialize(unitData, index);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class CommandCenter extends Building implements Mechanical, FlyingBuildin
     }
 
     /**
-     * Gets the Nuclear Silo Addon, if there is one.
+     * Gets the Nuclear Silo addon, if there is one.
      * @return Nuclear Silo if exists, <code>null</code> else
      */
     public NuclearSilo getNuclearSilo() {
@@ -51,7 +51,7 @@ public class CommandCenter extends Building implements Mechanical, FlyingBuildin
     }
 
     /**
-     * Gets the Comsat Station Addon, if there is one.
+     * Gets the Comsat Station addon, if there is one.
      * @return Comsat Station if exists, <code>null</code> else
      */
     public ComsatStation getComsatStation() {
@@ -64,6 +64,11 @@ public class CommandCenter extends Building implements Mechanical, FlyingBuildin
         }
     }
 
+    public boolean cancelAddon() {
+        
+        return issueCommand(this.id, UnitCommandType.Cancel_Addon.ordinal(), -1, -1, -1, -1);
+    }
+    
     public boolean buildComsatStation() {
         
         return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), UnitType.Terran_Comsat_Station.getId(), -1,

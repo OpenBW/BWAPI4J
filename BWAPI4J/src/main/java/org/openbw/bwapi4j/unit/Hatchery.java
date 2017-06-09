@@ -35,7 +35,7 @@ public class Hatchery extends Building implements Organic, ResearchingFacility {
      */
     public List<Larva> getLarva() {
         
-        return super.getAllUnits().values().stream()
+        return super.getAllUnits().stream()
                 .filter(u -> u instanceof Larva && ((Larva)u).getHatchery().getId() == this.getId())
                 .map(u -> (Larva)u).collect(Collectors.toList());
     }

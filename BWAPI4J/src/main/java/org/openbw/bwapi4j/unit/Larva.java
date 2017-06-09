@@ -1,7 +1,5 @@
 package org.openbw.bwapi4j.unit;
 
-import java.util.Map;
-
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
@@ -15,16 +13,15 @@ public class Larva extends PlayerUnit implements Organic {
     }
     
     @Override
-    public void initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
+    public void initialize(int[] unitData, int index) {
 
         this.hatcheryId = unitData[index + Unit.HATCHERY_INDEX];
-        super.initialize(unitData, index, allUnits);
+        super.initialize(unitData, index);
     }
 
-    public Unit getHatchery() {
+    public Hatchery getHatchery() {
         
-        // TODO not type-safe. could be hatchery, lair, or hive
-        return super.getUnit(hatcheryId);
+        return (Hatchery) super.getUnit(hatcheryId);
     }
     
     public boolean morph(UnitType type) {
