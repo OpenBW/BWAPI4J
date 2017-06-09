@@ -54,32 +54,34 @@ public class Map {
         this.m_MiniTiles = new ArrayList<>();
         this.m_StartingLocations = new ArrayList<>();
 
-        m_TileSize = new TilePosition(this.bw.getBWMap().mapWidth(), this.bw.getBWMap().mapHeight());
-        m_tileSize = TileSize().getX() * TileSize().getY();
+        this.m_TileSize = new TilePosition(this.bw.getBWMap().mapWidth(), this.bw.getBWMap().mapHeight());
+        this.m_tileSize = TileSize().getX() * TileSize().getY();
 
-        m_WalkSize = new WalkPosition(TileSize());
-        m_walkSize = WalkSize().getX() * WalkSize().getY();
+        this.m_WalkSize = new WalkPosition(TileSize());
+        this.m_walkSize = WalkSize().getX() * WalkSize().getY();
 
-        m_PixelSize = TileSize().toPosition();
-        m_pixelSize = PixelSize().getX() * PixelSize().getY();
+        this.m_PixelSize = TileSize().toPosition();
+        this.m_pixelSize = PixelSize().getX() * PixelSize().getY();
 
-        m_center = new Position(PixelSize().getX() / 2, PixelSize().getY() / 2);
+        this.m_center = new Position(PixelSize().getX() / 2, PixelSize().getY() / 2);
 
         for (TilePosition tilePosition : this.bw.getBWMap().getStartLocations()) {
-            m_StartingLocations.add(tilePosition);
+            this.m_StartingLocations.add(tilePosition);
         }
 
-        m_maxAltitude = new Altitude(0);
+        this.m_maxAltitude = new Altitude(0);
 
         LoadData();
 
-        DecideSeasOrLakes(); // TODO
+        DecideSeasOrLakes();
+
+        InitializeNeutrals(); // TODO
 
         // TODO
     }
 
     public boolean Initialized() {
-        return (m_tileSize != 0);
+        return (this.m_tileSize != 0);
     }
 
 
@@ -116,23 +118,23 @@ public class Map {
     public TilePosition TileSize() {
         /* map.h:92:const BWAPI::TilePosition & Size() const { return m_Size; } */
         /* bwapi4j.TilePosition is not immutable. */
-        return new TilePosition(m_TileSize.getX(), m_TileSize.getY());
+        return new TilePosition(this.m_TileSize.getX(), this.m_TileSize.getY());
     }
 
     public WalkPosition WalkSize() {
         /* map.h:95:const BWAPI::WalkPosition & WalkSize() const { return m_WalkSize; } */
         /* bwapi4j.WalkPosition is not immutable. */
-        return new WalkPosition(m_WalkSize.getX(), m_WalkSize.getY());
+        return new WalkPosition(this.m_WalkSize.getX(), this.m_WalkSize.getY());
     }
 
     public Position PixelSize() {
-        return new Position(m_PixelSize.getX(), m_PixelSize.getY());
+        return new Position(this.m_PixelSize.getX(), this.m_PixelSize.getY());
     }
 
     public Position Center() {
         /* map.h:98:const BWAPI::Position & Center() const { return m_center; }
         /* bwapi4j.Position is not immutable. */
-        return new Position(m_center.getX(), m_center.getY());
+        return new Position(this.m_center.getX(), this.m_center.getY());
     }
 
 
@@ -151,7 +153,7 @@ public class Map {
 
 //	// Returns the maximum altitude in the whole Map (Cf. MiniTile::Altitude()).
     public Altitude MaxAltitude() {
-        return m_maxAltitude;
+        return this.m_maxAltitude;
     }
 //
 //	// Returns the number of Bases.
@@ -177,7 +179,7 @@ public class Map {
         BwemUtils.unused(checkMode);
         //TODO: The original C++ function is const. Solution: return new object?
         //  - Update: No. Return the object so it can be modified.
-        return m_Tiles.get(TileSize().getX() * p.getY() + p.getX());
+        return this.m_Tiles.get(TileSize().getX() * p.getY() + p.getX());
     }
 
     public Tile GetTile(TilePosition p) {
@@ -196,7 +198,7 @@ public class Map {
         }
         BwemUtils.unused(checkMode);
         //TODO: The original C++ function is const. Solution: return new object?
-        return m_MiniTiles.get(WalkSize().getX() * wp.getY() + wp.getX());
+        return this.m_MiniTiles.get(WalkSize().getX() * wp.getY() + wp.getX());
     }
 
     public MiniTile GetMiniTile(WalkPosition wp) {
@@ -381,7 +383,7 @@ public class Map {
         // Mark unwalkable minitiles (minitiles are walkable by default)
         for (int y = 0; y < WalkSize().getY(); ++y)
         for (int x = 0; x < WalkSize().getX(); ++x) {
-            if (!bw.getBWMap().isWalkable(x, y)) { // For each unwalkable minitile, we also mark its 8 neighbours as not walkable.
+            if (!this.bw.getBWMap().isWalkable(x, y)) { // For each unwalkable minitile, we also mark its 8 neighbours as not walkable.
                 for (int dy = -1; dy <= 1; ++dy) // According to some tests, this prevents from wrongly pretending one Marine can go by some thin path.
                 for (int dx = -1; dx <= 1; ++dx) {
                     WalkPosition w = new WalkPosition(x + dx, y + dy);
@@ -473,6 +475,44 @@ public class Map {
                 }
             }
         }
+    }
+
+    //TODO
+    public void InitializeNeutrals() {
+//        for (auto n : bw->getStaticNeutralUnits())
+//            if (n->getType().isBuilding())
+//            {
+//                if (n->getType().isMineralField())
+//                {
+//                    m_Minerals.push_back(make_unique<Mineral>(n, this));
+//                }
+//                else if (n->getType() == Resource_Vespene_Geyser)
+//                {
+//                    m_Geysers.push_back(make_unique<Geyser>(n, this));
+//                }
+//                else
+//                {
+//                    bwem_assert_throw(n->getType().isSpecialBuilding());
+//                    m_StaticBuildings.push_back(make_unique<StaticBuilding>(n, this));
+//                }
+//            }
+//            else if (n->getType() != Zerg_Egg)
+//                if (!n->getType().isCritter())
+//                {
+//                    bwem_assert_plus(!n->getType().isSpecialBuilding(), n->getType().getName());
+//
+//                //	Log << n->getType().getName() << endl;
+//
+//                    bwem_assert_plus(
+//                        n->getType() == Special_Pit_Door ||
+//                        n->getType() == Special_Right_Pit_Door ||
+//                        false, n->getType().getName());
+//
+//                    if (n->getType() == Special_Pit_Door)
+//                        m_StaticBuildings.push_back(make_unique<StaticBuilding>(n, this));
+//                    if (n->getType() == Special_Right_Pit_Door)
+//                        m_StaticBuildings.push_back(make_unique<StaticBuilding>(n, this));
+//                }
     }
 
     //TODO: Delete? I do not think these two are required. They are here for future reference.
