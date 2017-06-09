@@ -5,9 +5,16 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.BW;
+import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
+import org.openbw.bwapi4j.unit.Building;
+import org.openbw.bwapi4j.unit.Critter;
+import org.openbw.bwapi4j.unit.Egg;
+import org.openbw.bwapi4j.unit.MineralPatch;
+import org.openbw.bwapi4j.unit.Unit;
+import org.openbw.bwapi4j.unit.VespeneGeyser;
 
 public class Map {
 
@@ -24,6 +31,11 @@ public class Map {
     private List<MiniTile> miniTiles = null;
     private List<TilePosition> startingLocations = null;
     private Altitude maxAltitude = null;
+    private List<MineralPatch> minerals;
+    private List<VespeneGeyser> geysers;
+    private List<Building> staticBuildings;
+    private List<Critter> critters;
+    private List<Egg> neutralEggs;
 
     private Map() {
         /* Do nothing. */
@@ -448,6 +460,24 @@ public class Map {
 //                    if (n->getType() == Special_Right_Pit_Door)
 //                        m_StaticBuildings.push_back(make_unique<StaticBuilding>(n, this));
 //                }
+        for (Player player : this.bw.getAllPlayers()) {
+            if (!player.isNeutral()) {
+                continue;
+            }
+            for (Unit unit : player.getUnits()) {
+                if (unit instanceof MineralPatch) {
+                    this.minerals.add((MineralPatch) unit);
+                } else if (unit instanceof VespeneGeyser) {
+                    this.geysers.add((VespeneGeyser) unit);
+                } else if (unit instanceof Building) {
+                    this.staticBuildings.add((Building) unit);
+                } else if (unit instanceof Critter) {
+                    this.critters.add((Critter) unit);
+                } else if (unit instanceof Egg) {
+                    this.neutralEggs.add((Egg) unit);
+                }
+            }
+        }
     }
 
     //TODO
