@@ -6,13 +6,18 @@ import java.nio.charset.StandardCharsets;
 import java.nio.charset.UnsupportedCharsetException;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.type.UnitType;
+import org.openbw.bwapi4j.unit.MineralPatch;
+import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.unit.UnitFactory;
+import org.openbw.bwapi4j.unit.VespeneGeyser;
 
 public class BW {
 
@@ -46,6 +51,10 @@ public class BW {
         logger.debug("DLL loaded.");
     }
 
+    /**
+     * Creates a BW instance required to start a game.
+     * @param listener listener to inform of various game events
+     */
     public BW(BWEventListener listener) {
 
         this.players = new HashMap<Integer, Player>();
@@ -63,6 +72,11 @@ public class BW {
             logger.warn("Korean character set not available. Some characters may not be read properly.");
             charset = StandardCharsets.ISO_8859_1;
         }
+    }
+
+    public void startGame() {
+        
+        startGame(this);
     }
 
     private native void startGame(BW bw);
@@ -180,14 +194,40 @@ public class BW {
         return this.units.get(id);
     }
     
+    /**
+     * Gets all units for given player.
+     * @param player player whose units to return
+     * @return list of <code>PlayerUnit</code>
+     */
+    public List<PlayerUnit> getUnits(Player player) {
+        
+        return this.units.values().stream().filter(u -> u instanceof PlayerUnit 
+                && ((PlayerUnit)u).getPlayer().equals(player)).map(u -> (PlayerUnit)u).collect(Collectors.toList());
+    }
+    
+    /**
+     * Gets a list of all mineral patches.
+     * @return list of mineral patches
+     */
+    public List<MineralPatch> getMineralPatches() {
+        
+        return this.units.values().stream().filter(u -> u instanceof MineralPatch)
+                .map(u -> (MineralPatch)u).collect(Collectors.toList());
+    }
+    
+    /**
+     * Gets a list of all vespene geysers.
+     * @return list of vespene geysers
+     */
+    public List<VespeneGeyser> getVespeneGeysers() {
+    
+        return this.units.values().stream().filter(u -> u instanceof VespeneGeyser)
+                .map(u -> (VespeneGeyser)u).collect(Collectors.toList());
+    }
+    
     public Collection<Unit> getAllUnits() {
         
         return this.units.values();
-    }
-
-    public void startGame() {
-        
-        startGame(this);
     }
 
     private void onStart() {
