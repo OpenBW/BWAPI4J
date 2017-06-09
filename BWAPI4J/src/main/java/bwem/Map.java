@@ -62,7 +62,7 @@ public class Map {
 
         LoadData(); //TODO
         DecideSeasOrLakes();
-        InitializeNeutrals(); //TODO
+        InitializeNeutrals();
         //TODO
     }
 
@@ -325,7 +325,7 @@ public class Map {
     /**
      * Computes walkability, buildability, groundHeight, and doodad information.
      */
-    public void LoadData() {
+    private void LoadData() {
         /* Mark unwalkable minitiles (minitiles are walkable by default). */
         for (int y = 0; y < getWalkSize().getY(); ++y)
         for (int x = 0; x < getWalkSize().getX(); ++x) {
@@ -368,7 +368,7 @@ public class Map {
         }
     }
 
-    public void DecideSeasOrLakes() {
+    private void DecideSeasOrLakes() {
         for (int y = 0 ; y < getWalkSize().getY(); ++y)
         for (int x = 0 ; x < getWalkSize().getX(); ++x)
         {
@@ -424,58 +424,26 @@ public class Map {
         }
     }
 
-    //TODO
-    public void InitializeNeutrals() {
-//        for (auto n : bw->getStaticNeutralUnits())
-//            if (n->getType().isBuilding())
-//            {
-//                if (n->getType().isMineralField())
-//                {
-//                    m_Minerals.push_back(make_unique<Mineral>(n, this));
-//                }
-//                else if (n->getType() == Resource_Vespene_Geyser)
-//                {
-//                    m_Geysers.push_back(make_unique<Geyser>(n, this));
-//                }
-//                else
-//                {
-//                    bwem_assert_throw(n->getType().isSpecialBuilding());
-//                    m_StaticBuildings.push_back(make_unique<StaticBuilding>(n, this));
-//                }
-//            }
-//            else if (n->getType() != Zerg_Egg)
-//                if (!n->getType().isCritter())
-//                {
-//                    bwem_assert_plus(!n->getType().isSpecialBuilding(), n->getType().getName());
-//
-//                //	Log << n->getType().getName() << endl;
-//
-//                    bwem_assert_plus(
-//                        n->getType() == Special_Pit_Door ||
-//                        n->getType() == Special_Right_Pit_Door ||
-//                        false, n->getType().getName());
-//
-//                    if (n->getType() == Special_Pit_Door)
-//                        m_StaticBuildings.push_back(make_unique<StaticBuilding>(n, this));
-//                    if (n->getType() == Special_Right_Pit_Door)
-//                        m_StaticBuildings.push_back(make_unique<StaticBuilding>(n, this));
-//                }
+    private void InitializeNeutrals() {
+        for (MineralPatch patch : bw.getMineralPatches()) {
+            this.minerals.add(patch);
+        }
+        for (VespeneGeyser geyser : bw.getVespeneGeysers()) {
+            this.geysers.add(geyser);
+        }
         for (Player player : this.bw.getAllPlayers()) {
             if (!player.isNeutral()) {
                 continue;
             }
             for (Unit unit : player.getUnits()) {
-                if (unit instanceof MineralPatch) {
-                    this.minerals.add((MineralPatch) unit);
-                } else if (unit instanceof VespeneGeyser) {
-                    this.geysers.add((VespeneGeyser) unit);
-                } else if (unit instanceof Building) {
+                if (unit instanceof Building) {
                     this.staticBuildings.add((Building) unit);
                 } else if (unit instanceof Critter) {
                     this.critters.add((Critter) unit);
                 } else if (unit instanceof Egg) {
                     this.neutralEggs.add((Egg) unit);
                 }
+                //TODO: Add "Special_Pit_Door" and "Special_Right_Pit_Door" to static buildings list? See mapImpl.cpp:238.
             }
         }
     }
