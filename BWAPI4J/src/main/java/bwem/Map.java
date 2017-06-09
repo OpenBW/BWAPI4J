@@ -60,7 +60,7 @@ public class Map {
         m_WalkSize = new WalkPosition(TileSize());
         m_walkSize = WalkSize().getX() * WalkSize().getY();
 
-        m_PixelSize = new Position(TileSize().getX() * TilePosition.SIZE_IN_PIXELS, TileSize().getY() * TilePosition.SIZE_IN_PIXELS);
+        m_PixelSize = TileSize().toPosition();
         m_pixelSize = PixelSize().getX() * PixelSize().getY();
 
         m_center = new Position(PixelSize().getX() / 2, PixelSize().getY() / 2);
@@ -73,7 +73,7 @@ public class Map {
 
         LoadData();
 
-//        DecideSeasOrLakes(); // TODO
+        DecideSeasOrLakes(); // TODO
 
         // TODO
     }
@@ -379,11 +379,11 @@ public class Map {
     // Computes walkability, buildability and groundHeight and doodad information, using BWAPI corresponding functions
     public void LoadData() {
         // Mark unwalkable minitiles (minitiles are walkable by default)
-        for (int y = 0; y < WalkSize().getY(); y++)
-        for (int x = 0; x < WalkSize().getX(); x++) {
+        for (int y = 0; y < WalkSize().getY(); ++y)
+        for (int x = 0; x < WalkSize().getX(); ++x) {
             if (!bw.getBWMap().isWalkable(x, y)) { // For each unwalkable minitile, we also mark its 8 neighbours as not walkable.
-                for (int dy = -1; dy <= 1; dy++) // According to some tests, this prevents from wrongly pretending one Marine can go by some thin path.
-                for (int dx = -1; dx <= 1; dx++) {
+                for (int dy = -1; dy <= 1; ++dy) // According to some tests, this prevents from wrongly pretending one Marine can go by some thin path.
+                for (int dx = -1; dx <= 1; ++dx) {
                     WalkPosition w = new WalkPosition(x + dx, y + dy);
                     // TODO
                     if (Valid(w)) {
@@ -394,8 +394,8 @@ public class Map {
         }
 
         // Mark buildable tiles (tiles are unbuildable by default)
-        for (int y = 0 ; y < TileSize().getY() ; y++)
-        for (int x = 0 ; x < TileSize().getX() ; x++) {
+        for (int y = 0 ; y < TileSize().getY() ; ++y)
+        for (int x = 0 ; x < TileSize().getX() ; ++x) {
             TilePosition t = new TilePosition(x, y);
             //TODO
 //            if (broodwar.getBWMap().isBuildable(t)) { /* isBuildable is not implemented yet. */
@@ -414,6 +414,63 @@ public class Map {
             GetTile(t).SetGroundHeight(bwapiGroundHeight / 2);
             if (bwapiGroundHeight % 2 != 0) {
                 GetTile(t).SetDoodad();
+            }
+        }
+    }
+
+    public void DecideSeasOrLakes() {
+        for (int y = 0 ; y < WalkSize().getY(); ++y)
+        for (int x = 0 ; x < WalkSize().getX(); ++x)
+        {
+            WalkPosition origin = new WalkPosition(x, y);
+            MiniTile Origin = GetMiniTile(origin, BwemUtils.check_t.no_check);
+            if (Origin.SeaOrLake())
+            {
+                List<WalkPosition> ToSearch = new ArrayList<>();
+                ToSearch.add(origin);
+                List<MiniTile> SeaExtent = new ArrayList<>();
+                SeaExtent.add(Origin);
+                Origin.SetSea();
+                WalkPosition topLeft = origin;
+                WalkPosition bottomRight = origin;
+                while (!ToSearch.isEmpty())
+                {
+                    WalkPosition current = ToSearch.get(ToSearch.size() - 1);
+                    if (current.getX() < topLeft.getX()) topLeft = new WalkPosition(current.getX(), topLeft.getY());
+                    if (current.getY() < topLeft.getY()) topLeft = new WalkPosition(topLeft.getX(), current.getY());
+                    if (current.getX() > bottomRight.getX()) bottomRight = new WalkPosition(current.getX(), bottomRight.getY());
+                    if (current.getY() > bottomRight.getY()) bottomRight = new WalkPosition(bottomRight.getX(), current.getY());
+
+                    ToSearch.remove(ToSearch.size() - 1);
+                    WalkPosition[] deltas = { new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(1, 0), new WalkPosition(0, 1) };
+                    for (WalkPosition delta : deltas)
+                    {
+                        //TODO
+                        WalkPosition next = current.add(delta);
+                        if (Valid(next))
+                        {
+                            MiniTile Next = GetMiniTile(next, BwemUtils.check_t.no_check);
+                            if (Next.SeaOrLake())
+                            {
+                                ToSearch.add(next);
+                                if (SeaExtent.size() <= BwemDetail.LAKE_MAX_MINI_TILES) SeaExtent.add(Next);
+                                Next.SetSea();
+                            }
+                        }
+                    }
+                }
+
+                if ((SeaExtent.size() <= BwemDetail.LAKE_MAX_MINI_TILES)
+                        && (bottomRight.getX() - topLeft.getX() <= BwemDetail.LAKE_MAX_MINI_TILES)
+                        && (bottomRight.getY() - topLeft.getY() <= BwemDetail.LAKE_MAX_MINI_TILES)
+                        && (topLeft.getX() >= 2)
+                        && (topLeft.getY() >= 2)
+                        && (bottomRight.getX() < WalkSize().getX() - 2)
+                        && (bottomRight.getY() < WalkSize().getY() - 2)) {
+                    for (MiniTile pSea : SeaExtent) {
+                        pSea.SetLake();
+                    }
+                }
             }
         }
     }
