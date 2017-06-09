@@ -95,10 +95,10 @@ public class Neutral {
         for (int dx = 0 ; dx < Size().getX() ; ++dx)
         {
             Tile tile = this.m_pMap.getTile(TopLeft().add(new TilePosition(dx, dy)));
-            if (tile.GetNeutral() != null) tile.AddNeutral(this);
+            if (tile.getNeutral() != null) tile.setNeutral(this);
             else
             {
-                Neutral pTop = tile.GetNeutral().LastStacked();
+                Neutral pTop = tile.getNeutral().LastStacked();
                 //TODO
 //                bwem_assert(this != tile.GetNeutral());
 //                bwem_assert(this != pTop);

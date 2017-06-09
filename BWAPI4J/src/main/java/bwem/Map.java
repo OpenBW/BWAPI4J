@@ -339,7 +339,7 @@ public class Map {
             //TODO
 //            if (broodwar.getBWMap().isBuildable(t)) { /* isBuildable is not implemented yet. */
             if (false) {
-                getTile(t).SetBuildable();
+                getTile(t).setBuildable();
                 /* Ensures buildable ==> walkable: */
                 for (int dy = 0 ; dy < 4 ; ++dy)
                 for (int dx = 0 ; dx < 4 ; ++dx) {
@@ -349,9 +349,9 @@ public class Map {
 
             /* Set groundHeight and doodad information. */
             int bwapiGroundHeight = bw.getBWMap().getGroundHeight(t);
-            getTile(t).SetGroundHeight(bwapiGroundHeight / 2);
+            getTile(t).setGroundHeight(bwapiGroundHeight / 2);
             if (bwapiGroundHeight % 2 != 0) {
-                getTile(t).SetDoodad();
+                getTile(t).setDoodad();
             }
         }
     }
