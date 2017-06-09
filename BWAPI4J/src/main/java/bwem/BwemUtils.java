@@ -4,21 +4,6 @@ import org.openbw.bwapi4j.WalkPosition;
 
 public class BwemUtils {
 
-    /**
-     * Enum to satisfy its C++ counterpart:
-     *   defs.h:62:enum class check_t {no_check, check};
-     */
-    public enum check_t {
-        no_check,
-        check
-    }
-
-    //TODO: What is the reason for this function?
-    /* utils.h:38:template <class T> void unused(const T &) {} */
-    public static <T> void unused(T obj) {
-        /* Do nothing. */
-    }
-
     /* map.cpp:29 */
 //    bool seaSide(WalkPosition p, const Map * pMap)
 //    {
@@ -31,16 +16,21 @@ public class BwemUtils {
 //
 //        return false;
 //    }
-    public boolean seaSide(WalkPosition p, Map pMap) {
-        if (!pMap.GetMiniTile(p).Sea()) {
+    /**
+     * Tests if the specified position has any non-sea neighbors.
+     *
+     * @param p specified position
+     * @param map specified map containing the specified position
+     */
+    public static boolean hasNonSeaNeighbor(WalkPosition p, Map map) {
+        if (!map.getMiniTile(p).Sea()) {
             return false;
         }
 
         WalkPosition[] deltas = { new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(1, 0), new WalkPosition(0, 1) };
         for (WalkPosition delta : deltas) {
-            WalkPosition pDelta = new WalkPosition(p.getX() + delta.getX(), p.getY() + delta.getY());
-            if (pMap.Valid(pDelta)
-                    && !pMap.GetMiniTile(pDelta, check_t.no_check).Sea()) {
+            WalkPosition pDelta = p.add(delta);
+            if (map.isValid(pDelta) && !map.getMiniTile(pDelta).Sea()) {
                 return true;
             }
         }
