@@ -51,7 +51,7 @@ public class BW {
         this.players = new HashMap<Integer, Player>();
         this.units = new HashMap<Integer, Unit>();
         this.listener = listener;
-        this.unitFactory = new UnitFactory();
+        this.unitFactory = new UnitFactory(this);
         this.interactionHandler = new InteractionHandler(this);
         this.mapDrawer = new MapDrawer();
         this.damageEvaluator = new DamageEvaluator();
@@ -82,22 +82,27 @@ public class BW {
     private native int[] getUpgradeStatus(int playerId);
 
     public void setUnitFactory(UnitFactory unitFactory) {
+        
         this.unitFactory = unitFactory;
     }
 
     public BWMap getBWMap() {
+        
         return this.bwMap;
     }
 
     public MapDrawer getMapDrawer() {
+        
         return this.mapDrawer;
     }
 
     public DamageEvaluator getDamageEvaluator() {
+        
         return this.damageEvaluator;
     }
 
     public InteractionHandler getInteractionHandler() {
+        
         return this.interactionHandler;
     }
 
@@ -117,17 +122,22 @@ public class BW {
             int typeId = unitData[index + 3];
             Unit unit = this.units.get(unitId);
             if (unit == null) {
-                logger.debug("creating unit for id " + unitId + " and type " + typeId + " (" + UnitType.values()[typeId] + ") ...");
+                
+                logger.debug("creating unit for id " + unitId 
+                        + " and type " + typeId + " (" + UnitType.values()[typeId] + ") ...");
+                
                 unit = unitFactory.createUnit(unitId, UnitType.values()[typeId], frame);
                 if (unit == null) {
                     logger.error("could not create unit for id " + unitId + " and type " + UnitType.values()[typeId]);
                 } else {
+                    
                     this.units.put(unitId, unit);
-                    unit.initialize(unitData, index, this.units);
+                    unit.initialize(unitData, index);
                     unit.update(unitData, index);
                     logger.debug(" done.");
                 }
             } else {
+                
                 unit.update(unitData, index);
             }
         }
@@ -156,14 +166,22 @@ public class BW {
     }
 
     public Player getPlayer(int id) {
+        
         return this.players.get(id);
     }
 
     public Collection<Player> getAllPlayers() {
+        
         return this.players.values();
     }
 
+    public Unit getUnit(int id) {
+    
+        return this.units.get(id);
+    }
+    
     public Collection<Unit> getAllUnits() {
+        
         return this.units.values();
     }
 

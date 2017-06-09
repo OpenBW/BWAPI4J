@@ -2,11 +2,18 @@ package org.openbw.bwapi4j.unit;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class UnitFactory {
 
     private static final Logger logger = LogManager.getLogger();
+    
+    private BW bw;
+    
+    public UnitFactory(BW bw) {
+        this.bw = bw;
+    }
     
     /**
      * Creates a unit for given ID and type.
@@ -446,6 +453,11 @@ public class UnitFactory {
             logger.error("UnitType {} is not supported.", unitType);
             throw new UnsupportedUnitException("UnitType " + unitType + " is not supported.");
         }
+        
+        if (unit != null) {
+            unit.setBW(bw);
+        }
+        
         return unit;
     }
 }

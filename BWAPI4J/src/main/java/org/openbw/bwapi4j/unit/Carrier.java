@@ -1,7 +1,6 @@
 package org.openbw.bwapi4j.unit;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.openbw.bwapi4j.type.UnitCommandType;
@@ -17,10 +16,10 @@ public class Carrier extends MobileUnit implements Mechanical {
     }
     
     @Override
-    public void initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
+    public void initialize(int[] unitData, int index) {
 
         this.interceptorCount = 0;
-        super.initialize(unitData, index, allUnits);
+        super.initialize(unitData, index);
     }
 
     @Override
@@ -40,7 +39,7 @@ public class Carrier extends MobileUnit implements Mechanical {
      */
     public List<Interceptor> getInterceptors() {
         
-        return super.getAllUnits().values().stream()
+        return super.getAllUnits().stream()
                 .filter(u -> u instanceof Interceptor && ((Interceptor)u).getCarrier().getId() == this.getId())
                 .map(u -> (Interceptor)u).collect(Collectors.toList());
     }

@@ -3,9 +3,9 @@ package org.openbw.bwapi4j.unit;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
@@ -164,18 +164,22 @@ public abstract class Unit implements Comparable<Unit> {
     protected boolean isSelected;
 
     // internal
-    private Map<Integer, Unit> allUnits;
+    private BW bw;
     private int lastSpotted;
 
     protected Unit(int id, UnitType unitType) {
+        
         this.id = id;
         this.type = unitType;
         this.initialType = unitType;
     }
+    
+    final void setBW(BW bw) {
+        this.bw = bw;
+    }
+    
+    public void initialize(int[] unitData, int index) {
 
-    public void initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
-
-        this.allUnits = allUnits;
         this.initialPosition = new Position(unitData[index + Unit.INITIAL_POSITION_X_INDEX],
                 unitData[index + Unit.INITIAL_POSITION_Y_INDEX]);
         this.initialTilePosition = new TilePosition(unitData[index + Unit.INITIAL_TILEPOSITION_X_INDEX],
@@ -196,15 +200,23 @@ public abstract class Unit implements Comparable<Unit> {
         this.isSelected = unitData[index + Unit.IS_SELECTED_INDEX] == 1;
     }
 
-    protected Unit getUnit(int id) {
-        return this.allUnits.get(id);
+    protected Collection<Unit> getAllUnits() {
+        
+        return bw.getAllUnits();
     }
     
-    protected Map<Integer, Unit> getAllUnits() {
-        return this.allUnits;
+    protected Unit getUnit(int id) {
+        
+        return bw.getUnit(id);
     }
-
+    
+    protected Player getPlayer(int id) {
+        
+        return bw.getPlayer(id);
+    }
+    
     public int getId() {
+        
         return this.id;
     }
 
@@ -387,20 +399,6 @@ public abstract class Unit implements Comparable<Unit> {
 
     // --------------------------------------------------
 
-    protected boolean rightClick(Position p, boolean queued) {
-        return issueCommand(this.id, UnitCommandType.Right_Click_Position.ordinal(), -1, p.getX(), p.getY(),
-                queued ? 1 : 0);
-    }
-
-    protected boolean rightClick(Unit target, boolean queued) {
-        return issueCommand(this.id, UnitCommandType.Right_Click_Unit.ordinal(), target.getId(), -1, -1,
-                queued ? 1 : 0);
-    }
-
-    protected boolean cancelAddon() {
-        return issueCommand(this.id, UnitCommandType.Cancel_Addon.ordinal(), -1, -1, -1, -1);
-    }
-
     // dynamic
     private int replayID;
 
@@ -408,8 +406,6 @@ public abstract class Unit implements Comparable<Unit> {
     private int lastCommandFrame;
     private UnitCommandType lastCommand;
     private Player lastAttackingPlayer;
-    private int acidSporeCount;
-    private int scarabCount;
     private int defenseMatrixPoints;
     private int defenseMatrixTimer;
     private int ensnareTimer;
@@ -425,44 +421,18 @@ public abstract class Unit implements Comparable<Unit> {
     private List<UnitType> trainingQueue;
     private TechType tech;
     private UpgradeType uppgrade;
-    private int remainingTrainTime;
-    private int remainingResearchTime;
-    private int remainingUpgradeTime;
+    
     private Unit buildUnit;
     private Order order;
     private Order secondaryOrder;
     private Unit orderTarget;
     private Position orderTargetPosition;
-    private Position rallyPosition;
-    private Unit rallyUnit;
     private Unit addon;
     private Unit powerUp;
-    private Unit transport;
-    private Unit hatchery;
-    private boolean hasNuke;
-    private boolean isAccelerating;
-    private boolean isAttacking;
-    private boolean isAttackFrame;
-    private boolean isBeingConstructed;
-    private boolean isBeingHealed;
-
-    private boolean isBlind;
-    private boolean isBraking;
-    private boolean isBurrowed;
-    private boolean isDefenseMatrixed;
-    private boolean isEnsnared;
-
-    private boolean isHallucination;
+   
+    private boolean isMorphing;
+    private boolean isTargetable;
     private boolean isInterruptible;
     private boolean isInvincible;
     private boolean isInWeaponRange;
-    private boolean isIrradiated;
-    private boolean isLockedDown;
-    private boolean isMaelstrommed;
-    private boolean isMorphing;
-
-    private boolean isStartingAttack;
-    private boolean isUnderAttack;
-    private boolean isPowered;
-    private boolean isTargetable;
 }

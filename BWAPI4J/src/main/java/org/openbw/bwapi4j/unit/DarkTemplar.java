@@ -11,6 +11,10 @@ public class DarkTemplar extends MobileUnit implements Organic, Cloakable {
         super(id, UnitType.Protoss_Dark_Templar);
     }
     
+    /**
+     * Merges two dark templars into one dark archon. Both templars must be selected.
+     * @return true if command successful, false else
+     */
     public boolean darkArchonMeld() {
         
         // TODO how does this spell work? does the other templars ID have to be passed as well?

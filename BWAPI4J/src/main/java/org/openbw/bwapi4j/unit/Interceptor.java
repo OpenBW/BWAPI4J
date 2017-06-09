@@ -1,7 +1,5 @@
 package org.openbw.bwapi4j.unit;
 
-import java.util.Map;
-
 import org.openbw.bwapi4j.type.UnitType;
 
 public class Interceptor extends MobileUnit implements Mechanical {
@@ -14,10 +12,10 @@ public class Interceptor extends MobileUnit implements Mechanical {
     }
     
     @Override
-    public void initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
+    public void initialize(int[] unitData, int index) {
 
         this.carrierId = unitData[index + Unit.CARRIER_INDEX];
-        super.initialize(unitData, index, allUnits);
+        super.initialize(unitData, index);
     }
 
     public Unit getCarrier() {

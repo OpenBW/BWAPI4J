@@ -1,7 +1,5 @@
 package org.openbw.bwapi4j.unit;
 
-import java.util.Map;
-
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
@@ -15,10 +13,10 @@ public class InfestedTerran extends MobileUnit implements Organic, Burrowable {
     }
     
     @Override
-    public void initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
+    public void initialize(int[] unitData, int index) {
 
         this.burrowed = false;
-        super.initialize(unitData, index, allUnits);
+        super.initialize(unitData, index);
     }
 
     @Override

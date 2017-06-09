@@ -3,11 +3,11 @@ package org.openbw.bwapi4j.unit;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
+import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
 public abstract class PlayerUnit extends Unit {
@@ -29,9 +29,19 @@ public abstract class PlayerUnit extends Unit {
     protected int groundWeaponCooldown;
     protected int airWeaponCooldown;
     protected int spellCooldown;
-
-    // TODO set player
-    protected Player player;
+    private boolean isAccelerating;
+    private boolean isAttacking;
+    private boolean isAttackFrame;
+    private boolean isBeingConstructed;
+    private boolean isBeingHealed;
+    private boolean isIrradiated;
+    private boolean isLockedDown;
+    private boolean isMaelstrommed;
+    private boolean isStartingAttack;
+    private boolean isUnderAttack;
+    private boolean isPowered;
+    
+    protected int playerId;
 
     // other
     private Position lastKnownPosition;
@@ -44,15 +54,16 @@ public abstract class PlayerUnit extends Unit {
     }
 
     @Override
-    public void initialize(int[] unitData, int index, Map<Integer, Unit> allUnits) {
+    public void initialize(int[] unitData, int index) {
 
         this.initialHitPoints = unitData[index + Unit.INITIAL_HITPOINTS_INDEX];
-        super.initialize(unitData, index, allUnits);
+        super.initialize(unitData, index);
     }
 
     @Override
     public void update(int[] unitData, int index) {
 
+        this.playerId = unitData[index + Unit.PLAYER_ID_INDEX];
         this.hitPoints = unitData[index + Unit.HITPOINTS_INDEX];
         this.shields = unitData[index + Unit.SHIELDS_INDEX];
         this.killCount = unitData[index + Unit.KILLCOUNT_INDEX];
@@ -66,7 +77,18 @@ public abstract class PlayerUnit extends Unit {
         this.groundWeaponCooldown = unitData[index + Unit.GROUND_WEAPON_COOLDOWN_INDEX];
         this.airWeaponCooldown = unitData[index + Unit.AIR_WEAPON_COOLDOWN_INDEX];
         this.spellCooldown = unitData[index + Unit.SPELL_COOLDOWN_INDEX];
-
+        this.isAccelerating = unitData[index + Unit.IS_ACCELERATING_INDEX] == 1;
+        this.isAttacking = unitData[index + Unit.IS_ATTACKING_INDEX] == 1;
+        this.isAttackFrame = unitData[index + Unit.IS_ATTACK_FRAME_INDEX] == 1;
+        this.isBeingConstructed = unitData[index + Unit.IS_BEING_CONSTRUCTED_INDEX] == 1;
+        this.isBeingHealed = unitData[index + Unit.IS_BEING_HEALED_INDEX] == 1;
+        this.isIrradiated = unitData[index + Unit.IS_IRRADIATED_INDEX] == 1;
+        this.isLockedDown = unitData[index + Unit.IS_LOCKED_DOWN_INDEX] == 1;
+        this.isMaelstrommed = unitData[index + Unit.IS_MAELSTROMMED_INDEX] == 1;
+        this.isStartingAttack = unitData[index + Unit.IS_STARTING_ATTACK_INDEX] == 1;
+        this.isUnderAttack = unitData[index + Unit.IS_UNDER_ATTACK_INDEX] == 1;
+        this.isPowered = unitData[index + Unit.IS_POWERED_INDEX] == 1;
+        
         if (super.isVisible) {
             this.lastKnownPosition = super.position;
             this.lastKnownTilePosition = super.tilePosition;
@@ -101,6 +123,30 @@ public abstract class PlayerUnit extends Unit {
         return weakestUnit;
     }
 
+    /**
+     * Perform the right-click command on a given position.
+     * @param position the position to right-click to
+     * @param queued true if command is queued, false else
+     * @return true if command is successful, false else
+     */
+    public boolean rightClick(Position position, boolean queued) {
+        
+        return issueCommand(this.id, UnitCommandType.Right_Click_Position.ordinal(), -1, 
+                position.getX(), position.getY(), queued ? 1 : 0);
+    }
+
+    /**
+     * Perform the right-click command on a given unit.
+     * @param target the unit to right-click to
+     * @param queued true if command is queued, false else
+     * @return true if command is successful, false else
+     */
+    public boolean rightClick(Unit target, boolean queued) {
+        
+        return issueCommand(this.id, UnitCommandType.Right_Click_Unit.ordinal(), target.getId(), -1, -1,
+                queued ? 1 : 0);
+    }
+    
     public boolean isCompleted() {
         
         return this.isCompleted;
@@ -133,7 +179,7 @@ public abstract class PlayerUnit extends Unit {
 
     public Player getPlayer() {
         
-        return player;
+        return super.getPlayer(this.playerId);
     }
 
     public int getInitialHitPoints() {
@@ -221,6 +267,61 @@ public abstract class PlayerUnit extends Unit {
         return this.isIdle;
     }
 
+    public boolean isAccelerating() {
+        
+        return this.isAccelerating;
+    }
+    
+    public boolean isAttacking() {
+        
+        return this.isAttacking;
+    }
+    
+    public boolean isAttackFrame() {
+        
+        return this.isAttackFrame;
+    }
+    
+    public boolean isBeingConstructed() {
+        
+        return this.isBeingConstructed;
+    }
+    
+    public boolean isBeingHealed() {
+        
+        return this.isBeingHealed;
+    }
+    
+    public boolean isIrradiated() {
+        
+        return this.isIrradiated;
+    }
+    
+    public boolean isLockedDown() {
+        
+        return this.isLockedDown;
+    }
+    
+    public boolean isMaelstrommed() {
+        
+        return this.isMaelstrommed;
+    }
+    
+    public boolean isStartingAttack() {
+        
+        return this.isStartingAttack;
+    }
+    
+    public boolean isUnderAttack() {
+        
+        return this.isUnderAttack;
+    }
+    
+    public boolean isPowered() {
+        
+        return this.isPowered;
+    }
+    
     public int getDamageTo(PlayerUnit to) {
 
         return 0;
