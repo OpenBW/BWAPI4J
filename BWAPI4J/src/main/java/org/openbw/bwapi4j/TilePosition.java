@@ -11,7 +11,7 @@ public class TilePosition {
         this.x = x;
         this.y = y;
     }
-    
+
     public String toString() {
         return "[" + x + ", " + y + "]";
     }
@@ -52,5 +52,17 @@ public class TilePosition {
 
     public Position toPosition() {
         return new Position(x * SIZE_IN_PIXELS, y * SIZE_IN_PIXELS);
+    }
+
+    public TilePosition add(TilePosition rhs) {
+        int x = this.x + rhs.getX();
+        int y = this.y + rhs.getY();
+        return new TilePosition(x, y);
+    }
+
+    public TilePosition subtract(TilePosition rhs) {
+        int x = this.x - rhs.getX();
+        int y = this.y - rhs.getY();
+        return new TilePosition(x, y);
     }
 }
