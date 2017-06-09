@@ -2,6 +2,7 @@ package bwem;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.BW;
@@ -63,6 +64,7 @@ public class Map {
         LoadData(); //TODO
         DecideSeasOrLakes();
         InitializeNeutrals();
+        ComputeAltitude(); //TODO
         //TODO
     }
 
@@ -446,6 +448,75 @@ public class Map {
                 //TODO: Add "Special_Pit_Door" and "Special_Right_Pit_Door" to static buildings list? See mapImpl.cpp:238.
             }
         }
+    }
+
+    // Assigns MiniTile::m_altitude foar each miniTile having AltitudeMissing()
+    // Cf. MiniTile::Altitude() for meaning of altitude_t.
+    // Altitudes are computed using the straightforward Dijkstra's algorithm : the lower ones are computed first, starting from the seaside-miniTiles neighbours.
+    // The point here is to precompute all possible altitudes for all possible tiles, and sort them.
+    private void ComputeAltitude() {
+//        const int altitude_scale = 8;	// 8 provides a pixel definition for altitude_t, since altitudes are computed from miniTiles which are 8x8 pixels
+
+//        // 1) Fill in and sort DeltasByAscendingAltitude
+//        const int range = max(WalkSize().x, WalkSize().y) / 2 + 3;		// should suffice for maps with no Sea.
+        int range = Math.max(getWalkSize().getX(), getWalkSize().getY() / 2 + 3);
+
+//        vector<pair<WalkPosition, altitude_t>> DeltasByAscendingAltitude;
+        java.util.Map<WalkPosition, Altitude> DeltasByAscendingAltitude = new ConcurrentHashMap<>();
+
+//        for (int dy = 0 ; dy <= range ; ++dy)
+//        for (int dx = dy ; dx <= range ; ++dx)			// Only consider 1/8 of possible deltas. Other ones obtained by symmetry.
+//            if (dx || dy)
+//                DeltasByAscendingAltitude.emplace_back(WalkPosition(dx, dy), altitude_t(0.5 + norm(dx, dy) * altitude_scale));
+        for (int dy = 0; dy <= range; ++dy)
+        for (int dx = dy; dx <= range; ++dx) {
+            if (dx != 0 || dy != 0) {
+                //TODO
+//                DeltasByAscendingAltitude.put(new WalkPosition(dx, dy), new Altitude())
+            }
+        }
+//
+//        sort(DeltasByAscendingAltitude.begin(), DeltasByAscendingAltitude.end(),
+//            [](const pair<WalkPosition, altitude_t> & a, const pair<WalkPosition, altitude_t> & b){ return a.second < b.second; });
+//
+//
+//        // 2) Fill in ActiveSeaSideList, which basically contains all the seaside miniTiles (from which altitudes are to be computed)
+//        //    It also includes extra border-miniTiles which are considered as seaside miniTiles too.
+//        struct ActiveSeaSide { WalkPosition origin; altitude_t lastAltitudeGenerated; };
+//        vector<ActiveSeaSide> ActiveSeaSideList;
+//
+//        for (int y = -1 ; y <= WalkSize().y ; ++y)
+//        for (int x = -1 ; x <= WalkSize().x ; ++x)
+//        {
+//            WalkPosition w(x, y);
+//            if (!Valid(w) || seaSide(w, this))
+//                ActiveSeaSideList.push_back(ActiveSeaSide{w, 0});
+//        }
+//
+//        // 3) Dijkstra's algorithm
+//        for (const auto & delta_altitude : DeltasByAscendingAltitude)
+//        {
+//            const WalkPosition d = delta_altitude.first;
+//            const altitude_t altitude = delta_altitude.second;
+//            for (int i = 0 ; i < (int)ActiveSeaSideList.size() ; ++i)
+//            {
+//                ActiveSeaSide & Current = ActiveSeaSideList[i];
+//                if (altitude - Current.lastAltitudeGenerated >= 2 * altitude_scale)		// optimization : once a seaside miniTile verifies this condition,
+//                    fast_erase(ActiveSeaSideList, i--);									// we can throw it away as it will not generate min altitudes anymore
+//                else
+//                    for (auto delta : {	WalkPosition(d.x, d.y), WalkPosition(-d.x, d.y), WalkPosition(d.x, -d.y), WalkPosition(-d.x, -d.y),
+//                                        WalkPosition(d.y, d.x), WalkPosition(-d.y, d.x), WalkPosition(d.y, -d.x), WalkPosition(-d.y, -d.x)})
+//                    {
+//                        WalkPosition w = Current.origin + delta;
+//                        if (Valid(w))
+//                        {
+//                            auto & miniTile = GetMiniTile_(w, check_t::no_check);
+//                            if (miniTile.AltitudeMissing())
+//                                miniTile.SetAltitude(m_maxAltitude = Current.lastAltitudeGenerated = altitude);
+//                        }
+//                    }
+//            }
+//        }
     }
 
     //TODO

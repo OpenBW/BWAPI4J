@@ -1,12 +1,5 @@
 package bwem;
 
-//////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                          //
-//                                  class MiniTile
-//                                                                                          //
-//////////////////////////////////////////////////////////////////////////////////////////////
-//
-// Corresponds to BWAPI/Starcraft's concept of minitile (8x8 pixels).
 // MiniTiles are accessed using WalkPositions (Cf. Map::GetMiniTile).
 // A Map holds Map::WalkSize().x * Map::WalkSize().y MiniTiles as its "MiniTile map".
 // A MiniTile contains essentialy 3 informations:
@@ -15,8 +8,9 @@ package bwem;
 //	- the id of the Area it is part of, if ever.
 // The whole process of analysis of a Map relies on the walkability information
 // from which are derived successively : altitudes, Areas, ChokePoints.
-
 public class MiniTile {
+
+    public static final int SIZE_IN_PIXELS = 8;
 
     private static final int blockingCP = 0; // static const Area::id blockingCP;
 

@@ -4,6 +4,8 @@ import org.apache.commons.lang3.mutable.MutableInt;
 
 public class Tile {
 
+    public static final int SIZE_IN_PIXELS = 32;
+
     private Neutral neutral;
     private Altitude minAltitude;
     private int areaId;
