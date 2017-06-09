@@ -94,7 +94,7 @@ public class Neutral {
         for (int dy = 0 ; dy < Size().getY() ; ++dy)
         for (int dx = 0 ; dx < Size().getX() ; ++dx)
         {
-            Tile tile = this.m_pMap.GetTile(TopLeft().add(new TilePosition(dx, dy)));
+            Tile tile = this.m_pMap.getTile(TopLeft().add(new TilePosition(dx, dy)));
             if (tile.GetNeutral() != null) tile.AddNeutral(this);
             else
             {

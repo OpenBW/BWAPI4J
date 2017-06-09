@@ -2,7 +2,6 @@ package bwem;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.BW;
@@ -14,74 +13,49 @@ public class Map {
 
     private static final Logger logger = LogManager.getLogger();
 
-    private static final Map m_gInstance = new Map();
+    private static final Map INSTANCE = new Map();
 
     private BW bw = null;
-
-    /* Note: originals were m_size and m_Size */
-    private int m_tileSize = 0;
-    private TilePosition m_TileSize = null;
-
-    private int m_walkSize = 0;
-    private WalkPosition m_WalkSize = null;
-
-    private int m_pixelSize = 0;
-    private Position m_PixelSize = null;
-
-    private Position m_center = null;
-    private List<Tile> m_Tiles = null;
-    private List<MiniTile> m_MiniTiles = null;
-
-    private List<TilePosition> m_StartingLocations = null;
-
-    Altitude m_maxAltitude = null;
-
-    private Random rng;
+    private TilePosition tileSize = null;
+    private WalkPosition walkSize = null;
+    private Position pixelSize = null;
+    private Position center = null;
+    private List<Tile> tiles = null;
+    private List<MiniTile> miniTiles = null;
+    private List<TilePosition> startingLocations = null;
+    private Altitude maxAltitude = null;
 
     private Map() {
-        this.rng = new Random();
+        /* Do nothing. */
     }
 
     public static Map Instance() {
-        return m_gInstance;
+        return INSTANCE;
     }
 
     /* mapImpl.cpp:68:void MapImpl::Initialize() */
-    public void Initialize(BW bw) {
+    public void initialize(BW bw) {
         this.bw = bw;
-
-        this.m_Tiles = new ArrayList<>();
-        this.m_MiniTiles = new ArrayList<>();
-        this.m_StartingLocations = new ArrayList<>();
-
-        this.m_TileSize = new TilePosition(this.bw.getBWMap().mapWidth(), this.bw.getBWMap().mapHeight());
-        this.m_tileSize = TileSize().getX() * TileSize().getY();
-
-        this.m_WalkSize = new WalkPosition(TileSize());
-        this.m_walkSize = WalkSize().getX() * WalkSize().getY();
-
-        this.m_PixelSize = TileSize().toPosition();
-        this.m_pixelSize = PixelSize().getX() * PixelSize().getY();
-
-        this.m_center = new Position(PixelSize().getX() / 2, PixelSize().getY() / 2);
-
+        this.tiles = new ArrayList<>();
+        this.miniTiles = new ArrayList<>();
+        this.startingLocations = new ArrayList<>();
+        this.tileSize = new TilePosition(this.bw.getBWMap().mapWidth(), this.bw.getBWMap().mapHeight());
+        this.walkSize = new WalkPosition(getTileSize());
+        this.pixelSize = getTileSize().toPosition();
+        this.center = new Position(getPixelSize().getX() / 2, getPixelSize().getY() / 2);
         for (TilePosition tilePosition : this.bw.getBWMap().getStartLocations()) {
-            this.m_StartingLocations.add(tilePosition);
+            this.startingLocations.add(tilePosition);
         }
+        this.maxAltitude = new Altitude(0);
 
-        this.m_maxAltitude = new Altitude(0);
-
-        LoadData();
-
+        LoadData(); //TODO
         DecideSeasOrLakes();
-
-        InitializeNeutrals(); // TODO
-
-        // TODO
+        InitializeNeutrals(); //TODO
+        //TODO
     }
 
-    public boolean Initialized() {
-        return (this.m_tileSize != 0);
+    public boolean isInitialized() {
+        return (this.tileSize != null);
     }
 
 
@@ -115,26 +89,24 @@ public class Map {
 
 
 
-    public TilePosition TileSize() {
-        /* map.h:92:const BWAPI::TilePosition & Size() const { return m_Size; } */
-        /* bwapi4j.TilePosition is not immutable. */
-        return new TilePosition(this.m_TileSize.getX(), this.m_TileSize.getY());
+    public TilePosition getTileSize() {
+        return new TilePosition(this.tileSize.getX(), this.tileSize.getY());
     }
 
-    public WalkPosition WalkSize() {
-        /* map.h:95:const BWAPI::WalkPosition & WalkSize() const { return m_WalkSize; } */
-        /* bwapi4j.WalkPosition is not immutable. */
-        return new WalkPosition(this.m_WalkSize.getX(), this.m_WalkSize.getY());
+    public WalkPosition getWalkSize() {
+        return new WalkPosition(this.walkSize.getX(), this.walkSize.getY());
     }
 
-    public Position PixelSize() {
-        return new Position(this.m_PixelSize.getX(), this.m_PixelSize.getY());
+    public Position getPixelSize() {
+        return new Position(this.pixelSize.getX(), this.pixelSize.getY());
     }
 
-    public Position Center() {
-        /* map.h:98:const BWAPI::Position & Center() const { return m_center; }
-        /* bwapi4j.Position is not immutable. */
-        return new Position(this.m_center.getX(), this.m_center.getY());
+    public Position getCenter() {
+        return new Position(this.center.getX(), this.center.getY());
+    }
+
+    public Altitude getMaxAltitude() {
+        return this.maxAltitude;
     }
 
 
@@ -143,19 +115,6 @@ public class Map {
 /// map.h:101
 //////////////////////////////////////////////////////////////////////
 
-    // Returns a random position in the Map in pixels.
-    /* map.h:101:BWAPI::Position RandomPosition() const; */
-    public Position RandomPosition() {
-        int x = this.rng.nextInt(PixelSize().getX());
-        int y = this.rng.nextInt(PixelSize().getY());
-        return new Position(x, y);
-    }
-
-//	// Returns the maximum altitude in the whole Map (Cf. MiniTile::Altitude()).
-    public Altitude MaxAltitude() {
-        return this.m_maxAltitude;
-    }
-//
 //	// Returns the number of Bases.
 //	virtual int							BaseCount() const = 0;
 //
@@ -166,84 +125,56 @@ public class Map {
 
 
 
-    // Returns a Tile, given its position.
-    /* map.h:113:const Tile & GetTile(const BWAPI::TilePosition & p, utils::check_t checkMode = utils::check_t::check) const	{ bwem_assert((checkMode == utils::check_t::no_check) || Valid(p)); utils::unused(checkMode); return m_Tiles[Size().x * p.y + p.x]; } */
-    public Tile GetTile(TilePosition p, BwemUtils.check_t checkMode) {
-        if (checkMode == null) {
-            checkMode = BwemUtils.check_t.check;
+    public Tile getTile(TilePosition p, boolean check) {
+        if (!((check == false) || isValid(p))) {
+            throw new IllegalArgumentException();
         }
-//        assert ((checkMode == BwemUtils.check_t.no_check) || Valid(p));
-        if (!((checkMode == BwemUtils.check_t.no_check) || Valid(p))) {
-            throw new IllegalStateException(); /* Assertions shouldn't be used in public methods as validation even though these methods are used by BWEM's internals. */
+        return this.tiles.get(getTileSize().getX() * p.getY() + p.getX());
+    }
+
+    public Tile getTile(TilePosition p) {
+        return getTile(p, true);
+    }
+
+	public MiniTile getMiniTile(WalkPosition wp, boolean check) {
+        if (!((check == false) || isValid(wp))) {
+            throw new IllegalArgumentException();
         }
-        BwemUtils.unused(checkMode);
-        //TODO: The original C++ function is const. Solution: return new object?
-        //  - Update: No. Return the object so it can be modified.
-        return this.m_Tiles.get(TileSize().getX() * p.getY() + p.getX());
+        return this.miniTiles.get(getWalkSize().getX() * wp.getY() + wp.getX());
     }
 
-    public Tile GetTile(TilePosition p) {
-        return GetTile(p, BwemUtils.check_t.check);
+    public MiniTile getMiniTile(WalkPosition wp) {
+        return getMiniTile(wp, true);
     }
 
-    // Returns a MiniTile, given its position.
-    /* map.h:116:const MiniTile & GetMiniTile(const BWAPI::WalkPosition & p, utils::check_t checkMode = utils::check_t::check) const	{ bwem_assert((checkMode == utils::check_t::no_check) || Valid(p)); utils::unused(checkMode); return m_MiniTiles[WalkSize().x * p.y + p.x]; } */
-	public MiniTile GetMiniTile(WalkPosition wp, BwemUtils.check_t checkMode) {
-        if (checkMode == null) {
-            checkMode = BwemUtils.check_t.check;
-        }
-//        assert ((checkMode == BwemUtils.check_t.no_check) || Valid(wp));
-        if (!(checkMode == null || (checkMode == BwemUtils.check_t.no_check) || Valid(wp))) {
-            throw new IllegalStateException(); /* Assertions shouldn't be used in public methods as validation even though these methods are used by BWEM's internals. */
-        }
-        BwemUtils.unused(checkMode);
-        //TODO: The original C++ function is const. Solution: return new object?
-        return this.m_MiniTiles.get(WalkSize().getX() * wp.getY() + wp.getX());
+    public List<Tile> getTiles() {
+        return this.tiles;
     }
 
-    public MiniTile GetMiniTile(WalkPosition wp) {
-        return GetMiniTile(wp, BwemUtils.check_t.check);
+    /**
+     * Returns the internal representation of MiniTile objects.
+     */
+    public List<MiniTile> getMiniTiles() {
+        return this.miniTiles;
     }
 
-    //TODO: Delete? I do not think this is required. It is here for future reference.
-    /* map.h:120 */
-//    // Returns a Tile or a MiniTile, given its position.
-//    // Provided as a support of generic algorithms.
-//    template<class TPosition>
-//    typename const utils::TileOfPosition<TPosition>::type & GetTTile(const TPosition & p, utils::check_t checkMode = utils::check_t::check) const;
-
-    // Provides access to the internal array of Tiles.
-    /* map.h:124:const std::vector<Tile> & Tiles() const { return m_Tiles; } */
-    public List<Tile> Tiles() {
-        //TODO: The original C++ function is const. Solution: return new object?
-        return this.m_Tiles;
+    public boolean isValid(TilePosition p) {
+        return (p.getX() >= 0 && p.getX() < getTileSize().getX()
+                && p.getY() >= 0 && p.getY() < getTileSize().getY());
     }
 
-    // Provides access to the internal array of MiniTiles.
-    /* const std::vector<MiniTile> & MiniTiles() const { return m_MiniTiles; } */
-    public List<MiniTile> MiniTiles() {
-        //TODO: The original C++ function is const. Solution: return new object?
-        return this.m_MiniTiles;
+    public boolean isValid(WalkPosition p) {
+        return (p.getX() >= 0 && p.getX() < getWalkSize().getX()
+                && p.getY() >= 0 && p.getY() < getWalkSize().getY());
     }
 
-    public boolean Valid(TilePosition p) {
-        return (p.getX() >= 0 && p.getX() < TileSize().getX()
-                && p.getY() >= 0 && p.getY() < TileSize().getY());
-    }
-
-    public boolean Valid(WalkPosition p) {
-        return (p.getX() >= 0 && p.getX() < WalkSize().getX()
-                && p.getY() >= 0 && p.getY() < WalkSize().getY());
-    }
-
-    public boolean Valid(Position p) {
-        return Valid(new TilePosition(p.getX() / TilePosition.SIZE_IN_PIXELS, p.getY() / TilePosition.SIZE_IN_PIXELS));
+    public boolean isValid(Position p) {
+        return isValid(p.toTilePosition());
     }
 
     private <TPosition> TPosition crop(TPosition p, int sizeX, int sizeY) {
         int x;
         int y;
-
         if (p instanceof TilePosition) {
             x = ((TilePosition) p).getX();
             y = ((TilePosition) p).getY();
@@ -254,14 +185,19 @@ public class Map {
             x = ((Position) p).getX();
             y = ((Position) p).getY();
         } else {
-            throw new IllegalStateException("failed to determine x and y: unsupported type");
+            throw new UnsupportedOperationException("failed to determine x and y: unsupported type");
         }
 
-        if      (x < 0) x = 0;
-        else if (x >= sizeX) x = sizeX - 1;
-
-        if      (y < 0) y = 0;
-        else if (y >= sizeY) y = sizeY - 1;
+        if (x < 0) {
+            x = 0;
+        } else if (x >= sizeX) {
+            x = sizeX - 1;
+        }
+        if (y < 0) {
+            y = 0;
+        } else if (y >= sizeY) {
+            y = sizeY - 1;
+        }
 
         if (p instanceof TilePosition) {
             return (TPosition) new TilePosition(x, y);
@@ -270,28 +206,24 @@ public class Map {
         } else if (p instanceof Position) {
             return (TPosition) new Position(x, y);
         } else {
-            throw new IllegalStateException("failed to create return object: unsupported type");
+            throw new UnsupportedOperationException("failed to create return object: unsupported type");
         }
     }
 
-    public TilePosition Crop(TilePosition p) {
-        return crop(p, TileSize().getX(), TileSize().getY());
+    public TilePosition crop(TilePosition p) {
+        return crop(p, getTileSize().getX(), getTileSize().getY());
     }
 
-    public WalkPosition Crop(WalkPosition p) {
-        return crop(p, WalkSize().getX(), WalkSize().getY());
+    public WalkPosition crop(WalkPosition p) {
+        return crop(p, getWalkSize().getX(), getWalkSize().getY());
     }
 
-    public Position Crop(Position p) {
-        return crop(p, PixelSize().getX(), PixelSize().getY());
+    public Position crop(Position p) {
+        return crop(p, getPixelSize().getX(), getPixelSize().getY());
     }
 
-	// Returns a reference to the starting Locations.
-	// Note: these correspond to BWAPI::getStartLocations().
-    /* virtual const std::vector<BWAPI::TilePosition> & StartingLocations() const = 0; */
-    public List<TilePosition> StartingLocations() {
-        //TODO: The original C++ function is const. Solution: return new object?
-        return this.m_StartingLocations;
+    public List<TilePosition> getStartingLocations() {
+        return this.startingLocations;
     }
 
 
@@ -378,63 +310,67 @@ public class Map {
 
 
 
-    // Computes walkability, buildability and groundHeight and doodad information, using BWAPI corresponding functions
+    /**
+     * Computes walkability, buildability, groundHeight, and doodad information.
+     */
     public void LoadData() {
-        // Mark unwalkable minitiles (minitiles are walkable by default)
-        for (int y = 0; y < WalkSize().getY(); ++y)
-        for (int x = 0; x < WalkSize().getX(); ++x) {
-            if (!this.bw.getBWMap().isWalkable(x, y)) { // For each unwalkable minitile, we also mark its 8 neighbours as not walkable.
-                for (int dy = -1; dy <= 1; ++dy) // According to some tests, this prevents from wrongly pretending one Marine can go by some thin path.
+        /* Mark unwalkable minitiles (minitiles are walkable by default). */
+        for (int y = 0; y < getWalkSize().getY(); ++y)
+        for (int x = 0; x < getWalkSize().getX(); ++x) {
+            if (!this.bw.getBWMap().isWalkable(x, y)) {
+                /**
+                 * For each unwalkable minitile, we also mark its eight neighbors as not walkable.
+                 * According to some tests, this prevents from wrongly pretending one Marine can go by some thin path.
+                 */
+                for (int dy = -1; dy <= 1; ++dy)
                 for (int dx = -1; dx <= 1; ++dx) {
                     WalkPosition w = new WalkPosition(x + dx, y + dy);
-                    // TODO
-                    if (Valid(w)) {
-                        GetMiniTile(w, BwemUtils.check_t.no_check).SetWalkable(false);
+                    if (isValid(w)) {
+                        getMiniTile(w, false).SetWalkable(false);
                     }
                 }
             }
         }
 
-        // Mark buildable tiles (tiles are unbuildable by default)
-        for (int y = 0 ; y < TileSize().getY() ; ++y)
-        for (int x = 0 ; x < TileSize().getX() ; ++x) {
+        /* Mark buildable tiles (tiles are unbuildable by default). */
+        for (int y = 0 ; y < getTileSize().getY() ; ++y)
+        for (int x = 0 ; x < getTileSize().getX() ; ++x) {
             TilePosition t = new TilePosition(x, y);
             //TODO
 //            if (broodwar.getBWMap().isBuildable(t)) { /* isBuildable is not implemented yet. */
             if (false) {
-                GetTile(t).SetBuildable();
-                // Ensures buildable ==> walkable:
+                getTile(t).SetBuildable();
+                /* Ensures buildable ==> walkable: */
                 for (int dy = 0 ; dy < 4 ; ++dy)
                 for (int dx = 0 ; dx < 4 ; ++dx) {
-                    WalkPosition w = new WalkPosition(t);
-                    GetMiniTile(new WalkPosition(w.getX() + dx, w.getY() + dy), BwemUtils.check_t.no_check).SetWalkable(true);
+                    getMiniTile(new WalkPosition(t).add(new WalkPosition(dx, dy)), false).SetWalkable(true);
                 }
             }
 
-            // Add groundHeight and doodad information:
+            /* Set groundHeight and doodad information. */
             int bwapiGroundHeight = bw.getBWMap().getGroundHeight(t);
-            GetTile(t).SetGroundHeight(bwapiGroundHeight / 2);
+            getTile(t).SetGroundHeight(bwapiGroundHeight / 2);
             if (bwapiGroundHeight % 2 != 0) {
-                GetTile(t).SetDoodad();
+                getTile(t).SetDoodad();
             }
         }
     }
 
     public void DecideSeasOrLakes() {
-        for (int y = 0 ; y < WalkSize().getY(); ++y)
-        for (int x = 0 ; x < WalkSize().getX(); ++x)
+        for (int y = 0 ; y < getWalkSize().getY(); ++y)
+        for (int x = 0 ; x < getWalkSize().getX(); ++x)
         {
-            WalkPosition origin = new WalkPosition(x, y);
-            MiniTile Origin = GetMiniTile(origin, BwemUtils.check_t.no_check);
-            if (Origin.SeaOrLake())
+            WalkPosition walkOrigin = new WalkPosition(x, y);
+            MiniTile miniOrigin = getMiniTile(walkOrigin, false);
+            if (miniOrigin.SeaOrLake())
             {
                 List<WalkPosition> ToSearch = new ArrayList<>();
-                ToSearch.add(origin);
+                ToSearch.add(walkOrigin);
                 List<MiniTile> SeaExtent = new ArrayList<>();
-                SeaExtent.add(Origin);
-                Origin.SetSea();
-                WalkPosition topLeft = origin;
-                WalkPosition bottomRight = origin;
+                SeaExtent.add(miniOrigin);
+                miniOrigin.SetSea();
+                WalkPosition topLeft = walkOrigin;
+                WalkPosition bottomRight = walkOrigin;
                 while (!ToSearch.isEmpty())
                 {
                     WalkPosition current = ToSearch.get(ToSearch.size() - 1);
@@ -447,11 +383,10 @@ public class Map {
                     WalkPosition[] deltas = { new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(1, 0), new WalkPosition(0, 1) };
                     for (WalkPosition delta : deltas)
                     {
-                        //TODO
                         WalkPosition next = current.add(delta);
-                        if (Valid(next))
+                        if (isValid(next))
                         {
-                            MiniTile Next = GetMiniTile(next, BwemUtils.check_t.no_check);
+                            MiniTile Next = getMiniTile(next, false);
                             if (Next.SeaOrLake())
                             {
                                 ToSearch.add(next);
@@ -467,8 +402,8 @@ public class Map {
                         && (bottomRight.getY() - topLeft.getY() <= BwemDetail.LAKE_MAX_MINI_TILES)
                         && (topLeft.getX() >= 2)
                         && (topLeft.getY() >= 2)
-                        && (bottomRight.getX() < WalkSize().getX() - 2)
-                        && (bottomRight.getY() < WalkSize().getY() - 2)) {
+                        && (bottomRight.getX() < getWalkSize().getX() - 2)
+                        && (bottomRight.getY() < getWalkSize().getY() - 2)) {
                     for (MiniTile pSea : SeaExtent) {
                         pSea.SetLake();
                     }
@@ -514,20 +449,6 @@ public class Map {
 //                        m_StaticBuildings.push_back(make_unique<StaticBuilding>(n, this));
 //                }
     }
-
-    //TODO: Delete? I do not think these two are required. They are here for future reference.
-    /* map.h:239 */
-//    template<>
-//    inline typename const Tile & Map::GetTTile<BWAPI::TilePosition>(const BWAPI::TilePosition & t, utils::check_t checkMode) const
-//    {
-//        return GetTile(t, checkMode);
-//    }
-//
-//    template<>
-//    inline typename const MiniTile & Map::GetTTile<BWAPI::WalkPosition>(const BWAPI::WalkPosition & w, utils::check_t checkMode) const
-//    {
-//        return GetMiniTile(w, checkMode);
-//    }
 
     //TODO
     /* map.h:252 */
