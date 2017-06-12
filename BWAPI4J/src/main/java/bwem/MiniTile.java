@@ -109,6 +109,10 @@ public class MiniTile {
         this.m_altitude = new Altitude(a);
     }
 
+    public void SetAltitude(Altitude a) {
+        SetAltitude(a.toInt());
+    }
+
     public boolean AreaIdMissing() {
         return (this.m_areaId == -1);
     }
