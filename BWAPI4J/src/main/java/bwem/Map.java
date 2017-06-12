@@ -62,10 +62,11 @@ public class Map {
         }
         this.maxAltitude = new Altitude(0);
 
-        LoadData(); //TODO
-        DecideSeasOrLakes();
-        InitializeNeutrals();
-        ComputeAltitude(); //TODO
+        loadData(); //TODO
+        decideSeasOrLakes();
+        initializeNeutrals();
+        computeAltitude();
+        processBlockingNeutrals(); //TODO
         //TODO
     }
 
@@ -328,7 +329,7 @@ public class Map {
     /**
      * Computes walkability, buildability, groundHeight, and doodad information.
      */
-    private void LoadData() {
+    private void loadData() {
         /* Mark unwalkable minitiles (minitiles are walkable by default). */
         for (int y = 0; y < getWalkSize().getY(); ++y)
         for (int x = 0; x < getWalkSize().getX(); ++x) {
@@ -371,7 +372,7 @@ public class Map {
         }
     }
 
-    private void DecideSeasOrLakes() {
+    private void decideSeasOrLakes() {
         for (int y = 0 ; y < getWalkSize().getY(); ++y)
         for (int x = 0 ; x < getWalkSize().getX(); ++x)
         {
@@ -427,7 +428,7 @@ public class Map {
         }
     }
 
-    private void InitializeNeutrals() {
+    private void initializeNeutrals() {
         for (MineralPatch patch : bw.getMineralPatches()) {
             this.minerals.add(patch);
         }
@@ -455,7 +456,7 @@ public class Map {
     // Cf. MiniTile::Altitude() for meaning of altitude_t.
     // Altitudes are computed using the straightforward Dijkstra's algorithm : the lower ones are computed first, starting from the seaside-miniTiles neighbours.
     // The point here is to precompute all possible altitudes for all possible tiles, and sort them.
-    private void ComputeAltitude() {
+    private void computeAltitude() {
 
         /**
          * 1) Fill in and sort deltasByAscendingAltitude.
@@ -525,6 +526,10 @@ public class Map {
                 }
             }
         }
+    }
+
+    public void processBlockingNeutrals() {
+        
     }
 
     //TODO
