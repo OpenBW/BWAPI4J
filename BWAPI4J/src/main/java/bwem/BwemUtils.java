@@ -38,4 +38,12 @@ public class BwemUtils {
         return false;
     }
 
+    public static int squaredNorm(int dx, int dy) {
+        return (dx * dx + dy * dy);
+    }
+
+    public static double norm(int dx, int dy) {
+        return Math.sqrt((double) squaredNorm(dx, dy));
+    }
+
 }
