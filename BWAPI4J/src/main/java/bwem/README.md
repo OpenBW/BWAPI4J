@@ -32,7 +32,7 @@ assert(startingLocationsOK);
 
 `BWEM::Map`
 * This class is a singleton and an interface/abstract. For now, everything will be ported into `Map.java` as a ~~regular instantiatable class~~singleton.
-* `BWEM::Map::Initialize()` code will be put into ~~the constructor `public Map(org.openbw.bwapi4j.BW)`~~`MapInitialize()`.
+* `BWEM::Map::Initialize()` code will be put into ~~the constructor `public Map(org.openbw.bwapi4j.BW)`~~`Map.initialize()`.
 * ~~Parameterless constructor for `bwem.Map` has been publically disabled since the original `BWAPI::Broodwar` is required and a singleton~~. Instantiation, initialization, and access have been implemented to match `BWEM::Map::Instance()` and their counterparts.
 
 ### Modifications
@@ -46,19 +46,15 @@ assert(startingLocationsOK);
 | `defs.h:54` | global | `altitude_t` | `Altitude` | `int16_t` | `int` | altitude type in pixels |
 | `mapImpl.cpp:293` | local method | `MapImpl::ComputeAltitude()` | `MiniTile.SIZE_IN_PIXELS` | `altitude_t` | `int` | "8 provides a pixel definition for altitude_t, since altitudes are computed from miniTiles which are 8x8 pixels" |
 
-### Code Trace
+### Current Focus
 
-###### `mapImpl.cpp:68`, current focus: `mapImpl.cpp:123:void MapImpl::LoadData()`
-
-```
-void MapImpl::Initialize() {
-  ... // member initialization
-  LoadData();
-  ... // more initialization methods
-}
-```
+* `mapImpl.cpp:68:void MapImpl::Initialize()`
+* `neutral.h`
 
 ### Class and Method Dependencies
+
+`Neutral`
+* ???
 
 `graph.cpp:392:const CPPath & Graph::GetPath`
 * ???
