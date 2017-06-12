@@ -5,7 +5,7 @@ package bwem;
  * the original C++ definition:
  * defs.h:54:typedef int16_t altitude_t;
  */
-public final class Altitude {
+public final class Altitude implements Comparable<Altitude> {
 
     private final int val;
 
@@ -34,6 +34,13 @@ public final class Altitude {
      */
     public int toInt() {
         return this.val;
+    }
+
+    @Override
+    public int compareTo(Altitude altitude) {
+        int lhs = this.toInt();
+        int rhs = altitude.toInt();
+        return (lhs < rhs) ? -1 : (lhs > rhs) ? 1 : 0;
     }
 
 }
