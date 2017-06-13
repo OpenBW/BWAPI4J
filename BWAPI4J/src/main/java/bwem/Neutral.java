@@ -1,5 +1,6 @@
 package bwem;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
@@ -54,15 +55,13 @@ public class Neutral {
         return !this.blockedAreas.isEmpty();
     }
 
-    //TODO
-//    vector<const Area *> Neutral::BlockedAreas() const
-//    {
-//        vector<const Area *> Result;
-//        for (WalkPosition w : m_blockedAreas)
-//            Result.push_back(GetMap()->GetArea(w));
-//
-//        return Result;
-//    }
+    public List<Area> getBlockedAreas() {
+        List<Area> ret = new ArrayList<>();
+        for (WalkPosition w : this.blockedAreas) {
+            ret.add(this.map.getArea(w));
+        }
+        return ret;
+    }
 
     public Neutral getNextStacked() {
         return this.nextStacked;

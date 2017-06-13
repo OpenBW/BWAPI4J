@@ -25,6 +25,7 @@ public class Map {
     private static final Map INSTANCE = new Map();
 
     private BW bw = null;
+    private Graph graph = null;
     private TilePosition tileSize = null;
     private WalkPosition walkSize = null;
     private Position pixelSize = null;
@@ -39,9 +40,7 @@ public class Map {
     private List<Critter> critters;
     private List<Egg> neutralEggs;
 
-    private Map() {
-        /* Do nothing. */
-    }
+    private Map() {}
 
     public static Map Instance() {
         return INSTANCE;
@@ -50,6 +49,7 @@ public class Map {
     /* mapImpl.cpp:68:void MapImpl::Initialize() */
     public void initialize(BW bw) {
         this.bw = bw;
+        this.graph = new Graph(this);
         this.tiles = new ArrayList<>();
         this.miniTiles = new ArrayList<>();
         this.startingLocations = new ArrayList<>();
@@ -276,11 +276,17 @@ public class Map {
 //
 //	// Returns an Area given its id.
 //	virtual const Area *				GetArea(Area::id id) const = 0;
+    public Area getArea(int id) {
+        return this.graph.getArea(id);
+    }
 //
 //	// If the MiniTile at w is walkable and is part of an Area, returns that Area.
 //	// Otherwise, returns nullptr;
 //	// Note: because of the lakes, GetNearestArea should be prefered over GetArea.
 //	virtual const Area *				GetArea(BWAPI::WalkPosition w) const = 0;
+    public Area getArea(WalkPosition w) {
+        return this.graph.getArea(w);
+    }
 //
 //	// If the Tile at t contains walkable sub-MiniTiles which are all part of the same Area, returns that Area.
 //	// Otherwise, returns nullptr;
@@ -529,7 +535,7 @@ public class Map {
     }
 
     public void processBlockingNeutrals() {
-        
+
     }
 
     //TODO
