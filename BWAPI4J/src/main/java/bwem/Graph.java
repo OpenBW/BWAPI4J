@@ -2,6 +2,7 @@ package bwem;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 
 //TODO
@@ -17,6 +18,10 @@ public class Graph {
         this.areas = new ArrayList<>();
     }
 
+    public Map getMap() {
+        return this.map;
+    }
+
     public Area getArea(int id) {
         //bwem_assert(Valid(id))
         if (!isValid(id)) {
@@ -25,9 +30,16 @@ public class Graph {
         return this.areas.get(id - 1);
     }
 
-    public Area getArea(WalkPosition w) {
-        int id = this.map.getMiniTile(w).AreaId();
-        return (id > 0) ? getArea(id) : null;
+    public <TPosition> Area getArea(TPosition p) {
+        if (p instanceof TilePosition) {
+            int id = this.map.getTile((TilePosition) p).getAreaId();
+            return (id > 0) ? getArea(id) : null;
+        } else if (p instanceof WalkPosition) {
+            int id = this.map.getMiniTile((WalkPosition) p).getAreaId();
+            return (id > 0) ? getArea(id) : null;
+        } else {
+            throw new UnsupportedOperationException("TPosition not supported");
+        }
     }
 
 //    template<class TPosition>
@@ -43,9 +55,39 @@ public class Graph {
 //        return GetArea(p);
 //    }
     //TODO
-//    public <TPosition> Area getNearestArea(TPosition p) {
-//
-//    }
+    public <TPosition> Area getNearestArea(TPosition pos) {
+        Area area = getArea(pos);
+        if (area != null) {
+            return area;
+        }
+
+        pos = getMap().breadFirstSearch(
+            pos,
+            new Pred() {
+                @Override
+                public boolean is(Object... args) {
+                    Object ttile = args[0];
+                    if (ttile instanceof Tile) {
+                        Tile tile = (Tile) ttile;
+                        return (tile.getAreaId() > 0);
+                    } else if (ttile instanceof MiniTile) {
+                        MiniTile tile = (MiniTile) ttile;
+                        return (tile.getAreaId() > 0);
+                    } else {
+                        throw new IllegalArgumentException("tile type not supported");
+                    }
+                }
+            },
+            new Pred() {
+                @Override
+                public boolean is(Object... args) {
+                    return true;
+                }
+            }
+        );
+
+        return getArea(pos);
+    }
 
     private boolean isValid(int id) {
         return (id >= 1) && (this.areas.size() >= id);

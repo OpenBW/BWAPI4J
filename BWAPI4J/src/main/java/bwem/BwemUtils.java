@@ -23,14 +23,14 @@ public class BwemUtils {
      * @param map specified map containing the specified position
      */
     public static boolean hasNonSeaNeighbor(WalkPosition p, Map map) {
-        if (!map.getMiniTile(p).Sea()) {
+        if (!map.getMiniTile(p).isSea()) {
             return false;
         }
 
         WalkPosition[] deltas = { new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(1, 0), new WalkPosition(0, 1) };
         for (WalkPosition delta : deltas) {
             WalkPosition pDelta = p.add(delta);
-            if (map.isValid(pDelta) && !map.getMiniTile(pDelta).Sea()) {
+            if (map.isValid(pDelta) && !map.getMiniTile(pDelta).isSea()) {
                 return true;
             }
         }

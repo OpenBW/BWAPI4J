@@ -14,12 +14,12 @@ public class MiniTile {
 
     private static final int blockingCP = 0; // static const Area::id blockingCP;
 
-    private Altitude m_altitude; // 0 for seas  ;  != 0 for terrain and lakes (-1 = not computed yet)  ;  1 = SeaOrLake intermediate value
-    private int m_areaId; // 0 -> unwalkable  ;  > 0 -> index of some Area  ;  < 0 -> some walkable terrain, but too small to be part of an Area
+    private Altitude altitude; // 0 for seas  ;  != 0 for terrain and lakes (-1 = not computed yet)  ;  1 = SeaOrLake intermediate value
+    private int areaId; // 0 -> unwalkable  ;  > 0 -> index of some Area  ;  < 0 -> some walkable terrain, but too small to be part of an Area
 
     public MiniTile() {
-        this.m_altitude = new Altitude(-1);
-        this.m_areaId = -1;
+        this.altitude = new Altitude(-1);
+        this.areaId = -1;
     }
 
     // Corresponds approximatively to BWAPI::isWalkable
@@ -28,32 +28,32 @@ public class MiniTile {
     //    According to some tests, this prevents from wrongly pretending one small unit can go by some thin path.
     //  - The relation buildable ==> walkable is enforced, by marking as walkable any MiniTile part of a buildable Tile (Cf. Tile::Buildable)
     // Among the MiniTiles having Altitude() > 0, the walkable ones are considered Terrain-MiniTiles, and the other ones Lake-MiniTiles.
-    public boolean Walkable() {
-        return (this.m_areaId != 0);
+    public boolean isWalkable() {
+        return (this.areaId != 0);
     }
 
     // Distance in pixels between the center of this MiniTile and the center of the nearest Sea-MiniTile
     // Sea-MiniTiles all have their Altitude() equal to 0.
     // MiniTiles having Altitude() > 0 are not Sea-MiniTiles. They can be either Terrain-MiniTiles or Lake-MiniTiles.
-    public Altitude Altitude() {
-        return this.m_altitude;
+    public Altitude getAltitude() {
+        return this.altitude;
     }
 
     // Sea-MiniTiles are unwalkable MiniTiles that have their Altitude() equal to 0.
-    public boolean Sea() {
-        return (this.m_altitude.toInt() == 0);
+    public boolean isSea() {
+        return (this.altitude.toInt() == 0);
     }
 
     // Lake-MiniTiles are unwalkable MiniTiles that have their Altitude() > 0.
     // They form small zones (inside Terrain-zones) that can be eaysily walked around (e.g. Starcraft's doodads)
     // The intent is to preserve the continuity of altitudes inside Areas.
-    public boolean Lake() {
-        return (this.m_altitude.toInt() != 0 && !Walkable());
+    public boolean isLake() {
+        return (this.altitude.toInt() != 0 && !isWalkable());
     }
 
     // Terrain MiniTiles are just walkable MiniTiles
-    public boolean Terrain() {
-        return Walkable();
+    public boolean isTerrain() {
+        return isWalkable();
     }
 
     // For Sea and Lake MiniTiles, returns 0
@@ -64,93 +64,93 @@ public class MiniTile {
     //    - if (id < 0), then this MiniTile is part of a Terrain-zone that was considered too small to create an Area for it.
     //      Note: negative Area::ids start from -2
     // Note: because of the lakes, Map::GetNearestArea should be prefered over Map::GetArea.
-    public int AreaId() {
-        return this.m_areaId;
+    public int getAreaId() {
+        return this.areaId;
     }
 
     ////////////////////////////////////////////////////////////////////////////
     //	Details: The functions below are used by the BWEM's internals
 
-    public void SetWalkable(boolean walkable) {
-        this.m_areaId = (walkable ? -1 : 0);
-        this.m_altitude = new Altitude((walkable ? -1 : 1));
+    public void setWalkable(boolean walkable) {
+        this.areaId = (walkable ? -1 : 0);
+        this.altitude = new Altitude((walkable ? -1 : 1));
     }
 
-    public boolean SeaOrLake() {
-        return (this.m_altitude.toInt() == 1);
+    public boolean isSeaOrLake() {
+        return (this.altitude.toInt() == 1);
     }
 
-    public void SetSea() {
+    public void setSea() {
 //        assert (!Walkable() && SeaOrLake()); /* Assertions shouldn't be used in public methods as validation even though these methods are used by BWEM's internals. */
-        if (!(!Walkable() && SeaOrLake())) {
+        if (!(!isWalkable() && isSeaOrLake())) {
             throw new IllegalStateException();
         }
-        this.m_altitude = new Altitude(0);
+        this.altitude = new Altitude(0);
     }
 
-    public void SetLake() {
+    public void setLake() {
 //        assert (!Walkable() && Sea()); /* Assertions shouldn't be used in public methods as validation even though these methods are used by BWEM's internals. */
-        if (!(!Walkable() && Sea())) {
+        if (!(!isWalkable() && isSea())) {
             throw new IllegalStateException();
         }
-        this.m_altitude = new Altitude(-1);
+        this.altitude = new Altitude(-1);
     }
 
     public boolean AltitudeMissing() {
-        return (this.m_altitude.toInt() == -1);
+        return (this.altitude.toInt() == -1);
     }
 
-    public void SetAltitude(int a) {
+    public void setAltitude(int a) {
 //        bwem_assert_debug_only(AltitudeMissing() && (a > 0));
 //        assert (AltitudeMissing() && (a > 0)); /* Assertions shouldn't be used in public methods as validation even though these methods are used by BWEM's internals. */
         if (!(AltitudeMissing() && (a > 0))) {
             throw new IllegalStateException();
         }
-        this.m_altitude = new Altitude(a);
+        this.altitude = new Altitude(a);
     }
 
-    public void SetAltitude(Altitude a) {
-        SetAltitude(a.toInt());
+    public void setAltitude(Altitude a) {
+        setAltitude(a.toInt());
     }
 
-    public boolean AreaIdMissing() {
-        return (this.m_areaId == -1);
+    public boolean isAreaIdMissing() {
+        return (this.areaId == -1);
     }
 
-    public void SetAreaId(int id) {
+    public void setAreaId(int id) {
 //        assert (AreaIdMissing() && (id >= 1)); /* Assertions shouldn't be used in public methods as validation even though these methods are used by BWEM's internals. */
-        if (!(AreaIdMissing() && (id >= 1))) {
+        if (!(isAreaIdMissing() && (id >= 1))) {
             throw new IllegalStateException();
         }
-        this.m_areaId = id;
+        this.areaId = id;
     }
 
-    public void ReplaceAreaId(int id) {
+    public void replaceAreaId(int id) {
 //        assert ((m_areaId > 0) && ((id >= 1) || (id <= -2)) && (id != m_areaId)); /* Assertions shouldn't be used in public methods as validation even though these methods are used by BWEM's internals. */
-        if (!((this.m_areaId > 0) && ((id >= 1) || (id <= -2)) && (id != this.m_areaId))) {
+        if (!((this.areaId > 0) && ((id >= 1) || (id <= -2)) && (id != this.areaId))) {
             throw new IllegalStateException();
         }
-        this.m_areaId = id;
+        this.areaId = id;
     }
 
-    public void SetBlocked() {
+    public void setBlocked() {
 //        assert AreaIdMissing(); /* Assertions shouldn't be used in public methods as validation even though these methods are used by BWEM's internals. */
-        if (!AreaIdMissing()) {
+        if (!isAreaIdMissing()) {
             throw new IllegalStateException();
         }
-        this.m_areaId = this.blockingCP;
+        this.areaId = this.blockingCP;
     }
 
-    public boolean Blocked() {
-        return (this.m_areaId == this.blockingCP);
+    public boolean isBlocked() {
+        return (this.areaId == this.blockingCP);
     }
 
-    public void ReplaceBlockedAreaId(int id) {
+    public void replaceBlockedAreaId(int id) {
 //        assert ((m_areaId == blockingCP) && (id >= 1)); /* Assertions shouldn't be used in public methods as validation even though these methods are used by BWEM's internals. */
-        if (!((this.m_areaId == this.blockingCP) && (id >= 1))) {
+        if (!((this.areaId == this.blockingCP) && (id >= 1))) {
             throw new IllegalStateException();
         }
-        this.m_areaId = id;
+        this.areaId = id;
     }
 
 }

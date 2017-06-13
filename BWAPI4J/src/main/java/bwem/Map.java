@@ -328,6 +328,26 @@ public class Map {
 //
 //	virtual								~Map() = default;
 
+
+    //TODO
+    public <TPosition> TPosition breadFirstSearch(TPosition start, Pred findCond, Pred visitCond) {
+        boolean isFindCond = false;
+        if (start instanceof TilePosition) {
+            isFindCond = findCond.is(getTile((TilePosition) start), start);
+        } else if (start instanceof WalkPosition) {
+            isFindCond = findCond.is(getMiniTile((WalkPosition) start), start);
+        } else if (start instanceof Position) {
+            isFindCond = findCond.is(getTile(((Position) start).toTilePosition()), start);
+        } else {
+            throw new IllegalArgumentException("the specified TPosition is not supported");
+        }
+        if (isFindCond) {
+            return start;
+        }
+
+        throw new UnsupportedOperationException();
+    }
+
 //////////////////////////////////////////////////////////////////////
 
 
@@ -348,7 +368,7 @@ public class Map {
                 for (int dx = -1; dx <= 1; ++dx) {
                     WalkPosition w = new WalkPosition(x + dx, y + dy);
                     if (isValid(w)) {
-                        getMiniTile(w, false).SetWalkable(false);
+                        getMiniTile(w, false).setWalkable(false);
                     }
                 }
             }
@@ -365,7 +385,7 @@ public class Map {
                 /* Ensures buildable ==> walkable: */
                 for (int dy = 0 ; dy < 4 ; ++dy)
                 for (int dx = 0 ; dx < 4 ; ++dx) {
-                    getMiniTile(new WalkPosition(t).add(new WalkPosition(dx, dy)), false).SetWalkable(true);
+                    getMiniTile(new WalkPosition(t).add(new WalkPosition(dx, dy)), false).setWalkable(true);
                 }
             }
 
@@ -384,13 +404,13 @@ public class Map {
         {
             WalkPosition walkOrigin = new WalkPosition(x, y);
             MiniTile miniOrigin = getMiniTile(walkOrigin, false);
-            if (miniOrigin.SeaOrLake())
+            if (miniOrigin.isSeaOrLake())
             {
                 List<WalkPosition> ToSearch = new ArrayList<>();
                 ToSearch.add(walkOrigin);
                 List<MiniTile> SeaExtent = new ArrayList<>();
                 SeaExtent.add(miniOrigin);
-                miniOrigin.SetSea();
+                miniOrigin.setSea();
                 WalkPosition topLeft = walkOrigin;
                 WalkPosition bottomRight = walkOrigin;
                 while (!ToSearch.isEmpty())
@@ -409,11 +429,11 @@ public class Map {
                         if (isValid(next))
                         {
                             MiniTile Next = getMiniTile(next, false);
-                            if (Next.SeaOrLake())
+                            if (Next.isSeaOrLake())
                             {
                                 ToSearch.add(next);
                                 if (SeaExtent.size() <= BwemDetail.LAKE_MAX_MINI_TILES) SeaExtent.add(Next);
-                                Next.SetSea();
+                                Next.setSea();
                             }
                         }
                     }
@@ -427,7 +447,7 @@ public class Map {
                         && (bottomRight.getX() < getWalkSize().getX() - 2)
                         && (bottomRight.getY() < getWalkSize().getY() - 2)) {
                     for (MiniTile pSea : SeaExtent) {
-                        pSea.SetLake();
+                        pSea.setLake();
                     }
                 }
             }
@@ -525,7 +545,7 @@ public class Map {
                             if (miniTile.AltitudeMissing()) {
                                 this.maxAltitude = new Altitude(altitude);
                                 current.second = new Altitude(altitude);
-                                miniTile.SetAltitude(new Altitude(this.maxAltitude));
+                                miniTile.setAltitude(new Altitude(this.maxAltitude));
                             }
                         }
                     }
