@@ -3,9 +3,7 @@ package org.openbw.bwapi4j;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.openbw.bwapi4j.util.AbstractPoint;
-
-public class WalkPosition extends AbstractPoint<WalkPosition> {
+public class WalkPosition {
 
     private int x;
     private int y;

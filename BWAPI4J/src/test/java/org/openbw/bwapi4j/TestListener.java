@@ -1,10 +1,8 @@
 package org.openbw.bwapi4j;
 
-import org.openbw.bwapi4j.type.BwError;
-import org.openbw.bwapi4j.type.Color;
-import org.openbw.bwapi4j.type.Key;
-import org.openbw.bwapi4j.type.PlayerType;
 import org.openbw.bwapi4j.unit.Unit;
+
+import bwta.BWTA;
 
 public class TestListener implements BWEventListener {
 
@@ -12,8 +10,20 @@ public class TestListener implements BWEventListener {
 
     @Override
     public void onStart() {
-        System.out.println("onStart");
-        this.bw.getInteractionHandler().enableUserInput();
+        
+        try {
+            
+            System.out.println("onStart");
+            this.bw.getInteractionHandler().enableUserInput();
+            
+            BWTA bwta = new BWTA();
+            bwta.analyze();
+            System.out.println("analysis done.");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            System.exit(0);
+        }
     }
 
     @Override

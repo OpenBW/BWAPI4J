@@ -1,5 +1,6 @@
 package bwta;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,66 +9,127 @@ import org.openbw.bwapi4j.Position;
 
 public class Region {
 
+    private int id;
+    private BWTA bwta;
+    
+    private Polygon polygon;
+    private Position center;
+    private List<Chokepoint> chokepoints;
+    private List<BaseLocation> baseLocations;
+    private List<Region> reachableRegions;
+    private int maxDistance;
+    
+    // internal caching start
+    
+    private List<Integer> chokepointIds;
+    private List<Integer> baseLocationIds;
+    private List<Integer> reachableRegionIds;
+    
+    private static Map<Integer, Region> regionsCache = new HashMap<>();
+    
+    static void clearCache() {
+        
+        Region.regionsCache.clear();
+    }
+    
+    static Region getCachedRegion(int id) {
+        
+        return Region.regionsCache.get(id);
+    }
+    
+    // internal caching end
+    
+    /**
+     * Creates a new region.
+     */
+    public Region(int id, BWTA bwta) {
+        
+        this.id = id;
+        this.bwta = bwta;
+        
+        this.chokepointIds = new ArrayList<>();
+        this.baseLocationIds = new ArrayList<>();
+        this.reachableRegionIds = new ArrayList<>();
+        
+        Region.regionsCache.put(id, this);
+    }
+    
     public Polygon getPolygon() {
-        return getPolygon_native(pointer);
+        
+        return this.polygon;
     }
 
     public Position getCenter() {
-        return getCenter_native(pointer);
+
+        return this.center;
     }
 
     public List<Chokepoint> getChokepoints() {
-        return getChokepoints_native(pointer);
+        
+        if (this.chokepoints == null) {
+        
+            this.chokepoints = new ArrayList<>();
+            for (int id : this.chokepointIds) {
+                
+                this.chokepoints.add(Chokepoint.getCachedChokepoint(id));
+            }
+        }
+        
+        return this.chokepoints;
     }
 
     public List<BaseLocation> getBaseLocations() {
-        return getBaseLocations_native(pointer);
+        
+        if (this.baseLocations == null) {
+            
+            this.baseLocations = new ArrayList<>();
+            for (int id : this.baseLocationIds) {
+                
+                this.baseLocations.add(BaseLocation.getCachedBaseLocation(id));
+            }
+        }
+        
+        return this.baseLocations;
     }
 
     public boolean isReachable(Region region) {
-        return isReachable_native(pointer, region);
+        
+        return this.reachableRegions.contains(region);
     }
 
     public List<Region> getReachableRegions() {
-        return getReachableRegions_native(pointer);
+        
+        if (this.reachableRegions == null) {
+            
+            this.reachableRegions = new ArrayList<>();
+            for (int id : this.reachableRegionIds) {
+                
+                this.reachableRegions.add(Region.getCachedRegion(id));
+            }
+        }
+
+        return this.reachableRegions;
     }
 
     public int getMaxDistance() {
-        return getMaxDistance_native(pointer);
+        
+        return this.maxDistance;
     }
 
-    private static Map<Long, Region> instances = new HashMap<Long, Region>();
-
-    private Region(long pointer) {
-        this.pointer = pointer;
+    @Override
+    public int hashCode() {
+        
+        return id;
     }
 
-    private static Region get(long pointer) {
-        if (pointer == 0) {
-            return null;
+    @Override
+    public boolean equals(Object obj) {
+        
+        if (obj == null || !(obj instanceof Region)) {
+            return false;
+        } else {
+            
+            return this.id == ((Region) obj).id;
         }
-        Region instance = instances.get(pointer);
-        if (instance == null) {
-            instance = new Region(pointer);
-            instances.put(pointer, instance);
-        }
-        return instance;
     }
-
-    private long pointer;
-
-    private native Polygon getPolygon_native(long pointer);
-
-    private native Position getCenter_native(long pointer);
-
-    private native List<Chokepoint> getChokepoints_native(long pointer);
-
-    private native List<BaseLocation> getBaseLocations_native(long pointer);
-
-    private native boolean isReachable_native(long pointer, Region region);
-
-    private native List<Region> getReachableRegions_native(long pointer);
-
-    private native int getMaxDistance_native(long pointer);
-
 }

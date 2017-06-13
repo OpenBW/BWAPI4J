@@ -1,73 +1,67 @@
 package bwta;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.openbw.bwapi4j.Position;
 
 public class Polygon {
 
+    private int id;
+    private BWTA bwta;
+    
+    private double area;
+    private double perimeter;
+    private Position center;
+    private List<Polygon> holes;
+    
+    /**
+     * Creates a new Polygon.
+     */
+    public Polygon(int id, BWTA bwta) {
+        
+        this.id = id;
+        this.bwta = bwta;
+        
+        this.holes = new ArrayList<Polygon>();
+    }
+    
     public double getArea() {
-        return getArea_native(pointer);
+
+        return this.area;
     }
 
     public double getPerimeter() {
-        return getPerimeter_native(pointer);
+
+        return this.perimeter;
     }
 
     public Position getCenter() {
-        return getCenter_native(pointer);
+
+        return this.center;
     }
 
-    public boolean isInside(Position p) {
-        return isInside_native(pointer, p);
-    }
-
-    public Position getNearestPoint(Position p) {
-        return getNearestPoint_native(pointer, p);
-    }
+    public native Position getNearestPoint(Position p);
 
     public List<Polygon> getHoles() {
-        return getHoles_native(pointer);
+        
+        return this.holes;
+    }
+    
+    @Override
+    public int hashCode() {
+        
+        return id;
     }
 
-    public List<Position> getPoints() {
-        return getPoints_native(pointer);
-    }
-
-    private static Map<Long, Polygon> instances = new HashMap<Long, Polygon>();
-
-    private Polygon(long pointer) {
-        this.pointer = pointer;
-    }
-
-    private static Polygon get(long pointer) {
-        if (pointer == 0) {
-            return null;
+    @Override
+    public boolean equals(Object obj) {
+        
+        if (obj == null || !(obj instanceof Polygon)) {
+            return false;
+        } else {
+            
+            return this.id == ((Polygon) obj).id;
         }
-        Polygon instance = instances.get(pointer);
-        if (instance == null) {
-            instance = new Polygon(pointer);
-            instances.put(pointer, instance);
-        }
-        return instance;
     }
-
-    private long pointer;
-
-    private native double getArea_native(long pointer);
-
-    private native double getPerimeter_native(long pointer);
-
-    private native Position getCenter_native(long pointer);
-
-    private native boolean isInside_native(long pointer, Position p);
-
-    private native Position getNearestPoint_native(long pointer, Position p);
-
-    private native List<Polygon> getHoles_native(long pointer);
-
-    private native List<Position> getPoints_native(long pointer);
-
 }

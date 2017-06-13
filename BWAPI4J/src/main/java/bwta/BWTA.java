@@ -1,7 +1,9 @@
 package bwta;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
@@ -10,25 +12,56 @@ import org.openbw.bwapi4j.util.Pair;
 
 public class BWTA {
 
-    public static native void readMap();
+    private List<Region> regions;
+    private List<Chokepoint> chokepoints;
+    private List<BaseLocation> baseLocations;
+    
+    public BWTA() {
+        
+        this.regions = new ArrayList<Region>();
+        this.chokepoints = new ArrayList<Chokepoint>();
+        this.baseLocations = new ArrayList<BaseLocation>();
+    }
+    
+    public List<Region> getRegions() {
+    
+        return this.regions;
+    }
+    
+    public List<Chokepoint> getChokepoints() {
+        
+        return this.chokepoints;
+    }
+    
+    public List<BaseLocation> getBaseLocations() {
+        
+        return this.baseLocations;
+    }
+    
+    public List<BaseLocation> getStartLocations() {
+        
+        return this.baseLocations.stream().filter(location -> location.isStartLocation()).collect(Collectors.toList());
+    }
+    
+    public void clear() {
+    
+        Region.clearCache();
+        BaseLocation.clearCache();
+        Chokepoint.clearCache();
+        cleanMemory();
+    }
+    
+    public native void analyze();
 
-    public static native void analyze();
+    public native void computeDistanceTransform();
 
-    public static native void computeDistanceTransform();
+    public native void balanceAnalysis();
 
-    public static native void balanceAnalysis();
-
-    public static native void cleanMemory();
+    public native void cleanMemory();
+    
+    // TODO
 
     public static native int getMaxDistanceTransform();
-
-    public static native List<Region> getRegions();
-
-    public static native List<Chokepoint> getChokepoints();
-
-    public static native List<BaseLocation> getBaseLocations();
-
-    public static native List<BaseLocation> getStartLocations();
 
     public static native List<Polygon> getUnwalkablePolygons();
 
