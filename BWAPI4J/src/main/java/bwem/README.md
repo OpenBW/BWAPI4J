@@ -3,7 +3,6 @@
 ### Abstract
 
 Port the BWEM C++ library to Java for compatibility with BWAPI4J. Main priority is the following methods and their dependencies:
-* `map.h:204:virtual const CPPath &	GetPath(const BWAPI::Position & a, const BWAPI::Position & b, int * pLength = nullptr) const = 0;`
 * `graph.cpp:392:const CPPath & Graph::GetPath(const Position & a, const Position & b, int * pLength) const`
 
 ### Port Author
@@ -49,23 +48,31 @@ assert(startingLocationsOK);
 ### Current Focus
 
 * `mapImpl.cpp:68:void MapImpl::Initialize()`
-* `neutral.h`
+  * `MapImpl::ProcessBlockingNeutrals()`
+* `graph.cpp:392:const CPPath & Graph::GetPath(const Position & a, const Position & b, int * pLength) const`
+  * `graph.h` -> `Graph.java`
+    * `graph.h:153:const Area * Graph::GetNearestArea(TPosition p) const`
+      * `map.h:253:inline TPosition Map::BreadthFirstSearch(TPosition start, Pred1 findCond, Pred2 visitCond) const`
 
 ### Class and Method Dependencies
 
-`Neutral`
-* ???
-
 `graph.cpp:392:const CPPath & Graph::GetPath`
-* ???
-
-`Area`
 * Graph
 
 `Graph`
 * Area
 * Chokepoint
 * CPPath
+* Neutral
+
+`Area`
+* altitude_t
+* Base
+* ChokePoint
+* Geyser
+* Graph
+* Mineral
 
 `CPPath`
-* ???
+* `typedef std::vector<const ChokePoint *> Path;`
+* `typedef ChokePoint::Path CPPath;`
