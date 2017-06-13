@@ -30,6 +30,23 @@ public class Graph {
         return (id > 0) ? getArea(id) : null;
     }
 
+//    template<class TPosition>
+//    const Area * Graph::GetNearestArea(TPosition p) const
+//    {
+//        typedef typename TileOfPosition<TPosition>::type Tile_t;
+//        if (const Area * area = GetArea(p)) return area;
+//
+//        p = GetMap()->BreadthFirstSearch(p,
+//                        [this](const Tile_t & t, TPosition) { return t.AreaId() > 0; },	// findCond
+//                        [](const Tile_t &,       TPosition) { return true; });			// visitCond
+//
+//        return GetArea(p);
+//    }
+    //TODO
+//    public <TPosition> Area getNearestArea(TPosition p) {
+//
+//    }
+
     private boolean isValid(int id) {
         return (id >= 1) && (this.areas.size() >= id);
     }
