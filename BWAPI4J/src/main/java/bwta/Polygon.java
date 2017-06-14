@@ -8,7 +8,6 @@ import org.openbw.bwapi4j.Position;
 public class Polygon {
 
     private int id;
-    private BWTA bwta;
     
     private double area;
     private double perimeter;
@@ -18,10 +17,9 @@ public class Polygon {
     /**
      * Creates a new Polygon.
      */
-    public Polygon(int id, BWTA bwta) {
+    public Polygon(int id) {
         
         this.id = id;
-        this.bwta = bwta;
         
         this.holes = new ArrayList<Polygon>();
     }

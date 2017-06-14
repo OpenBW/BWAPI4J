@@ -10,7 +10,6 @@ import org.openbw.bwapi4j.Position;
 public class Region {
 
     private int id;
-    private BWTA bwta;
     
     private Polygon polygon;
     private Position center;
@@ -42,10 +41,9 @@ public class Region {
     /**
      * Creates a new region.
      */
-    public Region(int id, BWTA bwta) {
+    public Region(int id) {
         
         this.id = id;
-        this.bwta = bwta;
         
         this.chokepointIds = new ArrayList<>();
         this.baseLocationIds = new ArrayList<>();

@@ -1082,7 +1082,7 @@ JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMap_canBuildHere(JNIEnv *, 
 //
 jobject createPolygon(JNIEnv * env, const BWTA::Polygon &polygon, jclass positionClass, jmethodID positionNew, jclass polygonClass, jmethodID polygonNew, jmethodID arrayListAdd) {
 
-	jobject jpolygon = env->NewObject(polygonClass, polygonNew, (jint)&polygon);
+	jobject jpolygon = env->NewObject(polygonClass, polygonNew, (jint)1);
 	env->SetDoubleField(jpolygon, env->GetFieldID(polygonClass, "area", "D"), (jdouble)polygon.getArea());
 	env->SetDoubleField(jpolygon, env->GetFieldID(polygonClass, "perimeter", "D"), (jdouble)polygon.getPerimeter());
 	jobject jpolcenter = env->NewObject(positionClass, positionNew, (jint)polygon.getCenter().x, (jint)polygon.getCenter().y);
@@ -1097,25 +1097,25 @@ jobject createPolygon(JNIEnv * env, const BWTA::Polygon &polygon, jclass positio
 	return jpolygon;
 }
 
-JNIEXPORT void JNICALL Java_bwta_BWTA_analyze(JNIEnv * env, jobject bwtaObject) {
+JNIEXPORT void JNICALL Java_bwta_BWTA_analyze(JNIEnv * env, jobject caller, jobject bwtaObject) {
 
 	std::cout << "Starting BWTA analysis..." << std::endl;;
 	BWTA::analyze();
 	std::cout << "BWTA analysis done." << std::endl;;
 
-	jclass bwtaClass = env->GetObjectClass(bwtaObject);
+	jclass bwtaClass = env->FindClass("bwta/BWTA");
 	jclass arrayListClass = env->FindClass("java/util/ArrayList");
 	jmethodID arrayListAdd = env->GetMethodID(arrayListClass, "add", "(Ljava/lang/Object;)Z");
 
 	jclass regionClass = env->FindClass("bwta/Region");
-	jmethodID regionNew = env->GetMethodID(regionClass, "<init>", "()V");
+	jmethodID regionNew = env->GetMethodID(regionClass, "<init>", "(I)V");
 	jclass baseLocationClass = env->FindClass("bwta/BaseLocation");
-	jmethodID baseLocationNew = env->GetMethodID(baseLocationClass, "<init>", "()V");
+	jmethodID baseLocationNew = env->GetMethodID(baseLocationClass, "<init>", "(I)V");
 	jclass chokepointClass = env->FindClass("bwta/Chokepoint");
-	jmethodID chokepointNew = env->GetMethodID(chokepointClass, "<init>", "()V");
+	jmethodID chokepointNew = env->GetMethodID(chokepointClass, "<init>", "(I)V");
 
 	jclass polygonClass = env->FindClass("bwta/Polygon");
-	jmethodID polygonNew = env->GetMethodID(polygonClass, "<init>", "()V");
+	jmethodID polygonNew = env->GetMethodID(polygonClass, "<init>", "(I)V");
 
 	jclass positionClass = env->FindClass("org/openbw/bwapi4j/Position");
 	jmethodID positionNew = env->GetMethodID(positionClass, "<init>", "(II)V");
@@ -1128,15 +1128,16 @@ JNIEXPORT void JNICALL Java_bwta_BWTA_analyze(JNIEnv * env, jobject bwtaObject) 
 
 	// set all regions
 	std::cout << "reading regions..." << std::endl;;
-	jobject regionList = env->GetObjectField(bwtaObject, env->GetFieldID(bwtaClass, "regions", "Ljava/util/ArrayList;"));
-	
+	jobject regionList = env->GetObjectField(bwtaObject, env->GetFieldID(bwtaClass, "chokepoints", "Ljava/util/ArrayList;"));
+
 	for (const auto& region : BWTA::getRegions()) {
 
-		jobject jRegion = env->NewObject(regionClass, regionNew, (jint)region, bwtaObject);
+		jobject jRegion = env->NewObject(regionClass, regionNew, (jint)&region);
 
 		jobject jcenter = env->NewObject(positionClass, positionNew, (jint)region->getCenter().x, (jint)region->getCenter().y);
+
 		env->SetObjectField(jRegion, env->GetFieldID(regionClass, "center", "Lorg/openbw/bwapi4j/Position;"), jcenter);
-		
+
 		env->SetObjectField(jRegion, env->GetFieldID(regionClass, "polygon", "Lbwta.Polygon;"), createPolygon(env, region->getPolygon(), positionClass, positionNew, polygonClass, polygonNew, arrayListAdd));
 
 		env->SetIntField(jRegion, env->GetFieldID(regionClass, "maxDistance", "I"), (jint)region->getMaxDistance());
@@ -1144,17 +1145,19 @@ JNIEXPORT void JNICALL Java_bwta_BWTA_analyze(JNIEnv * env, jobject bwtaObject) 
 		// set chokepoints
 		jobject chokepointList = env->GetObjectField(jRegion, env->GetFieldID(regionClass, "chokepointIds", "Ljava/util/ArrayList;"));
 		for (const auto& chokepoint : region->getChokepoints()) {
-			env->CallObjectMethod(chokepointList, arrayListAdd, (jint)chokepoint);
+			env->CallObjectMethod(chokepointList, arrayListAdd, (jint)&chokepoint);
 		}
+
 		// set base locations
 		jobject baseLocationList = env->GetObjectField(jRegion, env->GetFieldID(regionClass, "baseLocationIds", "Ljava/util/ArrayList;"));
 		for (const auto& baseLocation : region->getBaseLocations()) {
-			env->CallObjectMethod(baseLocationList, arrayListAdd, (jint)baseLocation);
+			env->CallObjectMethod(baseLocationList, arrayListAdd, (jint)&baseLocation);
 		}
+
 		// set reachable regions
 		jobject reachableRegionsList = env->GetObjectField(jRegion, env->GetFieldID(regionClass, "reachableRegionIds", "Ljava/util/ArrayList;"));
 		for (const auto& region : region->getReachableRegions()) {
-			env->CallObjectMethod(reachableRegionsList, arrayListAdd, (jint)region);
+			env->CallObjectMethod(reachableRegionsList, arrayListAdd, (jint)&region);
 		}
 
 		env->CallObjectMethod(regionList, arrayListAdd, jRegion);
@@ -1162,11 +1165,13 @@ JNIEXPORT void JNICALL Java_bwta_BWTA_analyze(JNIEnv * env, jobject bwtaObject) 
 	std::cout << "reading regions done." << std::endl;;
 
 	// set all chokepoints
+	std::cout << "reading chokepoints..." << std::endl;;
 	jobject chokepointList = env->GetObjectField(bwtaObject, env->GetFieldID(bwtaClass, "chokepoints", "Ljava/util/ArrayList;"));
 
 	for (const auto& chokepoint : BWTA::getChokepoints()) {
 
-		jobject jchokepoint = env->NewObject(chokepointClass, chokepointNew, (jint)chokepoint, bwtaObject);
+		jobject jchokepoint = env->NewObject(chokepointClass, chokepointNew, (jint)&chokepoint);
+
 		env->SetDoubleField(jchokepoint, env->GetFieldID(chokepointClass, "width", "D"), (jdouble)chokepoint->getWidth());
 
 		jobject jcenter = env->NewObject(positionClass, positionNew, (jint)chokepoint->getCenter().x, (jint)chokepoint->getCenter().y);
@@ -1181,13 +1186,15 @@ JNIEXPORT void JNICALL Java_bwta_BWTA_analyze(JNIEnv * env, jobject bwtaObject) 
 		env->SetIntField(jchokepoint, env->GetFieldID(chokepointClass, "region1Id", "I"), (jint)chokepoint->getRegions().first);
 		env->SetIntField(jchokepoint, env->GetFieldID(chokepointClass, "region2Id", "I"), (jint)chokepoint->getRegions().second);
 	}
+	std::cout << "reading chokepoints done." << std::endl;;
 
 	// set all base locations
+	std::cout << "reading base locations..." << std::endl;;
 	jobject baseLocationList = env->GetObjectField(bwtaObject, env->GetFieldID(bwtaClass, "baseLocations", "Ljava/util/ArrayList;"));
 
 	for (const auto& baseLocation : BWTA::getBaseLocations()) {
 
-		jobject jbaseLocation = env->NewObject(baseLocationClass, baseLocationNew, (jint)baseLocation, bwtaObject);
+		jobject jbaseLocation = env->NewObject(baseLocationClass, baseLocationNew, (jint)&baseLocation);
 
 		jobject jposition = env->NewObject(positionClass, positionNew, (jint)baseLocation->getPosition().x, (jint)baseLocation->getPosition().y);
 		env->SetObjectField(jbaseLocation, env->GetFieldID(baseLocationClass, "position", "Lorg/openbw/bwapi4j/Position;"), jposition);
@@ -1204,19 +1211,60 @@ JNIEXPORT void JNICALL Java_bwta_BWTA_analyze(JNIEnv * env, jobject bwtaObject) 
 		// TODO set List<MineralPatch> mineralPatches;
 		// TODO set List<VespeneGeyser> geysers;
 	}
-
+	std::cout << "reading base locations done." << std::endl;;
 }
 
-JNIEXPORT void JNICALL Java_bwta_BWTA_computeDistanceTransform(JNIEnv *, jclass) {
+JNIEXPORT void JNICALL Java_bwta_BWTA_computeDistanceTransform(JNIEnv *, jobject) {
+
 	BWTA::computeDistanceTransform();
 }
 
-JNIEXPORT void JNICALL Java_bwta_BWTA_balanceAnalysis(JNIEnv *, jclass) {
+JNIEXPORT void JNICALL Java_bwta_BWTA_balanceAnalysis(JNIEnv *, jobject) {
+
 	BWTA::balanceAnalysis();
 }
 
-JNIEXPORT void JNICALL Java_bwta_BWTA_cleanMemory(JNIEnv *, jclass) {
+JNIEXPORT void JNICALL Java_bwta_BWTA_cleanMemory(JNIEnv *, jobject) {
+
 	BWTA::cleanMemory();
+}
+
+JNIEXPORT jint JNICALL Java_bwta_BWTA_getRegionT(JNIEnv *, jobject, jint x, jint y) {
+
+	return (jint) BWTA::getRegion(TilePosition(x, y));
+}
+
+JNIEXPORT jint JNICALL Java_bwta_BWTA_getRegionP(JNIEnv *, jobject, jint x, jint y) {
+
+	return (jint) BWTA::getRegion(Position(x, y));
+}
+
+JNIEXPORT jdouble JNICALL Java_bwta_BWTA_getGroundDistance(JNIEnv *, jobject, jint x1, jint y1, jint x2, jint y2) {
+
+	return (jdouble) BWTA::getGroundDistance(TilePosition(x1, y1), TilePosition(x2, y2));
+}
+
+JNIEXPORT jboolean JNICALL Java_bwta_BWTA_isConnected(JNIEnv *, jobject, jint x1, jint y1, jint x2, jint y2) {
+
+	return (jboolean) BWTA::isConnected(x1, y1, x2, y2);
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getShortestPath(JNIEnv *env, jobject, jint x1, jint y1, jint x2, jint y2) {
+
+	jclass arrayListClass = env->FindClass("java/util/ArrayList");
+	jmethodID arrayListAdd = env->GetMethodID(arrayListClass, "add", "(Ljava/lang/Object;)Z");
+	jmethodID arrayListNew = env->GetMethodID(arrayListClass, "init", "()V");
+	jobject list = env->NewObject(arrayListClass, arrayListNew);
+
+	jclass tilePositionClass = env->FindClass("org/openbw/bwapi4j/TilePosition");
+	jmethodID tilePositionNew = env->GetMethodID(tilePositionClass, "<init>", "(II)V");
+
+	for (const auto& pathItem : BWTA::getShortestPath(TilePosition(x1, y1), TilePosition(x2, y2))) {
+
+		jobject tilePosition = env->NewObject(tilePositionClass, tilePositionNew, pathItem.x, pathItem.y);
+		env->CallObjectMethod(list, arrayListAdd, tilePosition);
+	}
+	return list;
 }
 
 /*
@@ -1233,14 +1281,6 @@ JNIEXPORT jobject JNICALL Java_bwta_BWTA_getStartLocation(JNIEnv *, jclass, jobj
 }
 
 JNIEXPORT jobject JNICALL Java_bwta_BWTA_getRegion__II(JNIEnv *, jclass, jint, jint) {
-
-}
-
-JNIEXPORT jobject JNICALL Java_bwta_BWTA_getRegion__Lorg_openbw_bwapi4j_TilePosition_2(JNIEnv *, jclass, jobject) {
-
-}
-
-JNIEXPORT jobject JNICALL Java_bwta_BWTA_getRegion__Lorg_openbw_bwapi4j_Position_2(JNIEnv *, jclass, jobject) {
 
 }
 
@@ -1280,27 +1320,11 @@ JNIEXPORT jobject JNICALL Java_bwta_BWTA_getNearestUnwalkablePosition(JNIEnv *, 
 
 }
 
-JNIEXPORT jboolean JNICALL Java_bwta_BWTA_isConnected__IIII(JNIEnv *, jclass, jint, jint, jint, jint) {
-
-}
-
-JNIEXPORT jboolean JNICALL Java_bwta_BWTA_isConnected__Lorg_openbw_bwapi4j_TilePosition_2Lorg_openbw_bwapi4j_TilePosition_2(JNIEnv *, jclass, jobject, jobject) {
-
-}
-
-JNIEXPORT jdouble JNICALL Java_bwta_BWTA_getGroundDistance(JNIEnv *, jclass, jobject, jobject) {
-
-}
-
 JNIEXPORT jobject JNICALL Java_bwta_BWTA_getNearestTilePosition(JNIEnv *, jclass, jobject, jobject) {
 
 }
 
 JNIEXPORT jobject JNICALL Java_bwta_BWTA_getGroundDistances(JNIEnv *, jclass, jobject, jobject) {
-
-}
-
-JNIEXPORT jobject JNICALL Java_bwta_BWTA_getShortestPath__Lorg_openbw_bwapi4j_TilePosition_2Lorg_openbw_bwapi4j_TilePosition_2(JNIEnv *, jclass, jobject, jobject) {
 
 }
 
