@@ -2,7 +2,9 @@ package bwem;
 
 import org.openbw.bwapi4j.WalkPosition;
 
-public class BwemUtils {
+public class BWEM {
+
+    public static final int MAX_LAKE_MINI_TILES = 300;
 
     /* map.cpp:29 */
 //    bool seaSide(WalkPosition p, const Map * pMap)

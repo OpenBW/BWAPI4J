@@ -458,16 +458,16 @@ public class Map {
                             if (Next.isSeaOrLake())
                             {
                                 ToSearch.add(next);
-                                if (SeaExtent.size() <= BwemDetail.LAKE_MAX_MINI_TILES) SeaExtent.add(Next);
+                                if (SeaExtent.size() <= BWEM.MAX_LAKE_MINI_TILES) SeaExtent.add(Next);
                                 Next.setSea();
                             }
                         }
                     }
                 }
 
-                if ((SeaExtent.size() <= BwemDetail.LAKE_MAX_MINI_TILES)
-                        && (bottomRight.getX() - topLeft.getX() <= BwemDetail.LAKE_MAX_MINI_TILES)
-                        && (bottomRight.getY() - topLeft.getY() <= BwemDetail.LAKE_MAX_MINI_TILES)
+                if ((SeaExtent.size() <= BWEM.MAX_LAKE_MINI_TILES)
+                        && (bottomRight.getX() - topLeft.getX() <= BWEM.MAX_LAKE_MINI_TILES)
+                        && (bottomRight.getY() - topLeft.getY() <= BWEM.MAX_LAKE_MINI_TILES)
                         && (topLeft.getX() >= 2)
                         && (topLeft.getY() >= 2)
                         && (bottomRight.getX() < getWalkSize().getX() - 2)
@@ -523,7 +523,7 @@ public class Map {
             if (dx != 0 || dy != 0) {
                 deltasByAscendingAltitude.add(new Pair<WalkPosition, Altitude>(
                         new WalkPosition(dx, dy),
-                        new Altitude((int) (Double.valueOf("0.5") + (double) BwemUtils.norm(dx, dy) * (double) MiniTile.SIZE_IN_PIXELS))
+                        new Altitude((int) (Double.valueOf("0.5") + (double) BWEM.norm(dx, dy) * (double) MiniTile.SIZE_IN_PIXELS))
                 ));
             }
         }
@@ -541,7 +541,7 @@ public class Map {
         for (int x = -1 ; x <= getWalkSize().getX() ; ++x)
         {
             WalkPosition w = new WalkPosition(x, y);
-            if (!isValid(w) || BwemUtils.hasNonSeaNeighbor(w, this)) {
+            if (!isValid(w) || BWEM.hasNonSeaNeighbor(w, this)) {
                 activeSeaSideList.add(new Pair<WalkPosition, Altitude>(w, new Altitude(0)));
             }
         }
