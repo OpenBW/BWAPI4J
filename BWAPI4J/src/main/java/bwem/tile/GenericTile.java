@@ -1,4 +1,4 @@
-package bwem;
+package bwem.tile;
 
 public class GenericTile {
 
