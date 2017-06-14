@@ -1,8 +1,11 @@
 package bwem;
 
+import java.util.AbstractQueue;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.BW;
@@ -343,6 +346,28 @@ public class Map {
         }
         if (isFindCond) {
             return start;
+        }
+
+        List<TPosition> visited = new ArrayList<>();
+        Queue<TPosition> toVisit = new LinkedList<>();
+
+        toVisit.add(start);
+        visited.add(start);
+
+        while (!toVisit.isEmpty()) {
+            TPosition current = toVisit.remove();
+            TPosition[] deltas = null;
+            if (start instanceof TilePosition) {
+                TilePosition[] array = {
+                    new TilePosition(-1, -1), new TilePosition(0, -1), new TilePosition(1, -1),
+                    new TilePosition( 1,  0),                          new TilePosition(1,  0),
+                    new TilePosition(-1,  1), new TilePosition(0,  1), new TilePosition(1,  1)
+                };
+                deltas = (TPosition[]) array;
+                for (TPosition delta : deltas) {
+                    //TODO
+                }
+            }
         }
 
         throw new UnsupportedOperationException();
