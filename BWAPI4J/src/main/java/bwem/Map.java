@@ -192,54 +192,30 @@ public class Map {
         return isValid(p.toTilePosition());
     }
 
-    private <TPosition> TPosition crop(TPosition p, int sizeX, int sizeY) {
-        int x;
-        int y;
-        if (p instanceof TilePosition) {
-            x = ((TilePosition) p).getX();
-            y = ((TilePosition) p).getY();
-        } else if (p instanceof WalkPosition) {
-            x = ((WalkPosition) p).getX();
-            y = ((WalkPosition) p).getY();
-        } else if (p instanceof Position) {
-            x = ((Position) p).getX();
-            y = ((Position) p).getY();
-        } else {
-            throw new UnsupportedOperationException("failed to determine x and y: unsupported type");
-        }
+    private int cropX(int x, int ceiling) {
+        return (x < 0) ? 0 : (x >= ceiling) ? (ceiling - 1) : x;
+    }
 
-        if (x < 0) {
-            x = 0;
-        } else if (x >= sizeX) {
-            x = sizeX - 1;
-        }
-        if (y < 0) {
-            y = 0;
-        } else if (y >= sizeY) {
-            y = sizeY - 1;
-        }
-
-        if (p instanceof TilePosition) {
-            return (TPosition) new TilePosition(x, y);
-        } else if (p instanceof WalkPosition) {
-            return (TPosition) new WalkPosition(x, y);
-        } else if (p instanceof Position) {
-            return (TPosition) new Position(x, y);
-        } else {
-            throw new UnsupportedOperationException("failed to create return object: unsupported type");
-        }
+    private int cropY(int y, int ceiling) {
+        return (y < 0) ? 0 : (y >= ceiling) ? (ceiling - 1) : y;
     }
 
     public TilePosition crop(TilePosition p) {
-        return crop(p, getTileSize().getX(), getTileSize().getY());
+        int x = cropX(p.getX(), getTileSize().getX());
+        int y = cropY(p.getY(), getTileSize().getY());
+        return new TilePosition(x, y);
     }
 
     public WalkPosition crop(WalkPosition p) {
-        return crop(p, getWalkSize().getX(), getWalkSize().getY());
+        int x = cropX(p.getX(), getWalkSize().getX());
+        int y = cropY(p.getY(), getWalkSize().getY());
+        return new WalkPosition(x, y);
     }
 
     public Position crop(Position p) {
-        return crop(p, getPixelSize().getX(), getPixelSize().getY());
+        int x = cropX(p.getX(), getPixelSize().getX());
+        int y = cropY(p.getY(), getPixelSize().getY());
+        return new Position(x, y);
     }
 
     public List<TilePosition> getStartingLocations() {
@@ -334,44 +310,41 @@ public class Map {
 
 
     //TODO
-    public <TPosition> TPosition breadFirstSearch(TPosition start, Pred findCond, Pred visitCond) {
-        boolean isFindCond = false;
-        if (start instanceof TilePosition) {
-            isFindCond = findCond.is(getTile((TilePosition) start), start);
-        } else if (start instanceof WalkPosition) {
-            isFindCond = findCond.is(getMiniTile((WalkPosition) start), start);
-        } else if (start instanceof Position) {
-            isFindCond = findCond.is(getTile(((Position) start).toTilePosition()), start);
-        } else {
-            throw new IllegalArgumentException("the specified TPosition is not supported");
-        }
-        if (isFindCond) {
+    public TilePosition breadFirstSearch(TilePosition start, Pred findCond, Pred visitCond) {
+        if (findCond.is(getTile(start), start)) {
             return start;
         }
 
-        List<TPosition> visited = new ArrayList<>();
-        Queue<TPosition> toVisit = new LinkedList<>();
+        List<TilePosition> visited = new ArrayList<>();
+        Queue<TilePosition> toVisit = new LinkedList<>();
 
         toVisit.add(start);
         visited.add(start);
 
+        TilePosition[] deltas = {
+            new TilePosition(-1, -1), new TilePosition(0, -1), new TilePosition(1, -1),
+            new TilePosition( 1,  0),                          new TilePosition(1,  0),
+            new TilePosition(-1,  1), new TilePosition(0,  1), new TilePosition(1,  1)
+        };
         while (!toVisit.isEmpty()) {
-            TPosition current = toVisit.remove();
-            TPosition[] deltas = null;
-            if (start instanceof TilePosition) {
-                TilePosition[] array = {
-                    new TilePosition(-1, -1), new TilePosition(0, -1), new TilePosition(1, -1),
-                    new TilePosition( 1,  0),                          new TilePosition(1,  0),
-                    new TilePosition(-1,  1), new TilePosition(0,  1), new TilePosition(1,  1)
-                };
-                deltas = (TPosition[]) array;
-                for (TPosition delta : deltas) {
-                    //TODO
+            TilePosition current = toVisit.remove();
+            for (TilePosition delta : deltas) {
+                TilePosition next = current.add(delta);
+                if (isValid(next)) {
+                    Tile nextTile = getTile(next, false);
+                    if (findCond.is(nextTile, next)) {
+                        return next;
+                    }
+                    if (visitCond.is(nextTile, next) && !visited.contains(next)) {
+                        toVisit.add(next);
+                        visited.add(next);
+                    }
                 }
             }
         }
 
-        throw new UnsupportedOperationException();
+//        bwem_assert(false);
+        return start;
     }
 
 //////////////////////////////////////////////////////////////////////
@@ -583,46 +556,5 @@ public class Map {
     public void processBlockingNeutrals() {
 
     }
-
-    //TODO
-    /* map.h:252 */
-//    template<class TPosition, class Pred1, class Pred2>
-//    inline TPosition Map::BreadthFirstSearch(TPosition start, Pred1 findCond, Pred2 visitCond) const
-//    {
-//        typedef typename utils::TileOfPosition<TPosition>::type Tile_t;
-//        if (findCond(GetTTile(start), start)) return start;
-//
-//        std::vector<TPosition> Visited;
-//        std::queue<TPosition> ToVisit;
-//
-//        ToVisit.push(start);
-//        Visited.push_back(start);
-//
-//        while (!ToVisit.empty())
-//        {
-//            TPosition current = ToVisit.front();
-//            ToVisit.pop();
-//            for (TPosition delta : {	TPosition(-1, -1), TPosition(0, -1), TPosition(+1, -1),
-//                                        TPosition(-1,  0),                   TPosition(+1,  0),
-//                                        TPosition(-1, +1), TPosition(0, +1), TPosition(+1, +1)})
-//            {
-//                TPosition next = current + delta;
-//                if (Valid(next))
-//                {
-//                    const Tile_t & Next = GetTTile(next, check_t::no_check);
-//                    if (findCond(Next, next)) return next;
-//
-//                    if (visitCond(Next, next) && !contains(Visited, next))
-//                    {
-//                        ToVisit.push(next);
-//                        Visited.push_back(next);
-//                    }
-//                }
-//            }
-//        }
-//
-//        bwem_assert(false);
-//        return start;
-//    }
 
 }

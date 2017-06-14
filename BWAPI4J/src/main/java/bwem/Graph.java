@@ -32,16 +32,14 @@ public class Graph {
         return this.areas.get(id - 1);
     }
 
-    public <TPosition> Area getArea(TPosition p) {
-        if (p instanceof TilePosition) {
-            int id = this.map.getTile((TilePosition) p).getAreaId();
-            return (id > 0) ? getArea(id) : null;
-        } else if (p instanceof WalkPosition) {
-            int id = this.map.getMiniTile((WalkPosition) p).getAreaId();
-            return (id > 0) ? getArea(id) : null;
-        } else {
-            throw new UnsupportedOperationException("TPosition not supported");
-        }
+    public Area getArea(TilePosition p) {
+        int id = this.map.getTile(p).getAreaId();
+        return getArea(id);
+    }
+
+    public Area getArea(WalkPosition p) {
+        int id = this.map.getMiniTile(p).getAreaId();
+        return getArea(id);
     }
 
 //    template<class TPosition>
@@ -57,7 +55,7 @@ public class Graph {
 //        return GetArea(p);
 //    }
     //TODO
-    public <TPosition> Area getNearestArea(TPosition pos) {
+    public Area getNearestArea(TilePosition pos) {
         Area area = getArea(pos);
         if (area != null) {
             return area;

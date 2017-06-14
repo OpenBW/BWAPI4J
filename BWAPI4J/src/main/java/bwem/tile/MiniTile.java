@@ -11,17 +11,17 @@ import bwem.Altitude;
 //	- the id of the Area it is part of, if ever.
 // The whole process of analysis of a Map relies on the walkability information
 // from which are derived successively : altitudes, Areas, ChokePoints.
-public class MiniTile extends AbstractTile {
+public class MiniTile {
 
     public static final int SIZE_IN_PIXELS = 8;
 
     private static final int blockingCP = 0; // static const Area::id blockingCP;
 
     private Altitude altitude; // 0 for seas  ;  != 0 for terrain and lakes (-1 = not computed yet)  ;  1 = SeaOrLake intermediate value
-//    private int areaId; // 0 -> unwalkable  ;  > 0 -> index of some Area  ;  < 0 -> some walkable terrain, but too small to be part of an Area
+    private int areaId; // 0 -> unwalkable  ;  > 0 -> index of some Area  ;  < 0 -> some walkable terrain, but too small to be part of an Area
 
     public MiniTile() {
-        super(-1);
+        this.areaId = -1;
         this.altitude = new Altitude(-1);
     }
 
@@ -32,7 +32,7 @@ public class MiniTile extends AbstractTile {
     //  - The relation buildable ==> walkable is enforced, by marking as walkable any MiniTile part of a buildable Tile (Cf. Tile::Buildable)
     // Among the MiniTiles having Altitude() > 0, the walkable ones are considered Terrain-MiniTiles, and the other ones Lake-MiniTiles.
     public boolean isWalkable() {
-        return (super.areaId != 0);
+        return (this.areaId != 0);
     }
 
     // Distance in pixels between the center of this MiniTile and the center of the nearest Sea-MiniTile
@@ -68,14 +68,14 @@ public class MiniTile extends AbstractTile {
     //      Note: negative Area::ids start from -2
     // Note: because of the lakes, Map::GetNearestArea should be prefered over Map::GetArea.
     public int getAreaId() {
-        return super.areaId;
+        return this.areaId;
     }
 
     ////////////////////////////////////////////////////////////////////////////
     //	Details: The functions below are used by the BWEM's internals
 
     public void setWalkable(boolean walkable) {
-        super.areaId = (walkable ? -1 : 0);
+        this.areaId = (walkable ? -1 : 0);
         this.altitude = new Altitude((walkable ? -1 : 1));
     }
 
@@ -117,7 +117,7 @@ public class MiniTile extends AbstractTile {
     }
 
     public boolean isAreaIdMissing() {
-        return (super.areaId == -1);
+        return (this.areaId == -1);
     }
 
     public void setAreaId(int id) {
@@ -125,15 +125,15 @@ public class MiniTile extends AbstractTile {
         if (!(isAreaIdMissing() && (id >= 1))) {
             throw new IllegalStateException();
         }
-        super.areaId = id;
+        this.areaId = id;
     }
 
     public void replaceAreaId(int id) {
 //        assert ((m_areaId > 0) && ((id >= 1) || (id <= -2)) && (id != m_areaId)); /* Assertions shouldn't be used in public methods as validation even though these methods are used by BWEM's internals. */
-        if (!((super.areaId > 0) && ((id >= 1) || (id <= -2)) && (id != super.areaId))) {
+        if (!((this.areaId > 0) && ((id >= 1) || (id <= -2)) && (id != this.areaId))) {
             throw new IllegalStateException();
         }
-        super.areaId = id;
+        this.areaId = id;
     }
 
     public void setBlocked() {
@@ -141,19 +141,19 @@ public class MiniTile extends AbstractTile {
         if (!isAreaIdMissing()) {
             throw new IllegalStateException();
         }
-        super.areaId = this.blockingCP;
+        this.areaId = this.blockingCP;
     }
 
     public boolean isBlocked() {
-        return (super.areaId == this.blockingCP);
+        return (this.areaId == this.blockingCP);
     }
 
     public void replaceBlockedAreaId(int id) {
 //        assert ((m_areaId == blockingCP) && (id >= 1)); /* Assertions shouldn't be used in public methods as validation even though these methods are used by BWEM's internals. */
-        if (!((super.areaId == this.blockingCP) && (id >= 1))) {
+        if (!((this.areaId == this.blockingCP) && (id >= 1))) {
             throw new IllegalStateException();
         }
-        super.areaId = id;
+        this.areaId = id;
     }
 
 }
