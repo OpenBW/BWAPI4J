@@ -9,19 +9,11 @@ extern "C" {
 #endif
 /*
  * Class:     bwta_BWTA
- * Method:    readMap
- * Signature: ()V
- */
-JNIEXPORT void JNICALL Java_bwta_BWTA_readMap
-  (JNIEnv *, jclass);
-
-/*
- * Class:     bwta_BWTA
  * Method:    analyze
  * Signature: ()V
  */
 JNIEXPORT void JNICALL Java_bwta_BWTA_analyze
-  (JNIEnv *, jclass);
+  (JNIEnv *, jobject);
 
 /*
  * Class:     bwta_BWTA
@@ -29,7 +21,7 @@ JNIEXPORT void JNICALL Java_bwta_BWTA_analyze
  * Signature: ()V
  */
 JNIEXPORT void JNICALL Java_bwta_BWTA_computeDistanceTransform
-  (JNIEnv *, jclass);
+  (JNIEnv *, jobject);
 
 /*
  * Class:     bwta_BWTA
@@ -37,7 +29,7 @@ JNIEXPORT void JNICALL Java_bwta_BWTA_computeDistanceTransform
  * Signature: ()V
  */
 JNIEXPORT void JNICALL Java_bwta_BWTA_balanceAnalysis
-  (JNIEnv *, jclass);
+  (JNIEnv *, jobject);
 
 /*
  * Class:     bwta_BWTA
@@ -45,7 +37,7 @@ JNIEXPORT void JNICALL Java_bwta_BWTA_balanceAnalysis
  * Signature: ()V
  */
 JNIEXPORT void JNICALL Java_bwta_BWTA_cleanMemory
-  (JNIEnv *, jclass);
+  (JNIEnv *, jobject);
 
 /*
  * Class:     bwta_BWTA
@@ -53,38 +45,6 @@ JNIEXPORT void JNICALL Java_bwta_BWTA_cleanMemory
  * Signature: ()I
  */
 JNIEXPORT jint JNICALL Java_bwta_BWTA_getMaxDistanceTransform
-  (JNIEnv *, jclass);
-
-/*
- * Class:     bwta_BWTA
- * Method:    getRegions
- * Signature: ()Ljava/util/List;
- */
-JNIEXPORT jobject JNICALL Java_bwta_BWTA_getRegions
-  (JNIEnv *, jclass);
-
-/*
- * Class:     bwta_BWTA
- * Method:    getChokepoints
- * Signature: ()Ljava/util/List;
- */
-JNIEXPORT jobject JNICALL Java_bwta_BWTA_getChokepoints
-  (JNIEnv *, jclass);
-
-/*
- * Class:     bwta_BWTA
- * Method:    getBaseLocations
- * Signature: ()Ljava/util/List;
- */
-JNIEXPORT jobject JNICALL Java_bwta_BWTA_getBaseLocations
-  (JNIEnv *, jclass);
-
-/*
- * Class:     bwta_BWTA
- * Method:    getStartLocations
- * Signature: ()Ljava/util/List;
- */
-JNIEXPORT jobject JNICALL Java_bwta_BWTA_getStartLocations
   (JNIEnv *, jclass);
 
 /*

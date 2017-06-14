@@ -1,112 +1,130 @@
 package bwta;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
-import org.openbw.bwapi4j.unit.Unit;
+import org.openbw.bwapi4j.unit.MineralPatch;
+import org.openbw.bwapi4j.unit.VespeneGeyser;
 
-public class BaseLocation extends PositionedObject {
+public class BaseLocation {
 
-    public Tmp_Position getPosition() {
-        return getPosition_native(pointer);
+    private int id;
+    private BWTA bwta;
+    
+    private Position position;
+    private TilePosition tilePosition;
+    private Region region;
+    private List<MineralPatch> mineralPatches;
+    private List<VespeneGeyser> geysers;
+    
+    private boolean isIsland;
+    private boolean isMineralsOnly;
+    private boolean isStartLocation;
+    
+    // internal caching start
+    
+    private int regionId;
+    
+    private static Map<Integer, BaseLocation> baseLocationsCache = new HashMap<>();
+    
+    static void clearCache() {
+        
+        BaseLocation.baseLocationsCache.clear();
+    }
+    
+    static BaseLocation getCachedBaseLocation(int id) {
+        
+        return BaseLocation.baseLocationsCache.get(id);
+    }
+    
+    // internal caching start
+    
+    /**
+     * Creates a new base location.
+     */
+    public BaseLocation(int id, BWTA bwta) {
+        
+        this.id = id;
+        this.bwta = bwta;
+        
+        this.mineralPatches = new ArrayList<MineralPatch>();
+        this.geysers = new ArrayList<VespeneGeyser>();
+        
+        BaseLocation.baseLocationsCache.put(id, this);
+    }
+    
+    public Position getPosition() {
+        
+        return this.position;
     }
 
     public TilePosition getTilePosition() {
-        return getTilePosition_native(pointer);
+        
+        return this.tilePosition;
     }
 
     public Region getRegion() {
-        return getRegion_native(pointer);
+        
+        return Region.getCachedRegion(regionId);
     }
 
     public int minerals() {
-        return minerals_native(pointer);
+        
+        return this.mineralPatches.stream().mapToInt(MineralPatch::getLastKnownResources).sum();
     }
 
     public int gas() {
-        return gas_native(pointer);
+        
+        return this.geysers.stream().mapToInt(VespeneGeyser::getLastKnownResources).sum();
     }
 
-    public List<Unit> getMinerals() {
-        return getMinerals_native(pointer);
+    public List<MineralPatch> getMinerals() {
+        
+        return this.mineralPatches;
     }
 
-    public List<Unit> getStaticMinerals() {
-        return getStaticMinerals_native(pointer);
+    public List<VespeneGeyser> getGeysers() {
+        
+        return this.geysers;
     }
 
-    public List<Unit> getGeysers() {
-        return getGeysers_native(pointer);
-    }
+    public native double getGroundDistance(BaseLocation other);
 
-    public double getGroundDistance(BaseLocation other) {
-        return getGroundDistance_native(pointer, other);
-    }
-
-    public double getAirDistance(BaseLocation other) {
-        return getAirDistance_native(pointer, other);
-    }
+    public native double getAirDistance(BaseLocation other);
 
     public boolean isIsland() {
-        return isIsland_native(pointer);
+        
+        return this.isIsland;
     }
 
     public boolean isMineralOnly() {
-        return isMineralOnly_native(pointer);
+        
+        return this.isMineralsOnly;
     }
 
     public boolean isStartLocation() {
-        return isStartLocation_native(pointer);
+    
+        return this.isStartLocation;
+    }
+    
+    @Override
+    public int hashCode() {
+        
+        return id;
     }
 
-
-    private static Map<Long, BaseLocation> instances = new HashMap<Long, BaseLocation>();
-
-    private BaseLocation(long pointer) {
-        this.pointer = pointer;
-    }
-
-    private static BaseLocation get(long pointer) {
-        if (pointer == 0) {
-            return null;
+    @Override
+    public boolean equals(Object obj) {
+        
+        if (obj == null || !(obj instanceof BaseLocation)) {
+            return false;
+        } else {
+            
+            return this.id == ((BaseLocation) obj).id;
         }
-        BaseLocation instance = instances.get(pointer);
-        if (instance == null) {
-            instance = new BaseLocation(pointer);
-            instances.put(pointer, instance);
-        }
-        return instance;
     }
-
-    private long pointer;
-
-    private native Tmp_Position getPosition_native(long pointer);
-
-    private native TilePosition getTilePosition_native(long pointer);
-
-    private native Region getRegion_native(long pointer);
-
-    private native int minerals_native(long pointer);
-
-    private native int gas_native(long pointer);
-
-    private native List<Unit> getMinerals_native(long pointer);
-
-    private native List<Unit> getStaticMinerals_native(long pointer);
-
-    private native List<Unit> getGeysers_native(long pointer);
-
-    private native double getGroundDistance_native(long pointer, BaseLocation other);
-
-    private native double getAirDistance_native(long pointer, BaseLocation other);
-
-    private native boolean isIsland_native(long pointer);
-
-    private native boolean isMineralOnly_native(long pointer);
-
-    private native boolean isStartLocation_native(long pointer);
-
-
 }

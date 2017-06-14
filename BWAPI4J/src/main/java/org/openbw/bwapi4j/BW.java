@@ -40,8 +40,8 @@ public class BW {
 
     static {
 
-//        System.setProperty("java.library.path", "./../BWAPI4JBridge/Release/");
-        System.setProperty("java.library.path", "./");
+        System.setProperty("java.library.path", "./../BWAPI4JBridge/Release/");
+//        System.setProperty("java.library.path", "./");
 
         logger.debug("DLL exists: {}",
                 new File(System.getProperty("java.library.path") + "BWAPI4JBridge.dll").exists());
