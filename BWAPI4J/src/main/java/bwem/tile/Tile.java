@@ -5,19 +5,18 @@ import bwem.Bits;
 import bwem.Neutral;
 import org.apache.commons.lang3.mutable.MutableInt;
 
-public class Tile {
+public class Tile extends AbstractTile {
 
     public static final int SIZE_IN_PIXELS = 32;
 
     private Neutral neutral;
     private Altitude minAltitude;
-    private int areaId;
     private MutableInt internalData;
     private Bits bits;
 
     public Tile() {
+        super(0);
         this.minAltitude = new Altitude(0);
-        this.areaId = 0;
         this.internalData = new MutableInt(0);
         this.bits = new Bits();
     }
@@ -27,15 +26,15 @@ public class Tile {
     // If empty(S), returns 0. Note: in this case, no contained MiniTile is walkable, so all of them have their AreaId() == 0.
     // If S = {a}, returns a (whether positive or negative).
     // If size(S) > 1 returns -1 (note that -1 is never returned by MiniTile::AreaId()).
-	public int getAreaId(){
-        return this.areaId;
+	public int getAreaId() {
+        return super.areaId;
     }
 
     public void setAreaId(int id) {
-        if (!((id == -1) || (this.areaId == 0 && id != 0))) {
+        if (!((id == -1) || (super.areaId == 0 && id != 0))) {
             throw new IllegalStateException();
         }
-        this.areaId = id;
+        super.areaId = id;
     }
 
     // Tile::MinAltitude() somewhat aggregates the MiniTile::Altitude() values of the 4 x 4 sub-MiniTiles.
@@ -63,7 +62,7 @@ public class Tile {
 
     // Tells if at least one of the sub-MiniTiles is Walkable.
 	public boolean isWalkable() {
-        return (this.areaId != 0);
+        return (super.areaId != 0);
     }
 
     // Tells if at least one of the sub-MiniTiles is a Terrain-MiniTile.
