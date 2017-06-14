@@ -57,7 +57,10 @@ assert(startingLocationsOK);
 ### Class and Method Dependencies
 
 `graph.cpp:392:const CPPath & Graph::GetPath`
-* Graph
+* `graph.h:136:Graph::GetNearestArea`
+  * `graph.cpp:161:Graph::GetArea`
+    * `graph.h:64:Graph::GetMap`
+  * `map.h:252:Map::BreadthFirstSearch`
 
 `Graph`
 * Area
