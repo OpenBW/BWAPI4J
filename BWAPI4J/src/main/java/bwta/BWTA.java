@@ -50,6 +50,7 @@ public class BWTA {
     
     public void analyze() {
         
+        this.clear();
         this.analyze(this);
     }
     
@@ -59,7 +60,7 @@ public class BWTA {
 
     public native void balanceAnalysis();
 
-    public native void cleanMemory();
+    private native void cleanMemory();
     
     public Region getRegion(TilePosition tilePosition) {
         
