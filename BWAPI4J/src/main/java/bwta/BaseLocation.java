@@ -13,7 +13,6 @@ import org.openbw.bwapi4j.unit.VespeneGeyser;
 public class BaseLocation {
 
     private int id;
-    private BWTA bwta;
     
     private Position position;
     private TilePosition tilePosition;
@@ -46,10 +45,9 @@ public class BaseLocation {
     /**
      * Creates a new base location.
      */
-    public BaseLocation(int id, BWTA bwta) {
+    public BaseLocation(int id) {
         
         this.id = id;
-        this.bwta = bwta;
         
         this.mineralPatches = new ArrayList<MineralPatch>();
         this.geysers = new ArrayList<VespeneGeyser>();

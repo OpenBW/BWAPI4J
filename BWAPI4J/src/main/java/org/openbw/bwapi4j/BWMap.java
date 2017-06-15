@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.openbw.bwapi4j.type.UnitType;
 
-public final class BWMap {
+public class BWMap {
 
     private String mapHash;
     private String mapFileName;
@@ -17,7 +17,7 @@ public final class BWMap {
     private int height;
     private ArrayList<TilePosition> startLocations;
 
-    /* default */ BWMap() {
+    protected BWMap() {
         this.startLocations = new ArrayList<TilePosition>();
     }
 
@@ -37,7 +37,7 @@ public final class BWMap {
         return this.groundInfo[tileX][tileY];
     }
 
-    public List<TilePosition> getStartLocations() {
+    public List<TilePosition> getStartPositions() {
         return this.startLocations;
     }
 

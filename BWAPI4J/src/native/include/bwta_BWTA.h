@@ -10,10 +10,10 @@ extern "C" {
 /*
  * Class:     bwta_BWTA
  * Method:    analyze
- * Signature: ()V
+ * Signature: (Lbwta/BWTA;)V
  */
 JNIEXPORT void JNICALL Java_bwta_BWTA_analyze
-  (JNIEnv *, jobject);
+  (JNIEnv *, jobject, jobject);
 
 /*
  * Class:     bwta_BWTA
@@ -41,195 +41,43 @@ JNIEXPORT void JNICALL Java_bwta_BWTA_cleanMemory
 
 /*
  * Class:     bwta_BWTA
- * Method:    getMaxDistanceTransform
- * Signature: ()I
+ * Method:    getRegionT
+ * Signature: (II)I
  */
-JNIEXPORT jint JNICALL Java_bwta_BWTA_getMaxDistanceTransform
-  (JNIEnv *, jclass);
+JNIEXPORT jint JNICALL Java_bwta_BWTA_getRegionT
+  (JNIEnv *, jobject, jint, jint);
 
 /*
  * Class:     bwta_BWTA
- * Method:    getUnwalkablePolygons
- * Signature: ()Ljava/util/List;
+ * Method:    getRegionP
+ * Signature: (II)I
  */
-JNIEXPORT jobject JNICALL Java_bwta_BWTA_getUnwalkablePolygons
-  (JNIEnv *, jclass);
+JNIEXPORT jint JNICALL Java_bwta_BWTA_getRegionP
+  (JNIEnv *, jobject, jint, jint);
 
 /*
  * Class:     bwta_BWTA
- * Method:    getStartLocation
- * Signature: (Lorg/openbw/bwapi4j/Player;)Lbwta/BaseLocation;
+ * Method:    getGroundDistance
+ * Signature: (IIII)D
  */
-JNIEXPORT jobject JNICALL Java_bwta_BWTA_getStartLocation
-  (JNIEnv *, jclass, jobject);
-
-/*
- * Class:     bwta_BWTA
- * Method:    getRegion
- * Signature: (II)Lbwta/Region;
- */
-JNIEXPORT jobject JNICALL Java_bwta_BWTA_getRegion__II
-  (JNIEnv *, jclass, jint, jint);
-
-/*
- * Class:     bwta_BWTA
- * Method:    getRegion
- * Signature: (Lorg/openbw/bwapi4j/TilePosition;)Lbwta/Region;
- */
-JNIEXPORT jobject JNICALL Java_bwta_BWTA_getRegion__Lorg_openbw_bwapi4j_TilePosition_2
-  (JNIEnv *, jclass, jobject);
-
-/*
- * Class:     bwta_BWTA
- * Method:    getRegion
- * Signature: (Lorg/openbw/bwapi4j/Position;)Lbwta/Region;
- */
-JNIEXPORT jobject JNICALL Java_bwta_BWTA_getRegion__Lorg_openbw_bwapi4j_Position_2
-  (JNIEnv *, jclass, jobject);
-
-/*
- * Class:     bwta_BWTA
- * Method:    getNearestChokepoint
- * Signature: (II)Lbwta/Chokepoint;
- */
-JNIEXPORT jobject JNICALL Java_bwta_BWTA_getNearestChokepoint__II
-  (JNIEnv *, jclass, jint, jint);
-
-/*
- * Class:     bwta_BWTA
- * Method:    getNearestChokepoint
- * Signature: (Lorg/openbw/bwapi4j/TilePosition;)Lbwta/Chokepoint;
- */
-JNIEXPORT jobject JNICALL Java_bwta_BWTA_getNearestChokepoint__Lorg_openbw_bwapi4j_TilePosition_2
-  (JNIEnv *, jclass, jobject);
-
-/*
- * Class:     bwta_BWTA
- * Method:    getNearestChokepoint
- * Signature: (Lorg/openbw/bwapi4j/Position;)Lbwta/Chokepoint;
- */
-JNIEXPORT jobject JNICALL Java_bwta_BWTA_getNearestChokepoint__Lorg_openbw_bwapi4j_Position_2
-  (JNIEnv *, jclass, jobject);
-
-/*
- * Class:     bwta_BWTA
- * Method:    getNearestBaseLocation
- * Signature: (II)Lbwta/BaseLocation;
- */
-JNIEXPORT jobject JNICALL Java_bwta_BWTA_getNearestBaseLocation__II
-  (JNIEnv *, jclass, jint, jint);
-
-/*
- * Class:     bwta_BWTA
- * Method:    getNearestBaseLocation
- * Signature: (Lorg/openbw/bwapi4j/TilePosition;)Lbwta/BaseLocation;
- */
-JNIEXPORT jobject JNICALL Java_bwta_BWTA_getNearestBaseLocation__Lorg_openbw_bwapi4j_TilePosition_2
-  (JNIEnv *, jclass, jobject);
-
-/*
- * Class:     bwta_BWTA
- * Method:    getNearestBaseLocation
- * Signature: (Lorg/openbw/bwapi4j/Position;)Lbwta/BaseLocation;
- */
-JNIEXPORT jobject JNICALL Java_bwta_BWTA_getNearestBaseLocation__Lorg_openbw_bwapi4j_Position_2
-  (JNIEnv *, jclass, jobject);
-
-/*
- * Class:     bwta_BWTA
- * Method:    getNearestUnwalkablePolygon
- * Signature: (II)Lbwta/Polygon;
- */
-JNIEXPORT jobject JNICALL Java_bwta_BWTA_getNearestUnwalkablePolygon__II
-  (JNIEnv *, jclass, jint, jint);
-
-/*
- * Class:     bwta_BWTA
- * Method:    getNearestUnwalkablePolygon
- * Signature: (Lorg/openbw/bwapi4j/TilePosition;)Lbwta/Polygon;
- */
-JNIEXPORT jobject JNICALL Java_bwta_BWTA_getNearestUnwalkablePolygon__Lorg_openbw_bwapi4j_TilePosition_2
-  (JNIEnv *, jclass, jobject);
-
-/*
- * Class:     bwta_BWTA
- * Method:    getNearestUnwalkablePosition
- * Signature: (Lorg/openbw/bwapi4j/Position;)Lorg/openbw/bwapi4j/Position;
- */
-JNIEXPORT jobject JNICALL Java_bwta_BWTA_getNearestUnwalkablePosition
-  (JNIEnv *, jclass, jobject);
+JNIEXPORT jdouble JNICALL Java_bwta_BWTA_getGroundDistance
+  (JNIEnv *, jobject, jint, jint, jint, jint);
 
 /*
  * Class:     bwta_BWTA
  * Method:    isConnected
  * Signature: (IIII)Z
  */
-JNIEXPORT jboolean JNICALL Java_bwta_BWTA_isConnected__IIII
-  (JNIEnv *, jclass, jint, jint, jint, jint);
-
-/*
- * Class:     bwta_BWTA
- * Method:    isConnected
- * Signature: (Lorg/openbw/bwapi4j/TilePosition;Lorg/openbw/bwapi4j/TilePosition;)Z
- */
-JNIEXPORT jboolean JNICALL Java_bwta_BWTA_isConnected__Lorg_openbw_bwapi4j_TilePosition_2Lorg_openbw_bwapi4j_TilePosition_2
-  (JNIEnv *, jclass, jobject, jobject);
-
-/*
- * Class:     bwta_BWTA
- * Method:    getGroundDistance
- * Signature: (Lorg/openbw/bwapi4j/TilePosition;Lorg/openbw/bwapi4j/TilePosition;)D
- */
-JNIEXPORT jdouble JNICALL Java_bwta_BWTA_getGroundDistance
-  (JNIEnv *, jclass, jobject, jobject);
-
-/*
- * Class:     bwta_BWTA
- * Method:    getNearestTilePosition
- * Signature: (Lorg/openbw/bwapi4j/TilePosition;Ljava/util/List;)Lorg/openbw/bwapi4j/util/Pair;
- */
-JNIEXPORT jobject JNICALL Java_bwta_BWTA_getNearestTilePosition
-  (JNIEnv *, jclass, jobject, jobject);
-
-/*
- * Class:     bwta_BWTA
- * Method:    getGroundDistances
- * Signature: (Lorg/openbw/bwapi4j/TilePosition;Ljava/util/List;)Ljava/util/Map;
- */
-JNIEXPORT jobject JNICALL Java_bwta_BWTA_getGroundDistances
-  (JNIEnv *, jclass, jobject, jobject);
+JNIEXPORT jboolean JNICALL Java_bwta_BWTA_isConnected
+  (JNIEnv *, jobject, jint, jint, jint, jint);
 
 /*
  * Class:     bwta_BWTA
  * Method:    getShortestPath
- * Signature: (Lorg/openbw/bwapi4j/TilePosition;Lorg/openbw/bwapi4j/TilePosition;)Ljava/util/List;
+ * Signature: (IIII)Ljava/util/List;
  */
-JNIEXPORT jobject JNICALL Java_bwta_BWTA_getShortestPath__Lorg_openbw_bwapi4j_TilePosition_2Lorg_openbw_bwapi4j_TilePosition_2
-  (JNIEnv *, jclass, jobject, jobject);
-
-/*
- * Class:     bwta_BWTA
- * Method:    getShortestPath
- * Signature: (Lorg/openbw/bwapi4j/TilePosition;Ljava/util/List;)Ljava/util/List;
- */
-JNIEXPORT jobject JNICALL Java_bwta_BWTA_getShortestPath__Lorg_openbw_bwapi4j_TilePosition_2Ljava_util_List_2
-  (JNIEnv *, jclass, jobject, jobject);
-
-/*
- * Class:     bwta_BWTA
- * Method:    buildChokeNodes
- * Signature: ()V
- */
-JNIEXPORT void JNICALL Java_bwta_BWTA_buildChokeNodes
-  (JNIEnv *, jclass);
-
-/*
- * Class:     bwta_BWTA
- * Method:    getGroundDistance2
- * Signature: (Lorg/openbw/bwapi4j/TilePosition;Lorg/openbw/bwapi4j/TilePosition;)I
- */
-JNIEXPORT jint JNICALL Java_bwta_BWTA_getGroundDistance2
-  (JNIEnv *, jclass, jobject, jobject);
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getShortestPath
+  (JNIEnv *, jobject, jint, jint, jint, jint);
 
 #ifdef __cplusplus
 }

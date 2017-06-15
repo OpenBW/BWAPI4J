@@ -2,19 +2,16 @@ package bwta;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
-import org.openbw.bwapi4j.util.Pair;
 
 public class BWTA {
 
-    private List<Region> regions;
-    private List<Chokepoint> chokepoints;
-    private List<BaseLocation> baseLocations;
+    private ArrayList<Region> regions;
+    private ArrayList<Chokepoint> chokepoints;
+    private ArrayList<BaseLocation> baseLocations;
     
     public BWTA() {
         
@@ -51,7 +48,12 @@ public class BWTA {
         cleanMemory();
     }
     
-    public native void analyze();
+    public void analyze() {
+        
+        this.analyze(this);
+    }
+    
+    private native void analyze(BWTA bwta);
 
     public native void computeDistanceTransform();
 
@@ -59,8 +61,48 @@ public class BWTA {
 
     public native void cleanMemory();
     
-    // TODO
+    public Region getRegion(TilePosition tilePosition) {
+        
+        return Region.getCachedRegion(getRegionT(tilePosition.getX(), tilePosition.getY()));
+    }
+    
+    public Region getRegion(Position position) {
+        
+        return Region.getCachedRegion(getRegionP(position.getX(), position.getY()));
+    }
+ 
+    public Region getRegion(int x, int y) {
+        
+        return Region.getCachedRegion(getRegionT(x, y));
+    }
+    
+    private native int getRegionT(int x, int y);
 
+    private native int getRegionP(int x, int y);
+    
+    public double getGroundDistance(TilePosition start, TilePosition end) {
+    
+        return getGroundDistance(start.getX(), start.getY(), end.getX(), end.getY());
+    }
+    
+    private native double getGroundDistance(int x1, int y1, int x2, int y2);
+    
+    public native boolean isConnected(int x1, int y1, int x2, int y2);
+
+    public boolean isConnected(TilePosition a, TilePosition b) {
+        
+        return this.isConnected(a.getX(), a.getY(), b.getX(), b.getY());
+    }
+    
+    public List<TilePosition> getShortestPath(TilePosition start, TilePosition end) {
+        
+        return this.getShortestPath(start.getX(), start.getY(), end.getX(), end.getY());
+    }
+    
+    private native List<TilePosition> getShortestPath(int x1, int y1, int x2, int y2);
+    
+    // TODO
+/*
     public static native int getMaxDistanceTransform();
 
     public static native List<Polygon> getUnwalkablePolygons();
@@ -68,10 +110,6 @@ public class BWTA {
     public static native BaseLocation getStartLocation(Player player);
 
     public static native Region getRegion(int x, int y);
-
-    public static native Region getRegion(TilePosition tileposition);
-
-    public static native Region getRegion(Position position);
 
     public static native Chokepoint getNearestChokepoint(int x, int y);
 
@@ -91,23 +129,16 @@ public class BWTA {
 
     public static native Position getNearestUnwalkablePosition(Position position);
 
-    public static native boolean isConnected(int x1, int y1, int x2, int y2);
-
-    public static native boolean isConnected(TilePosition a, TilePosition b);
-
-    public static native double getGroundDistance(TilePosition start, TilePosition end);
-
     public static native Pair<TilePosition, Double> getNearestTilePosition(TilePosition start, List<TilePosition> targets);
 
     public static native Map<TilePosition, Double> getGroundDistances(TilePosition start, List<TilePosition> targets);
 
-    public static native List<TilePosition> getShortestPath(TilePosition start, TilePosition end);
 
     public static native List<TilePosition> getShortestPath(TilePosition start, List<TilePosition> targets);
 
     public static native void buildChokeNodes();
 
     public static native int getGroundDistance2(TilePosition start, TilePosition end);
-
+*/
 
 }

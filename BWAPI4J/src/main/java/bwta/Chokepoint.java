@@ -9,7 +9,6 @@ import org.openbw.bwapi4j.util.Pair;
 public class Chokepoint {
 
     private int id;
-    private BWTA bwta;
     
     private Pair<Region, Region> regions;
     private Pair<Position, Position> sides;
@@ -38,10 +37,9 @@ public class Chokepoint {
     /**
      * Creates a new Chokepoint.
      */
-    public Chokepoint(int id, BWTA bwta) {
+    public Chokepoint(int id) {
         
         this.id = id;
-        this.bwta = bwta;
         
         Chokepoint.chokepointCache.put(id, this);
     }

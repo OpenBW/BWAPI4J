@@ -39,15 +39,22 @@ public class BW {
     private Charset charset;
 
     static {
-
-        System.setProperty("java.library.path", "./../BWAPI4JBridge/Release/");
-//        System.setProperty("java.library.path", "./");
+        
+        String libraryPathProperty = System.getProperty("java.library.path");
+        if (libraryPathProperty == null || libraryPathProperty == "") {
+            
+            logger.warn("library path not set, using CWD as default.");
+            System.setProperty("java.library.path", "./");
+        } else {
+            
+            logger.debug("library path set to {}", libraryPathProperty);
+        }
 
         logger.debug("DLL exists: {}",
                 new File(System.getProperty("java.library.path") + "BWAPI4JBridge.dll").exists());
         logger.debug(System.getProperty("user.dir"));
 
-        System.loadLibrary(System.getProperty("java.library.path") + "BWAPI4JBridge");
+        System.loadLibrary("BWAPI4JBridge");
         logger.debug("DLL loaded.");
     }
 
