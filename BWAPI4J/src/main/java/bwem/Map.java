@@ -1,7 +1,5 @@
 package bwem;
 
-import bwem.tile.MiniTile;
-import bwem.tile.Tile;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -61,7 +59,7 @@ public class Map {
         this.walkSize = new WalkPosition(getTileSize());
         this.pixelSize = getTileSize().toPosition();
         this.center = new Position(getPixelSize().getX() / 2, getPixelSize().getY() / 2);
-        for (TilePosition tilePosition : this.bw.getBWMap().getStartLocations()) {
+        for (TilePosition tilePosition : this.bw.getBWMap().getStartPositions()) {
             this.startingLocations.add(tilePosition);
         }
         this.maxAltitude = new Altitude(0);
