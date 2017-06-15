@@ -9,7 +9,7 @@ import org.openbw.bwapi4j.Position;
 
 public class Region {
 
-    private int id;
+    private long id;
     
     private Polygon polygon;
     private Position center;
@@ -20,18 +20,18 @@ public class Region {
     
     // internal caching start
     
-    private List<Integer> chokepointIds;
-    private List<Integer> baseLocationIds;
-    private List<Integer> reachableRegionIds;
+    private ArrayList<Long> chokepointIds;
+    private ArrayList<Long> baseLocationIds;
+    private ArrayList<Long> reachableRegionIds;
     
-    private static Map<Integer, Region> regionsCache = new HashMap<>();
+    private static Map<Long, Region> regionsCache = new HashMap<>();
     
     static void clearCache() {
         
         Region.regionsCache.clear();
     }
     
-    static Region getCachedRegion(int id) {
+    static Region getCachedRegion(long id) {
         
         return Region.regionsCache.get(id);
     }
@@ -41,7 +41,7 @@ public class Region {
     /**
      * Creates a new region.
      */
-    public Region(int id) {
+    public Region(long id) {
         
         this.id = id;
         
@@ -67,9 +67,10 @@ public class Region {
         if (this.chokepoints == null) {
         
             this.chokepoints = new ArrayList<>();
-            for (int id : this.chokepointIds) {
+            for (long id : this.chokepointIds) {
                 
-                this.chokepoints.add(Chokepoint.getCachedChokepoint(id));
+                Chokepoint chokepoint = Chokepoint.getCachedChokepoint(id);
+                this.chokepoints.add(chokepoint);
             }
         }
         
@@ -81,7 +82,7 @@ public class Region {
         if (this.baseLocations == null) {
             
             this.baseLocations = new ArrayList<>();
-            for (int id : this.baseLocationIds) {
+            for (long id : this.baseLocationIds) {
                 
                 this.baseLocations.add(BaseLocation.getCachedBaseLocation(id));
             }
@@ -100,7 +101,7 @@ public class Region {
         if (this.reachableRegions == null) {
             
             this.reachableRegions = new ArrayList<>();
-            for (int id : this.reachableRegionIds) {
+            for (long id : this.reachableRegionIds) {
                 
                 this.reachableRegions.add(Region.getCachedRegion(id));
             }
@@ -114,10 +115,17 @@ public class Region {
         return this.maxDistance;
     }
 
+    
+    @Override
+    public String toString() {
+        
+        return "region " + id;
+    }
+
     @Override
     public int hashCode() {
         
-        return id;
+        return (int)id;
     }
 
     @Override

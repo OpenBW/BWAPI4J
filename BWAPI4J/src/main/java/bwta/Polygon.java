@@ -7,17 +7,17 @@ import org.openbw.bwapi4j.Position;
 
 public class Polygon {
 
-    private int id;
+    private long id;
     
     private double area;
     private double perimeter;
     private Position center;
-    private List<Polygon> holes;
+    private ArrayList<Polygon> holes;
     
     /**
      * Creates a new Polygon.
      */
-    public Polygon(int id) {
+    public Polygon(long id) {
         
         this.id = id;
         
@@ -39,7 +39,13 @@ public class Polygon {
         return this.center;
     }
 
-    public native Position getNearestPoint(Position p);
+    public Position getNearestPosition(Position p) {
+        
+        int[] coordinates = getNearestPoint(this.id, p.getX(), p.getY());
+        return new Position(coordinates[0], coordinates[1]);
+    }
+    
+    private native int[] getNearestPoint(long polygonId, int x, int y);
 
     public List<Polygon> getHoles() {
         
@@ -49,7 +55,7 @@ public class Polygon {
     @Override
     public int hashCode() {
         
-        return id;
+        return (int)id;
     }
 
     @Override
