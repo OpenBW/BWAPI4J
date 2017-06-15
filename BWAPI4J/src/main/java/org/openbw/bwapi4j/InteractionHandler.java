@@ -62,12 +62,8 @@ public final class InteractionHandler {
         this.remainingLatencyFrames = data[REMAINING_LATENCY_FRAMES_INDEX];
         this.latencyFrames = data[LATENCY_FRAMES_INDEX];
         this.latency = data[LATENCY_FRAMES_INDEX];
-        
-        if (data.length == TOTAL_PROPERTIES) {
-            
-            this.selfId = data[SELF_ID_INDEX];
-            this.enemyId = data[ENEMY_ID_INDEX];
-        }
+        this.selfId = data[SELF_ID_INDEX];
+        this.enemyId = data[ENEMY_ID_INDEX];
     }
 
     public Player self() {

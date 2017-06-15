@@ -12,7 +12,7 @@ import org.openbw.bwapi4j.unit.VespeneGeyser;
 
 public class BaseLocation {
 
-    private int id;
+    private long id;
     
     private Position position;
     private TilePosition tilePosition;
@@ -26,16 +26,16 @@ public class BaseLocation {
     
     // internal caching start
     
-    private int regionId;
+    private long regionId;
     
-    private static Map<Integer, BaseLocation> baseLocationsCache = new HashMap<>();
+    private static Map<Long, BaseLocation> baseLocationsCache = new HashMap<>();
     
     static void clearCache() {
         
         BaseLocation.baseLocationsCache.clear();
     }
     
-    static BaseLocation getCachedBaseLocation(int id) {
+    static BaseLocation getCachedBaseLocation(long id) {
         
         return BaseLocation.baseLocationsCache.get(id);
     }
@@ -45,7 +45,7 @@ public class BaseLocation {
     /**
      * Creates a new base location.
      */
-    public BaseLocation(int id) {
+    public BaseLocation(long id) {
         
         this.id = id;
         
@@ -112,7 +112,7 @@ public class BaseLocation {
     @Override
     public int hashCode() {
         
-        return id;
+        return (int)id;
     }
 
     @Override

@@ -3,12 +3,16 @@ package bwta;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.util.Pair;
 
 public class Chokepoint {
 
-    private int id;
+    private static final Logger logger = LogManager.getLogger();
+    
+    private long id;
     
     private Pair<Region, Region> regions;
     private Pair<Position, Position> sides;
@@ -17,17 +21,17 @@ public class Chokepoint {
     
     // internal caching start
     
-    private int region1Id;
-    private int region2Id;
+    private long region1Id;
+    private long region2Id;
     
-    private static Map<Integer, Chokepoint> chokepointCache = new HashMap<>();
+    private static Map<Long, Chokepoint> chokepointCache = new HashMap<>();
     
     static void clearCache() {
         
         Chokepoint.chokepointCache.clear();
     }
     
-    static Chokepoint getCachedChokepoint(int id) {
+    static Chokepoint getCachedChokepoint(long id) {
         
         return Chokepoint.chokepointCache.get(id);
     }
@@ -37,7 +41,7 @@ public class Chokepoint {
     /**
      * Creates a new Chokepoint.
      */
-    public Chokepoint(int id) {
+    public Chokepoint(long id) {
         
         this.id = id;
         
@@ -51,8 +55,10 @@ public class Chokepoint {
     public Pair<Region, Region> getRegions() {
     
         if (this.regions == null) {
-        
+            
+            logger.debug("attempting to get region pair for id {} and {}...", region1Id, region2Id);
             this.regions = new Pair<>(Region.getCachedRegion(region1Id), Region.getCachedRegion(region2Id));
+            logger.debug("retrieved {} and {}.", this.regions.first, this.regions.second);
         }
         
         return this.regions;
@@ -76,7 +82,7 @@ public class Chokepoint {
     @Override
     public int hashCode() {
         
-        return id;
+        return (int)id;
     }
 
     @Override
