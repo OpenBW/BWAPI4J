@@ -41,9 +41,10 @@ assert(startingLocationsOK);
 | Location | Scope | Original | Current | C++ | Java | Description |
 |-|-|-|-|-|-|-|
 | `area.h:54` | public | `Area::id` | N/A | `int16_t` | `int` | This appears to be used everwhere in the code in place of `int16_t` instead of a dedicated `Area::id` type. |
-| `area.h:56` | public | `Area::groupId` | N/A | `int16_t` | `int` |  |
+| `area.h:56` | public | `Area::groupId` | N/A | `int16_t` | `int` | - |
 | `defs.h:54` | global | `altitude_t` | `Altitude` | `int16_t` | `int` | altitude type in pixels |
 | `mapImpl.cpp:293` | local method | `MapImpl::ComputeAltitude()` | `MiniTile.SIZE_IN_PIXELS` | `altitude_t` | `int` | "8 provides a pixel definition for altitude_t, since altitudes are computed from miniTiles which are 8x8 pixels" |
+| `cp.h:143` | public | `ChokePoint::index` | `Index` | `int` | `int` | - |
 
 ### Current Focus
 

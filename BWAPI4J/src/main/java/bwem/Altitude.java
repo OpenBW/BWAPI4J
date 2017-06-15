@@ -5,41 +5,41 @@ package bwem;
  * the original C++ definition:
  * defs.h:54:typedef int16_t altitude_t;
  */
-public final class Altitude implements Comparable<Altitude> {
+public final class Altitude implements IWrappedInteger<Altitude>, Comparable<Altitude> {
 
     private final int val;
 
-    private Altitude() throws InstantiationException {
-        throw new InstantiationException("Parameterless instantiation is prohibited.");
+    private Altitude() {
+        throw new IllegalArgumentException("Parameterless instantiation is prohibited.");
     }
 
     public Altitude(int val) {
         this.val = val;
     }
 
-    public Altitude(Altitude a) {
-        this.val = a.toInt();
+    public Altitude(Altitude altitude) {
+        this.val = altitude.val;
     }
 
-    public Altitude add(Altitude altitude) {
-        return new Altitude(this.val + altitude.toInt());
+    @Override
+    public Altitude add(Altitude that) {
+        return new Altitude(this.val + that.val);
     }
 
-    public Altitude subtract(Altitude altitude) {
-        return new Altitude(this.val - altitude.toInt());
+    @Override
+    public Altitude subtract(Altitude that) {
+        return new Altitude(this.val - that.val);
     }
 
-    /**
-     * Returns the integer value of the underlying type.
-     */
+    @Override
     public int toInt() {
         return this.val;
     }
 
     @Override
-    public int compareTo(Altitude altitude) {
-        int lhs = this.toInt();
-        int rhs = altitude.toInt();
+    public int compareTo(Altitude that) {
+        int lhs = this.val;
+        int rhs = that.val;
         return (lhs < rhs) ? -1 : (lhs > rhs) ? 1 : 0;
     }
 
