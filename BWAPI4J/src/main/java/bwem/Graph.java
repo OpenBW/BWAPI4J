@@ -1,7 +1,5 @@
 package bwem;
 
-import bwem.tile.MiniTile;
-import bwem.tile.Tile;
 import java.util.ArrayList;
 import java.util.List;
 import org.openbw.bwapi4j.TilePosition;

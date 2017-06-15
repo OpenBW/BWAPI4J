@@ -1,9 +1,6 @@
-package bwem.tile;
+package bwem;
 
 // MiniTiles are accessed using WalkPositions (Cf. Map::GetMiniTile).
-
-import bwem.Altitude;
-
 // A Map holds Map::WalkSize().x * Map::WalkSize().y MiniTiles as its "MiniTile map".
 // A MiniTile contains essentialy 3 informations:
 //	- its Walkability

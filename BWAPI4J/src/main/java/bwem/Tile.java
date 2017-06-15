@@ -1,8 +1,5 @@
-package bwem.tile;
+package bwem;
 
-import bwem.Altitude;
-import bwem.Bits;
-import bwem.Neutral;
 import org.apache.commons.lang3.mutable.MutableInt;
 
 public class Tile {
