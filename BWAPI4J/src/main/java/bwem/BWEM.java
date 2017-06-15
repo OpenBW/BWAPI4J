@@ -46,4 +46,9 @@ public class BWEM {
         return Math.sqrt((double) squaredNorm(dx, dy));
     }
 
+    //TODO: For graph.cpp:445
+//    public static Position center() {
+//
+//    }
+
 }

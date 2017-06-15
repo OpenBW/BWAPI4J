@@ -1,7 +1,9 @@
 package bwem;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.BW;
@@ -67,6 +69,43 @@ public class Map {
                 && (p.getX() < getWalkSize().getX())
                 && (p.getY() >= 0)
                 && (p.getY() < getWalkSize().getY());
+    }
+
+    public WalkPosition breadFirstSearch(WalkPosition start, Pred findCond, Pred visitCond) {
+        if (findCond.is(getMiniTile(start), start)) {
+            return start;
+        }
+
+        List<WalkPosition> visited = new ArrayList<>();
+        Queue<WalkPosition> toVisit = new LinkedList<>();
+
+        toVisit.add(start);
+        visited.add(start);
+
+        WalkPosition[] deltas = {
+            new WalkPosition(-1, -1), new WalkPosition(0, -1), new WalkPosition(1, -1),
+            new WalkPosition( 1,  0),                          new WalkPosition(1,  0),
+            new WalkPosition(-1,  1), new WalkPosition(0,  1), new WalkPosition(1,  1)
+        };
+        while (!toVisit.isEmpty()) {
+            WalkPosition current = toVisit.remove();
+            for (WalkPosition delta : deltas) {
+                WalkPosition next = current.add(delta);
+                if (isValid(next)) {
+                    MiniTile nextTile = getMiniTile(next, CheckMode.NoCheck);
+                    if (findCond.is(nextTile, next)) {
+                        return next;
+                    }
+                    if (visitCond.is(nextTile, next) && !visited.contains(next)) {
+                        toVisit.add(next);
+                        visited.add(next);
+                    }
+                }
+            }
+        }
+
+//        bwem_assert(false);
+        return start;
     }
 
 }
