@@ -111,7 +111,7 @@ public abstract class Building extends PlayerUnit {
 
         public boolean train(UnitType type) {
             
-            return issueCommand(id, UnitCommandType.Train.ordinal(), type.getId(), -1, -1, -1);
+            return issueCommand(id, UnitCommandType.Train.ordinal(), -1, -1, -1, type.getId());
         }
 
         public boolean cancelTrain(int slot) {

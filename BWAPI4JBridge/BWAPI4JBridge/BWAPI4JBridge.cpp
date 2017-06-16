@@ -399,7 +399,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 			jobject whatBuildsType = env->GetStaticObjectField(unitTypeClass, whatBuildsField);
 			
 			jobject pairObject = env->NewObject(pairClass, pairNew, whatBuildsType, env->NewObject(integerClass, integerNew, unitType.whatBuilds().second));
-			env->SetObjectField(CurrentUnitType, env->GetFieldID(unitTypeClass, "whatBuilds", "Lorg.openbw.bwapi4j.util.Pair;"), pairObject);
+			env->SetObjectField(CurrentUnitType, env->GetFieldID(unitTypeClass, "whatBuilds", "Lorg/openbw/bwapi4j/util/Pair;"), pairObject);
 			
 			// read existing requiredUnits map and put <UnitType,Integer> entries
 			for (auto const& req : unitType.requiredUnits()) {
@@ -450,16 +450,14 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 		jobject bwMap = env->GetObjectField(bwObject, bwMapField);
 
 		// set mapHash
-		jfieldID mapHashField = env->GetFieldID(bwMapClass, "mapHash", "Ljava.lang.String;");
+		jfieldID mapHashField = env->GetFieldID(bwMapClass, "mapHash", "Ljava/lang/String;");
 		jstring mapHash = env->NewStringUTF(Broodwar->mapHash().c_str());
 		env->SetObjectField(bwMap, mapHashField, mapHash);
-		env->DeleteLocalRef(mapHash);
 
 		//set mapFileName
-		jfieldID mapFileNameField = env->GetFieldID(bwMapClass, "mapFileName", "Ljava.lang.String;");
+		jfieldID mapFileNameField = env->GetFieldID(bwMapClass, "mapFileName", "Ljava/lang/String;");
 		jstring mapFileName = env->NewStringUTF(Broodwar->mapFileName().c_str());
 		env->SetObjectField(bwMap, mapFileNameField, mapFileName);
-		env->DeleteLocalRef(mapFileName);
 
 		// set width
 		jfieldID mapWidthField = env->GetFieldID(bwMapClass, "width", "I");
@@ -470,7 +468,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 		env->SetIntField(bwMap, mapHeightField, (jint)Broodwar->mapHeight());
 		
 		// set groundInfo (tile resolution)
-		jfieldID groundInfoField = env->GetFieldID(bwMapClass, "groundInfo", "[Ljava/lang/Object;");
+		jfieldID groundInfoField = env->GetFieldID(bwMapClass, "groundInfo", "[[I");
 		jobject* groundInfo2D = new jobject[Broodwar->mapWidth()];
 		jobjectArray groundInfo2DArray = env->NewObjectArray(Broodwar->mapWidth(), env->GetObjectClass(env->NewIntArray(Broodwar->mapHeight())), 0);
 		for (int i = 0; i < Broodwar->mapWidth(); ++i) {
@@ -486,7 +484,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 		env->SetObjectField(bwMap, groundInfoField, groundInfo2DArray);
 
 		// set walkabilityInfo (mini-tile resolution)
-		jfieldID walkabilityInfoField = env->GetFieldID(bwMapClass, "walkabilityInfo", "[Ljava/lang/Object;");
+		jfieldID walkabilityInfoField = env->GetFieldID(bwMapClass, "walkabilityInfo", "[[I");
 		jobject* walkabilityInfo2D = new jobject[Broodwar->mapWidth() * 4];
 		jobjectArray walkabilityInfo2DArray = env->NewObjectArray(Broodwar->mapWidth() * 4, env->GetObjectClass(env->NewIntArray(Broodwar->mapHeight() * 4)), 0);
 		for (int i = 0; i < Broodwar->mapWidth(); ++i) {
@@ -508,6 +506,10 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 			env->CallObjectMethod(startLocationsList, arrayListAdd, startLocation);
 		}
 		
+		if (env->ExceptionOccurred()) {
+			env->ExceptionDescribe();
+			return;
+		}
 		println("done.");
 		
 		if (false && Broodwar->isReplay()) { // right now don't treat replays any different
@@ -1024,39 +1026,53 @@ JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_DamageEvaluator_getDamageTo_1nati
 
 /*
 //
-//	DamageEvaluator
+//	Drawing
 //
 */
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawCircleMap_1native__IIII(JNIEnv *, jobject, jint x, jint y, jint radius, jint color) {
-	Broodwar->drawCircleMap(x, y, radius, (Color)color);
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawCircleMap_1native__IIII(JNIEnv *, jobject, jint x, jint y, jint radius, jint colorValue) {
+
+	Color color(colorValue);
+	Broodwar->drawCircleMap(x, y, radius, color);
 }
 
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawCircleMap_1native__IIIIZ(JNIEnv *, jobject, jint x, jint y, jint radius, jint color, jboolean isSolid) {
-	Broodwar->drawCircleMap(x, y, radius, (Color)color, isSolid);
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawCircleMap_1native__IIIIZ(JNIEnv *, jobject, jint x, jint y, jint radius, jint colorValue, jboolean isSolid) {
+
+	Color color(colorValue);
+	Broodwar->drawCircleMap(x, y, radius, color, isSolid);
 }
 
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawTextScreen_1native(JNIEnv *env, jobject, jint x, jint y, jstring cstr_format) {
+
 	const char* messagechars = env->GetStringUTFChars(cstr_format, 0);
 	Broodwar->drawTextScreen(x, y, messagechars);
 }
 
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawBoxMap_1native__IIIII(JNIEnv *, jobject, int left, int top, int right, int bottom, int color) {
-	Broodwar->drawBoxMap(left, top, right, bottom, (Color)color);
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawBoxMap_1native__IIIII(JNIEnv *, jobject, jint left, jint top, jint right, jint bottom, jint colorValue) {
+
+	Color color(colorValue);
+	Broodwar->drawBoxMap(left, top, right, bottom, color);
 }
 
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawBoxMap_1native__IIIIIZ(JNIEnv *, jobject, int left, int top, int right, int bottom, int color, jboolean isSolid) {
-	Broodwar->drawBoxMap(left, top, right, bottom, (Color)color, isSolid);
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawBoxMap_1native__IIIIIZ(JNIEnv *, jobject, jint left, jint top, jint right, jint bottom, jint colorValue, jboolean isSolid) {
+
+	Color color(colorValue);
+	Broodwar->drawBoxMap(left, top, right, bottom, color, isSolid);
 }
 
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawBoxScreen_1native(JNIEnv *, jobject, int left, int top, int right, int bottom, int color, jboolean isSolid) {
-	Broodwar->drawBoxScreen(left, top, right, bottom, (Color)color, isSolid);
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawBoxScreen_1native(JNIEnv *, jobject, jint left, jint top, jint right, jint bottom, jint colorValue, jboolean isSolid) {
+
+	Color color(colorValue);
+	Broodwar->drawBoxScreen(left, top, right, bottom, color, isSolid);
 }
 
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawLineMap_1native__IIIII(JNIEnv *, jobject, int x1, int y1, int x2, int y2, int color) {
-	Broodwar->drawLineMap(x1, y1, x2, y2, (Color)color);
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawLineMap_1native(JNIEnv *, jobject, jint x1, jint y1, jint x2, jint y2, jint colorValue) {
+
+	Color color(colorValue);
+	Broodwar->drawLineMap(x1, y1, x2, y2, color);
 }
 
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawTextMap_1native__IILjava_lang_String_2(JNIEnv *env, jobject, int x, int y, jstring cstr_format) {
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawTextMap_1native(JNIEnv *env, jobject, jint x, jint y, jstring cstr_format) {
+
 	const char* messagechars = env->GetStringUTFChars(cstr_format, 0);
 	Broodwar->drawTextMap(x, y, messagechars);
 }
@@ -1133,7 +1149,7 @@ JNIEXPORT void JNICALL Java_bwta_BWTA_analyze(JNIEnv * env, jobject caller, jobj
 
 	// set all regions
 	std::cout << "reading regions..." << std::endl;;
-	jobject regionList = env->GetObjectField(bwtaObject, env->GetFieldID(bwtaClass, "chokepoints", "Ljava/util/ArrayList;"));
+	jobject regionList = env->GetObjectField(bwtaObject, env->GetFieldID(bwtaClass, "regions", "Ljava/util/ArrayList;"));
 
 	for (const BWTA::Region *region : BWTA::getRegions()) {
 		
@@ -1194,6 +1210,8 @@ JNIEXPORT void JNICALL Java_bwta_BWTA_analyze(JNIEnv * env, jobject caller, jobj
 
 		env->SetLongField(jchokepoint, env->GetFieldID(chokepointClass, "region1Id", "J"), (jlong)chokepoint->getRegions().first);
 		env->SetLongField(jchokepoint, env->GetFieldID(chokepointClass, "region2Id", "J"), (jlong)chokepoint->getRegions().second);
+
+		env->CallObjectMethod(chokepointList, arrayListAdd, jchokepoint);
 	}
 	if (env->ExceptionOccurred()) {
 		env->ExceptionDescribe();
@@ -1223,6 +1241,8 @@ JNIEXPORT void JNICALL Java_bwta_BWTA_analyze(JNIEnv * env, jobject caller, jobj
 
 		// TODO set List<MineralPatch> mineralPatches;
 		// TODO set List<VespeneGeyser> geysers;
+
+		env->CallObjectMethod(baseLocationList, arrayListAdd, jbaseLocation);
 	}
 	if (env->ExceptionOccurred()) {
 		env->ExceptionDescribe();
@@ -1297,14 +1317,30 @@ JNIEXPORT jintArray JNICALL Java_bwta_Polygon_getNearestPoint(JNIEnv *env, jobje
 	return result;
 }
 
-JNIEXPORT jdouble JNICALL Java_bwta_BaseLocation_getGroundDistance(JNIEnv *, jobject, jobject baseLocation) {
+JNIEXPORT jdouble JNICALL Java_bwta_BaseLocation_getGroundDistance(JNIEnv *env, jobject caller, jobject baseLocation) {
 
-	return 0;
+	jclass baseLocationClass = env->FindClass("bwta/BaseLocation");
+
+	long pointer1 = (long)env->GetObjectField(caller, env->GetFieldID(baseLocationClass, "id", "J"));
+	BWTA::BaseLocation* baseLocation1 = (BWTA::BaseLocation*)pointer1;
+
+	long pointer2 = (long)env->GetObjectField(baseLocation, env->GetFieldID(baseLocationClass, "id", "J"));
+	BWTA::BaseLocation* baseLocation2 = (BWTA::BaseLocation*)pointer2;
+
+	return (jdouble) baseLocation1->getGroundDistance(baseLocation2);
 }
 
-JNIEXPORT jdouble JNICALL Java_bwta_BaseLocation_getAirDistance(JNIEnv *, jobject, jobject baseLocation) {
+JNIEXPORT jdouble JNICALL Java_bwta_BaseLocation_getAirDistance(JNIEnv *env, jobject caller, jobject baseLocation) {
 
-	return 0;
+	jclass baseLocationClass = env->FindClass("bwta/BaseLocation");
+
+	long pointer1 = (long)env->GetObjectField(caller, env->GetFieldID(baseLocationClass, "id", "J"));
+	BWTA::BaseLocation* baseLocation1 = (BWTA::BaseLocation*)pointer1;
+
+	long pointer2 = (long)env->GetObjectField(baseLocation, env->GetFieldID(baseLocationClass, "id", "J"));
+	BWTA::BaseLocation* baseLocation2 = (BWTA::BaseLocation*)pointer2;
+
+	return (jdouble)baseLocation1->getAirDistance(baseLocation2);
 }
 
 /*
