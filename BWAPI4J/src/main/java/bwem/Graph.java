@@ -26,7 +26,6 @@ public class Graph {
         return this.map;
     }
 
-    //TODO
     public CPPath getPath(Position a, Position b, MutableInt length) {
 
         Area areaA = getNearestArea(a.toWalkPosition());
@@ -51,7 +50,6 @@ public class Graph {
         Chokepoint bestCpA = null;
         Chokepoint bestCpB = null;
 
-        //TODO
         for (Chokepoint cpA : areaA.getChokepoints()) {
             if (cpA.isBlocked()) {
                 continue;
@@ -92,12 +90,25 @@ public class Graph {
                     throw new IllegalStateException("failed assert: bestCpA.equals(bestCpB)");
                 }
                 Chokepoint cp = bestCpA;
-                //TODO: Here
-//                Position cpEnd1 =
+
+                Position cpEnd1 = BWEM.center(cp.getPosition(Chokepoint.Node.End1));
+                Position cpEnd2 = BWEM.center(cp.getPosition(Chokepoint.Node.End2));
+                if (BWEM.intersect(a.getX(), a.getY(), b.getX(), b.getY(), cpEnd1.getX(), cpEnd1.getY(), cpEnd2.getX(), cpEnd2.getY())) {
+                    length.setValue(a.getDistance(b));
+                } else {
+                    Chokepoint.Node[] nodes = {Chokepoint.Node.End1, Chokepoint.Node.End2};
+                    for (Chokepoint.Node node : nodes) {
+                        Position c = BWEM.center(cp.getPosition(node));
+                        int dist_A_B = (int) (a.getDistance(c) + b.getDistance(c));
+                        if (dist_A_B < length.intValue()) {
+                            length.setValue(dist_A_B);
+                        }
+                    }
+                }
             }
         }
 
-        throw new UnsupportedOperationException("not supported yet");
+        return getPath(bestCpA, bestCpB);
     }
 
     public CPPath getPath(Position a, Position b) {
@@ -105,7 +116,7 @@ public class Graph {
     }
 
     public CPPath getPath(Chokepoint a, Chokepoint b) {
-        return this.pathsBetweenChokepoints.get(a.getIndex().toInt()).get(b.getIndex().toInt());
+        return this.pathsBetweenChokepoints.get(a.getIndex().intValue()).get(b.getIndex().intValue());
     }
 
     public Area getArea(Area.Id areaId) {
@@ -113,12 +124,12 @@ public class Graph {
         if (!isValid(areaId)) {
             throw new IllegalArgumentException("id is not valid");
         }
-        return this.areas.get(areaId.toInt() - 1);
+        return this.areas.get(areaId.intValue() - 1);
     }
 
     public Area getArea(WalkPosition w) {
         Area.Id areaId = this.map.getMiniTile(w).getAreaId();
-        return (areaId.toInt() > 0) ? getArea(areaId) : null;
+        return (areaId.intValue() > 0) ? getArea(areaId) : null;
     }
 
     public Area getNearestArea(WalkPosition w) {
@@ -135,7 +146,7 @@ public class Graph {
                     Object ttile = args[0];
                     if (ttile instanceof MiniTile) {
                         MiniTile tile = (MiniTile) ttile;
-                        return (tile.getAreaId().toInt() > 0);
+                        return (tile.getAreaId().intValue() > 0);
 //                    } else if (ttile instanceof Tile) {
 //                        //TODO
                     } else {
@@ -155,11 +166,11 @@ public class Graph {
     }
 
     public boolean isValid(Area.Id id) {
-        return (id.toInt() >= 1 && this.areas.size() >= id.toInt());
+        return (id.intValue() >= 1 && this.areas.size() >= id.intValue());
     }
 
     int getDistance(Chokepoint cpA, Chokepoint cpB) {
-        return this.chokepointDistanceMatrix.get(cpA.getIndex().toInt()).get(cpB.getIndex().toInt());
+        return this.chokepointDistanceMatrix.get(cpA.getIndex().intValue()).get(cpB.getIndex().intValue());
     }
 
 }

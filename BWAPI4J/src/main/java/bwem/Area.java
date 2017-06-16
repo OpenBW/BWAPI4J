@@ -37,13 +37,13 @@ public class Area {
             return false;
         } else {
             Area that = (Area) o;
-            return (this.areaId.toInt() == that.areaId.toInt());
+            return (this.areaId.intValue() == that.areaId.intValue());
         }
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.areaId.toInt());
+        return Objects.hash(this.areaId.intValue());
     }
 
     public static class Id implements IWrappedInteger<Id>, Comparable<Id> {
@@ -73,7 +73,7 @@ public class Area {
         }
 
         @Override
-        public int toInt() {
+        public int intValue() {
             return this.val;
         }
 
@@ -111,7 +111,7 @@ public class Area {
         }
 
         @Override
-        public int toInt() {
+        public int intValue() {
             return this.val;
         }
 

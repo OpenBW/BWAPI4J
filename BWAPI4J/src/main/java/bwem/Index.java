@@ -32,7 +32,7 @@ public class Index implements IWrappedInteger<Index>, Comparable<Index> {
     }
 
     @Override
-    public int toInt() {
+    public int intValue() {
         return this.val;
     }
 

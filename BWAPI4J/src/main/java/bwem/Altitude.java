@@ -32,7 +32,7 @@ public final class Altitude implements IWrappedInteger<Altitude>, Comparable<Alt
     }
 
     @Override
-    public int toInt() {
+    public int intValue() {
         return this.val;
     }
 

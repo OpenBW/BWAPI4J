@@ -54,7 +54,7 @@ public class Chokepoint {
             return false;
         } else {
             Chokepoint that = (Chokepoint) o;
-            return (this.index.toInt() == that.index.toInt());
+            return (this.index.intValue() == that.index.intValue());
         }
     }
 
