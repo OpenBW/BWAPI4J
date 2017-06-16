@@ -1,7 +1,7 @@
 package bwem;
 
 /**
- * Immutable wrapper of the integer primitive to satisfty
+ * Immutable wrapper of the integer primitive to satisfy
  * the original C++ definition:
  * defs.h:54:typedef int16_t altitude_t;
  */

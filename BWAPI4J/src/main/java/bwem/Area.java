@@ -47,7 +47,7 @@ public class Area {
     }
 
     /**
-     * Immutable wrapper of the integer primitive to satisfty
+     * Immutable wrapper of the integer primitive to satisfy
      * the original C++ definition:
      * area.h:54:typedef int16_t id;
      */
@@ -92,7 +92,7 @@ public class Area {
     }
 
     /**
-     * Immutable wrapper of the integer primitive to satisfty
+     * Immutable wrapper of the integer primitive to satisfy
      * the original C++ definition:
      * area.h:56:typedef int16_t groupId;
      */
