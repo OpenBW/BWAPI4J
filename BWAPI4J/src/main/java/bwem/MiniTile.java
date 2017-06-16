@@ -48,7 +48,7 @@ public class MiniTile {
 
     public void setAltitude(Altitude altitude) {
 //        { bwem_assert_debug_only(AltitudeMissing() && (a > 0)); m_altitude = a; }
-        if (!isAltitudeMissing()) {
+        if (!(isAltitudeMissing() && (altitude.intValue() > 0))) {
             throw new IllegalStateException("Altitude is already set");
         } else if (!(altitude.intValue() > 0)) {
             throw new IllegalArgumentException("invalid Altitude");
@@ -68,6 +68,40 @@ public class MiniTile {
     public void setWalkable(boolean walkable) {
         this.areaId = new Area.Id(walkable ? -1 : 0);
         this.altitude = new Altitude(walkable ? -1 : 1);
+    }
+
+    public boolean isSea() {
+        return (this.altitude.intValue() == 0);
+    }
+
+    public void setSea() {
+//        { bwem_assert(!Walkable() && SeaOrLake()); m_altitude = 0; }
+        if (!(!isWalkable() && isSeaOrLake())) {
+            throw new IllegalStateException();
+        } else {
+            this.altitude = new Altitude(0);
+        }
+    }
+
+    public boolean isLake() {
+        return (this.altitude.intValue() != 0 && !isWalkable());
+    }
+
+    public void setLake() {
+//        { bwem_assert(!Walkable() && Sea()); m_altitude = -1; }
+        if (!(!isWalkable() && isSea())) {
+            throw new IllegalStateException();
+        } else {
+            this.altitude = new Altitude(-1);
+        }
+    }
+
+    public boolean isSeaOrLake() {
+        return (this.altitude.intValue() == 1);
+    }
+
+    public boolean isTerrain() {
+        return isWalkable();
     }
 
 }
