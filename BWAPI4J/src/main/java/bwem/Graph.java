@@ -123,9 +123,10 @@ public class Graph {
     public Area getArea(Area.Id areaId) {
 //        bwem_assert(Valid(id));
         if (!isValid(areaId)) {
-            throw new IllegalArgumentException("id is not valid");
+            throw new IllegalArgumentException("Area.Id is not valid");
+        } else {
+            return this.areas.get(areaId.intValue() - 1);
         }
-        return this.areas.get(areaId.intValue() - 1);
     }
 
     public Area getArea(WalkPosition w) {
