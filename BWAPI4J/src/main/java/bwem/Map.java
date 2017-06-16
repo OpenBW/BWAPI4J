@@ -57,7 +57,13 @@ public class Map {
         this.pixelSize = getTileSize().toPosition();
         this.center = new Position(getTileSize().getX() / 2, getTileSize().getY() / 2);
         this.tiles = new ArrayList<>();
+
         this.miniTiles = new ArrayList<>();
+        int walkSizeLength = this.walkSize.getX() * this.walkSize.getY();
+        for (int i = 0; i < walkSizeLength; i++) {
+            this.miniTiles.add(new MiniTile());
+        }
+        
         this.startLocations = new ArrayList<>();
         for (TilePosition t : this.bw.getBWMap().getStartPositions()) {
             this.startLocations.add(t);
