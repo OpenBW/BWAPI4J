@@ -1,6 +1,7 @@
 package bwem;
 
 import org.apache.commons.lang3.mutable.MutableDouble;
+import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.WalkPosition;
 
@@ -8,7 +9,24 @@ public class BWEM {
 
     public static final int MAX_LAKE_MINI_TILES = 300;
 
-    private BWEM() {}
+    private BW bw = null;
+    private Map map = null;
+
+    private BWEM() {
+        throw new IllegalArgumentException("Parameterless instantiation is prohibited.");
+    }
+
+    public BWEM(BW bw) {
+        this.bw = bw;
+    }
+
+    public void initialize() {
+        this.map = new Map(this.bw);
+    }
+
+    public Map getMap() {
+        return this.map;
+    }
 
 //    /* map.cpp:29 */
 ////    bool seaSide(WalkPosition p, const Map * pMap)

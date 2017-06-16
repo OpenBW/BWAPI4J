@@ -24,8 +24,6 @@ public class Map {
 
     private static final Logger logger = LogManager.getLogger();
 
-    private static final Map INSTANCE = new Map();
-
     private BW bw = null;
     private TilePosition tileSize = null;
     private WalkPosition walkSize = null;
@@ -40,18 +38,23 @@ public class Map {
     private List<Building> staticBuildings = null;
     private List<Critter> critters = null;
     private List<Egg> neutralEggs = null;
+    private Graph graph = null;
 
     private Map() {
-        /* Do nothing. */
+        throw new IllegalArgumentException("Parameterless instantiation is prohibited.");
     }
 
-    public static Map Instance() {
-        return INSTANCE;
+    public Map(BW bw) {
+        this.bw = bw;
+        initialize();
+    }
+
+    public Graph getGraph() {
+        return this.graph;
     }
 
     //TODO
-    public void initialize(BW bw) {
-        this.bw = bw;
+    private void initialize() {
         this.tileSize = new TilePosition(this.bw.getBWMap().mapWidth(), this.bw.getBWMap().mapHeight());
         this.walkSize = new WalkPosition(getTileSize());
         this.pixelSize = getTileSize().toPosition();
@@ -82,6 +85,8 @@ public class Map {
         this.staticBuildings = new ArrayList<>();
         this.critters = new ArrayList<>();
         this.neutralEggs = new ArrayList<>();
+
+        this.graph = new Graph(this);
 
         loadData();
         decideSeasOrLakes();
