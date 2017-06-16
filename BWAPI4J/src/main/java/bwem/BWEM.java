@@ -86,9 +86,10 @@ public class BWEM {
 
 //    template<typename T, int Scale = 1>
 //    inline BWAPI::Position center(BWAPI::Point<T, Scale> A)	{ return BWAPI::Position(A) + BWAPI::Position(Scale/2, Scale/2); }
-    //TODO
-    public static Position center(WalkPosition p) {
-        throw new UnsupportedOperationException("not implemented yet");
+    public static Position getCenter(WalkPosition w) {
+        Position delta = new Position(MiniTile.SIZE_IN_PIXELS / 2, MiniTile.SIZE_IN_PIXELS / 2);
+        Position center = w.toPosition().add(delta);
+        return center;
     }
 
 }

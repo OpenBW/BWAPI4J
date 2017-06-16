@@ -91,14 +91,14 @@ public class Graph {
                 }
                 Chokepoint cp = bestCpA;
 
-                Position cpEnd1 = BWEM.center(cp.getPosition(Chokepoint.Node.End1));
-                Position cpEnd2 = BWEM.center(cp.getPosition(Chokepoint.Node.End2));
+                Position cpEnd1 = BWEM.getCenter(cp.getPosition(Chokepoint.Node.End1));
+                Position cpEnd2 = BWEM.getCenter(cp.getPosition(Chokepoint.Node.End2));
                 if (BWEM.intersect(a.getX(), a.getY(), b.getX(), b.getY(), cpEnd1.getX(), cpEnd1.getY(), cpEnd2.getX(), cpEnd2.getY())) {
                     length.setValue(a.getDistance(b));
                 } else {
                     Chokepoint.Node[] nodes = {Chokepoint.Node.End1, Chokepoint.Node.End2};
                     for (Chokepoint.Node node : nodes) {
-                        Position c = BWEM.center(cp.getPosition(node));
+                        Position c = BWEM.getCenter(cp.getPosition(node));
                         int dist_A_B = (int) (a.getDistance(c) + b.getDistance(c));
                         if (dist_A_B < length.intValue()) {
                             length.setValue(dist_A_B);
