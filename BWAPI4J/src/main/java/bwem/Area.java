@@ -46,6 +46,11 @@ public class Area {
         return Objects.hash(this.areaId.intValue());
     }
 
+    /**
+     * Immutable wrapper of the integer primitive to satisfty
+     * the original C++ definition:
+     * area.h:54:typedef int16_t id;
+     */
     public static class Id implements IWrappedInteger<Id>, Comparable<Id> {
 
         private int val;
@@ -86,6 +91,11 @@ public class Area {
 
     }
 
+    /**
+     * Immutable wrapper of the integer primitive to satisfty
+     * the original C++ definition:
+     * area.h:56:typedef int16_t groupId;
+     */
     public static class GroupId implements IWrappedInteger<GroupId>, Comparable<GroupId> {
 
         private int val;

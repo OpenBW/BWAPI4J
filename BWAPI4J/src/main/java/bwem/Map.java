@@ -31,13 +31,13 @@ public class Map {
         return INSTANCE;
     }
 
+    //TODO
     public void initialize(BW bw) {
-        //TODO
         this.bw = bw;
-        this.miniTiles = new ArrayList<>();
         this.tileSize = new TilePosition(this.bw.getBWMap().mapWidth(), this.bw.getBWMap().mapHeight());
         this.walkSize = new WalkPosition(getTileSize());
         this.pixelSize = getTileSize().toPosition();
+        this.miniTiles = new ArrayList<>();
     }
 
     public TilePosition getTileSize() {

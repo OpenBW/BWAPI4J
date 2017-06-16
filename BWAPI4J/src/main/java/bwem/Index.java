@@ -1,7 +1,7 @@
 package bwem;
 
 /**
- * Immutable wrapper for the integer primitive to satisfty
+ * Immutable wrapper of the integer primitive to satisfty
  * the original C++ definition:
  * cp.h:143:typedef int index;
  */

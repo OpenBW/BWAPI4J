@@ -20,6 +20,8 @@ public class Graph {
     public Graph(Map map) {
         this.map = map;
         this.areas = new ArrayList<>();
+        this.chokepointDistanceMatrix = new ArrayList<>();
+        this.pathsBetweenChokepoints = new ArrayList<>();
     }
 
     public Map getMap() {
@@ -27,7 +29,6 @@ public class Graph {
     }
 
     public CPPath getPath(Position a, Position b, MutableInt length) {
-
         Area areaA = getNearestArea(a.toWalkPosition());
         Area areaB = getNearestArea(b.toWalkPosition());
 

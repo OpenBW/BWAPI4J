@@ -1,6 +1,5 @@
 package bwem;
 
-import java.util.Deque;
 import java.util.List;
 import java.util.Objects;
 import org.openbw.bwapi4j.WalkPosition;
@@ -41,10 +40,10 @@ public class Chokepoint {
 
     public WalkPosition getPosition(Node node) {
 //        bwem_assert(n < node_count);
-        if (!(node.toInt() < Node.Count.toInt())) {
+        if (!(node.intValue() < Node.Count.intValue())) {
             throw new IllegalArgumentException();
         }
-        return nodes.get(node.toInt());
+        return nodes.get(node.intValue());
     }
 
     public boolean equals(Object o) {
@@ -77,7 +76,7 @@ public class Chokepoint {
             this.val = val;
         }
 
-        public int toInt() {
+        public int intValue() {
             return this.val;
         }
 
