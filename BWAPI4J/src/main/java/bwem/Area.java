@@ -31,7 +31,7 @@ public class Area {
 
     @Override
     public boolean equals(Object o) {
-        if (o == this) {
+        if (this == o) {
             return true;
         } else if (!(o instanceof Area)) {
             return false;

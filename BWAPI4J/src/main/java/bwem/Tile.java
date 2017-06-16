@@ -4,6 +4,7 @@ public class Tile {
 
     private Area.Id areaId = null;
     private Bits bits = null;
+    private Neutral neutral = null;
 
     public Tile() {
         this.areaId = new Area.Id(0);
@@ -49,6 +50,32 @@ public class Tile {
 
     public void setDoodad() {
         this.bits.doodad = 0x1;
+    }
+
+    public Neutral getNeutral() {
+        return this.neutral;
+    }
+
+    public void setNeutral(Neutral neutral) {
+//        { bwem_assert(!m_pNeutral && pNeutral); m_pNeutral = pNeutral; }
+        if (this.neutral != null) {
+            throw new IllegalStateException("Neutral already set");
+        } else if (neutral == null) {
+            throw new IllegalArgumentException("neutral=null");
+        } else {
+            this.neutral = neutral;
+        }
+    }
+
+    public void removeNeutral(Neutral neutral) {
+//        { bwem_assert(pNeutral && (m_pNeutral == pNeutral)); utils::unused(pNeutral); m_pNeutral = nullptr; }
+        if (this.neutral == null) {
+            throw new IllegalStateException("Neutral is not set");
+        } else if (!neutral.equals(this.neutral)) {
+            throw new IllegalArgumentException("the specified Neutral does not match this object's Neutral");
+        } else {
+            this.neutral = null;
+        }
     }
 
 }
