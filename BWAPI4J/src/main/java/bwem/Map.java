@@ -35,11 +35,11 @@ public class Map {
     private List<MiniTile> miniTiles = null;
     private List<TilePosition> startLocations = null;
     private Altitude maxAltitude = null;
-    private List<MineralPatch> minerals;
-    private List<VespeneGeyser> geysers;
-    private List<Building> staticBuildings;
-    private List<Critter> critters;
-    private List<Egg> neutralEggs;
+    private List<MineralPatch> minerals = null;
+    private List<VespeneGeyser> geysers = null;
+    private List<Building> staticBuildings = null;
+    private List<Critter> critters = null;
+    private List<Egg> neutralEggs = null;
 
     private Map() {
         /* Do nothing. */
@@ -55,20 +55,33 @@ public class Map {
         this.tileSize = new TilePosition(this.bw.getBWMap().mapWidth(), this.bw.getBWMap().mapHeight());
         this.walkSize = new WalkPosition(getTileSize());
         this.pixelSize = getTileSize().toPosition();
-        this.center = new Position(getTileSize().getX() / 2, getTileSize().getY() / 2);
+
+        this.center = new Position(getPixelSize().getX() / 2, getPixelSize().getY() / 2);
+
         this.tiles = new ArrayList<>();
+        int tileSizeLength = this.tileSize.getX() * this.tileSize.getY();
+        for (int i = 0; i < tileSizeLength; i++) {
+            this.tiles.add(new Tile());
+        }
 
         this.miniTiles = new ArrayList<>();
         int walkSizeLength = this.walkSize.getX() * this.walkSize.getY();
         for (int i = 0; i < walkSizeLength; i++) {
             this.miniTiles.add(new MiniTile());
         }
-        
+
         this.startLocations = new ArrayList<>();
         for (TilePosition t : this.bw.getBWMap().getStartPositions()) {
             this.startLocations.add(t);
         }
+
         this.maxAltitude = new Altitude(0);
+
+        this.minerals = new ArrayList<>();
+        this.geysers = new ArrayList<>();
+        this.staticBuildings = new ArrayList<>();
+        this.critters = new ArrayList<>();
+        this.neutralEggs = new ArrayList<>();
 
         loadData();
         decideSeasOrLakes();
@@ -329,6 +342,10 @@ public class Map {
                 && (w.getY() < getWalkSize().getY());
     }
 
+    public Position getCenter() {
+        return new Position(this.center.getX(), this.center.getY());
+    }
+
     public WalkPosition breadFirstSearch(WalkPosition start, Pred findCond, Pred visitCond) {
         if (findCond.is(getMiniTile(start), start)) {
             return start;
@@ -362,7 +379,6 @@ public class Map {
             }
         }
 
-//        bwem_assert(false);
         return start;
     }
 
