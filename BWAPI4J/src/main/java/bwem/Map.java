@@ -1,15 +1,24 @@
 package bwem;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.BW;
+import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
+import org.openbw.bwapi4j.unit.Building;
+import org.openbw.bwapi4j.unit.Critter;
+import org.openbw.bwapi4j.unit.Egg;
+import org.openbw.bwapi4j.unit.MineralPatch;
+import org.openbw.bwapi4j.unit.Unit;
+import org.openbw.bwapi4j.unit.VespeneGeyser;
+import org.openbw.bwapi4j.util.Pair;
 
 public class Map {
 
@@ -25,6 +34,12 @@ public class Map {
     private List<Tile> tiles = null;
     private List<MiniTile> miniTiles = null;
     private List<TilePosition> startLocations = null;
+    private Altitude maxAltitude = null;
+    private List<MineralPatch> minerals;
+    private List<VespeneGeyser> geysers;
+    private List<Building> staticBuildings;
+    private List<Critter> critters;
+    private List<Egg> neutralEggs;
 
     private Map() {
         /* Do nothing. */
@@ -47,9 +62,13 @@ public class Map {
         for (TilePosition t : this.bw.getBWMap().getStartPositions()) {
             this.startLocations.add(t);
         }
+        this.maxAltitude = new Altitude(0);
 
         loadData();
         decideSeasOrLakes();
+        initializeNeutrals();
+        computeAltitude();
+        processBlockingNeutrals();
     }
 
     /**
@@ -151,6 +170,106 @@ public class Map {
                 }
             }
         }
+    }
+
+    private void initializeNeutrals() {
+        for (MineralPatch patch : this.bw.getMineralPatches()) {
+            this.minerals.add(patch);
+        }
+        for (VespeneGeyser geyser : this.bw.getVespeneGeysers()) {
+            this.geysers.add(geyser);
+        }
+        for (Player player : this.bw.getAllPlayers()) {
+            if (!player.isNeutral()) {
+                continue;
+            }
+            for (Unit unit : player.getUnits()) {
+                if (unit instanceof Building) {
+                    this.staticBuildings.add((Building) unit);
+                } else if (unit instanceof Critter) {
+                    this.critters.add((Critter) unit);
+                } else if (unit instanceof Egg) {
+                    this.neutralEggs.add((Egg) unit);
+                }
+                //TODO: Add "Special_Pit_Door" and "Special_Right_Pit_Door" to static buildings list? See mapImpl.cpp:238.
+            }
+        }
+    }
+
+    private void computeAltitude() {
+        /**
+         * 1) Fill in and sort deltasByAscendingAltitude.
+         */
+
+        int range = Math.max(getWalkSize().getX(), getWalkSize().getY() / 2 + 3);
+
+        List<Pair<WalkPosition, Altitude>> deltasByAscendingAltitude = new ArrayList<>();
+
+        for (int dy = 0; dy <= range; ++dy)
+        for (int dx = dy; dx <= range; ++dx) { // Only consider 1/8 of possible deltas. Other ones obtained by symmetry.
+            if (dx != 0 || dy != 0) {
+                deltasByAscendingAltitude.add(new Pair<WalkPosition, Altitude>(
+                        new WalkPosition(dx, dy),
+                        new Altitude((int) (Double.valueOf("0.5") + (double) BWEM.norm(dx, dy) * (double) MiniTile.SIZE_IN_PIXELS))
+                ));
+            }
+        }
+
+        Collections.sort(deltasByAscendingAltitude, new PairGenericAltitudeComparator());
+
+        /**
+         * 2) Fill in ActiveSeaSideList, which basically contains all the seaside miniTiles (from which altitudes are to be computed)
+         * It also includes extra border-miniTiles which are considered as seaside miniTiles too.
+         */
+
+        List<Pair<WalkPosition, Altitude>> activeSeaSideList = new ArrayList<>();
+
+        for (int y = -1 ; y <= getWalkSize().getY() ; ++y)
+        for (int x = -1 ; x <= getWalkSize().getX() ; ++x)
+        {
+            WalkPosition w = new WalkPosition(x, y);
+            if (!isValid(w) || BWEM.hasNonSeaNeighbor(w, this)) {
+                activeSeaSideList.add(new Pair<WalkPosition, Altitude>(w, new Altitude(0)));
+            }
+        }
+
+        /**
+         * 3) Use Dijkstra's algorithm.
+         */
+
+        for (Pair<WalkPosition, Altitude> pair : activeSeaSideList) {
+            WalkPosition delta = pair.first;
+            Altitude altitude = pair.second;
+            for (int i = 0; i < activeSeaSideList.size(); i++) {
+                Pair<WalkPosition, Altitude> current = activeSeaSideList.get(i);
+                if (altitude.subtract(current.second).intValue() >= (2 * MiniTile.SIZE_IN_PIXELS)) { // optimization : once a seaside miniTile verifies this condition,
+                    activeSeaSideList.remove(i--);                                                   // we can throw it away as it will not generate min altitudes anymore
+                } else {
+                    WalkPosition[] tmpDeltas = {
+                        new WalkPosition(delta.getX(),  delta.getY()), new WalkPosition(-delta.getX(),  delta.getY()),
+                        new WalkPosition(delta.getX(), -delta.getY()), new WalkPosition(-delta.getX(), -delta.getY()),
+                        new WalkPosition(delta.getY(),  delta.getX()), new WalkPosition(-delta.getY(),  delta.getX()),
+                        new WalkPosition(delta.getY(), -delta.getX()), new WalkPosition(-delta.getY(), -delta.getX()),
+                    };
+                    for (WalkPosition tmpDelta : tmpDeltas) {
+                        WalkPosition w = (current.first).add(tmpDelta);
+                        if (isValid(w)) {
+                            MiniTile miniTile = getMiniTile(w, CheckMode.NoCheck);
+                            if (miniTile.isAltitudeMissing()) {
+                                this.maxAltitude = new Altitude(altitude);
+                                current.second = new Altitude(altitude);
+                                miniTile.setAltitude(new Altitude(this.maxAltitude));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    //TODO
+    private void processBlockingNeutrals() {
+        throw new UnsupportedOperationException("not implemented yet");
     }
 
     public TilePosition getTileSize() {

@@ -22,27 +22,27 @@ public class BWEM {
 ////
 ////        return false;
 ////    }
-//    /**
-//     * Tests if the specified position has any non-sea neighbors.
-//     *
-//     * @param p specified position
-//     * @param map specified map containing the specified position
-//     */
-//    public static boolean hasNonSeaNeighbor(WalkPosition p, Map map) {
-//        if (!map.getMiniTile(p).isSea()) {
-//            return false;
-//        }
-//
-//        WalkPosition[] deltas = { new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(1, 0), new WalkPosition(0, 1) };
-//        for (WalkPosition delta : deltas) {
-//            WalkPosition pDelta = p.add(delta);
-//            if (map.isValid(pDelta) && !map.getMiniTile(pDelta).isSea()) {
-//                return true;
-//            }
-//        }
-//
-//        return false;
-//    }
+    /**
+     * Tests if the specified position has any non-sea neighbors.
+     *
+     * @param w specified position
+     * @param map specified map containing the specified position
+     */
+    public static boolean hasNonSeaNeighbor(WalkPosition w, Map map) {
+        if (!map.getMiniTile(w).isSea()) {
+            return false;
+        }
+
+        WalkPosition[] deltas = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(1, 0), new WalkPosition(0, 1)};
+        for (WalkPosition delta : deltas) {
+            WalkPosition w_delta = w.add(delta);
+            if (map.isValid(w_delta) && !map.getMiniTile(w_delta).isSea()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     public static int squaredNorm(int dx, int dy) {
         return (dx * dx + dy * dy);
