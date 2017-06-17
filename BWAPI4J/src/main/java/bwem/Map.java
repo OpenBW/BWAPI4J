@@ -291,8 +291,133 @@ public class Map {
         }
     }
 
-    //TODO
+    //TODO: Double-check that this ported method is correct.
     private void processBlockingNeutrals() {
+        List<Neutral> candidates = new ArrayList<>();
+
+        for (Building s : this.staticBuildings) {
+            candidates.add(new Neutral(s, this));
+        }
+        for (MineralPatch m : this.minerals) {
+            candidates.add(new Neutral(m, this));
+        }
+
+        for (Neutral candidate : candidates) {
+            if (candidate.getNextStacked() != null) {
+                continue;
+            }
+
+            /**
+             * 1) Retrieve the Border: the outer border of candidate.
+             */
+
+            List<WalkPosition> border = BWEM.outerMiniTileBorder(candidate.getPosition().toTilePosition(), candidate.getSize());
+
+            List<WalkPosition> tmpBorder = new ArrayList<>();
+            for (WalkPosition w : border) {
+                if (!isValid(w)
+                        || !getMiniTile(w, CheckMode.NoCheck).isWalkable()
+                        || getTile(w.toPosition().toTilePosition(), CheckMode.NoCheck).getNeutral() != null) {
+                    /* Ignore. */
+                } else {
+                    tmpBorder.add(w);
+                }
+            }
+            border = tmpBorder;
+
+            /**
+             * 2) Find the doors in Border: one door for each connected set of walkable, neighboring miniTiles.
+			 * The searched connected miniTiles all have to be next to some lake or some static building, though they can't be part of one.
+             */
+
+            List<WalkPosition> doors = new ArrayList<>();
+            while (!border.isEmpty()) {
+                WalkPosition door = border.get(border.size() - 1);
+                doors.add(door);
+                border.remove(border.size() - 1);
+                List<WalkPosition> toVisit = new ArrayList<>();
+                toVisit.add(door);
+                List<WalkPosition> visited = new ArrayList<>();
+                while (!toVisit.isEmpty()) {
+                    WalkPosition current = toVisit.get(toVisit.size() - 1);
+                    toVisit.remove(toVisit.size() - 1);
+                    WalkPosition[] deltas = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(1, 0), new WalkPosition(0, 1)};
+                    for (WalkPosition delta : deltas) {
+                        WalkPosition next = current.add(delta);
+                        if (isValid(next)
+                                && !visited.contains(next)
+                                && getMiniTile(next, CheckMode.NoCheck).isWalkable()
+                                && getTile(next.toPosition().toTilePosition(), CheckMode.NoCheck).getNeutral() == null
+                                && BWEM.adjoins8SomeLakeOrNeutral(next, this)) {
+                            toVisit.add(next);
+                            visited.add(next);
+                        }
+                    }
+                }
+                for (WalkPosition w : border) {
+                    if (visited.contains(w)) {
+                        border.remove(w);
+                    }
+                }
+            }
+
+            /**
+             * 3)  If at least 2 doors, find the true doors in Border: a true door is a door that gives onto an area big enough.
+             */
+
+            List<WalkPosition> trueDoors = new ArrayList<>();
+            if (doors.size() >= 2) {
+                for (WalkPosition door : doors) {
+                    List<WalkPosition> toVisit = new ArrayList<>();
+                    toVisit.add(door);
+                    List<WalkPosition> visited = new ArrayList<>();
+                    visited.add(door);
+                    int limit = (candidate.getUnit() instanceof Building) ? 10 : 400;
+                    while (!toVisit.isEmpty() && visited.size() < limit) {
+                        WalkPosition current = toVisit.get(toVisit.size() - 1);
+                        toVisit.remove(toVisit.size() - 1);
+                        WalkPosition[] deltas = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(1, 0), new WalkPosition(0, 1)};
+                        for (WalkPosition delta : deltas) {
+                            WalkPosition next = current.add(delta);
+                            if (isValid(next) && !visited.contains(next)
+                                    && getMiniTile(next, CheckMode.NoCheck).isWalkable()
+                                    && getTile(next.toPosition().toTilePosition(), CheckMode.NoCheck).getNeutral() == null) {
+                                toVisit.add(next);
+                                visited.add(next);
+                            }
+                        }
+                    }
+                    if (visited.size() >= limit) {
+                        trueDoors.add(door);
+                    }
+                }
+            }
+
+            /**
+             * 4) If at least 2 true doors, pCandidate is a blocking static building
+             */
+
+            if (trueDoors.size() >= 2) {
+                /* Marks pCandidate (and any Neutral stacked with it) as blocking. */
+                for (Neutral neutral = getTile(candidate.getPosition().toTilePosition()).getNeutral();
+                        neutral != null;
+                        neutral = neutral.getNextStacked()) {
+                    neutral.setBlocking(trueDoors);
+                }
+
+				/* Marks all the miniTiles of pCandidate as blocked. */
+				/* This way, areas at TrueDoors won't merge together. */
+				for (int dy = 0 ; dy < candidate.getSize().toPosition().toWalkPosition().getY(); ++dy)
+				for (int dx = 0 ; dx < candidate.getSize().toPosition().toWalkPosition().getX() ; ++dx)
+				{
+					MiniTile miniTile = getMiniTile(candidate.getPosition().toWalkPosition().add(new WalkPosition(dx, dy)));
+					if (miniTile.isWalkable()) {
+                        miniTile.setBlocked();
+                    }
+				}
+            }
+        }
+
         throw new UnsupportedOperationException("not implemented yet");
     }
 
@@ -349,6 +474,10 @@ public class Map {
 
     public Position getCenter() {
         return new Position(this.center.getX(), this.center.getY());
+    }
+
+    public Area getArea(WalkPosition w) {
+        return this.graph.getArea(w);
     }
 
     public WalkPosition breadFirstSearch(WalkPosition start, Pred findCond, Pred visitCond) {

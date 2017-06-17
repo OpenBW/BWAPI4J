@@ -4,6 +4,8 @@ public class MiniTile {
 
     public static final int SIZE_IN_PIXELS = 8;
 
+    private static final Area.Id BLOCKING_CP_AREA_ID = new Area.Id(Integer.MIN_VALUE);
+
     private Area.Id areaId = null;
     private Altitude altitude = null;
 
@@ -40,6 +42,30 @@ public class MiniTile {
 
     public boolean isAreaIdMissing() {
         return (this.areaId.intValue() == -1);
+    }
+
+    public boolean isBlocked() {
+        return this.areaId.equals(BLOCKING_CP_AREA_ID);
+    }
+
+    public void replaceBlockedAreaId(Area.Id areaId) {
+//        { bwem_assert((m_areaId == blockingCP) && (id >= 1)); m_areaId = id; }
+        if (!((this.areaId.equals(BLOCKING_CP_AREA_ID)))) {
+            throw new IllegalStateException();
+        } else if (!(areaId.intValue() >= 1)) {
+            throw new IllegalArgumentException("invalid Area.Id");
+        } else {
+            this.areaId = new Area.Id(areaId);
+        }
+    }
+
+    public void setBlocked() {
+//        { bwem_assert(AreaIdMissing()); m_areaId = blockingCP; }
+        if (!isAreaIdMissing()) {
+            throw new IllegalStateException();
+        } else {
+            this.areaId = new Area.Id(BLOCKING_CP_AREA_ID);
+        }
     }
 
     public Altitude getAltitude() {

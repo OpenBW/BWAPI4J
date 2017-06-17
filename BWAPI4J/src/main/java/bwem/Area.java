@@ -89,6 +89,23 @@ public class Area {
             return (lhs < rhs) ? -1 : (lhs > rhs) ? 1 : 0;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            } else if (!(o instanceof Area.Id)) {
+                return false;
+            } else {
+                Area.Id that = (Area.Id) o;
+                return this.val == that.val;
+            }
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(this.val);
+        }
+
     }
 
     /**
@@ -130,6 +147,23 @@ public class Area {
             int lhs = this.val;
             int rhs = that.val;
             return (lhs < rhs) ? -1 : (lhs > rhs) ? 1 : 0;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            } else if (!(o instanceof Area.GroupId)) {
+                return false;
+            } else {
+                Area.GroupId that = (Area.GroupId) o;
+                return this.val == that.val;
+            }
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(this.val);
         }
 
     }

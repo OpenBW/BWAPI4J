@@ -1,9 +1,13 @@
 package bwem;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
+import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.unit.Unit;
+import org.openbw.bwapi4j.unit.VespeneGeyser;
 
 public class Neutral {
 
@@ -12,6 +16,7 @@ public class Neutral {
     private TilePosition size = null;
     private Position position = null;
     private Neutral nextStacked = null;
+    private List<WalkPosition> blockedAreas = null;
 
     private Neutral() {
         throw new IllegalArgumentException("Parameterless instantiation is prohibited.");
@@ -21,7 +26,10 @@ public class Neutral {
         this.map = map;
         this.unit = unit;
         this.size = unit.getInitialType().tileSize();
-        this.position = this.unit.getPosition();
+        this.position = this.unit.getInitialPosition();
+        this.blockedAreas = new ArrayList<>();
+
+        putOnTiles();
     }
 
     public Unit getUnit() {
@@ -38,6 +46,68 @@ public class Neutral {
 
     public Neutral getNextStacked() {
         return this.nextStacked;
+    }
+
+    public Neutral getLastStacked() {
+        Neutral ret = getNextStacked();
+        while (ret != null) {
+            ret = ret.getNextStacked();
+        }
+        return ret;
+    }
+
+    public boolean isBlocking() {
+        return !this.blockedAreas.isEmpty();
+    }
+
+    public List<Area> getBlockedAreas() {
+        List<Area> ret = new ArrayList<>();
+        for (WalkPosition w : this.blockedAreas) {
+            ret.add(this.map.getArea(w));
+        }
+        return ret;
+    }
+
+    public void setBlocking(List<WalkPosition> blockedAreas) {
+        this.blockedAreas = blockedAreas;
+    }
+
+    private void putOnTiles() {
+//        bwem_assert(!m_pNextStacked);
+        if (this.nextStacked != null) {
+            throw new IllegalStateException();
+        }
+
+        for (int dy = 0 ; dy < this.size.getY() ; ++dy)
+        for (int dx = 0 ; dx < this.size.getX() ; ++dx)
+        {
+            Tile tile = this.map.getTile(this.position.toTilePosition().add(new TilePosition(dx, dy)));
+            if (tile.getNeutral() == null) {
+                tile.setNeutral(this);
+            } else {
+                Neutral topNeutral = tile.getNeutral().getLastStacked();
+//                bwem_assert(this != tile.GetNeutral());
+//                bwem_assert(this != pTop);
+//                bwem_assert(!pTop->IsGeyser());
+//                bwem_assert_plus(pTop->Type() == Type(), "stacked neutrals have different types: " + pTop->Type().getName() + " / " + Type().getName());
+//                bwem_assert_plus(pTop->TopLeft() == TopLeft(), "stacked neutrals not aligned: " + my_to_string(pTop->TopLeft()) + " / " + my_to_string(TopLeft()));
+//                bwem_assert((dx == 0) && (dy == 0));
+                if (this == tile.getNeutral()
+                        || this == topNeutral
+                        || (topNeutral.getUnit() instanceof VespeneGeyser)) {
+                    throw new IllegalStateException();
+                } else if (!(topNeutral.getUnit().getClass().getName().equals(this.unit.getClass().getName()))) {
+                    throw new IllegalStateException("Stacked neutrals have different types.");
+                } else if (!topNeutral.getPosition().equals(this.position)) {
+                    throw new IllegalStateException("Stacked neutrals not aligned.");
+                } else if ((dx != 0) || (dy != 0)) {
+                    throw new IllegalStateException();
+                } else {
+                    topNeutral.nextStacked = this;
+                    return;
+                }
+            }
+        }
     }
 
     @Override

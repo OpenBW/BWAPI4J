@@ -1,8 +1,11 @@
 package bwem;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.Position;
+import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 
 public class BWEM {
@@ -28,18 +31,6 @@ public class BWEM {
         return this.map;
     }
 
-//    /* map.cpp:29 */
-////    bool seaSide(WalkPosition p, const Map * pMap)
-////    {
-////        if (!pMap->GetMiniTile(p).Sea()) return false;
-////
-////        for (WalkPosition delta : {WalkPosition(0, -1), WalkPosition(-1, 0), WalkPosition(+1, 0), WalkPosition(0, +1)})
-////            if (pMap->Valid(p + delta))
-////                if (!pMap->GetMiniTile(p + delta, check_t::no_check).Sea())
-////                    return true;
-////
-////        return false;
-////    }
     /**
      * Tests if the specified position has any non-sea neighbors.
      *
@@ -102,12 +93,84 @@ public class BWEM {
         return get_line_intersection(ax, ay, bx, by, cx, cy, dx, dy, null, null);
     }
 
-//    template<typename T, int Scale = 1>
-//    inline BWAPI::Position center(BWAPI::Point<T, Scale> A)	{ return BWAPI::Position(A) + BWAPI::Position(Scale/2, Scale/2); }
     public static Position getCenter(WalkPosition w) {
         Position delta = new Position(MiniTile.SIZE_IN_PIXELS / 2, MiniTile.SIZE_IN_PIXELS / 2);
         Position center = w.toPosition().add(delta);
         return center;
+    }
+
+    public static List<WalkPosition> innerBorder(WalkPosition topLeft, WalkPosition size, boolean noCorner) {
+        List<WalkPosition> ret = new ArrayList<>();
+
+        for (int dy = 0 ; dy < size.getY() ; ++dy)
+        for (int dx = 0 ; dx < size.getX() ; ++dx) {
+            if ((dy == 0) || (dy == size.getY() - 1) ||
+                (dx == 0) || (dx == size.getX() - 1)) {
+                if (!noCorner ||
+                    !(((dx == 0) && (dy == 0)) || ((dx == size.getX() - 1) && (dy == size.getY() - 1)) ||
+                      ((dx == 0) && (dy == size.getY() - 1)) || ((dx == size.getX() - 1) && (dy == 0)))) {
+                    ret.add(topLeft.add(new WalkPosition(dx, dy)));
+                }
+            }
+        }
+
+        return ret;
+    }
+
+    public static List<WalkPosition> innerBorder(TilePosition topLeft, TilePosition size) {
+        return innerBorder(
+                topLeft.toPosition().toWalkPosition(),
+                size.toPosition().toWalkPosition(),
+                false
+        );
+    }
+
+    public static List<WalkPosition> outerBorder(TilePosition topLeft, TilePosition size, boolean noCorner) {
+        return innerBorder(
+                topLeft.subtract(new TilePosition(1, 1)).toPosition().toWalkPosition(),
+                size.add(new TilePosition(2, 2)).toPosition().toWalkPosition(),
+                noCorner
+        );
+    }
+
+    public static List<WalkPosition> outerBorder(TilePosition topLeft, TilePosition size) {
+        return outerBorder(topLeft, size, false);
+    }
+
+    public static List<WalkPosition> outerMiniTileBorder(TilePosition topLeft, TilePosition size, boolean noCorner) {
+        return outerBorder(topLeft, size, noCorner);
+    }
+
+    public static List<WalkPosition> outerMiniTileBorder(TilePosition topLeft, TilePosition size) {
+        return outerMiniTileBorder(topLeft, size, false);
+    }
+
+    public static List<WalkPosition> innerMiniTileBorder(TilePosition topLeft, TilePosition size, boolean noCorner) {
+        return innerBorder(topLeft.toPosition().toWalkPosition(), size.toPosition().toWalkPosition(), noCorner);
+    }
+
+    public static List<WalkPosition> innerMiniTileBorder(TilePosition topLeft, TilePosition size) {
+        return innerMiniTileBorder(topLeft, size, false);
+    }
+
+    public static boolean adjoins8SomeLakeOrNeutral(WalkPosition p, Map map) {
+        WalkPosition[] deltas = {
+            new WalkPosition(-1, -1), new WalkPosition( 0, -1), new WalkPosition( 1, -1),
+            new WalkPosition(-1,  0),                           new WalkPosition( 1,  0),
+            new WalkPosition(-1,  1), new WalkPosition( 0,  1), new WalkPosition( 1,  1)
+        };
+        for (WalkPosition delta : deltas) {
+            WalkPosition next = p.add(delta);
+            if (map.isValid(next)) {
+                if (map.getTile(next.toPosition().toTilePosition(), CheckMode.NoCheck).getNeutral() != null) {
+                    return true;
+                }
+                if (map.getMiniTile(next, CheckMode.NoCheck).isLake()) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 }
