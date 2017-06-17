@@ -16,22 +16,14 @@ public class TestListener implements BWEventListener {
     @Override
     public void onStart() {
         
-        try {
-            
-            System.out.println("onStart");
-            this.bw.getInteractionHandler().enableUserInput();
-            
-            this.bwta = new BWTA();
-            this.bwta.analyze();
-            System.out.println("analysis done.");
-            
-            this.frame = 0;
-        } catch (Exception e) {
-            
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-            System.exit(0);
-        }
+        System.out.println("onStart");
+        this.bw.getInteractionHandler().enableUserInput();
+        
+        this.bwta = new BWTA();
+        this.bwta.analyze();
+        System.out.println("analysis done.");
+        
+        this.frame = 0;
     }
 
     @Override
@@ -65,8 +57,9 @@ public class TestListener implements BWEventListener {
         for (Player player : bw.getAllPlayers()) {
             System.out.println("Player " + player.getName() + " has minerals " + player.minerals());
         }
-        
         this.frame++;
+        System.err.println("tester");
+        throw new RuntimeException("test");
     }
 
     @Override
