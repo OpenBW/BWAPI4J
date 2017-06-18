@@ -149,8 +149,6 @@ public class Graph {
                     if (ttile instanceof MiniTile) {
                         MiniTile tile = (MiniTile) ttile;
                         return (tile.getAreaId().intValue() > 0);
-//                    } else if (ttile instanceof Tile) {
-//                        //TODO
                     } else {
                         throw new IllegalArgumentException("tile type not supported");
                     }
