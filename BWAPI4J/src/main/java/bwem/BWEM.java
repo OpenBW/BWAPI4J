@@ -1,6 +1,7 @@
 package bwem;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.openbw.bwapi4j.BW;
@@ -192,6 +193,11 @@ public class BWEM {
         }
 
         return ret;
+    }
+
+    public static double dist(TilePosition t0, TilePosition t1) {
+        TilePosition tmp = t0.subtract(t1);
+        return norm(tmp.getX(), tmp.getY());
     }
 
 }

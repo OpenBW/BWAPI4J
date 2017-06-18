@@ -2,6 +2,7 @@ package bwem;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -24,21 +25,24 @@ public class Map {
 
     private static final Logger logger = LogManager.getLogger();
 
-    private BW bw = null;
-    private TilePosition tileSize = null;
-    private WalkPosition walkSize = null;
-    private Position pixelSize = null;
-    private Position center = null;
-    private List<Tile> tiles = null;
-    private List<MiniTile> miniTiles = null;
-    private List<TilePosition> startLocations = null;
-    private Altitude maxAltitude = null;
-    private List<MineralPatch> minerals = null;
-    private List<VespeneGeyser> geysers = null;
-    private List<Building> staticBuildings = null;
-    private List<Critter> critters = null;
-    private List<Egg> neutralEggs = null;
-    private Graph graph = null;
+    private static java.util.Map<Pair<Integer, Integer>, Integer> areaPairCounter = new HashMap<>();
+
+    private BW bw;
+    private TilePosition tileSize;
+    private WalkPosition walkSize;
+    private Position pixelSize;
+    private Position center;
+    private List<Tile> tiles;
+    private List<MiniTile> miniTiles;
+    private List<TilePosition> startLocations;
+    private Altitude maxAltitude;
+    private List<MineralPatch> minerals;
+    private List<VespeneGeyser> geysers;
+    private List<Building> staticBuildings;
+    private List<Critter> critters;
+    private List<Egg> neutralEggs;
+    private Graph graph;
+    private List<Pair<Pair<Area.Id, Area.Id>, WalkPosition>> rawFrontier;
 
     private Map() {
         throw new IllegalArgumentException("Parameterless instantiation is prohibited.");
@@ -87,6 +91,8 @@ public class Map {
         this.neutralEggs = new ArrayList<>();
 
         this.graph = new Graph(this);
+
+        this.rawFrontier = new ArrayList<>();
 
         loadData();
         decideSeasOrLakes();
@@ -443,12 +449,15 @@ public class Map {
         }
         Collections.sort(miniTilesByDescendingAltitude, new PairGenericAltitudeComparator(PairGenericAltitudeComparator.Order.Descending));
 
-//        vector<TempAreaInfo> TempAreaList = ComputeTempAreas(MiniTilesByDescendingAltitude);
+        List<Area.TempInfo> tempAreaList = computeTempAreas(miniTilesByDescendingAltitude);
 
+//        CreateAreas(TempAreaList); //TODO
+
+//        SetAreaIdInTiles(); // TODO
     }
 
-    //TODO
-    private List<Area.TempInfo> ComputeTempAreas(List<Pair<WalkPosition, MiniTile>> miniTilesByDescendingAltitude) {
+    //TODO: Double-check that this ported method is correct.
+    private List<Area.TempInfo> computeTempAreas(List<Pair<WalkPosition, MiniTile>> miniTilesByDescendingAltitude) {
         List<Area.TempInfo> tempAreaList = new ArrayList<>();
 
         tempAreaList.add(new Area.TempInfo()); /* TempAreaList[0] left unused, as AreaIds are > 0. */
@@ -475,18 +484,79 @@ public class Map {
                         || tempAreaList.get(smaller.intValue()).getHighestAltitude().intValue() < 80
                         || Double.compare((double) cur.getAltitude().intValue() / (double) tempAreaList.get(bigger.intValue()).getHighestAltitude().intValue(), Double.valueOf("0.90")) >= 0
                         || Double.compare((double) cur.getAltitude().intValue() / (double) tempAreaList.get(smaller.intValue()).getHighestAltitude().intValue(), Double.valueOf("0.90")) >= 0
-//                        || //TODO
-                        /*
-                        				any_of(StartingLocations().begin(), StartingLocations().end(), [&pos](const TilePosition & startingLoc)
-					{ return dist(TilePosition(pos), startingLoc + TilePosition(2, 1)) <= 3;})
-                        */
                 ) {
+                    boolean any_of = false;
+                    for (TilePosition startingLoc : this.startLocations) {
+//                        any_of(StartingLocations().begin(), StartingLocations().end(), [&pos](const TilePosition & startingLoc)
+//                        { return dist(TilePosition(pos), startingLoc + TilePosition(2, 1)) <= 3;})
+                        if (Double.compare(BWEM.dist(pos.toPosition().toTilePosition(), startingLoc.add(new TilePosition(2, 1))), Double.valueOf("3")) <= 0) {
+                            any_of = true;
+                            break;
+                        }
+                    }
+                    if (any_of) {
+                        /* Add cur to the absorbing area. */
+                        tempAreaList.get(bigger.intValue()).add(cur);
 
+                        /* Merges the two neighboring areas. */
+                        replaceAreaIds(tempAreaList.get(smaller.intValue()).getTop(), bigger);
+                        tempAreaList.get(bigger.intValue()).merge(tempAreaList.get(smaller.intValue()));
+                    }
+                } else {
+                    /* No merge : cur starts or continues the frontier between the two neighboring areas. */
+                    tempAreaList.get(chooseNeighboringArea(smaller, bigger).intValue()).add(cur);
+                    this.rawFrontier.add(new Pair<>(neighboringAreas, pos));
                 }
             }
         }
 
+        /* Remove from the frontier obsolete positions. */
+        for (int i = 0; i < this.rawFrontier.size(); i++) {
+            int first = this.rawFrontier.get(i).first.first.intValue();
+            int second = this.rawFrontier.get(i).first.second.intValue();
+            if (first == second) {
+                this.rawFrontier.remove(i);
+                i--;
+            }
+        }
+
         return tempAreaList;
+    }
+
+    private void replaceAreaIds(WalkPosition w, Area.Id newAreaId) {
+        MiniTile origin = getMiniTile(w, CheckMode.NoCheck);
+        Area.Id oldAreaId = origin.getAreaId();
+        origin.replaceAreaId(newAreaId);
+
+        List<WalkPosition> toSearch = new ArrayList<>();
+        toSearch.add(w);
+        while (!toSearch.isEmpty()) {
+            WalkPosition current = toSearch.get(toSearch.size() - 1);
+            toSearch.remove(toSearch.size() - 1);
+            WalkPosition[] deltas = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(+1, 0), new WalkPosition(0, +1)};
+            for (WalkPosition delta : deltas) {
+                WalkPosition nextWalk = current.add(delta);
+                if (isValid(nextWalk)) {
+                    MiniTile nextMini = getMiniTile(nextWalk, CheckMode.NoCheck);
+                    if (nextMini.getAreaId().equals(oldAreaId)) {
+                        toSearch.add(nextWalk);
+                        nextMini.replaceAreaId(newAreaId);
+                    }
+                }
+            }
+        }
+
+        /* Also replace references of oldAreaId by newAreaId in m_RawFrontier. */
+        if (newAreaId.intValue() > 0) {
+            for (Pair<Pair<Area.Id, Area.Id>, WalkPosition> f : this.rawFrontier) {
+                if (f.first.first.intValue() == oldAreaId.intValue()) {
+                    f.first.first = new Area.Id(newAreaId);
+                }
+                if (f.first.second.intValue() == oldAreaId.intValue()) {
+                    f.first.second = new Area.Id(newAreaId);
+                }
+            }
+        }
     }
 
     public TilePosition getTileSize() {
@@ -582,6 +652,27 @@ public class Map {
         }
 
         return start;
+    }
+
+    //TODO: Double-check this method.
+    public static Area.Id chooseNeighboringArea(Area.Id a, Area.Id b) {
+        Area.Id tmpA = new Area.Id(a);
+        Area.Id tmpB = new Area.Id(b);
+        if (tmpA.intValue() > tmpB.intValue()) {
+            Area.Id tmp = new Area.Id(tmpA);
+            tmpA = new Area.Id(tmpB);
+            tmpB = new Area.Id(tmp);
+        }
+
+        Pair<Integer, Integer> key = new Pair<>(tmpA.intValue(), tmpB.intValue());
+        if (areaPairCounter.containsKey(key)) {
+            int val = areaPairCounter.get(key);
+            areaPairCounter.replace(key, val + 1);
+        } else {
+            areaPairCounter.put(key, 1);
+        }
+
+        return ((areaPairCounter.get(key) - 1) % 2 == 0) ? tmpA : tmpB;
     }
 
 }
