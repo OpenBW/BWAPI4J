@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.WalkPosition;
+import org.openbw.bwapi4j.util.Pair;
 
 public class Graph {
 
@@ -171,6 +172,14 @@ public class Graph {
 
     int getDistance(Chokepoint cpA, Chokepoint cpB) {
         return this.chokepointDistanceMatrix.get(cpA.getIndex().intValue()).get(cpB.getIndex().intValue());
+    }
+
+    public void createAreas(List<Pair<WalkPosition, Integer>> areas) {
+        for (int id = 1; id <= areas.size(); id++) {
+            WalkPosition top = areas.get(id - 1).first;
+            int miniTiles = areas.get(id - 1).second;
+            this.areas.add(new Area(this, new Area.Id(id), top, miniTiles));
+        }
     }
 
 }

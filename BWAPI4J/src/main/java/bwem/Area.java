@@ -10,9 +10,32 @@ public class Area {
     private Id areaId;
     private GroupId groupId;
     private List<Chokepoint> chokepoints;
+    private Graph graph;
+    private int miniTiles;
+    private Altitude maxAltitude;
 
     private Area() {
         throw new IllegalArgumentException("Parameterless instantiation is prohibited.");
+    }
+
+//    Area(detail::Graph * pGraph, id areaId, BWAPI::WalkPosition top, int miniTiles);
+    public Area(Graph graph, Area.Id areaId, WalkPosition top, int miniTiles) {
+        this.graph = graph;
+        this.areaId = areaId;
+        this.miniTiles = miniTiles;
+
+//        bwem_assert(areaId > 0);
+        if (!(this.areaId.intValue() > 0)) {
+            throw new IllegalArgumentException("invalid Areae.Id");
+        }
+
+        MiniTile topMiniTile = this.graph.getMap().getMiniTile(top);
+//        bwem_assert(topMiniTile.AreaId() == areaId);
+        if (!(topMiniTile.getAreaId().equals(areaId))) {
+            throw new IllegalArgumentException();
+        }
+
+        this.maxAltitude = new Altitude(topMiniTile.getAltitude());
     }
 
     public Id getAreaId() {
@@ -36,7 +59,7 @@ public class Area {
         if (this == o) {
             return true;
         } else if (!(o instanceof Area)) {
-            return false;
+            throw new IllegalArgumentException("object is not an instance of Area.Id");
         } else {
             Area that = (Area) o;
             return (this.areaId.intValue() == that.areaId.intValue());
@@ -156,7 +179,7 @@ public class Area {
             if (this == o) {
                 return true;
             } else if (!(o instanceof Area.GroupId)) {
-                return false;
+                throw new IllegalArgumentException("object is not an instance of Area.Id");
             } else {
                 Area.GroupId that = (Area.GroupId) o;
                 return this.val == that.val;

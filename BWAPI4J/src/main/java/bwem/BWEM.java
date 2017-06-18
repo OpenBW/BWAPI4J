@@ -1,7 +1,6 @@
 package bwem;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.openbw.bwapi4j.BW;
@@ -12,7 +11,20 @@ import org.openbw.bwapi4j.util.Pair;
 
 public class BWEM {
 
-    public static final int MAX_LAKE_MINI_TILES = 300;
+    /**
+     * This constant contributes to deciding between Seas and Lakes.
+     */
+    public static final int LAKE_MAX_MINI_TILES = 300;
+
+    /**
+     * This constant contributes to deciding between Seas and Lakes.
+     */
+    public static final int LAKE_MAX_WIDTH_IN_MINITILES = 8 * 4;
+
+    /**
+     * At least this amount of connected MiniTiles are necessary for an Area to be created.
+     */
+    public static final int AREA_MIN_MINI_TILES = 64;
 
     private BW bw = null;
     private Map map = null;

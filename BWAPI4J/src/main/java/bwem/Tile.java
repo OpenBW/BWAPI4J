@@ -2,13 +2,16 @@ package bwem;
 
 public class Tile {
 
-    private Area.Id areaId = null;
-    private Bits bits = null;
-    private Neutral neutral = null;
+    private Area.Id areaId;
+    private Bits bits;
+    private Neutral neutral;
+    private Altitude minAltitude;
 
     public Tile() {
         this.areaId = new Area.Id(0);
         this.bits = new Bits();
+        this.neutral = null;
+        this.minAltitude = null;
     }
 
     public Area.Id getAreaId() {
@@ -76,6 +79,14 @@ public class Tile {
         } else {
             this.neutral = null;
         }
+    }
+
+    public Altitude getMinAltitude() {
+        return new Altitude(this.minAltitude);
+    }
+
+    public void setMinAltitude(Altitude altitude) {
+        this.minAltitude = new Altitude(altitude);
     }
 
 }

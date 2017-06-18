@@ -182,15 +182,15 @@ public class Map {
                             {
                                 ToSearch.add(nextWalkPosition);
                                 nextMiniTile.setSea();
-                                if (SeaExtent.size() <= BWEM.MAX_LAKE_MINI_TILES) SeaExtent.add(nextMiniTile);
+                                if (SeaExtent.size() <= BWEM.LAKE_MAX_MINI_TILES) SeaExtent.add(nextMiniTile);
                             }
                         }
                     }
                 }
 
-                if ((SeaExtent.size() <= BWEM.MAX_LAKE_MINI_TILES)
-                        && (bottomRight.getX() - topLeft.getX() <= BWEM.MAX_LAKE_MINI_TILES)
-                        && (bottomRight.getY() - topLeft.getY() <= BWEM.MAX_LAKE_MINI_TILES)
+                if ((SeaExtent.size() <= BWEM.LAKE_MAX_MINI_TILES)
+                        && (bottomRight.getX() - topLeft.getX() <= BWEM.LAKE_MAX_MINI_TILES)
+                        && (bottomRight.getY() - topLeft.getY() <= BWEM.LAKE_MAX_MINI_TILES)
                         && (topLeft.getX() >= 2)
                         && (topLeft.getY() >= 2)
                         && (bottomRight.getX() < getWalkSize().getX() - 2)
@@ -435,7 +435,6 @@ public class Map {
     //   - involves the creation of a new area.
     //   - is added to some existing neighbouring area.
     //   - makes two neighbouring areas merge together.
-    //TODO
     private void computeAreas() {
         List<Pair<WalkPosition, MiniTile>> miniTilesByDescendingAltitude = new ArrayList<>();
         for (int y = 0 ; y < getWalkSize().getY() ; ++y)
@@ -451,9 +450,9 @@ public class Map {
 
         List<Area.TempInfo> tempAreaList = computeTempAreas(miniTilesByDescendingAltitude);
 
-//        CreateAreas(TempAreaList); //TODO
+        createAreas(tempAreaList);
 
-//        SetAreaIdInTiles(); // TODO
+        setAreaIdInTiles();
     }
 
     //TODO: Double-check that this ported method is correct.
@@ -521,6 +520,77 @@ public class Map {
         }
 
         return tempAreaList;
+    }
+
+    private void createAreas(List<Area.TempInfo> tempAreaList) {
+        List<Pair<WalkPosition, Integer>> areasList = new ArrayList<>();
+
+        Area.Id newAreaId = new Area.Id(1);
+        Area.Id newTinyAreaId = new Area.Id(-2);
+
+        for (Area.TempInfo tempArea : tempAreaList) {
+            if (tempArea.isValid() && tempArea.getSize() >= BWEM.AREA_MIN_MINI_TILES) {
+//                bwem_assert(newAreaId <= TempArea.Id());
+                if (!(newAreaId.intValue() <= tempArea.getId().intValue())) {
+                    throw new IllegalStateException();
+                }
+                if (newAreaId.intValue() <= tempArea.getId().intValue()) {
+                    replaceAreaIds(tempArea.getTop(), newAreaId);
+                }
+                areasList.add(new Pair<>(tempArea.getTop(), tempArea.getSize()));
+                newAreaId = new Area.Id(newAreaId.intValue() + 1);
+            } else {
+                replaceAreaIds(tempArea.getTop(), newTinyAreaId);
+                newTinyAreaId = new Area.Id(newTinyAreaId.intValue() - 1);
+            }
+        }
+
+        this.graph.createAreas(areasList);
+    }
+
+    //TODO
+    private void setAreaIdInTiles() {
+        for (int y = 0 ; y < getTileSize().getY() ; ++y)
+        for (int x = 0 ; x < getTileSize().getX() ; ++x) {
+            TilePosition t = new TilePosition(x, y);
+            setAreaIdInTile(t);
+            setAltitudeInTile(t);
+        }
+    }
+
+    private void setAreaIdInTile(TilePosition t) {
+        Tile tile = getTile(t);
+//        bwem_assert(tile.AreaId() == 0);	// initialized to 0
+        if (!(tile.getAreaId().intValue() == 0)) {
+            throw new IllegalStateException();
+        }
+
+        for (int dy = 0 ; dy < 4 ; ++dy)
+        for (int dx = 0 ; dx < 4 ; ++dx) {
+            Area.Id areaId = getMiniTile(new WalkPosition(t).add(new WalkPosition(dx, dy)), CheckMode.NoCheck).getAreaId();
+            if (areaId.intValue() != 0) {
+                if (tile.getAreaId().intValue() == 0) {
+                    tile.setAreaId(areaId);
+                } else if (!tile.getAreaId().equals(areaId)) {
+                    tile.setAreaId(new Area.Id(-1));
+                    return;
+                }
+            }
+        }
+    }
+
+    private void setAltitudeInTile(TilePosition t) {
+        Altitude minAltitude = new Altitude(Integer.MAX_VALUE);
+
+        for (int dy = 0 ; dy < 4 ; ++dy)
+        for (int dx = 0 ; dx < 4 ; ++dx) {
+            Altitude altitude = getMiniTile(new WalkPosition(t).add(new WalkPosition(dx, dy)), CheckMode.NoCheck).getAltitude();
+            if (altitude.intValue() < minAltitude.intValue()) {
+                minAltitude = new Altitude(altitude);
+            }
+        }
+
+        getTile(t).setMinAltitude(minAltitude);
     }
 
     private void replaceAreaIds(WalkPosition w, Area.Id newAreaId) {
