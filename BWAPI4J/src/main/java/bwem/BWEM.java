@@ -7,6 +7,7 @@ import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
+import org.openbw.bwapi4j.util.Pair;
 
 public class BWEM {
 
@@ -171,6 +172,26 @@ public class BWEM {
             }
         }
         return false;
+    }
+
+    public static Pair<Area.Id, Area.Id> findNeighboringAreas(WalkPosition w, Map map) {
+        Pair<Area.Id, Area.Id> ret = new Pair<>(new Area.Id(0), new Area.Id(0));
+
+        WalkPosition[] deltas = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(+1, 0), new WalkPosition(0, +1)};
+        for (WalkPosition delta : deltas) {
+            if (map.isValid(w.add(delta))) {
+                Area.Id areaId = map.getMiniTile(w.add(delta), CheckMode.NoCheck).getAreaId();
+                if (areaId.intValue() > 0) {
+                    if (ret.first == null || ret.first.intValue() == 0) {
+                        ret.first = new Area.Id(areaId);
+                    } else if (!ret.first.equals(areaId)) {
+                        ret.second = new Area.Id(areaId);
+                    }
+                }
+            }
+        }
+
+        return ret;
     }
 
 }

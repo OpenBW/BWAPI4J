@@ -93,6 +93,7 @@ public class Map {
         initializeNeutrals();
         computeAltitude();
         processBlockingNeutrals();
+        computeAreas();
     }
 
     /**
@@ -419,6 +420,73 @@ public class Map {
         }
 
         throw new UnsupportedOperationException("not implemented yet");
+    }
+
+    // Assigns MiniTile::m_areaId for each miniTile having AreaIdMissing()
+    // Areas are computed using MiniTile::Altitude() information only.
+    // The miniTiles are considered successively in descending order of their Altitude().
+    // Each of them either:
+    //   - involves the creation of a new area.
+    //   - is added to some existing neighbouring area.
+    //   - makes two neighbouring areas merge together.
+    //TODO
+    private void computeAreas() {
+        List<Pair<WalkPosition, MiniTile>> miniTilesByDescendingAltitude = new ArrayList<>();
+        for (int y = 0 ; y < getWalkSize().getY() ; ++y)
+        for (int x = 0 ; x < getWalkSize().getX() ; ++x)
+        {
+            WalkPosition w = new WalkPosition(x, y);
+            MiniTile m = getMiniTile(w, CheckMode.NoCheck);
+            if (m.isAreaIdMissing()) {
+                miniTilesByDescendingAltitude.add(new Pair<WalkPosition, MiniTile>(w, m));
+            }
+        }
+        Collections.sort(miniTilesByDescendingAltitude, new PairGenericAltitudeComparator(PairGenericAltitudeComparator.Order.Descending));
+
+//        vector<TempAreaInfo> TempAreaList = ComputeTempAreas(MiniTilesByDescendingAltitude);
+
+    }
+
+    //TODO
+    private List<Area.TempInfo> ComputeTempAreas(List<Pair<WalkPosition, MiniTile>> miniTilesByDescendingAltitude) {
+        List<Area.TempInfo> tempAreaList = new ArrayList<>();
+
+        tempAreaList.add(new Area.TempInfo()); /* TempAreaList[0] left unused, as AreaIds are > 0. */
+        for (Pair<WalkPosition, MiniTile> current : miniTilesByDescendingAltitude) {
+            WalkPosition pos = current.first;
+            MiniTile cur = current.second;
+
+            Pair<Area.Id, Area.Id> neighboringAreas = BWEM.findNeighboringAreas(pos, this);
+            if (neighboringAreas.first == null || neighboringAreas.first.intValue() == 0) {
+                tempAreaList.add(new Area.TempInfo(new Area.Id(tempAreaList.size()), cur, pos));
+            } else if (neighboringAreas.second == null || neighboringAreas.second.intValue() == 0) {
+                tempAreaList.get(neighboringAreas.first.intValue()).add(cur);
+            } else {
+                Area.Id smaller = neighboringAreas.first;
+                Area.Id bigger = neighboringAreas.second;
+                if (tempAreaList.get(smaller.intValue()).getSize() > tempAreaList.get(bigger.intValue()).getSize()) {
+                    Area.Id tmp = new Area.Id(smaller);
+                    smaller = new Area.Id(bigger);
+                    bigger = new Area.Id(tmp);
+                }
+
+                /* Condition for the neighboring areas to merge: */
+                if (tempAreaList.get(smaller.intValue()).getSize() < 80
+                        || tempAreaList.get(smaller.intValue()).getHighestAltitude().intValue() < 80
+                        || Double.compare((double) cur.getAltitude().intValue() / (double) tempAreaList.get(bigger.intValue()).getHighestAltitude().intValue(), Double.valueOf("0.90")) >= 0
+                        || Double.compare((double) cur.getAltitude().intValue() / (double) tempAreaList.get(smaller.intValue()).getHighestAltitude().intValue(), Double.valueOf("0.90")) >= 0
+//                        || //TODO
+                        /*
+                        				any_of(StartingLocations().begin(), StartingLocations().end(), [&pos](const TilePosition & startingLoc)
+					{ return dist(TilePosition(pos), startingLoc + TilePosition(2, 1)) <= 3;})
+                        */
+                ) {
+
+                }
+            }
+        }
+
+        return tempAreaList;
     }
 
     public TilePosition getTileSize() {
