@@ -2,27 +2,42 @@ package bwem;
 
 import java.util.List;
 import java.util.Objects;
+import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 
 public class Area {
 
-    //TODO: How/where are these members getting initialized?
     private Id areaId;
     private GroupId groupId;
+    private TilePosition topLeft;
+    private TilePosition bottomRight;
+    private WalkPosition top;
     private List<Chokepoint> chokepoints;
     private Graph graph;
+    private int tiles;
     private int miniTiles;
+    private int buildableTiles;
+    private int highGroundTiles;
+    private int veryHighGroundTiles;
     private Altitude maxAltitude;
 
     private Area() {
         throw new IllegalArgumentException("Parameterless instantiation is prohibited.");
     }
 
-//    Area(detail::Graph * pGraph, id areaId, BWAPI::WalkPosition top, int miniTiles);
     public Area(Graph graph, Area.Id areaId, WalkPosition top, int miniTiles) {
         this.graph = graph;
-        this.areaId = areaId;
+        this.areaId = new Area.Id(areaId);
+        this.top = new WalkPosition(top.getX(), top.getY());
         this.miniTiles = miniTiles;
+
+        this.tiles = 0;
+        this.buildableTiles = 0;
+        this.highGroundTiles = 0;
+        this.veryHighGroundTiles = 0;
+
+        this.topLeft = new TilePosition(Integer.MAX_VALUE, Integer.MAX_VALUE);
+        this.bottomRight = new TilePosition(Integer.MIN_VALUE, Integer.MIN_VALUE);
 
 //        bwem_assert(areaId > 0);
         if (!(this.areaId.intValue() > 0)) {
@@ -38,12 +53,67 @@ public class Area {
         this.maxAltitude = new Altitude(topMiniTile.getAltitude());
     }
 
+    /**
+     * Unique id > 0 of this Area. Range = 1 .. Map::Areas().size()
+     * this == Map::GetArea(Id())
+     * Id() == Map::GetMiniTile(w).AreaId() for each walkable MiniTile w in this Area.
+     * Area::ids are guaranteed to remain unchanged.
+     */
     public Id getAreaId() {
         return new Id(this.areaId);
     }
 
+    /**
+     * Unique id > 0 of the group of Areas which are accessible from this Area.
+     * For each pair (a, b) of Areas: a->GroupId() == b->GroupId()  <==>  a->AccessibleFrom(b)
+     * A groupId uniquely identifies a maximum set of mutually accessible Areas, that is, in the absence of blocking ChokePoints, a continent.
+     */
     public GroupId getGroupId() {
         return new GroupId(this.groupId);
+    }
+
+    public void setGroupId(GroupId groupId) {
+//        { bwem_assert(gid >= 1); m_groupId = gid; }
+        if (!(groupId.intValue() >= 1)) {
+            throw new IllegalArgumentException("invalid Area.GroupId");
+        }
+        this.groupId = new GroupId(groupId);
+    }
+
+    public TilePosition getTopLeft() {
+        return new TilePosition(this.topLeft.getX(), this.topLeft.getY());
+    }
+
+    public TilePosition getBottomRight() {
+        return new TilePosition(this.bottomRight.getX(), this.bottomRight.getY());
+    }
+
+    public TilePosition getBoundingBoxSize() {
+        return this.bottomRight.add(this.topLeft).subtract(new TilePosition(1, 1));
+    }
+
+    /**
+     * Position of the MiniTile with the highest Altitude() value.
+     */
+    public WalkPosition getTop() {
+        return this.top;
+    }
+
+    /**
+     * Returns Map::GetMiniTile(Top()).Altitude().
+     */
+    //TODO: It does? ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    public Altitude getMaxAltitude() {
+        return new Altitude(this.maxAltitude);
+    }
+
+    /**
+     * Returns the number of MiniTiles in this Area.
+     * This most accurately defines the size of this Area.
+     */
+    //TODO: Rename this function to `size()'?
+    public int getMiniTileCount() {
+        return this.miniTiles;
     }
 
     public boolean isAccessibleFrom(Area that) {
