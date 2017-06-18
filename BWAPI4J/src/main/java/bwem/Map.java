@@ -36,7 +36,7 @@ public class Map {
     private List<MiniTile> miniTiles;
     private List<TilePosition> startLocations;
     private Altitude maxAltitude;
-    private List<MineralPatch> minerals;
+    private List<MineralPatch> mineralPatches;
     private List<VespeneGeyser> geysers;
     private List<Building> staticBuildings;
     private List<Critter> critters;
@@ -84,7 +84,7 @@ public class Map {
 
         this.maxAltitude = new Altitude(0);
 
-        this.minerals = new ArrayList<>();
+        this.mineralPatches = new ArrayList<>();
         this.geysers = new ArrayList<>();
         this.staticBuildings = new ArrayList<>();
         this.critters = new ArrayList<>();
@@ -205,7 +205,7 @@ public class Map {
 
     private void initializeNeutrals() {
         for (MineralPatch patch : this.bw.getMineralPatches()) {
-            this.minerals.add(patch);
+            this.mineralPatches.add(patch);
         }
         for (VespeneGeyser geyser : this.bw.getVespeneGeysers()) {
             this.geysers.add(geyser);
@@ -305,7 +305,7 @@ public class Map {
         for (Building s : this.staticBuildings) {
             candidates.add(new Neutral(s, this));
         }
-        for (MineralPatch m : this.minerals) {
+        for (MineralPatch m : this.mineralPatches) {
             candidates.add(new Neutral(m, this));
         }
 
@@ -686,6 +686,14 @@ public class Map {
 
     public Area getArea(WalkPosition w) {
         return this.graph.getArea(w);
+    }
+
+    public List<Building> getStaticBuildings() {
+        return this.staticBuildings;
+    }
+
+    public List<MineralPatch> getMineralPatches() {
+        return this.mineralPatches;
     }
 
     public WalkPosition breadFirstSearch(WalkPosition start, Pred findCond, Pred visitCond) {

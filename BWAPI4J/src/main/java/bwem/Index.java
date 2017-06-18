@@ -1,5 +1,7 @@
 package bwem;
 
+import java.util.Objects;
+
 /**
  * Immutable wrapper of the integer primitive to satisfy
  * the original C++ definition:
@@ -41,6 +43,22 @@ public class Index implements IWrappedInteger<Index>, Comparable<Index> {
         int lhs = this.val;
         int rhs = that.val;
         return (lhs < rhs) ? -1 : (lhs > rhs) ? 1 : 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        } else if (!(o instanceof Index)) {
+            throw new IllegalArgumentException("object is not an instance of Index");
+        } else {
+            Index that = (Index) o;
+            return (this.val == that.val);
+        }
+    }
+
+    public int hashCode() {
+        return Objects.hash(this.val);
     }
 
 }

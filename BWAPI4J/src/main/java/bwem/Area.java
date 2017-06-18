@@ -59,7 +59,7 @@ public class Area {
         if (this == o) {
             return true;
         } else if (!(o instanceof Area)) {
-            throw new IllegalArgumentException("object is not an instance of Area.Id");
+            throw new IllegalArgumentException("object is not an instance of Area");
         } else {
             Area that = (Area) o;
             return (this.areaId.intValue() == that.areaId.intValue());
@@ -119,7 +119,7 @@ public class Area {
             if (this == o) {
                 return true;
             } else if (!(o instanceof Area.Id)) {
-                return false;
+                throw new IllegalArgumentException("object is not an instance of Area.Id");
             } else {
                 Area.Id that = (Area.Id) o;
                 return this.val == that.val;
@@ -179,7 +179,7 @@ public class Area {
             if (this == o) {
                 return true;
             } else if (!(o instanceof Area.GroupId)) {
-                throw new IllegalArgumentException("object is not an instance of Area.Id");
+                throw new IllegalArgumentException("object is not an instance of Area.GroupId");
             } else {
                 Area.GroupId that = (Area.GroupId) o;
                 return this.val == that.val;

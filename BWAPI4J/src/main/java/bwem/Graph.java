@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.WalkPosition;
+import org.openbw.bwapi4j.unit.Building;
+import org.openbw.bwapi4j.unit.MineralPatch;
 import org.openbw.bwapi4j.util.Pair;
 
 public class Graph {
