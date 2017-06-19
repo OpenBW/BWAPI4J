@@ -46,13 +46,23 @@ public class Chokepoint {
         return nodes.get(node.intValue());
     }
 
-    public boolean equals(Object o) {
-        if (o == this) {
+    /**
+     * <p>
+     * - Tests whether the specified object is equal to this object.<br/>
+     * - Tests whether the specified object is an instance of this class.<br/>
+     * - Tests if the internal Index values match.<br/>
+     * </p>
+     *
+     * @param object The specified object to test against this object.
+     */
+    @Override
+    public boolean equals(Object object) {
+        if (object == this) {
             return true;
-        } else if (!(o instanceof Chokepoint)) {
-            return false;
+        } else if (!(object instanceof Chokepoint)) {
+            throw new IllegalArgumentException("object is not an instance of Chokepoint");
         } else {
-            Chokepoint that = (Chokepoint) o;
+            Chokepoint that = (Chokepoint) object;
             return (this.index.intValue() == that.index.intValue());
         }
     }

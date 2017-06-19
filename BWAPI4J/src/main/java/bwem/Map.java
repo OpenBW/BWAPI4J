@@ -21,6 +21,18 @@ import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.unit.VespeneGeyser;
 import org.openbw.bwapi4j.util.Pair;
 
+
+/**
+ * Map is the entry point:
+ *  - to access general information on the Map
+ *  - to access the Tiles and the MiniTiles
+ *  - to access the Areas
+ *  - to access the StartingLocations
+ *  - to access the Minerals, the Geysers and the StaticBuildings
+ *  - to parametrize the analysis process
+ *  - to update the information
+ * Map also provides some useful tools such as Paths between ChokePoints and generic algorithms like BreadthFirstSearch.
+ */
 public class Map {
 
     private static final Logger logger = LogManager.getLogger();
@@ -57,6 +69,8 @@ public class Map {
         return this.graph;
     }
 
+	// This has to be called before any other function is called.
+	// A good place to do this is in ExampleAIModule::onStart()
     //TODO
     private void initialize() {
         this.tileSize = new TilePosition(this.bw.getBWMap().mapWidth(), this.bw.getBWMap().mapHeight());
@@ -239,7 +253,7 @@ public class Map {
         for (int dy = 0; dy <= range; ++dy)
         for (int dx = dy; dx <= range; ++dx) { // Only consider 1/8 of possible deltas. Other ones obtained by symmetry.
             if (dx != 0 || dy != 0) {
-                deltasByAscendingAltitude.add(new Pair<WalkPosition, Altitude>(
+                deltasByAscendingAltitude.add(new Pair<>(
                         new WalkPosition(dx, dy),
                         new Altitude((int) (Double.valueOf("0.5") + (double) BWEM.norm(dx, dy) * (double) MiniTile.SIZE_IN_PIXELS))
                 ));
@@ -260,7 +274,7 @@ public class Map {
         {
             WalkPosition w = new WalkPosition(x, y);
             if (!isValid(w) || BWEM.hasNonSeaNeighbor(w, this)) {
-                activeSeaSideList.add(new Pair<WalkPosition, Altitude>(w, new Altitude(0)));
+                activeSeaSideList.add(new Pair<>(w, new Altitude(0)));
             }
         }
 
@@ -443,7 +457,7 @@ public class Map {
             WalkPosition w = new WalkPosition(x, y);
             MiniTile m = getMiniTile(w, CheckMode.NoCheck);
             if (m.isAreaIdMissing()) {
-                miniTilesByDescendingAltitude.add(new Pair<WalkPosition, MiniTile>(w, m));
+                miniTilesByDescendingAltitude.add(new Pair<>(w, m));
             }
         }
         Collections.sort(miniTilesByDescendingAltitude, new PairGenericAltitudeComparator(PairGenericAltitudeComparator.Order.Descending));
@@ -629,18 +643,35 @@ public class Map {
         }
     }
 
+    /**
+     * Returns the map size using the TilePosition scale.
+     * i.e. {@link TilePosition#SIZE_IN_PIXELS}.
+     */
     public TilePosition getTileSize() {
         return new TilePosition(this.tileSize.getX(), this.tileSize.getY());
     }
 
+    /**
+     * Returns the map size using the WalkPosition scale.
+     * i.e. {@link WalkPosition#SIZE_IN_PIXELS}.
+     */
     public WalkPosition getWalkSize() {
         return new WalkPosition(this.walkSize.getX(), this.walkSize.getY());
     }
 
+    /**
+     * Returns the map size using the Position scale.
+     */
     public Position getPixelSize() {
         return new Position(this.pixelSize.getX(), this.pixelSize.getY());
     }
 
+    /**
+     * Returns the Tile associated with the specified position.
+     *
+     * @param t The specified position.
+     * @param checkMode Whether to validate the specified position.
+     */
     public Tile getTile(TilePosition t, CheckMode checkMode) {
 //        { bwem_assert((checkMode == utils::check_t::no_check) || Valid(p));
         if (!(checkMode == CheckMode.NoCheck || isValid(t))) {
@@ -650,10 +681,23 @@ public class Map {
         }
     }
 
+    /**
+     * Returns the Tile associated with the specified position. The specified
+     * position will be validated first.
+     *
+     * @see #getTile(org.openbw.bwapi4j.TilePosition, bwem.CheckMode)
+     * @param t The specified position.
+     */
     public Tile getTile(TilePosition t) {
         return getTile(t, CheckMode.Check);
     }
 
+    /**
+     * Returns the MiniTile associated with the specified position.
+     *
+     * @param w The specified position.
+     * @param checkMode Whether to validate the specified position.
+     */
     public MiniTile getMiniTile(WalkPosition w, CheckMode checkMode) {
 //        { bwem_assert((checkMode == utils::check_t::no_check) || Valid(p)); }
         if (!(checkMode == CheckMode.NoCheck || isValid(w))) {
@@ -662,24 +706,50 @@ public class Map {
         return this.miniTiles.get(getWalkSize().getX() * w.getY() + w.getX());
     }
 
-    public MiniTile getMiniTile(WalkPosition p) {
-        return getMiniTile(p, CheckMode.Check);
+    /**
+     * Returns the MiniTile associated with the specified position. The specified
+     * position will be validated first.
+     *
+     * @see #getMiniTile(org.openbw.bwapi4j.WalkPosition, bwem.CheckMode)
+     * @param w The specified position.
+     */
+    public MiniTile getMiniTile(WalkPosition w) {
+        return getMiniTile(w, CheckMode.Check);
     }
 
+    /**
+     * Tests whether the specified position is within bounds of the map.
+     *
+     * @param t The specified position.
+     */
     public boolean isValid(TilePosition t) {
-        return (t.getX() >= 0)
-                && (t.getX() < getTileSize().getX())
-                && (t.getY() >= 0)
-                && (t.getY() < getTileSize().getY());
+        return (t.getX() >= 0 && t.getX() < getTileSize().getX()
+                && t.getY() >= 0 && t.getY() < getTileSize().getY());
     }
 
+    /**
+     * Tests whether the specified position is within bounds of the map.
+     *
+     * @param w The specified position.
+     */
     public boolean isValid(WalkPosition w) {
-        return (w.getX() >= 0)
-                && (w.getX() < getWalkSize().getX())
-                && (w.getY() >= 0)
-                && (w.getY() < getWalkSize().getY());
+        return (w.getX() >= 0 && w.getX() < getWalkSize().getX()
+                && w.getY() >= 0 && w.getY() < getWalkSize().getY());
     }
 
+    /**
+     * Tests whether the specified position is within bounds of the map.
+     *
+     * @param p The specified position.
+     */
+    public boolean isValid(Position p) {
+        return (p.getX() >= 0 && p.getX() < getPixelSize().getX()
+                && p.getY() >= 0 && p.getY() < getPixelSize().getY());
+    }
+
+    /**
+     * Returns the center position of the map.
+     */
     public Position getCenter() {
         return new Position(this.center.getX(), this.center.getY());
     }

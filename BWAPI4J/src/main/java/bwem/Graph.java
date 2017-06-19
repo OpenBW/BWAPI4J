@@ -5,8 +5,6 @@ import java.util.List;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.WalkPosition;
-import org.openbw.bwapi4j.unit.Building;
-import org.openbw.bwapi4j.unit.MineralPatch;
 import org.openbw.bwapi4j.util.Pair;
 
 public class Graph {
@@ -16,10 +14,18 @@ public class Graph {
     private List<List<Integer>> chokepointDistanceMatrix = null;
     private List<List<CPPath>> pathsBetweenChokepoints = null;
 
+    /**
+     * Disabled default constructor.
+     */
     private Graph() {
         throw new IllegalArgumentException("Parameterless instantiation is prohibited.");
     }
 
+    /**
+     * Class constructor.
+     *
+     * @param map The Map object to use in class methods.
+     */
     public Graph(Map map) {
         this.map = map;
         this.areas = new ArrayList<>();
@@ -27,6 +33,9 @@ public class Graph {
         this.pathsBetweenChokepoints = new ArrayList<>();
     }
 
+    /**
+     * <p></p>
+     */
     public Map getMap() {
         return this.map;
     }
@@ -168,11 +177,11 @@ public class Graph {
         return getArea(w);
     }
 
-    public boolean isValid(Area.Id id) {
-        return (id.intValue() >= 1 && this.areas.size() >= id.intValue());
+    private boolean isValid(Area.Id areaId) {
+        return (areaId.intValue() >= 1 && this.areas.size() >= areaId.intValue());
     }
 
-    int getDistance(Chokepoint cpA, Chokepoint cpB) {
+    private int getDistance(Chokepoint cpA, Chokepoint cpB) {
         return this.chokepointDistanceMatrix.get(cpA.getIndex().intValue()).get(cpB.getIndex().intValue());
     }
 

@@ -21,15 +21,31 @@ public class Area {
     private int veryHighGroundTiles;
     private Altitude maxAltitude;
 
+    /**
+     * Disabled default constructor.
+     */
     private Area() {
         throw new IllegalArgumentException("Parameterless instantiation is prohibited.");
     }
 
-    public Area(Graph graph, Area.Id areaId, WalkPosition top, int miniTiles) {
+    /**
+     * Class constructor.
+     *
+     * @param graph The graph to use by class methods.
+     * @param areaId The id for this object.
+     * @param top //TODO: What is this? How is this different from maximum altitude?
+     * @param miniTileCount the number of mini tiles in this area.
+     * @throws IllegalArgumentException
+     *     <p>
+     *     - If the specified area ID is invalid.
+     *     - If the specified top area ID does not match the specified area ID.
+     *     </p>
+     */
+    public Area(Graph graph, Area.Id areaId, WalkPosition top, int miniTileCount) {
         this.graph = graph;
         this.areaId = new Area.Id(areaId);
         this.top = new WalkPosition(top.getX(), top.getY());
-        this.miniTiles = miniTiles;
+        this.miniTiles = miniTileCount;
 
         this.tiles = 0;
         this.buildableTiles = 0;
@@ -41,7 +57,7 @@ public class Area {
 
 //        bwem_assert(areaId > 0);
         if (!(this.areaId.intValue() > 0)) {
-            throw new IllegalArgumentException("invalid Areae.Id");
+            throw new IllegalArgumentException("invalid Area.Id");
         }
 
         MiniTile topMiniTile = this.graph.getMap().getMiniTile(top);
@@ -54,24 +70,34 @@ public class Area {
     }
 
     /**
-     * Unique id > 0 of this Area. Range = 1 .. Map::Areas().size()
-     * this == Map::GetArea(Id())
-     * Id() == Map::GetMiniTile(w).AreaId() for each walkable MiniTile w in this Area.
-     * Area::ids are guaranteed to remain unchanged.
+     * <p>
+     * Unique id > 0 of this Area. Range = 1 .. Map::Areas().size()<br/>
+     * this == Map::GetArea(Id())<br/>
+     * Id() == Map::GetMiniTile(w).AreaId() for each walkable MiniTile w in this Area.<br/>
+     * Area::ids are guaranteed to remain unchanged.<br/>
+     * </p>
      */
     public Id getAreaId() {
         return new Id(this.areaId);
     }
 
     /**
-     * Unique id > 0 of the group of Areas which are accessible from this Area.
-     * For each pair (a, b) of Areas: a->GroupId() == b->GroupId()  <==>  a->AccessibleFrom(b)
-     * A groupId uniquely identifies a maximum set of mutually accessible Areas, that is, in the absence of blocking ChokePoints, a continent.
+     * <p>
+     * Unique id > 0 of the group of Areas which are accessible from this Area.<br/>
+     * For each pair (a, b) of Areas: a->GroupId() == b->GroupId() &lt;==&gt;  a->AccessibleFrom(b)<br/>
+     * A groupId uniquely identifies a maximum set of mutually accessible Areas, that is, in the absence of blocking ChokePoints, a continent.<br/>
+     * </p>
      */
     public GroupId getGroupId() {
         return new GroupId(this.groupId);
     }
 
+    /**
+     * <p></p>
+     *
+     * @param groupId The specified group ID.
+     * @throws IllegalArgumentException If the specified group ID is invalid.
+     */
     public void setGroupId(GroupId groupId) {
 //        { bwem_assert(gid >= 1); m_groupId = gid; }
         if (!(groupId.intValue() >= 1)) {
@@ -84,6 +110,9 @@ public class Area {
         return new TilePosition(this.topLeft.getX(), this.topLeft.getY());
     }
 
+    /**
+     * <p></p>
+     */
     public TilePosition getBottomRight() {
         return new TilePosition(this.bottomRight.getX(), this.bottomRight.getY());
     }
@@ -92,8 +121,13 @@ public class Area {
         return this.bottomRight.add(this.topLeft).subtract(new TilePosition(1, 1));
     }
 
+    //////////////////////////////////////////////////////////////////////
+    //TODO: Double-check these two methods.
+    //////////////////////////////////////////////////////////////////////
+
     /**
-     * Position of the MiniTile with the highest Altitude() value.
+     * Returns the position of the MiniTile with the highest Altitude value.
+     * (Formerly known as "Top()" or "getTop".)
      */
     public WalkPosition getTop() {
         return this.top;
@@ -106,6 +140,10 @@ public class Area {
     public Altitude getMaxAltitude() {
         return new Altitude(this.maxAltitude);
     }
+
+    //////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////
 
     /**
      * Returns the number of MiniTiles in this Area.
@@ -124,14 +162,23 @@ public class Area {
         return this.chokepoints;
     }
 
+    /**
+     * <p>
+     * - Tests whether the specified object is equal to this object.<br/>
+     * - Tests whether the specified object is an instance of this class.<br/>
+     * - Tests if the internal Area.Id values match.<br/>
+     * </p>
+     *
+     * @param object The specified object to test against this object.
+     */
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    public boolean equals(Object object) {
+        if (this == object) {
             return true;
-        } else if (!(o instanceof Area)) {
+        } else if (!(object instanceof Area)) {
             throw new IllegalArgumentException("object is not an instance of Area");
         } else {
-            Area that = (Area) o;
+            Area that = (Area) object;
             return (this.areaId.intValue() == that.areaId.intValue());
         }
     }
@@ -184,15 +231,24 @@ public class Area {
             return (lhs < rhs) ? -1 : (lhs > rhs) ? 1 : 0;
         }
 
+        /**
+         * <p>
+         * - Tests whether the specified object is equal to this object.<br/>
+         * - Tests whether the specified object is an instance of this class.<br/>
+         * - Tests if the internal integer values match.<br/>
+         * </p>
+         *
+         * @param object The specified object to test against this object.
+         */
         @Override
-        public boolean equals(Object o) {
-            if (this == o) {
+        public boolean equals(Object object) {
+            if (this == object) {
                 return true;
-            } else if (!(o instanceof Area.Id)) {
+            } else if (!(object instanceof Area.Id)) {
                 throw new IllegalArgumentException("object is not an instance of Area.Id");
             } else {
-                Area.Id that = (Area.Id) o;
-                return this.val == that.val;
+                Area.Id that = (Area.Id) object;
+                return (this.val == that.val);
             }
         }
 
@@ -244,15 +300,24 @@ public class Area {
             return (lhs < rhs) ? -1 : (lhs > rhs) ? 1 : 0;
         }
 
+        /**
+         * <p>
+         * - Tests whether the specified object is equal to this object.<br/>
+         * - Tests whether the specified object is an instance of this class.<br/>
+         * - Tests if the internal integer values match.<br/>
+         * </p>
+         *
+         * @param object The specified object to test against this object.
+         */
         @Override
-        public boolean equals(Object o) {
-            if (this == o) {
+        public boolean equals(Object object) {
+            if (this == object) {
                 return true;
-            } else if (!(o instanceof Area.GroupId)) {
+            } else if (!(object instanceof Area.GroupId)) {
                 throw new IllegalArgumentException("object is not an instance of Area.GroupId");
             } else {
-                Area.GroupId that = (Area.GroupId) o;
-                return this.val == that.val;
+                Area.GroupId that = (Area.GroupId) object;
+                return (this.val == that.val);
             }
         }
 
@@ -262,7 +327,6 @@ public class Area {
         }
 
     }
-
 
     /**
      * Helper class for void Map::ComputeAreas()
@@ -368,9 +432,17 @@ public class Area {
         }
 
 //        TempAreaInfo &		operator=(const TempAreaInfo &) = delete;
+        /**
+         * This method is effectively disabled and will throw an exception during runtime.
+         */
         @Override
         public boolean equals(Object o) {
             throw new UnsupportedOperationException("use of this method is forbidden");
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(this.areaId.intValue());
         }
 
     }

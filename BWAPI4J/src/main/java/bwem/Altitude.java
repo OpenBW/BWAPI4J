@@ -1,5 +1,7 @@
 package bwem;
 
+import java.util.Objects;
+
 /**
  * Immutable wrapper of the integer primitive to satisfy
  * the original C++ definition:
@@ -41,6 +43,33 @@ public final class Altitude implements IWrappedInteger<Altitude>, Comparable<Alt
         int lhs = this.val;
         int rhs = that.val;
         return (lhs < rhs) ? -1 : (lhs > rhs) ? 1 : 0;
+    }
+
+
+    /**
+     * <p>
+     * - Tests whether the specified object is equal to this object.<br/>
+     * - Tests whether the specified object is an instance of this class.<br/>
+     * - Tests if the internal integer values match.<br/>
+     * </p>
+     *
+     * @param object The specified object to test against this object.
+     */
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        } else if (!(object instanceof Altitude)) {
+            throw new IllegalArgumentException("object is not an instance of Altitude");
+        } else {
+            Altitude that = (Altitude) object;
+            return (this.val == that.val);
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.val);
     }
 
 }
