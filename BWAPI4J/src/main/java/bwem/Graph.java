@@ -33,9 +33,6 @@ public class Graph {
         this.pathsBetweenChokepoints = new ArrayList<>();
     }
 
-    /**
-     * <p></p>
-     */
     public Map getMap() {
         return this.map;
     }

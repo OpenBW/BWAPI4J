@@ -47,11 +47,9 @@ public class Chokepoint {
     }
 
     /**
-     * <p>
-     * - Tests whether the specified object is equal to this object.<br/>
-     * - Tests whether the specified object is an instance of this class.<br/>
-     * - Tests if the internal Index values match.<br/>
-     * </p>
+     * - Tests whether the specified object is equal to this object.<br>
+     * - Tests whether the specified object is an instance of this class.<br>
+     * - Tests if the internal Index values match.<br>
      *
      * @param object The specified object to test against this object.
      */

@@ -46,11 +46,9 @@ public class Index implements IWrappedInteger<Index>, Comparable<Index> {
     }
 
     /**
-     * <p>
-     * - Tests whether the specified object is equal to this object.<br/>
-     * - Tests whether the specified object is an instance of this class.<br/>
-     * - Tests if the internal integer values match.<br/>
-     * </p>
+     * - Tests whether the specified object is equal to this object.<br>
+     * - Tests whether the specified object is an instance of this class.<br>
+     * - Tests if the internal integer values match.<br>
      *
      * @param object The specified object to test against this object.
      */

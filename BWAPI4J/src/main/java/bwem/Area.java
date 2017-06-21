@@ -36,10 +36,8 @@ public class Area {
      * @param top //TODO: What is this? How is this different from maximum altitude?
      * @param miniTileCount the number of mini tiles in this area.
      * @throws IllegalArgumentException
-     *     <p>
-     *     - If the specified area ID is invalid.
-     *     - If the specified top area ID does not match the specified area ID.
-     *     </p>
+     *     - If the specified area ID is invalid.<br>
+     *     - If the specified top area ID does not match the specified area ID.<br>
      */
     public Area(Graph graph, Area.Id areaId, WalkPosition top, int miniTileCount) {
         this.graph = graph;
@@ -70,31 +68,25 @@ public class Area {
     }
 
     /**
-     * <p>
-     * Unique id > 0 of this Area. Range = 1 .. Map::Areas().size()<br/>
-     * this == Map::GetArea(Id())<br/>
-     * Id() == Map::GetMiniTile(w).AreaId() for each walkable MiniTile w in this Area.<br/>
-     * Area::ids are guaranteed to remain unchanged.<br/>
-     * </p>
+     * Unique id > 0 of this Area. Range = 1 .. Map::Areas().size()<br>
+     * this == Map::GetArea(Id())<br>
+     * Id() == Map::GetMiniTile(w).AreaId() for each walkable MiniTile w in this Area.<br>
+     * Area::ids are guaranteed to remain unchanged.<br>
      */
     public Id getAreaId() {
         return new Id(this.areaId);
     }
 
     /**
-     * <p>
-     * Unique id > 0 of the group of Areas which are accessible from this Area.<br/>
-     * For each pair (a, b) of Areas: a->GroupId() == b->GroupId() &lt;==&gt;  a->AccessibleFrom(b)<br/>
-     * A groupId uniquely identifies a maximum set of mutually accessible Areas, that is, in the absence of blocking ChokePoints, a continent.<br/>
-     * </p>
+     * Unique id > 0 of the group of Areas which are accessible from this Area.<br>
+     * For each pair (a, b) of Areas: a->GroupId() == b->GroupId() &lt;==&gt;  a->AccessibleFrom(b)<br>
+     * A groupId uniquely identifies a maximum set of mutually accessible Areas, that is, in the absence of blocking ChokePoints, a continent.<br>
      */
     public GroupId getGroupId() {
         return new GroupId(this.groupId);
     }
 
     /**
-     * <p></p>
-     *
      * @param groupId The specified group ID.
      * @throws IllegalArgumentException If the specified group ID is invalid.
      */
@@ -110,9 +102,6 @@ public class Area {
         return new TilePosition(this.topLeft.getX(), this.topLeft.getY());
     }
 
-    /**
-     * <p></p>
-     */
     public TilePosition getBottomRight() {
         return new TilePosition(this.bottomRight.getX(), this.bottomRight.getY());
     }
@@ -163,11 +152,9 @@ public class Area {
     }
 
     /**
-     * <p>
-     * - Tests whether the specified object is equal to this object.<br/>
-     * - Tests whether the specified object is an instance of this class.<br/>
-     * - Tests if the internal Area.Id values match.<br/>
-     * </p>
+     * - Tests whether the specified object is equal to this object.<br>
+     * - Tests whether the specified object is an instance of this class.<br>
+     * - Tests if the internal Area.Id values match.<br>
      *
      * @param object The specified object to test against this object.
      */
@@ -232,11 +219,9 @@ public class Area {
         }
 
         /**
-         * <p>
-         * - Tests whether the specified object is equal to this object.<br/>
-         * - Tests whether the specified object is an instance of this class.<br/>
-         * - Tests if the internal integer values match.<br/>
-         * </p>
+         * - Tests whether the specified object is equal to this object.<br>
+         * - Tests whether the specified object is an instance of this class.<br>
+         * - Tests if the internal integer values match.<br>
          *
          * @param object The specified object to test against this object.
          */
@@ -301,11 +286,9 @@ public class Area {
         }
 
         /**
-         * <p>
-         * - Tests whether the specified object is equal to this object.<br/>
-         * - Tests whether the specified object is an instance of this class.<br/>
-         * - Tests if the internal integer values match.<br/>
-         * </p>
+         * - Tests whether the specified object is equal to this object.<br>
+         * - Tests whether the specified object is an instance of this class.<br>
+         * - Tests if the internal integer values match.<br>
          *
          * @param object The specified object to test against this object.
          */
