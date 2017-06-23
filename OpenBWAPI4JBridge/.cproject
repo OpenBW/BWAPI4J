@@ -31,6 +31,13 @@
 								<option id="gnu.cpp.compiler.so.debug.option.debugging.level.1625528268" name="Debug Level" superClass="gnu.cpp.compiler.so.debug.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.281098439" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="/home/imp/git/bwapi/bwapi/include"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bwapi/bwapi/BWAPI/Source}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bwapi/bwapi/Util/Source}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bwapi/bwapi/BWAPICore}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bwapi/bwapi/OpenBWData}&quot;"/>
+									<listOptionValue builtIn="false" value="/dev/shm/java-8-openjdk-amd64/include"/>
+									<listOptionValue builtIn="false" value="/dev/shm/java-8-openjdk-amd64/include/linux"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/BWAPI4J/src/native/include}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.dialect.std.289047389" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.c++11" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.other.pic.595900007" name="Position Independent Code (-fPIC)" superClass="gnu.cpp.compiler.option.other.pic" useByScannerDiscovery="false" value="true" valueType="boolean"/>
@@ -90,6 +97,13 @@
 								<option id="gnu.cpp.compiler.so.release.option.debugging.level.2000040025" name="Debug Level" superClass="gnu.cpp.compiler.so.release.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.1202025331" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="/home/imp/git/bwapi/bwapi/include"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bwapi/bwapi/BWAPI/Source}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bwapi/bwapi/Util/Source}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bwapi/bwapi/BWAPICore}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bwapi/bwapi/OpenBWData}&quot;"/>
+									<listOptionValue builtIn="false" value="/dev/shm/java-8-openjdk-amd64/include"/>
+									<listOptionValue builtIn="false" value="/dev/shm/java-8-openjdk-amd64/include/linux"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/BWAPI4J/src/native/include}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.dialect.std.1423450315" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.c++11" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.other.pic.653018542" name="Position Independent Code (-fPIC)" superClass="gnu.cpp.compiler.option.other.pic" useByScannerDiscovery="false" value="true" valueType="boolean"/>

@@ -11,10 +11,10 @@
 #include <iostream>
 #include <fstream>
 
-namespace DummyBot
+namespace OpenBridge
 {
 
-class DummyBotModule : public BWAPI::AIModule
+class OpenBridgeModule : public BWAPI::AIModule
 {
 
 public:
