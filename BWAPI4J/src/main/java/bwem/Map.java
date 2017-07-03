@@ -543,26 +543,27 @@ public class Map {
         Area.Id newTinyAreaId = new Area.Id(-2);
 
         for (Area.TempInfo tempArea : tempAreaList) {
-            if (tempArea.isValid() && tempArea.getSize() >= BWEM.AREA_MIN_MINI_TILES) {
-//                bwem_assert(newAreaId <= TempArea.Id());
-                if (!(newAreaId.intValue() <= tempArea.getId().intValue())) {
-                    throw new IllegalStateException();
+            if (tempArea.isValid()) {
+                if (tempArea.getSize() >= BWEM.AREA_MIN_MINI_TILES) {
+//                    bwem_assert(newAreaId <= TempArea.Id());
+                    if (!(newAreaId.intValue() <= tempArea.getId().intValue())) {
+                        throw new IllegalStateException();
+                    }
+                    if (!newAreaId.equals(tempArea.getId())) {
+                        replaceAreaIds(tempArea.getTop(), newAreaId);
+                    }
+                    areasList.add(new Pair<>(tempArea.getTop(), tempArea.getSize()));
+                    newAreaId = new Area.Id(newAreaId.intValue() + 1);
+                } else {
+                    replaceAreaIds(tempArea.getTop(), newTinyAreaId);
+                    newTinyAreaId = new Area.Id(newTinyAreaId.intValue() - 1);
                 }
-                if (newAreaId.intValue() <= tempArea.getId().intValue()) {
-                    replaceAreaIds(tempArea.getTop(), newAreaId);
-                }
-                areasList.add(new Pair<>(tempArea.getTop(), tempArea.getSize()));
-                newAreaId = new Area.Id(newAreaId.intValue() + 1);
-            } else {
-                replaceAreaIds(tempArea.getTop(), newTinyAreaId);
-                newTinyAreaId = new Area.Id(newTinyAreaId.intValue() - 1);
             }
         }
 
         this.graph.createAreas(areasList);
     }
 
-    //TODO
     private void setAreaIdInTiles() {
         for (int y = 0 ; y < getTileSize().getY() ; ++y)
         for (int x = 0 ; x < getTileSize().getX() ; ++x) {
@@ -574,7 +575,7 @@ public class Map {
 
     private void setAreaIdInTile(TilePosition t) {
         Tile tile = getTile(t);
-//        bwem_assert(tile.AreaId() == 0);	// initialized to 0
+//        bwem_assert(tile.AreaId() == 0); // initialized to 0
         if (!(tile.getAreaId().intValue() == 0)) {
             throw new IllegalStateException();
         }
