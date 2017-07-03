@@ -282,8 +282,8 @@ public class Map {
          * 3) Use Dijkstra's algorithm.
          */
 
-        for (Pair<WalkPosition, Altitude> pair : activeSeaSideList) {
-            WalkPosition delta = pair.first;
+        for (Pair<WalkPosition, Altitude> pair : deltasByAscendingAltitude) {
+            WalkPosition d = pair.first;
             Altitude altitude = pair.second;
             for (int i = 0; i < activeSeaSideList.size(); i++) {
                 Pair<WalkPosition, Altitude> current = activeSeaSideList.get(i);
@@ -291,10 +291,10 @@ public class Map {
                     activeSeaSideList.remove(i--);                                                   // we can throw it away as it will not generate min altitudes anymore
                 } else {
                     WalkPosition[] tmpDeltas = {
-                        new WalkPosition(delta.getX(),  delta.getY()), new WalkPosition(-delta.getX(),  delta.getY()),
-                        new WalkPosition(delta.getX(), -delta.getY()), new WalkPosition(-delta.getX(), -delta.getY()),
-                        new WalkPosition(delta.getY(),  delta.getX()), new WalkPosition(-delta.getY(),  delta.getX()),
-                        new WalkPosition(delta.getY(), -delta.getX()), new WalkPosition(-delta.getY(), -delta.getX()),
+                        new WalkPosition(d.getX(),  d.getY()), new WalkPosition(-d.getX(),  d.getY()),
+                        new WalkPosition(d.getX(), -d.getY()), new WalkPosition(-d.getX(), -d.getY()),
+                        new WalkPosition(d.getY(),  d.getX()), new WalkPosition(-d.getY(),  d.getX()),
+                        new WalkPosition(d.getY(), -d.getX()), new WalkPosition(-d.getY(), -d.getX()),
                     };
                     for (WalkPosition tmpDelta : tmpDeltas) {
                         WalkPosition w = (current.first).add(tmpDelta);
@@ -312,15 +312,14 @@ public class Map {
         }
     }
 
-    //TODO: Double-check that this ported method is correct.
     private void processBlockingNeutrals() {
         List<Neutral> candidates = new ArrayList<>();
 
-        for (Building s : this.staticBuildings) {
-            candidates.add(new Neutral(s, this));
+        for (Building staticBuilding : this.staticBuildings) {
+            candidates.add(new Neutral(staticBuilding, this));
         }
-        for (MineralPatch m : this.mineralPatches) {
-            candidates.add(new Neutral(m, this));
+        for (MineralPatch mineralPatch : this.mineralPatches) {
+            candidates.add(new Neutral(mineralPatch, this));
         }
 
         for (Neutral candidate : candidates) {
@@ -334,17 +333,17 @@ public class Map {
 
             List<WalkPosition> border = BWEM.outerMiniTileBorder(candidate.getPosition().toTilePosition(), candidate.getSize());
 
-            List<WalkPosition> tmpBorder = new ArrayList<>();
-            for (WalkPosition w : border) {
+//			really_remove_if(Border, [this](WalkPosition w)	{
+//				return !Valid(w) || !GetMiniTile(w, check_t::no_check).Walkable() ||
+//					GetTile(TilePosition(w), check_t::no_check).GetNeutral(); });
+            for (int i = 0; i < border.size(); i++) {
+                WalkPosition w = border.get(i);
                 if (!isValid(w)
                         || !getMiniTile(w, CheckMode.NoCheck).isWalkable()
                         || getTile(w.toPosition().toTilePosition(), CheckMode.NoCheck).getNeutral() != null) {
-                    /* Ignore. */
-                } else {
-                    tmpBorder.add(w);
+                    border.remove(i--);
                 }
             }
-            border = tmpBorder;
 
             /**
              * 2) Find the doors in Border: one door for each connected set of walkable, neighboring miniTiles.
@@ -359,6 +358,7 @@ public class Map {
                 List<WalkPosition> toVisit = new ArrayList<>();
                 toVisit.add(door);
                 List<WalkPosition> visited = new ArrayList<>();
+                visited.add(door);
                 while (!toVisit.isEmpty()) {
                     WalkPosition current = toVisit.get(toVisit.size() - 1);
                     toVisit.remove(toVisit.size() - 1);
@@ -375,9 +375,12 @@ public class Map {
                         }
                     }
                 }
-                for (WalkPosition w : border) {
+
+//                really_remove_if(Border, [&Visited](WalkPosition w)	{ return contains(Visited, w); });
+                for (int i = 0; i < border.size(); i++) {
+                    WalkPosition w = border.get(i);
                     if (visited.contains(w)) {
-                        border.remove(w);
+                        border.remove(i--);
                     }
                 }
             }
@@ -429,8 +432,7 @@ public class Map {
 				/* Marks all the miniTiles of pCandidate as blocked. */
 				/* This way, areas at TrueDoors won't merge together. */
 				for (int dy = 0 ; dy < candidate.getSize().toPosition().toWalkPosition().getY(); ++dy)
-				for (int dx = 0 ; dx < candidate.getSize().toPosition().toWalkPosition().getX() ; ++dx)
-				{
+				for (int dx = 0 ; dx < candidate.getSize().toPosition().toWalkPosition().getX(); ++dx) {
 					MiniTile miniTile = getMiniTile(candidate.getPosition().toWalkPosition().add(new WalkPosition(dx, dy)));
 					if (miniTile.isWalkable()) {
                         miniTile.setBlocked();
@@ -438,8 +440,6 @@ public class Map {
 				}
             }
         }
-
-        throw new UnsupportedOperationException("not implemented yet");
     }
 
     // Assigns MiniTile::m_areaId for each miniTile having AreaIdMissing()
@@ -527,8 +527,7 @@ public class Map {
             int first = this.rawFrontier.get(i).first.first.intValue();
             int second = this.rawFrontier.get(i).first.second.intValue();
             if (first == second) {
-                this.rawFrontier.remove(i);
-                i--;
+                this.rawFrontier.remove(i--);
             }
         }
 
@@ -564,8 +563,8 @@ public class Map {
     }
 
     private void setAreaIdInTiles() {
-        for (int y = 0 ; y < getTileSize().getY() ; ++y)
-        for (int x = 0 ; x < getTileSize().getX() ; ++x) {
+        for (int y = 0; y < getTileSize().getY(); ++y)
+        for (int x = 0; x < getTileSize().getX(); ++x) {
             TilePosition t = new TilePosition(x, y);
             setAreaIdInTile(t);
             setAltitudeInTile(t);
