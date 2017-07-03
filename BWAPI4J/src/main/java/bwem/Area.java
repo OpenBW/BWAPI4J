@@ -107,7 +107,7 @@ public class Area {
     }
 
     public TilePosition getBoundingBoxSize() {
-        return this.bottomRight.add(this.topLeft).subtract(new TilePosition(1, 1));
+        return this.bottomRight.subtract(this.topLeft).add(new TilePosition(1, 1));
     }
 
     //////////////////////////////////////////////////////////////////////
