@@ -469,11 +469,10 @@ public class Map {
         setAreaIdInTiles();
     }
 
-    //TODO: Double-check that this ported method is correct.
     private List<Area.TempInfo> computeTempAreas(List<Pair<WalkPosition, MiniTile>> miniTilesByDescendingAltitude) {
         List<Area.TempInfo> tempAreaList = new ArrayList<>();
-
         tempAreaList.add(new Area.TempInfo()); /* TempAreaList[0] left unused, as AreaIds are > 0. */
+
         for (Pair<WalkPosition, MiniTile> current : miniTilesByDescendingAltitude) {
             WalkPosition pos = current.first;
             MiniTile cur = current.second;
@@ -493,28 +492,26 @@ public class Map {
                 }
 
                 /* Condition for the neighboring areas to merge: */
+//                any_of(StartingLocations().begin(), StartingLocations().end(), [&pos](const TilePosition & startingLoc)
+//                    { return dist(TilePosition(pos), startingLoc + TilePosition(2, 1)) <= 3;})
+                boolean cpp_algorithm_std_any_of = false;
+                for (TilePosition startingLoc : this.startLocations) {
+                    if (Double.compare(BWEM.dist(pos.toPosition().toTilePosition(), startingLoc.add(new TilePosition(2, 1))), Double.valueOf("3")) <= 0) {
+                        cpp_algorithm_std_any_of = true;
+                        break;
+                    }
+                }
                 if (tempAreaList.get(smaller.intValue()).getSize() < 80
                         || tempAreaList.get(smaller.intValue()).getHighestAltitude().intValue() < 80
                         || Double.compare((double) cur.getAltitude().intValue() / (double) tempAreaList.get(bigger.intValue()).getHighestAltitude().intValue(), Double.valueOf("0.90")) >= 0
                         || Double.compare((double) cur.getAltitude().intValue() / (double) tempAreaList.get(smaller.intValue()).getHighestAltitude().intValue(), Double.valueOf("0.90")) >= 0
-                ) {
-                    boolean any_of = false;
-                    for (TilePosition startingLoc : this.startLocations) {
-//                        any_of(StartingLocations().begin(), StartingLocations().end(), [&pos](const TilePosition & startingLoc)
-//                        { return dist(TilePosition(pos), startingLoc + TilePosition(2, 1)) <= 3;})
-                        if (Double.compare(BWEM.dist(pos.toPosition().toTilePosition(), startingLoc.add(new TilePosition(2, 1))), Double.valueOf("3")) <= 0) {
-                            any_of = true;
-                            break;
-                        }
-                    }
-                    if (any_of) {
-                        /* Add cur to the absorbing area. */
-                        tempAreaList.get(bigger.intValue()).add(cur);
+                        || cpp_algorithm_std_any_of) {
+                    /* Add cur to the absorbing area. */
+                    tempAreaList.get(bigger.intValue()).add(cur);
 
-                        /* Merges the two neighboring areas. */
-                        replaceAreaIds(tempAreaList.get(smaller.intValue()).getTop(), bigger);
-                        tempAreaList.get(bigger.intValue()).merge(tempAreaList.get(smaller.intValue()));
-                    }
+                    /* Merges the two neighboring areas. */
+                    replaceAreaIds(tempAreaList.get(smaller.intValue()).getTop(), bigger);
+                    tempAreaList.get(bigger.intValue()).merge(tempAreaList.get(smaller.intValue()));
                 } else {
                     /* No merge : cur starts or continues the frontier between the two neighboring areas. */
                     tempAreaList.get(chooseNeighboringArea(smaller, bigger).intValue()).add(cur);
@@ -524,6 +521,8 @@ public class Map {
         }
 
         /* Remove from the frontier obsolete positions. */
+//        really_remove_if(m_RawFrontier, [](const pair<pair<Area::id, Area::id>, BWAPI::WalkPosition> & f)
+//            { return f.first.first == f.first.second; });
         for (int i = 0; i < this.rawFrontier.size(); i++) {
             int first = this.rawFrontier.get(i).first.first.intValue();
             int second = this.rawFrontier.get(i).first.second.intValue();
