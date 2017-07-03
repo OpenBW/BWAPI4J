@@ -163,12 +163,10 @@ public class Map {
 
     private void decideSeasOrLakes() {
         for (int y = 0 ; y < getWalkSize().getY(); ++y)
-        for (int x = 0 ; x < getWalkSize().getX(); ++x)
-        {
+        for (int x = 0 ; x < getWalkSize().getX(); ++x) {
             WalkPosition walkOrigin = new WalkPosition(x, y);
             MiniTile miniOrigin = getMiniTile(walkOrigin, CheckMode.NoCheck);
-            if (miniOrigin.isSeaOrLake())
-            {
+            if (miniOrigin.isSeaOrLake()) {
                 List<WalkPosition> ToSearch = new ArrayList<>();
                 ToSearch.add(walkOrigin);
                 List<MiniTile> SeaExtent = new ArrayList<>();
@@ -176,8 +174,7 @@ public class Map {
                 miniOrigin.setSea();
                 WalkPosition topLeft = walkOrigin;
                 WalkPosition bottomRight = walkOrigin;
-                while (!ToSearch.isEmpty())
-                {
+                while (!ToSearch.isEmpty()) {
                     WalkPosition current = ToSearch.get(ToSearch.size() - 1);
                     if (current.getX() < topLeft.getX()) topLeft = new WalkPosition(current.getX(), topLeft.getY());
                     if (current.getY() < topLeft.getY()) topLeft = new WalkPosition(topLeft.getX(), current.getY());
@@ -186,17 +183,16 @@ public class Map {
 
                     ToSearch.remove(ToSearch.size() - 1);
                     WalkPosition[] deltas = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(1, 0), new WalkPosition(0, 1)};
-                    for (WalkPosition delta : deltas)
-                    {
+                    for (WalkPosition delta : deltas) {
                         WalkPosition nextWalkPosition = current.add(delta);
-                        if (isValid(nextWalkPosition))
-                        {
+                        if (isValid(nextWalkPosition)) {
                             MiniTile nextMiniTile = getMiniTile(nextWalkPosition, CheckMode.NoCheck);
-                            if (nextMiniTile.isSeaOrLake())
-                            {
+                            if (nextMiniTile.isSeaOrLake()) {
                                 ToSearch.add(nextWalkPosition);
                                 nextMiniTile.setSea();
-                                if (SeaExtent.size() <= BWEM.LAKE_MAX_MINI_TILES) SeaExtent.add(nextMiniTile);
+                                if (SeaExtent.size() <= BWEM.LAKE_MAX_MINI_TILES) {
+                                    SeaExtent.add(nextMiniTile);
+                                }
                             }
                         }
                     }
@@ -270,8 +266,7 @@ public class Map {
         List<Pair<WalkPosition, Altitude>> activeSeaSideList = new ArrayList<>();
 
         for (int y = -1 ; y <= getWalkSize().getY() ; ++y)
-        for (int x = -1 ; x <= getWalkSize().getX() ; ++x)
-        {
+        for (int x = -1 ; x <= getWalkSize().getX() ; ++x) {
             WalkPosition w = new WalkPosition(x, y);
             if (!isValid(w) || BWEM.hasNonSeaNeighbor(w, this)) {
                 activeSeaSideList.add(new Pair<>(w, new Altitude(0)));
@@ -282,9 +277,9 @@ public class Map {
          * 3) Use Dijkstra's algorithm.
          */
 
-        for (Pair<WalkPosition, Altitude> pair : deltasByAscendingAltitude) {
-            WalkPosition d = pair.first;
-            Altitude altitude = pair.second;
+        for (Pair<WalkPosition, Altitude> deltaAltitude : deltasByAscendingAltitude) {
+            WalkPosition d = deltaAltitude.first;
+            Altitude altitude = deltaAltitude.second;
             for (int i = 0; i < activeSeaSideList.size(); i++) {
                 Pair<WalkPosition, Altitude> current = activeSeaSideList.get(i);
                 if (altitude.subtract(current.second).intValue() >= (2 * MiniTile.SIZE_IN_PIXELS)) { // optimization : once a seaside miniTile verifies this condition,
