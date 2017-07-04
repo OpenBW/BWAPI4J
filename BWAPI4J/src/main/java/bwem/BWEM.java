@@ -26,6 +26,8 @@ public class BWEM {
      */
     public static final int AREA_MIN_MINI_TILES = 64;
 
+    public static final double CLUSTER_MIN_DISTANCE = Math.sqrt(LAKE_MAX_MINI_TILES);
+
     private BW bw = null;
     private Map map = null;
 
@@ -65,6 +67,15 @@ public class BWEM {
         }
 
         return false;
+    }
+
+    public static int queenwiseDistance(WalkPosition a, WalkPosition b) {
+       WalkPosition c = a.subtract(b);
+       return queenwiseNorm(c.getX(), c.getY());
+    }
+
+    public static int queenwiseNorm(int dx, int dy) {
+        return Math.max(Math.abs(dx), Math.abs(dy));
     }
 
     public static int squaredNorm(int dx, int dy) {
