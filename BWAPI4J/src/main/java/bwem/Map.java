@@ -756,7 +756,11 @@ public class Map {
         return this.mineralPatches;
     }
 
-    public WalkPosition breadFirstSearch(WalkPosition start, Pred findCond, Pred visitCond) {
+    public List<Pair<Pair<Area.Id, Area.Id>, WalkPosition>> getRawFrontier() {
+        return this.rawFrontier;
+    }
+
+    public WalkPosition breadthFirstSearch(WalkPosition start, Pred findCond, Pred visitCond) {
         if (findCond.is(getMiniTile(start), start)) {
             return start;
         }
