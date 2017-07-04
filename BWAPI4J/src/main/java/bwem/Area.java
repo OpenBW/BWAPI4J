@@ -7,13 +7,13 @@ import org.openbw.bwapi4j.WalkPosition;
 
 public class Area {
 
+    private Map map;
     private Id areaId;
     private GroupId groupId;
     private TilePosition topLeft;
     private TilePosition bottomRight;
     private WalkPosition top;
     private List<Chokepoint> chokepoints;
-    private Graph graph;
     private int tileCount;
     private int miniTileCount;
     private int buildableTiles;
@@ -31,7 +31,7 @@ public class Area {
     /**
      * Class constructor.
      *
-     * @param graph The graph to use by class methods.
+     * @param map The map to use by class methods.
      * @param areaId The id for this object.
      * @param top //TODO: What is this? How is this different from maximum altitude?
      * @param miniTileCount the number of mini tiles in this area.
@@ -39,8 +39,8 @@ public class Area {
      *     - If the specified area ID is invalid.<br>
      *     - If the specified top area ID does not match the specified area ID.<br>
      */
-    public Area(Graph graph, Area.Id areaId, WalkPosition top, int miniTileCount) {
-        this.graph = graph;
+    public Area(Map map, Area.Id areaId, WalkPosition top, int miniTileCount) {
+        this.map = map;
         this.areaId = new Area.Id(areaId);
         this.top = new WalkPosition(top.getX(), top.getY());
         this.miniTileCount = miniTileCount;
@@ -58,7 +58,7 @@ public class Area {
             throw new IllegalArgumentException("invalid Area.Id");
         }
 
-        MiniTile topMiniTile = this.graph.getMap().getMiniTile(top);
+        MiniTile topMiniTile = this.map.getMiniTile(top);
 //        bwem_assert(topMiniTile.AreaId() == areaId);
         if (!(topMiniTile.getAreaId().equals(areaId))) {
             throw new IllegalArgumentException();
@@ -412,15 +412,6 @@ public class Area {
                 this.size += absorbed.size;
                 absorbed.isValid = false;
             }
-        }
-
-//        TempAreaInfo &		operator=(const TempAreaInfo &) = delete;
-        /**
-         * This method is effectively disabled and will throw an exception during runtime.
-         */
-        @Override
-        public boolean equals(Object o) {
-            throw new UnsupportedOperationException("use of this method is forbidden");
         }
 
         @Override

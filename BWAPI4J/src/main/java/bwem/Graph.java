@@ -33,10 +33,6 @@ public class Graph {
         this.pathsBetweenChokepoints = new ArrayList<>();
     }
 
-    public Map getMap() {
-        return this.map;
-    }
-
     public CPPath getPath(Position a, Position b, MutableInt length) {
         Area areaA = getNearestArea(a.toWalkPosition());
         Area areaB = getNearestArea(b.toWalkPosition());
@@ -182,11 +178,15 @@ public class Graph {
         return this.chokepointDistanceMatrix.get(cpA.getIndex().intValue()).get(cpB.getIndex().intValue());
     }
 
+    /**
+     * This method should only be used in the initialization phase.
+     * //TODO: Hide this from the API.
+     */
     public void createAreas(List<Pair<WalkPosition, Integer>> areas) {
         for (int id = 1; id <= areas.size(); id++) {
             WalkPosition top = areas.get(id - 1).first;
             int miniTiles = areas.get(id - 1).second;
-            this.areas.add(new Area(this, new Area.Id(id), top, miniTiles));
+            this.areas.add(new Area(this.map, new Area.Id(id), top, miniTiles));
         }
     }
 

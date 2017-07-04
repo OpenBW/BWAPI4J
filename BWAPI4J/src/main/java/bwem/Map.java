@@ -748,9 +748,10 @@ public class Map {
         return new Position(this.center.getX(), this.center.getY());
     }
 
-    public Area getArea(WalkPosition w) {
-        return this.graph.getArea(w);
-    }
+    //TODO: Disabled for now. Why not just use "getGraph().getArea()". Convenience?
+//    public Area getArea(WalkPosition w) {
+//        return this.graph.getArea(w);
+//    }
 
     public List<Building> getStaticBuildings() {
         return this.staticBuildings;

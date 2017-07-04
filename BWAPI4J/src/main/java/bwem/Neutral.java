@@ -63,7 +63,7 @@ public class Neutral {
     public List<Area> getBlockedAreas() {
         List<Area> ret = new ArrayList<>();
         for (WalkPosition w : this.blockedAreas) {
-            ret.add(this.map.getArea(w));
+            ret.add(this.map.getGraph().getArea(w));
         }
         return ret;
     }
@@ -85,7 +85,6 @@ public class Neutral {
             if (tile.getNeutral() == null) {
                 tile.setNeutral(this);
             } else {
-                Neutral topNeutral = tile.getNeutral().getLastStacked();
 //                bwem_assert(this != tile.GetNeutral());
 //                bwem_assert(this != pTop);
 //                bwem_assert(!pTop->IsGeyser());
@@ -93,17 +92,16 @@ public class Neutral {
 //                bwem_assert_plus(pTop->TopLeft() == TopLeft(), "stacked neutrals not aligned: " + my_to_string(pTop->TopLeft()) + " / " + my_to_string(TopLeft()));
 //                bwem_assert((dx == 0) && (dy == 0));
                 if (this == tile.getNeutral()
-                        || this == topNeutral
-                        || (topNeutral.getUnit() instanceof VespeneGeyser)) {
+                        || (tile.getNeutral().getUnit() instanceof VespeneGeyser)) {
                     throw new IllegalStateException();
-                } else if (!(topNeutral.getUnit().getClass().getName().equals(this.unit.getClass().getName()))) {
+                } else if (!(tile.getNeutral().getUnit().getClass().getName().equals(this.unit.getClass().getName()))) {
                     throw new IllegalStateException("Stacked neutrals have different types.");
-                } else if (!topNeutral.getPosition().equals(this.position)) {
+                } else if (!tile.getNeutral().getPosition().equals(this.position)) {
                     throw new IllegalStateException("Stacked neutrals not aligned.");
                 } else if ((dx != 0) || (dy != 0)) {
                     throw new IllegalStateException();
                 } else {
-                    topNeutral.nextStacked = this;
+                    tile.getNeutral().nextStacked = this;
                     return;
                 }
             }
