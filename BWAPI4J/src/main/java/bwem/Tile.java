@@ -1,5 +1,7 @@
 package bwem;
 
+import bwem.unit.Neutral;
+
 /**
  * Corresponds to BWAPI/Starcraft's concept of tile (32x32 pixels).
  * Tiles are accessed using TilePositions (Cf. Map::GetTile).

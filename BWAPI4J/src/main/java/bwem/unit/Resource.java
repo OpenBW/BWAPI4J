@@ -1,5 +1,6 @@
-package bwem;
+package bwem.unit;
 
+import bwem.Map;
 import org.openbw.bwapi4j.unit.MineralPatch;
 import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.unit.VespeneGeyser;

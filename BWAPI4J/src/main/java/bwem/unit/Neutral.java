@@ -1,5 +1,8 @@
-package bwem;
+package bwem.unit;
 
+import bwem.Area;
+import bwem.Map;
+import bwem.Tile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

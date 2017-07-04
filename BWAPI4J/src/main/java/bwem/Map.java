@@ -1,5 +1,8 @@
 package bwem;
 
+import bwem.unit.Neutral;
+import bwem.unit.Mineral;
+import bwem.unit.Geyser;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
