@@ -14,8 +14,8 @@ public class Area {
     private WalkPosition top;
     private List<Chokepoint> chokepoints;
     private Graph graph;
-    private int tiles;
-    private int miniTiles;
+    private int tileCount;
+    private int miniTileCount;
     private int buildableTiles;
     private int highGroundTiles;
     private int veryHighGroundTiles;
@@ -43,9 +43,9 @@ public class Area {
         this.graph = graph;
         this.areaId = new Area.Id(areaId);
         this.top = new WalkPosition(top.getX(), top.getY());
-        this.miniTiles = miniTileCount;
+        this.miniTileCount = miniTileCount;
 
-        this.tiles = 0;
+        this.tileCount = 0;
         this.buildableTiles = 0;
         this.highGroundTiles = 0;
         this.veryHighGroundTiles = 0;
@@ -140,7 +140,7 @@ public class Area {
      */
     //TODO: Rename this function to `size()'?
     public int getMiniTileCount() {
-        return this.miniTiles;
+        return this.miniTileCount;
     }
 
     public boolean isAccessibleFrom(Area that) {
