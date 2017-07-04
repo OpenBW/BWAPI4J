@@ -14,8 +14,6 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.unit.Building;
-import org.openbw.bwapi4j.unit.Critter;
-import org.openbw.bwapi4j.unit.Egg;
 import org.openbw.bwapi4j.unit.MineralPatch;
 import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.unit.VespeneGeyser;
@@ -48,11 +46,9 @@ public class Map {
     private List<MiniTile> miniTiles;
     private List<TilePosition> startLocations;
     private Altitude maxAltitude;
-    private List<MineralPatch> mineralPatches;
-    private List<VespeneGeyser> geysers;
-    private List<Building> staticBuildings;
-    private List<Critter> critters;
-    private List<Egg> neutralEggs;
+    private List<Mineral> mineralPatches;
+    private List<Geyser> vespeneGeysers;
+    private List<StaticBuilding> staticBuildings;
     private Graph graph;
     private List<Pair<Pair<Area.Id, Area.Id>, WalkPosition>> rawFrontier;
 
@@ -99,10 +95,8 @@ public class Map {
         this.maxAltitude = new Altitude(0);
 
         this.mineralPatches = new ArrayList<>();
-        this.geysers = new ArrayList<>();
+        this.vespeneGeysers = new ArrayList<>();
         this.staticBuildings = new ArrayList<>();
-        this.critters = new ArrayList<>();
-        this.neutralEggs = new ArrayList<>();
 
         this.graph = new Graph(this);
 
@@ -114,6 +108,8 @@ public class Map {
         computeAltitude();
         processBlockingNeutrals();
         computeAreas();
+
+        this.graph.createChokepoints();
     }
 
     /**
@@ -215,10 +211,10 @@ public class Map {
 
     private void initializeNeutrals() {
         for (MineralPatch patch : this.bw.getMineralPatches()) {
-            this.mineralPatches.add(patch);
+            this.mineralPatches.add(new Mineral(patch, this));
         }
         for (VespeneGeyser geyser : this.bw.getVespeneGeysers()) {
-            this.geysers.add(geyser);
+            this.vespeneGeysers.add(new Geyser(geyser, this));
         }
         for (Player player : this.bw.getAllPlayers()) {
             if (!player.isNeutral()) {
@@ -226,11 +222,7 @@ public class Map {
             }
             for (Unit unit : player.getUnits()) {
                 if (unit instanceof Building) {
-                    this.staticBuildings.add((Building) unit);
-                } else if (unit instanceof Critter) {
-                    this.critters.add((Critter) unit);
-                } else if (unit instanceof Egg) {
-                    this.neutralEggs.add((Egg) unit);
+                    this.staticBuildings.add(new StaticBuilding(unit, this));
                 }
                 //TODO: Add "Special_Pit_Door" and "Special_Right_Pit_Door" to static buildings list? See mapImpl.cpp:238.
             }
@@ -310,11 +302,11 @@ public class Map {
     private void processBlockingNeutrals() {
         List<Neutral> candidates = new ArrayList<>();
 
-        for (Building staticBuilding : this.staticBuildings) {
-            candidates.add(new Neutral(staticBuilding, this));
+        for (StaticBuilding staticBuilding : this.staticBuildings) {
+            candidates.add(staticBuilding);
         }
-        for (MineralPatch mineralPatch : this.mineralPatches) {
-            candidates.add(new Neutral(mineralPatch, this));
+        for (Mineral mineralPatch : this.mineralPatches) {
+            candidates.add(mineralPatch);
         }
 
         for (Neutral candidate : candidates) {
@@ -753,11 +745,11 @@ public class Map {
 //        return this.graph.getArea(w);
 //    }
 
-    public List<Building> getStaticBuildings() {
+    public List<StaticBuilding> getStaticBuildings() {
         return this.staticBuildings;
     }
 
-    public List<MineralPatch> getMineralPatches() {
+    public List<Mineral> getMineralPatches() {
         return this.mineralPatches;
     }
 

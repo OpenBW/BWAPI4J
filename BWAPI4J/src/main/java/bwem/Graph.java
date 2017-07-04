@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.WalkPosition;
+import org.openbw.bwapi4j.unit.Building;
 import org.openbw.bwapi4j.util.Pair;
 
 public class Graph {
@@ -188,6 +189,25 @@ public class Graph {
             int miniTiles = areas.get(id - 1).second;
             this.areas.add(new Area(this.map, new Area.Id(id), top, miniTiles));
         }
+    }
+
+    //TODO: Need to port/organize the custom Neutral types from original BWEM first. (e.g. Resource, StaticBuilding, etc)
+    /**
+     * This method should only be used in the initialization phase.
+     * //TODO: Hide this from the API.
+     */
+    public void createChokepoints() {
+       Index newIndex = new Index(0);
+
+        List<Neutral> blockingNeutrals = new ArrayList<>();
+//        for (auto & s : GetMap()->StaticBuildings())		if (s->Blocking()) BlockingNeutrals.push_back(s.get());
+//        for (Building s : this.map.getStaticBuildings()) {
+////            if (s.isb)
+//        }
+//        for (auto & m : GetMap()->Minerals())			if (m->Blocking()) BlockingNeutrals.push_back(m.get());
+//
+//        const int pseudoChokePointsToCreate = count_if(BlockingNeutrals.begin(), BlockingNeutrals.end(),
+//                                                [](const Neutral * n){ return !n->NextStacked(); });
     }
 
 }
