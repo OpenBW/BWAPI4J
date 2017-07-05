@@ -4,6 +4,7 @@ import bwem.unit.Neutral;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.util.Pair;
 
@@ -47,7 +48,6 @@ public class Chokepoint {
         this.nodes.add(this.geometry.get(geometry.size() - 1));
 
         int i = this.geometry.size() / 2;
-        //TODO
         while ((i > 0)
                 && (this.graph.getMap().getMiniTile(this.geometry.get(i + 1)).getAltitude().intValue()
                     > this.graph.getMap().getMiniTile(this.geometry.get(i)).getAltitude().intValue())) {
@@ -65,35 +65,72 @@ public class Chokepoint {
         tmpAreas.add(area2);
         for (int n = 0; n < Node.Count.intValue(); n++) {
             for (Area tmpArea : tmpAreas) {
-                //TODO
-                WalkPosition nodeInArea = (tmpArea.equals(this.areaPair.first)) ? this.nodesInArea.get(n).first : this.nodesInArea.get(n).second;
-//                nodeInArea = this.graph.getMap().breadthFirstSearch(
-//                    this.nodes.get(n),
-//                    new Pred() {
-//                        @Override
-//                        public boolean is(Object... args) {
-//                            Object o = args[args.length - 1];
-//                            Map map = null;
-//                            if (o instanceof Map) {
-//                                map = (Map) o;
-//                            }
-//
-//                            Object ttile = args[0];
-//                            if (ttile instanceof MiniTile) {
-//                                MiniTile miniTile = (MiniTile) ttile;
-//                                return (miniTile.getAreaId().intValue() == );
-//                            } else {
-//                                throw new IllegalArgumentException("tile type not supported");
-//                            }
-//                        }
-//                    },
-//                    new Pred() {
-//                        @Override
-//                        public boolean is(Object... args) {
-//                            throw new UnsupportedOperationException("Not supported yet.");
-//                        }
-//                    }
-//                );
+                WalkPosition nodeInArea = this.graph.getMap().breadthFirstSearch(
+                    this.nodes.get(n),
+                    new Pred() {
+                        @Override
+                        public boolean is(Object... args) {
+                            Object tmap = args[args.length - 1];
+                            Map map = null;
+                            if (tmap instanceof Map) {
+                                map = (Map) tmap;
+                            } else {
+                                throw new IllegalArgumentException("Invalid map argument.");
+                            }
+
+                            Object ttile = args[0];
+                            Object tpos = args[1];
+                            if (ttile instanceof MiniTile && tpos instanceof WalkPosition) {
+                                MiniTile miniTile = (MiniTile) ttile;
+                                WalkPosition w = (WalkPosition) tpos;
+                                TilePosition t = w.toPosition().toTilePosition();
+                                return (miniTile.getAreaId().intValue() > tmpArea.getAreaId().intValue() && map.getTile(t, CheckMode.NoCheck).getNeutral() == null);
+                            } else {
+                                throw new IllegalArgumentException("Invalid argument list.");
+                            }
+                        }
+                    },
+                    new Pred() {
+                        @Override
+                        public boolean is(Object... args) {
+                            Object tmap = args[args.length - 1];
+                            Map map;
+                            if (tmap instanceof Map) {
+                                map = (Map) tmap;
+                            } else {
+                                throw new IllegalArgumentException("Invalid map argument.");
+                            }
+
+                            Object ttile = args[0];
+                            Object tpos = args[1];
+                            if (ttile instanceof MiniTile && tpos instanceof WalkPosition) {
+                                MiniTile miniTile = (MiniTile) ttile;
+                                WalkPosition w = (WalkPosition) tpos;
+                                TilePosition t = w.toPosition().toTilePosition();
+                                return (miniTile.getAreaId().intValue() > tmpArea.getAreaId().intValue() || (isBlocked() && (miniTile.isBlocked() || map.getTile(t, CheckMode.NoCheck).getNeutral() != null)));
+                            } else {
+                                throw new IllegalArgumentException("Invalid argument list.");
+                            }
+                        }
+                    }
+                );
+
+                /**
+                 * Note: In the original C++ code, "nodeInArea" is a reference to a "WalkPosition" in
+                 * "nodesInArea" which changes! Change that object here (after the call to "breadthFirstSearch")...
+                 */
+//                WalkPosition & nodeInArea = (pArea == m_Areas.first) ? m_nodesInArea[n].first : m_nodesInArea[n].second;
+                WalkPosition first = this.nodesInArea.get(n).first;
+                WalkPosition second = this.nodesInArea.get(n).second;
+                Pair<WalkPosition, WalkPosition> replacementPair;
+                if (tmpArea.equals(this.areaPair.first)) {
+                    replacementPair = new Pair<>(new WalkPosition(nodeInArea.getX(), nodeInArea.getY()), new WalkPosition(second.getX(), second.getY()));
+                } else {
+                    //TODO: Determine if we should test "else if (tmpArea.equals(this.areaPair.second))" and then throw an exception if that test also fails.
+                    replacementPair = new Pair<>(new WalkPosition(first.getX(), first.getY()), new WalkPosition(nodeInArea.getX(), nodeInArea.getY()));
+                }
+                this.nodesInArea.remove(n);
+                this.nodesInArea.add(n, replacementPair);
             }
         }
     }
