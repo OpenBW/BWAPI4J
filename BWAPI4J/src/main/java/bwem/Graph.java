@@ -17,6 +17,7 @@ public class Graph {
 
     private Map map = null;
     private List<Area> areas = null;
+    private List<Chokepoint> chokepointList;
     private List<List<List<Chokepoint>>> chokePointsMatrix = null; // index == Area::id x Area::id
     private List<List<Integer>> chokepointDistanceMatrix = null; // index == ChokePoint::index x ChokePoint::index
     private List<List<CPPath>> pathsBetweenChokepoints = null; // index == ChokePoint::index x ChokePoint::index
@@ -36,6 +37,7 @@ public class Graph {
     public Graph(Map map) {
         this.map = map;
         this.areas = new ArrayList<>();
+        this.chokepointList = new ArrayList<>();
         this.chokePointsMatrix = new ArrayList<>();
         this.chokepointDistanceMatrix = new ArrayList<>();
         this.pathsBetweenChokepoints = new ArrayList<>();
@@ -164,8 +166,8 @@ public class Graph {
                 public boolean is(Object... args) {
                     Object ttile = args[0];
                     if (ttile instanceof MiniTile) {
-                        MiniTile tile = (MiniTile) ttile;
-                        return (tile.getAreaId().intValue() > 0);
+                        MiniTile miniTile = (MiniTile) ttile;
+                        return (miniTile.getAreaId().intValue() > 0);
                     } else {
                         throw new IllegalArgumentException("tile type not supported");
                     }
@@ -245,6 +247,7 @@ public class Graph {
 
 //        const int pseudoChokePointsToCreate = count_if(BlockingNeutrals.begin(), BlockingNeutrals.end(),
 //                                                [](const Neutral * n){ return !n->NextStacked(); });
+        //TODO: This may not be required in the Java port.
         int pseudoChokePointsToCreate = 0;
         for (Neutral neutral : blockingNeutrals) {
             if (neutral.getNextStacked() == null) {
@@ -327,19 +330,20 @@ public class Graph {
              * Each cluster will be populated starting with the center of a chokepoint (max altitude)
              * and finishing with the ends (min altitude).
              */
+
             int cluster_min_dist = (int) BWEM.CLUSTER_MIN_DISTANCE;
-            List<Deque<WalkPosition>> clusters = new ArrayList<>(); //TODO: Might have to use List<List<WalkPosition>> here because of code yet-to-be-implemented that requires access to specific nth elements. See variable Chokepoint.geometry.
+            List<List<WalkPosition>> clusters = new ArrayList<>(); //TODO: Might have to use List<List<WalkPosition>> here instead of List<Deque<WalkPosition>> because of code yet-to-be-implemented that requires access to specific nth elements. See variable Chokepoint.geometry.
             for (WalkPosition w : rawFrontierAB) {
                 boolean added = false;
-                for (Deque<WalkPosition> cluster : clusters) {
+                for (List<WalkPosition> cluster : clusters) {
                     if (cluster.size() > 0) {
-                        int distToFront = BWEM.queenwiseDistance(cluster.peekFirst(), w);
-                        int distToBack = BWEM.queenwiseDistance(cluster.peekLast(), w);
+                        int distToFront = BWEM.queenwiseDistance(cluster.get(0), w);
+                        int distToBack = BWEM.queenwiseDistance(cluster.get(clusters.size() - 1), w);
                         if (Math.min(distToFront, distToBack) <= cluster_min_dist) {
                             if (distToFront < distToBack) {
-                                cluster.addFirst(w);
+                                cluster.add(0, w);
                             } else {
-                                cluster.addLast(w);
+                                cluster.add(w);
                             }
                             added = true;
                             break;
@@ -348,26 +352,83 @@ public class Graph {
                 }
 
                 if (!added) {
-                    Deque<WalkPosition> wpq = new ArrayDeque<>();
+                    List<WalkPosition> wpq = new ArrayList<>();
                     wpq.add(w);
                     clusters.add(wpq);
                 }
             }
 
-            //TODO
             /**
              * 3.2) Create one Chokepoint for each cluster:
              */
-//            GetChokePoints(a, b).reserve(Clusters.size() + pseudoChokePointsToCreate);
-//            for (const auto & Cluster : Clusters)
-//                GetChokePoints(a, b).emplace_back(this, newIndex++, GetArea(a), GetArea(b), Cluster);
-            for (Deque<WalkPosition> cluster : clusters) {
-                //TODO: This Chokepoint ctor is not implemented yet:
-//                getChokepoints(a, b).add(new Chokepoint(this, newIndex, getArea(a), getArea(b)));
+
+            for (List<WalkPosition> cluster : clusters) {
+                Chokepoint cp = new Chokepoint(this, newIndex, getArea(a), getArea(b), cluster);
+                getChokepoints(a, b).add(cp);
             }
         }
 
-        throw new UnsupportedOperationException();
+        /**
+         * 4) Create one Chokepoint for each pair of blocked areas, for each blocking Neutral:
+         */
+
+        for (Neutral neutral : blockingNeutrals) {
+            if (neutral.getNextStacked() == null) { // in the case where several neutrals are stacked, we only consider the top
+                List<Area> blockedAreas = neutral.getBlockedAreas();
+                for (Area tmpA : blockedAreas)
+                for (Area tmpB : blockedAreas) {
+                    if (tmpB.equals(tmpA)) {
+                        // breaks symmetry
+                        break;
+                    }
+
+                    WalkPosition center = this.map.breadthFirstSearch(
+                        neutral.getPosition().toWalkPosition(),
+                        new Pred() {
+                            @Override
+                            public boolean is(Object... args) {
+                                Object ttile = args[0];
+                                if (ttile instanceof MiniTile) {
+                                    MiniTile miniTile = (MiniTile) ttile;
+                                    return miniTile.isWalkable();
+                                } else {
+                                    throw new IllegalArgumentException("tile type not supported");
+                                }
+                            }
+                        },
+                        new Pred() {
+                            @Override
+                            public boolean is(Object... args) {
+                                return true;
+                            }
+                        }
+                    );
+
+                    List<WalkPosition> tmpGeometry = new ArrayList<>();
+                    tmpGeometry.add(center);
+                    Chokepoint cp = new Chokepoint(this, new Index(newIndex.intValue() + 1), tmpA, tmpB, tmpGeometry, neutral);
+                    getChokepoints(tmpA.getAreaId(), tmpB.getAreaId()).add(cp);
+                }
+            }
+        }
+
+        /**
+         * 5) Set the references to the freshly created Chokepoints:
+         */
+
+        for (int a = 1; a <= this.areas.size(); ++a)
+        for (int b = 1; b < a; ++b) {
+            Area.Id idA = new Area.Id(a);
+            Area.Id idB = new Area.Id(b);
+            if (!getChokepoints(idA, idB).isEmpty()) {
+                getArea(idA).addChokepoints(getArea(idB), getChokepoints(idA, idB));
+                getArea(idB).addChokepoints(getArea(idA), getChokepoints(idA, idB));
+
+                for (Chokepoint cp : getChokepoints(idA, idB)) {
+                    this.chokepointList.add(cp);
+                }
+            }
+        }
     }
 
 }

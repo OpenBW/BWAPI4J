@@ -1,7 +1,9 @@
 package bwem;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 
@@ -14,6 +16,7 @@ public class Area {
     private TilePosition bottomRight;
     private WalkPosition top;
     private List<Chokepoint> chokepoints;
+    private ConcurrentHashMap<Area, List<Chokepoint>> chokepointsByArea;
     private int tileCount;
     private int miniTileCount;
     private int buildableTiles;
@@ -40,6 +43,9 @@ public class Area {
      *     - If the specified top area ID does not match the specified area ID.<br>
      */
     public Area(Map map, Area.Id areaId, WalkPosition top, int miniTileCount) {
+        this.chokepoints = new ArrayList<>();
+        this.chokepointsByArea = new ConcurrentHashMap<>();
+
         this.map = map;
         this.areaId = new Area.Id(areaId);
         this.top = new WalkPosition(top.getX(), top.getY());
@@ -149,6 +155,21 @@ public class Area {
 
     public List<Chokepoint> getChokepoints() {
         return this.chokepoints;
+    }
+
+    public void addChokepoints(Area area, List<Chokepoint> chokepoints) {
+//        bwem_assert(!m_ChokePointsByArea[pArea] && pChokePoints);
+        if (this.chokepointsByArea.get(area) != null) {
+            throw new IllegalArgumentException("area already exists");
+        } else if (chokepoints == null) {
+            throw new IllegalArgumentException("chokepoints cannot be null");
+        }
+
+        this.chokepointsByArea.put(area, chokepoints);
+
+        for (Chokepoint cp : chokepoints) {
+            this.chokepoints.add(cp);
+        }
     }
 
     /**
