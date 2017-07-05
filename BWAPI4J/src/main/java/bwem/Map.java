@@ -761,7 +761,7 @@ public class Map {
     }
 
     public WalkPosition breadthFirstSearch(WalkPosition start, Pred findCond, Pred visitCond) {
-        if (findCond.is(getMiniTile(start), start)) {
+        if (findCond.is(getMiniTile(start), start, this)) {
             return start;
         }
 
@@ -782,10 +782,10 @@ public class Map {
                 WalkPosition next = current.add(delta);
                 if (isValid(next)) {
                     MiniTile nextTile = getMiniTile(next, CheckMode.NoCheck);
-                    if (findCond.is(nextTile, next)) {
+                    if (findCond.is(nextTile, next, this)) {
                         return next;
                     }
-                    if (visitCond.is(nextTile, next) && !visited.contains(next)) {
+                    if (visitCond.is(nextTile, next, this) && !visited.contains(next)) {
                         toVisit.add(next);
                         visited.add(next);
                     }
