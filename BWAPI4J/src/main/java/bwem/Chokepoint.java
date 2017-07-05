@@ -68,25 +68,31 @@ public class Chokepoint {
                 //TODO
                 WalkPosition nodeInArea = (tmpArea.equals(this.areaPair.first)) ? this.nodesInArea.get(n).first : this.nodesInArea.get(n).second;
 //                nodeInArea = this.graph.getMap().breadthFirstSearch(
-//                        this.nodes.get(n),
-//                        new Pred() {
-//                            @Override
-//                            public boolean is(Object... args) {
-//                                Object ttile = args[0];
-//                                if (ttile instanceof MiniTile) {
-//                                    MiniTile miniTile = (MiniTile) ttile;
-////                                    return (miniTile.getAreaId().intValue() >);
-//                                } else {
-//                                    throw new IllegalArgumentException("tile type not supported");
-//                                }
+//                    this.nodes.get(n),
+//                    new Pred() {
+//                        @Override
+//                        public boolean is(Object... args) {
+//                            Object o = args[args.length - 1];
+//                            Map map = null;
+//                            if (o instanceof Map) {
+//                                map = (Map) o;
 //                            }
-//                        },
-//                        new Pred() {
-//                            @Override
-//                            public boolean is(Object... args) {
-//                                throw new UnsupportedOperationException("Not supported yet.");
+//
+//                            Object ttile = args[0];
+//                            if (ttile instanceof MiniTile) {
+//                                MiniTile miniTile = (MiniTile) ttile;
+//                                return (miniTile.getAreaId().intValue() == );
+//                            } else {
+//                                throw new IllegalArgumentException("tile type not supported");
 //                            }
 //                        }
+//                    },
+//                    new Pred() {
+//                        @Override
+//                        public boolean is(Object... args) {
+//                            throw new UnsupportedOperationException("Not supported yet.");
+//                        }
+//                    }
 //                );
             }
         }

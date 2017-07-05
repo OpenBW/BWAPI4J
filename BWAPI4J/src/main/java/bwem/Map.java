@@ -793,7 +793,9 @@ public class Map {
             }
         }
 
-        return start;
+//        bwem_assert(false);
+        throw new IllegalStateException("failed to determine a suitable return object");
+//        return start;
     }
 
     //TODO: Double-check this method.
