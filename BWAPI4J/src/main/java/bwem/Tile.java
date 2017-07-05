@@ -1,6 +1,8 @@
 package bwem;
 
 import bwem.unit.Neutral;
+import org.openbw.bwapi4j.TilePosition;
+import org.openbw.bwapi4j.WalkPosition;
 
 /**
  * Corresponds to BWAPI/Starcraft's concept of tile (32x32 pixels).
@@ -175,6 +177,38 @@ public class Tile {
         } else {
             this.minAltitude = new Altitude(altitude);
         }
+    }
+
+    Altitude getMinAltitudeTop(TilePosition t, Map map) {
+        WalkPosition w = t.toPosition().toWalkPosition();
+        return new Altitude(Math.min(
+                map.getMiniTile(w.add(new WalkPosition(1, 0)), CheckMode.NoCheck).getAltitude().intValue(),
+                map.getMiniTile(w.add(new WalkPosition(2, 0)), CheckMode.NoCheck).getAltitude().intValue()
+        ));
+    }
+
+    Altitude getMinAltitudeBottom(TilePosition t, Map map) {
+        WalkPosition w = t.toPosition().toWalkPosition();
+        return new Altitude(Math.min(
+                map.getMiniTile(w.add(new WalkPosition(1, 3)), CheckMode.NoCheck).getAltitude().intValue(),
+                map.getMiniTile(w.add(new WalkPosition(2, 3)), CheckMode.NoCheck).getAltitude().intValue()
+        ));
+    }
+
+    Altitude getMinAltitudeLeft(TilePosition t, Map map) {
+        WalkPosition w = t.toPosition().toWalkPosition();
+        return new Altitude(Math.min(
+                map.getMiniTile(w.add(new WalkPosition(0, 1)), CheckMode.NoCheck).getAltitude().intValue(),
+                map.getMiniTile(w.add(new WalkPosition(0, 2)), CheckMode.NoCheck).getAltitude().intValue()
+        ));
+    }
+
+    Altitude getMinAltitudeRight(TilePosition t, Map map) {
+        WalkPosition w = t.toPosition().toWalkPosition();
+        return new Altitude(Math.min(
+                map.getMiniTile(w.add(new WalkPosition(3, 1)), CheckMode.NoCheck).getAltitude().intValue(),
+                map.getMiniTile(w.add(new WalkPosition(3, 2)), CheckMode.NoCheck).getAltitude().intValue()
+        ));
     }
 
 }

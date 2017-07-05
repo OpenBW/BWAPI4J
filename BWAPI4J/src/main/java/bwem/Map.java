@@ -760,7 +760,7 @@ public class Map {
         return this.rawFrontier;
     }
 
-    public WalkPosition breadthFirstSearch(WalkPosition start, Pred findCond, Pred visitCond) {
+    public WalkPosition breadthFirstSearch(WalkPosition start, Pred findCond, Pred visitCond, boolean connect8) {
         if (findCond.is(getMiniTile(start), start, this)) {
             return start;
         }
@@ -771,11 +771,14 @@ public class Map {
         toVisit.add(start);
         visited.add(start);
 
-        WalkPosition[] deltas = {
+        WalkPosition[] deltas8 = {
             new WalkPosition(-1, -1), new WalkPosition(0, -1), new WalkPosition(1, -1),
             new WalkPosition( 1,  0),                          new WalkPosition(1,  0),
             new WalkPosition(-1,  1), new WalkPosition(0,  1), new WalkPosition(1,  1)
         };
+        WalkPosition[] deltas4 = { new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(1, 0), new WalkPosition(0, 1)};
+        WalkPosition[] deltas = connect8 ? deltas8 : deltas4;
+
         while (!toVisit.isEmpty()) {
             WalkPosition current = toVisit.remove();
             for (WalkPosition delta : deltas) {
@@ -796,6 +799,10 @@ public class Map {
 //        bwem_assert(false);
         throw new IllegalStateException("failed to determine a suitable return object");
 //        return start;
+    }
+
+    public WalkPosition breadthFirstSearch(WalkPosition start, Pred findCond, Pred visitCond) {
+        return breadthFirstSearch(start, findCond, visitCond, true);
     }
 
     //TODO: Double-check this method.
