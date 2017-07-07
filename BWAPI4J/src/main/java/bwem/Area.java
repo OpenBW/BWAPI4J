@@ -1,9 +1,14 @@
 package bwem;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
+import org.apache.commons.collections4.ListValuedMap;
+import org.apache.commons.collections4.MultiMap;
+import org.apache.commons.collections4.MultiValuedMap;
+import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 
@@ -170,6 +175,130 @@ public class Area {
         for (Chokepoint cp : chokepoints) {
             this.chokepoints.add(cp);
         }
+    }
+
+    List<Integer> computeDistances(Chokepoint startCP, List<Chokepoint> targetCPs) {
+//        bwem_assert(!contains(TargetCPs, pStartCP));
+        if (targetCPs.contains(startCP)) {
+            throw new IllegalStateException();
+        }
+
+        TilePosition start = this.map.breadthFirstSearch(
+            startCP.getPositionInArea(Chokepoint.Node.Middle, this).toPosition().toTilePosition(),
+            new Pred() {
+                @Override
+                public boolean is(Object... args) {
+                    Object ttile = args[0];
+                    if (ttile instanceof Tile) {
+                        Tile tile = (Tile) ttile;
+                        return (tile.getAreaId().intValue() == getAreaId().intValue());
+                    } else {
+                        throw new IllegalArgumentException("Invalid tile type.");
+                    }
+                }
+            },
+            new Pred() {
+                @Override
+                public boolean is(Object... args) {
+                    return true;
+                }
+            }
+        );
+
+        List<TilePosition> targets = new ArrayList<>();
+        for (Chokepoint cp : targetCPs) {
+            TilePosition t = this.map.breadthFirstSearch(
+                cp.getPositionInArea(Chokepoint.Node.Middle, this).toPosition().toTilePosition(),
+                new Pred() {
+                    @Override
+                    public boolean is(Object... args) {
+                        Object ttile = args[0];
+                        if (ttile instanceof Tile) {
+                            Tile tile = (Tile) ttile;
+                            return (tile.getAreaId().intValue() == getAreaId().intValue());
+                        } else {
+                            throw new IllegalArgumentException("Invalid Tile object.");
+                        }
+                    }
+                },
+                new Pred() {
+                    @Override
+                    public boolean is(Object... args) {
+                        return true;
+                    }
+                }
+            );
+            targets.add(t);
+        }
+
+        return computeDistances(start, targets);
+    }
+
+    private List<Integer> computeDistances(TilePosition start, List<TilePosition> targets ) {
+        List<Integer> distances = new ArrayList<>();
+
+        Tile.UnmarkAll();
+
+        MultiValuedMap<Integer, TilePosition> toVisit = new ArrayListValuedHashMap<>(); //Using ArrayListValuedHashMap to substitute std::multimap since it sorts keys but not values.
+        toVisit.put(0, start);
+
+        int remainingTargets = targets.size();
+        while (!toVisit.isEmpty()) {
+//            int currentDist = ToVisit.begin()->first;
+            int currentDist = toVisit.mapIterator().getKey();
+
+//            TilePosition current = ToVisit.begin()->second;
+            TilePosition current = toVisit.mapIterator().getValue();
+
+            Tile currentTile = this.map.getTile(current, CheckMode.NoCheck);
+//            bwem_assert(currentTile.InternalData() == currentDist);
+            if (!(currentTile.getUserData().getData() == currentDist)) {
+                throw new IllegalStateException();
+            }
+
+//            ToVisit.erase(ToVisit.begin());
+            toVisit.removeMapping(toVisit.mapIterator().getKey(), toVisit.mapIterator().getValue());
+
+            currentTile.getUserData().setData(0);
+            currentTile.setMarked();
+
+            for (int i = 0; i < targets.size(); i++) {
+                if (current.equals(targets.get(i))) {
+                    distances.set(i, (int) (Double.valueOf("0.5") + (Double.valueOf(currentDist) * Double.valueOf("32")) / Double.valueOf("10000")));
+                    --remainingTargets;
+                }
+            }
+            if (remainingTargets == 0) {
+                break;
+            }
+
+            TilePosition[] deltas = {
+                new TilePosition(-1, -1), new TilePosition(0, -1), new TilePosition(1, -1),
+                new TilePosition(-1,  0),                          new TilePosition(1,  0),
+                new TilePosition(-1,  1), new TilePosition(0,  1), new TilePosition(1,  1)
+            };
+            for (TilePosition delta : deltas) {
+                boolean diagonalMove = (delta.getX() != 0) && (delta.getY() != 0);
+                int newNextDist = currentDist + (diagonalMove ? 14142 : 10000);
+
+                TilePosition next = current.add(delta);
+                if (this.map.isValid(next)) {
+                    Tile nextTile = this.map.getTile(next, CheckMode.NoCheck);
+                    if (nextTile.isMarked()) {
+                        if (nextTile.getUserData().getData() != 0) {
+                            // next already in ToVisit
+                            if (newNextDist < nextTile.getUserData().getData()) { // nextNewDist < nextOldDist
+                                // To update next's distance, we need to remove-insert it from ToVisit:
+                                Collection<TilePosition> range = toVisit.get(nextTile.getUserData().getData());
+                                //TODO
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /**

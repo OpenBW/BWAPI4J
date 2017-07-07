@@ -163,6 +163,16 @@ public class Chokepoint {
         return this.isBlocked;
     }
 
+    public WalkPosition getPositionInArea(Node n, Area area) {
+//        bwem_assert((pArea == m_Areas.first) || (pArea == m_Areas.second));
+        if (!((area.equals(this.areaPair.first) || (area.equals(this.areaPair.second))))) {
+            throw new IllegalArgumentException();
+        }
+        return area.equals(this.areaPair.first)
+                ? this.nodesInArea.get(n.intValue()).first
+                : this.nodesInArea.get(n.intValue()).second;
+    }
+
     /**
      * - Tests whether the specified object is equal to this object.<br>
      * - Tests whether the specified object is an instance of this class.<br>

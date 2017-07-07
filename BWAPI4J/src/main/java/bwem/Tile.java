@@ -1,6 +1,7 @@
 package bwem;
 
 import bwem.unit.Neutral;
+import org.apache.commons.lang3.mutable.MutableInt;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 
@@ -18,18 +19,24 @@ import org.openbw.bwapi4j.WalkPosition;
  * Tiles inherit utils::Markable, which provides marking ability
  * Tiles inherit utils::UserData, which provides free-to-use data.
  */
-public class Tile {
+public class Tile extends Markable<Tile> {
 
     private Area.Id areaId;
     private Bits bits;
     private Neutral neutral;
     private Altitude minAltitude;
+    private UserData userData;
 
     public Tile() {
         this.areaId = new Area.Id(0);
         this.bits = new Bits();
         this.neutral = null;
         this.minAltitude = new Altitude(0);
+        this.userData = new UserData();
+    }
+
+    public UserData getUserData() {
+        return this.userData;
     }
 
     /**

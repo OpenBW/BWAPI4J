@@ -805,6 +805,51 @@ public class Map {
         return breadthFirstSearch(start, findCond, visitCond, true);
     }
 
+    public TilePosition breadthFirstSearch(TilePosition start, Pred findCond, Pred visitCond, boolean connect8) {
+        if (findCond.is(getTile(start), start, this)) {
+            return start;
+        }
+
+        List<TilePosition> visited = new ArrayList<>();
+        Queue<TilePosition> toVisit = new LinkedList<>();
+
+        toVisit.add(start);
+        visited.add(start);
+
+        TilePosition[] deltas8 = {
+            new TilePosition(-1, -1), new TilePosition(0, -1), new TilePosition(1, -1),
+            new TilePosition( 1,  0),                          new TilePosition(1,  0),
+            new TilePosition(-1,  1), new TilePosition(0,  1), new TilePosition(1,  1)
+        };
+        TilePosition[] deltas4 = { new TilePosition(0, -1), new TilePosition(-1, 0), new TilePosition(1, 0), new TilePosition(0, 1)};
+        TilePosition[] deltas = connect8 ? deltas8 : deltas4;
+
+        while (!toVisit.isEmpty()) {
+            TilePosition current = toVisit.remove();
+            for (TilePosition delta : deltas) {
+                TilePosition next = current.add(delta);
+                if (isValid(next)) {
+                    Tile nextTile = getTile(next, CheckMode.NoCheck);
+                    if (findCond.is(nextTile, next, this)) {
+                        return next;
+                    }
+                    if (visitCond.is(nextTile, next, this) && !visited.contains(next)) {
+                        toVisit.add(next);
+                        visited.add(next);
+                    }
+                }
+            }
+        }
+
+//        bwem_assert(false);
+        throw new IllegalStateException("failed to determine a suitable return object");
+//        return start;
+    }
+
+    public TilePosition breadthFirstSearch(TilePosition start, Pred findCond, Pred visitCond) {
+        return breadthFirstSearch(start, findCond, visitCond, true);
+    }
+
     //TODO: Double-check this method.
     public static Area.Id chooseNeighboringArea(Area.Id a, Area.Id b) {
         Area.Id tmpA = new Area.Id(a);

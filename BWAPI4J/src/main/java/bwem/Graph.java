@@ -184,6 +184,10 @@ public class Graph {
         return getArea(w);
     }
 
+    public List<Chokepoint> getChokepoints() {
+        return this.chokepointList;
+    }
+
     private boolean isValid(Area.Id areaId) {
         return (areaId.intValue() >= 1 && this.areas.size() >= areaId.intValue());
     }
@@ -428,6 +432,49 @@ public class Graph {
                     this.chokepointList.add(cp);
                 }
             }
+        }
+    }
+
+    //TODO
+    public void computeChokePointDistanceMatrix() {
+        /**
+         * 1) Size the matrix.
+         */
+
+        for (int i = 0; i < this.chokepointList.size(); i++) {
+            this.chokepointDistanceMatrix.add(new ArrayList<>());
+            for (int j = 0; j < this.chokepointList.size(); j++) {
+                this.chokepointDistanceMatrix.get(i).add(-1);
+            }
+        }
+
+        for (int i = 0; i < this.pathsBetweenChokepoints.size(); i++) {
+            this.pathsBetweenChokepoints.add(new ArrayList<>());
+        }
+
+        /**
+         * 2) Compute distances inside each Area.
+         */
+
+        for (Area area : this.areas) {
+//            computeChokePointDistances(area); //TODO: Not implemented yet.
+        }
+
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    private void computeChokePointDistances(Area area) {
+        for (Chokepoint start : area.getChokepoints()) {
+            List<Chokepoint> targets = new ArrayList<>();
+            for (Chokepoint cp : area.getChokepoints()) {
+                if (cp.equals(start)) {
+                    // breaks symmetry
+                    break;
+                }
+                targets.add(cp);
+            }
+
+            //TODO
         }
     }
 
