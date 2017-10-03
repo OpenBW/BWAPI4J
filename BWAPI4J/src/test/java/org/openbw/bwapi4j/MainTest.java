@@ -2,10 +2,13 @@ package org.openbw.bwapi4j;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.unit.Unit;
 
 public class MainTest implements BWEventListener {
@@ -20,7 +23,7 @@ public class MainTest implements BWEventListener {
     }
     
     @Test
-    public void smokeTest() {
+    public void smokeTest() throws AssertionError {
         
         BW bw = new BW(this);
         this.bw = bw;
@@ -28,20 +31,33 @@ public class MainTest implements BWEventListener {
         
     }
 
-    private void testMapInfo() {
+    private void testMapInfo() throws AssertionError {
     
         BWMap map = bw.getBWMap();
-        assertEquals("test message", true, false);
-        assertEquals("map name wrong.", "(4)Fighting gfdsgSpirit.scx", map.mapFileName());
+        assertEquals("test message", true, true);
+        assertEquals("map name wrong.", "(4)Fighting Spirit.scx", map.mapFileName());
+    }
+    
+    private void testNumberOfScvs() throws AssertionError {
+    
+    	Player self = this.bw.getInteractionHandler().self();
+    	
+    	List<PlayerUnit> units = this.bw.getUnits(self);
+    	for (PlayerUnit unit : units) {
+    		System.out.println(unit);
+    	}
     }
     
     @Override
-    public void onStart() {
+    public void onStart() throws AssertionError {
         
         logger.info("onStart");
         testMapInfo();
         
+        testNumberOfScvs();
+        
         this.bw.getInteractionHandler().leaveGame();
+        logger.info("left game.");
     }
 
     @Override

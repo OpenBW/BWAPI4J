@@ -51,7 +51,7 @@ public class BW {
         }
 
         logger.debug("DLL exists: {}",
-                new File(System.getProperty("java.library.path") + "BWAPI4JBridge.dll").exists());
+                new File(System.getProperty("java.library.path") + "\\BWAPI4JBridge.dll").exists());
         logger.debug(System.getProperty("user.dir"));
 
         System.loadLibrary("BWAPI4JBridge");
