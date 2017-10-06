@@ -5,6 +5,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
@@ -17,6 +19,8 @@ import org.openbw.bwapi4j.type.UpgradeType;
 
 public abstract class Unit implements Comparable<Unit> {
 
+	private static final Logger logger = LogManager.getLogger();
+	
     protected static int ID_INDEX = 0;
     protected static int REPLAY_ID_INDEX = 1;
     protected static int PLAYER_ID_INDEX = 2;
@@ -296,6 +300,7 @@ public abstract class Unit implements Comparable<Unit> {
     }
 
     public double getDistance(Position target) {
+    	
         return getDistance(target.getX(), target.getY());
     }
 
@@ -317,10 +322,12 @@ public abstract class Unit implements Comparable<Unit> {
                 yDist = 0;
             }
         }
+        
         return new Position(0, 0).getDistance(new Position(xDist, yDist));
     }
 
     public double getDistance(Unit target) {
+    	
         if (!this.exists || target == null || !target.exists()) {
             return Integer.MAX_VALUE;
         }
@@ -343,6 +350,8 @@ public abstract class Unit implements Comparable<Unit> {
                 yDist = 0;
             }
         }
+        logger.trace("dx, dy: {}, {}.", xDist, yDist);
+        
         return new Position(0, 0).getDistance(new Position(xDist, yDist));
     }
 

@@ -110,8 +110,6 @@ public class BWTA {
 
     public static native BaseLocation getStartLocation(Player player);
 
-    public static native Region getRegion(int x, int y);
-
     public static native Chokepoint getNearestChokepoint(int x, int y);
 
     public static native Chokepoint getNearestChokepoint(TilePosition tileposition);

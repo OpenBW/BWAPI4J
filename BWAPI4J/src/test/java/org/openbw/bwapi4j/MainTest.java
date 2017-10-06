@@ -2,14 +2,19 @@ package org.openbw.bwapi4j;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.openbw.bwapi4j.unit.MineralPatch;
 import org.openbw.bwapi4j.unit.PlayerUnit;
+import org.openbw.bwapi4j.unit.SCV;
 import org.openbw.bwapi4j.unit.Unit;
+
+import junit.framework.Assert;
 
 public class MainTest implements BWEventListener {
 
@@ -48,6 +53,33 @@ public class MainTest implements BWEventListener {
     	}
     }
     
+    private void testMineralMining() throws AssertionError {
+    	
+    	Player self = this.bw.getInteractionHandler().self();
+    	
+    	Collection<Unit> allUnits = this.bw.getAllUnits();
+    	MineralPatch patch = null;
+    	for (Unit unit : allUnits) {
+    		if (unit instanceof MineralPatch) {
+    			patch = (MineralPatch) unit;
+    		}
+    	}
+    	List<PlayerUnit> units = this.bw.getUnits(self);
+    	SCV scv = null;
+    	for (PlayerUnit unit : units) {
+    		if (unit instanceof SCV) {
+    			scv = (SCV) unit;
+    		}
+    	}
+    	if (patch != null && scv != null) {
+    		
+    		scv.gather(patch);
+    	} else {
+    		
+    		System.out.println("no scv and patch found.");
+    	}
+    }
+    
     @Override
     public void onStart() throws AssertionError {
         
@@ -55,6 +87,8 @@ public class MainTest implements BWEventListener {
         testMapInfo();
         
         testNumberOfScvs();
+        
+        testMineralMining();
         
         this.bw.getInteractionHandler().leaveGame();
         logger.info("left game.");

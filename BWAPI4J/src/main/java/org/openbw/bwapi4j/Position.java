@@ -35,7 +35,10 @@ public class Position {
     public double getDistance(Position pos) {
 
         // TODO replace with BW distance (see tscmoos code)
-        return Math.sqrt(this.x * pos.x + this.y * pos.y);
+    	double dx = this.x - pos.x;
+    	double dy = this.y - pos.y;
+    	
+        return Math.sqrt(dx * dx + dy * dy);
     }
 
     @Override
