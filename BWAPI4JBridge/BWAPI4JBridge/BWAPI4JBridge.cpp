@@ -106,7 +106,6 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 		jmethodID pairNew = env->GetMethodID(pairClass, "<init>", "(Ljava/lang/Object;Ljava/lang/Object;)V");
 
 		jclass bwMapClass = env->FindClass("org/openbw/bwapi4j/BWMap");
-		jmethodID bwMapNew = env->GetMethodID(bwMapClass, "<init>", "()V");
 		
 		jmethodID addRequiredUnit = env->GetMethodID(unitTypeClass, "addRequiredUnit", "(II)V");
 
@@ -1084,7 +1083,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawTextMap_1native(JNI
 //
 */
 JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMap_isVisible(JNIEnv *, jobject, jint tileX, jint tileY) {
-	return Broodwar->isVisible(tileX, tileX);
+	return Broodwar->isVisible(tileX, tileY);
 }
 
 JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMap_hasPath(JNIEnv *, jobject, jint x1, jint y1, jint x2, jint y2) {
