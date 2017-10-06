@@ -72,6 +72,7 @@ public class BW {
         this.mapDrawer = new MapDrawer();
         this.damageEvaluator = new DamageEvaluator();
         this.bwMap = new BWMap();
+        this.bwMap.setUnits(this.units);
 
         try {
             charset = Charset.forName("Cp949"); // Korean char set
