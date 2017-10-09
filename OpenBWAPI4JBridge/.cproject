@@ -122,12 +122,12 @@
 								<option defaultValue="true" id="gnu.cpp.link.so.release.option.shared.1721168506" name="Shared (-shared)" superClass="gnu.cpp.link.so.release.option.shared" useByScannerDiscovery="false" valueType="boolean"/>
 								<option id="gnu.cpp.link.option.paths.550188135" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bwapi/build/lib}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/BWTA2Linux/BWTA/dist/Release/GNU-Linux}&quot;"/>
 								</option>
 								<option id="gnu.cpp.link.option.libs.540407948" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" useByScannerDiscovery="false" valueType="libs">
 									<listOptionValue builtIn="false" value="BWAPILIB"/>
 									<listOptionValue builtIn="false" value="BWAPI"/>
-									<listOptionValue builtIn="false" value="bwta2"/>
+									<listOptionValue builtIn="false" value="BWTA"/>
 								</option>
 								<option id="gnu.cpp.link.option.userobjs.1534415485" name="Other objects" superClass="gnu.cpp.link.option.userobjs" useByScannerDiscovery="false" valueType="userObjs">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/libbwta2.a}&quot;"/>
