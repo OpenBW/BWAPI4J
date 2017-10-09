@@ -42,17 +42,17 @@ JNIEXPORT void JNICALL Java_bwta_BWTA_cleanMemory
 /*
  * Class:     bwta_BWTA
  * Method:    getRegionT
- * Signature: (II)I
+ * Signature: (II)J
  */
-JNIEXPORT jint JNICALL Java_bwta_BWTA_getRegionT
+JNIEXPORT jlong JNICALL Java_bwta_BWTA_getRegionT
   (JNIEnv *, jobject, jint, jint);
 
 /*
  * Class:     bwta_BWTA
  * Method:    getRegionP
- * Signature: (II)I
+ * Signature: (II)J
  */
-JNIEXPORT jint JNICALL Java_bwta_BWTA_getRegionP
+JNIEXPORT jlong JNICALL Java_bwta_BWTA_getRegionP
   (JNIEnv *, jobject, jint, jint);
 
 /*

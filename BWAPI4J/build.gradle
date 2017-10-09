@@ -1,6 +1,13 @@
+group 'org.openbw.bwapi4j'
+version ''
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'java-library-distribution'
+
+
+sourceCompatibility = 1.8
+
 
 repositories {
     mavenCentral()
@@ -28,7 +35,7 @@ task generateJniHeaders(type:Exec) {
 distributions {
     main {
         contents {
-            from { '../BWAPI4JBridge/Release/BWAPI4JBridge.dll' }
+            from { '../OpenBWAPI4JBridge/Release/libOpenBWAPI4JBridge.so' }
         }
     }
 }

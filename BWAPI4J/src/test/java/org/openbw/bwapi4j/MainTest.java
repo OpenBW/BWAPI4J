@@ -14,8 +14,6 @@ import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.unit.SCV;
 import org.openbw.bwapi4j.unit.Unit;
 
-import junit.framework.Assert;
-
 public class MainTest implements BWEventListener {
 
     private static final Logger logger = LogManager.getLogger();
@@ -76,7 +74,7 @@ public class MainTest implements BWEventListener {
     		scv.gather(patch);
     	} else {
     		
-    		System.out.println("no scv and patch found.");
+    		logger.error("no scv and patch found.");
     	}
     }
     
@@ -102,8 +100,8 @@ public class MainTest implements BWEventListener {
 
     @Override
     public void onFrame() {
-        // TODO Auto-generated method stub
         
+        logger.info("onFrame");
     }
 
     @Override
@@ -156,8 +154,8 @@ public class MainTest implements BWEventListener {
 
     @Override
     public void onUnitCreate(Unit unit) {
-        // TODO Auto-generated method stub
-        
+    	
+    	logger.info("onUnitCreate");
     }
 
     @Override

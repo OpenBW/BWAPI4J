@@ -52,10 +52,14 @@ public class BW {
 
         logger.debug("DLL exists: {}",
                 new File(System.getProperty("java.library.path") + "\\BWAPI4JBridge.dll").exists());
-        logger.debug(System.getProperty("user.dir"));
+        logger.debug("SO exists: {}",
+                new File(System.getProperty("java.library.path") + "/libOpenBWAPI4JBridge.so").exists());
+        logger.debug("user directory: {}", System.getProperty("user.dir"));
 
-        System.loadLibrary("BWAPI4JBridge");
-        logger.debug("DLL loaded.");
+        //System.loadLibrary("bwta2");
+        System.loadLibrary("OpenBWAPI4JBridge");
+        
+        logger.debug("DLL/SO loaded.");
     }
 
     /**

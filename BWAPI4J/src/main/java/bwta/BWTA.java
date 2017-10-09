@@ -77,9 +77,9 @@ public class BWTA {
         return Region.getCachedRegion(getRegionT(x, y));
     }
     
-    private native int getRegionT(int x, int y);
+    private native long getRegionT(int x, int y);
 
-    private native int getRegionP(int x, int y);
+    private native long getRegionP(int x, int y);
     
     public double getGroundDistance(TilePosition start, TilePosition end) {
     
