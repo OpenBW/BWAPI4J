@@ -132,6 +132,8 @@ void initializeJavaReferences(JNIEnv *env, jobject caller) {
 
 	addRequiredUnit = env->GetMethodID(unitTypeClass, "addRequiredUnit",
 			"(II)V");
+
+	std::cout << "done." << std::endl;
 }
 
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject caller, jobject bw) {
@@ -173,13 +175,22 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
 			bridgeMap->initialize(env, env->GetObjectClass(caller), bw, bwMapClass);
 
 			while (!h->bwgame.gameOver()) {
+
+				std::cout << "testf1" << std::endl;
 				h->update();
-				env->CallObjectMethod(globalBW, preFrameCallback);
+				std::cout << "testf2" << std::endl;
 				h->bwgame.nextFrame();
+				std::cout << "testf3" << std::endl;
+				env->CallObjectMethod(globalBW, preFrameCallback);
+				std::cout << "testf4" << std::endl;
 				if (!h->externalModuleConnected) {
-					printf("No module loaded, exiting\n");
+					std::cout << "No module loaded, exiting" << std::endl;
+					if (env->ExceptionOccurred()) {
+						env->ExceptionDescribe();
+					}
 					return;
 				}
+				std::cout << "testf5" << std::endl;
 			}
 			h->onGameEnd();
 			h->bwgame.leaveGame();
