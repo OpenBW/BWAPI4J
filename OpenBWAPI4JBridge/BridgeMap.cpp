@@ -6,6 +6,7 @@
  */
 
 #include "BridgeMap.h"
+#include "org_openbw_bwapi4j_BWMap.h"
 #include <BWAPI.h>
 
 BridgeMap::BridgeMap() {
@@ -63,7 +64,7 @@ void BridgeMap::initialize(JNIEnv * env, jclass jc, jobject bwObject, jclass bwM
 		jfieldID walkabilityInfoField = env->GetFieldID(bwMapClass, "walkabilityInfo", "[[I");
 		jobject* walkabilityInfo2D = new jobject[Broodwar->mapWidth() * 4];
 		jobjectArray walkabilityInfo2DArray = env->NewObjectArray(Broodwar->mapWidth() * 4, env->GetObjectClass(env->NewIntArray(Broodwar->mapHeight() * 4)), 0);
-		for (int i = 0; i < Broodwar->mapWidth(); ++i) {
+		for (int i = 0; i < Broodwar->mapWidth() * 4; ++i) {
 
 			jint* walkabilityInfo = new jint[Broodwar->mapHeight() * 4];
 			for (int j = 0; j < Broodwar->mapHeight() * 4; ++j) {
@@ -87,4 +88,21 @@ void BridgeMap::initialize(JNIEnv * env, jclass jc, jobject bwObject, jclass bwM
 			return;
 		}
 		printf("done.\n");
+}
+
+/*
+//
+//	BWMap
+//
+*/
+JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMap_isVisible(JNIEnv *, jobject, jint tileX, jint tileY) {
+	return Broodwar->isVisible(tileX, tileY);
+}
+
+JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMap_hasPath(JNIEnv *, jobject, jint x1, jint y1, jint x2, jint y2) {
+	return Broodwar->hasPath(BWAPI::Position(x1, y1), BWAPI::Position(x2, y2));
+}
+
+JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMap_canBuildHere(JNIEnv *, jobject, jint x, jint y, jint typeId) {
+	return Broodwar->canBuildHere(BWAPI::TilePosition(x, y), (UnitType)typeId);
 }

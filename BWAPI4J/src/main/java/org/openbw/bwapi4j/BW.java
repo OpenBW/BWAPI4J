@@ -270,8 +270,9 @@ public class BW {
     
     private void onFrame() {
 
+    	logger.debug("onFrame {}", this.frame);
+    	this.frame++;
         listener.onFrame();
-        this.frame++;
     }
 
     private void onSendText(String text) {
