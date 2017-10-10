@@ -88,8 +88,8 @@ public class MainTest implements BWEventListener {
         
         testMineralMining();
         
-        this.bw.getInteractionHandler().leaveGame();
-        logger.info("left game.");
+//        this.bw.getInteractionHandler().leaveGame();
+//        logger.info("left game.");
     }
 
     @Override
@@ -184,7 +184,7 @@ public class MainTest implements BWEventListener {
 
     @Override
     public void onUnitComplete(Unit unit) {
-        // TODO Auto-generated method stub
         
+    	logger.info("onUnitComplete");
     }
 }

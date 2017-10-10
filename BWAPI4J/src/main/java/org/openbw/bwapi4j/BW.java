@@ -88,9 +88,23 @@ public class BW {
 
     public void startGame() {
         
-        startGame(this);
+    	BW myBw = this;
+    	Thread thread = new Thread(new Runnable() {
+
+    	    @Override
+    	    public void run() {
+    	    
+    	    	startGame(myBw);
+    	    }
+    	            
+    	});
+    	        
+    	thread.start();
+        mainThread();
     }
 
+    private native void mainThread();
+    
     private native void startGame(BW bw);
 
     private native int[] getAllUnitsData();

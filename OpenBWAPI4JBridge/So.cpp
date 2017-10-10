@@ -12,6 +12,8 @@
 #include "BridgeEnum.h"
 #include "BridgeMap.h"
 #include <cstdio>
+#include <chrono>
+#include <thread>
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -136,9 +138,15 @@ void initializeJavaReferences(JNIEnv *env, jobject caller) {
 	std::cout << "done." << std::endl;
 }
 
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_mainThread(JNIEnv *, jobject) {
+
+	BW::sacrificeThreadForUI([]{while (true) std::this_thread::sleep_for(std::chrono::hours(1));});
+	std::cout << "main thread done." << std::endl;
+}
+
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject caller, jobject bw) {
 
-	std::cout << "c++ starting game..." << std::endl;
+	std::cout << "c++ startGame..." << std::endl;
 	globalEnv = env;
 	globalBW = bw;
 
@@ -162,18 +170,20 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
 				});
 
 		BWAPI::BroodwarImpl_handle h(gameOwner.getGame());
-
+		std::cout << "tt1" << std::endl;
+		jclass jc = env->GetObjectClass(bw);
+		jmethodID preFrameCallback = env->GetMethodID(jc, "preFrame", "()V");
+		std::cout << "tt2" << std::endl;
 		BridgeEnum *bridgeEnum = new BridgeEnum();
 		BridgeMap *bridgeMap = new BridgeMap();
-
-		jclass jc = globalEnv->GetObjectClass(globalBW);
-		jmethodID preFrameCallback = globalEnv->GetMethodID(jc, "preFrame", "()V");
-
+		std::cout << "tt3" << std::endl;
 		do {
 			h->autoMenuManager.startGame();
+			std::cout << "tt4" << std::endl;
 			bridgeEnum->initialize();
+			std::cout << "tt5" << std::endl;
 			bridgeMap->initialize(env, env->GetObjectClass(caller), bw, bwMapClass);
-
+			std::cout << "tt6" << std::endl;
 			while (!h->bwgame.gameOver()) {
 
 				std::cout << "testf1" << std::endl;

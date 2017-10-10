@@ -126,6 +126,8 @@
 								</option>
 								<option id="gnu.cpp.link.option.libs.540407948" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" useByScannerDiscovery="false" valueType="libs">
 									<listOptionValue builtIn="false" value="BWAPILIB"/>
+									<listOptionValue builtIn="false" value="openbw_ui"/>
+									<listOptionValue builtIn="false" value="OpenBWData"/>
 									<listOptionValue builtIn="false" value="BWAPI"/>
 									<listOptionValue builtIn="false" value="BWTA"/>
 								</option>

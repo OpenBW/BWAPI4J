@@ -9,6 +9,14 @@ extern "C" {
 #endif
 /*
  * Class:     org_openbw_bwapi4j_BW
+ * Method:    mainThread
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_mainThread
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     org_openbw_bwapi4j_BW
  * Method:    startGame
  * Signature: (Lorg/openbw/bwapi4j/BW;)V
  */
