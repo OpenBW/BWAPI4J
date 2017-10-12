@@ -176,6 +176,9 @@ public class BW {
                     this.units.put(unitId, unit);
                     unit.initialize(unitData, index);
                     unit.update(unitData, index);
+                    logger.debug("initial pos: {}", unit.getInitialTilePosition());
+                    logger.debug("current pos: {}", unit.getTilePosition());
+                    
                     logger.debug(" done.");
                 }
             } else {

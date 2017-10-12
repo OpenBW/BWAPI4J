@@ -4,5 +4,5 @@
 
 USER_OBJS := 
 
-LIBS := -lBWAPILIB -lBWAPI -lBWTA
+LIBS := -lBWAPILIB -lopenbw_ui -lOpenBWData -lBWAPI -lBWTA
 

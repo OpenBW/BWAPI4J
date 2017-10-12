@@ -181,7 +181,6 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
 
 			while (!h->bwgame.gameOver()) {
 
-				std::cout << "----------------------------------------------------" << std::endl;
 				h->update();
 				h->bwgame.nextFrame();
 
@@ -348,13 +347,9 @@ int addUnitDataToBuffer(Unit &u, int index) {
 */
 JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllUnitsData(JNIEnv * env, jobject jObject) {
 
-	// std::cout << "processing units..." << std::endl;;
-
 	int index = 0;
-
 	for (Unit unit : Broodwar->getAllUnits()) {
 
-		std::cout << "   adding " << unit->getID() << ":" << unit->getType().getName() << std::endl;
 		index = addUnitDataToBuffer(unit, index);
 	}
 
@@ -435,7 +430,6 @@ JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BW_getClientVersion(JNIEnv *env, 
 
 JNIEXPORT jstring JNICALL Java_org_openbw_bwapi4j_BW_getPlayerName(JNIEnv *env, jobject jObj, jint playerID) {
 
-	// std::cout << "player name: " << Broodwar->getPlayer(playerID)->getName().c_str() << std::endl;
 	// NewStringUTF can cause issues with unusual characters like Korean symbols
 	return env->NewStringUTF(Broodwar->getPlayer(playerID)->getName().c_str());
 	/* alternatively, use byte array:

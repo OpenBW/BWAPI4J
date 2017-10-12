@@ -335,7 +335,6 @@ void BridgeEnum::createUnitTypeEnum() {
 		// read existing requiredUnits map and put <UnitType,Integer> entries
 		for (auto const& req : unitType.requiredUnits()) {
 
-			// std::cout << "putting " << req.first.getID() << ":" << req.second << std::endl;
 			globalEnv->CallObjectMethod(CurrentUnitType, addRequiredUnit, (jint)req.first.getID(), (jint)req.second);
 		}
 		globalEnv->DeleteLocalRef(CurrentUnitType);
