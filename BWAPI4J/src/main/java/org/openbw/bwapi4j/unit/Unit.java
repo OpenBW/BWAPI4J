@@ -183,7 +183,8 @@ public abstract class Unit implements Comparable<Unit> {
     }
     
     public void initialize(int[] unitData, int index) {
-
+    	
+    	// TODO this is a workaround because initialTilePosition gives wrong results with OpenBW
         this.initialPosition = new Position(unitData[index + Unit.POSITION_X_INDEX],
                 unitData[index + Unit.POSITION_Y_INDEX]);
         this.initialTilePosition = new TilePosition(unitData[index + Unit.TILEPOSITION_X_INDEX],

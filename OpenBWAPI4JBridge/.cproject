@@ -96,7 +96,7 @@
 								<option id="gnu.cpp.compiler.so.release.option.optimization.level.2442265" name="Optimization Level" superClass="gnu.cpp.compiler.so.release.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.most" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.so.release.option.debugging.level.2000040025" name="Debug Level" superClass="gnu.cpp.compiler.so.release.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.1202025331" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="/home/imp/git/bwapi/bwapi/include"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bwapi/bwapi/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/BWTA}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bwapi/bwapi/BWAPI/Source}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bwapi/bwapi/Util/Source}&quot;"/>
