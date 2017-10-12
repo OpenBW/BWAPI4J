@@ -1,45 +1,88 @@
 # BWAPI4J
-## BWAPI wrapper for Java
 
-The repository consists of two projects:
+This is a Java wrapper for BWAPI 4.2.0.
+It is intended to replace the older projects bwmirror and JNIBWAPI.
 
-- A Java (eclipse) project
-- A c++ (Visual Studio 2017) project
+BWAPI4J is compatible with both the original BW (on Windows) as well as OpenBW (on Linux)
 
-The two projects interact in the following way:
+The project consists of three parts:
 
-- The Java project generates c++ header files to "BWAPI4J/src/native/include" to be imported by the c++ project
-- The c++ projecte generates a DLL to "BWAPI4JBridge/Release" to be loaded in the Java project
+ - The eclipse Java project "BWAPI4J" containing all Java classes
+ - The VS2017 C++ project "BWAPI4JBridge" containing the C++ code required to interact with the original BW
+ - The eclipse C++ project "OpenBWAPI4JBridge" containing the C++ code required to interact with OpenBW
 
-# Instructions
+This is a development version, and breaking changes can occur at any time.
 
-Follow these instructions to build BWAPI4J yourself.
+### build & install
 
-## Repository
+Clone the [BWAPI4J repository](https://github.com/OpenBW/BWAPI4J):
 
-Prerequisites: 
- - git installed.
- 
-Instructions:
- - Navigate to your local git directory
- - Check out the complete project using "git clone https://github.com/OpenBW/BWAPI4J.git" from your command line.
+`git clone https://github.com/OpenBW/BWAPI4J`
 
-### BWAPI4J
+#### "BWAPI4J" Java project
 
 Prerequisites:
- - Java SDK 1.8 installed
- - optionally: eclipse installed
- 
-Instructions
- - for eclipse: import the BWAPI4J project as an eclipse project
- - build the final distribution using the gradle task "distZip"
- - generate the c++ header files required by the BWAPI4JBridge project using the gradle task "generateJniHeaders"
 
-### BWAPI4JBridge
+Both Eclipse and Gradle are optionial in theory. However, it is greatly recommended to use Gradle to build the project, since it automates the build process and reduces it to executing a single Gradle target.
+Eclipse is recommended because it works seamlessly with Gradle (using the Gradle Wrapper) and Git and both the Java project and the C++ project can be developed in the same IDE.
+
+ - JDK 1.8 (32bit for original BW and 64bit for OpenBW) or later installed
+ - Eclipse installed (preferably [Eclipse CDT](https://www.eclipse.org/cdt/) with out-of-the-box support for C++)
+ - Gradle, JUnit, and Git plugins for Eclipse
+ - Alternatively to Eclipse / Eclipse Gradle plugin: [Gradle install](https://gradle.org/install/)
+ - BrooDat.mpq, StarDat.mpq, BrooDat.mpq from the [original BW](https://www.battle.net/download/getInstallerForGame?os=win&locale=enUS&version=LIVE&gameProgram=STARCRAFT) (available for free)
+ - At least one melee map. For example from the [SSCAIT map pack](https://sscaitournament.com/files/sscai_map_pack.zip)
+ 
+ 	Note: the original game does not have to be installed. Only the 3 files mentioned are required.
+ 
+Build Steps:
+1. Import the project as follows:
+
+   * in eclipse, choose: `File -> Import... -> Git/Projects from Git -> Existing Local Repository`
+   * if BWAPI4J does not appear, choose `"add..."` and add "<your path>/git/bwapi4j" where <your path> is the path to your git directory
+   * Select `Import existing Eclipse projects` and click `Next`
+   * Select `BWAPI4J` and click `Finish`
+2. Copy `gradle.properties.sample` to `gradle.properties` and add the path to your JDK at the key `org.gradle.java.home=`
+3. Execute the gradle target `distribution / assembleDist`
+
+   * `Windows -> Show View -> Other... -> Gradle/Gradle Tasks`
+   * In the view, click the `Refresh Tasks for All Projects` icon
+   * The BWAPI4J project should appear. Navigate to `distribution` and double-click on `assembleDist`
+   
+Run the smoke test:
+
+1. copy `BrooDat.mpq`, `StarDat.mpq`, and `BrooDat.mpq` to the root directory of the eclipse project
+2. copy `bwapi-data/bwapi.ini.sample` to `bwapi-data/bwapi.ini`
+3. Right-click the project and choose `Run as... -> JUnit Test`
+
+The smoke test starts a game and sends the first SCV to the first mineral patch it finds.
+
+#### "OpenBWAPI4JBridge" C++ project
 
 Prerequisites:
+
+Eclipse is optional. However, it is recommended, since it allows to develop both the Java project and the C++ project within the same IDE.
+
+ - gcc compiler supporting c++14a
+ - Eclipse CDT installed
+ 
+Build Steps:
+1. Import the project as follows:
+
+   * in eclipse, choose: `File -> Import... -> Git/Projects from Git -> Existing Local Repository`
+   * if BWAPI4J does not appear, choose `"add..."` and add "<your path>/git/bwapi4j" where <your path> is the path to your git directory
+   * Select `Import existing Eclipse projects` and click `Next`
+   * Select `OpenBWAPI4JBridge` and click `Finish`
+   * Add `<path to JDK>/include` and `<path to JDK>/include/linux` to the include section under `Project -> Properties -> C/C++ Build -> Settings -> Tool Settings -> GCC C++ Compiler -> Includes`
+   * Click the `Build release` icon in the Eclipse menubar
+   
+
+#### BWAPI4JBridge C++ project
+
+Prerequisites:
+ - Windows
  - Visual Studio 2017 installed
  
-Instructions
- - Open the complete BWAPI4JBridge solution, including the BWAPI4JBridge project inside the solution.
+Build Steps:
+ - Open the complete BWAPI4JBridge solution, including the BWAPI4JBridge project inside the solution from `<your path>/git/BWAPI4J/BWAPI4JBridge/` where <your path> is the path to your git directory.
  - Build the DLL to be used in the Java project via "Build - Rebuild BWAPI4JBridge" with the targets "Release" and "x86"
