@@ -166,11 +166,13 @@ public class BW {
                 logger.debug("creating unit for id {} and type {} ({}) ...", unitId, typeId, UnitType.values()[typeId]);
                 
                 unit = unitFactory.createUnit(unitId, UnitType.values()[typeId], frame);
-                logger.debug("state: {}", unit.exists() ? "completed" : "created");
+                
                 if (unit == null) {
-                    logger.error("could not create unit for id " + unitId + " and type " + UnitType.values()[typeId]);
+                    logger.error("could not create unit for id {}and type {}.", unitId, UnitType.values()[typeId]);
                 } else {
                     
+                	logger.debug("state: {}", unit.exists() ? "completed" : "created");
+                	
                     this.units.put(unitId, unit);
                     unit.initialize(unitData, index);
                     unit.update(unitData, index);
@@ -193,8 +195,7 @@ public class BW {
             Player player = this.players.get(playerId);
             if (player == null) {
 
-                logger.debug("creating player for id " + playerId + " ...");
-                //String playerName = new String(this.getPlayerName(playerId), this.charset);
+                logger.debug("creating player for id {} ...", playerId);
                 player = new Player(playerId, this.getPlayerName(playerId));
                 logger.debug("player name: {}", player.getName());
                 this.players.put(playerId, player);
@@ -256,6 +257,17 @@ public class BW {
         return this.units.values();
     }
 
+    private void preFrame() {
+        
+        logger.debug("updating game state for frame {}...", this.frame);
+        updateGame();
+        logger.debug("updated game.");
+        updateAllPlayers();
+        logger.debug("updated players.");
+        updateAllUnits(this.frame);
+        logger.debug("updated all units.");
+    }
+    
     private void onStart() {
 
         this.frame = 0;
@@ -271,17 +283,6 @@ public class BW {
         listener.onEnd(isWinner);
     }
 
-    private void preFrame() {
-        
-        logger.debug("updating game state for frame {}...", this.frame);
-        updateGame();
-        logger.debug("updated game.");
-        updateAllPlayers();
-        logger.debug("updated players.");
-        updateAllUnits(this.frame);
-        logger.debug("updated all units.");
-    }
-    
     private void onFrame() {
 
     	logger.debug("onFrame {}", this.frame);

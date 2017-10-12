@@ -146,7 +146,6 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_mainThread(JNIEnv *, jobject) 
 
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject caller, jobject bw) {
 
-	std::cout << "c++ startGame..." << std::endl;
 	globalEnv = env;
 	globalBW = bw;
 
@@ -170,29 +169,22 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
 				});
 
 		BWAPI::BroodwarImpl_handle h(gameOwner.getGame());
-		std::cout << "tt1" << std::endl;
-		jclass jc = env->GetObjectClass(bw);
-		jmethodID preFrameCallback = env->GetMethodID(jc, "preFrame", "()V");
-		std::cout << "tt2" << std::endl;
+
 		BridgeEnum *bridgeEnum = new BridgeEnum();
 		BridgeMap *bridgeMap = new BridgeMap();
-		std::cout << "tt3" << std::endl;
+
 		do {
 			h->autoMenuManager.startGame();
-			std::cout << "tt4" << std::endl;
+
 			bridgeEnum->initialize();
-			std::cout << "tt5" << std::endl;
 			bridgeMap->initialize(env, env->GetObjectClass(caller), bw, bwMapClass);
-			std::cout << "tt6" << std::endl;
+
 			while (!h->bwgame.gameOver()) {
 
-				std::cout << "testf1" << std::endl;
+				std::cout << "----------------------------------------------------" << std::endl;
 				h->update();
-				std::cout << "testf2" << std::endl;
 				h->bwgame.nextFrame();
-				std::cout << "testf3" << std::endl;
-				env->CallObjectMethod(globalBW, preFrameCallback);
-				std::cout << "testf4" << std::endl;
+
 				if (!h->externalModuleConnected) {
 					std::cout << "No module loaded, exiting" << std::endl;
 					if (env->ExceptionOccurred()) {
@@ -200,7 +192,6 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
 					}
 					return;
 				}
-				std::cout << "testf5" << std::endl;
 			}
 			h->onGameEnd();
 			h->bwgame.leaveGame();
@@ -363,8 +354,8 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllUnitsData(JNIEnv * 
 
 	for (Unit unit : Broodwar->getAllUnits()) {
 
-			// std::cout << "adding " << unit->getID() << ":" << unit->getType().getName() << std::endl;
-			index = addUnitDataToBuffer(unit, index);
+		std::cout << "   adding " << unit->getID() << ":" << unit->getType().getName() << std::endl;
+		index = addUnitDataToBuffer(unit, index);
 	}
 
 	jintArray result = env->NewIntArray(index);
