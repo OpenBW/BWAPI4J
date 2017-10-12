@@ -99,6 +99,10 @@ JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMap_isVisible(JNIEnv *, job
 	return Broodwar->isVisible(tileX, tileY);
 }
 
+JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMap_isBuildable(JNIEnv *, jobject, jint tileX, jint tileY, jboolean considerBuildings) {
+	return Broodwar->isBuildable(tileX, tileY, considerBuildings);
+}
+
 JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMap_hasPath(JNIEnv *, jobject, jint x1, jint y1, jint x2, jint y2) {
 	return Broodwar->hasPath(BWAPI::Position(x1, y1), BWAPI::Position(x2, y2));
 }

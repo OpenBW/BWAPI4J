@@ -62,8 +62,14 @@ public class BWMap {
         return this.height;
     }
 
-    public native boolean isVisible(int tileX, int tileY);
+    public native boolean isBuildable(int tileX, int tileY, boolean considerBuildings);
 
+    public boolean isBuildable(TilePosition position, boolean considerBuildings) {
+    	return isBuildable(position.getX(), position.getY(), considerBuildings);
+    }
+    
+    public native boolean isVisible(int tileX, int tileY);
+    
     public boolean isVisible(TilePosition position) {
         return isVisible(position.getX(), position.getY());
     }

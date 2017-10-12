@@ -163,10 +163,10 @@ public class BW {
             Unit unit = this.units.get(unitId);
             if (unit == null) {
                 
-                logger.debug("creating unit for id " + unitId 
-                        + " and type " + typeId + " (" + UnitType.values()[typeId] + ") ...");
+                logger.debug("creating unit for id {} and type {} ({}) ...", unitId, typeId, UnitType.values()[typeId]);
                 
                 unit = unitFactory.createUnit(unitId, UnitType.values()[typeId], frame);
+                logger.debug("state: {}", unit.exists() ? "completed" : "created");
                 if (unit == null) {
                     logger.error("could not create unit for id " + unitId + " and type " + UnitType.values()[typeId]);
                 } else {
@@ -285,6 +285,7 @@ public class BW {
     private void onFrame() {
 
     	logger.debug("onFrame {}", this.frame);
+    	preFrame();
     	this.frame++;
         listener.onFrame();
     }

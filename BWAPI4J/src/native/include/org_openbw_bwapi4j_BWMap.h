@@ -9,6 +9,14 @@ extern "C" {
 #endif
 /*
  * Class:     org_openbw_bwapi4j_BWMap
+ * Method:    isBuildable
+ * Signature: (IIZ)Z
+ */
+JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMap_isBuildable
+  (JNIEnv *, jobject, jint, jint, jboolean);
+
+/*
+ * Class:     org_openbw_bwapi4j_BWMap
  * Method:    isVisible
  * Signature: (II)Z
  */
