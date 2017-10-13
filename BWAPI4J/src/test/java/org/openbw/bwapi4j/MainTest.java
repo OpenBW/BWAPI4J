@@ -88,13 +88,13 @@ public class MainTest implements BWEventListener {
         
         testMineralMining();
         
-//        this.bw.getInteractionHandler().leaveGame();
-//        logger.info("left game.");
+        this.bw.getInteractionHandler().leaveGame();
+        logger.info("left game.");
     }
 
     @Override
     public void onEnd(boolean isWinner) {
-        // TODO Auto-generated method stub
+        // do nothing
         
     }
 
@@ -106,49 +106,49 @@ public class MainTest implements BWEventListener {
 
     @Override
     public void onSendText(String text) {
-        // TODO Auto-generated method stub
+    	// do nothing
         
     }
 
     @Override
     public void onReceiveText(Player player, String text) {
-        // TODO Auto-generated method stub
+    	// do nothing
         
     }
 
     @Override
     public void onPlayerLeft(Player player) {
-        // TODO Auto-generated method stub
+    	// do nothing
         
     }
 
     @Override
     public void onNukeDetect(Position target) {
-        // TODO Auto-generated method stub
+    	// do nothing
         
     }
 
     @Override
     public void onUnitDiscover(Unit unit) {
-        // TODO Auto-generated method stub
+    	// do nothing
         
     }
 
     @Override
     public void onUnitEvade(Unit unit) {
-        // TODO Auto-generated method stub
+    	// do nothing
         
     }
 
     @Override
     public void onUnitShow(Unit unit) {
-        // TODO Auto-generated method stub
+    	// do nothing
         
     }
 
     @Override
     public void onUnitHide(Unit unit) {
-        // TODO Auto-generated method stub
+    	// do nothing
         
     }
 
@@ -160,25 +160,25 @@ public class MainTest implements BWEventListener {
 
     @Override
     public void onUnitDestroy(Unit unit) {
-        // TODO Auto-generated method stub
+    	// do nothing
         
     }
 
     @Override
     public void onUnitMorph(Unit unit) {
-        // TODO Auto-generated method stub
+    	// do nothing
         
     }
 
     @Override
     public void onUnitRenegade(Unit unit) {
-        // TODO Auto-generated method stub
+    	// do nothing
         
     }
 
     @Override
     public void onSaveGame(String gameName) {
-        // TODO Auto-generated method stub
+    	// do nothing
         
     }
 

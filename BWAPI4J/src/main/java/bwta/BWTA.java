@@ -102,7 +102,7 @@ public class BWTA {
     
     private native List<TilePosition> getShortestPath(int x1, int y1, int x2, int y2);
     
-    // TODO
+    // TODO implement missing BWTA functionality
 /*
     public static native int getMaxDistanceTransform();
 

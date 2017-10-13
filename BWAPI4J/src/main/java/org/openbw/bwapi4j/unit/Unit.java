@@ -287,7 +287,7 @@ public abstract class Unit implements Comparable<Unit> {
         return this.type.tileWidth();
     }
 
-    // TODO
+    // TODO implement unit.getRegion()
     // public Region getRegion() {
     // return this.region;
     // }
