@@ -89,14 +89,14 @@ assert(startingLocationsOK);
 * [ ] CPPath
 * [ ] Graph
 * [x] Index
-* [x] IPred
 * [x] IWrappedInteger
 * [ ] Map
 * [x] Markable
-* [ ] MiniTile
+* [x] MiniTile
 * [x] PairGenericAltitudeComparator
+* [x] Pred
 * [x] StaticBuilding
-* [ ] Tile
+* [x] Tile
 * [x] unit/Geyser
 * [x] unit/Mineral
 * [ ] unit/Neutral

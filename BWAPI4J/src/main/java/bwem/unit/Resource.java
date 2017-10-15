@@ -12,6 +12,7 @@ public class Resource extends Neutral {
     public Resource(Unit unit, Map map) {
         super(unit, map);
 
+//        bwem_assert(Type().isMineralField() || (Type() == Resource_Vespene_Geyser));
         if (super.getUnit() instanceof MineralPatch) {
             MineralPatch patch = (MineralPatch) super.getUnit();
             this.initialAmount = patch.getInitialResources();

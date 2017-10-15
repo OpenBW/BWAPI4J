@@ -10,7 +10,6 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.unit.Unit;
-import org.openbw.bwapi4j.unit.VespeneGeyser;
 
 public class Neutral {
 
@@ -48,6 +47,10 @@ public class Neutral {
         return this.topLeft;
     }
 
+    public TilePosition getBottomRight() {
+        return this.topLeft.add(this.size).subtract(new TilePosition(1, 1));
+    }
+
     public TilePosition getSize() {
         return new TilePosition(this.size.getX(), this.size.getY());
     }
@@ -59,17 +62,15 @@ public class Neutral {
     public List<Area> getBlockedWalkPositions() {
         List<Area> ret = new ArrayList<>();
         for (WalkPosition w : this.blockedWalkPositions) {
-            ret.add(this.map.getGraph().getArea(w));
+            ret.add(getMap().getGraph().getArea(w));
         }
         return ret;
     }
 
     public void setBlockedWalkPositions(List<WalkPosition> blockedWalkPositions) {
 //        bwem_assert(m_blockedAreas.empty() && !blockedAreas.empty());
-        if (!this.blockedWalkPositions.isEmpty()) {
+        if (!(this.blockedWalkPositions.isEmpty() && blockedWalkPositions.isEmpty())) {
             throw new IllegalStateException();
-        } else if (blockedWalkPositions.isEmpty()) {
-            throw new IllegalArgumentException("null");
         } else {
             this.blockedWalkPositions = blockedWalkPositions;
         }
@@ -93,29 +94,33 @@ public class Neutral {
             throw new IllegalStateException();
         }
 
-        for (int dy = 0 ; dy < this.size.getY() ; ++dy)
-        for (int dx = 0 ; dx < this.size.getX() ; ++dx) {
-            Tile tile = this.map.getTile(getTopLeft().add(new TilePosition(dx, dy)));
+        for (int dy = 0 ; dy < getSize().getY() ; ++dy)
+        for (int dx = 0 ; dx < getSize().getX() ; ++dx) {
+            Tile tile = getMap().getTile(getTopLeft().add(new TilePosition(dx, dy)));
             if (tile.getOccupyingNeutral() == null) {
                 tile.setOccupyingNeutral(this);
             } else {
-//                bwem_assert(this != tile.GetNeutral());
-//                bwem_assert(this != pTop);
-//                bwem_assert(!pTop->IsGeyser());
-//                bwem_assert_plus(pTop->Type() == Type(), "stacked neutrals have different types: " + pTop->Type().getName() + " / " + Type().getName());
-//                bwem_assert_plus(pTop->TopLeft() == TopLeft(), "stacked neutrals not aligned: " + my_to_string(pTop->TopLeft()) + " / " + my_to_string(TopLeft()));
-//                bwem_assert((dx == 0) && (dy == 0));
-                if (this == tile.getOccupyingNeutral()
-                        || (tile.getOccupyingNeutral().getUnit() instanceof VespeneGeyser)) {
+                Neutral top = tile.getOccupyingNeutral().getLastStacked();
+                if (this.equals(tile.getOccupyingNeutral())) {
+//                    bwem_assert(this != tile.GetNeutral());
+                    throw new IllegalStateException();
+                } else if (this.equals(top)) {
+//                    bwem_assert(this != pTop);
+                    throw new IllegalStateException();
+                } else if (top instanceof Geyser) {
+//                    bwem_assert(!pTop->IsGeyser());
                     throw new IllegalStateException();
                 } else if (!(tile.getOccupyingNeutral().getUnit().getClass().getName().equals(this.unit.getClass().getName()))) {
-                    throw new IllegalStateException("Stacked neutrals have different types.");
-                } else if (!tile.getOccupyingNeutral().getTopLeft().equals(getTopLeft())) {
-                    throw new IllegalStateException("Stacked neutrals not aligned.");
-                } else if ((dx != 0) || (dy != 0)) {
+//                    bwem_assert_plus(pTop->Type() == Type(), "stacked neutrals have different types: " + pTop->Type().getName() + " / " + Type().getName());
+                    throw new IllegalStateException("stacked neutrals have different types");
+                } else if (!(top.getTopLeft().equals(getTopLeft()))) {
+//                    bwem_assert_plus(pTop->TopLeft() == TopLeft(), "stacked neutrals not aligned: " + my_to_string(pTop->TopLeft()) + " / " + my_to_string(TopLeft()));
+                    throw new IllegalStateException("stacked neutrals not aligned");
+                } else if (!(dx == 0 && dy == 0)) {
+//                    bwem_assert((dx == 0) && (dy == 0));
                     throw new IllegalStateException();
                 } else {
-                    tile.getOccupyingNeutral().nextStacked = this;
+                    top.nextStacked = this;
                     return;
                 }
             }
@@ -137,6 +142,10 @@ public class Neutral {
     @Override
     public int hashCode() {
         return Objects.hash(this.unit.getId());
+    }
+
+    protected Map getMap() {
+        return this.map;
     }
 
 }
