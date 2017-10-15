@@ -330,7 +330,7 @@ public class Map {
                 WalkPosition w = border.get(i);
                 if (!isValid(w)
                         || !getMiniTile(w, CheckMode.NoCheck).isWalkable()
-                        || getTile(w.toPosition().toTilePosition(), CheckMode.NoCheck).getNeutral() != null) {
+                        || getTile(w.toPosition().toTilePosition(), CheckMode.NoCheck).getOccupyingNeutral() != null) {
                     border.remove(i--);
                 }
             }
@@ -358,7 +358,7 @@ public class Map {
                         if (isValid(next)
                                 && !visited.contains(next)
                                 && getMiniTile(next, CheckMode.NoCheck).isWalkable()
-                                && getTile(next.toPosition().toTilePosition(), CheckMode.NoCheck).getNeutral() == null
+                                && getTile(next.toPosition().toTilePosition(), CheckMode.NoCheck).getOccupyingNeutral() == null
                                 && BWEM.adjoins8SomeLakeOrNeutral(next, this)) {
                             toVisit.add(next);
                             visited.add(next);
@@ -395,7 +395,7 @@ public class Map {
                             WalkPosition next = current.add(delta);
                             if (isValid(next) && !visited.contains(next)
                                     && getMiniTile(next, CheckMode.NoCheck).isWalkable()
-                                    && getTile(next.toPosition().toTilePosition(), CheckMode.NoCheck).getNeutral() == null) {
+                                    && getTile(next.toPosition().toTilePosition(), CheckMode.NoCheck).getOccupyingNeutral() == null) {
                                 toVisit.add(next);
                                 visited.add(next);
                             }
@@ -413,10 +413,10 @@ public class Map {
 
             if (trueDoors.size() >= 2) {
                 /* Marks pCandidate (and any Neutral stacked with it) as blocking. */
-                for (Neutral neutral = getTile(candidate.getPosition().toTilePosition()).getNeutral();
+                for (Neutral neutral = getTile(candidate.getPosition().toTilePosition()).getOccupyingNeutral();
                         neutral != null;
                         neutral = neutral.getNextStacked()) {
-                    neutral.setBlocking(trueDoors);
+                    neutral.setBlockedWalkPositions(trueDoors);
                 }
 
 				/* Marks all the miniTiles of pCandidate as blocked. */

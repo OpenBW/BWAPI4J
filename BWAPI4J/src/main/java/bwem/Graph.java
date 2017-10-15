@@ -379,7 +379,7 @@ public class Graph {
 
         for (Neutral neutral : blockingNeutrals) {
             if (neutral.getNextStacked() == null) { // in the case where several neutrals are stacked, we only consider the top
-                List<Area> blockedAreas = neutral.getBlockedAreas();
+                List<Area> blockedAreas = neutral.getBlockedWalkPositions();
                 for (Area tmpA : blockedAreas)
                 for (Area tmpB : blockedAreas) {
                     if (tmpB.equals(tmpA)) {

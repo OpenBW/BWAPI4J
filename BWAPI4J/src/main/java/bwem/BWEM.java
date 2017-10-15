@@ -187,7 +187,7 @@ public class BWEM {
         for (WalkPosition delta : deltas) {
             WalkPosition next = p.add(delta);
             if (map.isValid(next)) {
-                if (map.getTile(next.toPosition().toTilePosition(), CheckMode.NoCheck).getNeutral() != null) {
+                if (map.getTile(next.toPosition().toTilePosition(), CheckMode.NoCheck).getOccupyingNeutral() != null) {
                     return true;
                 }
                 if (map.getMiniTile(next, CheckMode.NoCheck).isLake()) {

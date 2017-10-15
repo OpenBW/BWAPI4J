@@ -41,7 +41,7 @@ public class Chokepoint {
 
         // Ensures that in the case where several neutrals are stacked, m_pBlockingNeutral points to the bottom one:
         if (this.blockingNeutral != null) {
-            this.blockingNeutral = this.graph.getMap().getTile(this.blockingNeutral.getPosition().toTilePosition()).getNeutral();
+            this.blockingNeutral = this.graph.getMap().getTile(this.blockingNeutral.getPosition().toTilePosition()).getOccupyingNeutral();
         }
 
         this.nodes.add(this.geometry.get(0));
@@ -84,7 +84,7 @@ public class Chokepoint {
                                 MiniTile miniTile = (MiniTile) ttile;
                                 WalkPosition w = (WalkPosition) tpos;
                                 TilePosition t = w.toPosition().toTilePosition();
-                                return (miniTile.getAreaId().intValue() > tmpArea.getAreaId().intValue() && map.getTile(t, CheckMode.NoCheck).getNeutral() == null);
+                                return (miniTile.getAreaId().intValue() > tmpArea.getAreaId().intValue() && map.getTile(t, CheckMode.NoCheck).getOccupyingNeutral() == null);
                             } else {
                                 throw new IllegalArgumentException("Invalid argument list.");
                             }
@@ -107,7 +107,7 @@ public class Chokepoint {
                                 MiniTile miniTile = (MiniTile) ttile;
                                 WalkPosition w = (WalkPosition) tpos;
                                 TilePosition t = w.toPosition().toTilePosition();
-                                return (miniTile.getAreaId().intValue() > tmpArea.getAreaId().intValue() || (isBlocked() && (miniTile.isBlocked() || map.getTile(t, CheckMode.NoCheck).getNeutral() != null)));
+                                return (miniTile.getAreaId().intValue() > tmpArea.getAreaId().intValue() || (isBlocked() && (miniTile.isBlocked() || map.getTile(t, CheckMode.NoCheck).getOccupyingNeutral() != null)));
                             } else {
                                 throw new IllegalArgumentException("Invalid argument list.");
                             }

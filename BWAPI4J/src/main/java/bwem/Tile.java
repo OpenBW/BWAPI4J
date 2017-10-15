@@ -125,16 +125,16 @@ public class Tile extends Markable<Tile> {
      * BWEM automatically updates the data by deleting the Neutral instance and clearing any reference to it such as the one
      * returned by Tile::GetNeutral(). In case of stacked Neutrals, the next one is then returned.
      */
-    public Neutral getNeutral() {
+    public Neutral getOccupyingNeutral() {
         return this.neutral;
     }
 
-    public void setNeutral(Neutral neutral) {
+    public void setOccupyingNeutral(Neutral neutral) {
 //        { bwem_assert(!m_pNeutral && pNeutral); m_pNeutral = pNeutral; }
         if (this.neutral != null) {
             throw new IllegalStateException("Neutral already set");
         } else if (neutral == null) {
-            throw new IllegalArgumentException("neutral=null");
+            throw new IllegalArgumentException("null");
         } else {
             this.neutral = neutral;
         }
@@ -156,7 +156,7 @@ public class Tile extends Markable<Tile> {
      */
     public int getStackedNeutralCount() {
         int count = 0;
-        Neutral neutral = this.getNeutral();
+        Neutral neutral = this.getOccupyingNeutral();
         while (neutral != null) {
             count++;
             neutral = neutral.getNextStacked();

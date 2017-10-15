@@ -97,8 +97,9 @@ assert(startingLocationsOK);
 * [x] PairGenericAltitudeComparator
 * [ ] StaticBuilding
 * [ ] Tile
-* [ ] unit/Geyser
-* [ ] unit/Mineral
+* [x] unit/Geyser
+* [x] unit/Mineral
 * [ ] unit/Neutral
-* [ ] unit/Resource
+* [x] unit/Resource
+* [x] unit/StaticBuilding
 * [x] UserData

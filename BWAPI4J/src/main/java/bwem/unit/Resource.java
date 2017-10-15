@@ -7,16 +7,16 @@ import org.openbw.bwapi4j.unit.VespeneGeyser;
 
 public class Resource extends Neutral {
 
-    private int initialAmount;
+    private final int initialAmount;
 
     public Resource(Unit unit, Map map) {
         super(unit, map);
 
-        if (getUnit() instanceof MineralPatch) {
-            MineralPatch patch = (MineralPatch) getUnit();
+        if (super.getUnit() instanceof MineralPatch) {
+            MineralPatch patch = (MineralPatch) super.getUnit();
             this.initialAmount = patch.getInitialResources();
-        } else if (getUnit() instanceof VespeneGeyser) {
-            VespeneGeyser geyser = (VespeneGeyser) getUnit();
+        } else if (super.getUnit() instanceof VespeneGeyser) {
+            VespeneGeyser geyser = (VespeneGeyser) super.getUnit();
             this.initialAmount = geyser.getInitialResources();
         } else {
             throw new UnsupportedOperationException("unsupported resource type");
@@ -28,11 +28,11 @@ public class Resource extends Neutral {
     }
 
     public int getAmount() {
-        if (getUnit() instanceof MineralPatch) {
-            MineralPatch patch = (MineralPatch) getUnit();
+        if (super.getUnit() instanceof MineralPatch) {
+            MineralPatch patch = (MineralPatch) super.getUnit();
             return patch.getResources();
-        } else if (getUnit() instanceof VespeneGeyser) {
-            VespeneGeyser geyser = (VespeneGeyser) getUnit();
+        } else if (super.getUnit() instanceof VespeneGeyser) {
+            VespeneGeyser geyser = (VespeneGeyser) super.getUnit();
             return geyser.getResources();
         } else {
             throw new UnsupportedOperationException("unsupported resource type");
