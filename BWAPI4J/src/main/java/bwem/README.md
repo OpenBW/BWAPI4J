@@ -90,12 +90,12 @@ assert(startingLocationsOK);
 * [ ] Graph
 * [x] Index
 * [x] IPred
-* [ ] IWrappedInteger
+* [x] IWrappedInteger
 * [ ] Map
 * [x] Markable
 * [ ] MiniTile
 * [x] PairGenericAltitudeComparator
-* [ ] StaticBuilding
+* [x] StaticBuilding
 * [ ] Tile
 * [x] unit/Geyser
 * [x] unit/Mineral
