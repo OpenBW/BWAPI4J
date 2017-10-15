@@ -86,6 +86,16 @@ public class BWEM {
         return Math.sqrt((double) squaredNorm(dx, dy));
     }
 
+    public static int scalarProduct(int ax, int ay, int bx, int by) {
+        return (ax * bx) + (ay * by);
+    }
+
+    /**
+     * Returns true if the lines intersect, otherwise false. In addition, if the lines
+     * intersect the intersection point may be stored in i_x and i_y.
+     *
+     * From http://stackoverflow.com/questions/563198/how-do-you-detect-where-two-line-segments-intersect
+     */
     public static boolean get_line_intersection(
             double p0_x, double p0_y,
             double p1_x, double p1_y,
@@ -95,8 +105,8 @@ public class BWEM {
             MutableDouble i_y) {
         double s1_x, s1_y;
         double s2_x, s2_y;
-        s1_x = p1_x - p0_x;     s1_y = p1_y - p0_y;
-        s2_x = p3_x - p2_x;     s2_y = p3_y - p2_y;
+        s1_x = p1_x - p0_x; s1_y = p1_y - p0_y;
+        s2_x = p3_x - p2_x; s2_y = p3_y - p2_y;
 
         double s, t;
         s = (-s1_y * (p0_x - p2_x) + s1_x * (p0_y - p2_y)) / (-s2_x * s1_y + s1_x * s2_y);
@@ -218,9 +228,41 @@ public class BWEM {
         return ret;
     }
 
-    public static double dist(TilePosition t0, TilePosition t1) {
-        TilePosition tmp = t0.subtract(t1);
-        return norm(tmp.getX(), tmp.getY());
+    public static double dist(TilePosition a, TilePosition b) {
+        TilePosition c = a.subtract(b);
+        return norm(c.getX(), c.getY());
+    }
+
+    public static Altitude getMinAltitudeTop(TilePosition t, Map map) {
+        WalkPosition w = t.toPosition().toWalkPosition();
+        return new Altitude(Math.min(
+                map.getMiniTile(w.add(new WalkPosition(1, 0)), CheckMode.NoCheck).getAltitude().intValue(),
+                map.getMiniTile(w.add(new WalkPosition(2, 0)), CheckMode.NoCheck).getAltitude().intValue()
+        ));
+    }
+
+    public static Altitude getMinAltitudeBottom(TilePosition t, Map map) {
+        WalkPosition w = t.toPosition().toWalkPosition();
+        return new Altitude(Math.min(
+                map.getMiniTile(w.add(new WalkPosition(1, 3)), CheckMode.NoCheck).getAltitude().intValue(),
+                map.getMiniTile(w.add(new WalkPosition(2, 3)), CheckMode.NoCheck).getAltitude().intValue()
+        ));
+    }
+
+    public static Altitude getMinAltitudeLeft(TilePosition t, Map map) {
+        WalkPosition w = t.toPosition().toWalkPosition();
+        return new Altitude(Math.min(
+                map.getMiniTile(w.add(new WalkPosition(0, 1)), CheckMode.NoCheck).getAltitude().intValue(),
+                map.getMiniTile(w.add(new WalkPosition(0, 2)), CheckMode.NoCheck).getAltitude().intValue()
+        ));
+    }
+
+    public static Altitude getMinAltitudeRight(TilePosition t, Map map) {
+        WalkPosition w = t.toPosition().toWalkPosition();
+        return new Altitude(Math.min(
+                map.getMiniTile(w.add(new WalkPosition(3, 1)), CheckMode.NoCheck).getAltitude().intValue(),
+                map.getMiniTile(w.add(new WalkPosition(3, 2)), CheckMode.NoCheck).getAltitude().intValue()
+        ));
     }
 
 }

@@ -1,8 +1,6 @@
 package bwem;
 
 import bwem.unit.Neutral;
-import org.openbw.bwapi4j.TilePosition;
-import org.openbw.bwapi4j.WalkPosition;
 
 /**
  * Corresponds to BWAPI/Starcraft's concept of tile (32x32 pixels).
@@ -18,20 +16,20 @@ import org.openbw.bwapi4j.WalkPosition;
  * Tiles inherit utils::Markable, which provides marking ability
  * Tiles inherit utils::UserData, which provides free-to-use data.
  */
-public class Tile extends Markable<Tile> {
+public final class Tile extends Markable<Tile> {
 
-    private Area.Id areaId;
-    private Bits bits;
     private Neutral neutral;
     private Altitude minAltitude;
-    private UserData userData;
+    private Area.Id areaId;
+    private final UserData internalData;
+    private final Bits bits;
 
     public Tile() {
-        this.areaId = new Area.Id(0);
-        this.bits = new Bits();
         this.neutral = null;
         this.minAltitude = new Altitude(0);
-        this.userData = new UserData();
+        this.areaId = new Area.Id(0);
+        this.internalData = new UserData();
+        this.bits = new Bits();
     }
 
     /**
@@ -71,6 +69,7 @@ public class Tile extends Markable<Tile> {
         this.bits.buildable = 0x1;
     }
 
+    //TODO: Double-check that this and related code is right. Also consider enums.
     /**
      * 0: lower ground    1: high ground    2: very high ground
      * Corresponds to BWAPI::getGroundHeight / 2
@@ -79,6 +78,7 @@ public class Tile extends Markable<Tile> {
         return ((int) this.bits.groundHeight);
     }
 
+    //TODO: Double-check this lines up with getGroundHeight().
     public void setGroundHeight(int height) {
 //        { bwem_assert((0 <= h) && (h <= 2)); m_bits.groundHeight = h; }
         if (!((height >= 0) && (height <= 2))) {
@@ -158,7 +158,7 @@ public class Tile extends Markable<Tile> {
         int count = 0;
         Neutral neutral = this.getOccupyingNeutral();
         while (neutral != null) {
-            count++;
+            ++count;
             neutral = neutral.getNextStacked();
         }
         return count;
@@ -181,40 +181,8 @@ public class Tile extends Markable<Tile> {
         }
     }
 
-    Altitude getMinAltitudeTop(TilePosition t, Map map) {
-        WalkPosition w = t.toPosition().toWalkPosition();
-        return new Altitude(Math.min(
-                map.getMiniTile(w.add(new WalkPosition(1, 0)), CheckMode.NoCheck).getAltitude().intValue(),
-                map.getMiniTile(w.add(new WalkPosition(2, 0)), CheckMode.NoCheck).getAltitude().intValue()
-        ));
-    }
-
-    Altitude getMinAltitudeBottom(TilePosition t, Map map) {
-        WalkPosition w = t.toPosition().toWalkPosition();
-        return new Altitude(Math.min(
-                map.getMiniTile(w.add(new WalkPosition(1, 3)), CheckMode.NoCheck).getAltitude().intValue(),
-                map.getMiniTile(w.add(new WalkPosition(2, 3)), CheckMode.NoCheck).getAltitude().intValue()
-        ));
-    }
-
-    Altitude getMinAltitudeLeft(TilePosition t, Map map) {
-        WalkPosition w = t.toPosition().toWalkPosition();
-        return new Altitude(Math.min(
-                map.getMiniTile(w.add(new WalkPosition(0, 1)), CheckMode.NoCheck).getAltitude().intValue(),
-                map.getMiniTile(w.add(new WalkPosition(0, 2)), CheckMode.NoCheck).getAltitude().intValue()
-        ));
-    }
-
-    Altitude getMinAltitudeRight(TilePosition t, Map map) {
-        WalkPosition w = t.toPosition().toWalkPosition();
-        return new Altitude(Math.min(
-                map.getMiniTile(w.add(new WalkPosition(3, 1)), CheckMode.NoCheck).getAltitude().intValue(),
-                map.getMiniTile(w.add(new WalkPosition(3, 2)), CheckMode.NoCheck).getAltitude().intValue()
-        ));
-    }
-
     public UserData getUserData() {
-        return this.userData;
+        return this.internalData;
     }
 
 }

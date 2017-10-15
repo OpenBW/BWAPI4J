@@ -11,14 +11,14 @@ package bwem;
  * The whole process of analysis of a Map relies on the walkability information
  * from which are derived successively : altitudes, Areas, ChokePoints.
  */
-public class MiniTile {
+public final class MiniTile {
 
     public static final int SIZE_IN_PIXELS = 8;
 
     private static final Area.Id BLOCKING_CP_AREA_ID = new Area.Id(Integer.MIN_VALUE);
 
-    private Area.Id areaId = null;
-    private Altitude altitude = null;
+    private Area.Id areaId;
+    private Altitude altitude;
 
     public MiniTile() {
         this.areaId = new Area.Id(-1);
@@ -41,10 +41,8 @@ public class MiniTile {
 
     public void setAreaId(Area.Id areaId) {
 //        { bwem_assert(AreaIdMissing() && (id >= 1)); m_areaId = id; }
-        if (!isAreaIdMissing()) {
-            throw new IllegalStateException("Area.Id is already set");
-        } else if (!(areaId.intValue() >= 1)) {
-            throw new IllegalArgumentException("invalid Area.Id");
+        if (!(isAreaIdMissing() && areaId.intValue() >= 1)) {
+            throw new IllegalStateException();
         } else {
             this.areaId = new Area.Id(areaId);
         }
@@ -71,10 +69,9 @@ public class MiniTile {
 
     public void replaceBlockedAreaId(Area.Id areaId) {
 //        { bwem_assert((m_areaId == blockingCP) && (id >= 1)); m_areaId = id; }
-        if (!((this.areaId.equals(BLOCKING_CP_AREA_ID)))) {
+        if (!(this.areaId.equals(MiniTile.BLOCKING_CP_AREA_ID)
+                && areaId.intValue() >= 1)) {
             throw new IllegalStateException();
-        } else if (!(areaId.intValue() >= 1)) {
-            throw new IllegalArgumentException("invalid Area.Id");
         } else {
             this.areaId = new Area.Id(areaId);
         }
@@ -100,10 +97,8 @@ public class MiniTile {
 
     public void setAltitude(Altitude altitude) {
 //        { bwem_assert_debug_only(AltitudeMissing() && (a > 0)); m_altitude = a; }
-        if (!isAltitudeMissing()) {
-            throw new IllegalStateException("Altitude is already set");
-        } else if (!(altitude.intValue() > 0)) {
-            throw new IllegalArgumentException("invalid Altitude");
+        if (!(isAltitudeMissing() && altitude.intValue() > 0)) {
+            throw new IllegalStateException();
         } else {
             this.altitude = new Altitude(altitude);
         }
