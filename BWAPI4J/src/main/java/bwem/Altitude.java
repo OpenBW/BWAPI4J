@@ -11,10 +11,6 @@ public final class Altitude implements IWrappedInteger<Altitude>, Comparable<Alt
 
     private final int val;
 
-    private Altitude() {
-        throw new IllegalArgumentException("Parameterless instantiation is prohibited.");
-    }
-
     public Altitude(int val) {
         this.val = val;
     }
@@ -45,14 +41,6 @@ public final class Altitude implements IWrappedInteger<Altitude>, Comparable<Alt
         return (lhs < rhs) ? -1 : (lhs > rhs) ? 1 : 0;
     }
 
-
-    /**
-     * - Tests whether the specified object is equal to this object.<br>
-     * - Tests whether the specified object is an instance of this class.<br>
-     * - Tests if the internal integer values match.<br>
-     *
-     * @param object The specified object to test against this object.
-     */
     @Override
     public boolean equals(Object object) {
         if (this == object) {
