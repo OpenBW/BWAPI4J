@@ -14,10 +14,12 @@ import org.openbw.bwapi4j.unit.VespeneGeyser;
 
 public class Neutral {
 
-    private Map map = null;
     private Unit unit = null;
-    private TilePosition size = null;
     private Position position = null;
+    //TODO: Support "m_topLeft"?
+//    neutral.h:121:BWAPI::TilePosition m_topLeft;
+    private TilePosition size = null;
+    private Map map = null;
     private Neutral nextStacked = null;
     private List<WalkPosition> blockedAreas = null;
 
@@ -26,11 +28,14 @@ public class Neutral {
     }
 
     public Neutral(Unit unit, Map map) {
-        this.map = map;
         this.unit = unit;
-        this.size = unit.getInitialType().tileSize();
         this.position = this.unit.getInitialPosition();
+        this.size = unit.getInitialType().tileSize();
+        this.map = map;
         this.blockedAreas = new ArrayList<>();
+
+        //TODO: Support "Special_Right_Pit_Door"?
+//        neutral.cpp:38:if (u->getType() == Special_Right_Pit_Door) ++m_topLeft.x;
 
         putOnTiles();
     }
@@ -112,14 +117,14 @@ public class Neutral {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    public boolean equals(Object object) {
+        if (this == object) {
             return true;
-        } else if (!(o instanceof Neutral)) {
-            return false;
+        } else if (!(object instanceof Neutral)) {
+            throw new IllegalArgumentException("object is not an instance of Neutral");
         } else {
-            Unit oUnit = ((Neutral) o).getUnit();
-            return (this.unit.getId() == oUnit.getId());
+            Unit thatUnit = ((Neutral) object).getUnit();
+            return (this.unit.getId() == thatUnit.getId());
         }
     }
 

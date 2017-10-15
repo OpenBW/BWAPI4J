@@ -1,6 +1,6 @@
 package bwem;
 
-public class UserData {
+public final class UserData {
 
     private int data;
 

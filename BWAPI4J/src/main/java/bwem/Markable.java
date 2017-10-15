@@ -2,11 +2,15 @@ package bwem;
 
 public class Markable<Derived> {
 
-    private int lastMark = 0;
+    private int lastMark;
     private static int currentMark = 0;
 
+    public Markable() {
+        this.lastMark = 0;
+    }
+
     public boolean isMarked() {
-        return this.lastMark == Markable.currentMark;
+        return (this.lastMark == Markable.currentMark);
     }
 
     public void setMarked() {
@@ -18,7 +22,7 @@ public class Markable<Derived> {
     }
 
     public static void UnmarkAll() {
-        Markable.currentMark++;
+        ++Markable.currentMark;
     }
 
 }

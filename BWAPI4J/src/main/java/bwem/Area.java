@@ -5,14 +5,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
-import org.apache.commons.collections4.ListValuedMap;
-import org.apache.commons.collections4.MultiMap;
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 
-public class Area {
+public final class Area {
 
     private Map map;
     private Id areaId;
@@ -330,13 +328,9 @@ public class Area {
      * the original C++ definition:
      * area.h:54:typedef int16_t id;
      */
-    public static class Id implements IWrappedInteger<Id>, Comparable<Id> {
+    public static final class Id implements IWrappedInteger<Id>, Comparable<Id> {
 
-        private int val;
-
-        private Id() {
-            throw new IllegalArgumentException("Parameterless instantiation is prohibited.");
-        }
+        private final int val;
 
         public Id(int val) {
             this.val = val;
@@ -368,13 +362,6 @@ public class Area {
             return (lhs < rhs) ? -1 : (lhs > rhs) ? 1 : 0;
         }
 
-        /**
-         * - Tests whether the specified object is equal to this object.<br>
-         * - Tests whether the specified object is an instance of this class.<br>
-         * - Tests if the internal integer values match.<br>
-         *
-         * @param object The specified object to test against this object.
-         */
         @Override
         public boolean equals(Object object) {
             if (this == object) {
@@ -399,11 +386,9 @@ public class Area {
      * the original C++ definition:
      * area.h:56:typedef int16_t groupId;
      */
-    public static class GroupId implements IWrappedInteger<GroupId>, Comparable<GroupId> {
+    public static final class GroupId implements IWrappedInteger<GroupId>, Comparable<GroupId> {
 
-        private int val;
-
-        private GroupId() {}
+        private final int val;
 
         public GroupId(int val) {
             this.val = val;
@@ -435,13 +420,6 @@ public class Area {
             return (lhs < rhs) ? -1 : (lhs > rhs) ? 1 : 0;
         }
 
-        /**
-         * - Tests whether the specified object is equal to this object.<br>
-         * - Tests whether the specified object is an instance of this class.<br>
-         * - Tests if the internal integer values match.<br>
-         *
-         * @param object The specified object to test against this object.
-         */
         @Override
         public boolean equals(Object object) {
             if (this == object) {
@@ -461,6 +439,7 @@ public class Area {
 
     }
 
+    //TODO: 2017-10-14: Look this class over.
     /**
      * Helper class for void Map::ComputeAreas()
      * Maintains some information about an area being computed.
@@ -468,7 +447,7 @@ public class Area {
      * - a default-constructed TempAreaInfo instance is never Valid (used as a dummy value to simplify the algorithm).
      * - any other instance becomes invalid when absorbed (see Merge)
      */
-    public static class TempInfo {
+    public static final class TempInfo {
 
         private boolean isValid;
         private Area.Id areaId;

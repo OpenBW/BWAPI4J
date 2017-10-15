@@ -7,13 +7,9 @@ import java.util.Objects;
  * the original C++ definition:
  * cp.h:143:typedef int index;
  */
-public class Index implements IWrappedInteger<Index>, Comparable<Index> {
+public final class Index implements IWrappedInteger<Index>, Comparable<Index> {
 
-    private int val;
-
-    private Index() {
-        throw new IllegalArgumentException("Parameterless instantiation is prohibited.");
-    }
+    private final int val;
 
     public Index(int val) {
         this.val = val;
@@ -45,13 +41,6 @@ public class Index implements IWrappedInteger<Index>, Comparable<Index> {
         return (lhs < rhs) ? -1 : (lhs > rhs) ? 1 : 0;
     }
 
-    /**
-     * - Tests whether the specified object is equal to this object.<br>
-     * - Tests whether the specified object is an instance of this class.<br>
-     * - Tests if the internal integer values match.<br>
-     *
-     * @param object The specified object to test against this object.
-     */
     @Override
     public boolean equals(Object object) {
         if (this == object) {

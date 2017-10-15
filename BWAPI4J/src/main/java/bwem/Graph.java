@@ -139,6 +139,7 @@ public class Graph {
         return this.pathsBetweenChokepoints.get(a.getIndex().intValue()).get(b.getIndex().intValue());
     }
 
+    //Note: The original method returns a const pointer. This method returns the internal object. Should be OK?
     public Area getArea(Area.Id areaId) {
 //        bwem_assert(Valid(id));
         if (!isValid(areaId)) {

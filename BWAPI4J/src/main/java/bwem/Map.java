@@ -450,7 +450,7 @@ public class Map {
                 miniTilesByDescendingAltitude.add(new Pair<>(w, m));
             }
         }
-        Collections.sort(miniTilesByDescendingAltitude, new PairGenericAltitudeComparator(PairGenericAltitudeComparator.Order.Descending));
+        Collections.sort(miniTilesByDescendingAltitude, new PairGenericAltitudeComparator(PairGenericAltitudeComparator.Order.DESCENDING));
 
         List<Area.TempInfo> tempAreaList = computeTempAreas(miniTilesByDescendingAltitude);
 

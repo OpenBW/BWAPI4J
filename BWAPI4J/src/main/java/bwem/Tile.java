@@ -1,7 +1,6 @@
 package bwem;
 
 import bwem.unit.Neutral;
-import org.apache.commons.lang3.mutable.MutableInt;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 
@@ -33,10 +32,6 @@ public class Tile extends Markable<Tile> {
         this.neutral = null;
         this.minAltitude = new Altitude(0);
         this.userData = new UserData();
-    }
-
-    public UserData getUserData() {
-        return this.userData;
     }
 
     /**
@@ -216,6 +211,10 @@ public class Tile extends Markable<Tile> {
                 map.getMiniTile(w.add(new WalkPosition(3, 1)), CheckMode.NoCheck).getAltitude().intValue(),
                 map.getMiniTile(w.add(new WalkPosition(3, 2)), CheckMode.NoCheck).getAltitude().intValue()
         ));
+    }
+
+    public UserData getUserData() {
+        return this.userData;
     }
 
 }

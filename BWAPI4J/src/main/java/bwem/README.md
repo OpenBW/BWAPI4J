@@ -38,7 +38,7 @@ assert(startingLocationsOK);
 
 #### Types
 
-| Location | Scope | Original | Current | C++ Type | Java Type | Description |
+| Location | Scope | Original C++ | Java Port | C++ Type | Java Type | Description |
 |-|-|-|-|-|-|-|
 | `area.h:54` | public | `Area::id` | `Area.Id` | `int16_t` | `int` | This appears to be used everwhere in the code in place of `int16_t` instead of a dedicated `Area::id` type. |
 | `area.h:56` | public | `Area::groupId` | `Area.GroupId` | `int16_t` | `int` | - |
@@ -48,12 +48,7 @@ assert(startingLocationsOK);
 
 ### Current Focus
 
-* `mapImpl.cpp:68:void MapImpl::Initialize()`
-  * `MapImpl::ProcessBlockingNeutrals()`
-* `graph.cpp:392:const CPPath & Graph::GetPath(const Position & a, const Position & b, int * pLength) const`
-  * `graph.h` -> `Graph.java`
-    * `graph.h:153:const Area * Graph::GetNearestArea(TPosition p) const`
-      * `map.h:253:inline TPosition Map::BreadthFirstSearch(TPosition start, Pred1 findCond, Pred2 visitCond) const`
+-
 
 ### Class and Method Dependencies
 
@@ -80,3 +75,30 @@ assert(startingLocationsOK);
 `CPPath`
 * `typedef std::vector<const ChokePoint *> Path;`
 * `typedef ChokePoint::Path CPPath;`
+
+### Java Classes to Review
+* [x] Altitude
+* [ ] Area
+  * [x] GroupId
+  * [x] Id
+  * [ ] TempInfo
+* [x] Bits
+* [ ] BWEM
+* [x] CheckMode
+* [ ] Chokepoint
+* [ ] CPPath
+* [ ] Graph
+* [x] Index
+* [x] IPred
+* [ ] IWrappedInteger
+* [ ] Map
+* [x] Markable
+* [ ] MiniTile
+* [x] PairGenericAltitudeComparator
+* [ ] StaticBuilding
+* [ ] Tile
+* [ ] unit/Geyser
+* [ ] unit/Mineral
+* [ ] unit/Neutral
+* [ ] unit/Resource
+* [x] UserData

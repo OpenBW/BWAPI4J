@@ -3,14 +3,14 @@ package bwem;
 import java.util.Comparator;
 import org.openbw.bwapi4j.util.Pair;
 
-public class PairGenericAltitudeComparator<T> implements Comparator<Pair<T, Altitude>> {
+public final class PairGenericAltitudeComparator<T> implements Comparator<Pair<T, Altitude>> {
 
-    public static enum Order { Ascending, Descending }
+    public enum Order { ASCENDING, DESCENDING }
 
     private Order order;
 
     public PairGenericAltitudeComparator() {
-        this.order = Order.Ascending;
+        this.order = Order.ASCENDING;
     }
 
     public PairGenericAltitudeComparator(Order order) {
@@ -22,12 +22,12 @@ public class PairGenericAltitudeComparator<T> implements Comparator<Pair<T, Alti
         int a1 = ((Altitude) o1.second).intValue();
         int a2 = ((Altitude) o2.second).intValue();
         switch (this.order) {
-            case Ascending:
+            case ASCENDING:
                 return (a1 < a2) ? -1 : (a1 > a2) ? 1 : 0;
-            case Descending:
+            case DESCENDING:
                 return (a1 < a2) ? 1 : (a1 > a2) ? -1 : 0;
             default:
-                throw new IllegalArgumentException();
+                throw new UnsupportedOperationException("ordering algorithm not yet supported: " + this.order.toString());
         }
     }
 

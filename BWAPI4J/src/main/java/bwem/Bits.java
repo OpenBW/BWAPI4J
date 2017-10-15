@@ -7,7 +7,7 @@ package bwem;
 //    uint8_t			groundHeight:2;
 //    uint8_t			doodad:1;
 //};
-public class Bits {
+public final class Bits {
 
     public byte buildable;
     public byte groundHeight;
