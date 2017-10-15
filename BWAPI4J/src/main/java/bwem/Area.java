@@ -76,6 +76,10 @@ public final class Area {
         this.maxAltitude = new Altitude(topMiniTile.getAltitude());
     }
 
+    public Map getMap() {
+        return this.map;
+    }
+
     /**
      * Unique id > 0 of this Area. Range = 1 .. Map::Areas().size()<br>
      * this == Map::GetArea(Id())<br>
