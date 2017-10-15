@@ -16,8 +16,7 @@ public class Neutral {
 
     private final Unit unit;
     private Position position = null;
-    //TODO: Support "m_topLeft"?
-//    neutral.h:121:BWAPI::TilePosition m_topLeft;
+    private TilePosition topLeft = null;
     private TilePosition size = null;
     protected final Map map;
     private Neutral nextStacked = null;
@@ -26,6 +25,7 @@ public class Neutral {
     protected Neutral(Unit unit, Map map) {
         this.unit = unit;
         this.position = this.unit.getInitialPosition();
+        this.topLeft = this.unit.getInitialTilePosition();
         this.size = unit.getInitialType().tileSize();
         this.map = map;
         this.blockedWalkPositions = new ArrayList<>();
@@ -40,24 +40,16 @@ public class Neutral {
         return this.unit;
     }
 
-    public TilePosition getSize() {
-        return new TilePosition(this.size.getX(), this.size.getY());
-    }
-
     public Position getPosition() {
         return new Position(this.position.getX(), this.position.getY());
     }
 
-    public Neutral getNextStacked() {
-        return this.nextStacked;
+    public TilePosition getTopLeft() {
+        return this.topLeft;
     }
 
-    public Neutral getLastStacked() {
-        Neutral ret = getNextStacked();
-        while (ret.getNextStacked() != null) {
-            ret = ret.getNextStacked();
-        }
-        return ret;
+    public TilePosition getSize() {
+        return new TilePosition(this.size.getX(), this.size.getY());
     }
 
     public boolean isBlocking() {
@@ -73,7 +65,26 @@ public class Neutral {
     }
 
     public void setBlockedWalkPositions(List<WalkPosition> blockedWalkPositions) {
-        this.blockedWalkPositions = blockedWalkPositions;
+//        bwem_assert(m_blockedAreas.empty() && !blockedAreas.empty());
+        if (!this.blockedWalkPositions.isEmpty()) {
+            throw new IllegalStateException();
+        } else if (blockedWalkPositions.isEmpty()) {
+            throw new IllegalArgumentException("null");
+        } else {
+            this.blockedWalkPositions = blockedWalkPositions;
+        }
+    }
+
+    public Neutral getNextStacked() {
+        return this.nextStacked;
+    }
+
+    public Neutral getLastStacked() {
+        Neutral ret = getNextStacked();
+        while (ret.getNextStacked() != null) {
+            ret = ret.getNextStacked();
+        }
+        return ret;
     }
 
     private void putOnTiles() {
@@ -84,7 +95,7 @@ public class Neutral {
 
         for (int dy = 0 ; dy < this.size.getY() ; ++dy)
         for (int dx = 0 ; dx < this.size.getX() ; ++dx) {
-            Tile tile = this.map.getTile(this.position.toTilePosition().add(new TilePosition(dx, dy)));
+            Tile tile = this.map.getTile(getTopLeft().add(new TilePosition(dx, dy)));
             if (tile.getOccupyingNeutral() == null) {
                 tile.setOccupyingNeutral(this);
             } else {
@@ -99,7 +110,7 @@ public class Neutral {
                     throw new IllegalStateException();
                 } else if (!(tile.getOccupyingNeutral().getUnit().getClass().getName().equals(this.unit.getClass().getName()))) {
                     throw new IllegalStateException("Stacked neutrals have different types.");
-                } else if (!tile.getOccupyingNeutral().getPosition().equals(this.position)) {
+                } else if (!tile.getOccupyingNeutral().getTopLeft().equals(getTopLeft())) {
                     throw new IllegalStateException("Stacked neutrals not aligned.");
                 } else if ((dx != 0) || (dy != 0)) {
                     throw new IllegalStateException();

@@ -41,7 +41,7 @@ public class Chokepoint {
 
         // Ensures that in the case where several neutrals are stacked, m_pBlockingNeutral points to the bottom one:
         if (this.blockingNeutral != null) {
-            this.blockingNeutral = this.graph.getMap().getTile(this.blockingNeutral.getPosition().toTilePosition()).getOccupyingNeutral();
+            this.blockingNeutral = this.graph.getMap().getTile(this.blockingNeutral.getTopLeft()).getOccupyingNeutral();
         }
 
         this.nodes.add(this.geometry.get(0));

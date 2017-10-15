@@ -321,7 +321,7 @@ public class Map {
              * 1) Retrieve the Border: the outer border of candidate.
              */
 
-            List<WalkPosition> border = BWEM.outerMiniTileBorder(candidate.getPosition().toTilePosition(), candidate.getSize());
+            List<WalkPosition> border = BWEM.outerMiniTileBorder(candidate.getTopLeft(), candidate.getSize());
 
 //			really_remove_if(Border, [this](WalkPosition w)	{
 //				return !Valid(w) || !GetMiniTile(w, check_t::no_check).Walkable() ||
@@ -413,7 +413,7 @@ public class Map {
 
             if (trueDoors.size() >= 2) {
                 /* Marks pCandidate (and any Neutral stacked with it) as blocking. */
-                for (Neutral neutral = getTile(candidate.getPosition().toTilePosition()).getOccupyingNeutral();
+                for (Neutral neutral = getTile(candidate.getTopLeft()).getOccupyingNeutral();
                         neutral != null;
                         neutral = neutral.getNextStacked()) {
                     neutral.setBlockedWalkPositions(trueDoors);
@@ -423,7 +423,7 @@ public class Map {
 				/* This way, areas at TrueDoors won't merge together. */
 				for (int dy = 0 ; dy < candidate.getSize().toPosition().toWalkPosition().getY(); ++dy)
 				for (int dx = 0 ; dx < candidate.getSize().toPosition().toWalkPosition().getX(); ++dx) {
-					MiniTile miniTile = getMiniTile(candidate.getPosition().toWalkPosition().add(new WalkPosition(dx, dy)));
+					MiniTile miniTile = getMiniTile(candidate.getTopLeft().toPosition().toWalkPosition().add(new WalkPosition(dx, dy)));
 					if (miniTile.isWalkable()) {
                         miniTile.setBlocked();
                     }
