@@ -4,11 +4,13 @@ import bwem.Altitude;
 import bwem.BWEM;
 import bwem.CheckMode;
 import bwem.MiniTile;
+import bwem.PairGenericAltitudeComparator;
 import bwem.Tile;
 import bwem.unit.Geyser;
 import bwem.unit.Mineral;
 import bwem.unit.StaticBuilding;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.Player;
@@ -20,6 +22,7 @@ import org.openbw.bwapi4j.unit.Egg;
 import org.openbw.bwapi4j.unit.MineralPatch;
 import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.unit.VespeneGeyser;
+import org.openbw.bwapi4j.util.Pair;
 
 public final class MapImpl extends Map {
 
@@ -88,7 +91,7 @@ public final class MapImpl extends Map {
 ///	bw << "Map::InitializeNeutrals: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
 //    System.out.println("Map::InitializeNeutrals: " + timer.getElapsedMilliseconds() + " ms"); timer.reset();
 
-//	ComputeAltitude();
+	computeAltitude();
 ///	bw << "Map::ComputeAltitude: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
 //    System.out.println("Map::ComputeAltitude: " + timer.getElapsedMilliseconds() + " ms"); timer.reset();
 
@@ -248,6 +251,80 @@ public final class MapImpl extends Map {
                     this.staticBuildings.add(new StaticBuilding(unit, this));
                 }
                 //TODO: Add "Special_Pit_Door" and "Special_Right_Pit_Door" to static buildings list? See mapImpl.cpp:238.
+            }
+        }
+    }
+
+    // Assigns MiniTile::m_altitude foar each miniTile having AltitudeMissing()
+    // Cf. MiniTile::Altitude() for meaning of altitude_t.
+    // Altitudes are computed using the straightforward Dijkstra's algorithm : the lower ones are computed first, starting from the seaside-miniTiles neighbours.
+    // The point here is to precompute all possible altitudes for all possible tiles, and sort them.
+    private void computeAltitude() {
+        /**
+         * 1) Fill in and sort deltasByAscendingAltitude.
+         */
+
+        int range = Math.max(super.getWalkSize().getX(), super.getWalkSize().getY()) / 2 + 3; // should suffice for maps with no Sea.
+
+        List<Pair<WalkPosition, Altitude>> deltasByAscendingAltitude = new ArrayList<>();
+
+        for (int dy = 0; dy <= range; ++dy)
+        for (int dx = dy; dx <= range; ++dx) { // Only consider 1/8 of possible deltas. Other ones obtained by symmetry.
+            if (dx != 0 || dy != 0) {
+                deltasByAscendingAltitude.add(new Pair<>(
+                        new WalkPosition(dx, dy),
+                        new Altitude((int) (Double.valueOf("0.5") + (double) BWEM.norm(dx, dy) * (double) MiniTile.SIZE_IN_PIXELS))
+                ));
+            }
+        }
+
+        Collections.sort(deltasByAscendingAltitude, new PairGenericAltitudeComparator());
+
+        /**
+         * 2) Fill in ActiveSeaSideList, which basically contains all the seaside miniTiles (from which altitudes are to be computed)
+         * It also includes extra border-miniTiles which are considered as seaside miniTiles too.
+         */
+
+        List<Pair<WalkPosition, Altitude>> activeSeaSideList = new ArrayList<>();
+
+        for (int y = -1 ; y <= super.getWalkSize().getY() ; ++y)
+        for (int x = -1 ; x <= super.getWalkSize().getX() ; ++x) {
+            WalkPosition w = new WalkPosition(x, y);
+            if (!super.isValid(w) || BWEM.hasNonSeaNeighbor(w, this)) {
+                activeSeaSideList.add(new Pair<>(w, new Altitude(0)));
+            }
+        }
+
+        /**
+         * 3) Use Dijkstra's algorithm.
+         */
+
+        for (Pair<WalkPosition, Altitude> deltaAltitude : deltasByAscendingAltitude) {
+            WalkPosition d = deltaAltitude.first;
+            Altitude altitude = deltaAltitude.second;
+            for (int i = 0; i < activeSeaSideList.size(); ++i) {
+                Pair<WalkPosition, Altitude> current = activeSeaSideList.get(i);
+                if (altitude.subtract(current.second).intValue() >= (2 * MiniTile.SIZE_IN_PIXELS)) { // optimization : once a seaside miniTile verifies this condition,
+                    activeSeaSideList.remove(i--);                                                   // we can throw it away as it will not generate min altitudes anymore
+                } else {
+                    WalkPosition[] tmpDeltas = {
+                        new WalkPosition(d.getX(),  d.getY()), new WalkPosition(-d.getX(),  d.getY()),
+                        new WalkPosition(d.getX(), -d.getY()), new WalkPosition(-d.getX(), -d.getY()),
+                        new WalkPosition(d.getY(),  d.getX()), new WalkPosition(-d.getY(),  d.getX()),
+                        new WalkPosition(d.getY(), -d.getX()), new WalkPosition(-d.getY(), -d.getX()),
+                    };
+                    for (WalkPosition tmpDelta : tmpDeltas) {
+                        WalkPosition w = (current.first).add(tmpDelta);
+                        if (isValid(w)) {
+                            MiniTile miniTile = getMiniTile_(w, CheckMode.NoCheck);
+                            if (miniTile.isAltitudeMissing()) {
+                                this.maxAltitude = new Altitude(altitude);
+                                current.second = new Altitude(altitude);
+                                miniTile.setAltitude(new Altitude(this.maxAltitude));
+                            }
+                        }
+                    }
+                }
             }
         }
     }
