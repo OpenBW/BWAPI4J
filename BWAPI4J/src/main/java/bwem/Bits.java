@@ -19,4 +19,10 @@ public final class Bits {
         this.doodad = 0x0;
     }
 
+    public Bits(Bits bits) {
+        this.buildable = bits.buildable;
+        this.groundHeight = bits.groundHeight;
+        this.doodad = bits.doodad;
+    }
+
 }

@@ -8,6 +8,10 @@ public final class UserData {
         this.data = 0;
     }
 
+    public UserData(UserData userData) {
+        this.data = userData.data;
+    }
+
     public int getData() {
         return this.data;
     }

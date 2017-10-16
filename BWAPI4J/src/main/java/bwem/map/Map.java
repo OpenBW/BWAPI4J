@@ -1,6 +1,9 @@
 package bwem.map;
 
 import bwem.Altitude;
+import bwem.CheckMode;
+import bwem.MiniTile;
+import bwem.Tile;
 import java.util.List;
 import java.util.Random;
 import org.openbw.bwapi4j.BW;
@@ -35,6 +38,8 @@ public abstract class Map {
     protected int pixelCount = 0;
     protected Position pixelSize = null;
     protected Position center = null;
+    protected List<Tile> tiles = null;
+    protected List<MiniTile> miniTiles = null;
 
     protected Map(BW bw) {
         this.bw = bw;
@@ -141,4 +146,84 @@ public abstract class Map {
 	// Returns a reference to the starting Locations.
 	// Note: these correspond to BWAPI::getStartLocations().
     public abstract List<TilePosition> getStartingLocations();
+
+    /**
+     * Returns a copy the Tile specified by the TilePosition.
+     *
+     * @see #getTile_(org.openbw.bwapi4j.TilePosition, bwem.CheckMode)
+     */
+    public Tile getTile(TilePosition p, CheckMode checkMode) {
+        if (!(checkMode == CheckMode.NoCheck || isValid(p))) {
+            throw new IllegalArgumentException();
+        } else {
+            return new Tile(getTile_(p, checkMode));
+        }
+    }
+
+    /**
+     * Returns a copy of the Tile specified by the TilePosition.
+     */
+    public Tile getTile(TilePosition p) {
+        return getTile(p, CheckMode.Check);
+    }
+
+    /**
+     * Returns the Tile specified by the TilePosition. Does not return a copy.
+     *
+     * @see #getTile(org.openbw.bwapi4j.TilePosition, bwem.CheckMode)
+     */
+    protected Tile getTile_(TilePosition p, CheckMode checkMode) {
+        if (!(checkMode == CheckMode.NoCheck || isValid(p))) {
+            throw new IllegalArgumentException();
+        } else {
+            return this.tiles.get(getTileSize().getX() * p.getY() + p.getX());
+        }
+    }
+
+    /**
+     * Returns the Tile specified by the TilePosition. Does not return a copy.
+     */
+    protected Tile getTile_(TilePosition p) {
+        return getTile_(p, CheckMode.Check);
+    }
+
+    /**
+     * Returns a copy the MiniTile specified by the WalkPosition.
+     *
+     * @see #getTile_(org.openbw.bwapi4j.TilePosition, bwem.CheckMode)
+     */
+    public MiniTile getMiniTile(WalkPosition w, CheckMode checkMode) {
+        if (!(checkMode == CheckMode.NoCheck || isValid(w))) {
+            throw new IllegalArgumentException();
+        } else {
+            return new MiniTile(getMiniTile_(w, checkMode));
+        }
+    }
+
+    /**
+     * Returns a copy the MiniTile specified by the WalkPosition.
+     */
+    public MiniTile getMiniTile(WalkPosition w) {
+        return getMiniTile(w, CheckMode.Check);
+    }
+
+    /**
+     * Returns the Tile specified by the TilePosition. Does not return a copy.
+     *
+     * @see #getTile(org.openbw.bwapi4j.TilePosition, bwem.CheckMode)
+     */
+    protected MiniTile getMiniTile_(WalkPosition w, CheckMode checkMode) {
+        if (!(checkMode == CheckMode.NoCheck || isValid(w))) {
+            throw new IllegalArgumentException();
+        } else {
+            return this.miniTiles.get(getWalkSize().getX() * w.getY() + w.getX());
+        }
+    }
+
+    /**
+     * Returns the Tile specified by the TilePosition. Does not return a copy.
+     */
+    protected MiniTile getMiniTile_(WalkPosition w) {
+        return getMiniTile_(w, CheckMode.Check);
+    }
 }

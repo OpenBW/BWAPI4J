@@ -29,6 +29,11 @@ public class MiniTile {
         this.areaId = new Area.Id(-1);
     }
 
+    public MiniTile(MiniTile miniTile) {
+        this.altitude = new Altitude(miniTile.altitude);
+        this.areaId = new Area.Id(miniTile.areaId);
+    }
+
     public boolean isAltitudeMissing() {
         return (this.altitude.intValue() == -1);
     }

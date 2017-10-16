@@ -15,16 +15,16 @@ public final class Timer {
 
     public long stop() {
         this.end = System.currentTimeMillis();
-        return elapsedMilliseconds();
+        return getElapsedMilliseconds();
     }
 
-    public long elapsedMilliseconds() {
-        return (this.end - this.start);
+    public long getElapsedMilliseconds() {
+        return (System.currentTimeMillis() - this.start);
     }
 
     public void reset() {
-        this.start = 0;
-        this.end = 0;
+        start();
+        this.end = this.start;
     }
 
 }
