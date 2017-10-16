@@ -5,17 +5,29 @@ import bwem.BWEM;
 import bwem.CheckMode;
 import bwem.MiniTile;
 import bwem.Tile;
+import bwem.unit.Geyser;
+import bwem.unit.Mineral;
+import bwem.unit.StaticBuilding;
 import java.util.ArrayList;
 import java.util.List;
 import org.openbw.bwapi4j.BW;
+import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
+import org.openbw.bwapi4j.unit.Building;
+import org.openbw.bwapi4j.unit.Egg;
+import org.openbw.bwapi4j.unit.MineralPatch;
+import org.openbw.bwapi4j.unit.Unit;
+import org.openbw.bwapi4j.unit.VespeneGeyser;
 
 public final class MapImpl extends Map {
 
     private Altitude maxAltitude = null;
     private List<TilePosition> startingLocations = null;
+    private List<Mineral> mineralPatches = null;
+    private List<Geyser> vespeneGeysers = null;
+    private List<StaticBuilding> staticBuildings = null;
 
     public MapImpl(BW bw) {
         super(bw);
@@ -54,9 +66,9 @@ public final class MapImpl extends Map {
 
         this.maxAltitude = new Altitude(0);
 
-//        this.mineralPatches = new ArrayList<>();
-//        this.vespeneGeysers = new ArrayList<>();
-//        this.staticBuildings = new ArrayList<>();
+        this.mineralPatches = new ArrayList<>();
+        this.vespeneGeysers = new ArrayList<>();
+        this.staticBuildings = new ArrayList<>();
 //
 //        this.graph = new Graph(this);
 //
@@ -72,7 +84,7 @@ public final class MapImpl extends Map {
 ///	bw << "Map::DecideSeasOrLakes: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
 //    System.out.println("Map::DecideSeasOrLakes: " + timer.getElapsedMilliseconds() + " ms"); timer.reset();
 
-//	InitializeNeutrals();
+	initializeNeutrals();
 ///	bw << "Map::InitializeNeutrals: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
 //    System.out.println("Map::InitializeNeutrals: " + timer.getElapsedMilliseconds() + " ms"); timer.reset();
 
@@ -215,6 +227,27 @@ public final class MapImpl extends Map {
                         pSea.setLake();
                     }
                 }
+            }
+        }
+    }
+
+    //TODO: This is different from the original. Double-check this is accurate.
+    private void initializeNeutrals() {
+        for (MineralPatch patch : super.getBW().getMineralPatches()) {
+            this.mineralPatches.add(new Mineral(patch, this));
+        }
+        for (VespeneGeyser geyser : super.getBW().getVespeneGeysers()) {
+            this.vespeneGeysers.add(new Geyser(geyser, this));
+        }
+        for (Player player : super.getBW().getAllPlayers()) {
+            if (!player.isNeutral()) {
+                continue;
+            }
+            for (Unit unit : player.getUnits()) {
+                if (unit instanceof Building) {
+                    this.staticBuildings.add(new StaticBuilding(unit, this));
+                }
+                //TODO: Add "Special_Pit_Door" and "Special_Right_Pit_Door" to static buildings list? See mapImpl.cpp:238.
             }
         }
     }
