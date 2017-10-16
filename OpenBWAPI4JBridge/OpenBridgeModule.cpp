@@ -64,7 +64,7 @@ void OpenBridgeModule::onEnd(bool isWinner)
 
 void OpenBridgeModule::onFrame()
 {
-	std::cout << "onFrame..." << std::endl;
+//	std::cout << "onFrame..." << std::endl;
 
 	globalEnv->CallObjectMethod(globalBW, preFrameCallback);
 
@@ -177,37 +177,37 @@ void OpenBridgeModule::onNukeDetect(BWAPI::Position target)
 
 void OpenBridgeModule::onUnitDiscover(BWAPI::Unit unit)
 {
-	std::cout << "onUnitDiscover..." << std::endl;
+//	std::cout << "onUnitDiscover..." << std::endl;
 //	globalEnv->CallObjectMethod(globalBW, onUnitDiscoverCallback, unit->getID());
 }
 
 void OpenBridgeModule::onUnitEvade(BWAPI::Unit unit)
 {
-	std::cout << "onUnitEvade..." << std::endl;
+//	std::cout << "onUnitEvade..." << std::endl;
 //	globalEnv->CallObjectMethod(globalBW, onUnitEvadeCallback, unit->getID());
 }
 
 void OpenBridgeModule::onUnitShow(BWAPI::Unit unit)
 {
-	std::cout << "onUnitShow..." << std::endl;
+//	std::cout << "onUnitShow..." << std::endl;
 //	globalEnv->CallObjectMethod(globalBW, onUnitShowCallback, unit->getID());
 }
 
 void OpenBridgeModule::onUnitHide(BWAPI::Unit unit)
 {
-	std::cout << "onUnitHide..." << std::endl;
+//	std::cout << "onUnitHide..." << std::endl;
 //	globalEnv->CallObjectMethod(globalBW, onUnitHideCallback, unit->getID());
 }
 
 void OpenBridgeModule::onUnitCreate(BWAPI::Unit unit)
 {
-	std::cout << "onUnitCreate..." << std::endl;
+//	std::cout << "onUnitCreate..." << std::endl;
 //	globalEnv->CallObjectMethod(globalBW, onUnitCreateCallback, unit->getID());
 }
 
 void OpenBridgeModule::onUnitDestroy(BWAPI::Unit unit)
 {
-	std::cout << "onUnitDestroy..." << std::endl;
+//	std::cout << "onUnitDestroy..." << std::endl;
 //	globalEnv->CallObjectMethod(globalBW, onUnitDestroyCallback, unit->getID());
 }
 
@@ -233,7 +233,7 @@ void OpenBridgeModule::onSaveGame(std::string gameName) {
 
 void OpenBridgeModule::onUnitComplete(BWAPI::Unit unit)
 {
-	std::cout << "onUnitComplete..." << std::endl;
+//	std::cout << "onUnitComplete..." << std::endl;
 //	globalEnv->CallObjectMethod(globalBW, onUnitCompleteCallback, unit->getID());
 }
 

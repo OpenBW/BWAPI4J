@@ -161,23 +161,27 @@ public class BW {
             int unitId = unitData[index + 0];
             int typeId = unitData[index + 3];
             Unit unit = this.units.get(unitId);
-            if (unit == null) {
+            if (unit == null || !unit.getInitialType().equals(UnitType.values()[typeId])) {
                 
+            	if (unit != null) {
+            		
+            		logger.debug("unit {} changed type from {} to {}.", unit.getId(), unit.getInitialType(), UnitType.values()[typeId]);
+            	}
                 logger.debug("creating unit for id {} and type {} ({}) ...", unitId, typeId, UnitType.values()[typeId]);
                 
                 unit = unitFactory.createUnit(unitId, UnitType.values()[typeId], frame);
                 
                 if (unit == null) {
-                    logger.error("could not create unit for id {}and type {}.", unitId, UnitType.values()[typeId]);
+                    logger.error("could not create unit for id {} and type {}.", unitId, UnitType.values()[typeId]);
                 } else {
                     
-                	logger.debug("state: {}", unit.exists() ? "completed" : "created");
+                	logger.trace("state: {}", unit.exists() ? "completed" : "created");
                 	
                     this.units.put(unitId, unit);
                     unit.initialize(unitData, index);
                     unit.update(unitData, index);
-                    logger.debug("initial pos: {}", unit.getInitialTilePosition());
-                    logger.debug("current pos: {}", unit.getTilePosition());
+                    logger.trace("initial pos: {}", unit.getInitialTilePosition());
+                    logger.trace("current pos: {}", unit.getTilePosition());
                     
                     logger.debug(" done.");
                 }

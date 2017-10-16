@@ -1,7 +1,7 @@
 # BWAPI4J
 
 This is a Java wrapper for BWAPI 4.2.0.
-It is intended to replace the older projects bwmirror and JNIBWAPI.
+It is intended to replace older projects such as bwmirror and JNIBWAPI.
 
 BWAPI4J is compatible with both the original BW (on Windows) as well as OpenBW (on Linux)
 
@@ -19,6 +19,10 @@ Clone the [BWAPI4J repository](https://github.com/OpenBW/BWAPI4J):
 
 `git clone https://github.com/OpenBW/BWAPI4J`
 
+Clone the [OpenBW BWAPI repository](https://github.com/OpenBW/bwapi):
+
+`git clone https://github.com/OpenBW/bwapi`
+
 #### "BWAPI4J" Java project
 
 Prerequisites:
@@ -30,7 +34,7 @@ Eclipse is recommended because it works seamlessly with Gradle (using the Gradle
  - Eclipse installed (preferably [Eclipse CDT](https://www.eclipse.org/cdt/) with out-of-the-box support for C++)
  - Gradle, JUnit, and Git plugins for Eclipse
  - Alternatively to Eclipse / Eclipse Gradle plugin: [Gradle install](https://gradle.org/install/)
- - BrooDat.mpq, StarDat.mpq, BrooDat.mpq from the [original BW](https://www.battle.net/download/getInstallerForGame?os=win&locale=enUS&version=LIVE&gameProgram=STARCRAFT) (available for free)
+ - BrooDat.mpq, StarDat.mpq, Patch_rt.mpq from the [original BW](https://www.battle.net/download/getInstallerForGame?os=win&locale=enUS&version=LIVE&gameProgram=STARCRAFT) (available for free)
  - At least one melee map. For example from the [SSCAIT map pack](https://sscaitournament.com/files/sscai_map_pack.zip)
  
  	Note: the original game does not have to be installed. Only the 3 files mentioned are required.
@@ -51,7 +55,7 @@ Build Steps:
    
 Run the smoke test:
 
-1. copy `BrooDat.mpq`, `StarDat.mpq`, and `BrooDat.mpq` to the root directory of the eclipse project
+1. copy `BrooDat.mpq`, `StarDat.mpq`, and `Patch_rt.mpq` to the root directory of the eclipse project
 2. copy `bwapi-data/bwapi.ini.sample` to `bwapi-data/bwapi.ini`
 3. Right-click the project and choose `Run as... -> JUnit Test`
 
