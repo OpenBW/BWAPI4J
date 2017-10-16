@@ -21,12 +21,12 @@ public class MiniTile {
 
     private static final Area.Id BLOCKING_CP_AREA_ID = new Area.Id(Integer.MIN_VALUE); //TODO: Use a boolean for isBlocked?
 
-    private Altitude altitude = null;
-    private Area.Id areaId = null;
+    private Altitude altitude = null; // 0 for seas  ;  != 0 for terrain and lakes (-1 = not computed yet)  ;  1 = SeaOrLake intermediate value
+    private Area.Id areaId = null; // 0 -> unwalkable  ;  > 0 -> index of some Area  ;  < 0 -> some walkable terrain, but too small to be part of an Area
 
     public MiniTile() {
-        this.altitude = new Altitude(-1); // 0 for seas  ;  != 0 for terrain and lakes (-1 = not computed yet)  ;  1 = SeaOrLake intermediate value
-        this.areaId = new Area.Id(-1); // 0 -> unwalkable  ;  > 0 -> index of some Area  ;  < 0 -> some walkable terrain, but too small to be part of an Area
+        this.altitude = new Altitude(-1);
+        this.areaId = new Area.Id(-1);
     }
 
     public boolean isAltitudeMissing() {

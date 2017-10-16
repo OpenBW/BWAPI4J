@@ -26,8 +26,8 @@ public final class Area {
 
     private Area.Id areaId;
     private Area.GroupId groupId = new Area.GroupId(0);
-    private WalkPosition top;
-    private TilePosition topleft = new TilePosition(Integer.MAX_VALUE, Integer.MAX_VALUE);
+    private WalkPosition top; //TODO Rename this variable and its methods.
+    private TilePosition topLeft = new TilePosition(Integer.MAX_VALUE, Integer.MAX_VALUE);
     private TilePosition bottomRight = new TilePosition(Integer.MIN_VALUE, Integer.MIN_VALUE);
     private Altitude maxAltitude;
     private int miniTileCount = 0;
@@ -62,7 +62,7 @@ public final class Area {
     }
 
     public TilePosition getTopLeft() {
-        return new TilePosition(this.topleft.getX(), this.topleft.getY());
+        return new TilePosition(this.topLeft.getX(), this.topLeft.getY());
     }
 
     public TilePosition getBottomRight() {
@@ -70,7 +70,7 @@ public final class Area {
     }
 
     public TilePosition getBoundingBoxSize() {
-        return (this.bottomRight.subtract(this.topleft).add(new TilePosition(1, 1)));
+        return (this.bottomRight.subtract(this.topLeft).add(new TilePosition(1, 1)));
     }
 
     // Position of the MiniTile with the highest Altitude() value.
@@ -92,7 +92,7 @@ public final class Area {
 
     // Returns the percentage of low ground Tiles in this Area.
     public int getLowGroundPercentage() {
-        return ((this.tileCount - this.highGroundTileCount - this.veryHighGroundTileCount) * 100 / this.tileCount);
+        return (((this.tileCount - this.highGroundTileCount - this.veryHighGroundTileCount) * 100) / this.tileCount);
     }
     // Returns the percentage of high ground Tiles in this Area.
     public int getHighGroundPercentage() {
@@ -114,6 +114,25 @@ public final class Area {
 	// Two neighbouring Areas are accessible from each over if at least one the ChokePoints they share is not Blocked (Cf. ChokePoint::Blocked).
     public List<Area> getAccessibleNeighbors() {
         return this.accessibleNeighbors;
+    }
+
+    // Called for each tile t of this Area
+    public void addTileInformation(TilePosition t, Tile tile) {
+		++this.tileCount;
+		if (tile.isBuildable()) ++this.buildableTileCount;
+		if (tile.getGroundHeight()== 1) ++this.highGroundTileCount;
+		if (tile.getGroundHeight() == 2) ++this.veryHighGroundTileCount;
+
+        if (t.getX() < this.topLeft.getX()) this.topLeft = new TilePosition(t.getX(), this.topLeft.getY());
+        if (t.getY() < this.topLeft.getY()) this.topLeft = new TilePosition(this.topLeft.getX(), t.getY());
+        if (t.getX() > this.bottomRight.getX()) this.bottomRight = new TilePosition(t.getX(), this.bottomRight.getY());
+        if (t.getY() > this.bottomRight.getY()) this.bottomRight = new TilePosition(this.bottomRight.getX(), t.getY());
+    }
+
+    //TODO: This function does nothing? Can delete? Keep for completeness?
+    // Called after AddTileInformation(t) has been called for each tile t of this Area
+    public void postCollectInformation() {
+
     }
 
     @Override
