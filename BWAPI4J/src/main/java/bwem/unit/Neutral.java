@@ -117,7 +117,7 @@ public class Neutral {
                 } else if (top instanceof Geyser) {
 //                    bwem_assert(!pTop->IsGeyser());
                     throw new IllegalStateException();
-                } else if (!(tile.getOccupyingNeutral().getUnit().getClass().getName().equals(this.unit.getClass().getName()))) {
+                } else if (!(tile.getOccupyingNeutral().isSameUnitTypeAs(this))) {
 //                    bwem_assert_plus(pTop->Type() == Type(), "stacked neutrals have different types: " + pTop->Type().getName() + " / " + Type().getName());
                     throw new IllegalStateException("stacked neutrals have different types");
                 } else if (!(top.getTopLeft().equals(getTopLeft()))) {
@@ -132,6 +132,51 @@ public class Neutral {
                 }
             }
         }
+    }
+
+    private void removeFromTiles() {
+        for (int dy = 0; dy < getSize().getY(); ++dy)
+        for (int dx = 0; dx < getSize().getX(); ++dx) {
+            Tile tile = getMap().getTile_(getTopLeft().add(new TilePosition(dx, dy)));
+//            bwem_assert(tile.GetNeutral());
+            if (tile.getOccupyingNeutral() == null) {
+                throw new IllegalStateException();
+            }
+
+            if (tile.getOccupyingNeutral().equals(this)) {
+                tile.removeOccupyingNeutral(this);
+                if (this.nextStacked != null) {
+                    tile.setOccupyingNeutral(this.nextStacked);
+                }
+            } else {
+                Neutral prevStacked = tile.getOccupyingNeutral();
+                while (!prevStacked.getNextStacked().equals(this)) {
+                    prevStacked = prevStacked.getNextStacked();
+                }
+//                bwem_assert(pPrevStacked->Type() == Type());
+                if (!prevStacked.isSameUnitTypeAs(this)) {
+                    throw new IllegalStateException();
+                }
+//                bwem_assert(pPrevStacked->TopLeft() == TopLeft());
+                if (!(prevStacked.getTopLeft().equals(getTopLeft()))) {
+                    throw new IllegalStateException();
+                }
+//                bwem_assert((dx == 0) && (dy == 0));
+                if (!(dx == 0 && dy == 0)) {
+                    throw new IllegalStateException();
+                }
+
+                prevStacked.nextStacked = this.nextStacked;
+                this.nextStacked = null;
+                return;
+            }
+        }
+
+        this.nextStacked = null;
+    }
+
+    public boolean isSameUnitTypeAs(Neutral neutral) {
+        return this.getUnit().getClass().getName().equals(neutral.getUnit().getClass().getName());
     }
 
     @Override
