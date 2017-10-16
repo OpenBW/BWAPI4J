@@ -1,6 +1,7 @@
 package bwem.map;
 
 import bwem.Altitude;
+import bwem.BWEM;
 import bwem.CheckMode;
 import bwem.MiniTile;
 import bwem.Tile;
@@ -67,7 +68,7 @@ public final class MapImpl extends Map {
 ///	bw << "Map::LoadData: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
 //    System.out.println("Map::LoadData: " + timer.getElapsedMilliseconds() + " ms"); timer.reset();
 
-//	DecideSeasOrLakes();
+	decideSeasOrLakes();
 ///	bw << "Map::DecideSeasOrLakes: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
 //    System.out.println("Map::DecideSeasOrLakes: " + timer.getElapsedMilliseconds() + " ms"); timer.reset();
 
@@ -162,6 +163,58 @@ public final class MapImpl extends Map {
             super.getTile_(t).setGroundHeight(bwapiGroundHeight / 2);
             if (bwapiGroundHeight % 2 != 0) {
                 super.getTile_(t).setDoodad();
+            }
+        }
+    }
+
+    private void decideSeasOrLakes() {
+        for (int y = 0 ; y < super.getWalkSize().getY(); ++y)
+        for (int x = 0 ; x < super.getWalkSize().getX(); ++x) {
+            WalkPosition walkOrigin = new WalkPosition(x, y);
+            MiniTile miniOrigin = super.getMiniTile_(walkOrigin, CheckMode.NoCheck);
+            if (miniOrigin.isSeaOrLake()) {
+                List<WalkPosition> ToSearch = new ArrayList<>();
+                ToSearch.add(walkOrigin);
+                List<MiniTile> SeaExtent = new ArrayList<>();
+                SeaExtent.add(miniOrigin);
+                miniOrigin.setSea();
+                WalkPosition topLeft = walkOrigin;
+                WalkPosition bottomRight = walkOrigin;
+                while (!ToSearch.isEmpty()) {
+                    WalkPosition current = ToSearch.get(ToSearch.size() - 1);
+                    if (current.getX() < topLeft.getX()) topLeft = new WalkPosition(current.getX(), topLeft.getY());
+                    if (current.getY() < topLeft.getY()) topLeft = new WalkPosition(topLeft.getX(), current.getY());
+                    if (current.getX() > bottomRight.getX()) bottomRight = new WalkPosition(current.getX(), bottomRight.getY());
+                    if (current.getY() > bottomRight.getY()) bottomRight = new WalkPosition(bottomRight.getX(), current.getY());
+
+                    ToSearch.remove(ToSearch.size() - 1);
+                    WalkPosition[] deltas = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(1, 0), new WalkPosition(0, 1)};
+                    for (WalkPosition delta : deltas) {
+                        WalkPosition nextWalkPosition = current.add(delta);
+                        if (super.isValid(nextWalkPosition)) {
+                            MiniTile nextMiniTile = super.getMiniTile_(nextWalkPosition, CheckMode.NoCheck);
+                            if (nextMiniTile.isSeaOrLake()) {
+                                ToSearch.add(nextWalkPosition);
+                                nextMiniTile.setSea();
+                                if (SeaExtent.size() <= BWEM.LAKE_MAX_MINI_TILES) {
+                                    SeaExtent.add(nextMiniTile);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if ((SeaExtent.size() <= BWEM.LAKE_MAX_MINI_TILES)
+                        && (bottomRight.getX() - topLeft.getX() <= BWEM.LAKE_MAX_MINI_TILES)
+                        && (bottomRight.getY() - topLeft.getY() <= BWEM.LAKE_MAX_MINI_TILES)
+                        && (topLeft.getX() >= 2)
+                        && (topLeft.getY() >= 2)
+                        && (bottomRight.getX() < getWalkSize().getX() - 2)
+                        && (bottomRight.getY() < getWalkSize().getY() - 2)) {
+                    for (MiniTile pSea : SeaExtent) {
+                        pSea.setLake();
+                    }
+                }
             }
         }
     }
