@@ -24,15 +24,24 @@ theMap.EnableAutomaticPathAnalysis();
 bool startingLocationsOK = theMap.FindBasesForStartingLocations();
 assert(startingLocationsOK);
 ```
-* This library uses `bwem_assert` approximately 106 times. ~~Throw custom exceptions instead?~~ Therefore, use Java asserts.
-* ~~Use Java's `short` type in place of C++'s `int16_t`.~~
-
+* This library uses `bwem_assert` approximately 106 times. `if` statements and exception throwing will replace assertions for now.
 ### Porting Notes
 
-`BWEM::Map`
-* This class is a singleton and an interface/abstract. For now, everything will be ported into `Map.java` as a ~~regular instantiatable class~~singleton.
-* `BWEM::Map::Initialize()` code will be put into ~~the constructor `public Map(org.openbw.bwapi4j.BW)`~~`Map.initialize()`.
-* ~~Parameterless constructor for `bwem.Map` has been publically disabled since the original `BWAPI::Broodwar` is required and a singleton~~. Instantiation, initialization, and access have been implemented to match `BWEM::Map::Instance()` and their counterparts.
+* Custom types (e.g. typedefs) in the C++ version will be turned into classes or enums.
+* Pointers passed as method arguments will have a mutable object equivalent.
+
+###### BWEM::Map
+* This class is a singleton and an interface/abstract in the C++ version. The port will have a `Map` class as instantiable and extendable. `MapImpl` will extend `Map`.
+
+###### Classes using interface `IWrappedInteger`
+* This interface is mainly used when creating a class to replace a C++ typedef. E.g. [C++: `typedef int16_t altitude_t;`; Java: `Altitude`], [C++: `typedef int16_t id;`, Java: `Area.Id`]
+
+###### Timer.java
+* Included for completeness.
+
+###### utils.h:238:UserData
+* Included for completeness.
+* Only provides integer manipulation in the port. The C++ version allows for void pointers.
 
 ### Modifications
 
@@ -46,60 +55,14 @@ assert(startingLocationsOK);
 | `mapImpl.cpp:293` | local method | `altitude_scale` | `MiniTile.SIZE_IN_PIXELS` | `altitude_t` | `int` | "8 provides a pixel definition for altitude_t, since altitudes are computed from miniTiles which are 8x8 pixels" |
 | `cp.h:143` | public | `ChokePoint::index` | `Index` | `int` | `int` | - |
 
-### Current Focus
-
--
-
 ### Class and Method Dependencies
 
-`graph.cpp:392:const CPPath & Graph::GetPath`
+###### graph.cpp:392:const CPPath & Graph::GetPath
 * `graph.h:136:Graph::GetNearestArea`
   * `graph.cpp:161:Graph::GetArea`
     * `graph.h:64:Graph::GetMap`
   * `map.h:252:Map::BreadthFirstSearch`
 
-`Graph`
-* Area
-* Chokepoint
-* CPPath
-* Neutral
-
-`Area`
-* altitude_t
-* Base
-* ChokePoint
-* Geyser
-* Graph
-* Mineral
-
-`CPPath`
+###### CPPath
 * `typedef std::vector<const ChokePoint *> Path;`
 * `typedef ChokePoint::Path CPPath;`
-
-### Java Classes to Review
-* [x] Altitude
-* [ ] Area
-  * [x] GroupId
-  * [x] Id
-  * [ ] TempInfo
-* [x] Bits
-* [ ] BWEM
-* [x] CheckMode
-* [ ] Chokepoint
-* [ ] CPPath
-* [ ] Graph
-* [x] Index
-* [x] IWrappedInteger
-* [ ] Map
-* [x] Markable
-* [x] MiniTile
-* [x] PairGenericAltitudeComparator
-* [x] Pred
-* [x] StaticBuilding
-* [x] Tile
-* [x] unit/Geyser
-* [x] unit/Mineral
-* [ ] unit/Neutral
-* [x] unit/Resource
-* [x] unit/StaticBuilding
-* [x] UserData
