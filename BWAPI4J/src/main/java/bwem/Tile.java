@@ -1,5 +1,7 @@
 package bwem;
 
+import bwem.unit.Neutral;
+
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
 //                                  class Tile
@@ -20,6 +22,7 @@ package bwem;
 // Tiles inherit utils::UserData, which provides free-to-use data.
 public class Tile extends Markable<Tile> {
 
+    private Neutral neutral = null;
     private Altitude minAltitude = null;
     private Area.Id areaId = null;
     private UserData internalData = null;
@@ -124,6 +127,52 @@ public class Tile extends Markable<Tile> {
 
     public void resetAreaId() {
         this.areaId = new Area.Id(0);
+    }
+
+    /**
+     * If any Neutral occupies this Tile, returns it (note that all the Tiles it occupies will then return it).
+     * Otherwise, returns nullptr.
+     * Neutrals are Minerals, Geysers and StaticBuildings (Cf. Neutral).
+     * In some maps (e.g. Benzene.scx), several Neutrals are stacked at the same location.
+     * In this case, only the "bottom" one is returned, while the other ones can be accessed using Neutral::NextStacked().
+     * Because Neutrals never move on the Map, the returned value is guaranteed to remain the same, unless some Neutral
+     * is destroyed and BWEM is informed of that by a call of Map::OnMineralDestroyed(BWAPI::Unit u) for exemple. In such a case,
+     * BWEM automatically updates the data by deleting the Neutral instance and clearing any reference to it such as the one
+     * returned by Tile::GetNeutral(). In case of stacked Neutrals, the next one is then returned.
+     */
+    public Neutral getOccupyingNeutral() {
+        return this.neutral;
+    }
+
+    public void setOccupyingNeutral(Neutral neutral) {
+//        { bwem_assert(!m_pNeutral && pNeutral); m_pNeutral = pNeutral; }
+        if (!(this.neutral == null && neutral != null)) {
+            throw new IllegalStateException();
+        } else {
+            this.neutral = neutral;
+        }
+    }
+
+    public void removeOccupyingNeutral(Neutral neutral) {
+//        { bwem_assert(pNeutral && (m_pNeutral == pNeutral)); utils::unused(pNeutral); m_pNeutral = nullptr; }
+        if (!(this.neutral != null && this.neutral.equals(neutral))) {
+            throw new IllegalStateException();
+        } else {
+            this.neutral = null;
+        }
+    }
+
+    /**
+     * Returns the number of Neutrals that occupy this Tile (Cf. GetNeutral).
+     */
+    public int getStackedNeutralCount() {
+        int count = 0;
+        Neutral neutral = this.getOccupyingNeutral();
+        while (neutral != null) {
+            ++count;
+            neutral = neutral.getNextStacked();
+        }
+        return count;
     }
 
 }

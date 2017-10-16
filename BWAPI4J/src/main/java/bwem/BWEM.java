@@ -3,6 +3,8 @@ package bwem;
 import bwem.map.MapImpl;
 import bwem.map.Map;
 import org.openbw.bwapi4j.BW;
+import org.openbw.bwapi4j.TilePosition;
+import org.openbw.bwapi4j.WalkPosition;
 
 public final class BWEM {
 
@@ -33,6 +35,38 @@ public final class BWEM {
 
     public Map getMap() {
         return this.map;
+    }
+
+    public static Altitude getMinAltitudeTop(TilePosition t, Map map) {
+        WalkPosition w = t.toPosition().toWalkPosition();
+        return new Altitude(Math.min(
+                map.getMiniTile(w.add(new WalkPosition(1, 0)), CheckMode.NoCheck).getAltitude().intValue(),
+                map.getMiniTile(w.add(new WalkPosition(2, 0)), CheckMode.NoCheck).getAltitude().intValue()
+        ));
+    }
+
+    public static Altitude getMinAltitudeBottom(TilePosition t, Map map) {
+        WalkPosition w = t.toPosition().toWalkPosition();
+        return new Altitude(Math.min(
+                map.getMiniTile(w.add(new WalkPosition(1, 3)), CheckMode.NoCheck).getAltitude().intValue(),
+                map.getMiniTile(w.add(new WalkPosition(2, 3)), CheckMode.NoCheck).getAltitude().intValue()
+        ));
+    }
+
+    public static Altitude getMinAltitudeLeft(TilePosition t, Map map) {
+        WalkPosition w = t.toPosition().toWalkPosition();
+        return new Altitude(Math.min(
+                map.getMiniTile(w.add(new WalkPosition(0, 1)), CheckMode.NoCheck).getAltitude().intValue(),
+                map.getMiniTile(w.add(new WalkPosition(0, 2)), CheckMode.NoCheck).getAltitude().intValue()
+        ));
+    }
+
+    public static Altitude getMinAltitudeRight(TilePosition t, Map map) {
+        WalkPosition w = t.toPosition().toWalkPosition();
+        return new Altitude(Math.min(
+                map.getMiniTile(w.add(new WalkPosition(3, 1)), CheckMode.NoCheck).getAltitude().intValue(),
+                map.getMiniTile(w.add(new WalkPosition(3, 2)), CheckMode.NoCheck).getAltitude().intValue()
+        ));
     }
 
 }

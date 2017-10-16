@@ -24,10 +24,12 @@ public class Resource extends Neutral {
         }
     }
 
+    // Returns the initial amount of ressources for this Ressource (same as Unit()->getInitialResources).
     public int getInitialAmount() {
         return this.initialAmount;
     }
 
+    // Returns the current amount of ressources for this Ressource (same as Unit()->getResources).
     public int getAmount() {
         if (super.getUnit() instanceof MineralPatch) {
             MineralPatch patch = (MineralPatch) super.getUnit();

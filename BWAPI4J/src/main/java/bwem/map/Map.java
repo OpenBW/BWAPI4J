@@ -172,7 +172,7 @@ public abstract class Map {
      *
      * @see #getTile(org.openbw.bwapi4j.TilePosition, bwem.CheckMode)
      */
-    protected Tile getTile_(TilePosition p, CheckMode checkMode) {
+    public Tile getTile_(TilePosition p, CheckMode checkMode) {
         if (!(checkMode == CheckMode.NoCheck || isValid(p))) {
             throw new IllegalArgumentException();
         } else {
@@ -183,7 +183,7 @@ public abstract class Map {
     /**
      * Returns the Tile specified by the TilePosition. Does not return a copy.
      */
-    protected Tile getTile_(TilePosition p) {
+    public Tile getTile_(TilePosition p) {
         return getTile_(p, CheckMode.Check);
     }
 
@@ -212,7 +212,7 @@ public abstract class Map {
      *
      * @see #getTile(org.openbw.bwapi4j.TilePosition, bwem.CheckMode)
      */
-    protected MiniTile getMiniTile_(WalkPosition w, CheckMode checkMode) {
+    public MiniTile getMiniTile_(WalkPosition w, CheckMode checkMode) {
         if (!(checkMode == CheckMode.NoCheck || isValid(w))) {
             throw new IllegalArgumentException();
         } else {
@@ -223,7 +223,7 @@ public abstract class Map {
     /**
      * Returns the Tile specified by the TilePosition. Does not return a copy.
      */
-    protected MiniTile getMiniTile_(WalkPosition w) {
+    public MiniTile getMiniTile_(WalkPosition w) {
         return getMiniTile_(w, CheckMode.Check);
     }
 }
