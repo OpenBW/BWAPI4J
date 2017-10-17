@@ -9,6 +9,7 @@ import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
+import org.openbw.bwapi4j.util.Pair;
 
 public final class BWEM {
 
@@ -196,10 +197,41 @@ public final class BWEM {
         return false;
     }
 
+    public static Pair<Area.Id, Area.Id> findNeighboringAreas(WalkPosition w, Map map) {
+        Pair<Area.Id, Area.Id> ret = new Pair<>(new Area.Id(0), new Area.Id(0));
+
+        WalkPosition[] deltas = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(1, 0), new WalkPosition(0, 1)};
+        for (WalkPosition delta : deltas) {
+            if (map.isValid(w.add(delta))) {
+                Area.Id areaId = map.getMiniTile(w.add(delta), CheckMode.NoCheck).getAreaId();
+                if (areaId.intValue() > 0) {
+                    if (ret.first == null) {
+                        ret.first = new Area.Id(areaId);
+                    } else if (!ret.first.equals(areaId)) {
+                        if (ret.second == null || areaId.intValue() < ret.second.intValue()) {
+                            ret.second = new Area.Id(areaId);
+                        }
+                    }
+                }
+            }
+        }
+
+        return ret;
+    }
+
+    public static double dist(TilePosition a, TilePosition b) {
+        TilePosition c = a.subtract(b);
+        return norm(c.getX(), c.getY());
+    }
+
     public static Position getCenter(WalkPosition w) {
         Position delta = new Position(MiniTile.SIZE_IN_PIXELS / 2, MiniTile.SIZE_IN_PIXELS / 2);
         Position center = w.toPosition().add(delta);
         return center;
+    }
+
+    public static boolean isNullOrZero(Area.Id areaId) {
+        return (areaId == null || areaId.intValue() == 0);
     }
 
     public static Altitude getMinAltitudeTop(TilePosition t, Map map) {

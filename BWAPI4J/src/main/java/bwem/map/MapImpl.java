@@ -1,6 +1,7 @@
 package bwem.map;
 
 import bwem.Altitude;
+import bwem.Area;
 import bwem.BWEM;
 import bwem.CheckMode;
 import bwem.MiniTile;
@@ -19,7 +20,6 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.unit.Building;
-import org.openbw.bwapi4j.unit.Egg;
 import org.openbw.bwapi4j.unit.MineralPatch;
 import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.unit.VespeneGeyser;
@@ -32,6 +32,7 @@ public final class MapImpl extends Map {
     private List<Mineral> mineralPatches = null;
     private List<Geyser> vespeneGeysers = null;
     private List<StaticBuilding> staticBuildings = null;
+    private List<Pair<Pair<Area.Id, Area.Id>, WalkPosition>> rawFrontier = null;
 
     public MapImpl(BW bw) {
         super(bw);
@@ -76,7 +77,7 @@ public final class MapImpl extends Map {
 //
 //        this.graph = new Graph(this);
 //
-//        this.rawFrontier = new ArrayList<>();
+        this.rawFrontier = new ArrayList<>();
 
 ///	bw << "Map::Initialize-resize: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
 
@@ -225,8 +226,8 @@ public final class MapImpl extends Map {
                         && (bottomRight.getY() - topLeft.getY() <= BWEM.LAKE_MAX_MINI_TILES)
                         && (topLeft.getX() >= 2)
                         && (topLeft.getY() >= 2)
-                        && (bottomRight.getX() < getWalkSize().getX() - 2)
-                        && (bottomRight.getY() < getWalkSize().getY() - 2)) {
+                        && (bottomRight.getX() < super.getWalkSize().getX() - 2)
+                        && (bottomRight.getY() < super.getWalkSize().getY() - 2)) {
                     for (MiniTile pSea : SeaExtent) {
                         pSea.setLake();
                     }
@@ -316,8 +317,8 @@ public final class MapImpl extends Map {
                     };
                     for (WalkPosition tmpDelta : tmpDeltas) {
                         WalkPosition w = (current.first).add(tmpDelta);
-                        if (isValid(w)) {
-                            MiniTile miniTile = getMiniTile_(w, CheckMode.NoCheck);
+                        if (super.isValid(w)) {
+                            MiniTile miniTile = super.getMiniTile_(w, CheckMode.NoCheck);
                             if (miniTile.isAltitudeMissing()) {
                                 this.maxAltitude = new Altitude(altitude);
                                 current.second = new Altitude(altitude);
@@ -352,9 +353,9 @@ public final class MapImpl extends Map {
     //					GetTile(TilePosition(w), check_t::no_check).GetNeutral(); });
                 for (int i = 0; i < border.size(); i++) {
                     WalkPosition w = border.get(i);
-                    if (!isValid(w)
-                            || !getMiniTile(w, CheckMode.NoCheck).isWalkable()
-                            || getTile(w.toPosition().toTilePosition(), CheckMode.NoCheck).getOccupyingNeutral() != null) {
+                    if (!super.isValid(w)
+                            || !super.getMiniTile(w, CheckMode.NoCheck).isWalkable()
+                            || super.getTile(w.toPosition().toTilePosition(), CheckMode.NoCheck).getOccupyingNeutral() != null) {
                         border.remove(i--);
                     }
                 }
@@ -379,10 +380,10 @@ public final class MapImpl extends Map {
                         WalkPosition[] deltas = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(1, 0), new WalkPosition(0, 1)};
                         for (WalkPosition delta : deltas) {
                             WalkPosition next = current.add(delta);
-                            if (isValid(next)
+                            if (super.isValid(next)
                                     && !visited.contains(next)
-                                    && getMiniTile(next, CheckMode.NoCheck).isWalkable()
-                                    && getTile(next.toPosition().toTilePosition(), CheckMode.NoCheck).getOccupyingNeutral() == null
+                                    && super.getMiniTile(next, CheckMode.NoCheck).isWalkable()
+                                    && super.getTile(next.toPosition().toTilePosition(), CheckMode.NoCheck).getOccupyingNeutral() == null
                                     && BWEM.adjoins8SomeLakeOrNeutral(next, this)) {
                                 toVisit.add(next);
                                 visited.add(next);
@@ -417,7 +418,7 @@ public final class MapImpl extends Map {
                             WalkPosition[] deltas = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(1, 0), new WalkPosition(0, 1)};
                             for (WalkPosition delta : deltas) {
                                 WalkPosition next = current.add(delta);
-                                if (isValid(next) && !visited.contains(next)) {
+                                if (super.isValid(next) && !visited.contains(next)) {
                                     if (getMiniTile(next, CheckMode.NoCheck).isWalkable()) {
                                         if (getTile(next.toPosition().toTilePosition(), CheckMode.NoCheck).getOccupyingNeutral() == null) {
                                             toVisit.add(next);
@@ -439,7 +440,7 @@ public final class MapImpl extends Map {
 
                 if (trueDoors.size() >= 2) {
                     /* Marks pCandidate (and any Neutral stacked with it) as blocking. */
-                    for (Neutral neutral = getTile(candidate.getTopLeft()).getOccupyingNeutral();
+                    for (Neutral neutral = super.getTile(candidate.getTopLeft()).getOccupyingNeutral();
                             neutral != null;
                             neutral = neutral.getNextStacked()) {
                         neutral.setBlockedWalkPositions(trueDoors);
@@ -449,11 +450,139 @@ public final class MapImpl extends Map {
                     /* This way, areas at TrueDoors won't merge together. */
                     for (int dy = 0 ; dy < candidate.getSize().toPosition().toWalkPosition().getY(); ++dy)
                     for (int dx = 0 ; dx < candidate.getSize().toPosition().toWalkPosition().getX(); ++dx) {
-                        MiniTile miniTile = getMiniTile_(candidate.getTopLeft().toPosition().toWalkPosition().add(new WalkPosition(dx, dy)));
+                        MiniTile miniTile = super.getMiniTile_(candidate.getTopLeft().toPosition().toWalkPosition().add(new WalkPosition(dx, dy)));
                         if (miniTile.isWalkable()) {
                             miniTile.setBlocked();
                         }
                     }
+                }
+            }
+        }
+    }
+
+    // Assigns MiniTile::m_areaId for each miniTile having AreaIdMissing()
+    // Areas are computed using MiniTile::Altitude() information only.
+    // The miniTiles are considered successively in descending order of their Altitude().
+    // Each of them either:
+    //   - involves the creation of a new area.
+    //   - is added to some existing neighbouring area.
+    //   - makes two neighbouring areas merge together.
+    private void computeAreas() {
+        List<Pair<WalkPosition, MiniTile>> miniTilesByDescendingAltitude = new ArrayList<>();
+        for (int y = 0 ; y < super.getWalkSize().getY() ; ++y)
+        for (int x = 0 ; x < super.getWalkSize().getX() ; ++x)
+        {
+            WalkPosition w = new WalkPosition(x, y);
+            MiniTile m = super.getMiniTile(w, CheckMode.NoCheck);
+            if (m.isAreaIdMissing()) {
+                miniTilesByDescendingAltitude.add(new Pair<>(w, m));
+            }
+        }
+        Collections.sort(miniTilesByDescendingAltitude, new PairGenericAltitudeComparator(PairGenericAltitudeComparator.Order.DESCENDING));
+
+        List<Area.TempInfo> tempAreaList = computeTempAreas(miniTilesByDescendingAltitude);
+
+        createAreas(tempAreaList);
+
+        setAreaIdInTiles();
+    }
+
+    private List<Area.TempInfo> computeTempAreas(List<Pair<WalkPosition, MiniTile>> miniTilesByDescendingAltitude) {
+        List<Area.TempInfo> tempAreaList = new ArrayList<>();
+        tempAreaList.add(new Area.TempInfo()); /* TempAreaList[0] left unused, as AreaIds are > 0. */
+
+        for (Pair<WalkPosition, MiniTile> current : miniTilesByDescendingAltitude) {
+            WalkPosition pos = current.first;
+            MiniTile cur = current.second;
+
+            Pair<Area.Id, Area.Id> neighboringAreas = BWEM.findNeighboringAreas(pos, this);
+            if (neighboringAreas.first == null || neighboringAreas.first.intValue() == 0) {
+                tempAreaList.add(new Area.TempInfo(new Area.Id(tempAreaList.size()), cur, pos));
+            } else if (neighboringAreas.second == null || neighboringAreas.second.intValue() == 0) {
+                tempAreaList.get(neighboringAreas.first.intValue()).add(cur);
+            } else {
+                Area.Id smaller = neighboringAreas.first;
+                Area.Id bigger = neighboringAreas.second;
+                if (tempAreaList.get(smaller.intValue()).getSize() > tempAreaList.get(bigger.intValue()).getSize()) {
+                    Area.Id tmp = new Area.Id(smaller);
+                    smaller = new Area.Id(bigger);
+                    bigger = new Area.Id(tmp);
+                }
+
+                /* Condition for the neighboring areas to merge: */
+//                any_of(StartingLocations().begin(), StartingLocations().end(), [&pos](const TilePosition & startingLoc)
+//                    { return dist(TilePosition(pos), startingLoc + TilePosition(2, 1)) <= 3;})
+                boolean cpp_algorithm_std_any_of = false;
+                for (TilePosition startingLoc : this.startingLocations) {
+                    if (Double.compare(BWEM.dist(pos.toPosition().toTilePosition(), startingLoc.add(new TilePosition(2, 1))), Double.valueOf("3")) <= 0) {
+                        cpp_algorithm_std_any_of = true;
+                        break;
+                    }
+                }
+                if (tempAreaList.get(smaller.intValue()).getSize() < 80
+                        || tempAreaList.get(smaller.intValue()).getHighestAltitude().intValue() < 80
+                        || Double.compare((double) cur.getAltitude().intValue() / (double) tempAreaList.get(bigger.intValue()).getHighestAltitude().intValue(), Double.valueOf("0.90")) >= 0
+                        || Double.compare((double) cur.getAltitude().intValue() / (double) tempAreaList.get(smaller.intValue()).getHighestAltitude().intValue(), Double.valueOf("0.90")) >= 0
+                        || cpp_algorithm_std_any_of) {
+                    /* Add cur to the absorbing area. */
+                    tempAreaList.get(bigger.intValue()).add(cur);
+
+                    /* Merges the two neighboring areas. */
+                    replaceAreaIds(tempAreaList.get(smaller.intValue()).getTop(), bigger);
+                    tempAreaList.get(bigger.intValue()).merge(tempAreaList.get(smaller.intValue()));
+                } else {
+                    /* No merge : cur starts or continues the frontier between the two neighboring areas. */
+                    tempAreaList.get(chooseNeighboringArea(smaller, bigger).intValue()).add(cur);
+                    this.rawFrontier.add(new Pair<>(neighboringAreas, pos));
+                }
+            }
+        }
+
+        /* Remove from the frontier obsolete positions. */
+//        really_remove_if(m_RawFrontier, [](const pair<pair<Area::id, Area::id>, BWAPI::WalkPosition> & f)
+//            { return f.first.first == f.first.second; });
+        for (int i = 0; i < this.rawFrontier.size(); i++) {
+            int first = this.rawFrontier.get(i).first.first.intValue();
+            int second = this.rawFrontier.get(i).first.second.intValue();
+            if (first == second) {
+                this.rawFrontier.remove(i--);
+            }
+        }
+
+        return tempAreaList;
+    }
+
+    private void replaceAreaIds(WalkPosition w, Area.Id newAreaId) {
+        MiniTile origin = getMiniTile_(w, CheckMode.NoCheck);
+        Area.Id oldAreaId = origin.getAreaId();
+        origin.replaceAreaId(newAreaId);
+
+        List<WalkPosition> toSearch = new ArrayList<>();
+        toSearch.add(w);
+        while (!toSearch.isEmpty()) {
+            WalkPosition current = toSearch.get(toSearch.size() - 1);
+            toSearch.remove(toSearch.size() - 1);
+            WalkPosition[] deltas = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(1, 0), new WalkPosition(0, 1)};
+            for (WalkPosition delta : deltas) {
+                WalkPosition nextWalk = current.add(delta);
+                if (isValid(nextWalk)) {
+                    MiniTile nextMini = getMiniTile_(nextWalk, CheckMode.NoCheck);
+                    if (nextMini.getAreaId().equals(oldAreaId)) {
+                        toSearch.add(nextWalk);
+                        nextMini.replaceAreaId(newAreaId);
+                    }
+                }
+            }
+        }
+
+        /* Also replace references of oldAreaId by newAreaId in m_RawFrontier. */
+        if (newAreaId.intValue() > 0) {
+            for (Pair<Pair<Area.Id, Area.Id>, WalkPosition> f : this.rawFrontier) {
+                if (f.first.first.equals(oldAreaId)) {
+                    f.first.first = new Area.Id(newAreaId);
+                }
+                if (f.first.second.equals(oldAreaId)) {
+                    f.first.second = new Area.Id(newAreaId);
                 }
             }
         }

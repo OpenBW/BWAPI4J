@@ -268,4 +268,129 @@ public final class Area {
 
     }
 
+    /**
+     * Helper class for void Map::ComputeAreas()
+     * Maintains some information about an area being computed.
+     * A TempAreaInfo is not Valid() in two cases:
+     * - a default-constructed TempAreaInfo instance is never Valid (used as a dummy value to simplify the algorithm).
+     * - any other instance becomes invalid when absorbed (see Merge)
+     */
+    public static final class TempInfo {
+
+        private boolean isValid;
+        private Area.Id areaId;
+        private WalkPosition top;
+        private Altitude highestAltitude;
+        private int size;
+
+        public TempInfo() {
+            this.isValid = false;
+            this.areaId = new Area.Id(0);
+            this.top = new WalkPosition(0, 0);
+
+//            bwem_assert(!Valid());
+            if (isValid()) {
+                throw new IllegalStateException();
+            }
+        }
+
+//        TempAreaInfo(Area::id id, MiniTile * pMiniTile, WalkPosition pos)
+//                : m_valid(true), m_id(id), m_top(pos), m_size(0), m_highestAltitude(pMiniTile->Altitude())
+//                                            { Add(pMiniTile); bwem_assert(Valid()); }
+        public TempInfo(Area.Id areaId, MiniTile miniTile, WalkPosition w) {
+            this.isValid = true;
+            this.areaId = areaId;
+            this.top = w;
+            this.size = 0;
+            this.highestAltitude = miniTile.getAltitude();
+
+            add(miniTile);
+
+            /*
+                TODO: Further investigation required. I don't think this
+                will ever fail here but it's included just in case and to stay
+                true to the original code.
+            */
+            if (!this.isValid) {
+                throw new IllegalStateException();
+            }
+        }
+
+        public boolean isValid() {
+            return this.isValid;
+        }
+
+        public Area.Id getId() {
+//            { bwem_assert(Valid()); return m_id; }
+            if (!isValid()) {
+                throw new IllegalStateException();
+            }
+            return this.areaId;
+        }
+
+        public WalkPosition getTop()  {
+//            { bwem_assert(Valid()); return m_top; }
+            if (!isValid()) {
+                throw new IllegalStateException();
+            }
+            return this.top;
+        }
+
+        public int getSize() {
+//            { bwem_assert(Valid()); return m_size; }
+            if (!isValid()) {
+                throw new IllegalStateException();
+            }
+            return this.size;
+        }
+
+        public Altitude getHighestAltitude() {
+//            { bwem_assert(Valid()); return m_highestAltitude; }
+            if (!isValid()) {
+                throw new IllegalStateException();
+            }
+            return this.highestAltitude;
+        }
+
+        public void add(MiniTile miniTile) {
+//            { bwem_assert(Valid()); ++m_size; pMiniTile->SetAreaId(m_id); }
+            if (!isValid()) {
+                throw new IllegalStateException();
+            }
+            ++(this.size);
+            miniTile.setAreaId(this.areaId);
+        }
+
+        public void merge(TempInfo absorbed) {
+//            bwem_assert(Valid() && Absorbed.Valid());
+//            bwem_assert(m_size >= Absorbed.m_size);
+            if (!(isValid() && absorbed.isValid())) {
+                throw new IllegalStateException("failed: isValid");
+            } else if (!(this.size >= absorbed.size)) {
+                throw new IllegalArgumentException("invalid TempInfo size");
+            } else {
+                this.size += absorbed.size;
+                absorbed.isValid = false;
+            }
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(this.areaId.intValue());
+        }
+
+        @Override
+        public boolean equals(Object object) {
+            if (this == object) {
+                return true;
+            } else if (!(object instanceof Area.TempInfo)) {
+                throw new IllegalArgumentException("object is not an instance of Area.TempInfo");
+            } else {
+                Area.TempInfo that = (Area.TempInfo) object;
+                return (this.areaId.intValue() == that.areaId.intValue());
+            }
+        }
+
+    }
+
 }
