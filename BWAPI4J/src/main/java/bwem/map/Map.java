@@ -147,31 +147,27 @@ public abstract class Map {
 	// Note: these correspond to BWAPI::getStartLocations().
     public abstract List<TilePosition> getStartingLocations();
 
-    /**
-     * Returns a copy the Tile specified by the TilePosition.
-     *
-     * @see #getTile_(org.openbw.bwapi4j.TilePosition, bwem.CheckMode)
-     */
+    //----------------------------------------------------------------------
+    //TODO
+    //----------------------------------------------------------------------
+    // getTile/getMiniTile and their derivitives are supposed to return a const ref while
+    // getTile_/getMiniTile_ and their derivitives return the ref
+    // Use getTile/getMiniTile where the C++ version uses getTile/getMiniTile
+    // Use getTile_/getMiniTile_ where the C++ version uses getTile_/getMiniTile_
+    // Come up with a solution to return a "const". Return a copy of Tile/MiniTile? Anything better?
+    //----------------------------------------------------------------------
     public Tile getTile(TilePosition p, CheckMode checkMode) {
         if (!(checkMode == CheckMode.NoCheck || isValid(p))) {
             throw new IllegalArgumentException();
         } else {
-            return new Tile(getTile_(p, checkMode));
+            return getTile_(p, checkMode);
         }
     }
 
-    /**
-     * Returns a copy of the Tile specified by the TilePosition.
-     */
     public Tile getTile(TilePosition p) {
         return getTile(p, CheckMode.Check);
     }
 
-    /**
-     * Returns the Tile specified by the TilePosition. Does not return a copy.
-     *
-     * @see #getTile(org.openbw.bwapi4j.TilePosition, bwem.CheckMode)
-     */
     public Tile getTile_(TilePosition p, CheckMode checkMode) {
         if (!(checkMode == CheckMode.NoCheck || isValid(p))) {
             throw new IllegalArgumentException();
@@ -180,38 +176,22 @@ public abstract class Map {
         }
     }
 
-    /**
-     * Returns the Tile specified by the TilePosition. Does not return a copy.
-     */
     public Tile getTile_(TilePosition p) {
         return getTile_(p, CheckMode.Check);
     }
 
-    /**
-     * Returns a copy the MiniTile specified by the WalkPosition.
-     *
-     * @see #getTile_(org.openbw.bwapi4j.TilePosition, bwem.CheckMode)
-     */
     public MiniTile getMiniTile(WalkPosition w, CheckMode checkMode) {
         if (!(checkMode == CheckMode.NoCheck || isValid(w))) {
             throw new IllegalArgumentException();
         } else {
-            return new MiniTile(getMiniTile_(w, checkMode));
+            return getMiniTile_(w, checkMode);
         }
     }
 
-    /**
-     * Returns a copy the MiniTile specified by the WalkPosition.
-     */
     public MiniTile getMiniTile(WalkPosition w) {
         return getMiniTile(w, CheckMode.Check);
     }
 
-    /**
-     * Returns the Tile specified by the TilePosition. Does not return a copy.
-     *
-     * @see #getTile(org.openbw.bwapi4j.TilePosition, bwem.CheckMode)
-     */
     public MiniTile getMiniTile_(WalkPosition w, CheckMode checkMode) {
         if (!(checkMode == CheckMode.NoCheck || isValid(w))) {
             throw new IllegalArgumentException();
@@ -220,10 +200,9 @@ public abstract class Map {
         }
     }
 
-    /**
-     * Returns the Tile specified by the TilePosition. Does not return a copy.
-     */
     public MiniTile getMiniTile_(WalkPosition w) {
         return getMiniTile_(w, CheckMode.Check);
     }
+    //----------------------------------------------------------------------
+
 }

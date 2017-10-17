@@ -34,13 +34,6 @@ public class Tile extends Markable<Tile> {
         this.bits = new Bits();
     }
 
-    public Tile(Tile tile) {
-        this.minAltitude = new Altitude(tile.minAltitude);
-        this.areaId = new Area.Id(tile.areaId);
-        this.internalData = new UserData(tile.internalData);
-        this.bits = new Bits(tile.bits);
-    }
-
 	// Tile::MinAltitude() somewhat aggregates the MiniTile::Altitude() values of the 4 x 4 sub-MiniTiles.
 	// Returns the minimum value.
     public Altitude getMinAltitude() {
