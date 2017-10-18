@@ -6,11 +6,32 @@ package bwem.util;
 
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
+import org.openbw.bwapi4j.WalkPosition;
 
 public final class BwemExt {
 
+    private static final int TILE_POSITION_CENTER_OFFSET_IN_PIXELS = TilePosition.SIZE_IN_PIXELS / 2;
+    public static final Position TILE_POSITION_CENTER_IN_PIXELS = new Position(BwemExt.TILE_POSITION_CENTER_OFFSET_IN_PIXELS, BwemExt.TILE_POSITION_CENTER_OFFSET_IN_PIXELS);
+
+    private static final int WALK_POSITION_CENTER_OFFSET_IN_PIXELS = WalkPosition.SIZE_IN_PIXELS / 2;
+    public static final Position WALK_POSITION_CENTER_IN_PIXELS = new Position(BwemExt.WALK_POSITION_CENTER_OFFSET_IN_PIXELS, BwemExt.WALK_POSITION_CENTER_OFFSET_IN_PIXELS);
+
     private BwemExt() throws InstantiationException {
         throw new InstantiationException();
+    }
+
+    public static Position center(Position A) {
+        return A;
+    }
+
+    public static Position center(TilePosition A) {
+        Position ret = (A.toPosition()).add(BwemExt.TILE_POSITION_CENTER_IN_PIXELS);
+        return ret;
+    }
+
+    public static Position center(WalkPosition A) {
+        Position ret = (A.toPosition()).add(BwemExt.WALK_POSITION_CENTER_IN_PIXELS);
+        return ret;
     }
 
     public static int queenWiseDist(Position A, Position B) {
@@ -62,10 +83,13 @@ public final class BwemExt {
             }
         } else {
             if (a.getY() > bottomRight.getY()) {
+                /* SW */
                 return roundedDist(a, new Position(topLeft.getX(), bottomRight.getY()));
             } else if (a.getY() < topLeft.getY()) {
+                /* NW */
                 return roundedDist(a, topLeft);
-            } else					{
+            } else {
+                /* W */
                 return (topLeft.getX() - a.getX());
             }
         }

@@ -28,11 +28,6 @@ public final class Utils {
         return ((ax * bx) + (ay * by));
     }
 
-    // Returns whether the line segments [a, b] and [c, d] intersect.
-    public static boolean intersect(int ax, int ay, int bx, int by, int cx, int cy, int dx, int dy) {
-        return get_line_intersection(ax, ay, bx, by, cx, cy, dx, dy, null, null);
-    }
-
     /**
      * Returns true if the lines intersect, otherwise false. In addition, if the lines
      * intersect the intersection point may be stored in i_x and i_y.
@@ -64,6 +59,11 @@ public final class Utils {
         }
 
         return false; // No collision
+    }
+
+    // Returns whether the line segments [a, b] and [c, d] intersect.
+    public static boolean intersect(int ax, int ay, int bx, int by, int cx, int cy, int dx, int dy) {
+        return get_line_intersection(ax, ay, bx, by, cx, cy, dx, dy, null, null);
     }
 
 }
