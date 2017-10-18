@@ -1,7 +1,3 @@
-/*
-Status: Ready for use
-*/
-
 package bwem.unit;
 
 import bwem.map.Map;
