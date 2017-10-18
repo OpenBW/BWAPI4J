@@ -1,6 +1,6 @@
 package org.openbw.bwapi4j.unit;
 
-import org.openbw.bwapi4j.Position;
+import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
@@ -121,7 +121,7 @@ public class SCV extends MobileUnit implements Mechanical {
                 shiftQueueCommand ? 1 : 0);
     }
 
-    public boolean build(Position p, UnitType type) {
+    public boolean build(TilePosition p, UnitType type) {
         
         return issueCommand(this.id, UnitCommandType.Build.ordinal(), -1, p.getX(), p.getY(), type.getId());
     }

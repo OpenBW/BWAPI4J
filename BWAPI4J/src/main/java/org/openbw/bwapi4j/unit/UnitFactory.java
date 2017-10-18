@@ -288,22 +288,53 @@ public class UnitFactory {
             unit = new Scarab(unitId);
             break;
         case Protoss_Nexus:
+        	unit = new Nexus(unitId, timeSpotted);
+        	break;
         case Protoss_Robotics_Facility:
+        	unit = new RoboticsFacility(unitId, timeSpotted);
+        	break;
         case Protoss_Pylon:
+        	unit = new Pylon(unitId, timeSpotted);
+        	break;
         case Protoss_Assimilator:
+        	unit = new Assimilator(unitId, timeSpotted);
+        	break;
         case Protoss_Observatory:
+        	unit = new Observatory(unitId, timeSpotted);
+        	break;
         case Protoss_Gateway:
+        	unit = new Gateway(unitId, timeSpotted);
+        	break;
         case Protoss_Photon_Cannon:
+        	unit = new PhotonCannon(unitId, timeSpotted);
+        	break;
         case Protoss_Citadel_of_Adun:
+        	unit = new CitadelOfAdun(unitId, timeSpotted);
+        	break;
         case Protoss_Cybernetics_Core:
+        	unit = new CyberneticsCore(unitId, timeSpotted);
+        	break;
         case Protoss_Templar_Archives:
+        	unit = new TemplarArchives(unitId, timeSpotted);
+        	break;
         case Protoss_Forge:
+        	unit = new Forge(unitId, timeSpotted);
+        	break;
         case Protoss_Stargate:
+        	unit = new Stargate(unitId, timeSpotted);
+        	break;
         case Protoss_Fleet_Beacon:
+        	unit = new FleetBeacon(unitId, timeSpotted);
+        	break;
         case Protoss_Arbiter_Tribunal:
+        	unit = new ArbiterTribunal(unitId, timeSpotted);
+        	break;
         case Protoss_Robotics_Support_Bay:
+        	unit = new RoboticsSupportBay(unitId, timeSpotted);
+        	break;
         case Protoss_Shield_Battery:
-        
+        	unit = new ShieldBattery(unitId, timeSpotted);
+        	break;
         case Spell_Scanner_Sweep:
             unit = new ScannerSweep(unitId, timeSpotted);
             break;

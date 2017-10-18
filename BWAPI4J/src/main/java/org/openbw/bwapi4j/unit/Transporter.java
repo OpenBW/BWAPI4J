@@ -14,10 +14,10 @@ public class Transporter extends MobileUnit {
 
     protected boolean isLoaded;
     
-    // TODO
+    // TODO implement space remaining in transporter
     private int spaceRemaining;
     
-    // TODO
+    // TODO implement units loaded in transporter
     private List<Unit> loadedUnits;
 
     protected Transporter(int id, UnitType unitType) {

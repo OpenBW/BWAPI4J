@@ -244,7 +244,7 @@ public class Player {
         return this.forceId;
     }
 
-    // TODO
+    // TODO implement isAlly(player)
     // /**
     // * Checks if this player is allied to the specified player. Parameters
     // * player The player to check alliance with. Return values true if this

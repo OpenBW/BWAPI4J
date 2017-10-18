@@ -2,4 +2,9 @@
 /.classpath
 /.gradle/
 /build/
-/bwapi-data/
+/bwapi-data/bwapi.ini
+/gradle.properties
+/maps/
+/BrooDat.mpq
+/Patch_rt.mpq
+/StarDat.mpq

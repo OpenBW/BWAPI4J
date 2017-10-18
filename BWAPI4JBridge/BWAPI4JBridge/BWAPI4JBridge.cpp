@@ -106,7 +106,6 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 		jmethodID pairNew = env->GetMethodID(pairClass, "<init>", "(Ljava/lang/Object;Ljava/lang/Object;)V");
 
 		jclass bwMapClass = env->FindClass("org/openbw/bwapi4j/BWMap");
-		jmethodID bwMapNew = env->GetMethodID(bwMapClass, "<init>", "()V");
 		
 		jmethodID addRequiredUnit = env->GetMethodID(unitTypeClass, "addRequiredUnit", "(II)V");
 
@@ -487,7 +486,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 		jfieldID walkabilityInfoField = env->GetFieldID(bwMapClass, "walkabilityInfo", "[[I");
 		jobject* walkabilityInfo2D = new jobject[Broodwar->mapWidth() * 4];
 		jobjectArray walkabilityInfo2DArray = env->NewObjectArray(Broodwar->mapWidth() * 4, env->GetObjectClass(env->NewIntArray(Broodwar->mapHeight() * 4)), 0);
-		for (int i = 0; i < Broodwar->mapWidth(); ++i) {
+		for (int i = 0; i < Broodwar->mapWidth() * 4; ++i) {
 
 			jint* walkabilityInfo = new jint[Broodwar->mapHeight() * 4];
 			for (int j = 0; j < Broodwar->mapHeight() * 4; ++j) {
@@ -520,8 +519,8 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 			jmethodID onEndCallback = env->GetMethodID(jc, "onEnd", "(Z)V");
 			jmethodID preFrameCallback = env->GetMethodID(jc, "preFrame", "()V");
 			jmethodID onFrameCallback = env->GetMethodID(jc, "onFrame", "()V");
-			jmethodID onSendCallback = env->GetMethodID(jc, "onSend", "(Ljava.lang.String;)V");
-			jmethodID onReceiveCallback = env->GetMethodID(jc, "onReceive", "(ILjava.lang.String;)V");
+			jmethodID onSendCallback = env->GetMethodID(jc, "onSendText", "(Ljava/lang/String;)V");
+			jmethodID onReceiveCallback = env->GetMethodID(jc, "onReceiveText", "(ILjava/lang/String;)V");
 			jmethodID onPlayerLeftCallback = env->GetMethodID(jc, "onPlayerLeft", "(I)V");
 			jmethodID onNukeDetectCallback = env->GetMethodID(jc, "onNukeDetect", "(II)V");
 			jmethodID onUnitDiscoverCallback = env->GetMethodID(jc, "onUnitDiscover", "(I)V");
@@ -532,7 +531,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 			jmethodID onUnitDestroyCallback = env->GetMethodID(jc, "onUnitDestroy", "(I)V");
 			jmethodID onUnitMorphCallback = env->GetMethodID(jc, "onUnitMorph", "(I)V");
 			jmethodID onUnitRenegadeCallback = env->GetMethodID(jc, "onUnitRenegade", "(I)V");
-			jmethodID onSaveGameCallback = env->GetMethodID(jc, "onSaveGame", "(Ljava.lang.String;)V");
+			jmethodID onSaveGameCallback = env->GetMethodID(jc, "onSaveGame", "(Ljava/lang/String;)V");
 			jmethodID onUnitCompleteCallback = env->GetMethodID(jc, "onUnitComplete", "(I)V");
 
 			while (Broodwar->isInGame()) {
@@ -630,11 +629,11 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 						}
 							break;
 						case EventType::SaveGame: {
-							// std::cout << "calling onSaveGame..." << std::endl;
+							std::cout << "calling onSaveGame..." << std::endl;
 							jstring string = env->NewStringUTF(e.getText().c_str());
 							env->CallObjectMethod(classref, onSaveGameCallback, string);
 							env->DeleteLocalRef(string);
-							// std::cout << "done." << std::endl;;
+							std::cout << "done." << std::endl;;
 							}
 							break;
 						case EventType::UnitComplete: {
@@ -973,6 +972,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enableLatCom(J
 }
 
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_leaveGame(JNIEnv *env, jobject jObj) {
+
 	Broodwar->leaveGame();
 }
 
@@ -1083,7 +1083,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawTextMap_1native(JNI
 //
 */
 JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMap_isVisible(JNIEnv *, jobject, jint tileX, jint tileY) {
-	return Broodwar->isVisible(tileX, tileX);
+	return Broodwar->isVisible(tileX, tileY);
 }
 
 JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMap_hasPath(JNIEnv *, jobject, jint x1, jint y1, jint x2, jint y2) {

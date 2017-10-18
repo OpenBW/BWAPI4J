@@ -96,7 +96,8 @@
 								<option id="gnu.cpp.compiler.so.release.option.optimization.level.2442265" name="Optimization Level" superClass="gnu.cpp.compiler.so.release.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.most" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.so.release.option.debugging.level.2000040025" name="Debug Level" superClass="gnu.cpp.compiler.so.release.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.1202025331" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="/home/imp/git/bwapi/bwapi/include"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bwapi/bwapi/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/BWTA}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bwapi/bwapi/BWAPI/Source}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bwapi/bwapi/Util/Source}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bwapi/bwapi/BWAPICore}&quot;"/>
@@ -119,6 +120,20 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.so.release.125056822" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.so.release">
 								<option defaultValue="true" id="gnu.cpp.link.so.release.option.shared.1721168506" name="Shared (-shared)" superClass="gnu.cpp.link.so.release.option.shared" useByScannerDiscovery="false" valueType="boolean"/>
+								<option id="gnu.cpp.link.option.paths.550188135" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false" valueType="libPaths">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bwapi/build/lib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/BWTA2Linux/BWTA/dist/Release/GNU-Linux}&quot;"/>
+								</option>
+								<option id="gnu.cpp.link.option.libs.540407948" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" useByScannerDiscovery="false" valueType="libs">
+									<listOptionValue builtIn="false" value="BWAPILIB"/>
+									<listOptionValue builtIn="false" value="openbw_ui"/>
+									<listOptionValue builtIn="false" value="OpenBWData"/>
+									<listOptionValue builtIn="false" value="BWAPI"/>
+									<listOptionValue builtIn="false" value="BWTA"/>
+								</option>
+								<option id="gnu.cpp.link.option.userobjs.1534415485" name="Other objects" superClass="gnu.cpp.link.option.userobjs" useByScannerDiscovery="false" valueType="userObjs">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/libbwta2.a}&quot;"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1440394035" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>

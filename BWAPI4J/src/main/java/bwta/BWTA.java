@@ -77,9 +77,9 @@ public class BWTA {
         return Region.getCachedRegion(getRegionT(x, y));
     }
     
-    private native int getRegionT(int x, int y);
+    private native long getRegionT(int x, int y);
 
-    private native int getRegionP(int x, int y);
+    private native long getRegionP(int x, int y);
     
     public double getGroundDistance(TilePosition start, TilePosition end) {
     
@@ -102,15 +102,13 @@ public class BWTA {
     
     private native List<TilePosition> getShortestPath(int x1, int y1, int x2, int y2);
     
-    // TODO
+    // TODO implement missing BWTA functionality
 /*
     public static native int getMaxDistanceTransform();
 
     public static native List<Polygon> getUnwalkablePolygons();
 
     public static native BaseLocation getStartLocation(Player player);
-
-    public static native Region getRegion(int x, int y);
 
     public static native Chokepoint getNearestChokepoint(int x, int y);
 

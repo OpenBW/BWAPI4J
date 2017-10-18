@@ -51,11 +51,15 @@ public class BW {
         }
 
         logger.debug("DLL exists: {}",
-                new File(System.getProperty("java.library.path") + "BWAPI4JBridge.dll").exists());
-        logger.debug(System.getProperty("user.dir"));
+                new File(System.getProperty("java.library.path") + "\\BWAPI4JBridge.dll").exists());
+        logger.debug("SO exists: {}",
+                new File(System.getProperty("java.library.path") + "/libOpenBWAPI4JBridge.so").exists());
+        logger.debug("user directory: {}", System.getProperty("user.dir"));
 
-        System.loadLibrary("BWAPI4JBridge");
-        logger.debug("DLL loaded.");
+        //System.loadLibrary("bwta2");
+        System.loadLibrary("OpenBWAPI4JBridge");
+        
+        logger.debug("DLL/SO loaded.");
     }
 
     /**
@@ -72,6 +76,7 @@ public class BW {
         this.mapDrawer = new MapDrawer();
         this.damageEvaluator = new DamageEvaluator();
         this.bwMap = new BWMap();
+        this.bwMap.setUnits(this.units);
 
         try {
             charset = Charset.forName("Cp949"); // Korean char set
@@ -83,9 +88,23 @@ public class BW {
 
     public void startGame() {
         
-        startGame(this);
+    	BW myBw = this;
+    	Thread thread = new Thread(new Runnable() {
+
+    	    @Override
+    	    public void run() {
+    	    
+    	    	startGame(myBw);
+    	    }
+    	            
+    	});
+    	        
+    	thread.start();
+        mainThread();
     }
 
+    private native void mainThread();
+    
     private native void startGame(BW bw);
 
     private native int[] getAllUnitsData();
@@ -142,19 +161,28 @@ public class BW {
             int unitId = unitData[index + 0];
             int typeId = unitData[index + 3];
             Unit unit = this.units.get(unitId);
-            if (unit == null) {
+            if (unit == null || !unit.getInitialType().equals(UnitType.values()[typeId])) {
                 
-                logger.debug("creating unit for id " + unitId 
-                        + " and type " + typeId + " (" + UnitType.values()[typeId] + ") ...");
+            	if (unit != null) {
+            		
+            		logger.debug("unit {} changed type from {} to {}.", unit.getId(), unit.getInitialType(), UnitType.values()[typeId]);
+            	}
+                logger.debug("creating unit for id {} and type {} ({}) ...", unitId, typeId, UnitType.values()[typeId]);
                 
                 unit = unitFactory.createUnit(unitId, UnitType.values()[typeId], frame);
+                
                 if (unit == null) {
-                    logger.error("could not create unit for id " + unitId + " and type " + UnitType.values()[typeId]);
+                    logger.error("could not create unit for id {} and type {}.", unitId, UnitType.values()[typeId]);
                 } else {
                     
+                	logger.trace("state: {}", unit.exists() ? "completed" : "created");
+                	
                     this.units.put(unitId, unit);
                     unit.initialize(unitData, index);
                     unit.update(unitData, index);
+                    logger.trace("initial pos: {}", unit.getInitialTilePosition());
+                    logger.trace("current pos: {}", unit.getTilePosition());
+                    
                     logger.debug(" done.");
                 }
             } else {
@@ -174,8 +202,7 @@ public class BW {
             Player player = this.players.get(playerId);
             if (player == null) {
 
-                logger.debug("creating player for id " + playerId + " ...");
-                //String playerName = new String(this.getPlayerName(playerId), this.charset);
+                logger.debug("creating player for id {} ...", playerId);
                 player = new Player(playerId, this.getPlayerName(playerId));
                 logger.debug("player name: {}", player.getName());
                 this.players.put(playerId, player);
@@ -237,6 +264,17 @@ public class BW {
         return this.units.values();
     }
 
+    private void preFrame() {
+        
+        logger.debug("updating game state for frame {}...", this.frame);
+        updateGame();
+        logger.debug("updated game.");
+        updateAllPlayers();
+        logger.debug("updated players.");
+        updateAllUnits(this.frame);
+        logger.debug("updated all units.");
+    }
+    
     private void onStart() {
 
         this.frame = 0;
@@ -252,21 +290,12 @@ public class BW {
         listener.onEnd(isWinner);
     }
 
-    private void preFrame() {
-        
-        logger.debug("updating game state for frame {}...", this.frame);
-        updateGame();
-        logger.debug("updated game.");
-        updateAllPlayers();
-        logger.debug("updated players.");
-        updateAllUnits(this.frame);
-        logger.debug("updated all units.");
-    }
-    
     private void onFrame() {
 
+    	logger.debug("onFrame {}", this.frame);
+    	preFrame();
+    	this.frame++;
         listener.onFrame();
-        this.frame++;
     }
 
     private void onSendText(String text) {
