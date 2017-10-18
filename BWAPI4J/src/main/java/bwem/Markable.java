@@ -1,28 +1,47 @@
+/*
+Status: Ready for use
+*/
+
 package bwem;
 
-public class Markable<Derived> {
+// utils.h
+//////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                          //
+//                                  class Markable
+//                                                                                          //
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+//  Provides efficient marking ability.
+//
+//  Usage: class MyNode : (public) Markable<MyNode, unsigned> {...};
+//
+//  Note: This implementation uses a static member.
+//
+//////////////////////////////////////////////////////////////////////////////////////////////
 
-    private int lastMark;
-    private static int currentMark = 0;
+public final class Markable<Derived> {
+
+    private int m_lastMark;
+    private static int m_currentMark = 0;
 
     public Markable() {
-        this.lastMark = 0;
+        m_lastMark = 0;
     }
 
-    public boolean isMarked() {
-        return (this.lastMark == Markable.currentMark);
+    public boolean Marked() {
+        return (m_lastMark == m_currentMark);
     }
 
-    public void setMarked() {
-        this.lastMark = Markable.currentMark;
+    public void SetMarked() {
+        m_lastMark = m_currentMark;
     }
 
-    public void setUnmarked() {
-        this.lastMark = Markable.currentMark - 1;
+    public void SetUnmarked() {
+        m_lastMark = m_currentMark - 1;
     }
 
     public static void UnmarkAll() {
-        ++Markable.currentMark;
+        ++m_currentMark;
     }
 
 }

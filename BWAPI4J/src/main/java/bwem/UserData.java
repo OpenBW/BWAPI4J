@@ -1,23 +1,41 @@
+/*
+Status: Ready for use
+*/
+
 package bwem;
+
+import org.apache.commons.lang3.mutable.MutableInt;
+
+// utils.h
+//////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                          //
+//                                  class UserData
+//                                                                                          //
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+//  Provides free-to-use, intrusive data for several types of the BWEM library
+//	Despite their names and their types, they can be used for any purpose.
+//
+//////////////////////////////////////////////////////////////////////////////////////////////
 
 public final class UserData {
 
-    private int data;
+    private MutableInt m_data;
 
     public UserData() {
-        this.data = 0;
+        m_data = new MutableInt(0);
     }
 
-    public UserData(UserData userData) {
-        this.data = userData.data;
+    public UserData(MutableInt data) {
+        m_data = data;
     }
 
-    public int getData() {
-        return this.data;
+    public MutableInt Data() {
+        return m_data;
     }
 
-    public void setData(int data) {
-        this.data = data;
+    public void SetData(MutableInt data) {
+        m_data = data;
     }
 
 }
