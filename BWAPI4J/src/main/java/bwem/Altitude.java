@@ -58,8 +58,4 @@ public final class Altitude implements IWrappedInteger<Altitude>, Comparable<Alt
         return Objects.hash(this.val);
     }
 
-    public static boolean isNullOrZero(Altitude altitude) {
-        return (altitude == null || altitude.intValue() > 0);
-    }
-
 }

@@ -58,9 +58,5 @@ public final class AreaId implements IWrappedInteger<AreaId>, Comparable<AreaId>
     public int hashCode() {
         return Objects.hash(this.val);
     }
-
-    public static boolean isNullOrZero(AreaId id) {
-        return (id == null || id.intValue() == 0);
-    }
-
+    
 }

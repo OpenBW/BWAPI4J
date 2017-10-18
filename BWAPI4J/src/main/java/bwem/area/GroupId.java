@@ -58,9 +58,5 @@ public final class GroupId implements IWrappedInteger<GroupId>, Comparable<Group
     public int hashCode() {
         return Objects.hash(this.val);
     }
-
-    public static boolean isNullOrZero(GroupId groupId) {
-        return (groupId == null || groupId.intValue() == 0);
-    }
-
+    
 }

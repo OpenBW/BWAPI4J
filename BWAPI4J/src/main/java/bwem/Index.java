@@ -58,8 +58,4 @@ public final class Index implements IWrappedInteger<Index>, Comparable<Index> {
         return Objects.hash(this.val);
     }
 
-    public static boolean isNullOrZero(Index index) {
-        return (index == null || index.intValue() == 0);
-    }
-
 }

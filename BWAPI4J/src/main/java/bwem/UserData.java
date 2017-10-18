@@ -20,7 +20,7 @@ public final class UserData {
     public UserData() {
         m_data = new MutableInt(0);
     }
-
+    
     public UserData(MutableInt data) {
         m_data = data;
     }

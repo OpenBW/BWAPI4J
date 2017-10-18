@@ -14,7 +14,7 @@ package bwem;
 //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-public final class Markable<Derived> {
+public class Markable<Derived> {
 
     private int m_lastMark;
     private static int m_currentMark = 0;
