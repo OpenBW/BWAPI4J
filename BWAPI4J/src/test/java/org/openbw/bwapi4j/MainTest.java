@@ -10,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.unit.MineralPatch;
 import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.unit.SCV;
@@ -86,12 +87,12 @@ public class MainTest implements BWEventListener {
     public void onStart() {
         
         logger.info("onStart");
-        logger.info("testing map info...");
         testMapInfo();
-        logger.info("done.");
         testNumberOfScvs();
-        
         testMineralMining();
+        
+        int damage = this.bw.getDamageEvaluator().getDamageFrom(UnitType.Terran_Marine, UnitType.Terran_SCV);
+        assertEquals("damage evaluator wrong.", 6, damage);
         
         this.bw.getInteractionHandler().leaveGame();
         logger.info("left game.");

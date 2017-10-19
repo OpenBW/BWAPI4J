@@ -19,6 +19,7 @@ JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_InteractionHandler_getKeyStat
 
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enableLatCom(JNIEnv *, jobject jObj, jboolean enabled) {
 
+	std::cout << "enable latency compensation: " << (enabled != JNI_FALSE) << std::endl;
 	Broodwar->setLatCom(enabled != JNI_FALSE);
 }
 
