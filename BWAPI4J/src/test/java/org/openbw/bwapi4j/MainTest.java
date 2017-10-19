@@ -93,6 +93,7 @@ public class MainTest implements BWEventListener {
         
         testMineralMining();
         
+        this.bw.exit();
         this.bw.getInteractionHandler().leaveGame();
         logger.info("left game.");
     }

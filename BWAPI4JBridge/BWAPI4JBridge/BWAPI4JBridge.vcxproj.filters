@@ -234,9 +234,6 @@
     <ClInclude Include="BWAPI\Client\UnitImpl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BWTA.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="BWTA\BaseLocation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -252,6 +249,9 @@
     <ClInclude Include="BWTA\Region.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\OpenBWAPI4JBridge\BWTA.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -263,8 +263,22 @@
     <ClCompile Include="dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\OpenBWAPI4JBridge\InteractionHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\OpenBWAPI4JBridge\MapDrawer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\OpenBWAPI4JBridge\Unit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\OpenBWAPI4JBridge\DamageEvaluator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="BWTA.lib" />
+    <Library Include="BWAPI.lib" />
+    <Library Include="BWAPIClient.lib" />
   </ItemGroup>
 </Project>

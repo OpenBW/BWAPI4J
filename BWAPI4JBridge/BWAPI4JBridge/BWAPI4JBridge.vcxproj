@@ -140,6 +140,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\OpenBWAPI4JBridge\BWTA.h" />
     <ClInclude Include="BWAPI.h" />
     <ClInclude Include="BWAPI\AIModule.h" />
     <ClInclude Include="BWAPI\ArithmaticFilter.h" />
@@ -210,7 +211,6 @@
     <ClInclude Include="BWAPI\UpgradeType.h" />
     <ClInclude Include="BWAPI\WeaponType.h" />
     <ClInclude Include="BWAPI\WindowsTypes.h" />
-    <ClInclude Include="BWTA.h" />
     <ClInclude Include="BWTA\BaseLocation.h" />
     <ClInclude Include="BWTA\Chokepoint.h" />
     <ClInclude Include="BWTA\Polygon.h" />
@@ -220,6 +220,18 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\OpenBWAPI4JBridge\DamageEvaluator.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\OpenBWAPI4JBridge\InteractionHandler.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\OpenBWAPI4JBridge\MapDrawer.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\OpenBWAPI4JBridge\Unit.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="BWAPI4JBridge.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
@@ -243,6 +255,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <Library Include="BWAPI.lib" />
+    <Library Include="BWAPIClient.lib" />
     <Library Include="BWTA.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
