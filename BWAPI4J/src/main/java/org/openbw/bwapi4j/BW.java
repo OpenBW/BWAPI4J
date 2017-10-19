@@ -56,8 +56,9 @@ public class BW {
                 new File(System.getProperty("java.library.path") + "/libOpenBWAPI4JBridge.so").exists());
         logger.debug("user directory: {}", System.getProperty("user.dir"));
 
-        //System.loadLibrary("bwta2");
-        System.loadLibrary("OpenBWAPI4JBridge");
+        System.loadLibrary("libgmp-10");
+        System.loadLibrary("libmpfr-4");
+        System.loadLibrary("BWAPI4JBridge");
         
         logger.debug("DLL/SO loaded.");
     }
@@ -110,6 +111,8 @@ public class BW {
         logger.trace("finished thread.");
     }
 
+    public native void exit();
+    
     private native void mainThread();
     
     private native void startGame(BW bw);

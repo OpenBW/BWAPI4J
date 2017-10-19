@@ -122,6 +122,10 @@ void initializeJavaReferences(JNIEnv *env, jobject caller) {
 	std::cout << "done." << std::endl;
 }
 
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_exit(JNIEnv *, jobject) {
+
+}
+
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_mainThread(JNIEnv *, jobject) {
 
 	BW::sacrificeThreadForUI([]{while (!finished) std::this_thread::sleep_for(std::chrono::seconds(5));});

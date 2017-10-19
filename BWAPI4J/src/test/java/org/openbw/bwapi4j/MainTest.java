@@ -94,6 +94,7 @@ public class MainTest implements BWEventListener {
         int damage = this.bw.getDamageEvaluator().getDamageFrom(UnitType.Terran_Marine, UnitType.Terran_SCV);
         assertEquals("damage evaluator wrong.", 6, damage);
         
+        this.bw.exit();
         this.bw.getInteractionHandler().leaveGame();
         logger.info("left game.");
     }

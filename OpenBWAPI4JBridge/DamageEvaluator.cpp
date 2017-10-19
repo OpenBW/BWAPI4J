@@ -1,4 +1,4 @@
-#include "BWAPI/GameImpl.h"
+#include <BWAPI/Client.h>
 #include "org_openbw_bwapi4j_DamageEvaluator.h"
 
 using namespace BWAPI;

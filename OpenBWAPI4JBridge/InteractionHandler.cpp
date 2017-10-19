@@ -4,8 +4,7 @@
  *  Created on: Oct 7, 2017
  *      Author: imp
  */
-#include "BWAPI/GameImpl.h"
-#include "BW/BWData.h"
+#include <BWAPI/Client.h>
 #include "org_openbw_bwapi4j_InteractionHandler.h"
 
 using namespace BWAPI;
