@@ -101,6 +101,13 @@ public class BW {
     	        
     	thread.start();
         mainThread();
+        try {
+			thread.join();
+		} catch (InterruptedException e) {
+			logger.error("error joining thread.", e);
+			e.printStackTrace();
+		}
+        logger.trace("finished thread.");
     }
 
     private native void mainThread();

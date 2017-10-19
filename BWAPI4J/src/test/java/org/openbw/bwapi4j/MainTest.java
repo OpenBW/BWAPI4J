@@ -1,6 +1,7 @@
 package org.openbw.bwapi4j;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
 import java.util.List;
@@ -28,16 +29,16 @@ public class MainTest implements BWEventListener {
     @Test
     public void smokeTest() throws AssertionError {
         
+    	logger.info("test start.");
         BW bw = new BW(this);
         this.bw = bw;
         bw.startGame();
-        
+        logger.info("test done.");
     }
 
     private void testMapInfo() throws AssertionError {
     
         BWMap map = bw.getBWMap();
-        assertEquals("test message", true, true);
         assertEquals("map name wrong.", "(4)Fighting Spirit.scx", map.mapFileName());
     }
     
@@ -47,12 +48,14 @@ public class MainTest implements BWEventListener {
     	
     	List<PlayerUnit> units = this.bw.getUnits(self);
     	for (PlayerUnit unit : units) {
-    		System.out.println(unit);
+    		logger.debug(unit);
     	}
+    	assertEquals("wrong number of units.", 5, units.size());
     }
     
     private void testMineralMining() throws AssertionError {
     	
+    	boolean commandSuccessful = false;
     	Player self = this.bw.getInteractionHandler().self();
     	
     	Collection<Unit> allUnits = this.bw.getAllUnits();
@@ -71,19 +74,21 @@ public class MainTest implements BWEventListener {
     	}
     	if (patch != null && scv != null) {
     		
-    		scv.gather(patch);
+    		commandSuccessful = scv.gather(patch);
     	} else {
     		
     		logger.error("no scv and patch found.");
     	}
+    	assertTrue("gather command failed.", commandSuccessful);
     }
     
     @Override
-    public void onStart() throws AssertionError {
+    public void onStart() {
         
         logger.info("onStart");
+        logger.info("testing map info...");
         testMapInfo();
-        
+        logger.info("done.");
         testNumberOfScvs();
         
         testMineralMining();
@@ -94,8 +99,8 @@ public class MainTest implements BWEventListener {
 
     @Override
     public void onEnd(boolean isWinner) {
-        // do nothing
         
+    	logger.info("onEnd");
     }
 
     @Override
@@ -155,7 +160,7 @@ public class MainTest implements BWEventListener {
     @Override
     public void onUnitCreate(Unit unit) {
     	
-    	logger.info("onUnitCreate");
+//    	logger.info("onUnitCreate");
     }
 
     @Override
@@ -185,6 +190,6 @@ public class MainTest implements BWEventListener {
     @Override
     public void onUnitComplete(Unit unit) {
         
-    	logger.info("onUnitComplete");
+//    	logger.info("onUnitComplete");
     }
 }

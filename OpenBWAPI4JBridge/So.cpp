@@ -27,6 +27,8 @@ using namespace BWAPI;
 jint *intBuf;
 const int bufferSize = 5000000;
 
+bool finished = false;
+
 // conversion ratios
 double TO_DEGREES = 180.0 / M_PI;
 double fixedScale = 100.0;
@@ -140,8 +142,8 @@ void initializeJavaReferences(JNIEnv *env, jobject caller) {
 
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_mainThread(JNIEnv *, jobject) {
 
-	BW::sacrificeThreadForUI([]{while (true) std::this_thread::sleep_for(std::chrono::hours(1));});
-	std::cout << "main thread done." << std::endl;
+	BW::sacrificeThreadForUI([]{while (!finished) std::this_thread::sleep_for(std::chrono::seconds(5));});
+//	std::cout << "thread done." << std::endl;
 }
 
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject caller, jobject bw) {
@@ -149,7 +151,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
 	globalEnv = env;
 	globalBW = bw;
 
-	// allocate "shared memory"
+	/* allocate "shared memory" */
 	intBuf = new jint[bufferSize];
 
 	initializeJavaReferences(env, caller);
@@ -203,6 +205,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
 
 		printf("Error: %s\n", e.what());
 	}
+	finished = true;
 }
 
 int addUnitDataToBuffer(Unit &u, int index) {
