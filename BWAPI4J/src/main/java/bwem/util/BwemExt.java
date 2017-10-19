@@ -4,6 +4,8 @@ Status: Incomplete
 
 package bwem.util;
 
+import bwem.CheckMode;
+import bwem.map.Map;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
@@ -18,6 +20,23 @@ public final class BwemExt {
 
     private BwemExt() throws InstantiationException {
         throw new InstantiationException();
+    }
+
+    public boolean seaSide(WalkPosition p, Map pMap) {
+        if (!pMap.GetMiniTile(p).Sea()) {
+            return false;
+        }
+
+        WalkPosition deltas[] = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(1, 0), new WalkPosition(0, 1)};
+        for (WalkPosition delta : deltas) {
+            if (pMap.Valid(p.add(delta))) {
+                if (!pMap.GetMiniTile(p.add(delta), CheckMode.NoCheck).Sea()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     public static Position center(Position A) {
