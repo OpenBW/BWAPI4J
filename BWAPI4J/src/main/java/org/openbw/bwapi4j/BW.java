@@ -56,9 +56,16 @@ public class BW {
                 new File(System.getProperty("java.library.path") + "/libOpenBWAPI4JBridge.so").exists());
         logger.debug("user directory: {}", System.getProperty("user.dir"));
 
-        System.loadLibrary("libgmp-10");
-        System.loadLibrary("libmpfr-4");
-        System.loadLibrary("BWAPI4JBridge");
+        logger.info("jvm: {} ({}bit).", System.getProperty("java.version"), System.getProperty("sun.arch.data.model") );
+        logger.info("os: {}", System.getProperty("os.name"));
+        
+        if ("Windows".equals(System.getProperty("os.name"))) {
+	        System.loadLibrary("libgmp-10");
+	        System.loadLibrary("libmpfr-4");
+	        System.loadLibrary("BWAPI4JBridge");
+        } else {
+        	System.loadLibrary("OpenBWAPI4JBridge");
+        }
         
         logger.debug("DLL/SO loaded.");
     }
