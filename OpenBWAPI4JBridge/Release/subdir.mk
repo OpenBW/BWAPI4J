@@ -7,6 +7,7 @@ CPP_SRCS += \
 ../BWTA.cpp \
 ../BridgeEnum.cpp \
 ../BridgeMap.cpp \
+../DamageEvaluator.cpp \
 ../InteractionHandler.cpp \
 ../MapDrawer.cpp \
 ../OpenBridgeModule.cpp \
@@ -17,6 +18,7 @@ OBJS += \
 ./BWTA.o \
 ./BridgeEnum.o \
 ./BridgeMap.o \
+./DamageEvaluator.o \
 ./InteractionHandler.o \
 ./MapDrawer.o \
 ./OpenBridgeModule.o \
@@ -27,6 +29,7 @@ CPP_DEPS += \
 ./BWTA.d \
 ./BridgeEnum.d \
 ./BridgeMap.d \
+./DamageEvaluator.d \
 ./InteractionHandler.d \
 ./MapDrawer.d \
 ./OpenBridgeModule.d \

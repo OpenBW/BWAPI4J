@@ -4,10 +4,8 @@
  *  Created on: Oct 9, 2017
  *      Author: imp
  */
-
+#include <BWAPI/Client.h>
 #include "org_openbw_bwapi4j_MapDrawer.h"
-#include "BWAPI/GameImpl.h"
-#include "BW/BWData.h"
 
 using namespace BWAPI;
 

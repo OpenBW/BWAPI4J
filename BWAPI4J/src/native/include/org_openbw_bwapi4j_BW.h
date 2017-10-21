@@ -9,6 +9,14 @@ extern "C" {
 #endif
 /*
  * Class:     org_openbw_bwapi4j_BW
+ * Method:    exit
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_exit
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     org_openbw_bwapi4j_BW
  * Method:    mainThread
  * Signature: ()V
  */

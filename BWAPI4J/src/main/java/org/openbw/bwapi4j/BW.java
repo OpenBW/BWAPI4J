@@ -56,8 +56,22 @@ public class BW {
                 new File(System.getProperty("java.library.path") + "/libOpenBWAPI4JBridge.so").exists());
         logger.debug("user directory: {}", System.getProperty("user.dir"));
 
-        //System.loadLibrary("bwta2");
-        System.loadLibrary("OpenBWAPI4JBridge");
+        logger.info("jvm: {} ({}bit).", System.getProperty("java.version"), System.getProperty("sun.arch.data.model") );
+        logger.info("os: {}", System.getProperty("os.name"));
+        
+        /* this is pretty hacky but required for now to run BWAPI4J on both Windows and Linux without modifying the source.
+         * 
+         * Possible future solutions:
+         *  - name BWAPI4JBridge and OpenBWAPI4JBridge the same. This way linux loads <name>.so and windows loads <name>.dll
+         *  - build a single bwta.dll rather than libgmp-10 and libmpfr-4 and load bwta.so accordingly on linux.
+         */
+        if (System.getProperty("os.name").contains("Windows")) {
+	        System.loadLibrary("libgmp-10");
+	        System.loadLibrary("libmpfr-4");
+	        System.loadLibrary("BWAPI4JBridge");
+        } else {
+        	System.loadLibrary("OpenBWAPI4JBridge");
+        }
         
         logger.debug("DLL/SO loaded.");
     }
@@ -101,8 +115,17 @@ public class BW {
     	        
     	thread.start();
         mainThread();
+        try {
+			thread.join();
+		} catch (InterruptedException e) {
+			logger.error("error joining thread.", e);
+			e.printStackTrace();
+		}
+        logger.trace("finished thread.");
     }
 
+    public native void exit();
+    
     private native void mainThread();
     
     private native void startGame(BW bw);

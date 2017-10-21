@@ -263,3 +263,77 @@ JNIEXPORT jdouble JNICALL Java_bwta_BaseLocation_getAirDistance(JNIEnv *env, job
 	return (jdouble)baseLocation1->getAirDistance(baseLocation2);
 }
 
+
+/*
+JNIEXPORT jint JNICALL Java_bwta_BWTA_getMaxDistanceTransform(JNIEnv *, jclass) {
+	return BWTA::getMaxDistanceTransform();
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getUnwalkablePolygons(JNIEnv *, jclass) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getStartLocation(JNIEnv *, jclass, jobject) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getRegion__II(JNIEnv *, jclass, jint, jint) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getNearestChokepoint__II(JNIEnv *, jclass, jint, jint) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getNearestChokepoint__Lorg_openbw_bwapi4j_TilePosition_2(JNIEnv *, jclass, jobject) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getNearestChokepoint__Lorg_openbw_bwapi4j_Position_2(JNIEnv *, jclass, jobject) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getNearestBaseLocation__II(JNIEnv *, jclass, jint, jint) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getNearestBaseLocation__Lorg_openbw_bwapi4j_TilePosition_2(JNIEnv *, jclass, jobject) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getNearestBaseLocation__Lorg_openbw_bwapi4j_Position_2(JNIEnv *, jclass, jobject) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getNearestUnwalkablePolygon__II(JNIEnv *, jclass, jint, jint) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getNearestUnwalkablePolygon__Lorg_openbw_bwapi4j_TilePosition_2(JNIEnv *, jclass, jobject) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getNearestUnwalkablePosition(JNIEnv *, jclass, jobject) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getNearestTilePosition(JNIEnv *, jclass, jobject, jobject) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getGroundDistances(JNIEnv *, jclass, jobject, jobject) {
+
+}
+
+JNIEXPORT jobject JNICALL Java_bwta_BWTA_getShortestPath__Lorg_openbw_bwapi4j_TilePosition_2Ljava_util_List_2(JNIEnv *, jclass, jobject, jobject) {
+
+}
+
+JNIEXPORT void JNICALL Java_bwta_BWTA_buildChokeNodes(JNIEnv *, jclass) {
+
+}
+
+JNIEXPORT jint JNICALL Java_bwta_BWTA_getGroundDistance2(JNIEnv *, jclass, jobject, jobject) {
+
+}
+*/
