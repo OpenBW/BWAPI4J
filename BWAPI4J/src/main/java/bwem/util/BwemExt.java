@@ -4,11 +4,13 @@ Status: Incomplete
 
 package bwem.util;
 
+import bwem.Altitude;
 import bwem.CheckMode;
 import bwem.map.Map;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
+import org.openbw.bwapi4j.util.Pair;
 
 public final class BwemExt {
 
@@ -17,6 +19,18 @@ public final class BwemExt {
 
     private static final int WALK_POSITION_CENTER_OFFSET_IN_PIXELS = WalkPosition.SIZE_IN_PIXELS / 2;
     public static final Position WALK_POSITION_CENTER_IN_PIXELS = new Position(BwemExt.WALK_POSITION_CENTER_OFFSET_IN_PIXELS, BwemExt.WALK_POSITION_CENTER_OFFSET_IN_PIXELS);
+
+    // These constants control how to decide between Seas and Lakes.
+    public static final int lake_max_miniTiles = 300;
+    public static final int lake_max_width_in_miniTiles = 8 * 4;
+
+    public static final int max_tiles_between_CommandCenter_and_ressources = 10;
+    public static final int min_tiles_between_Bases = 10;
+
+    // At least area_min_miniTiles connected MiniTiles are necessary for an Area to be created.
+    public static final int area_min_miniTiles = 64;
+
+    public static final int max_tiles_between_StartingLocation_and_its_AssignedBase = 3;
 
     private BwemExt() throws InstantiationException {
         throw new InstantiationException();
@@ -112,6 +126,65 @@ public final class BwemExt {
                 return (topLeft.getX() - a.getX());
             }
         }
+    }
+
+    // Enlarges the bounding box [TopLeft, BottomRight] so that it includes A.
+    public static Pair<TilePosition, TilePosition> makeBoundingBoxIncludePoint(TilePosition TopLeft, TilePosition BottomRight, TilePosition A) {
+        TilePosition first = TopLeft;
+        TilePosition second = BottomRight;
+
+        if (A.getX() < TopLeft.getX()) first = new TilePosition(A.getX(), first.getY());
+        if (A.getX() > BottomRight.getX()) second = new TilePosition(A.getX(), second.getY());
+
+        if (A.getY() < TopLeft.getY()) first = new TilePosition(first.getX(), A.getY());
+        if (A.getY() > BottomRight.getY()) second = new TilePosition(second.getX(), A.getY());
+
+        return new Pair<>(first, second);
+    }
+
+    // Makes the smallest change to A so that it is included in the bounding box [TopLeft, BottomRight].
+    public static TilePosition makePointFitToBoundingBox(TilePosition A, TilePosition TopLeft, TilePosition BottomRight) {
+        TilePosition ret = new TilePosition(A.getX(), A.getY());
+
+        if      (A.getX() < TopLeft.getX()) A = new TilePosition(TopLeft.getX(), A.getY());
+        else if (A.getX() > BottomRight.getX()) A = new TilePosition(BottomRight.getX(), A.getY());
+
+        if      (A.getY() < TopLeft.getY()) A = new TilePosition(A.getX(), TopLeft.getX());
+        else if (A.getY() > BottomRight.getY())	A = new TilePosition(A.getX(), BottomRight.getY());
+
+        return ret;
+    }
+
+    public static Altitude getMinAltitudeTop(TilePosition t, Map map) {
+        WalkPosition w = t.toPosition().toWalkPosition();
+        return new Altitude(Math.min(
+                map.GetMiniTile(w.add(new WalkPosition(1, 0)), CheckMode.NoCheck).Altitude().intValue(),
+                map.GetMiniTile(w.add(new WalkPosition(2, 0)), CheckMode.NoCheck).Altitude().intValue()
+        ));
+    }
+
+    public static Altitude getMinAltitudeBottom(TilePosition t, Map map) {
+        WalkPosition w = t.toPosition().toWalkPosition();
+        return new Altitude(Math.min(
+                map.GetMiniTile(w.add(new WalkPosition(1, 3)), CheckMode.NoCheck).Altitude().intValue(),
+                map.GetMiniTile(w.add(new WalkPosition(2, 3)), CheckMode.NoCheck).Altitude().intValue()
+        ));
+    }
+
+    public static Altitude getMinAltitudeLeft(TilePosition t, Map map) {
+        WalkPosition w = t.toPosition().toWalkPosition();
+        return new Altitude(Math.min(
+                map.GetMiniTile(w.add(new WalkPosition(0, 1)), CheckMode.NoCheck).Altitude().intValue(),
+                map.GetMiniTile(w.add(new WalkPosition(0, 2)), CheckMode.NoCheck).Altitude().intValue()
+        ));
+    }
+
+    public static Altitude getMinAltitudeRight(TilePosition t, Map map) {
+        WalkPosition w = t.toPosition().toWalkPosition();
+        return new Altitude(Math.min(
+                map.GetMiniTile(w.add(new WalkPosition(3, 1)), CheckMode.NoCheck).Altitude().intValue(),
+                map.GetMiniTile(w.add(new WalkPosition(3, 2)), CheckMode.NoCheck).Altitude().intValue()
+        ));
     }
 
 }

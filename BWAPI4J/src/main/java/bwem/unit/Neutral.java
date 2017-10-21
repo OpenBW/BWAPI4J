@@ -5,7 +5,9 @@ Status: Incomplete
 package bwem.unit;
 
 import bwem.map.Map;
+import bwem.tile.Tile;
 import java.util.List;
+import java.util.Objects;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
@@ -43,7 +45,7 @@ public class Neutral {
         //TODO:
 //        if (u->getType() == Special_Right_Pit_Door) ++m_topLeft.x;
 
-
+        PutOnTiles();
     }
 
     //TODO:
@@ -136,4 +138,103 @@ public class Neutral {
         }
         m_blockedAreas = blockedAreas;
     }
+
+    public boolean isSameUnitTypeAs(Neutral neutral) {
+        return this.Unit().getClass().getName().equals(neutral.Unit().getClass().getName());
+    }
+
+    private void PutOnTiles() {
+//        bwem_assert(!m_pNextStacked);
+        if (!(m_pNextStacked == null)) {
+            throw new IllegalStateException();
+        }
+
+        for (int dy = 0; dy < Size().getY(); ++dy)
+        for (int dx = 0; dx < Size().getX(); ++dx) {
+            Tile tile = GetMap().GetTile_(TopLeft().add(new TilePosition(dx, dy)));
+            if (tile.GetNeutral() == null) {
+                tile.AddNeutral(this);
+            } else {
+                Neutral pTop = tile.GetNeutral().LastStacked();
+                if (!(!this.equals(tile.GetNeutral()))) {
+//                    bwem_assert(this != tile.GetNeutral());
+                    throw new IllegalStateException();
+                } else if (!(!this.equals(pTop))) {
+//                    bwem_assert(this != pTop);
+                    throw new IllegalStateException();
+                } else if (!(!(pTop instanceof Geyser))) {
+//                    bwem_assert(!pTop->IsGeyser());
+                    throw new IllegalStateException();
+                } else if (!pTop.isSameUnitTypeAs(this)) {
+//                    bwem_assert_plus(pTop->Type() == Type(), "stacked neutrals have different types: " + pTop->Type().getName() + " / " + Type().getName());
+                    throw new IllegalStateException("Stacked Neutral objects have different types: top=" + pTop.getClass().getName() + ", this=" + this.getClass().getName());
+                } else if (!(pTop.TopLeft().equals(TopLeft()))) {
+//                    bwem_assert_plus(pTop->TopLeft() == TopLeft(), "stacked neutrals not aligned: " + my_to_string(pTop->TopLeft()) + " / " + my_to_string(TopLeft()));
+                    throw new IllegalStateException("Stacked Neutral objects not aligned: top=" + pTop.toString() + ", this=" + TopLeft().toString());
+                } else if (!(dx == 0 && dy == 0)) {
+//                    bwem_assert((dx == 0) && (dy == 0));
+                    throw new IllegalStateException();
+                }
+                pTop.m_pNextStacked = this;
+                return;
+            }
+        }
+    }
+
+    private void RemoveFromTiles() {
+        for (int dy = 0; dy < Size().getY(); ++dy)
+        for (int dx = 0; dx < Size().getX(); ++dx) {
+            Tile tile = GetMap().GetTile_(TopLeft().add(new TilePosition(dx, dy)));
+//            bwem_assert(tile.GetNeutral());
+            if (!(tile.GetNeutral() != null)) {
+                throw new IllegalStateException();
+            }
+
+            if (tile.GetNeutral().equals(this)) {
+                tile.RemoveNeutral(this);
+                if (m_pNextStacked != null) {
+                    tile.AddNeutral(m_pNextStacked);
+                }
+            } else {
+                Neutral pPrevStacked = tile.GetNeutral();
+                while (!pPrevStacked.NextStacked().equals(this)) {
+                    pPrevStacked = pPrevStacked.NextStacked();
+                }
+                if (!(pPrevStacked.isSameUnitTypeAs(this))) {
+//                    bwem_assert(pPrevStacked->Type() == Type());
+                    throw new IllegalStateException();
+                } else if (!(pPrevStacked.TopLeft().equals(TopLeft()))) {
+//                    bwem_assert(pPrevStacked->TopLeft() == TopLeft());
+                    throw new IllegalStateException();
+                } else if (!(dx == 0 && dy == 0)) {
+//                    bwem_assert((dx == 0) && (dy == 0));
+                    throw new IllegalStateException();
+                }
+
+                pPrevStacked.m_pNextStacked = m_pNextStacked;
+                m_pNextStacked = null;
+                return;
+            }
+        }
+
+        m_pNextStacked = null;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        } else if (!(object instanceof Neutral)) {
+            throw new IllegalArgumentException("Object is not an instance of Neutral.");
+        } else {
+            Neutral that = (Neutral) object;
+            return (this.Unit().getId() == that.Unit().getId());
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.Unit().getId());
+    }
+
 }

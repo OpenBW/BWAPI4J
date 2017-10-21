@@ -46,7 +46,7 @@ public final class Altitude implements IWrappedInteger<Altitude>, Comparable<Alt
         if (this == object) {
             return true;
         } else if (!(object instanceof Altitude)) {
-            throw new IllegalArgumentException("object is not an instance of Altitude");
+            throw new IllegalArgumentException("Object is not an instance of Altitude");
         } else {
             Altitude that = (Altitude) object;
             return (this.val == that.val);

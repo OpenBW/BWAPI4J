@@ -5,6 +5,8 @@ Status: Incomplete
 package bwem.map;
 
 import bwem.Altitude;
+import bwem.CPPath;
+import bwem.Graph;
 import bwem.area.Area;
 import bwem.area.AreaId;
 import bwem.tile.MiniTile;
@@ -15,6 +17,7 @@ import bwem.unit.StaticBuilding;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.mutable.MutableBoolean;
+import org.apache.commons.lang3.mutable.MutableInt;
 import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
@@ -31,6 +34,7 @@ public final class MapImpl extends Map {
     private List<StaticBuilding> m_StaticBuildings;
     private List<TilePosition> m_StartingLocations;
     private List<Pair<Pair<AreaId, AreaId>, WalkPosition>> m_RawFrontier;
+    private Graph m_Graph;
 
     public MapImpl(BW bw) {
         super(bw);
@@ -61,6 +65,10 @@ public final class MapImpl extends Map {
         }
 
         throw new UnsupportedOperationException("TODO");
+    }
+
+    public Graph GetGraph() {
+        return m_Graph;
     }
 
     @Override
@@ -100,12 +108,12 @@ public final class MapImpl extends Map {
 
     @Override
     public int BaseCount() {
-        throw new UnsupportedOperationException("TODO");
+        return GetGraph().BaseCount();
     }
 
     @Override
     public int ChokePointCount() {
-        throw new UnsupportedOperationException("TODO");
+        return GetGraph().ChokePoints().size();
     }
 
     @Override
@@ -162,6 +170,12 @@ public final class MapImpl extends Map {
         throw new IllegalArgumentException("Unit is not a Mineral");
     }
 
+    public void OnMineralDestroyed(Mineral pMineral) {
+        for (Area area : GetGraph().Areas()) {
+            area.OnMineralDestroyed(pMineral);
+        }
+    }
+
     @Override
     public void OnStaticBuildingDestroyed(Unit u) {
         int i;
@@ -178,32 +192,43 @@ public final class MapImpl extends Map {
 
     @Override
     public List<Area> Areas() {
-        throw new UnsupportedOperationException("TODO");
+        return GetGraph().Areas();
     }
 
+    // Returns an Area given its id. Range = 1..Size()
     @Override
     public Area GetArea(AreaId id) {
-        throw new UnsupportedOperationException("TODO");
+        return m_Graph.GetArea(id);
     }
 
     @Override
     public Area GetArea(WalkPosition w) {
-        throw new UnsupportedOperationException("TODO");
+        return m_Graph.GetArea(w);
     }
 
     @Override
     public Area GetArea(TilePosition t) {
-        throw new UnsupportedOperationException("TODO");
+        return m_Graph.GetArea(t);
     }
 
     @Override
     public Area GetNearestArea(WalkPosition w) {
-        throw new UnsupportedOperationException("TODO");
+        return m_Graph.GetNearestArea(w);
     }
 
     @Override
     public Area GetNearestArea(TilePosition t) {
-        throw new UnsupportedOperationException("TODO");
+        return m_Graph.GetNearestArea(t);
+    }
+
+    @Override
+    public CPPath GetPath(Position a, Position b, MutableInt pLength) {
+        return m_Graph.GetPath(a, b, pLength);
+    }
+
+    @Override
+    public CPPath GetPath(Position a, Position b) {
+        return GetPath(a, b, null);
     }
 
 }

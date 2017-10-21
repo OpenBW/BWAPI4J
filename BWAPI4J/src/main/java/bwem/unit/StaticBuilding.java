@@ -1,6 +1,7 @@
 package bwem.unit;
 
 import bwem.map.Map;
+import java.util.Objects;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -22,6 +23,23 @@ public class StaticBuilding extends Neutral {
 //        bwem_assert(Type().isSpecialBuilding() ||
 //                    (Type() == Special_Pit_Door) ||
 //                    Type() == Special_Right_Pit_Door);
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        } else if (!(object instanceof StaticBuilding)) {
+            throw new IllegalArgumentException("Object is not an instance of StaticBuilding.");
+        } else {
+            StaticBuilding that = (StaticBuilding) object;
+            return (this.Unit().getId() == that.Unit().getId());
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.Unit().getId());
     }
 
 }

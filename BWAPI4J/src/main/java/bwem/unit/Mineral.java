@@ -5,6 +5,7 @@ Status: Incomplete
 package bwem.unit;
 
 import bwem.map.Map;
+import java.util.Objects;
 import org.openbw.bwapi4j.unit.MineralPatch;
 import org.openbw.bwapi4j.unit.Unit;
 
@@ -46,6 +47,23 @@ public final class Mineral extends Resource {
     public int Amount() {
         MineralPatch ret = (MineralPatch) super.Unit();
         return ret.getResources();
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        } else if (!(object instanceof Mineral)) {
+            throw new IllegalArgumentException("Object is not an instance of Mineral.");
+        } else {
+            Mineral that = (Mineral) object;
+            return (this.Unit().getId() == that.Unit().getId());
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.Unit().getId());
     }
 
 }

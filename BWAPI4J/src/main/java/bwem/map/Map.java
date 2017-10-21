@@ -5,7 +5,9 @@ Status: Incomplete
 package bwem.map;
 
 import bwem.Altitude;
+import bwem.CPPath;
 import bwem.CheckMode;
+import bwem.Pred;
 import bwem.area.Area;
 import bwem.area.AreaId;
 import bwem.tile.MiniTile;
@@ -13,9 +15,13 @@ import bwem.tile.Tile;
 import bwem.unit.Geyser;
 import bwem.unit.Mineral;
 import bwem.unit.StaticBuilding;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Random;
 import org.apache.commons.lang3.mutable.MutableBoolean;
+import org.apache.commons.lang3.mutable.MutableInt;
 import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
@@ -157,6 +163,21 @@ public abstract class Map {
         return GetMiniTile_(p, CheckMode.Check);
     }
 
+	// Returns a list of ChokePoints, which is intended to be the shortest walking path from 'a' to 'b'.
+	// Furthermore, if pLength != nullptr, the pointed integer is set to the corresponding length in pixels.
+	// If 'a' is not accessible from 'b', the empty Path is returned, and -1 is put in *pLength (if pLength != nullptr).
+	// If 'a' and 'b' are in the same Area, the empty Path is returned, and a.getApproxDistance(b) is put in *pLength (if pLength != nullptr).
+	// Otherwise, the function relies on ChokePoint::GetPathTo.
+	// Cf. ChokePoint::GetPathTo for more information.
+	// Note: in order to retrieve the Areas of 'a' and 'b', the function starts by calling
+	//       GetNearestArea(TilePosition(a)) and GetNearestArea(TilePosition(b)).
+	//       While this brings robustness, this could yield surprising results in the case where 'a' and/or 'b' are in the Water.
+	//       To avoid this and the potential performance penalty, just make sure GetArea(a) != nullptr and GetArea(b) != nullptr.
+	//       Then GetPath should perform very quick.
+    public abstract CPPath GetPath(Position a, Position b, MutableInt pLength);
+
+    public abstract CPPath GetPath(Position a, Position b);
+
     // Provides access to the internal array of Tiles.
     public abstract List<Tile> Tiles();
 
@@ -267,6 +288,96 @@ public abstract class Map {
 	// Note: Uses a breadth first search.
     public abstract Area GetNearestArea(TilePosition t);
 
+    public TilePosition BreadthFirstSearch(TilePosition start, Pred findCond, Pred visitCond, boolean connect8) {
+        if (findCond.is(GetTile(start), start, this)) {
+            return start;
+        }
 
+        List<TilePosition> Visited = new ArrayList<>();
+        Queue<TilePosition> ToVisit = new LinkedList<>();
+
+        ToVisit.add(start);
+        Visited.add(start);
+
+        TilePosition[] dir8 = {
+            new TilePosition(-1, -1), new TilePosition(0, -1), new TilePosition(1, -1),
+            new TilePosition(-1,  0),                          new TilePosition(1,  0),
+            new TilePosition(-1,  1), new TilePosition(0,  1), new TilePosition(1,  1)
+        };
+        TilePosition[] dir4 = { new TilePosition(0, -1), new TilePosition(-1, 0), new TilePosition(1, 0), new TilePosition(0, 1)};
+        TilePosition[] directions = connect8 ? dir8 : dir4;
+
+        while (!ToVisit.isEmpty()) {
+            TilePosition current = ToVisit.remove();
+            for (TilePosition delta : directions) {
+                TilePosition next = current.add(delta);
+                if (Valid(next)) {
+                    Tile nextTile = GetTile(next, CheckMode.NoCheck);
+                    if (findCond.is(nextTile, next, this)) {
+                        return next;
+                    }
+                    if (visitCond.is(nextTile, next, this) && !Visited.contains(next)) {
+                        ToVisit.add(next);
+                        Visited.add(next);
+                    }
+                }
+            }
+        }
+
+        //TODO: ???
+//        bwem_assert(false);
+
+        return start;
+    }
+
+    public TilePosition BreadthFirstSearch(TilePosition start, Pred findCond, Pred visitCond) {
+        return BreadthFirstSearch(start, findCond, visitCond, true);
+    }
+
+    public WalkPosition BreadthFirstSearch(WalkPosition start, Pred findCond, Pred visitCond, boolean connect8) {
+        if (findCond.is(GetMiniTile(start), start, this)) {
+            return start;
+        }
+
+        List<WalkPosition> Visited = new ArrayList<>();
+        Queue<WalkPosition> ToVisit = new LinkedList<>();
+
+        ToVisit.add(start);
+        Visited.add(start);
+
+        WalkPosition[] dir8 = {
+            new WalkPosition(-1, -1), new WalkPosition(0, -1), new WalkPosition(1, -1),
+            new WalkPosition(-1,  0),                          new WalkPosition(1,  0),
+            new WalkPosition(-1,  1), new WalkPosition(0,  1), new WalkPosition(1,  1)
+        };
+        WalkPosition[] dir4 = { new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(1, 0), new WalkPosition(0, 1)};
+        WalkPosition[] directions = connect8 ? dir8 : dir4;
+
+        while (!ToVisit.isEmpty()) {
+            WalkPosition current = ToVisit.remove();
+            for (WalkPosition delta : directions) {
+                WalkPosition next = current.add(delta);
+                if (Valid(next)) {
+                    MiniTile Next = GetMiniTile(next, CheckMode.NoCheck);
+                    if (findCond.is(Next, next, this)) {
+                        return next;
+                    }
+                    if (visitCond.is(Next, next, this) && !Visited.contains(next)) {
+                        ToVisit.add(next);
+                        Visited.add(next);
+                    }
+                }
+            }
+        }
+
+        //TODO: ???
+//        bwem_assert(false);
+
+        return start;
+    }
+
+    public WalkPosition BreadthFirstSearch(WalkPosition start, Pred findCond, Pred visitCond) {
+        return BreadthFirstSearch(start, findCond, visitCond, true);
+    }
 
 }

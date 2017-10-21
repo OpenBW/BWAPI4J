@@ -1,6 +1,7 @@
 package bwem.unit;
 
 import bwem.map.Map;
+import java.util.Objects;
 import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.unit.VespeneGeyser;
 
@@ -35,6 +36,23 @@ public final class Geyser extends Resource {
     public int Amount() {
         VespeneGeyser ret = (VespeneGeyser) super.Unit();
         return ret.getResources();
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        } else if (!(object instanceof Geyser)) {
+            throw new IllegalArgumentException("Object is not an instance of Geyser.");
+        } else {
+            Geyser that = (Geyser) object;
+            return (this.Unit().getId() == that.Unit().getId());
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.Unit().getId());
     }
 
 }
