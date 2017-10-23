@@ -7,6 +7,9 @@ package bwem.util;
 import bwem.Altitude;
 import bwem.CheckMode;
 import bwem.map.Map;
+import bwem.map.MapImpl;
+import java.util.ArrayList;
+import java.util.List;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
@@ -36,7 +39,7 @@ public final class BwemExt {
         throw new InstantiationException();
     }
 
-    public boolean seaSide(WalkPosition p, Map pMap) {
+    public static boolean seaSide(WalkPosition p, Map pMap) {
         if (!pMap.GetMiniTile(p).Sea()) {
             return false;
         }
@@ -79,6 +82,11 @@ public final class BwemExt {
 
     public static double dist(Position A, Position B) {
         Position ret = A.subtract(B);
+        return Utils.norm(ret.getX(), ret.getY());
+    }
+
+    public static double dist(TilePosition A, TilePosition B) {
+        TilePosition ret = A.subtract(B);
         return Utils.norm(ret.getX(), ret.getY());
     }
 
@@ -153,6 +161,99 @@ public final class BwemExt {
         else if (A.getY() > BottomRight.getY())	A = new TilePosition(A.getX(), BottomRight.getY());
 
         return ret;
+    }
+
+    public static List<TilePosition> innerBorder(TilePosition TopLeft, TilePosition Size, boolean noCorner) {
+        List<TilePosition> Border = new ArrayList<>();
+        for (int dy = 0; dy < Size.getY(); ++dy)
+        for (int dx = 0; dx < Size.getY(); ++dx) {
+            if ((dy == 0) || (dy == Size.getY() - 1) ||
+                (dx == 0) || (dx == Size.getX() - 1)) {
+                if (!noCorner ||
+                    !(((dx == 0) && (dy == 0)) || ((dx == Size.getX() - 1) && (dy == Size.getY() - 1)) ||
+                      ((dx == 0) && (dy == Size.getY() - 1)) || ((dx == Size.getX() - 1) && (dy == 0)))) {
+                    Border.add(TopLeft.add(new TilePosition(dx, dy)));
+                }
+            }
+        }
+
+        return Border;
+    }
+
+    public static List<TilePosition> innerBorder(TilePosition TopLeft, TilePosition Size) {
+        return innerBorder(TopLeft, Size, false);
+    }
+
+    public static List<WalkPosition> innerBorder(WalkPosition TopLeft, WalkPosition Size, boolean noCorner) {
+        List<WalkPosition> Border = new ArrayList<>();
+        for (int dy = 0; dy < Size.getY(); ++dy)
+        for (int dx = 0; dx < Size.getY(); ++dx) {
+            if ((dy == 0) || (dy == Size.getY() - 1) ||
+                (dx == 0) || (dx == Size.getX() - 1)) {
+                if (!noCorner ||
+                    !(((dx == 0) && (dy == 0)) || ((dx == Size.getX() - 1) && (dy == Size.getY() - 1)) ||
+                      ((dx == 0) && (dy == Size.getY() - 1)) || ((dx == Size.getX() - 1) && (dy == 0)))) {
+                    Border.add(TopLeft.add(new WalkPosition(dx, dy)));
+                }
+            }
+        }
+
+        return Border;
+    }
+
+    public static List<WalkPosition> innerBorder(WalkPosition TopLeft, WalkPosition Size) {
+        return innerBorder(TopLeft, Size, false);
+    }
+
+    public static List<TilePosition> outerBorder(TilePosition TopLeft, TilePosition Size, boolean noCorner) {
+        return innerBorder(TopLeft.subtract(new TilePosition(1, 1)), Size.add(new TilePosition(2, 2)), noCorner);
+    }
+
+    public static List<TilePosition> outerBorder(TilePosition TopLeft, TilePosition Size) {
+        return outerBorder(TopLeft, Size, false);
+    }
+
+    public static List<WalkPosition> outerBorder(WalkPosition TopLeft, WalkPosition Size, boolean noCorner) {
+        return innerBorder(TopLeft.subtract(new WalkPosition(1, 1)), Size.add(new WalkPosition(2, 2)), noCorner);
+    }
+
+    public static List<WalkPosition> outerBorder(WalkPosition TopLeft, WalkPosition Size) {
+        return outerBorder(TopLeft, Size, false);
+    }
+
+    public static List<WalkPosition> outerMiniTileBorder(TilePosition TopLeft, TilePosition Size, boolean noCorner) {
+        return outerBorder(TopLeft.toPosition().toWalkPosition(), Size.toPosition().toWalkPosition(), noCorner);
+    }
+
+    public static List<WalkPosition> outerMiniTileBorder(TilePosition TopLeft, TilePosition Size) {
+        return outerMiniTileBorder(TopLeft, Size, false);
+    }
+
+    public static List<WalkPosition> innerMiniTileBorder(TilePosition TopLeft, TilePosition Size, boolean noCorner) {
+        return innerBorder(TopLeft.toPosition().toWalkPosition(), Size.toPosition().toWalkPosition(), noCorner);
+    }
+
+    public static List<WalkPosition> innerMiniTileBorder(TilePosition TopLeft, TilePosition Size) {
+        return innerMiniTileBorder(TopLeft, Size, false);
+    }
+
+    public static boolean adjoins8SomeLakeOrNeutral(WalkPosition p, MapImpl pMap) {
+        WalkPosition[] deltas = {new WalkPosition(-1, -1), new WalkPosition(0, -1), new WalkPosition(+1, -1),
+                                 new WalkPosition(-1,  0),                          new WalkPosition(+1,  0),
+                                 new WalkPosition(-1, +1), new WalkPosition(0, +1), new WalkPosition(+1, +1)};
+        for (WalkPosition delta : deltas) {
+            WalkPosition next = p.add(delta);
+            if (pMap.Valid(next)) {
+                if (pMap.GetTile(next.toPosition().toTilePosition(), CheckMode.NoCheck).GetNeutral() != null) {
+                    return true;
+                }
+                if (pMap.GetMiniTile(next, CheckMode.NoCheck).Lake()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     public static Altitude getMinAltitudeTop(TilePosition t, Map map) {

@@ -7,7 +7,7 @@ public final class PairGenericAltitudeComparator<T> implements Comparator<Pair<T
 
     public enum Order { ASCENDING, DESCENDING }
 
-    private Order order;
+    private final Order order;
 
     public PairGenericAltitudeComparator() {
         this.order = Order.ASCENDING;
@@ -27,7 +27,7 @@ public final class PairGenericAltitudeComparator<T> implements Comparator<Pair<T
             case DESCENDING:
                 return (a1 < a2) ? 1 : (a1 > a2) ? -1 : 0;
             default:
-                throw new UnsupportedOperationException("ordering algorithm not yet supported: " + this.order.toString());
+                throw new UnsupportedOperationException("Ordering algorithm not yet supported: " + this.order.toString());
         }
     }
 

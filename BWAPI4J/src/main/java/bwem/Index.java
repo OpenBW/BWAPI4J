@@ -46,7 +46,7 @@ public final class Index implements IWrappedInteger<Index>, Comparable<Index> {
         if (this == object) {
             return true;
         } else if (!(object instanceof Index)) {
-            throw new IllegalArgumentException("object is not an instance of Index");
+            throw new IllegalArgumentException("Object is not an instance of Index");
         } else {
             Index that = (Index) object;
             return (this.val == that.val);

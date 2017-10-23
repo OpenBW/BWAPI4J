@@ -12,6 +12,7 @@ import org.apache.commons.lang3.mutable.MutableInt;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
+import org.openbw.bwapi4j.util.Pair;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -264,18 +265,14 @@ public class Graph {
         return m_baseCount;
     }
 
-//	// Creates a new Area for each pair (top, miniTiles) in AreasList (See Area::Top() and Area::MiniTiles())
-//	void								CreateAreas(const vector<pair<BWAPI::WalkPosition, int>> & AreasList);
-//    void Graph::CreateAreas(const vector<pair<WalkPosition, int>> & AreasList)
-//    {
-//        m_Areas.reserve(AreasList.size());
-//        for (Area::id id = 1 ; id <= (Area::id)AreasList.size() ; ++id)
-//        {
-//            WalkPosition top = AreasList[id-1].first;
-//            int miniTiles = AreasList[id-1].second;
-//            m_Areas.emplace_back(this, id, top, miniTiles);
-//        }
-//    }
+	// Creates a new Area for each pair (top, miniTiles) in AreasList (See Area::Top() and Area::MiniTiles())
+    public void CreateAreas(List<Pair<WalkPosition, Integer>> AreasList) {
+        for (AreaId id = new AreaId(1); id.intValue() <= AreasList.size(); id = new AreaId(id.intValue() + 1)) {
+            WalkPosition top = AreasList.get(id.intValue() - 1).first;
+            int miniTiles = AreasList.get(id.intValue() - 1).second;
+            m_Areas.add(new Area(this, id, top, miniTiles));
+        }
+    }
 
 //
 //	// Creates a new Area for each pair (top, miniTiles) in AreasList (See Area::Top() and Area::MiniTiles())

@@ -15,7 +15,7 @@ public class TempAreaInfo {
     private boolean m_valid;
     private final AreaId m_id;
     private final WalkPosition m_top;
-    private Altitude m_highestAltitude;
+    private final Altitude m_highestAltitude;
     private int m_size;
 
     public TempAreaInfo() {
