@@ -33,7 +33,7 @@ void BridgeEnum::initialize() {
 void BridgeEnum::createUpgradeTypeEnum() {
 
 	// read static data: UpgradeType
-	printf("reading upgrade types...\n");
+	std::cout << "reading upgrade types..." << std::endl;
 	for (UpgradeType upgradeType : UpgradeTypes::allUpgradeTypes()) {
 
 		if (upgradeType.getName().empty()) {
@@ -60,6 +60,7 @@ void BridgeEnum::createUpgradeTypeEnum() {
 			upgradeTimes[i] = upgradeType.upgradeTime(i + 1);
 			whatsRequired[i] = globalEnv->GetStaticObjectField(unitTypeClass, globalEnv->GetStaticFieldID(unitTypeClass, upgradeType.whatsRequired(i + 1).getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;"));
 		}
+
 		jintArray gasPricesArray = globalEnv->NewIntArray(upgradeType.maxRepeats());
 		globalEnv->SetIntArrayRegion(gasPricesArray, 0, upgradeType.maxRepeats(), gasPrices);
 		globalEnv->SetObjectField(CurrentUpgradeType, globalEnv->GetFieldID(upgradeTypeClass, "gasPrices", "[I"), gasPricesArray);
@@ -86,8 +87,7 @@ void BridgeEnum::createUpgradeTypeEnum() {
 		globalEnv->SetObjectField(CurrentUpgradeType, globalEnv->GetFieldID(upgradeTypeClass, "whatUpgrades", "Lorg/openbw/bwapi4j/type/UnitType;"), whatUpgrades);
 
 	}
-	printf("done.\n");
-
+	std::cout << "done." << std::endl;
 }
 
 void BridgeEnum::createTechTypeEnum() {

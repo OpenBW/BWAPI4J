@@ -252,6 +252,15 @@
     <ClInclude Include="..\..\OpenBWAPI4JBridge\BWTA.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\OpenBWAPI4JBridge\So.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\OpenBWAPI4JBridge\BridgeEnum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\OpenBWAPI4JBridge\BridgeMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -273,6 +282,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\OpenBWAPI4JBridge\DamageEvaluator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\OpenBWAPI4JBridge\BWTA.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\OpenBWAPI4JBridge\BridgeEnum.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\OpenBWAPI4JBridge\BridgeMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
