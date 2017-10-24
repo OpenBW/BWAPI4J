@@ -70,6 +70,11 @@ public final class BwemExt {
         return ret;
     }
 
+    public static int queenWiseDist(TilePosition A, TilePosition B) {
+        TilePosition ret = A.subtract(B);
+        return Utils.queenWiseNorm(ret.getX(), ret.getY());
+    }
+
     public static int queenWiseDist(Position A, Position B) {
         Position ret = A.subtract(B);
         return Utils.queenWiseNorm(ret.getX(), ret.getY());

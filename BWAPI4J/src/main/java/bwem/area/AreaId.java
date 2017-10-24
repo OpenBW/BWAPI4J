@@ -26,8 +26,18 @@ public final class AreaId implements IWrappedInteger<AreaId>, Comparable<AreaId>
     }
 
     @Override
+    public AreaId add(int val) {
+        return new AreaId(this.val + val);
+    }
+
+    @Override
     public AreaId subtract(AreaId that) {
-        return new AreaId(this.val + that.val);
+        return new AreaId(this.val - that.val);
+    }
+
+    @Override
+    public AreaId subtract(int val) {
+        return new AreaId(this.val - val);
     }
 
     @Override
@@ -58,5 +68,5 @@ public final class AreaId implements IWrappedInteger<AreaId>, Comparable<AreaId>
     public int hashCode() {
         return Objects.hash(this.val);
     }
-    
+
 }

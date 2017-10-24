@@ -22,11 +22,9 @@ import bwem.unit.StaticBuilding;
 import bwem.util.BwemExt;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
-import org.apache.commons.collections4.MapIterator;
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import org.apache.commons.lang3.mutable.MutableInt;
@@ -491,7 +489,7 @@ public class Area extends Markable<Area> {
         return true;
     }
 
-    private List<Integer> ComputeDistances(ChokePoint pStartCP, List<ChokePoint> TargetCPs) {
+    public List<Integer> ComputeDistances(ChokePoint pStartCP, List<ChokePoint> TargetCPs) {
 //        bwem_assert(!contains(TargetCPs, pStartCP));
         if (!(!TargetCPs.contains(pStartCP))) {
             throw new IllegalStateException();
@@ -630,8 +628,7 @@ public class Area extends Markable<Area> {
             }
         }
 
-        throw new UnsupportedOperationException("TODO");
-//        return Distances;
+        return Distances;
     }
 
     @Override

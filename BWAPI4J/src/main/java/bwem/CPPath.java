@@ -26,6 +26,14 @@ public class CPPath implements Iterable<ChokePoint> {
         this.chokepoints.add(chokepoint);
     }
 
+    public void add(int index, ChokePoint chokepoint) {
+        this.chokepoints.add(index, chokepoint);
+    }
+
+    public void clear() {
+        this.chokepoints.clear();
+    }
+
     private class CPPathIterator implements Iterator<ChokePoint> {
 
         private int cursor = 0;

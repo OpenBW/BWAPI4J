@@ -6,6 +6,7 @@ import bwem.tile.MiniTile;
 import bwem.unit.Neutral;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.util.Pair;
@@ -302,12 +303,11 @@ public class ChokePoint extends Markable<ChokePoint> {
             throw new IllegalStateException("failed assert: pBlocking != null && pBlocking.Blocking()");
         }
 
-        if (m_pBlockingNeutral == pBlocking)
-        {
+        if (m_pBlockingNeutral == pBlocking) {
             // Ensures that in the case where several neutrals are stacked, m_pBlockingNeutral points to the bottom one:
             m_pBlockingNeutral = GetMap().GetTile(m_pBlockingNeutral.TopLeft()).GetNeutral();
 
-            if (m_pBlockingNeutral != null) {
+            if (m_pBlockingNeutral == null) {
                 if (GetGraph().GetMap().AutomaticPathUpdate().booleanValue()) {
                     m_blocked = false;
                 }
@@ -330,6 +330,25 @@ public class ChokePoint extends Markable<ChokePoint> {
 
     private Graph GetGraph() {
         return m_pGraph;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        } else if (!(object instanceof ChokePoint)) {
+            throw new IllegalArgumentException("Object is not an instance of ChokePoint");
+        } else {
+            ChokePoint that = (ChokePoint) object;
+            return (this.Index().intValue() == that.Index().intValue()
+                    && this.m_blocked == that.m_blocked
+                    && this.userData.Data().intValue() == that.userData.Data().intValue());
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.Index().intValue(), this.m_blocked, this.userData.Data().intValue());
     }
 
 }

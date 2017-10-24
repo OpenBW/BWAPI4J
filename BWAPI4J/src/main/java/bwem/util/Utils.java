@@ -4,9 +4,6 @@ Status: Incomplete
 
 package bwem.util;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Queue;
 import org.apache.commons.lang3.mutable.MutableDouble;
 
 public final class Utils {

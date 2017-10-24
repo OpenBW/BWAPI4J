@@ -4,8 +4,10 @@ Status: Incomplete
 
 package bwem.unit;
 
+import bwem.area.Area;
 import bwem.map.Map;
 import bwem.tile.Tile;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import org.openbw.bwapi4j.Position;
@@ -104,16 +106,15 @@ public class Neutral {
         return !m_blockedAreas.isEmpty();
     }
 
-    //TODO
-//	// If Blocking() == true, returns the set of Areas blocked by this Neutral.
-//    vector<const Area *> Neutral::BlockedAreas() const
-//    {
-//        vector<const Area *> Result;
-//        for (WalkPosition w : m_blockedAreas)
-//            Result.push_back(GetMap()->GetArea(w));
-//
-//        return Result;
-//    }
+	// If Blocking() == true, returns the set of Areas blocked by this Neutral.
+    public List<Area> BlockedAreas() {
+        List<Area> Result = new ArrayList<>();
+        for (WalkPosition w : m_blockedAreas) {
+            Result.add(GetMap().GetArea(w));
+        }
+
+        return Result;
+    }
 
 	// Returns the next Neutral stacked over this Neutral, if ever.
 	// To iterate through the whole stack, one can use the following:

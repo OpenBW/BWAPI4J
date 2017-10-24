@@ -26,8 +26,18 @@ public final class GroupId implements IWrappedInteger<GroupId>, Comparable<Group
     }
 
     @Override
+    public GroupId add(int val) {
+        return new GroupId(this.val + val);
+    }
+
+    @Override
     public GroupId subtract(GroupId that) {
         return new GroupId(this.val - that.val);
+    }
+
+    @Override
+    public GroupId subtract(int val) {
+        return new GroupId(this.val - val);
     }
 
     @Override
@@ -58,5 +68,5 @@ public final class GroupId implements IWrappedInteger<GroupId>, Comparable<Group
     public int hashCode() {
         return Objects.hash(this.val);
     }
-    
+
 }

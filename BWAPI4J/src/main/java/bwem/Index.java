@@ -24,9 +24,20 @@ public final class Index implements IWrappedInteger<Index>, Comparable<Index> {
         return new Index(this.val + that.val);
     }
 
+
+    @Override
+    public Index add(int val) {
+        return new Index(this.val + val);
+    }
+
     @Override
     public Index subtract(Index that) {
         return new Index(this.val - that.val);
+    }
+
+    @Override
+    public Index subtract(int val) {
+        return new Index(this.val - val);
     }
 
     @Override

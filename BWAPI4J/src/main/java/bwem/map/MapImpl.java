@@ -5,8 +5,10 @@ Status: Incomplete
 package bwem.map;
 
 import bwem.Altitude;
+import bwem.Base;
 import bwem.CPPath;
 import bwem.CheckMode;
+import bwem.ChokePoint;
 import bwem.Graph;
 import bwem.PairGenericAltitudeComparator;
 import bwem.area.Area;
@@ -150,7 +152,28 @@ public final class MapImpl extends Map {
 
     @Override
     public boolean FindBasesForStartingLocations() {
-        throw new UnsupportedOperationException("TODO");
+        boolean atLeastOneFailed = false;
+        for (TilePosition location : StartingLocations()) {
+            boolean found = false;
+            for (Area area : GetGraph().Areas()) {
+                if (!found) {
+                    for (Base base : area.Bases()) {
+                        if (!found) {
+                            if (BwemExt.queenWiseDist(base.Location(), location) <= BwemExt.max_tiles_between_StartingLocation_and_its_AssignedBase) {
+                                base.SetStartingLocation(location);
+                                found = true;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!found) {
+                atLeastOneFailed = true;
+            }
+        }
+
+        return !atLeastOneFailed;
     }
 
     @Override
@@ -235,6 +258,44 @@ public final class MapImpl extends Map {
         }
 //        bwem_assert(iStaticBuilding != m_StaticBuildings.end());
         throw new IllegalArgumentException("Unit is not a StaticBuilding");
+    }
+
+    public void OnBlockingNeutralDestroyed(Neutral pBlocking) {
+//        bwem_assert(pBlocking && pBlocking->Blocking());
+        if (!(pBlocking != null && pBlocking.Blocking())) {
+            throw new IllegalArgumentException();
+        }
+
+        for (Area pArea : pBlocking.BlockedAreas()) {
+            for (ChokePoint cp : pArea.ChokePoints()) {
+                cp.OnBlockingNeutralDestroyed(pBlocking);
+            }
+        }
+
+        if (GetTile(pBlocking.TopLeft()).GetNeutral() != null) { // there remains some blocking Neutrals at the same location
+            return;
+        }
+
+        // Unblock the miniTiles of pBlocking:
+        AreaId newId = pBlocking.BlockedAreas().get(0).Id();
+        for (int dy = 0; dy < new WalkPosition(pBlocking.Size()).getY(); ++dy)
+        for (int dx = 0; dx < new WalkPosition(pBlocking.Size()).getX(); ++dx) {
+            MiniTile miniTile = GetMiniTile_(pBlocking.TopLeft().toPosition().toWalkPosition().add(new WalkPosition(dx, dy)));
+            if (miniTile.Walkable()) {
+                miniTile.ReplaceBlockedAreaId(newId);
+            }
+        }
+
+        // Unblock the Tiles of pBlocking:
+        for (int dy = 0; dy < pBlocking.Size().getY(); ++dy)
+        for (int dx = 0; dx < pBlocking.Size().getX(); ++dx) {
+            GetTile_(pBlocking.TopLeft().add(new TilePosition(dx, dy))).ResetAreaId();
+            SetAreaIdInTile(pBlocking.TopLeft().add(new TilePosition(dx, dy)));
+        }
+
+        if (AutomaticPathUpdate().booleanValue()) {
+            GetGraph().ComputeChokePointDistanceMatrix();
+        }
     }
 
     @Override
@@ -332,8 +393,7 @@ public final class MapImpl extends Map {
                 SeaExtent.add(Origin);
     			WalkPosition topLeft = origin;
     			WalkPosition bottomRight = origin;
-    			while (!ToSearch.isEmpty())
-    			{
+    			while (!ToSearch.isEmpty()) {
     				WalkPosition current = ToSearch.get(ToSearch.size() - 1);
     				if (current.getX() < topLeft.getX()) topLeft = new WalkPosition(current.getX(), topLeft.getY());
     				if (current.getY() < topLeft.getY()) topLeft = new WalkPosition(topLeft.getX(), current.getY());
@@ -407,7 +467,7 @@ public final class MapImpl extends Map {
         List<Pair<WalkPosition, Altitude>> DeltasByAscendingAltitude = new ArrayList<>();
 
         for (int dy = 0 ; dy <= range ; ++dy)
-        for (int dx = dy ; dx <= range ; ++dx) { // Only consider 1/8 of possible deltas. Other ones obtained by symmetry.
+        for (int dx = dy; dx <= range; ++dx) { // Only consider 1/8 of possible deltas. Other ones obtained by symmetry.
             if (dx != 0 || dy != 0) {
                 DeltasByAscendingAltitude.add(new Pair<>(new WalkPosition(dx, dy), new Altitude((int) (Double.valueOf("0.5") + (Utils.norm(dx, dy) * (double) altitude_scale)))));
             }
