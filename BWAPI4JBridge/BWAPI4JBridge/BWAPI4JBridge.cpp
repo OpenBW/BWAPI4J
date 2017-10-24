@@ -10,6 +10,9 @@
 #include <stdio.h>
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include "So.h"
+#include "BridgeEnum.h"
+#include "BridgeMap.h"
 #include "org_openbw_bwapi4j_BW.h"
 
 using namespace BWAPI;
@@ -22,6 +25,74 @@ bool finished = false;
 // conversion ratios
 double TO_DEGREES = 180.0 / M_PI;
 double fixedScale = 100.0;
+
+JNIEnv * globalEnv;
+jobject globalBW;
+
+jclass arrayListClass;
+jmethodID arrayListAdd;
+
+jclass integerClass;
+jmethodID integerNew;
+
+jclass tilePositionClass;
+jmethodID tilePositionNew;
+
+jclass weaponTypeClass;
+jclass techTypeClass;
+jclass unitTypeClass;
+jclass upgradeTypeClass;
+jclass damageTypeClass;
+jclass explosionTypeClass;
+jclass raceClass;
+jclass unitSizeTypeClass;
+jclass orderClass;
+
+jclass pairClass;
+jmethodID pairNew;
+
+jclass bwMapClass;
+jmethodID bwMapNew;
+
+jmethodID addRequiredUnit;
+
+/*
+* Finds and stores references to Java classes and methods globally.
+*/
+void initializeJavaReferences(JNIEnv *env, jobject caller) {
+
+	std::cout << "initializing Java references..." << std::endl;
+	arrayListClass = env->FindClass("java/util/ArrayList");
+	arrayListAdd = env->GetMethodID(arrayListClass, "add",
+		"(Ljava/lang/Object;)Z");
+
+	integerClass = env->FindClass("java/lang/Integer");
+	integerNew = env->GetMethodID(integerClass, "<init>", "(I)V");
+
+	tilePositionClass = env->FindClass("org/openbw/bwapi4j/TilePosition");
+	tilePositionNew = env->GetMethodID(tilePositionClass, "<init>", "(II)V");
+
+	weaponTypeClass = env->FindClass("org/openbw/bwapi4j/type/WeaponType");
+	techTypeClass = env->FindClass("org/openbw/bwapi4j/type/TechType");
+	unitTypeClass = env->FindClass("org/openbw/bwapi4j/type/UnitType");
+	upgradeTypeClass = env->FindClass("org/openbw/bwapi4j/type/UpgradeType");
+	damageTypeClass = env->FindClass("org/openbw/bwapi4j/type/DamageType");
+	explosionTypeClass = env->FindClass(
+		"org/openbw/bwapi4j/type/ExplosionType");
+	raceClass = env->FindClass("org/openbw/bwapi4j/type/Race");
+	unitSizeTypeClass = env->FindClass("org/openbw/bwapi4j/type/UnitSizeType");
+	orderClass = env->FindClass("org/openbw/bwapi4j/type/Order");
+	pairClass = env->FindClass("org/openbw/bwapi4j/util/Pair");
+	pairNew = env->GetMethodID(pairClass, "<init>",
+		"(Ljava/lang/Object;Ljava/lang/Object;)V");
+
+	bwMapClass = env->FindClass("org/openbw/bwapi4j/BWMap");
+
+	addRequiredUnit = env->GetMethodID(unitTypeClass, "addRequiredUnit",
+		"(II)V");
+
+	std::cout << "done." << std::endl;
+}
 
 void reconnect() {
 	while (!BWAPIClient.connect()) {
@@ -50,13 +121,21 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_mainThread(JNIEnv *, jobject) 
 	// do nothing
 }
 
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobject bwObject, jobject classref) {
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobject bwObject, jobject bw) {
+
+	globalEnv = env;
+	globalBW = bw;
 
 	env->EnsureLocalCapacity(512);
-	jclass jc = env->GetObjectClass(classref);
+	jclass jc = env->GetObjectClass(bw);
 
 	// allocate "shared memory"
 	intBuf = new jint[bufferSize];
+
+	initializeJavaReferences(env, bwObject);
+
+	BridgeEnum *bridgeEnum = new BridgeEnum();
+	BridgeMap *bridgeMap = new BridgeMap();
 
 	println("Connecting to Broodwar...");
 	reconnect();
@@ -74,438 +153,14 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 		}
 		std::cout << "Client version: " << Broodwar->getClientVersion() << std::endl;;
 
-		jclass arrayListClass = env->FindClass("java/util/ArrayList");
-		jmethodID arrayListAdd = env->GetMethodID(arrayListClass, "add", "(Ljava/lang/Object;)Z");
-
-		jclass integerClass = env->FindClass("java/lang/Integer");
-		jmethodID integerNew = env->GetMethodID(integerClass, "<init>", "(I)V");
-
-		jclass tilePositionClass = env->FindClass("org/openbw/bwapi4j/TilePosition");
-		jmethodID tilePositionNew = env->GetMethodID(tilePositionClass, "<init>", "(II)V");
-
-		jclass weaponTypeClass = env->FindClass("org/openbw/bwapi4j/type/WeaponType");
-		jclass techTypeClass = env->FindClass("org/openbw/bwapi4j/type/TechType");
-		jclass unitTypeClass = env->FindClass("org/openbw/bwapi4j/type/UnitType");
-		jclass upgradeTypeClass = env->FindClass("org/openbw/bwapi4j/type/UpgradeType");
-		jclass damageTypeClass = env->FindClass("org/openbw/bwapi4j/type/DamageType");
-		jclass explosionTypeClass = env->FindClass("org/openbw/bwapi4j/type/ExplosionType");
-		jclass raceClass = env->FindClass("org/openbw/bwapi4j/type/Race");
-		jclass unitSizeTypeClass = env->FindClass("org/openbw/bwapi4j/type/UnitSizeType");
-		jclass orderClass = env->FindClass("org/openbw/bwapi4j/type/Order");
-		jclass pairClass = env->FindClass("org/openbw/bwapi4j/util/Pair");
-		jmethodID pairNew = env->GetMethodID(pairClass, "<init>", "(Ljava/lang/Object;Ljava/lang/Object;)V");
-
-		jclass bwMapClass = env->FindClass("org/openbw/bwapi4j/BWMap");
-		
-		jmethodID addRequiredUnit = env->GetMethodID(unitTypeClass, "addRequiredUnit", "(II)V");
-
-		// read static data: UpgradeType
-		println("reading upgrade types...");
-		for (UpgradeType upgradeType : UpgradeTypes::allUpgradeTypes()) {
-
-			if (upgradeType.getName().empty()) {
-				return;
-			}
-			jfieldID upgradeTypeField = env->GetStaticFieldID(upgradeTypeClass, upgradeType.getName().c_str(), "Lorg/openbw/bwapi4j/type/UpgradeType;");
-			jobject CurrentUpgradeType = env->GetStaticObjectField(upgradeTypeClass, upgradeTypeField);
-
-			// set int fields
-			env->SetIntField(CurrentUpgradeType, env->GetFieldID(upgradeTypeClass, "id", "I"), upgradeType.getID());
-			env->SetIntField(CurrentUpgradeType, env->GetFieldID(upgradeTypeClass, "mineralPriceFactor", "I"), upgradeType.mineralPriceFactor());
-			env->SetIntField(CurrentUpgradeType, env->GetFieldID(upgradeTypeClass, "gasPriceFactor", "I"), upgradeType.gasPriceFactor());
-			env->SetIntField(CurrentUpgradeType, env->GetFieldID(upgradeTypeClass, "upgradeTimeFactor", "I"), upgradeType.upgradeTimeFactor());
-			env->SetIntField(CurrentUpgradeType, env->GetFieldID(upgradeTypeClass, "maxRepeats", "I"), upgradeType.maxRepeats());
-			//set int[] fields
-			jint *gasPrices = new jint[upgradeType.maxRepeats()];
-			jint *mineralPrices = new jint[upgradeType.maxRepeats()];
-			jint *upgradeTimes = new jint[upgradeType.maxRepeats()];
-			jobject *whatsRequired = new jobject[upgradeType.maxRepeats()];
-
-			for (int i = 0; i < upgradeType.maxRepeats(); i++) {
-				gasPrices[i] = upgradeType.gasPrice(i + 1);
-				mineralPrices[i] = upgradeType.mineralPrice(i + 1);
-				upgradeTimes[i] = upgradeType.upgradeTime(i + 1);
-				whatsRequired[i] = env->GetStaticObjectField(unitTypeClass, env->GetStaticFieldID(unitTypeClass, upgradeType.whatsRequired(i + 1).getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;"));
-			}
-			jintArray gasPricesArray = env->NewIntArray(upgradeType.maxRepeats());
-			env->SetIntArrayRegion(gasPricesArray, 0, upgradeType.maxRepeats(), gasPrices);
-			env->SetObjectField(CurrentUpgradeType, env->GetFieldID(upgradeTypeClass, "gasPrices", "[I"), gasPricesArray);
-
-			jintArray mineralPricesArray = env->NewIntArray(upgradeType.maxRepeats());
-			env->SetIntArrayRegion(mineralPricesArray, 0, upgradeType.maxRepeats(), mineralPrices);
-			env->SetObjectField(CurrentUpgradeType, env->GetFieldID(upgradeTypeClass, "mineralPrices", "[I"), mineralPricesArray);
-
-			jintArray upgradeTimesArray = env->NewIntArray(upgradeType.maxRepeats());
-			env->SetIntArrayRegion(upgradeTimesArray, 0, upgradeType.maxRepeats(), upgradeTimes);
-			env->SetObjectField(CurrentUpgradeType, env->GetFieldID(upgradeTypeClass, "upgradeTimes", "[I"), upgradeTimesArray);
-
-			jobjectArray objectArray = env->NewObjectArray(upgradeType.maxRepeats(), unitTypeClass, NULL);
-			env->SetObjectField(CurrentUpgradeType, env->GetFieldID(upgradeTypeClass, "whatsRequired", "[Lorg/openbw/bwapi4j/type/UnitType;"), objectArray);
-			for (int i = 0; i < upgradeType.maxRepeats(); i++) {
-				env->SetObjectArrayElement(objectArray, i, whatsRequired[i]);
-			}
-
-			// set enum fields
-			jobject race = env->GetStaticObjectField(raceClass, env->GetStaticFieldID(raceClass, upgradeType.getRace().c_str(), "Lorg/openbw/bwapi4j/type/Race;"));
-			env->SetObjectField(CurrentUpgradeType, env->GetFieldID(upgradeTypeClass, "race", "Lorg/openbw/bwapi4j/type/Race;"), race);
-			
-			jobject whatUpgrades = env->GetStaticObjectField(unitTypeClass, env->GetStaticFieldID(unitTypeClass, upgradeType.whatUpgrades().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;"));
-			env->SetObjectField(CurrentUpgradeType, env->GetFieldID(upgradeTypeClass, "whatUpgrades", "Lorg/openbw/bwapi4j/type/UnitType;"), whatUpgrades);
-
-		}
-		println("done.");
-
-		// read static data: TechType
-		println("reading tech types...");
-		for (TechType techType : TechTypes::allTechTypes()) {
-
-			if (techType.getName().empty()) {
-				return;
-			}
-			jfieldID techTypeField = env->GetStaticFieldID(techTypeClass, techType.getName().c_str(), "Lorg/openbw/bwapi4j/type/TechType;");
-			jobject CurrentTechType = env->GetStaticObjectField(techTypeClass, techTypeField);
-
-			// set int fields
-			env->SetIntField(CurrentTechType, env->GetFieldID(techTypeClass, "id", "I"), techType.getID());
-			env->SetIntField(CurrentTechType, env->GetFieldID(techTypeClass, "mineralPrice", "I"), techType.mineralPrice());
-			env->SetIntField(CurrentTechType, env->GetFieldID(techTypeClass, "gasPrice", "I"), techType.gasPrice());
-			env->SetIntField(CurrentTechType, env->GetFieldID(techTypeClass, "researchTime", "I"), techType.researchTime());
-			env->SetIntField(CurrentTechType, env->GetFieldID(techTypeClass, "energyCost", "I"), techType.energyCost());
-			// set boolean fields
-			env->SetBooleanField(CurrentTechType, env->GetFieldID(techTypeClass, "targetsUnit", "Z"), techType.targetsUnit());
-			env->SetBooleanField(CurrentTechType, env->GetFieldID(techTypeClass, "targetsPosition", "Z"), techType.targetsPosition());
-			// set enum fields
-			jobject race = env->GetStaticObjectField(raceClass, env->GetStaticFieldID(raceClass, techType.getRace().getName().c_str(), "Lorg/openbw/bwapi4j/type/Race;"));
-			env->SetObjectField(CurrentTechType, env->GetFieldID(techTypeClass, "race", "Lorg/openbw/bwapi4j/type/Race;"), race);
-
-			jobject weaponType = env->GetStaticObjectField(weaponTypeClass, env->GetStaticFieldID(weaponTypeClass, techType.getWeapon().getName().c_str(), "Lorg/openbw/bwapi4j/type/WeaponType;"));
-			env->SetObjectField(CurrentTechType, env->GetFieldID(techTypeClass, "weaponType", "Lorg/openbw/bwapi4j/type/WeaponType;"), weaponType);
-
-			jobject whatResearches = env->GetStaticObjectField(unitTypeClass, env->GetStaticFieldID(unitTypeClass, techType.whatResearches().getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;"));
-			env->SetObjectField(CurrentTechType, env->GetFieldID(techTypeClass, "whatResearches", "Lorg/openbw/bwapi4j/type/UnitType;"), whatResearches);
-
-			jobject order = env->GetStaticObjectField(orderClass, env->GetStaticFieldID(orderClass, techType.getOrder().getName().c_str(), "Lorg/openbw/bwapi4j/type/Order;"));
-			env->SetObjectField(CurrentTechType, env->GetFieldID(techTypeClass, "order", "Lorg/openbw/bwapi4j/type/Order;"), order);
-
-			jobject requiredUnit = env->GetStaticObjectField(unitTypeClass, env->GetStaticFieldID(unitTypeClass, techType.requiredUnit().getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;"));
-			env->SetObjectField(CurrentTechType, env->GetFieldID(techTypeClass, "requiredUnit", "Lorg/openbw/bwapi4j/type/UnitType;"), requiredUnit);
-
-		}
-		println("done.");
-
-		// read static data: WeaponType
-		println("reading weapon types...");
-		for (WeaponType weaponType : WeaponTypes::allWeaponTypes()) {
-
-			if (weaponType.getName().empty()) {
-				return;
-			}
-			jfieldID typeField = env->GetStaticFieldID(weaponTypeClass, weaponType.getName().c_str(), "Lorg/openbw/bwapi4j/type/WeaponType;");
-			jobject CurrentWeaponType = env->GetStaticObjectField(weaponTypeClass, typeField);
-			
-			// set int fields
-			env->SetIntField(CurrentWeaponType, env->GetFieldID(weaponTypeClass, "id", "I"), weaponType.getID());
-			env->SetIntField(CurrentWeaponType, env->GetFieldID(weaponTypeClass, "damageAmount", "I"), weaponType.damageAmount());
-			env->SetIntField(CurrentWeaponType, env->GetFieldID(weaponTypeClass, "damageBonus", "I"), weaponType.damageBonus());
-			env->SetIntField(CurrentWeaponType, env->GetFieldID(weaponTypeClass, "damageCooldown", "I"), weaponType.damageCooldown());
-			env->SetIntField(CurrentWeaponType, env->GetFieldID(weaponTypeClass, "damageFactor", "I"), weaponType.damageFactor());
-			env->SetIntField(CurrentWeaponType, env->GetFieldID(weaponTypeClass, "minRange", "I"), weaponType.minRange());
-			env->SetIntField(CurrentWeaponType, env->GetFieldID(weaponTypeClass, "maxRange", "I"), weaponType.maxRange());
-			env->SetIntField(CurrentWeaponType, env->GetFieldID(weaponTypeClass, "innerSplashRadius", "I"), weaponType.innerSplashRadius());
-			env->SetIntField(CurrentWeaponType, env->GetFieldID(weaponTypeClass, "medianSplashRadius", "I"), weaponType.medianSplashRadius());
-			env->SetIntField(CurrentWeaponType, env->GetFieldID(weaponTypeClass, "outerSplashRadius", "I"), weaponType.outerSplashRadius());
-			// set boolean fields
-			env->SetBooleanField(CurrentWeaponType, env->GetFieldID(weaponTypeClass, "targetsAir", "Z"), weaponType.targetsAir());
-			env->SetBooleanField(CurrentWeaponType, env->GetFieldID(weaponTypeClass, "targetsGround", "Z"), weaponType.targetsGround());
-			env->SetBooleanField(CurrentWeaponType, env->GetFieldID(weaponTypeClass, "targetsMechanical", "Z"), weaponType.targetsMechanical());
-			env->SetBooleanField(CurrentWeaponType, env->GetFieldID(weaponTypeClass, "targetsOrganic", "Z"), weaponType.targetsOrganic());
-			env->SetBooleanField(CurrentWeaponType, env->GetFieldID(weaponTypeClass, "targetsNonBuilding", "Z"), weaponType.targetsNonBuilding());
-			env->SetBooleanField(CurrentWeaponType, env->GetFieldID(weaponTypeClass, "targetsNonRobotic", "Z"), weaponType.targetsNonRobotic());
-			env->SetBooleanField(CurrentWeaponType, env->GetFieldID(weaponTypeClass, "targetsTerrain", "Z"), weaponType.targetsTerrain());
-			env->SetBooleanField(CurrentWeaponType, env->GetFieldID(weaponTypeClass, "targetsOrgOrMech", "Z"), weaponType.targetsOrgOrMech());
-			env->SetBooleanField(CurrentWeaponType, env->GetFieldID(weaponTypeClass, "targetsOwn", "Z"), weaponType.targetsOwn());
-			
-			// set enum fields
-			jobject tech = env->GetStaticObjectField(techTypeClass, env->GetStaticFieldID(techTypeClass, weaponType.getTech().getName().c_str(), "Lorg/openbw/bwapi4j/type/TechType;"));
-			env->SetObjectField(CurrentWeaponType, env->GetFieldID(weaponTypeClass, "tech", "Lorg/openbw/bwapi4j/type/TechType;"), tech);
-			
-			jobject whatUses = env->GetStaticObjectField(unitTypeClass, env->GetStaticFieldID(unitTypeClass, weaponType.whatUses().getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;"));
-			env->SetObjectField(CurrentWeaponType, env->GetFieldID(weaponTypeClass, "whatUses", "Lorg/openbw/bwapi4j/type/UnitType;"), whatUses);
-			
-			jobject upgradeType = env->GetStaticObjectField(upgradeTypeClass, env->GetStaticFieldID(upgradeTypeClass, weaponType.upgradeType().getName().c_str(), "Lorg/openbw/bwapi4j/type/UpgradeType;"));
-			env->SetObjectField(CurrentWeaponType, env->GetFieldID(weaponTypeClass, "upgradeType", "Lorg/openbw/bwapi4j/type/UpgradeType;"), whatUses);
-			
-			jobject damageType = env->GetStaticObjectField(damageTypeClass, env->GetStaticFieldID(damageTypeClass, weaponType.damageType().getName().c_str(), "Lorg/openbw/bwapi4j/type/DamageType;"));
-			env->SetObjectField(CurrentWeaponType, env->GetFieldID(weaponTypeClass, "damageType", "Lorg/openbw/bwapi4j/type/DamageType;"), whatUses);
-			
-			jobject explosionType = env->GetStaticObjectField(explosionTypeClass, env->GetStaticFieldID(explosionTypeClass, weaponType.explosionType().getName().c_str(), "Lorg/openbw/bwapi4j/type/ExplosionType;"));
-			env->SetObjectField(CurrentWeaponType, env->GetFieldID(weaponTypeClass, "explosionType", "Lorg/openbw/bwapi4j/type/ExplosionType;"), whatUses);
-		}
-		println("done.");
-		
-		// read static data: UnitType
-		println("reading unit types...");
-		for (UnitType unitType : UnitTypes::allUnitTypes()) {
-
-			if (unitType.getName().empty()) {
-				return;
-			}
-
-			jfieldID typeField = env->GetStaticFieldID(unitTypeClass, unitType.getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;");
-			jobject CurrentUnitType = env->GetStaticObjectField(unitTypeClass, typeField);
-
-			// set int fields
-			env->SetIntField(CurrentUnitType, env->GetFieldID(unitTypeClass, "id", "I"), unitType.getID());
-			env->SetIntField(CurrentUnitType, env->GetFieldID(unitTypeClass, "maxHitPoints", "I"), unitType.maxHitPoints());
-			env->SetIntField(CurrentUnitType, env->GetFieldID(unitTypeClass, "maxShields", "I"), unitType.maxShields());
-			env->SetIntField(CurrentUnitType, env->GetFieldID(unitTypeClass, "maxEnergy", "I"), unitType.maxEnergy());
-			env->SetIntField(CurrentUnitType, env->GetFieldID(unitTypeClass, "armor", "I"), unitType.armor());
-			env->SetIntField(CurrentUnitType, env->GetFieldID(unitTypeClass, "mineralPrice", "I"), unitType.mineralPrice());
-			env->SetIntField(CurrentUnitType, env->GetFieldID(unitTypeClass, "gasPrice", "I"), unitType.gasPrice());
-			env->SetIntField(CurrentUnitType, env->GetFieldID(unitTypeClass, "buildTime", "I"), unitType.buildTime());
-			env->SetIntField(CurrentUnitType, env->GetFieldID(unitTypeClass, "supplyRequired", "I"), unitType.supplyRequired());
-			env->SetIntField(CurrentUnitType, env->GetFieldID(unitTypeClass, "supplyProvided", "I"), unitType.supplyProvided());
-			env->SetIntField(CurrentUnitType, env->GetFieldID(unitTypeClass, "spaceRequired", "I"), unitType.spaceRequired());
-			env->SetIntField(CurrentUnitType, env->GetFieldID(unitTypeClass, "spaceProvided", "I"), unitType.spaceProvided());
-			env->SetIntField(CurrentUnitType, env->GetFieldID(unitTypeClass, "buildScore", "I"), unitType.buildScore());
-			env->SetIntField(CurrentUnitType, env->GetFieldID(unitTypeClass, "destroyScore", "I"), unitType.destroyScore());
-			env->SetIntField(CurrentUnitType, env->GetFieldID(unitTypeClass, "tileWidth", "I"), unitType.tileWidth());
-			env->SetIntField(CurrentUnitType, env->GetFieldID(unitTypeClass, "tileHeight", "I"), unitType.tileHeight());
-			env->SetIntField(CurrentUnitType, env->GetFieldID(unitTypeClass, "dimensionLeft", "I"), unitType.dimensionLeft());
-			env->SetIntField(CurrentUnitType, env->GetFieldID(unitTypeClass, "dimensionUp", "I"), unitType.dimensionUp());
-			env->SetIntField(CurrentUnitType, env->GetFieldID(unitTypeClass, "dimensionRight", "I"), unitType.dimensionRight());
-			env->SetIntField(CurrentUnitType, env->GetFieldID(unitTypeClass, "dimensionDown", "I"), unitType.dimensionDown());
-			env->SetIntField(CurrentUnitType, env->GetFieldID(unitTypeClass, "width", "I"), unitType.width());
-			env->SetIntField(CurrentUnitType, env->GetFieldID(unitTypeClass, "height", "I"), unitType.height());
-			env->SetIntField(CurrentUnitType, env->GetFieldID(unitTypeClass, "seekRange", "I"), unitType.seekRange());
-			env->SetIntField(CurrentUnitType, env->GetFieldID(unitTypeClass, "sightRange", "I"), unitType.sightRange());
-			env->SetIntField(CurrentUnitType, env->GetFieldID(unitTypeClass, "maxGroundHits", "I"), unitType.maxGroundHits());
-			env->SetIntField(CurrentUnitType, env->GetFieldID(unitTypeClass, "maxAirHits", "I"), unitType.maxAirHits());
-			env->SetIntField(CurrentUnitType, env->GetFieldID(unitTypeClass, "acceleration", "I"), unitType.acceleration());
-			env->SetIntField(CurrentUnitType, env->GetFieldID(unitTypeClass, "haltDistance", "I"), unitType.haltDistance());
-			env->SetIntField(CurrentUnitType, env->GetFieldID(unitTypeClass, "turnRadius", "I"), unitType.turnRadius());
-			// set boolean fields
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "canProduce", "Z"), unitType.canProduce());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "canAttack", "Z"), unitType.canAttack());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "canMove", "Z"), unitType.canMove());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "isFlyer", "Z"), unitType.isFlyer());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "regeneratesHP", "Z"), unitType.regeneratesHP());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "isSpellcaster", "Z"), unitType.isSpellcaster());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "hasPermanentCloak", "Z"), unitType.hasPermanentCloak());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "isInvincible", "Z"), unitType.isInvincible());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "isOrganic", "Z"), unitType.isOrganic());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "isMechanical", "Z"), unitType.isMechanical());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "isRobotic", "Z"), unitType.isRobotic());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "isMechanical", "Z"), unitType.isMechanical());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "isDetector", "Z"), unitType.isDetector());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "isResourceContainer", "Z"), unitType.isResourceContainer());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "isResourceDepot", "Z"), unitType.isResourceDepot());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "isRefinery", "Z"), unitType.isRefinery());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "isWorker", "Z"), unitType.isWorker());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "requiresPsi", "Z"), unitType.requiresPsi());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "requiresCreep", "Z"), unitType.requiresCreep());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "isTwoUnitsInOneEgg", "Z"), unitType.isTwoUnitsInOneEgg());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "isBurrowable", "Z"), unitType.isBurrowable());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "isCloakable", "Z"), unitType.isCloakable());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "isBuilding", "Z"), unitType.isBuilding());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "isAddon", "Z"), unitType.isAddon());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "isFlyingBuilding", "Z"), unitType.isFlyingBuilding());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "isNeutral", "Z"), unitType.isNeutral());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "isHero", "Z"), unitType.isHero());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "isPowerup", "Z"), unitType.isPowerup());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "isBeacon", "Z"), unitType.isBeacon());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "isFlagBeacon", "Z"), unitType.isFlagBeacon());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "isSpecialBuilding", "Z"), unitType.isSpecialBuilding());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "isSpell", "Z"), unitType.isSpell());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "producesCreep", "Z"), unitType.producesCreep());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "producesLarva", "Z"), unitType.producesLarva());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "isMineralField", "Z"), unitType.isMineralField());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "isCritter", "Z"), unitType.isCritter());
-			env->SetBooleanField(CurrentUnitType, env->GetFieldID(unitTypeClass, "canBuildAddon", "Z"), unitType.canBuildAddon());
-			// set double fields
-			env->SetDoubleField(CurrentUnitType, env->GetFieldID(unitTypeClass, "topSpeed", "D"), unitType.topSpeed());
-			// set enum values
-			jobject race = env->GetStaticObjectField(raceClass, env->GetStaticFieldID(raceClass, unitType.getRace().getName().c_str(), "Lorg/openbw/bwapi4j/type/Race;"));
-			env->SetObjectField(CurrentUnitType, env->GetFieldID(unitTypeClass, "race", "Lorg/openbw/bwapi4j/type/Race;"), race);
-
-			jobject requiredTech = env->GetStaticObjectField(techTypeClass, env->GetStaticFieldID(techTypeClass, unitType.requiredTech().getName().c_str(), "Lorg/openbw/bwapi4j/type/TechType;"));
-			env->SetObjectField(CurrentUnitType, env->GetFieldID(unitTypeClass, "requiredTech", "Lorg/openbw/bwapi4j/type/TechType;"), requiredTech);
-
-			jobject cloakingTech = env->GetStaticObjectField(techTypeClass, env->GetStaticFieldID(techTypeClass, unitType.cloakingTech().getName().c_str(), "Lorg/openbw/bwapi4j/type/TechType;"));
-			env->SetObjectField(CurrentUnitType, env->GetFieldID(unitTypeClass, "cloakingTech", "Lorg/openbw/bwapi4j/type/TechType;"), cloakingTech);
-
-			jobject armorUpgrade = env->GetStaticObjectField(upgradeTypeClass, env->GetStaticFieldID(upgradeTypeClass, unitType.armorUpgrade().getName().c_str(), "Lorg/openbw/bwapi4j/type/UpgradeType;"));
-			env->SetObjectField(CurrentUnitType, env->GetFieldID(unitTypeClass, "armorUpgrade", "Lorg/openbw/bwapi4j/type/UpgradeType;"), armorUpgrade);
-
-			jobject size = env->GetStaticObjectField(unitSizeTypeClass, env->GetStaticFieldID(unitSizeTypeClass, unitType.size().getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitSizeType;"));
-			env->SetObjectField(CurrentUnitType, env->GetFieldID(unitTypeClass, "size", "Lorg/openbw/bwapi4j/type/UnitSizeType;"), size);
-
-			jobject groundWeapon = env->GetStaticObjectField(weaponTypeClass, env->GetStaticFieldID(weaponTypeClass, unitType.groundWeapon().getName().c_str(), "Lorg/openbw/bwapi4j/type/WeaponType;"));
-			env->SetObjectField(CurrentUnitType, env->GetFieldID(unitTypeClass, "groundWeapon", "Lorg/openbw/bwapi4j/type/WeaponType;"), groundWeapon);
-
-			jobject airWeapon = env->GetStaticObjectField(weaponTypeClass, env->GetStaticFieldID(weaponTypeClass, unitType.airWeapon().getName().c_str(), "Lorg/openbw/bwapi4j/type/WeaponType;"));
-			env->SetObjectField(CurrentUnitType, env->GetFieldID(unitTypeClass, "airWeapon", "Lorg/openbw/bwapi4j/type/WeaponType;"), airWeapon);
-			
-			// set complex values
-			jobject upgradesList = env->GetObjectField(CurrentUnitType, env->GetFieldID(unitTypeClass, "upgrades", "Ljava/util/ArrayList;"));
-			for(UpgradeType upgradeType : unitType.upgrades()) {
-				
-				jobject upgradesMemberType = env->GetStaticObjectField(upgradeTypeClass, env->GetStaticFieldID(upgradeTypeClass, upgradeType.getName().c_str(), "Lorg/openbw/bwapi4j/type/UpgradeType;"));
-				env->CallObjectMethod(upgradesList, arrayListAdd, upgradesMemberType);
-				env->DeleteLocalRef(upgradesMemberType);
-			}
-			env->DeleteLocalRef(upgradesList);
-
-			jobject upgradesWhatList = env->GetObjectField(CurrentUnitType, env->GetFieldID(unitTypeClass, "upgradesWhat", "Ljava/util/ArrayList;"));
-			for (UpgradeType upgradeType : unitType.upgradesWhat()) {
-
-				jobject upgradesWhatMemberType = env->GetStaticObjectField(upgradeTypeClass, env->GetStaticFieldID(upgradeTypeClass, upgradeType.getName().c_str(), "Lorg/openbw/bwapi4j/type/UpgradeType;"));
-				env->CallObjectMethod(upgradesWhatList, arrayListAdd, upgradesWhatMemberType);
-				env->DeleteLocalRef(upgradesWhatMemberType);
-			}
-			env->DeleteLocalRef(upgradesWhatList);
-
-			jobject abilitiesList = env->GetObjectField(CurrentUnitType, env->GetFieldID(unitTypeClass, "abilities", "Ljava/util/ArrayList;"));
-			for (TechType techType : unitType.abilities()) {
-
-				jobject abilitiesMemberType = env->GetStaticObjectField(techTypeClass, env->GetStaticFieldID(techTypeClass, techType.getName().c_str(), "Lorg/openbw/bwapi4j/type/TechType;"));
-				env->CallObjectMethod(abilitiesList, arrayListAdd, abilitiesMemberType);
-				env->DeleteLocalRef(abilitiesMemberType);
-			}
-			env->DeleteLocalRef(abilitiesList);
-
-			jobject researchesWhatList = env->GetObjectField(CurrentUnitType, env->GetFieldID(unitTypeClass, "researchesWhat", "Ljava/util/ArrayList;"));
-			for(TechType techType : unitType.researchesWhat()) {
-
-				jobject researchesWhatMemberType = env->GetStaticObjectField(techTypeClass, env->GetStaticFieldID(techTypeClass, techType.getName().c_str(), "Lorg/openbw/bwapi4j/type/TechType;"));
-				env->CallObjectMethod(researchesWhatList, arrayListAdd, researchesWhatMemberType);
-				env->DeleteLocalRef(researchesWhatMemberType);
-			}
-			env->DeleteLocalRef(researchesWhatList);
-			
-			// create a new Pair object and fill in UnitType,Integer
-			jfieldID whatBuildsField = env->GetStaticFieldID(unitTypeClass, unitType.whatBuilds().first.getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;");
-			jobject whatBuildsType = env->GetStaticObjectField(unitTypeClass, whatBuildsField);
-			
-			jobject pairObject = env->NewObject(pairClass, pairNew, whatBuildsType, env->NewObject(integerClass, integerNew, unitType.whatBuilds().second));
-			env->SetObjectField(CurrentUnitType, env->GetFieldID(unitTypeClass, "whatBuilds", "Lorg/openbw/bwapi4j/util/Pair;"), pairObject);
-			
-			// read existing requiredUnits map and put <UnitType,Integer> entries
-			for (auto const& req : unitType.requiredUnits()) {
-
-				// std::cout << "putting " << req.first.getID() << ":" << req.second << std::endl;
-				env->CallObjectMethod(CurrentUnitType, addRequiredUnit, (jint)req.first.getID(), (jint)req.second);
-			}
-			env->DeleteLocalRef(CurrentUnitType);
-		}
-		println("done.");
-		
-		// read static data: Race
-		println("reading race types...");
-		for (Race race : Races::allRaces()) {
-
-			if (race.getName().empty()) {
-				return;
-			}
-
-			// get the Java enum value for the current race
-			jfieldID raceField = env->GetStaticFieldID(raceClass, race.getName().c_str(), "Lorg/openbw/bwapi4j/type/Race;");
-			jobject CurrentRace = env->GetStaticObjectField(raceClass, raceField);
-
-			// set ID
-			jfieldID idField = env->GetFieldID(raceClass, "id", "I");
-			env->SetIntField(CurrentRace, idField, race.getID());
-
-			// set unit types
-			const char* fieldNames[] = { "worker", "center", "refinery", "transport", "supplyProvider" };
-			const char* fieldValues[] = { race.getWorker().getName().c_str(), race.getResourceDepot().getName().c_str(), race.getRefinery().getName().c_str(), race.getTransport().getName().c_str(), race.getSupplyProvider().getName().c_str() };
-
-			for (int i = 0; i < 5; i++) {
-				
-				jfieldID unitTypeField = env->GetStaticFieldID(unitTypeClass, fieldValues[i], "Lorg/openbw/bwapi4j/type/UnitType;");
-				jobject unitType = env->GetStaticObjectField(unitTypeClass, unitTypeField);
-
-				jfieldID typeField = env->GetFieldID(raceClass, fieldNames[i], "Lorg/openbw/bwapi4j/type/UnitType;");
-				env->SetObjectField(CurrentRace, typeField, unitType);
-				env->DeleteLocalRef(unitType);
-			}
-			env->DeleteLocalRef(CurrentRace);
-		}
-		println("done.");
-		
-		// read map information
-		println("reading map information...");
-		jfieldID bwMapField = env->GetFieldID(jc, "bwMap", "Lorg/openbw/bwapi4j/BWMap;");
-		jobject bwMap = env->GetObjectField(bwObject, bwMapField);
-
-		// set mapHash
-		jfieldID mapHashField = env->GetFieldID(bwMapClass, "mapHash", "Ljava/lang/String;");
-		jstring mapHash = env->NewStringUTF(Broodwar->mapHash().c_str());
-		env->SetObjectField(bwMap, mapHashField, mapHash);
-
-		//set mapFileName
-		jfieldID mapFileNameField = env->GetFieldID(bwMapClass, "mapFileName", "Ljava/lang/String;");
-		jstring mapFileName = env->NewStringUTF(Broodwar->mapFileName().c_str());
-		env->SetObjectField(bwMap, mapFileNameField, mapFileName);
-
-		// set width
-		jfieldID mapWidthField = env->GetFieldID(bwMapClass, "width", "I");
-		env->SetIntField(bwMap, mapWidthField, (jint)Broodwar->mapWidth());
-		
-		// set height
-		jfieldID mapHeightField = env->GetFieldID(bwMapClass, "height", "I");
-		env->SetIntField(bwMap, mapHeightField, (jint)Broodwar->mapHeight());
-		
-		// set groundInfo (tile resolution)
-		jfieldID groundInfoField = env->GetFieldID(bwMapClass, "groundInfo", "[[I");
-		jobject* groundInfo2D = new jobject[Broodwar->mapWidth()];
-		jobjectArray groundInfo2DArray = env->NewObjectArray(Broodwar->mapWidth(), env->GetObjectClass(env->NewIntArray(Broodwar->mapHeight())), 0);
-		for (int i = 0; i < Broodwar->mapWidth(); ++i) {
-
-			jint* groundInfo = new jint[Broodwar->mapHeight()];
-			for (int j = 0; j < Broodwar->mapHeight(); ++j) {
-				groundInfo[j] = Broodwar->getGroundHeight(i, j);
-			}
-			jintArray groundInfoArray = env->NewIntArray(Broodwar->mapHeight());
-			env->SetIntArrayRegion(groundInfoArray, 0, Broodwar->mapHeight(), groundInfo);
-			env->SetObjectArrayElement(groundInfo2DArray, i, groundInfoArray);
-		}
-		env->SetObjectField(bwMap, groundInfoField, groundInfo2DArray);
-
-		// set walkabilityInfo (mini-tile resolution)
-		jfieldID walkabilityInfoField = env->GetFieldID(bwMapClass, "walkabilityInfo", "[[I");
-		jobject* walkabilityInfo2D = new jobject[Broodwar->mapWidth() * 4];
-		jobjectArray walkabilityInfo2DArray = env->NewObjectArray(Broodwar->mapWidth() * 4, env->GetObjectClass(env->NewIntArray(Broodwar->mapHeight() * 4)), 0);
-		for (int i = 0; i < Broodwar->mapWidth() * 4; ++i) {
-
-			jint* walkabilityInfo = new jint[Broodwar->mapHeight() * 4];
-			for (int j = 0; j < Broodwar->mapHeight() * 4; ++j) {
-				walkabilityInfo[j] = Broodwar->isWalkable(i, j) ? 1 : 0;
-			}
-			jintArray walkabilityInfoArray = env->NewIntArray(Broodwar->mapHeight() * 4);
-			env->SetIntArrayRegion(walkabilityInfoArray, 0, Broodwar->mapHeight(), walkabilityInfo);
-			env->SetObjectArrayElement(walkabilityInfo2DArray, i, walkabilityInfoArray);
-		}
-		env->SetObjectField(bwMap, walkabilityInfoField, walkabilityInfo2DArray);
-		
-		// set starting locations
-		jobject startLocationsList = env->GetObjectField(bwMap, env->GetFieldID(bwMapClass, "startLocations", "Ljava/util/ArrayList;"));
-		for (TilePosition tilePosition : Broodwar->getStartLocations()) {
-			jobject startLocation = env->NewObject(tilePositionClass, tilePositionNew, tilePosition.x, tilePosition.y);
-			env->CallObjectMethod(startLocationsList, arrayListAdd, startLocation);
-		}
-		
-		if (env->ExceptionOccurred()) {
-			env->ExceptionDescribe();
-			return;
-		}
-		println("done.");
+		bridgeEnum->initialize();
+		bridgeMap->initialize(env, env->GetObjectClass(bwObject), bw, bwMapClass);
 		
 		if (false && Broodwar->isReplay()) { // right now don't treat replays any different
 
 		} else {
 			
-			env->CallObjectMethod(classref, env->GetMethodID(jc, "onStart", "()V"));
+			env->CallObjectMethod(bw, env->GetMethodID(jc, "onStart", "()V"));
 			jmethodID onEndCallback = env->GetMethodID(jc, "onEnd", "(Z)V");
 			jmethodID preFrameCallback = env->GetMethodID(jc, "preFrame", "()V");
 			jmethodID onFrameCallback = env->GetMethodID(jc, "onFrame", "()V");
@@ -526,26 +181,26 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 
 			while (Broodwar->isInGame()) {
 				
-				env->CallObjectMethod(classref, preFrameCallback);
+				env->CallObjectMethod(bw, preFrameCallback);
 				for (auto &e : Broodwar->getEvents()) {
 
 					switch (e.getType()) {
 						case EventType::MatchEnd: {
 							//  std::cout << "calling onEnd..." << std::endl;
-							env->CallObjectMethod(classref, onEndCallback, (jboolean)e.isWinner());
+							env->CallObjectMethod(bw, onEndCallback, (jboolean)e.isWinner());
 							// std::cout << "done." << std::endl;;
 						}
 							break;
 						case EventType::MatchFrame: {
 							// std::cout << "calling onFrame..." << std::endl;
-							env->CallObjectMethod(classref, onFrameCallback);
+							env->CallObjectMethod(bw, onFrameCallback);
 							// std::cout << "done." << std::endl;;
 						}
 							break;
 						case EventType::SendText: {
 							// std::cout << "calling onSend..." << std::endl;
 							jstring string = env->NewStringUTF(e.getText().c_str());
-							env->CallObjectMethod(classref, onSendCallback, string);
+							env->CallObjectMethod(bw, onSendCallback, string);
 							env->DeleteLocalRef(string);
 							// std::cout << "done." << std::endl;;
 							}
@@ -553,82 +208,82 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 						case EventType::ReceiveText: {
 							// std::cout << "calling onReceive..." << std::endl;
 							jstring string = env->NewStringUTF(e.getText().c_str());
-							env->CallObjectMethod(classref, onReceiveCallback, e.getPlayer()->getID(), string);
+							env->CallObjectMethod(bw, onReceiveCallback, e.getPlayer()->getID(), string);
 							env->DeleteLocalRef(string);
 							// std::cout << "done." << std::endl;;
 							}
 							break;
 						case EventType::PlayerLeft: {
 							// std::cout << "calling onPlayerLeft..." << std::endl;
-							env->CallObjectMethod(classref, onPlayerLeftCallback, e.getPlayer()->getID());
+							env->CallObjectMethod(bw, onPlayerLeftCallback, e.getPlayer()->getID());
 							// std::cout << "done." << std::endl;;
 						}
 							break;
 						case EventType::NukeDetect: {
 							// std::cout << "calling onNukeDetect..." << std::endl;
-							env->CallObjectMethod(classref, onNukeDetectCallback, e.getPosition().x, e.getPosition().y);
+							env->CallObjectMethod(bw, onNukeDetectCallback, e.getPosition().x, e.getPosition().y);
 							// std::cout << "done." << std::endl;;
 						}
 							break;
 						case EventType::UnitDiscover: {
 							// std::cout << "calling onUnitDiscover..." << std::endl;
-							env->CallObjectMethod(classref, onUnitDiscoverCallback, e.getUnit()->getID());
+							env->CallObjectMethod(bw, onUnitDiscoverCallback, e.getUnit()->getID());
 							// std::cout << "done." << std::endl;;
 						}
 							break;
 						case EventType::UnitEvade: {
 							// std::cout << "calling onUnitEvade..." << std::endl;
-							env->CallObjectMethod(classref, onUnitEvadeCallback, e.getUnit()->getID());
+							env->CallObjectMethod(bw, onUnitEvadeCallback, e.getUnit()->getID());
 							// std::cout << "done." << std::endl;;
 						}
 							break;
 						case EventType::UnitShow: {
 							// std::cout << "calling onUnitShow..." << std::endl;
-							env->CallObjectMethod(classref, onUnitShowCallback, e.getUnit()->getID());
+							env->CallObjectMethod(bw, onUnitShowCallback, e.getUnit()->getID());
 							// std::cout << "done." << std::endl;;
 						}
 							break;
 						case EventType::UnitHide: {
 							// std::cout << "calling onUnitHide..." << std::endl;
-							env->CallObjectMethod(classref, onUnitHideCallback, e.getUnit()->getID());
+							env->CallObjectMethod(bw, onUnitHideCallback, e.getUnit()->getID());
 							// std::cout << "done." << std::endl;;
 						}
 							break;
 						case EventType::UnitCreate: {
 							// std::cout << "calling onUnitCreate..." << std::endl;
-							env->CallObjectMethod(classref, onUnitCreateCallback, e.getUnit()->getID());
+							env->CallObjectMethod(bw, onUnitCreateCallback, e.getUnit()->getID());
 							// std::cout << "done." << std::endl;;
 						}
 							break;
 						case EventType::UnitDestroy: {
 							// std::cout << "calling onUnitDestroy..." << std::endl;
-							env->CallObjectMethod(classref, onUnitDestroyCallback, e.getUnit()->getID());
+							env->CallObjectMethod(bw, onUnitDestroyCallback, e.getUnit()->getID());
 							// std::cout << "done." << std::endl;;
 						}
 							break;
 						case EventType::UnitMorph: {
 							// std::cout << "calling onUnitMorph..." << std::endl;
-							env->CallObjectMethod(classref, onUnitMorphCallback, e.getUnit()->getID());
+							env->CallObjectMethod(bw, onUnitMorphCallback, e.getUnit()->getID());
 							// std::cout << "done." << std::endl;;
 						}
 							break;
 						case EventType::UnitRenegade: {
 							// std::cout << "calling onUnitRenegade..." << std::endl;
-							env->CallObjectMethod(classref, onUnitRenegadeCallback, e.getUnit()->getID());
+							env->CallObjectMethod(bw, onUnitRenegadeCallback, e.getUnit()->getID());
 							// std::cout << "done." << std::endl;;
 						}
 							break;
 						case EventType::SaveGame: {
 							std::cout << "calling onSaveGame..." << std::endl;
 							jstring string = env->NewStringUTF(e.getText().c_str());
-							env->CallObjectMethod(classref, onSaveGameCallback, string);
+							env->CallObjectMethod(bw, onSaveGameCallback, string);
 							env->DeleteLocalRef(string);
 							std::cout << "done." << std::endl;;
 							}
 							break;
 						case EventType::UnitComplete: {
 							// std::cout << "calling onUnitComplete..." << std::endl;
-							env->CallObjectMethod(classref, onUnitCompleteCallback, e.getUnit()->getID());
+							env->CallObjectMethod(bw, onUnitCompleteCallback, e.getUnit()->getID());
 							// std::cout << "done." << std::endl;;
 						}
 							break;

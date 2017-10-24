@@ -112,7 +112,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;BWAPI4JBRIDGE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(BOOST_INCLUDEDIR);$(SolutionDir)\..\BWAPI4J\src\native\include;$(ProjectDir);$(ProjectDir)\JNI\include\win32;$(ProjectDir)\JNI\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_INCLUDEDIR);$(SolutionDir)\..\BWAPI4J\src\native\include;$(ProjectDir);$(ProjectDir)\JNI\include\win32;$(ProjectDir)\JNI\include;$(ProjectDir)\..\..\OpenBWAPI4JBridge;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -140,7 +140,10 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\OpenBWAPI4JBridge\BridgeEnum.h" />
+    <ClInclude Include="..\..\OpenBWAPI4JBridge\BridgeMap.h" />
     <ClInclude Include="..\..\OpenBWAPI4JBridge\BWTA.h" />
+    <ClInclude Include="..\..\OpenBWAPI4JBridge\So.h" />
     <ClInclude Include="BWAPI.h" />
     <ClInclude Include="BWAPI\AIModule.h" />
     <ClInclude Include="BWAPI\ArithmaticFilter.h" />
@@ -220,6 +223,15 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\OpenBWAPI4JBridge\BridgeEnum.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\OpenBWAPI4JBridge\BridgeMap.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\OpenBWAPI4JBridge\BWTA.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\..\OpenBWAPI4JBridge\DamageEvaluator.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
