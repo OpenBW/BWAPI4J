@@ -27,7 +27,7 @@ import org.openbw.bwapi4j.type.UnitType;
 //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-public class Base {
+public final class Base {
 
 	private Map m_pMap;
 	private Area m_pArea;
@@ -49,7 +49,7 @@ public class Base {
 
 //        bwem_assert(!AssignedRessources.empty());
         if (!(!AssignedResources.isEmpty())) {
-            throw new IllegalArgumentException("failed assert: !AssignedResources.isEmpty()");
+            throw new IllegalArgumentException();
         }
 
         for (Resource r : AssignedResources) {
@@ -61,18 +61,6 @@ public class Base {
                 m_Geysers.add(g);
             }
         }
-    }
-
-
-//    Base::Base(const Base & Other)
-//        : m_pMap(Other.m_pMap), m_pArea(Other.m_pArea)
-//    {
-//        bwem_assert(false);
-//    }
-
-
-    private Map GetMap() {
-        return m_pMap;
     }
 
 	// Tells whether this Base's location is contained in Map::StartingLocations()
@@ -141,12 +129,16 @@ public class Base {
     }
 
     private Position calculateCenter(TilePosition location) {
-        Position tileSize = UnitType.Terran_Command_Center.tileSize().toPosition();
+        Position size = UnitType.Terran_Command_Center.tileSize().toPosition();
         int x = location.toPosition().getX();
-        int x_offset = tileSize.getX() / 2;
+        int x_offset = size.getX() / 2;
         int y = location.toPosition().getY();
-        int y_offset = tileSize.getY() / 2;
+        int y_offset = size.getY() / 2;
         return new Position(x + x_offset, y + y_offset);
+    }
+
+    private Map GetMap() {
+        return m_pMap;
     }
 
 }

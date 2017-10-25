@@ -49,7 +49,7 @@ import org.openbw.bwapi4j.util.Pair;
 //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-public class Area extends Markable<Area> {
+public final class Area extends Markable<Area> {
 
     private Graph m_pGraph;
     private AreaId m_id;
@@ -69,6 +69,8 @@ public class Area extends Markable<Area> {
     private List<Mineral> m_Minerals;
     private List<Geyser> m_Geysers;
 	private List<Base> m_Bases;
+
+    private Area() {}
 
     public Area(Graph pGraph, AreaId areaId, WalkPosition top, int miniTiles) {
         m_pGraph = pGraph;
