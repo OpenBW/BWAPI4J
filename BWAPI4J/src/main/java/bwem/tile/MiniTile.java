@@ -7,12 +7,11 @@ public class MiniTile {
 
     private static final AreaId blockingCP = new AreaId(Integer.MIN_VALUE);
 
-    private Altitude m_altitude; // 0 for seas  ;  != 0 for terrain and lakes (-1 = not computed yet)  ;  1 = SeaOrLake intermediate value
-    private AreaId m_areaId; // 0 -> unwalkable  ;  > 0 -> index of some Area  ;  < 0 -> some walkable terrain, but too small to be part of an Area
+    private Altitude m_altitude = new Altitude(-1); // 0 for seas  ;  != 0 for terrain and lakes (-1 = not computed yet)  ;  1 = SeaOrLake intermediate value
+    private AreaId m_areaId = new AreaId(-1); // 0 -> unwalkable  ;  > 0 -> index of some Area  ;  < 0 -> some walkable terrain, but too small to be part of an Area
 
     public MiniTile() {
-        m_altitude = new Altitude(-1);
-        m_areaId = new AreaId(-1);
+        /* Do nothing. */
     }
 
 	// Corresponds approximatively to BWAPI::isWalkable
