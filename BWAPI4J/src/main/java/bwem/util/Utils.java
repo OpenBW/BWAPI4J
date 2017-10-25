@@ -66,38 +66,4 @@ public final class Utils {
         return get_line_intersection(ax, ay, bx, by, cx, cy, dx, dy, null, null);
     }
 
-//    //TODO: Untested
-//    public static <T> T removeLastElement(Queue<T> queue) {
-//        if (queue.size() < 1) {
-//            return null;
-//        }
-//        Iterator<T> itr = queue.iterator();
-//        T current = null;
-//        while (itr.hasNext()) {
-//            current = itr.next();
-//        }
-//        queue.remove(current);
-//        return current;
-//    }
-//
-//    public static <T> T getElementAt(Queue<T> queue, int index) {
-//        if (queue.size() < 0 || index >= queue.size()) {
-//            throw new IndexOutOfBoundsException();
-//        }
-//
-//        T current = null;
-//        Iterator<T> itr = queue.iterator();
-//        int i = 0;
-//        while (itr.hasNext() && i <= index) {
-//            current = itr.next();
-//            ++i;
-//        }
-//
-//        if (current == null) {
-//            throw new NoSuchElementException();
-//        }
-//
-//        return current;
-//    }
-
 }

@@ -47,7 +47,7 @@ public final class BwemExt {
         WalkPosition deltas[] = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(1, 0), new WalkPosition(0, 1)};
         for (WalkPosition delta : deltas) {
             if (pMap.Valid(p.add(delta))) {
-                if (!pMap.GetMiniTile(p.add(delta), CheckMode.NoCheck).Sea()) {
+                if (!pMap.GetMiniTile(p.add(delta), CheckMode.no_check).Sea()) {
                     return true;
                 }
             }
@@ -254,10 +254,10 @@ public final class BwemExt {
         for (WalkPosition delta : deltas) {
             WalkPosition next = p.add(delta);
             if (pMap.Valid(next)) {
-                if (pMap.GetTile(next.toPosition().toTilePosition(), CheckMode.NoCheck).GetNeutral() != null) {
+                if (pMap.GetTile(next.toPosition().toTilePosition(), CheckMode.no_check).GetNeutral() != null) {
                     return true;
                 }
-                if (pMap.GetMiniTile(next, CheckMode.NoCheck).Lake()) {
+                if (pMap.GetMiniTile(next, CheckMode.no_check).Lake()) {
                     return true;
                 }
             }
@@ -269,32 +269,32 @@ public final class BwemExt {
     public static Altitude getMinAltitudeTop(TilePosition t, Map map) {
         WalkPosition w = t.toPosition().toWalkPosition();
         return new Altitude(Math.min(
-                map.GetMiniTile(w.add(new WalkPosition(1, 0)), CheckMode.NoCheck).Altitude().intValue(),
-                map.GetMiniTile(w.add(new WalkPosition(2, 0)), CheckMode.NoCheck).Altitude().intValue()
+                map.GetMiniTile(w.add(new WalkPosition(1, 0)), CheckMode.no_check).Altitude().intValue(),
+                map.GetMiniTile(w.add(new WalkPosition(2, 0)), CheckMode.no_check).Altitude().intValue()
         ));
     }
 
     public static Altitude getMinAltitudeBottom(TilePosition t, Map map) {
         WalkPosition w = t.toPosition().toWalkPosition();
         return new Altitude(Math.min(
-                map.GetMiniTile(w.add(new WalkPosition(1, 3)), CheckMode.NoCheck).Altitude().intValue(),
-                map.GetMiniTile(w.add(new WalkPosition(2, 3)), CheckMode.NoCheck).Altitude().intValue()
+                map.GetMiniTile(w.add(new WalkPosition(1, 3)), CheckMode.no_check).Altitude().intValue(),
+                map.GetMiniTile(w.add(new WalkPosition(2, 3)), CheckMode.no_check).Altitude().intValue()
         ));
     }
 
     public static Altitude getMinAltitudeLeft(TilePosition t, Map map) {
         WalkPosition w = t.toPosition().toWalkPosition();
         return new Altitude(Math.min(
-                map.GetMiniTile(w.add(new WalkPosition(0, 1)), CheckMode.NoCheck).Altitude().intValue(),
-                map.GetMiniTile(w.add(new WalkPosition(0, 2)), CheckMode.NoCheck).Altitude().intValue()
+                map.GetMiniTile(w.add(new WalkPosition(0, 1)), CheckMode.no_check).Altitude().intValue(),
+                map.GetMiniTile(w.add(new WalkPosition(0, 2)), CheckMode.no_check).Altitude().intValue()
         ));
     }
 
     public static Altitude getMinAltitudeRight(TilePosition t, Map map) {
         WalkPosition w = t.toPosition().toWalkPosition();
         return new Altitude(Math.min(
-                map.GetMiniTile(w.add(new WalkPosition(3, 1)), CheckMode.NoCheck).Altitude().intValue(),
-                map.GetMiniTile(w.add(new WalkPosition(3, 2)), CheckMode.NoCheck).Altitude().intValue()
+                map.GetMiniTile(w.add(new WalkPosition(3, 1)), CheckMode.no_check).Altitude().intValue(),
+                map.GetMiniTile(w.add(new WalkPosition(3, 2)), CheckMode.no_check).Altitude().intValue()
         ));
     }
 

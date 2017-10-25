@@ -124,14 +124,14 @@ public abstract class Map {
 	// Returns a Tile, given its position.
 	public Tile GetTile(TilePosition p, CheckMode checkMode) {
 //        bwem_assert((checkMode == utils::check_t::no_check) || Valid(p)); utils::unused(checkMode);
-        if (!(checkMode == CheckMode.NoCheck) || Valid(p)) {
+        if (!(checkMode == CheckMode.no_check) || Valid(p)) {
             throw new IllegalArgumentException();
         }
         return m_Tiles.get(Size().getX() * p.getY() + p.getX());
     }
 
     public Tile GetTile(TilePosition p) {
-        return GetTile(p, CheckMode.Check);
+        return GetTile(p, CheckMode.check);
     }
 
     public Tile GetTile_(TilePosition p, CheckMode checkMode) {
@@ -139,20 +139,20 @@ public abstract class Map {
     }
 
     public Tile GetTile_(TilePosition p) {
-        return GetTile_(p, CheckMode.Check);
+        return GetTile_(p, CheckMode.check);
     }
 
 	// Returns a MiniTile, given its position.
     public MiniTile GetMiniTile(WalkPosition p, CheckMode checkMode) {
 //        bwem_assert((checkMode == utils::check_t::no_check) || Valid(p));
-        if (!((checkMode == CheckMode.NoCheck) || Valid(p))) {
+        if (!((checkMode == CheckMode.no_check) || Valid(p))) {
             throw new IllegalArgumentException();
         }
         return m_MiniTiles.get(WalkSize().getX() * p.getY() + p.getX());
     }
 
     public MiniTile GetMiniTile(WalkPosition p) {
-        return GetMiniTile(p, CheckMode.Check);
+        return GetMiniTile(p, CheckMode.check);
     }
 
     public MiniTile GetMiniTile_(WalkPosition p, CheckMode checkMode) {
@@ -160,7 +160,7 @@ public abstract class Map {
     }
 
     public MiniTile GetMiniTile_(WalkPosition p) {
-        return GetMiniTile_(p, CheckMode.Check);
+        return GetMiniTile_(p, CheckMode.check);
     }
 
 	// Returns a list of ChokePoints, which is intended to be the shortest walking path from 'a' to 'b'.
@@ -312,7 +312,7 @@ public abstract class Map {
             for (TilePosition delta : directions) {
                 TilePosition next = current.add(delta);
                 if (Valid(next)) {
-                    Tile nextTile = GetTile(next, CheckMode.NoCheck);
+                    Tile nextTile = GetTile(next, CheckMode.no_check);
                     if (findCond.is(nextTile, next, this)) {
                         return next;
                     }
@@ -350,7 +350,7 @@ public abstract class Map {
             new WalkPosition(-1,  0),                          new WalkPosition(1,  0),
             new WalkPosition(-1,  1), new WalkPosition(0,  1), new WalkPosition(1,  1)
         };
-        WalkPosition[] dir4 = { new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(1, 0), new WalkPosition(0, 1)};
+        WalkPosition[] dir4 = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(1, 0), new WalkPosition(0, 1)};
         WalkPosition[] directions = connect8 ? dir8 : dir4;
 
         while (!ToVisit.isEmpty()) {
@@ -358,7 +358,7 @@ public abstract class Map {
             for (WalkPosition delta : directions) {
                 WalkPosition next = current.add(delta);
                 if (Valid(next)) {
-                    MiniTile Next = GetMiniTile(next, CheckMode.NoCheck);
+                    MiniTile Next = GetMiniTile(next, CheckMode.no_check);
                     if (findCond.is(Next, next, this)) {
                         return next;
                     }

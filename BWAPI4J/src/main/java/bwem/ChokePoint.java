@@ -137,7 +137,7 @@ public class ChokePoint extends Markable<ChokePoint> {
                             MiniTile miniTile = (MiniTile) ttile;
                             WalkPosition w = (WalkPosition) tpos;
                             TilePosition t = w.toPosition().toTilePosition();
-                            return (miniTile.AreaId().intValue() > pArea.Id().intValue() && map.GetTile(t, CheckMode.NoCheck).GetNeutral() == null);
+                            return (miniTile.AreaId().intValue() > pArea.Id().intValue() && map.GetTile(t, CheckMode.no_check).GetNeutral() == null);
                         } else {
                             throw new IllegalArgumentException("Invalid argument list.");
                         }
@@ -160,7 +160,7 @@ public class ChokePoint extends Markable<ChokePoint> {
                             MiniTile miniTile = (MiniTile) ttile;
                             WalkPosition w = (WalkPosition) tpos;
                             TilePosition t = w.toPosition().toTilePosition();
-                            return (miniTile.AreaId().intValue() > pArea.Id().intValue() || (Blocked() && (miniTile.Blocked() || map.GetTile(t, CheckMode.NoCheck).GetNeutral() != null)));
+                            return (miniTile.AreaId().intValue() > pArea.Id().intValue() || (Blocked() && (miniTile.Blocked() || map.GetTile(t, CheckMode.no_check).GetNeutral() != null)));
                         } else {
                             throw new IllegalArgumentException("Invalid argument list.");
                         }

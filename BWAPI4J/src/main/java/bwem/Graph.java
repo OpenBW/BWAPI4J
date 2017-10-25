@@ -16,10 +16,7 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Deque;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
@@ -290,7 +287,7 @@ public class Graph {
     }
 
 
-    	// Creates a new Area for each pair (top, miniTiles) in AreasList (See Area::Top() and Area::MiniTiles())
+    // Creates a new Area for each pair (top, miniTiles) in AreasList (See Area::Top() and Area::MiniTiles())
     public void CreateChokePoints() {
     	Index newIndex = new Index(0);
 
@@ -306,12 +303,13 @@ public class Graph {
             }
         }
 
-        int pseudoChokePointsToCreate = 0;
-        for (Neutral n : BlockingNeutrals) {
-            if (n.NextStacked() == null) {
-                ++pseudoChokePointsToCreate;
-            }
-        }
+        //Note: pseudoChokePointsToCreate is only used for resizing the array.
+//        int pseudoChokePointsToCreate = 0;
+//        for (Neutral n : BlockingNeutrals) {
+//            if (n.NextStacked() == null) {
+//                ++pseudoChokePointsToCreate;
+//            }
+//        }
 
     	// 1) Size the matrix
 //    	for (Area::id id = 1 ; id <= AreasCount() ; ++id)
@@ -649,7 +647,7 @@ public class Graph {
         while (!ToVisit.isEmpty()) {
             int currentDist = ToVisit.mapIterator().getKey();
             ChokePoint current = ToVisit.mapIterator().getValue();
-            Tile currentTile = pMap.GetTile(current.Center().toPosition().toTilePosition(), CheckMode.NoCheck);
+            Tile currentTile = pMap.GetTile(current.Center().toPosition().toTilePosition(), CheckMode.no_check);
 //            bwem_assert(currentTile.InternalData() == currentDist);
             if (!(currentTile.InternalData().intValue() == currentDist)) {
                 throw new IllegalStateException();
@@ -677,7 +675,7 @@ public class Graph {
                 for (ChokePoint next : pArea.ChokePoints()) {
                     if (!next.equals(current)) {
                         final int newNextDist = currentDist + Distance(current, next);
-                        final Tile nextTile = pMap.GetTile(next.Center().toPosition().toTilePosition(), CheckMode.NoCheck);
+                        final Tile nextTile = pMap.GetTile(next.Center().toPosition().toTilePosition(), CheckMode.no_check);
                         if (!nextTile.Marked()) {
                             if (nextTile.InternalData().intValue() != 0) { // next already in ToVisit
                                 if (newNextDist < nextTile.InternalData().intValue()) { // nextNewDist < nextOldDist
@@ -711,7 +709,7 @@ public class Graph {
         for (Integer key : ToVisit.keySet()) {
             Collection<ChokePoint> coll = ToVisit.get(key);
             for (ChokePoint cp : coll) {
-                pMap.GetTile(cp.Center().toPosition().toTilePosition(), CheckMode.NoCheck).SetInternalData(new MutableInt(0));
+                pMap.GetTile(cp.Center().toPosition().toTilePosition(), CheckMode.no_check).SetInternalData(new MutableInt(0));
             }
         }
 

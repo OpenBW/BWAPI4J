@@ -340,7 +340,7 @@ public class Area extends Markable<Area> {
             for (int dx = -dimCC.getX() - BwemExt.max_tiles_between_CommandCenter_and_ressources; dx < r.Size().getX() + dimCC.getX() + BwemExt.max_tiles_between_CommandCenter_and_ressources; ++dx) {
                 TilePosition t = r.TopLeft().add(new TilePosition(dx, dy));
                 if (pMap.Valid(t)) {
-                    Tile tile = pMap.GetTile(t, CheckMode.NoCheck);
+                    Tile tile = pMap.GetTile(t, CheckMode.no_check);
                     int dist = (BwemExt.distToRectangle(BwemExt.center(t), r.TopLeft(), r.Size()) + 16) / 32;
                     int score = Math.max(BwemExt.max_tiles_between_CommandCenter_and_ressources + 3 - dist, 0);
                     if (r instanceof Geyser) score *= 3; // somewhat compensates for Geyser alone vs the several Minerals
@@ -354,7 +354,7 @@ public class Area extends Markable<Area> {
             for (int dx = -3; dx < r.Size().getX() + 3; ++dx) {
                 TilePosition t = r.TopLeft().add(new TilePosition(dx, dy));
                 if (pMap.Valid(t)) {
-                    pMap.GetTile(t, CheckMode.NoCheck).SetInternalData(new MutableInt(-1));
+                    pMap.GetTile(t, CheckMode.no_check).SetInternalData(new MutableInt(-1));
                 }
             }
 
@@ -381,7 +381,7 @@ public class Area extends Markable<Area> {
                 for (int dx = -dimCC.getX() - BwemExt.max_tiles_between_CommandCenter_and_ressources; dx < r.Size().getX() + dimCC.getX() + BwemExt.max_tiles_between_CommandCenter_and_ressources; ++dx) {
                     TilePosition t = r.TopLeft().add(new TilePosition(dx, dy));
                     if (pMap.Valid(t)) {
-                        pMap.GetTile(t, CheckMode.NoCheck).SetInternalData(new MutableInt(0));
+                        pMap.GetTile(t, CheckMode.no_check).SetInternalData(new MutableInt(0));
                     }
                 }
             }
@@ -426,7 +426,7 @@ public class Area extends Markable<Area> {
         int sumScore = 0;
         for (int dy = 0; dy < dimCC.getY(); ++dy)
         for (int dx = 0; dx < dimCC.getX(); ++dx) {
-            Tile tile = pMap.GetTile(location.add(new TilePosition(dx, dy)), CheckMode.NoCheck);
+            Tile tile = pMap.GetTile(location.add(new TilePosition(dx, dy)), CheckMode.no_check);
             if (!tile.Buildable()) return -1;
             if (tile.InternalData().intValue() == -1) return -1; // The special value InternalData() == -1 means there is some ressource at maximum 3 tiles, which Starcraft rules forbid.
                                                                  // Unfortunately, this is guaranteed only for the ressources in this Area, which is the very reason of ValidateBaseLocation
@@ -465,7 +465,7 @@ public class Area extends Markable<Area> {
         for (int dx = -3; dx < dimCC.getX() + 3; ++dx) {
             TilePosition t = location.add(new TilePosition(dx, dy));
             if (pMap.Valid(t)) {
-                Tile tile = pMap.GetTile(t, CheckMode.NoCheck);
+                Tile tile = pMap.GetTile(t, CheckMode.no_check);
                 Neutral n = tile.GetNeutral();
                 if (n != null) {
                     if (n instanceof Geyser) return false;
@@ -562,7 +562,7 @@ public class Area extends Markable<Area> {
         while (!ToVisit.isEmpty()) {
             int currentDist = ToVisit.mapIterator().getKey();
             TilePosition current = ToVisit.mapIterator().getValue();
-            Tile currentTile = pMap.GetTile(current, CheckMode.NoCheck);
+            Tile currentTile = pMap.GetTile(current, CheckMode.no_check);
 //            bwem_assert(currentTile.InternalData() == currentDist);
             if (!(currentTile.InternalData().intValue() == currentDist)) {
                 throw new IllegalStateException();
@@ -592,7 +592,7 @@ public class Area extends Markable<Area> {
 
                 TilePosition next = current.add(delta);
                 if (pMap.Valid(next)) {
-                    Tile nextTile = pMap.GetTile(next, CheckMode.NoCheck);
+                    Tile nextTile = pMap.GetTile(next, CheckMode.no_check);
                     if (!nextTile.Marked()) {
                         if (nextTile.InternalData().intValue() != 0) { // next already in ToVisit
                             if (newNextDist < nextTile.InternalData().intValue()) { // nextNewDist < nextOldDist
@@ -624,7 +624,7 @@ public class Area extends Markable<Area> {
         for (Integer key : ToVisit.keySet()) {
             Collection<TilePosition> coll = ToVisit.get(key);
             for (TilePosition t : coll) {
-                pMap.GetTile(t, CheckMode.NoCheck).SetInternalData(new MutableInt(0));
+                pMap.GetTile(t, CheckMode.no_check).SetInternalData(new MutableInt(0));
             }
         }
 
