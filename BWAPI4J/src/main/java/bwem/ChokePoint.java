@@ -38,7 +38,7 @@ import org.openbw.bwapi4j.util.Pair;
 //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-public class ChokePoint extends Markable<ChokePoint> {
+public final class ChokePoint extends Markable<ChokePoint> {
 
 	// ChokePoint::middle denotes the "middle" MiniTile of Geometry(), while
 	// ChokePoint::end1 and ChokePoint::end2 denote its "ends".
@@ -63,15 +63,14 @@ public class ChokePoint extends Markable<ChokePoint> {
 
     }
 
-
     private UserData userData = new UserData();
     private Graph m_pGraph;
-    private boolean m_pseudo;
-    private Index m_index;
-    private Pair<Area, Area> m_Areas;
-    private WalkPosition[] m_nodes; //TODO: Initialize with node_count number of elements.
-    private List<Pair<WalkPosition, WalkPosition>> m_nodesInArea = new ArrayList<>(); //TODO: Initialize with node_count number of elements.
-    private List<WalkPosition> m_Geometry;
+    private final boolean m_pseudo;
+    private final Index m_index;
+    private final Pair<Area, Area> m_Areas;
+    private WalkPosition[] m_nodes;
+    private List<Pair<WalkPosition, WalkPosition>> m_nodesInArea;
+    private final List<WalkPosition> m_Geometry;
     private boolean m_blocked;
     private Neutral m_pBlockingNeutral;
     private ChokePoint m_pPathBackTrace = null;
@@ -99,6 +98,11 @@ public class ChokePoint extends Markable<ChokePoint> {
         m_nodes[ChokePoint.Node.end1.intVal()] = Geometry.get(0);
         m_nodes[ChokePoint.Node.end2.intVal()] = Geometry.get(Geometry.size() - 1);
 
+        m_nodesInArea = new ArrayList<>();
+        for (int i = 0; i < ChokePoint.Node.node_count.intVal(); ++i) {
+            m_nodesInArea.add(new Pair<>(new WalkPosition(0, 0), new WalkPosition(0, 0)));
+        }
+
         int i = Geometry.size() / 2;
         while ((i > 0)
                 && (GetMap().GetMiniTile(Geometry.get(i - 1)).Altitude().intValue()
@@ -112,86 +116,77 @@ public class ChokePoint extends Markable<ChokePoint> {
         }
         m_nodes[ChokePoint.Node.middle.intVal()] = Geometry.get(i);
 
-        List<Area> tmpAreaList = new ArrayList<>();
-        tmpAreaList.add(area1);
-        tmpAreaList.add(area2);
+        for (int n = 0; n < ChokePoint.Node.node_count.intVal(); ++n) {
+            List<Area> tmpAreaList = new ArrayList<>();
+            tmpAreaList.add(area1);
+            tmpAreaList.add(area2);
+            for (Area pArea : tmpAreaList) {
+                WalkPosition nodeInArea = GetGraph().GetMap().BreadthFirstSearch(
+                    m_nodes[n],
+                    new Pred() { // findCond
+                        @Override
+                        public boolean is(Object... args) {
+                            Object tmap = args[args.length - 1];
+                            Map map = null;
+                            if (tmap instanceof Map) {
+                                map = (Map) tmap;
+                            } else {
+                                throw new IllegalArgumentException("Invalid map argument.");
+                            }
 
-        for (int n = 0; n < ChokePoint.Node.node_count.intVal(); ++n)
-        for (Area pArea : tmpAreaList) {
-            WalkPosition nodeInArea = GetGraph().GetMap().BreadthFirstSearch(
-                m_nodes[n],
-                new Pred() { // findCond
-                    @Override
-                    public boolean is(Object... args) {
-                        Object tmap = args[args.length - 1];
-                        Map map = null;
-                        if (tmap instanceof Map) {
-                            map = (Map) tmap;
-                        } else {
-                            throw new IllegalArgumentException("Invalid map argument.");
+                            Object ttile = args[0];
+                            Object tpos = args[1];
+                            if (ttile instanceof MiniTile && tpos instanceof WalkPosition) {
+                                MiniTile miniTile = (MiniTile) ttile;
+                                WalkPosition w = (WalkPosition) tpos;
+                                TilePosition t = w.toPosition().toTilePosition();
+                                return (miniTile.AreaId().intValue() > pArea.Id().intValue() && map.GetTile(t, check_t.no_check).GetNeutral() == null);
+                            } else {
+                                throw new IllegalArgumentException("Invalid argument list.");
+                            }
                         }
+                    },
+                    new Pred() { // visitCond
+                        @Override
+                        public boolean is(Object... args) {
+                            Object tmap = args[args.length - 1];
+                            Map map;
+                            if (tmap instanceof Map) {
+                                map = (Map) tmap;
+                            } else {
+                                throw new IllegalArgumentException("Invalid map argument.");
+                            }
 
-                        Object ttile = args[0];
-                        Object tpos = args[1];
-                        if (ttile instanceof MiniTile && tpos instanceof WalkPosition) {
-                            MiniTile miniTile = (MiniTile) ttile;
-                            WalkPosition w = (WalkPosition) tpos;
-                            TilePosition t = w.toPosition().toTilePosition();
-                            return (miniTile.AreaId().intValue() > pArea.Id().intValue() && map.GetTile(t, check_t.no_check).GetNeutral() == null);
-                        } else {
-                            throw new IllegalArgumentException("Invalid argument list.");
+                            Object ttile = args[0];
+                            Object tpos = args[1];
+                            if (ttile instanceof MiniTile && tpos instanceof WalkPosition) {
+                                MiniTile miniTile = (MiniTile) ttile;
+                                WalkPosition w = (WalkPosition) tpos;
+                                TilePosition t = w.toPosition().toTilePosition();
+                                return (miniTile.AreaId().intValue() > pArea.Id().intValue() || (Blocked() && (miniTile.Blocked() || map.GetTile(t, check_t.no_check).GetNeutral() != null)));
+                            } else {
+                                throw new IllegalArgumentException("Invalid argument list.");
+                            }
                         }
                     }
-                },
-                new Pred() { // visitCond
-                    @Override
-                    public boolean is(Object... args) {
-                        Object tmap = args[args.length - 1];
-                        Map map;
-                        if (tmap instanceof Map) {
-                            map = (Map) tmap;
-                        } else {
-                            throw new IllegalArgumentException("Invalid map argument.");
-                        }
+                );
 
-                        Object ttile = args[0];
-                        Object tpos = args[1];
-                        if (ttile instanceof MiniTile && tpos instanceof WalkPosition) {
-                            MiniTile miniTile = (MiniTile) ttile;
-                            WalkPosition w = (WalkPosition) tpos;
-                            TilePosition t = w.toPosition().toTilePosition();
-                            return (miniTile.AreaId().intValue() > pArea.Id().intValue() || (Blocked() && (miniTile.Blocked() || map.GetTile(t, check_t.no_check).GetNeutral() != null)));
-                        } else {
-                            throw new IllegalArgumentException("Invalid argument list.");
-                        }
-                    }
+                /**
+                 * Note: In the original C++ code, "nodeInArea" is a reference to a "WalkPosition" in
+                 * "nodesInArea" which changes! Change that object here (after the call to "BreadthFirstSearch")...
+                 */
+                WalkPosition first = m_nodesInArea.get(n).first;
+                WalkPosition second = this.m_nodesInArea.get(n).second;
+                Pair<WalkPosition, WalkPosition> replacementPair;
+                if (pArea.equals(m_Areas.first)) {
+                    replacementPair = new Pair<>(new WalkPosition(nodeInArea.getX(), nodeInArea.getY()), new WalkPosition(second.getX(), second.getY()));
+                } else {
+                    //TODO: Determine if we should test "else if (tmpArea.equals(this.areaPair.second))" and then throw an exception if that test also fails.
+                    replacementPair = new Pair<>(new WalkPosition(first.getX(), first.getY()), new WalkPosition(nodeInArea.getX(), nodeInArea.getY()));
                 }
-            );
-
-            /**
-             * Note: In the original C++ code, "nodeInArea" is a reference to a "WalkPosition" in
-             * "nodesInArea" which changes! Change that object here (after the call to "breadthFirstSearch")...
-             */
-//            WalkPosition & nodeInArea = (pArea == m_Areas.first) ? m_nodesInArea[n].first : m_nodesInArea[n].second;
-            WalkPosition first = m_nodesInArea.get(n).first;
-            WalkPosition second = this.m_nodesInArea.get(n).second;
-            Pair<WalkPosition, WalkPosition> replacementPair;
-            if (pArea.equals(m_Areas.first)) {
-                replacementPair = new Pair<>(new WalkPosition(nodeInArea.getX(), nodeInArea.getY()), new WalkPosition(second.getX(), second.getY()));
-            } else {
-                //TODO: Determine if we should test "else if (tmpArea.equals(this.areaPair.second))" and then throw an exception if that test also fails.
-                replacementPair = new Pair<>(new WalkPosition(first.getX(), first.getY()), new WalkPosition(nodeInArea.getX(), nodeInArea.getY()));
+                m_nodesInArea.set(n, replacementPair);
             }
-            m_nodesInArea.remove(n);
-            m_nodesInArea.add(n, replacementPair);
         }
-    }
-
-    public ChokePoint(ChokePoint Other) {
-        m_pGraph = Other.m_pGraph;
-        m_index = new Index(0);
-        m_pseudo = false;
-//        bwem_assert(false);
     }
 
 	// Tells whether this ChokePoint is a pseudo ChokePoint, i.e., it was created on top of a blocking Neutral.
@@ -300,10 +295,10 @@ public class ChokePoint extends Markable<ChokePoint> {
     public void OnBlockingNeutralDestroyed(Neutral pBlocking) {
 //        bwem_assert(pBlocking && pBlocking->Blocking());
         if (!(pBlocking != null && pBlocking.Blocking())) {
-            throw new IllegalStateException("failed assert: pBlocking != null && pBlocking.Blocking()");
+            throw new IllegalStateException();
         }
 
-        if (m_pBlockingNeutral == pBlocking) {
+        if (m_pBlockingNeutral.equals(pBlocking)) {
             // Ensures that in the case where several neutrals are stacked, m_pBlockingNeutral points to the bottom one:
             m_pBlockingNeutral = GetMap().GetTile(m_pBlockingNeutral.TopLeft()).GetNeutral();
 

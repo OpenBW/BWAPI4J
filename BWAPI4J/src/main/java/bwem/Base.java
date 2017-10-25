@@ -7,6 +7,7 @@ import bwem.unit.Mineral;
 import bwem.unit.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.UnitType;
@@ -139,6 +140,31 @@ public final class Base {
 
     private Map GetMap() {
         return m_pMap;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        } else if (!(object instanceof Base)) {
+            throw new IllegalArgumentException("Object is not an instance of Base");
+        } else {
+            Base that = (Base) object;
+            return (this.m_pArea.equals(that.m_pArea)
+                    && this.m_location.equals(that.m_location)
+                    && this.m_center.equals(that.m_center));
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                this.m_pArea.Id().intValue(),
+                this.m_location.getX(),
+                this.m_location.getY(),
+                this.m_center.getX(),
+                this.m_center.getY()
+        );
     }
 
 }
