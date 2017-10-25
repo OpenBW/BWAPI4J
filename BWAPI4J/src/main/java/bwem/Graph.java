@@ -32,16 +32,15 @@ import org.openbw.bwapi4j.util.Pair;
 //                                                                                          //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-public class Graph {
+public final class Graph {
 
     private final MapImpl m_pMap;
-    private List<Area> m_Areas;
-    private List<ChokePoint> m_ChokePointList;
+    private List<Area> m_Areas = new ArrayList<>();
+    private List<ChokePoint> m_ChokePointList = new ArrayList<>();
     private List<List<List<ChokePoint>>> m_ChokePointsMatrix; // index == Area::id x Area::id
     private List<List<Integer>> m_ChokePointDistanceMatrix; // index == ChokePoint::index x ChokePoint::index
     private List<List<CPPath>> m_PathsBetweenChokePoints; // index == ChokePoint::index x ChokePoint::index
-    private CPPath m_EmptyPath;
-    private int m_baseCount;
+    private int m_baseCount = 0;
 
     public Graph(MapImpl pMap) {
         m_pMap = pMap;
@@ -152,21 +151,21 @@ public class Graph {
     public List<ChokePoint> GetChokePoints(AreaId a, AreaId b) {
         if (!Valid(a)) {
 //            bwem_assert(Valid(a));
-            throw new IllegalArgumentException("failed assert: Valid(a)");
+            throw new IllegalArgumentException();
         } else if (!Valid(b)) {
 //            bwem_assert(Valid(b));
-            throw new IllegalArgumentException("failed assert: Valid(b)");
+            throw new IllegalArgumentException();
         } else if (!(a.intValue() != b.intValue())) {
 //            bwem_assert(a != b);
-            throw new IllegalArgumentException("failed assert: a.intValue() != b.intValue()");
+            throw new IllegalArgumentException();
         }
 
         int a_id = a.intValue();
         int b_id = b.intValue();
         if (a.intValue() > b.intValue()) {
-            int tmp = a_id;
+            int a_id_tmp = a_id;
             a_id = b_id;
-            b_id = tmp;
+            b_id = a_id_tmp;
         }
 
         return m_ChokePointsMatrix.get(b_id).get(a_id);
@@ -177,7 +176,7 @@ public class Graph {
         return GetChokePoints(a.Id(), b.Id());
     }
 
-//	// Returns the ground distance in pixels between cpA->Center() and cpB>Center()
+	// Returns the ground distance in pixels between cpA->Center() and cpB>Center()
 	public int Distance(ChokePoint cpA, ChokePoint cpB) {
         return m_ChokePointDistanceMatrix.get(cpA.Index().intValue()).get(cpB.Index().intValue());
     }
@@ -195,14 +194,14 @@ public class Graph {
             if (pLength != null) {
                 pLength.setValue((int) a.getDistance(b));
             }
-            return new CPPath(); //TODO: Return empty list or null?
+            return new CPPath();
         }
 
         if (!areaA.AccessibleFrom(areaB)) {
             if (pLength != null) {
                 pLength.setValue(-1);
             }
-            return new CPPath(); //TODO: Return empty list or null?
+            return new CPPath();
         }
 
         int minDist_A_B = Integer.MAX_VALUE;
@@ -229,7 +228,7 @@ public class Graph {
 
 //        bwem_assert(minDist_A_B != numeric_limits<int>::max());
         if (!(minDist_A_B != Integer.MAX_VALUE)) {
-            throw new IllegalStateException("failed assert: minDist_A_B != Integer.MAX_VALUE");
+            throw new IllegalStateException();
         }
 
         CPPath path = GetPath(bestCpA, bestCpB);
@@ -237,7 +236,7 @@ public class Graph {
         if (pLength != null) {
 //            bwem_assert(Path.size() >= 1);
             if (!(path.size() >= 1)) {
-                throw new IllegalStateException("failed assert: path.size() >= 1");
+                throw new IllegalStateException();
             }
 
             pLength.setValue(minDist_A_B);
@@ -245,7 +244,7 @@ public class Graph {
             if (path.size() == 1) {
 //                bwem_assert(pBestCpA == pBestCpB);
                 if (!(bestCpA.equals(bestCpB))) {
-                    throw new IllegalStateException("failed assert: bestCpA.equals(bestCpB)");
+                    throw new IllegalStateException();
                 }
                 ChokePoint cp = bestCpA;
 
@@ -285,7 +284,6 @@ public class Graph {
             m_Areas.add(new Area(this, id, top, miniTiles));
         }
     }
-
 
     // Creates a new Area for each pair (top, miniTiles) in AreasList (See Area::Top() and Area::MiniTiles())
     public void CreateChokePoints() {
@@ -456,6 +454,79 @@ public class Graph {
         }
     }
 
+    public void ComputeChokePointDistanceMatrix() {
+    	// 1) Size the matrix
+//    	m_ChokePointDistanceMatrix.resize(m_ChokePointList.size());
+//    	for (auto & line : m_ChokePointDistanceMatrix)
+//    		line.resize(m_ChokePointList.size(), -1);
+
+//    	m_PathsBetweenChokePoints.resize(m_ChokePointList.size());
+//    	for (auto & line : m_PathsBetweenChokePoints)
+//    		line.resize(m_ChokePointList.size());
+
+    	// 2) Compute distances inside each Area
+    	for (Area area : Areas()) {
+    		ComputeChokePointDistances(area);
+        }
+
+    	// 3) Compute distances through connected Areas
+    	ComputeChokePointDistances(this);
+
+    	for (ChokePoint cp : ChokePoints()) {
+    		SetDistance(cp, cp, 0);
+            CPPath cppath = new CPPath();
+            cppath.add(cp);
+    		SetPath(cp, cp, cppath);
+    	}
+
+    	// 4) Update Area::m_AccessibleNeighbours for each Area
+    	for (Area area : Areas())
+    		area.UpdateAccessibleNeighbors();
+
+    	// 5)  Update Area::m_groupId for each Area
+    	UpdateGroupIds();
+    }
+
+    public void CollectInformation() {
+        // 1) Process the whole Map:
+
+        for (Mineral m : GetMap().Minerals()) {
+            Area pArea = mainArea(GetMap(), m.TopLeft(), m.Size());
+            if (pArea != null) {
+                pArea.AddMineral(m);
+            }
+        }
+
+        for (Geyser g : GetMap().Geysers()) {
+            Area pArea = mainArea(GetMap(), g.TopLeft(), g.Size());
+            if (pArea != null) {
+                pArea.AddGeyser(g);
+            }
+        }
+
+        for (int y = 0; y < GetMap().Size().getY(); ++y)
+        for (int x = 0; x < GetMap().Size().getX(); ++x) {
+            Tile tile = GetMap().GetTile(new TilePosition(x, y));
+            if (tile.AreaId().intValue() > 0) {
+                GetArea(tile.AreaId()).AddTileInformation(new TilePosition(x, y), tile);
+            }
+        }
+
+        // 2) Post-process each Area separately:
+
+        for (Area area : m_Areas) {
+            area.PostCollectInformation();
+        }
+    }
+
+    public void CreateBases() {
+        m_baseCount = 0;
+        for (Area area : m_Areas) {
+            area.CreateBases();
+            m_baseCount += area.Bases().size();
+        }
+    }
+
     // Computes the ground distances between any pair of ChokePoints in pContext
     // This is achieved by invoking several times pContext->ComputeDistances,
     // which effectively computes the distances from one starting ChokePoint, using Dijkstra's algorithm.
@@ -469,9 +540,8 @@ public class Graph {
             for (ChokePoint cp : pContext.ChokePoints()) {
                 if (cp.equals(pStart)) {
                     break; // breaks symmetry
-                } else {
-                    Targets.add(cp);
                 }
+                Targets.add(cp);
             }
 
             List<Integer> DistanceToTargets = pContext.ComputeDistances(pStart, Targets);
@@ -514,14 +584,13 @@ public class Graph {
             for (ChokePoint cp : pContext.ChokePoints()) {
                 if (cp.equals(pStart)) {
                     break; // breaks symmetry
-                } else {
-                    Targets.add(cp);
                 }
+                Targets.add(cp);
             }
 
             List<Integer> DistanceToTargets = pContext.ComputeDistances(pStart, Targets);
 
-            for (int i = 0; i < (int)Targets.size(); ++i) {
+            for (int i = 0; i < Targets.size(); ++i) {
                 int newDist = DistanceToTargets.get(i);
                 int existingDist = Distance(pStart, Targets.get(i));
 
@@ -553,87 +622,13 @@ public class Graph {
     ///	for (auto & line : trace) { Log << line.first; for (auto e : line.second) Log << " " << e; Log << endl; }
     }
 
-    public void CollectInformation() {
-        // 1) Process the whole Map:
-
-        for (Mineral m : GetMap().Minerals()) {
-            Area pArea = mainArea(GetMap(), m.TopLeft(), m.Size());
-            if (pArea != null) {
-                pArea.AddMineral(m);
-            }
-        }
-
-        for (Geyser g : GetMap().Geysers()) {
-            Area pArea = mainArea(GetMap(), g.TopLeft(), g.Size());
-            if (pArea != null) {
-                pArea.AddGeyser(g);
-            }
-        }
-
-        for (int y = 0; y < GetMap().Size().getY(); ++y)
-        for (int x = 0; x < GetMap().Size().getX(); ++x) {
-            Tile tile = GetMap().GetTile(new TilePosition(x, y));
-            if (tile.AreaId().intValue() > 0) {
-                GetArea(tile.AreaId()).AddTileInformation(new TilePosition(x, y), tile);
-            }
-        }
-
-        // 2) Post-process each Area separately:
-
-        for (Area area : m_Areas) {
-            area.PostCollectInformation();
-        }
-    }
-
-
-    public void CreateBases() {
-        m_baseCount = 0;
-        for (Area area : m_Areas) {
-            area.CreateBases();
-            m_baseCount += area.Bases().size();
-        }
-    }
-
-    public void ComputeChokePointDistanceMatrix() {
-    	// 1) Size the matrix
-//    	m_ChokePointDistanceMatrix.resize(m_ChokePointList.size());
-//    	for (auto & line : m_ChokePointDistanceMatrix)
-//    		line.resize(m_ChokePointList.size(), -1);
-
-//    	m_PathsBetweenChokePoints.resize(m_ChokePointList.size());
-//    	for (auto & line : m_PathsBetweenChokePoints)
-//    		line.resize(m_ChokePointList.size());
-
-    	// 2) Compute distances inside each Area
-    	for (Area area : Areas()) {
-    		ComputeChokePointDistances(area);
-        }
-
-    	// 3) Compute distances through connected Areas
-    	ComputeChokePointDistances(this);
-
-    	for (ChokePoint cp : ChokePoints()) {
-    		SetDistance(cp, cp, 0);
-            CPPath cppath = new CPPath();
-            cppath.add(cp);
-    		SetPath(cp, cp, cppath);
-    	}
-
-    	// 4) Update Area::m_AccessibleNeighbours for each Area
-    	for (Area area : Areas())
-    		area.UpdateAccessibleNeighbors();
-
-    	// 5)  Update Area::m_groupId for each Area
-    	UpdateGroupIds();
-    }
-
     // Returns Distances such that Distances[i] == ground_distance(start, Targets[i]) in pixels
     // Any Distances[i] may be 0 (meaning Targets[i] is not reachable).
     // This may occur in the case where start and Targets[i] leave in different continents or due to Bloqued intermediate ChokePoint(s).
     // For each reached target, the shortest path can be derived using
     // the backward trace set in cp->PathBackTrace() for each intermediate ChokePoint cp from the target.
     // Note: same algo than Area::ComputeDistances (derived from Dijkstra)
-    List<Integer> ComputeDistances(ChokePoint start, List<ChokePoint> Targets) {
+    private List<Integer> ComputeDistances(ChokePoint start, List<ChokePoint> Targets) {
         MapImpl pMap = GetMap();
         List<Integer> Distances = new ArrayList<>(Targets.size());
 
@@ -656,7 +651,7 @@ public class Graph {
             currentTile.SetInternalData(new MutableInt(0)); // resets Tile::m_internalData for future usage
             currentTile.SetMarked();
 
-            for (int i = 0; i < (int)Targets.size(); ++i) {
+            for (int i = 0; i < Targets.size(); ++i) {
                 if (current.equals(Targets.get(i))) {
                     Distances.set(i, currentDist);
                     --remainingTargets;
@@ -700,10 +695,10 @@ public class Graph {
             }
         }
 
-    //	bwem_assert(!remainingTargets);
-        if (!(remainingTargets == 0)) {
-            throw new IllegalStateException();
-        }
+//    //	bwem_assert(!remainingTargets);
+//        if (!(remainingTargets == 0)) {
+//            throw new IllegalStateException();
+//        }
 
         // Reset Tile::m_internalData for future usage
         for (Integer key : ToVisit.keySet()) {
@@ -729,8 +724,7 @@ public class Graph {
     		if (!start.Marked()) {
     			List<Area> ToVisit = new ArrayList<>();
                 ToVisit.add(start);
-    			while (!ToVisit.isEmpty())
-    			{
+    			while (!ToVisit.isEmpty()) {
     				Area current = ToVisit.remove(ToVisit.size() - 1);
     				current.SetGroupId(nextGroupId);
 
@@ -757,7 +751,7 @@ public class Graph {
     }
 
     private boolean Valid(AreaId id) {
-        return (id.intValue() >= 1 && id.intValue() <= AreasCount());
+        return (1 <= id.intValue() && id.intValue() <= AreasCount());
     }
 
     public static Area mainArea(MapImpl pMap, TilePosition topLeft, TilePosition size) {
