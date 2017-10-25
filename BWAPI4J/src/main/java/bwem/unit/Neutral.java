@@ -1,7 +1,3 @@
-/*
-Status: Incomplete
-*/
-
 package bwem.unit;
 
 import bwem.area.Area;
@@ -35,7 +31,7 @@ public class Neutral {
     private final TilePosition m_size;
     private final Map m_pMap;
     private Neutral m_pNextStacked = null;
-    private List<WalkPosition> m_blockedAreas;
+    private List<WalkPosition> m_blockedAreas = new ArrayList<>();
 
     protected Neutral(Unit u, Map pMap) {
         m_bwapiUnit = u;
@@ -66,10 +62,6 @@ public class Neutral {
 //            bwem_assert(false);
 //        }
 //    }
-
-    protected Map GetMap() {
-        return m_pMap;
-    }
 
     // Returns the BWAPI::Unit this Neutral is wrapping around.
     public Unit Unit() {
@@ -163,7 +155,7 @@ public class Neutral {
                 } else if (!(!this.equals(pTop))) {
 //                    bwem_assert(this != pTop);
                     throw new IllegalStateException();
-                } else if (!(!(pTop instanceof Geyser))) {
+                } else if (!(!(pTop.getClass().getName().equals(Geyser.class.getName())))) {
 //                    bwem_assert(!pTop->IsGeyser());
                     throw new IllegalStateException();
                 } else if (!pTop.isSameUnitTypeAs(this)) {
@@ -219,6 +211,10 @@ public class Neutral {
         }
 
         m_pNextStacked = null;
+    }
+
+    protected Map GetMap() {
+        return m_pMap;
     }
 
     @Override
