@@ -32,20 +32,16 @@ import org.apache.commons.lang3.mutable.MutableInt;
 //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-public class Tile extends Markable<Tile> {
+public final class Tile extends Markable<Tile> {
 
-    private Neutral m_pNeutral;
+    private Neutral m_pNeutral = null;
     private Altitude m_minAltitude;
-    private AreaId m_areaId;
-    private MutableInt m_internalData;
-    private Bits m_bits;
+    private AreaId m_areaId = new AreaId(0);
+    private MutableInt m_internalData = new MutableInt(0);
+    private Bits m_bits = new Bits();
 
     public Tile() {
-        m_pNeutral = null;
-        m_minAltitude = null;
-        m_areaId = null;
-        m_internalData = new MutableInt(0);
-        m_bits = new Bits();
+        /* Do nothing. */
     }
 
 	// Corresponds to BWAPI::isBuildable
@@ -119,7 +115,7 @@ public class Tile extends Markable<Tile> {
 
     public void SetGroundHeight(int h) {
 //        { bwem_assert((0 <= h) && (h <= 2)); m_bits.groundHeight = h; }
-        if (!(h >= 0 && h <= 2)) {
+        if (!((0 <= h) && (h <= 2))) {
             throw new IllegalArgumentException();
         }
         m_bits.groundHeight = (byte) h;

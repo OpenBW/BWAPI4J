@@ -3,7 +3,7 @@ package bwem.tile;
 import bwem.Altitude;
 import bwem.area.AreaId;
 
-public class MiniTile {
+public final class MiniTile {
 
     private static final AreaId blockingCP = new AreaId(Integer.MIN_VALUE);
 
