@@ -6,7 +6,7 @@ package bwem.map;
 
 import bwem.Altitude;
 import bwem.CPPath;
-import bwem.CheckMode;
+import bwem.check_t;
 import bwem.Pred;
 import bwem.area.Area;
 import bwem.area.AreaId;
@@ -122,45 +122,45 @@ public abstract class Map {
     public abstract int ChokePointCount();
 
 	// Returns a Tile, given its position.
-	public Tile GetTile(TilePosition p, CheckMode checkMode) {
+	public Tile GetTile(TilePosition p, check_t checkMode) {
 //        bwem_assert((checkMode == utils::check_t::no_check) || Valid(p)); utils::unused(checkMode);
-        if (!(checkMode == CheckMode.no_check) || Valid(p)) {
+        if (!(checkMode == check_t.no_check) || Valid(p)) {
             throw new IllegalArgumentException();
         }
         return m_Tiles.get(Size().getX() * p.getY() + p.getX());
     }
 
     public Tile GetTile(TilePosition p) {
-        return GetTile(p, CheckMode.check);
+        return GetTile(p, check_t.check);
     }
 
-    public Tile GetTile_(TilePosition p, CheckMode checkMode) {
+    public Tile GetTile_(TilePosition p, check_t checkMode) {
         return m_Tiles.get(Size().getX() * p.getY() + p.getX());
     }
 
     public Tile GetTile_(TilePosition p) {
-        return GetTile_(p, CheckMode.check);
+        return GetTile_(p, check_t.check);
     }
 
 	// Returns a MiniTile, given its position.
-    public MiniTile GetMiniTile(WalkPosition p, CheckMode checkMode) {
+    public MiniTile GetMiniTile(WalkPosition p, check_t checkMode) {
 //        bwem_assert((checkMode == utils::check_t::no_check) || Valid(p));
-        if (!((checkMode == CheckMode.no_check) || Valid(p))) {
+        if (!((checkMode == check_t.no_check) || Valid(p))) {
             throw new IllegalArgumentException();
         }
         return m_MiniTiles.get(WalkSize().getX() * p.getY() + p.getX());
     }
 
     public MiniTile GetMiniTile(WalkPosition p) {
-        return GetMiniTile(p, CheckMode.check);
+        return GetMiniTile(p, check_t.check);
     }
 
-    public MiniTile GetMiniTile_(WalkPosition p, CheckMode checkMode) {
+    public MiniTile GetMiniTile_(WalkPosition p, check_t checkMode) {
         return m_MiniTiles.get(WalkSize().getX() * p.getY() + p.getX());
     }
 
     public MiniTile GetMiniTile_(WalkPosition p) {
-        return GetMiniTile_(p, CheckMode.check);
+        return GetMiniTile_(p, check_t.check);
     }
 
 	// Returns a list of ChokePoints, which is intended to be the shortest walking path from 'a' to 'b'.
@@ -312,7 +312,7 @@ public abstract class Map {
             for (TilePosition delta : directions) {
                 TilePosition next = current.add(delta);
                 if (Valid(next)) {
-                    Tile nextTile = GetTile(next, CheckMode.no_check);
+                    Tile nextTile = GetTile(next, check_t.no_check);
                     if (findCond.is(nextTile, next, this)) {
                         return next;
                     }
@@ -358,7 +358,7 @@ public abstract class Map {
             for (WalkPosition delta : directions) {
                 WalkPosition next = current.add(delta);
                 if (Valid(next)) {
-                    MiniTile Next = GetMiniTile(next, CheckMode.no_check);
+                    MiniTile Next = GetMiniTile(next, check_t.no_check);
                     if (findCond.is(Next, next, this)) {
                         return next;
                     }

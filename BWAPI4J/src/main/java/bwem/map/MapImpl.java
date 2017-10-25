@@ -7,7 +7,7 @@ package bwem.map;
 import bwem.Altitude;
 import bwem.Base;
 import bwem.CPPath;
-import bwem.CheckMode;
+import bwem.check_t;
 import bwem.ChokePoint;
 import bwem.Graph;
 import bwem.PairGenericAltitudeComparator;
@@ -347,7 +347,7 @@ public final class MapImpl extends Map {
     			for (int dx = -1 ; dx <= +1 ; ++dx) {
     				WalkPosition w = new WalkPosition(x + dx, y + dy);
     				if (Valid(w)) {
-    					GetMiniTile_(w, CheckMode.no_check).SetWalkable(false);
+    					GetMiniTile_(w, check_t.no_check).SetWalkable(false);
                     }
     			}
             }
@@ -365,7 +365,7 @@ public final class MapImpl extends Map {
     			// Ensures buildable ==> walkable:
     			for (int dy = 0 ; dy < 4 ; ++dy)
     			for (int dx = 0 ; dx < 4 ; ++dx) {
-    				GetMiniTile_(new WalkPosition(t).add(new WalkPosition(dx, dy)), CheckMode.no_check).SetWalkable(true);
+    				GetMiniTile_(new WalkPosition(t).add(new WalkPosition(dx, dy)), check_t.no_check).SetWalkable(true);
                 }
     		}
 
@@ -382,7 +382,7 @@ public final class MapImpl extends Map {
     	for (int y = 0; y < WalkSize().getY(); ++y)
     	for (int x = 0; x < WalkSize().getX(); ++x) {
     		WalkPosition origin = new WalkPosition(x, y);
-    		MiniTile Origin = GetMiniTile_(origin, CheckMode.no_check);
+    		MiniTile Origin = GetMiniTile_(origin, check_t.no_check);
     		if (Origin.SeaOrLake()) {
     			List<WalkPosition> ToSearch = new ArrayList<>();
                 ToSearch.add(origin);
@@ -405,7 +405,7 @@ public final class MapImpl extends Map {
     					WalkPosition next = current.add(delta);
     					if (Valid(next))
     					{
-    						MiniTile Next = GetMiniTile_(next, CheckMode.no_check);
+    						MiniTile Next = GetMiniTile_(next, check_t.no_check);
     						if (Next.SeaOrLake()) {
     							ToSearch.add(next);
     							if (SeaExtent.size() <= BwemExt.lake_max_miniTiles) SeaExtent.add(Next);
@@ -501,7 +501,7 @@ public final class MapImpl extends Map {
                     for (WalkPosition delta : deltas) {
                         WalkPosition w = Current.first.add(delta);
                         if (Valid(w)) {
-                            MiniTile miniTile = GetMiniTile_(w, CheckMode.no_check);
+                            MiniTile miniTile = GetMiniTile_(w, check_t.no_check);
                             if (miniTile.AltitudeMissing()) {
                                 m_maxAltitude = new Altitude(altitude);
                                 Current.second = new Altitude(altitude);
@@ -529,8 +529,8 @@ public final class MapImpl extends Map {
                 List<WalkPosition> Border = BwemExt.outerMiniTileBorder(pCandidate.TopLeft(), pCandidate.Size());
                 for (int i = 0; i < Border.size(); ++i) {
                     WalkPosition w = Border.get(i);
-                    if (!Valid(w) || !GetMiniTile(w, CheckMode.no_check).Walkable() ||
-                            GetTile(w.toPosition().toTilePosition(), CheckMode.no_check).GetNeutral() != null) {
+                    if (!Valid(w) || !GetMiniTile(w, check_t.no_check).Walkable() ||
+                            GetTile(w.toPosition().toTilePosition(), check_t.no_check).GetNeutral() != null) {
                         Border.remove(i--);
                     }
                 }
@@ -552,8 +552,8 @@ public final class MapImpl extends Map {
                         for (WalkPosition delta : deltas) {
                             WalkPosition next = current.add(delta);
                             if (Valid(next) && !Visited.contains(next)) {
-                                if (GetMiniTile(next, CheckMode.no_check).Walkable()) {
-                                    if (GetTile(next.toPosition().toTilePosition(), CheckMode.no_check).GetNeutral() == null) {
+                                if (GetMiniTile(next, check_t.no_check).Walkable()) {
+                                    if (GetTile(next.toPosition().toTilePosition(), check_t.no_check).GetNeutral() == null) {
                                         if (BwemExt.adjoins8SomeLakeOrNeutral(next, this)) {
                                             ToVisit.add(next);
                                             Visited.add(next);
@@ -587,8 +587,8 @@ public final class MapImpl extends Map {
                             for (WalkPosition delta : deltas) {
                                 WalkPosition next = current.add(delta);
                                 if (Valid(next) && !Visited.contains(next)) {
-                                    if (GetMiniTile(next, CheckMode.no_check).Walkable()) {
-                                        if (GetTile(next.toPosition().toTilePosition(), CheckMode.no_check).GetNeutral() == null) {
+                                    if (GetMiniTile(next, check_t.no_check).Walkable()) {
+                                        if (GetTile(next.toPosition().toTilePosition(), check_t.no_check).GetNeutral() == null) {
                                             ToVisit.add(next);
                                             Visited.add(next);
                                         }
@@ -643,7 +643,7 @@ public final class MapImpl extends Map {
         for (int y = 0; y < WalkSize().getY(); ++y)
         for (int x = 0; x < WalkSize().getX(); ++x) {
             WalkPosition w = new WalkPosition(x, y);
-            MiniTile miniTile = GetMiniTile_(w, CheckMode.no_check);
+            MiniTile miniTile = GetMiniTile_(w, check_t.no_check);
             if (miniTile.AreaIdMissing()) {
                 MiniTilesByDescendingAltitude.add(new Pair<>(w, miniTile));
             }
@@ -717,7 +717,7 @@ public final class MapImpl extends Map {
     }
 
     private void ReplaceAreaIds(WalkPosition p, AreaId newAreaId) {
-        MiniTile Origin = GetMiniTile_(p, CheckMode.no_check);
+        MiniTile Origin = GetMiniTile_(p, check_t.no_check);
         AreaId oldAreaId = Origin.AreaId();
         Origin.ReplaceAreaId(newAreaId);
 
@@ -729,7 +729,7 @@ public final class MapImpl extends Map {
             for (WalkPosition delta : deltas) {
                 WalkPosition next = current.add(delta);
                 if (Valid(next)) {
-                    MiniTile Next = GetMiniTile_(next, CheckMode.no_check);
+                    MiniTile Next = GetMiniTile_(next, check_t.no_check);
                     if (Next.AreaId().equals(oldAreaId)) {
                         ToSearch.add(next);
                         Next.ReplaceAreaId(newAreaId);
@@ -787,7 +787,7 @@ public final class MapImpl extends Map {
 
         for (int dy = 0; dy < 4; ++dy)
         for (int dx = 0; dx < 4; ++dx) {
-            AreaId id = GetMiniTile(t.toPosition().toWalkPosition().add(new WalkPosition(dx, dy)), CheckMode.no_check).AreaId();
+            AreaId id = GetMiniTile(t.toPosition().toWalkPosition().add(new WalkPosition(dx, dy)), check_t.no_check).AreaId();
             if (id.intValue() != 0) {
                 if (tile.AreaId().intValue() == 0) {
                     tile.SetAreaId(id);
@@ -804,7 +804,7 @@ public final class MapImpl extends Map {
 
         for (int dy = 0 ; dy < 4 ; ++dy)
         for (int dx = 0 ; dx < 4 ; ++dx) {
-            Altitude altitude = new Altitude(GetMiniTile(t.toPosition().toWalkPosition().add(new WalkPosition(dx, dy)), CheckMode.no_check).Altitude());
+            Altitude altitude = new Altitude(GetMiniTile(t.toPosition().toWalkPosition().add(new WalkPosition(dx, dy)), check_t.no_check).Altitude());
             if (altitude.intValue() < minAltitude.intValue()) {
                 minAltitude = new Altitude(altitude);
             }
@@ -828,7 +828,7 @@ public final class MapImpl extends Map {
         WalkPosition[] deltas = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(+1, 0), new WalkPosition(0, +1)};
         for (WalkPosition delta : deltas) {
             if (pMap.Valid(p.add(delta))) {
-                AreaId areaId = pMap.GetMiniTile(p.add(delta), CheckMode.no_check).AreaId();
+                AreaId areaId = pMap.GetMiniTile(p.add(delta), check_t.no_check).AreaId();
                 if (areaId.intValue() > 0) {
                     if (result.first == null) {
                         result.first = new AreaId(areaId);

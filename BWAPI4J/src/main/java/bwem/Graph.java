@@ -647,7 +647,7 @@ public class Graph {
         while (!ToVisit.isEmpty()) {
             int currentDist = ToVisit.mapIterator().getKey();
             ChokePoint current = ToVisit.mapIterator().getValue();
-            Tile currentTile = pMap.GetTile(current.Center().toPosition().toTilePosition(), CheckMode.no_check);
+            Tile currentTile = pMap.GetTile(current.Center().toPosition().toTilePosition(), check_t.no_check);
 //            bwem_assert(currentTile.InternalData() == currentDist);
             if (!(currentTile.InternalData().intValue() == currentDist)) {
                 throw new IllegalStateException();
@@ -675,16 +675,16 @@ public class Graph {
                 for (ChokePoint next : pArea.ChokePoints()) {
                     if (!next.equals(current)) {
                         final int newNextDist = currentDist + Distance(current, next);
-                        final Tile nextTile = pMap.GetTile(next.Center().toPosition().toTilePosition(), CheckMode.no_check);
+                        final Tile nextTile = pMap.GetTile(next.Center().toPosition().toTilePosition(), check_t.no_check);
                         if (!nextTile.Marked()) {
                             if (nextTile.InternalData().intValue() != 0) { // next already in ToVisit
                                 if (newNextDist < nextTile.InternalData().intValue()) { // nextNewDist < nextOldDist
                                                                                         // To update next's distance, we need to remove-insert it from ToVisit:
-//                                    auto range = ToVisit.equal_range(nextTile.InternalData());
-//                                    auto iNext = find_if(range.first, range.second, [next]
-//                                        (const pair<int, const ChokePoint *> & e) { return e.second == next; });
 //                                    bwem_assert(iNext != range.second);
-                                    ToVisit.removeMapping(nextTile.InternalData().intValue(), next);
+                                    boolean removed = ToVisit.removeMapping(nextTile.InternalData().intValue(), next);
+                                    if (!removed) {
+                                        throw new IllegalStateException();
+                                    }
                                     nextTile.SetInternalData(new MutableInt(newNextDist));
                                     next.SetPathBackTrace(current);
                                     ToVisit.put(newNextDist, next);
@@ -709,7 +709,7 @@ public class Graph {
         for (Integer key : ToVisit.keySet()) {
             Collection<ChokePoint> coll = ToVisit.get(key);
             for (ChokePoint cp : coll) {
-                pMap.GetTile(cp.Center().toPosition().toTilePosition(), CheckMode.no_check).SetInternalData(new MutableInt(0));
+                pMap.GetTile(cp.Center().toPosition().toTilePosition(), check_t.no_check).SetInternalData(new MutableInt(0));
             }
         }
 
