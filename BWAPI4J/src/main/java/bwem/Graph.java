@@ -588,8 +588,7 @@ public class Graph {
     }
 
 
-    public void CreateBases()
-    {
+    public void CreateBases() {
         m_baseCount = 0;
         for (Area area : m_Areas) {
             area.CreateBases();

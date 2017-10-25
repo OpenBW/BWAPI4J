@@ -102,18 +102,16 @@ public final class MapImpl extends Map {
         GetGraph().CreateChokePoints();
 //    ///	bw << "Graph::CreateChokePoints: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
 //
-//        GetGraph().ComputeChokePointDistanceMatrix();
+        GetGraph().ComputeChokePointDistanceMatrix();
 //    ///	bw << "Graph::ComputeChokePointDistanceMatrix: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
 //
-//        GetGraph().CollectInformation();
+        GetGraph().CollectInformation();
 //    ///	bw << "Graph::CollectInformation: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
 //
-//        GetGraph().CreateBases();
+        GetGraph().CreateBases();
 //    ///	bw << "Graph::CreateBases: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
 //
 //    ///	bw << "Map::Initialize: " << overallTimer.ElapsedMilliseconds() << " ms" << endl;
-
-        throw new UnsupportedOperationException("TODO");
     }
 
     public Graph GetGraph() {
