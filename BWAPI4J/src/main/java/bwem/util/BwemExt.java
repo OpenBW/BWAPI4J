@@ -75,6 +75,11 @@ public final class BwemExt {
         return Utils.queenWiseNorm(ret.getX(), ret.getY());
     }
 
+    public static int queenWiseDist(WalkPosition A, WalkPosition B) {
+        WalkPosition ret = A.subtract(B);
+        return Utils.queenWiseNorm(ret.getX(), ret.getY());
+    }
+
     public static int queenWiseDist(Position A, Position B) {
         Position ret = A.subtract(B);
         return Utils.queenWiseNorm(ret.getX(), ret.getY());

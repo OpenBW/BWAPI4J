@@ -99,7 +99,7 @@ public final class MapImpl extends Map {
         ComputeAreas();
 //    ///	bw << "Map::ComputeAreas: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
 //
-//        GetGraph().CreateChokePoints();
+        GetGraph().CreateChokePoints();
 //    ///	bw << "Graph::CreateChokePoints: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
 //
 //        GetGraph().ComputeChokePointDistanceMatrix();
@@ -466,7 +466,7 @@ public final class MapImpl extends Map {
 
         List<Pair<WalkPosition, Altitude>> DeltasByAscendingAltitude = new ArrayList<>();
 
-        for (int dy = 0 ; dy <= range ; ++dy)
+        for (int dy = 0; dy <= range; ++dy)
         for (int dx = dy; dx <= range; ++dx) { // Only consider 1/8 of possible deltas. Other ones obtained by symmetry.
             if (dx != 0 || dy != 0) {
                 DeltasByAscendingAltitude.add(new Pair<>(new WalkPosition(dx, dy), new Altitude((int) (Double.valueOf("0.5") + (Utils.norm(dx, dy) * (double) altitude_scale)))));
