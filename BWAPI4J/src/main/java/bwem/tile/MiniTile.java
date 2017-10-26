@@ -71,7 +71,7 @@ public final class MiniTile {
 
     public void SetSea() {
 //        { bwem_assert(!Walkable() && SeaOrLake()); m_altitude = 0; }
-        if (!(Walkable() && SeaOrLake())) {
+        if (!(!Walkable() && SeaOrLake())) {
             throw new IllegalStateException();
         }
         m_altitude = new Altitude(0);
