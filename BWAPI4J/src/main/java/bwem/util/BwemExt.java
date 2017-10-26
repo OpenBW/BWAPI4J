@@ -1,7 +1,3 @@
-/*
-Status: Incomplete
-*/
-
 package bwem.util;
 
 import bwem.Altitude;
@@ -27,11 +23,11 @@ public final class BwemExt {
     public static final int lake_max_miniTiles = 300;
     public static final int lake_max_width_in_miniTiles = 8 * 4;
 
-    public static final int max_tiles_between_CommandCenter_and_resources = 10;
-    public static final int min_tiles_between_Bases = 10;
-
     // At least area_min_miniTiles connected MiniTiles are necessary for an Area to be created.
     public static final int area_min_miniTiles = 64;
+
+    public static final int max_tiles_between_CommandCenter_and_resources = 10;
+    public static final int min_tiles_between_Bases = 10;
 
     public static final int max_tiles_between_StartingLocation_and_its_AssignedBase = 3;
 
@@ -56,10 +52,6 @@ public final class BwemExt {
         return false;
     }
 
-    public static Position center(Position A) {
-        return A;
-    }
-
     public static Position center(TilePosition A) {
         Position ret = (A.toPosition()).add(BwemExt.TILE_POSITION_CENTER_IN_PIXELS);
         return ret;
@@ -68,6 +60,10 @@ public final class BwemExt {
     public static Position center(WalkPosition A) {
         Position ret = (A.toPosition()).add(BwemExt.WALK_POSITION_CENTER_IN_PIXELS);
         return ret;
+    }
+
+    public static Position center(Position A) {
+        return A;
     }
 
     public static int queenWiseDist(TilePosition A, TilePosition B) {

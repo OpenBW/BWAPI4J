@@ -1,7 +1,3 @@
-/*
-Status: Incomplete
-*/
-
 package bwem.util;
 
 import org.apache.commons.lang3.mutable.MutableDouble;

@@ -1,7 +1,3 @@
-/*
-Status: Incomplete
-*/
-
 package bwem;
 
 import bwem.map.Map;

@@ -1,7 +1,3 @@
-/*
-Status: Incomplete
-*/
-
 package bwem.map;
 
 import bwem.Altitude;
@@ -26,8 +22,29 @@ import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
+import org.openbw.bwapi4j.type.Color;
 import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.util.Pair;
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                          //
+//                                  class Map
+//                                                                                          //
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Map is the entry point:
+//	- to access general information on the Map
+//	- to access the Tiles and the MiniTiles
+//	- to access the Areas
+//	- to access the StartingLocations
+//	- to access the Minerals, the Geysers and the StaticBuildings
+//	- to parametrize the analysis process
+//	- to update the information
+// Map also provides some useful tools such as Paths between ChokePoints and generic algorithms like BreadthFirstSearch
+//
+// Map functionnality is provided through its singleton Map::Instance().
+//
+//////////////////////////////////////////////////////////////////////////////////////////////
 
 public abstract class Map {
 
@@ -66,7 +83,6 @@ public abstract class Map {
 	// (by calling OnMineralDestroyed and OnStaticBuildingDestroyed).
     public abstract MutableBoolean AutomaticPathUpdate();
 
-
 	// Enables the automatic path update (Cf. AutomaticPathUpdate()).
 	// One might NOT want to call this function, in order to make the accessibility between Areas remain the same throughout the game.
 	// Even in this case, one should keep calling OnMineralDestroyed and OnStaticBuildingDestroyed.
@@ -80,9 +96,6 @@ public abstract class Map {
 	// You normally should call this function, unless you want to compare the StartingLocations() with
 	// BWEM's suggested locations for the Bases.
     public abstract boolean FindBasesForStartingLocations();
-
-    // Returns the union of the geometry of all the ChokePoints. Cf. ChokePoint::Geometry()
-    public abstract List<Pair<Pair<AreaId, AreaId>, WalkPosition>> RawFrontier();
 
     // Returns the size of the Map in Tiles.
     public TilePosition Size() {
@@ -127,7 +140,7 @@ public abstract class Map {
         if (!(checkMode == check_t.no_check) || Valid(p)) {
             throw new IllegalArgumentException();
         }
-        return m_Tiles.get(Size().getX() * p.getY() + p.getX());
+        return (m_Tiles.get(Size().getX() * p.getY() + p.getX()));
     }
 
     public Tile GetTile(TilePosition p) {
@@ -163,26 +176,15 @@ public abstract class Map {
         return GetMiniTile_(p, check_t.check);
     }
 
-	// Returns a list of ChokePoints, which is intended to be the shortest walking path from 'a' to 'b'.
-	// Furthermore, if pLength != nullptr, the pointed integer is set to the corresponding length in pixels.
-	// If 'a' is not accessible from 'b', the empty Path is returned, and -1 is put in *pLength (if pLength != nullptr).
-	// If 'a' and 'b' are in the same Area, the empty Path is returned, and a.getApproxDistance(b) is put in *pLength (if pLength != nullptr).
-	// Otherwise, the function relies on ChokePoint::GetPathTo.
-	// Cf. ChokePoint::GetPathTo for more information.
-	// Note: in order to retrieve the Areas of 'a' and 'b', the function starts by calling
-	//       GetNearestArea(TilePosition(a)) and GetNearestArea(TilePosition(b)).
-	//       While this brings robustness, this could yield surprising results in the case where 'a' and/or 'b' are in the Water.
-	//       To avoid this and the potential performance penalty, just make sure GetArea(a) != nullptr and GetArea(b) != nullptr.
-	//       Then GetPath should perform very quick.
-    public abstract CPPath GetPath(Position a, Position b, MutableInt pLength);
-
-    public abstract CPPath GetPath(Position a, Position b);
-
     // Provides access to the internal array of Tiles.
-    public abstract List<Tile> Tiles();
+    public List<Tile> Tiles() {
+        return m_Tiles;
+    }
 
     // Provides access to the internal array of MiniTiles.
-    public abstract List<MiniTile> MiniTiles();
+    public List<MiniTile> MiniTiles() {
+        return m_MiniTiles;
+    }
 
     public boolean Valid(TilePosition p) {
         return (0 <= p.getX()) && (p.getX() < Size().getX()) && (0 <= p.getY()) && (p.getY() < Size().getY());
@@ -288,6 +290,23 @@ public abstract class Map {
 	// Note: Uses a breadth first search.
     public abstract Area GetNearestArea(TilePosition t);
 
+	// Returns a list of ChokePoints, which is intended to be the shortest walking path from 'a' to 'b'.
+	// Furthermore, if pLength != nullptr, the pointed integer is set to the corresponding length in pixels.
+	// If 'a' is not accessible from 'b', the empty Path is returned, and -1 is put in *pLength (if pLength != nullptr).
+	// If 'a' and 'b' are in the same Area, the empty Path is returned, and a.getApproxDistance(b) is put in *pLength (if pLength != nullptr).
+	// Otherwise, the function relies on ChokePoint::GetPathTo.
+	// Cf. ChokePoint::GetPathTo for more information.
+	// Note: in order to retrieve the Areas of 'a' and 'b', the function starts by calling
+	//       GetNearestArea(TilePosition(a)) and GetNearestArea(TilePosition(b)).
+	//       While this brings robustness, this could yield surprising results in the case where 'a' and/or 'b' are in the Water.
+	//       To avoid this and the potential performance penalty, just make sure GetArea(a) != nullptr and GetArea(b) != nullptr.
+	//       Then GetPath should perform very quick.
+    public abstract CPPath GetPath(Position a, Position b, MutableInt pLength);
+
+    public abstract CPPath GetPath(Position a, Position b);
+
+	// Generic algorithm for breadth first search in the Map.
+	// See the several use cases in BWEM source files.
     public TilePosition BreadthFirstSearch(TilePosition start, Pred findCond, Pred visitCond, boolean connect8) {
         if (findCond.is(GetTile(start), start, this)) {
             return start;
@@ -304,7 +323,7 @@ public abstract class Map {
             new TilePosition(-1,  0),                          new TilePosition(1,  0),
             new TilePosition(-1,  1), new TilePosition(0,  1), new TilePosition(1,  1)
         };
-        TilePosition[] dir4 = { new TilePosition(0, -1), new TilePosition(-1, 0), new TilePosition(1, 0), new TilePosition(0, 1)};
+        TilePosition[] dir4 = {new TilePosition(0, -1), new TilePosition(-1, 0), new TilePosition(1, 0), new TilePosition(0, 1)};
         TilePosition[] directions = connect8 ? dir8 : dir4;
 
         while (!ToVisit.isEmpty()) {
@@ -324,8 +343,10 @@ public abstract class Map {
             }
         }
 
-        //TODO: ???
 //        bwem_assert(false);
+        if (!(false)) {
+            throw new IllegalStateException();
+        }
 
         return start;
     }
@@ -378,6 +399,14 @@ public abstract class Map {
 
     public WalkPosition BreadthFirstSearch(WalkPosition start, Pred findCond, Pred visitCond) {
         return BreadthFirstSearch(start, findCond, visitCond, true);
+    }
+
+    // Returns the union of the geometry of all the ChokePoints. Cf. ChokePoint::Geometry()
+    public abstract List<Pair<Pair<AreaId, AreaId>, WalkPosition>> RawFrontier();
+
+    public void drawDiagonalCrossMap(Position topLeft, Position bottomRight, Color col) {
+        getBW().getMapDrawer().drawLineMap(topLeft, bottomRight, col);
+        getBW().getMapDrawer().drawLineMap(new Position(bottomRight.getX(), topLeft.getY()), new Position(topLeft.getX(), bottomRight.getY()), col);
     }
 
 }

@@ -1,7 +1,3 @@
-/*
-Status: Incomplete
-*/
-
 package bwem.tile;
 
 import bwem.Altitude;
