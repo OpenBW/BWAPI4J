@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
@@ -83,7 +84,7 @@ public class BW {
     public BW(BWEventListener listener) {
 
         this.players = new HashMap<Integer, Player>();
-        this.units = new HashMap<Integer, Unit>();
+        this.units = new ConcurrentHashMap<Integer, Unit>();
         this.listener = listener;
         this.unitFactory = new UnitFactory(this);
         this.interactionHandler = new InteractionHandler(this);

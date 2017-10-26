@@ -53,6 +53,7 @@ void OpenBridgeModule::onStart()
 {
 	initializeCallbackMethods();
 	std::cout << "onStart..." << std::endl;
+	globalEnv->CallObjectMethod(globalBW, preFrameCallback);
 //	globalEnv->CallObjectMethod(globalBW, onStartCallback);
 }
 
