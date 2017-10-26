@@ -1,13 +1,10 @@
 package org.openbw.bwapi4j;
 
-import java.util.List;
-
 import org.openbw.bwapi4j.type.Color;
 import org.openbw.bwapi4j.type.PlayerType;
 import org.openbw.bwapi4j.type.Race;
 import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UpgradeType;
-import org.openbw.bwapi4j.unit.Unit;
 
 public class Player {
 
@@ -101,8 +98,6 @@ public class Player {
     int[] researchStatus;
     int[] upgradeStatus;
 
-    private List<Unit> units;
-
     Player(int id, String name) {
 
         this.id = id;
@@ -194,19 +189,6 @@ public class Player {
      */
     public String getName() {
         return this.name;
-    }
-
-    /**
-     * Retrieves the set of all units that the player owns. This also includes
-     * incomplete units. Returns Reference to a Unitset containing the units.
-     * Note This does not include units that are loaded into transports,
-     * Bunkers, Refineries, Assimilators, or Extractors. Example usage: Unitset
-     * myUnits = BWAPI::Broodwar->self()->getUnits(); for ( auto u =
-     * myUnits.begin(); u != myUnits.end(); ++u ) { // Do something with your
-     * units }
-     */
-    public List<Unit> getUnits() {
-        return this.units;
     }
 
     /**
