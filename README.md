@@ -17,11 +17,11 @@ This is a development version, and breaking changes can occur at any time.
 
 Clone the [BWAPI4J repository](https://github.com/OpenBW/BWAPI4J):
 
-`git clone https://github.com/OpenBW/BWAPI4J`
+`git clone https://github.com/OpenBW/BWAPI4J.git`
 
 Clone the [OpenBW BWAPI repository](https://github.com/OpenBW/bwapi):
 
-`git clone https://github.com/OpenBW/bwapi`
+`git clone https://github.com/OpenBW/bwapi.git`
 
 #### "BWAPI4J" Java project
 

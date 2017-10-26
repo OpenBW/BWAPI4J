@@ -160,9 +160,11 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 
 		} else {
 			
-			env->CallObjectMethod(bw, env->GetMethodID(jc, "onStart", "()V"));
-			jmethodID onEndCallback = env->GetMethodID(jc, "onEnd", "(Z)V");
 			jmethodID preFrameCallback = env->GetMethodID(jc, "preFrame", "()V");
+			env->CallObjectMethod(bw, preFrameCallback);
+			env->CallObjectMethod(bw, env->GetMethodID(jc, "onStart", "()V"));
+
+			jmethodID onEndCallback = env->GetMethodID(jc, "onEnd", "(Z)V");
 			jmethodID onFrameCallback = env->GetMethodID(jc, "onFrame", "()V");
 			jmethodID onSendCallback = env->GetMethodID(jc, "onSendText", "(Ljava/lang/String;)V");
 			jmethodID onReceiveCallback = env->GetMethodID(jc, "onReceiveText", "(ILjava/lang/String;)V");
