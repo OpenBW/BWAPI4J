@@ -58,6 +58,10 @@ public abstract class PlayerUnit extends Unit {
 
         this.initialHitPoints = unitData[index + Unit.INITIAL_HITPOINTS_INDEX];
         super.initialize(unitData, index);
+        
+        this.lastKnownPosition = super.initialPosition;
+        this.lastKnownTilePosition = super.initialTilePosition;
+        this.lastKnownHitPoints = this.initialHitPoints;
     }
 
     @Override
@@ -89,13 +93,13 @@ public abstract class PlayerUnit extends Unit {
         this.isUnderAttack = unitData[index + Unit.IS_UNDER_ATTACK_INDEX] == 1;
         this.isPowered = unitData[index + Unit.IS_POWERED_INDEX] == 1;
         
+        super.update(unitData, index);
+        
         if (super.isVisible) {
             this.lastKnownPosition = super.position;
             this.lastKnownTilePosition = super.tilePosition;
             this.lastKnownHitPoints = this.hitPoints;
         }
-        
-        super.update(unitData, index);
     }
 
     /**
