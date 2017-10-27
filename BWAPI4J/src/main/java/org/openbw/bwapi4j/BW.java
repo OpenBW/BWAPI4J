@@ -26,7 +26,7 @@ public class BW {
 
     public static int TILE_SIZE = TilePosition.SIZE_IN_PIXELS;
     public static int WALK_SIZE = WalkPosition.SIZE_IN_PIXELS;
-    
+
     private BWEventListener listener;
     private InteractionHandler interactionHandler;
     private MapDrawer mapDrawer;
@@ -40,14 +40,14 @@ public class BW {
     private Charset charset;
 
     static {
-        
+
         String libraryPathProperty = System.getProperty("java.library.path");
         if (libraryPathProperty == null || libraryPathProperty == "") {
-            
+
             logger.warn("library path not set, using CWD as default.");
             System.setProperty("java.library.path", "./");
         } else {
-            
+
             logger.debug("library path set to {}", libraryPathProperty);
         }
 
@@ -59,9 +59,9 @@ public class BW {
 
         logger.info("jvm: {} ({}bit).", System.getProperty("java.version"), System.getProperty("sun.arch.data.model") );
         logger.info("os: {}", System.getProperty("os.name"));
-        
+
         /* this is pretty hacky but required for now to run BWAPI4J on both Windows and Linux without modifying the source.
-         * 
+         *
          * Possible future solutions:
          *  - name BWAPI4JBridge and OpenBWAPI4JBridge the same. This way linux loads <name>.so and windows loads <name>.dll
          *  - build a single bwta.dll rather than libgmp-10 and libmpfr-4 and load bwta.so accordingly on linux.
@@ -73,7 +73,7 @@ public class BW {
         } else {
         	System.loadLibrary("OpenBWAPI4JBridge");
         }
-        
+
         logger.debug("DLL/SO loaded.");
     }
 
@@ -102,18 +102,18 @@ public class BW {
     }
 
     public void startGame() {
-        
+
     	BW myBw = this;
     	Thread thread = new Thread(new Runnable() {
 
     	    @Override
     	    public void run() {
-    	    
+
     	    	startGame(myBw);
     	    }
-    	            
+
     	});
-    	        
+
     	thread.start();
         mainThread();
         try {
@@ -126,9 +126,9 @@ public class BW {
     }
 
     public native void exit();
-    
+
     private native void mainThread();
-    
+
     private native void startGame(BW bw);
 
     private native int[] getAllUnitsData();
@@ -146,27 +146,27 @@ public class BW {
     private native int[] getUpgradeStatus(int playerId);
 
     public void setUnitFactory(UnitFactory unitFactory) {
-        
+
         this.unitFactory = unitFactory;
     }
 
     public BWMap getBWMap() {
-        
+
         return this.bwMap;
     }
 
     public MapDrawer getMapDrawer() {
-        
+
         return this.mapDrawer;
     }
 
     public DamageEvaluator getDamageEvaluator() {
-        
+
         return this.damageEvaluator;
     }
 
     public InteractionHandler getInteractionHandler() {
-        
+
         return this.interactionHandler;
     }
 
@@ -186,31 +186,31 @@ public class BW {
             int typeId = unitData[index + 3];
             Unit unit = this.units.get(unitId);
             if (unit == null || !unit.getInitialType().equals(UnitType.values()[typeId])) {
-                
+
             	if (unit != null) {
-            		
+
             		logger.debug("unit {} changed type from {} to {}.", unit.getId(), unit.getInitialType(), UnitType.values()[typeId]);
             	}
                 logger.debug("creating unit for id {} and type {} ({}) ...", unitId, typeId, UnitType.values()[typeId]);
-                
+
                 unit = unitFactory.createUnit(unitId, UnitType.values()[typeId], frame);
-                
+
                 if (unit == null) {
                     logger.error("could not create unit for id {} and type {}.", unitId, UnitType.values()[typeId]);
                 } else {
-                    
+
                 	logger.trace("state: {}", unit.exists() ? "completed" : "created");
-                	
+
                     this.units.put(unitId, unit);
                     unit.initialize(unitData, index);
                     unit.update(unitData, index);
                     logger.trace("initial pos: {}", unit.getInitialTilePosition());
                     logger.trace("current pos: {}", unit.getTilePosition());
-                    
+
                     logger.debug(" done.");
                 }
             } else {
-                
+
                 unit.update(unitData, index);
             }
         }
@@ -238,73 +238,73 @@ public class BW {
     }
 
     public Player getPlayer(int id) {
-        
+
         return this.players.get(id);
     }
 
     public Collection<Player> getAllPlayers() {
-        
+
         return this.players.values();
     }
 
     public Unit getUnit(int id) {
-    
+
         return this.units.get(id);
     }
-    
+
     /**
      * Gets all units for given player.
      * @param player player whose units to return
      * @return list of <code>PlayerUnit</code>
      */
     public List<PlayerUnit> getUnits(Player player) {
-        
-        return this.units.values().stream().filter(u -> u instanceof PlayerUnit 
+
+        return this.units.values().stream().filter(u -> u instanceof PlayerUnit
                 && ((PlayerUnit)u).getPlayer().equals(player)).map(u -> (PlayerUnit)u).collect(Collectors.toList());
     }
-    
+
     /**
      * Gets a list of all mineral patches.
      * @return list of mineral patches
      */
     public List<MineralPatch> getMineralPatches() {
-        
+
         return this.units.values().stream().filter(u -> u instanceof MineralPatch)
                 .map(u -> (MineralPatch)u).collect(Collectors.toList());
     }
-    
+
     /**
      * Gets a list of all vespene geysers.
      * @return list of vespene geysers
      */
     public List<VespeneGeyser> getVespeneGeysers() {
-    
+
         return this.units.values().stream().filter(u -> u instanceof VespeneGeyser)
                 .map(u -> (VespeneGeyser)u).collect(Collectors.toList());
     }
-    
+
     public Collection<Unit> getAllUnits() {
-        
+
         return this.units.values();
     }
 
     private void preFrame() {
-        
-        logger.debug("updating game state for frame {}...", this.frame);
+
+//        logger.debug("updating game state for frame {}...", this.frame);
         updateGame();
-        logger.debug("updated game.");
+//        logger.debug("updated game.");
         updateAllPlayers();
-        logger.debug("updated players.");
+//        logger.debug("updated players.");
         updateAllUnits(this.frame);
-        logger.debug("updated all units.");
+//        logger.debug("updated all units.");
     }
-    
+
     private void onStart() {
 
         this.frame = 0;
         this.players.clear();
         this.units.clear();
-        
+
         preFrame();
         listener.onStart();
     }
@@ -316,7 +316,7 @@ public class BW {
 
     private void onFrame() {
 
-    	logger.debug("onFrame {}", this.frame);
+//    	logger.debug("onFrame {}", this.frame);
     	preFrame();
     	this.frame++;
         listener.onFrame();
