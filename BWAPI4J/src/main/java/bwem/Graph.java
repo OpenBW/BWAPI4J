@@ -38,7 +38,7 @@ public final class Graph {
     private List<Area> m_Areas = new ArrayList<>();
     private List<ChokePoint> m_ChokePointList = new ArrayList<>();
     private List<List<List<ChokePoint>>> m_ChokePointsMatrix = new ArrayList<>(); // index == Area::id x Area::id
-    private List<List<Integer>> m_ChokePointDistanceMatrix; // index == ChokePoint::index x ChokePoint::index
+    private List<List<Integer>> m_ChokePointDistanceMatrix = new ArrayList<>(); // index == ChokePoint::index x ChokePoint::index
     private List<List<CPPath>> m_PathsBetweenChokePoints; // index == ChokePoint::index x ChokePoint::index
     private int m_baseCount = 0;
 
@@ -473,9 +473,18 @@ public final class Graph {
 
     public void ComputeChokePointDistanceMatrix() {
     	// 1) Size the matrix
+        m_ChokePointDistanceMatrix.clear();
 //    	m_ChokePointDistanceMatrix.resize(m_ChokePointList.size());
+        for (int i = 0; i < m_ChokePointList.size(); ++i) {
+            m_ChokePointDistanceMatrix.add(new ArrayList<>());
+        }
 //    	for (auto & line : m_ChokePointDistanceMatrix)
 //    		line.resize(m_ChokePointList.size(), -1);
+        for (int i = 0; i < m_ChokePointDistanceMatrix.size(); ++i) {
+            for (int j = 0; j < m_ChokePointList.size(); ++j) {
+                m_ChokePointDistanceMatrix.get(i).add(-1);
+            }
+        }
 
 //    	m_PathsBetweenChokePoints.resize(m_ChokePointList.size());
 //    	for (auto & line : m_PathsBetweenChokePoints)
