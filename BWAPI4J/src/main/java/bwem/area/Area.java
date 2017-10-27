@@ -564,20 +564,27 @@ public final class Area extends Markable<Area> {
 
         int remainingTargets = Targets.size();
         while (!ToVisit.isEmpty()) {
-            int currentDist = ToVisit.mapIterator().getKey();
-            TilePosition current = ToVisit.mapIterator().getValue();
+            int currentDist = ToVisit.keys().iterator().next();
+            TilePosition current = ToVisit.get(currentDist).iterator().next();
             Tile currentTile = pMap.GetTile(current, check_t.no_check);
 //            bwem_assert(currentTile.InternalData() == currentDist);
             if (!(currentTile.InternalData().intValue() == currentDist)) {
-                throw new IllegalStateException();
+                throw new IllegalStateException("currentTile.InternalData().intValue()=" + currentTile.InternalData().intValue() + ", currentDist=" + currentDist);
             }
-            ToVisit.removeMapping(ToVisit.mapIterator().getKey(), ToVisit.mapIterator().getValue());
+            ToVisit.removeMapping(currentDist, current);
             currentTile.SetInternalData(new MutableInt(0)); // resets Tile::m_internalData for future usage
             currentTile.SetMarked();
 
             for (int i = 0; i < Targets.size(); ++i) {
                 if (current.equals(Targets.get(i))) {
-                    Distances.set(i, (int) (Double.valueOf("0.5") + ((Double.valueOf(currentDist) * Double.valueOf("32")) / Double.valueOf("10000"))));
+                    int element = (int) (Double.valueOf("0.5") + ((Double.valueOf(currentDist) * Double.valueOf("32")) / Double.valueOf("10000")));
+                    if (i >= 0 && i < Distances.size()) {
+                        Distances.set(i, element);
+                    } else if (i == Distances.size()) {
+                        Distances.add(element);
+                    } else {
+                        throw new IndexOutOfBoundsException();
+                    }
                     --remainingTargets;
                 }
             }
