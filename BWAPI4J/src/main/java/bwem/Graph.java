@@ -332,7 +332,14 @@ public final class Graph {
                 throw new IllegalStateException();
             }
 
-            RawFrontierByAreaPair.get(new Pair<>(a, b)).add(raw.second);
+            Pair<AreaId, AreaId> key = new Pair<>(a, b);
+            if (!RawFrontierByAreaPair.containsKey(key)) {
+                List<WalkPosition> wpl = new ArrayList<>();
+                wpl.add(raw.second);
+                RawFrontierByAreaPair.put(key, wpl);
+            } else {
+                RawFrontierByAreaPair.get(key).add(raw.second);
+            }
     	}
 
     	// 3) For each pair of Areas (A, B):
