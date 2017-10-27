@@ -16,6 +16,7 @@ import bwem.unit.Neutral;
 import bwem.unit.Resource;
 import bwem.unit.StaticBuilding;
 import bwem.util.BwemExt;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -63,9 +64,9 @@ public final class Area extends Markable<Area> {
     private int m_buildableTiles = 0;
     private int m_highGroundTiles = 0;
     private int m_veryHighGroundTiles = 0;
-    private ConcurrentHashMap<Area, List<ChokePoint>> m_ChokePointsByArea;
+    private AbstractMap<Area, List<ChokePoint>> m_ChokePointsByArea = new ConcurrentHashMap<>();
     private List<Area> m_AccessibleNeighbors;
-    private List<ChokePoint> m_ChokePoints;
+    private List<ChokePoint> m_ChokePoints = new ArrayList<>();
     private List<Mineral> m_Minerals;
     private List<Geyser> m_Geysers;
 	private List<Base> m_Bases;
@@ -183,7 +184,7 @@ public final class Area extends Markable<Area> {
 
 	// Returns the ChokePoints of this Area grouped by neighbouring Areas
 	// Note: if there are no neighbouring Areas, than an empty set is returned.
-	public ConcurrentHashMap<Area, List<ChokePoint>> ChokePointsByArea() {
+	public AbstractMap<Area, List<ChokePoint>> ChokePointsByArea() {
         return m_ChokePointsByArea;
     }
 
@@ -636,7 +637,7 @@ public final class Area extends Markable<Area> {
     public boolean equals(Object object) {
         if (this == object) {
             return true;
-        } else if (!(object instanceof AreaId)) {
+        } else if (!(object instanceof Area)) {
             throw new IllegalArgumentException("Object is not an instance of Area");
         } else {
             Area that = (Area) object;
