@@ -8,6 +8,7 @@ import bwem.ChokePoint;
 import bwem.Graph;
 import bwem.PairGenericAltitudeComparator;
 import bwem.PairGenericMiniTileAltitudeComparator;
+import bwem.Timer;
 import bwem.area.Area;
 import bwem.area.AreaId;
 import bwem.area.TempAreaInfo;
@@ -60,6 +61,9 @@ public final class MapImpl extends Map {
 
     @Override
     public void Initialize() {
+        Timer overallTimer = new Timer();
+        Timer timer = new Timer();
+
         m_Size = new TilePosition(getBW().getBWMap().mapWidth(), getBW().getBWMap().mapHeight());
         m_size = Size().getX() * Size().getY();
         m_WalkSize = Size().toPosition().toWalkPosition();
@@ -83,39 +87,51 @@ public final class MapImpl extends Map {
             m_StartingLocations.add(t);
         }
 
-    ///	bw << "Map::Initialize-resize: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
+//    ///	bw << "Map::Initialize-resize: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
+        System.out.println("Map::Initialize-resize: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
         LoadData();
 //    ///	bw << "Map::LoadData: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
+        System.out.println("Map::LoadData: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 //
         DecideSeasOrLakes();
 //    ///	bw << "Map::DecideSeasOrLakes: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
-//
+        System.out.println("Map::DecideSeasOrLakes: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
+
         InitializeNeutrals();
 //    ///	bw << "Map::InitializeNeutrals: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
-//
+        System.out.println("Map::InitializeNeutrals: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
+
         ComputeAltitude();
 //    ///	bw << "Map::ComputeAltitude: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
-//
+        System.out.println("Map::ComputeAltitude: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
+
         ProcessBlockingNeutrals();
 //    ///	bw << "Map::ProcessBlockingNeutrals: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
-//
+        System.out.println("Map::ProcessBlockingNeutrals: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
+
         ComputeAreas();
 //    ///	bw << "Map::ComputeAreas: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
-//
+        System.out.println("Map::ComputeAreas: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
+
         GetGraph().CreateChokePoints();
 //    ///	bw << "Graph::CreateChokePoints: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
-//
+        System.out.println("Map::CreateChokePoints: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
+
         GetGraph().ComputeChokePointDistanceMatrix();
 //    ///	bw << "Graph::ComputeChokePointDistanceMatrix: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
-//
+        System.out.println("Map::ComputeChokePointDistanceMatrix: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
+
         GetGraph().CollectInformation();
 //    ///	bw << "Graph::CollectInformation: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
-//
+        System.out.println("Map::CollectInformation: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
+
         GetGraph().CreateBases();
 //    ///	bw << "Graph::CreateBases: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
-//
+        System.out.println("Map::CreateBases: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
+
 //    ///	bw << "Map::Initialize: " << overallTimer.ElapsedMilliseconds() << " ms" << endl;
+        System.out.println("Map::Initialize: " + overallTimer.ElapsedMilliseconds() + " ms"); timer.Reset();
     }
 
     public Graph GetGraph() {
