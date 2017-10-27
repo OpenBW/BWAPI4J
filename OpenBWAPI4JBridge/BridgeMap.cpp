@@ -59,7 +59,7 @@ void BridgeMap::initialize(JNIEnv * env, jclass jc, jobject bwObject, jclass bwM
 			env->SetObjectArrayElement(groundInfo2DArray, i, groundInfoArray);
 		}
 		env->SetObjectField(bwMap, groundInfoField, groundInfo2DArray);
-		printf("---debug---\n");
+
 		// set walkabilityInfo (mini-tile resolution)
 		jfieldID walkabilityInfoField = env->GetFieldID(bwMapClass, "walkabilityInfo", "[[I");
 		jobject* walkabilityInfo2D = new jobject[Broodwar->mapWidth() * 4];
@@ -71,13 +71,14 @@ void BridgeMap::initialize(JNIEnv * env, jclass jc, jobject bwObject, jclass bwM
 				walkabilityInfo[j] = Broodwar->isWalkable(i, j) ? 1 : 0;
 			}
 			jintArray walkabilityInfoArray = env->NewIntArray(Broodwar->mapHeight() * 4);
-			env->SetIntArrayRegion(walkabilityInfoArray, 0, Broodwar->mapHeight(), walkabilityInfo);
+			env->SetIntArrayRegion(walkabilityInfoArray, 0, Broodwar->mapHeight() * 4, walkabilityInfo);
 			env->SetObjectArrayElement(walkabilityInfo2DArray, i, walkabilityInfoArray);
 		}
 		env->SetObjectField(bwMap, walkabilityInfoField, walkabilityInfo2DArray);
 
 		// set starting locations
 		jobject startLocationsList = env->GetObjectField(bwMap, env->GetFieldID(bwMapClass, "startLocations", "Ljava/util/ArrayList;"));
+
 		for (TilePosition tilePosition : Broodwar->getStartLocations()) {
 			jobject startLocation = env->NewObject(tilePositionClass, tilePositionNew, tilePosition.x, tilePosition.y);
 			env->CallObjectMethod(startLocationsList, arrayListAdd, startLocation);

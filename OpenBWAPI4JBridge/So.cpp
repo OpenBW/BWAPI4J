@@ -9,8 +9,6 @@
 #include "So.h"
 #include "org_openbw_bwapi4j_BW.h"
 #include "OpenBridgeModule.h"
-#include "BridgeEnum.h"
-#include "BridgeMap.h"
 #include <cstdio>
 #include <chrono>
 #include <thread>
@@ -158,14 +156,8 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
 
 		BWAPI::BroodwarImpl_handle h(gameOwner.getGame());
 
-		BridgeEnum *bridgeEnum = new BridgeEnum();
-		BridgeMap *bridgeMap = new BridgeMap();
-
 		do {
 			h->autoMenuManager.startGame();
-
-			bridgeEnum->initialize();
-			bridgeMap->initialize(env, env->GetObjectClass(caller), bw, bwMapClass);
 
 			while (!h->bwgame.gameOver()) {
 

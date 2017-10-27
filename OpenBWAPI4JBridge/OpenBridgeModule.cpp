@@ -1,6 +1,8 @@
 #include "OpenBridgeModule.h"
 #include "So.h"
 #include <jni.h>
+#include "BridgeEnum.h"
+#include "BridgeMap.h"
 
 using namespace OpenBridge;
 
@@ -53,6 +55,13 @@ void OpenBridgeModule::onStart()
 {
 	initializeCallbackMethods();
 	std::cout << "onStart..." << std::endl;
+
+	BridgeEnum *bridgeEnum = new BridgeEnum();
+	BridgeMap *bridgeMap = new BridgeMap();
+
+	bridgeEnum->initialize();
+	bridgeMap->initialize(globalEnv, globalEnv->GetObjectClass(globalBW), globalBW, bwMapClass);
+
 	globalEnv->CallObjectMethod(globalBW, preFrameCallback);
 //	globalEnv->CallObjectMethod(globalBW, onStartCallback);
 }
