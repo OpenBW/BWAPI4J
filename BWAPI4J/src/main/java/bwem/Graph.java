@@ -493,7 +493,9 @@ public final class Graph {
 //    	for (auto & line : m_PathsBetweenChokePoints)
 //    		line.resize(m_ChokePointList.size());
         for (int i = 0; i < m_PathsBetweenChokePoints.size(); ++i) {
-            m_PathsBetweenChokePoints.add(new ArrayList<>());
+            for (int j = 0; j < m_ChokePointList.size(); ++j) {
+                m_PathsBetweenChokePoints.get(i).add(new CPPath());
+            }
         }
 
     	// 2) Compute distances inside each Area

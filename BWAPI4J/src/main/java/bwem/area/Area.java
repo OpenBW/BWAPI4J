@@ -583,7 +583,7 @@ public final class Area extends Markable<Area> {
                     } else if (i == Distances.size()) {
                         Distances.add(element);
                     } else {
-                        throw new IndexOutOfBoundsException();
+                        throw new IndexOutOfBoundsException("Index: " + i + ", Size: " + Distances.size());
                     }
                     --remainingTargets;
                 }
