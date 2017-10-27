@@ -39,7 +39,7 @@ public final class Graph {
     private List<ChokePoint> m_ChokePointList = new ArrayList<>();
     private List<List<List<ChokePoint>>> m_ChokePointsMatrix = new ArrayList<>(); // index == Area::id x Area::id
     private List<List<Integer>> m_ChokePointDistanceMatrix = new ArrayList<>(); // index == ChokePoint::index x ChokePoint::index
-    private List<List<CPPath>> m_PathsBetweenChokePoints; // index == ChokePoint::index x ChokePoint::index
+    private List<List<CPPath>> m_PathsBetweenChokePoints = new ArrayList<>(); // index == ChokePoint::index x ChokePoint::index
     private int m_baseCount = 0;
 
     public Graph(MapImpl pMap) {
@@ -487,8 +487,14 @@ public final class Graph {
         }
 
 //    	m_PathsBetweenChokePoints.resize(m_ChokePointList.size());
+        for (int i = 0; i < m_ChokePointList.size(); ++i) {
+            m_PathsBetweenChokePoints.add(new ArrayList<>());
+        }
 //    	for (auto & line : m_PathsBetweenChokePoints)
 //    		line.resize(m_ChokePointList.size());
+        for (int i = 0; i < m_PathsBetweenChokePoints.size(); ++i) {
+            m_PathsBetweenChokePoints.add(new ArrayList<>());
+        }
 
     	// 2) Compute distances inside each Area
     	for (Area area : Areas()) {
