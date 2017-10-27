@@ -25,17 +25,8 @@ public enum Color {
         return this.rgb;
     }
 
-    /**
-     * Gets the Color for a given RGB value, if it exists.
-     * @param rgb integer value of the color
-     * @return Color, if it exists for given RGB value, <code>null</code> else.
-     */
-    public static Color valueOf(int rgb) {
-        for (Color color : Color.values()) {
-            if (color.rgb == rgb) {
-                return color;
-            }
-        }
-        return null;
+    public static Color valueOf(int ordinal) {
+        
+    	return Color.values()[ordinal];
     }
 }

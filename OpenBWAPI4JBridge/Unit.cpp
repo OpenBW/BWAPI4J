@@ -11,7 +11,7 @@ using namespace BWAPI;
 
 JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_Unit_issueCommand(JNIEnv * env, jobject jObj, jint unitID, jint unitCommandTypeID, jint targetUnitID, jint x, jint y, jint extra) {
 
-	std::cout << "issuing command " << unitCommandTypeID << " to " << unitID << std::endl;
+//	std::cout << "issuing command " << unitCommandTypeID << " to " << unitID << std::endl;
 	Unit unit = Broodwar->getUnit(unitID);
 	if (unit != NULL) {
 		UnitCommand c = BWAPI::UnitCommand();

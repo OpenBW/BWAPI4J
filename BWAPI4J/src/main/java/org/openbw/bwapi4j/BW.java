@@ -125,6 +125,14 @@ public class BW {
         logger.trace("finished thread.");
     }
 
+    public void createUnit(Player owner, UnitType type, int posX, int posY) {
+    
+    	System.out.println("creating " + owner.getColor().ordinal());
+    	this.createUnit(owner.getColor().ordinal(), type.getId(), posX, posY);
+    }
+    
+    private native void createUnit(int ownerId, int unitTypeId, int posX, int posY);
+    
     public native void exit();
     
     private native void mainThread();

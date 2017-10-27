@@ -4,8 +4,9 @@
  *  Created on: Jun 7, 2017
  *      Author: imp
  */
-#include "BWAPI/GameImpl.h"
+
 #include "BW/BWData.h"
+#include "BWAPI/GameImpl.h"
 #include "So.h"
 #include "org_openbw_bwapi4j_BW.h"
 #include "OpenBridgeModule.h"
@@ -31,8 +32,9 @@ bool finished = false;
 double TO_DEGREES = 180.0 / M_PI;
 double fixedScale = 100.0;
 
-JNIEnv * globalEnv;
+JNIEnv *globalEnv;
 jobject globalBW;
+BW::Game *gamePointer;
 
 jclass arrayListClass;
 jmethodID arrayListAdd;
@@ -120,8 +122,13 @@ void initializeJavaReferences(JNIEnv *env, jobject caller) {
 	std::cout << "done." << std::endl;
 }
 
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_exit(JNIEnv *, jobject) {
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_createUnit(JNIEnv *, jobject, jint ownerColor, jint unitType, jint posX, jint posY) {
 
+	gamePointer->createUnit(ownerColor, unitType, posX, posY);
+}
+
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_exit(JNIEnv *, jobject) {
+//	do nothing
 }
 
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_mainThread(JNIEnv *, jobject) {
@@ -154,17 +161,19 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
 					printf("%s\n", s.c_str());
 				});
 
-		BWAPI::BroodwarImpl_handle h(gameOwner.getGame());
+		BW::Game game = gameOwner.getGame();
+		BroodwarImpl_handle handle(game);
+		gamePointer = &game;
 
 		do {
-			h->autoMenuManager.startGame();
+			handle->autoMenuManager.startGame();
 
-			while (!h->bwgame.gameOver()) {
+			while (!handle->bwgame.gameOver()) {
 
-				h->update();
-				h->bwgame.nextFrame();
+				handle->update();
+				handle->bwgame.nextFrame();
 
-				if (!h->externalModuleConnected) {
+				if (!handle->externalModuleConnected) {
 					std::cout << "No module loaded, exiting" << std::endl;
 					if (env->ExceptionOccurred()) {
 						env->ExceptionDescribe();
@@ -172,12 +181,12 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
 					return;
 				}
 			}
-			h->onGameEnd();
-			h->bwgame.leaveGame();
+			handle->onGameEnd();
+			handle->bwgame.leaveGame();
 
-		} while (!h->bwgame.gameClosed()
-				&& h->autoMenuManager.autoMenuRestartGame != ""
-				&& h->autoMenuManager.autoMenuRestartGame != "OFF");
+		} while (!handle->bwgame.gameClosed()
+				&& handle->autoMenuManager.autoMenuRestartGame != ""
+				&& handle->autoMenuManager.autoMenuRestartGame != "OFF");
 
 	} catch (const std::exception& e) {
 

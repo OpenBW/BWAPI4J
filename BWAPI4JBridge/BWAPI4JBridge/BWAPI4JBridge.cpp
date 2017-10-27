@@ -110,6 +110,11 @@ void println(const char * text) {
 	flushPrint("\n");
 }
 
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_createUnit(JNIEnv *, jobject, jint ownerColor, jint unitType, jint posX, jint posY) {
+
+	// not implemented in original BW
+}
+
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_exit(JNIEnv *, jobject) {
 
 	finished = true;
