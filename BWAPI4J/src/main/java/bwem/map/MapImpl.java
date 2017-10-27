@@ -814,7 +814,7 @@ public final class MapImpl extends Map {
     }
 
     public static Pair<AreaId, AreaId> findNeighboringAreas(WalkPosition p, MapImpl pMap) {
-        Pair<AreaId, AreaId> result = new Pair<>(new AreaId(0), new AreaId(0));
+        Pair<AreaId, AreaId> result = new Pair<>(null, null);
 
         WalkPosition[] deltas = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(+1, 0), new WalkPosition(0, +1)};
         for (WalkPosition delta : deltas) {
