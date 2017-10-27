@@ -46,7 +46,7 @@ public final class MapImpl extends Map {
     private List<Geyser> m_Geysers = new ArrayList<>();
     private List<StaticBuilding> m_StaticBuildings = new ArrayList<>();
     private List<TilePosition> m_StartingLocations = new ArrayList<>();
-    private List<Pair<Pair<AreaId, AreaId>, WalkPosition>> m_RawFrontier;
+    private List<Pair<Pair<AreaId, AreaId>, WalkPosition>> m_RawFrontier = new ArrayList<>();
 
     public MapImpl(BW bw) {
         super(bw);
