@@ -427,7 +427,7 @@ public final class MapImpl extends Map {
             if (!player.isNeutral()) {
                 continue;
             }
-            for (Unit unit : player.getUnits()) {
+            for (Unit unit : getBW().getUnits(player)) {
                 if (unit instanceof Building) {
                     m_StaticBuildings.add(new StaticBuilding(unit, this));
                 }
