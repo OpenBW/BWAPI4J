@@ -7,6 +7,7 @@ import bwem.check_t;
 import bwem.ChokePoint;
 import bwem.Graph;
 import bwem.PairGenericAltitudeComparator;
+import bwem.PairGenericMiniTileAltitudeComparator;
 import bwem.area.Area;
 import bwem.area.AreaId;
 import bwem.area.TempAreaInfo;
@@ -637,7 +638,7 @@ public final class MapImpl extends Map {
             }
         }
 
-        Collections.sort(MiniTilesByDescendingAltitude, new PairGenericAltitudeComparator(PairGenericAltitudeComparator.Order.DESCENDING));
+        Collections.sort(MiniTilesByDescendingAltitude, new PairGenericMiniTileAltitudeComparator(PairGenericMiniTileAltitudeComparator.Order.DESCENDING));
 
         return MiniTilesByDescendingAltitude;
     }

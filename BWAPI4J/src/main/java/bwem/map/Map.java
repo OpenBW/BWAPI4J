@@ -137,7 +137,7 @@ public abstract class Map {
 	// Returns a Tile, given its position.
 	public Tile GetTile(TilePosition p, check_t checkMode) {
 //        bwem_assert((checkMode == utils::check_t::no_check) || Valid(p)); utils::unused(checkMode);
-        if (!(checkMode == check_t.no_check) || Valid(p)) {
+        if (!((checkMode == check_t.no_check) || Valid(p))) {
             throw new IllegalArgumentException();
         }
         return (m_Tiles.get(Size().getX() * p.getY() + p.getX()));
