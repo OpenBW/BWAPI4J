@@ -37,7 +37,7 @@ public final class Graph {
     private final MapImpl m_pMap;
     private List<Area> m_Areas = new ArrayList<>();
     private List<ChokePoint> m_ChokePointList = new ArrayList<>();
-    private List<List<List<ChokePoint>>> m_ChokePointsMatrix; // index == Area::id x Area::id
+    private List<List<List<ChokePoint>>> m_ChokePointsMatrix = new ArrayList<>(); // index == Area::id x Area::id
     private List<List<Integer>> m_ChokePointDistanceMatrix; // index == ChokePoint::index x ChokePoint::index
     private List<List<CPPath>> m_PathsBetweenChokePoints; // index == ChokePoint::index x ChokePoint::index
     private int m_baseCount = 0;
@@ -310,8 +310,17 @@ public final class Graph {
 //        }
 
     	// 1) Size the matrix
+//      m_ChokePointsMatrix.resize(AreasCount() + 1);
+        for (int i = 0; i <= AreasCount(); ++i) {
+            m_ChokePointsMatrix.add(new ArrayList<>());
+        }
 //    	for (Area::id id = 1 ; id <= AreasCount() ; ++id)
 //    		m_ChokePointsMatrix[id].resize(id);			// triangular matrix
+        for (int id = 0; id <= AreasCount(); ++id) {
+            for (int j = 0; j <= id; ++j) {
+                m_ChokePointsMatrix.get(id).add(new ArrayList<>());
+            }
+        }
 
     	// 2) Dispatch the global raw frontier between all the relevant pairs of Areas:
     	AbstractMap<Pair<AreaId, AreaId>, List<WalkPosition>> RawFrontierByAreaPair = new ConcurrentHashMap<>();
@@ -401,6 +410,7 @@ public final class Graph {
     		}
 
     		// 3.2) Create one Chokepoint for each cluster:
+//            GetChokePoints(a, b).reserve(Clusters.size() + pseudoChokePointsToCreate);
     		for (List<WalkPosition> Cluster : Clusters) {
     			GetChokePoints(a, b).add(new ChokePoint(this, newIndex, GetArea(a), GetArea(b), Cluster, null));
                 newIndex = newIndex.add(1);
