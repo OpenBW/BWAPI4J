@@ -31,7 +31,7 @@ import org.apache.commons.lang3.mutable.MutableInt;
 public final class Tile extends Markable<Tile> {
 
     private Neutral m_pNeutral = null;
-    private Altitude m_minAltitude;
+    private Altitude m_minAltitude = new Altitude(0);
     private AreaId m_areaId = new AreaId(0);
     private MutableInt m_internalData = new MutableInt(0);
     private Bits m_bits = new Bits();

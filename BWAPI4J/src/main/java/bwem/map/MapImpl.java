@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import jsd.JSD_BWEM;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.openbw.bwapi4j.BW;
@@ -86,6 +87,8 @@ public final class MapImpl extends Map {
         for (TilePosition t: getBW().getBWMap().getStartPositions()) {
             m_StartingLocations.add(t);
         }
+
+//        JSD_BWEM.serialize_MapImpl_Initialize_MapInfo(m_Size, m_size, m_WalkSize, m_walkSize, m_center, m_StartingLocations);
 
 //    ///	bw << "Map::Initialize-resize: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::Initialize-resize: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
@@ -382,6 +385,8 @@ public final class MapImpl extends Map {
     			GetTile_(t).SetDoodad();
             }
     	}
+
+//        JSD_BWEM.serialize_MapImpl_LoadData(m_Tiles, m_MiniTiles);
     }
 
     private void DecideSeasOrLakes() {
@@ -431,6 +436,8 @@ public final class MapImpl extends Map {
                 }
     		}
     	}
+
+//        JSD_BWEM.serialize_MapImpl_DecideSeasOrLakes(m_Tiles, m_MiniTiles);
     }
 
     private void InitializeNeutrals() {
@@ -445,7 +452,7 @@ public final class MapImpl extends Map {
                 continue;
             }
             for (Unit unit : getBW().getUnits(player)) {
-                if (unit instanceof Building) {
+                if ((unit instanceof Building) && !(unit instanceof MineralPatch || unit instanceof VespeneGeyser)) {
                     m_StaticBuildings.add(new StaticBuilding(unit, this));
                 }
                 //TODO: Add "Special_Pit_Door" and "Special_Right_Pit_Door" to static buildings list? See mapImpl.cpp:238.
@@ -455,6 +462,8 @@ public final class MapImpl extends Map {
 //					m_StaticBuildings.push_back(make_unique<StaticBuilding>(n, this));
             }
         }
+
+//        JSD_BWEM.serialize_MapImpl_InitializeNeutrals(m_Minerals, m_Geysers, m_StaticBuildings);
     }
 
     // Assigns MiniTile::m_altitude foar each miniTile having AltitudeMissing()
@@ -476,12 +485,14 @@ public final class MapImpl extends Map {
             }
         }
 
+//        JSD_BWEM.serialize_MapImpl_ComputeAltitude_DeltasByAscendingAltitude(DeltasByAscendingAltitude);
+
         Collections.sort(DeltasByAscendingAltitude, new PairGenericAltitudeComparator());
+
+//        JSD_BWEM.serialize_MapImpl_ComputeAltitude_DeltasByAscendingAltitude(DeltasByAscendingAltitude);
 
         // 2) Fill in ActiveSeaSideList, which basically contains all the seaside miniTiles (from which altitudes are to be computed)
         //    It also includes extra border-miniTiles which are considered as seaside miniTiles too.
-//        struct ActiveSeaSide { WalkPosition origin; altitude_t lastAltitudeGenerated; };
-//        vector<ActiveSeaSide> ActiveSeaSideList;
         List<Pair<WalkPosition, Altitude>> ActiveSeaSideList = new ArrayList<>();
 
         for (int y = -1; y <= WalkSize().getY(); ++y)
@@ -517,6 +528,8 @@ public final class MapImpl extends Map {
                 }
             }
         }
+
+//        JSD_BWEM.serialize_MapImpl_ComputeAltitude(m_MiniTiles);
     }
 
     private void ProcessBlockingNeutrals() {
@@ -809,8 +822,8 @@ public final class MapImpl extends Map {
     private void SetAltitudeInTile(TilePosition t) {
         Altitude minAltitude = new Altitude(Integer.MAX_VALUE);
 
-        for (int dy = 0 ; dy < 4 ; ++dy)
-        for (int dx = 0 ; dx < 4 ; ++dx) {
+        for (int dy = 0; dy < 4; ++dy)
+        for (int dx = 0; dx < 4; ++dx) {
             Altitude altitude = new Altitude(GetMiniTile(t.toPosition().toWalkPosition().add(new WalkPosition(dx, dy)), check_t.no_check).Altitude());
             if (altitude.intValue() < minAltitude.intValue()) {
                 minAltitude = new Altitude(altitude);

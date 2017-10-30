@@ -94,7 +94,7 @@ public final class MiniTile {
         if (!(AltitudeMissing() && a.intValue() > 0)) {
             throw new IllegalStateException();
         }
-        m_altitude = a;
+        m_altitude = new Altitude(a);
     }
 
     public boolean AreaIdMissing() {
@@ -106,7 +106,7 @@ public final class MiniTile {
         if (!(AreaIdMissing() && id.intValue() >= 1)) {
             throw new IllegalStateException();
         }
-        m_areaId = id;
+        m_areaId = new AreaId(id);
     }
 
     public void ReplaceAreaId(AreaId id) {
@@ -114,7 +114,7 @@ public final class MiniTile {
         if (!((m_areaId.intValue() > 0) && ((id.intValue() >= 1) || (id.intValue() <= -2)) && (!id.equals(m_areaId)))) {
             throw new IllegalStateException();
         }
-        m_areaId = id;
+        m_areaId = new AreaId(id);
     }
 
     public void SetBlocked() {

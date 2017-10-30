@@ -187,15 +187,15 @@ public abstract class Map {
     }
 
     public boolean Valid(TilePosition p) {
-        return (0 <= p.getX()) && (p.getX() < Size().getX()) && (0 <= p.getY()) && (p.getY() < Size().getY());
+        return ((0 <= p.getX()) && (p.getX() < Size().getX()) && (0 <= p.getY()) && (p.getY() < Size().getY()));
     }
 
     public boolean Valid(WalkPosition p) {
-        return (0 <= p.getX()) && (p.getX() < WalkSize().getX()) && (0 <= p.getY()) && (p.getY() < WalkSize().getY());
+        return ((0 <= p.getX()) && (p.getX() < WalkSize().getX()) && (0 <= p.getY()) && (p.getY() < WalkSize().getY()));
     }
 
     public boolean Valid(Position p) {
-        return Valid(p.toTilePosition());
+        return Valid(p.toWalkPosition());
     }
 
     public TilePosition Crop(TilePosition t) {

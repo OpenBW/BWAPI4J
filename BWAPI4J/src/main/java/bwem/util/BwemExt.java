@@ -40,7 +40,7 @@ public final class BwemExt {
             return false;
         }
 
-        WalkPosition deltas[] = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(1, 0), new WalkPosition(0, 1)};
+        WalkPosition deltas[] = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(+1, 0), new WalkPosition(0, +1)};
         for (WalkPosition delta : deltas) {
             if (pMap.Valid(p.add(delta))) {
                 if (!pMap.GetMiniTile(p.add(delta), check_t.no_check).Sea()) {
