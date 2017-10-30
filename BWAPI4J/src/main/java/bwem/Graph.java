@@ -798,7 +798,11 @@ public final class Graph {
         for (int dx = 0; dx < size.getX(); ++dx) {
             Area area = pMap.GetArea(topLeft.add(new TilePosition(dx, dy)));
             if (area != null) {
-                map_Area_freq.put(area, map_Area_freq.get(area) + 1);
+                Integer val = map_Area_freq.get(area);
+                if (val == null) {
+                    val = 0;
+                }
+                map_Area_freq.put(area, val + 1);
             }
         }
 

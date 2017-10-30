@@ -65,11 +65,11 @@ public final class Area extends Markable<Area> {
     private int m_highGroundTiles = 0;
     private int m_veryHighGroundTiles = 0;
     private AbstractMap<Area, List<ChokePoint>> m_ChokePointsByArea = new ConcurrentHashMap<>();
-    private List<Area> m_AccessibleNeighbors;
+    private List<Area> m_AccessibleNeighbors = new ArrayList<>();
     private List<ChokePoint> m_ChokePoints = new ArrayList<>();
-    private List<Mineral> m_Minerals;
-    private List<Geyser> m_Geysers;
-	private List<Base> m_Bases;
+    private List<Mineral> m_Minerals = new ArrayList<>();
+    private List<Geyser> m_Geysers = new ArrayList<>();
+	private List<Base> m_Bases = new ArrayList<>();
 
     private Area() {}
 
