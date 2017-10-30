@@ -94,22 +94,27 @@ public final class MapImpl extends Map {
         System.out.println("Map::Initialize-resize: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
         LoadData();
+//        JSD_BWEM.serialize_MapImpl_LoadData(m_Tiles, m_MiniTiles);
 //    ///	bw << "Map::LoadData: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::LoadData: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 //
         DecideSeasOrLakes();
+//        JSD_BWEM.serialize_MapImpl_DecideSeasOrLakes(m_Tiles, m_MiniTiles);
 //    ///	bw << "Map::DecideSeasOrLakes: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::DecideSeasOrLakes: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
         InitializeNeutrals();
+//        JSD_BWEM.serialize_MapImpl_InitializeNeutrals(m_Minerals, m_Geysers, m_StaticBuildings);
 //    ///	bw << "Map::InitializeNeutrals: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::InitializeNeutrals: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
         ComputeAltitude();
+//        JSD_BWEM.serialize_MapImpl_ComputeAltitude(m_MiniTiles);
 //    ///	bw << "Map::ComputeAltitude: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::ComputeAltitude: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
         ProcessBlockingNeutrals();
+//        JSD_BWEM.serialize_MapImpl_ProcessBlockingNeutrals(m_Tiles, m_MiniTiles);
 //    ///	bw << "Map::ProcessBlockingNeutrals: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::ProcessBlockingNeutrals: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
@@ -385,8 +390,6 @@ public final class MapImpl extends Map {
     			GetTile_(t).SetDoodad();
             }
     	}
-
-//        JSD_BWEM.serialize_MapImpl_LoadData(m_Tiles, m_MiniTiles);
     }
 
     private void DecideSeasOrLakes() {
@@ -436,8 +439,6 @@ public final class MapImpl extends Map {
                 }
     		}
     	}
-
-//        JSD_BWEM.serialize_MapImpl_DecideSeasOrLakes(m_Tiles, m_MiniTiles);
     }
 
     private void InitializeNeutrals() {
@@ -462,8 +463,6 @@ public final class MapImpl extends Map {
 //					m_StaticBuildings.push_back(make_unique<StaticBuilding>(n, this));
             }
         }
-
-//        JSD_BWEM.serialize_MapImpl_InitializeNeutrals(m_Minerals, m_Geysers, m_StaticBuildings);
     }
 
     // Assigns MiniTile::m_altitude foar each miniTile having AltitudeMissing()
@@ -528,8 +527,6 @@ public final class MapImpl extends Map {
                 }
             }
         }
-
-//        JSD_BWEM.serialize_MapImpl_ComputeAltitude(m_MiniTiles);
     }
 
     private void ProcessBlockingNeutrals() {
@@ -772,25 +769,25 @@ public final class MapImpl extends Map {
     private void CreateAreas(List<TempAreaInfo> TempAreaList) {
         List<Pair<WalkPosition, Integer>> AreasList = new ArrayList<>();
 
-        AreaId newAreaId = new AreaId(1);
-        AreaId newTinyAreaId = new AreaId(-2);
+        int newAreaId = 1;
+        int newTinyAreaId = -2;
 
         for (TempAreaInfo TempArea : TempAreaList) {
             if (TempArea.Valid()) {
                 if (TempArea.Size() >= BwemExt.area_min_miniTiles) {
 //                    bwem_assert(newAreaId <= TempArea.Id());
-                    if (!(newAreaId.intValue() <= TempArea.Id().intValue())) {
+                    if (!(newAreaId <= TempArea.Id().intValue())) {
                         throw new IllegalStateException();
                     }
-                    if (!newAreaId.equals(TempArea.Id())) {
-                        ReplaceAreaIds(TempArea.Top(), newAreaId);
+                    if (newAreaId != TempArea.Id().intValue()) {
+                        ReplaceAreaIds(TempArea.Top(), new AreaId(newAreaId));
                     }
 
                     AreasList.add(new Pair<>(TempArea.Top(), TempArea.Size()));
-                    newAreaId = newAreaId.add(1);
+                    ++newAreaId;
                 } else {
-                    ReplaceAreaIds(TempArea.Top(), newTinyAreaId);
-                    newAreaId = newAreaId.subtract(1);
+                    ReplaceAreaIds(TempArea.Top(), new AreaId(newTinyAreaId));
+                    --newTinyAreaId;
                 }
             }
         }

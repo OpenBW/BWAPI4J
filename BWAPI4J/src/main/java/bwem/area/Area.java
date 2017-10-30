@@ -87,7 +87,7 @@ public final class Area extends Markable<Area> {
         MiniTile topMiniTile = GetMap().GetMiniTile(top);
 //        bwem_assert(topMiniTile.AreaId() == areaId);
         if (!(topMiniTile.AreaId().equals(areaId))) {
-            throw new IllegalStateException();
+            throw new IllegalStateException("assert failed: topMiniTile.AreaId().equals(areaId): expected: " + topMiniTile.AreaId().intValue() + ", actual: " + areaId.intValue());
         }
 
         m_maxAltitude = topMiniTile.Altitude();
