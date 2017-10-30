@@ -665,6 +665,9 @@ public final class Graph {
     private List<Integer> ComputeDistances(ChokePoint start, List<ChokePoint> Targets) {
         MapImpl pMap = GetMap();
         List<Integer> Distances = new ArrayList<>(Targets.size());
+        for (int i = 0; i < Targets.size(); ++i) {
+            Distances.add(0);
+        }
 
         Tile.UnmarkAll();
 
@@ -674,14 +677,14 @@ public final class Graph {
 
         int remainingTargets = Targets.size();
         while (!ToVisit.isEmpty()) {
-            int currentDist = ToVisit.mapIterator().getKey();
-            ChokePoint current = ToVisit.mapIterator().getValue();
+            int currentDist = ToVisit.keys().iterator().next();
+            ChokePoint current = ToVisit.get(currentDist).iterator().next();
             Tile currentTile = pMap.GetTile(current.Center().toPosition().toTilePosition(), check_t.no_check);
 //            bwem_assert(currentTile.InternalData() == currentDist);
             if (!(currentTile.InternalData().intValue() == currentDist)) {
                 throw new IllegalStateException();
             }
-            ToVisit.removeMapping(ToVisit.mapIterator().getKey(), ToVisit.mapIterator().getValue());
+            ToVisit.removeMapping(currentDist, current);
             currentTile.SetInternalData(new MutableInt(0)); // resets Tile::m_internalData for future usage
             currentTile.SetMarked();
 
