@@ -554,7 +554,10 @@ public final class Area extends Markable<Area> {
     // Note: same algorithm than Graph::ComputeDistances (derived from Dijkstra)
     private List<Integer> ComputeDistances(TilePosition start, List<TilePosition> Targets) {
         Map pMap = GetMap();
-        List<Integer> Distances = new ArrayList<>();
+        List<Integer> Distances = new ArrayList<>(Targets.size());
+        for (int i = 0; i < Targets.size(); ++i) {
+            Distances.add(0);
+        }
 
         Tile.UnmarkAll();
 
@@ -577,14 +580,7 @@ public final class Area extends Markable<Area> {
 
             for (int i = 0; i < Targets.size(); ++i) {
                 if (current.equals(Targets.get(i))) {
-                    int element = (int) (Double.valueOf("0.5") + ((Double.valueOf(currentDist) * Double.valueOf("32")) / Double.valueOf("10000")));
-                    if (i >= 0 && i < Distances.size()) {
-                        Distances.set(i, element);
-                    } else if (i == Distances.size()) {
-                        Distances.add(element);
-                    } else {
-                        throw new IndexOutOfBoundsException("Index: " + i + ", Size: " + Distances.size());
-                    }
+                    Distances.set(i, (int) (Double.valueOf("0.5") + ((Double.valueOf(currentDist) * Double.valueOf("32")) / Double.valueOf("10000"))));
                     --remainingTargets;
                 }
             }
