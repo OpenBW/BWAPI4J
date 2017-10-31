@@ -43,7 +43,7 @@ public final class Geyser extends Resource {
         if (this == object) {
             return true;
         } else if (!(object instanceof Geyser)) {
-            throw new IllegalArgumentException("Object is not an instance of Geyser.");
+            return false;
         } else {
             Geyser that = (Geyser) object;
             return (this.Unit().getId() == that.Unit().getId());
