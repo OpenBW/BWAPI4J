@@ -52,8 +52,8 @@ import org.openbw.bwapi4j.util.Pair;
 
 public final class Area extends Markable<Area> {
 
-    private Graph m_pGraph;
-    private AreaId m_id;
+    private final Graph m_pGraph;
+    private final AreaId m_id;
     private GroupId m_groupId = new GroupId(0);
     private WalkPosition m_top;
     private TilePosition m_topLeft = new TilePosition(Integer.MAX_VALUE, Integer.MAX_VALUE);
@@ -61,7 +61,7 @@ public final class Area extends Markable<Area> {
     private Altitude m_maxAltitude;
     private int m_miniTiles;
     private int m_tiles = 0;
-    private int m_buildableTiles = 0;
+    private int m_buildableTiles = 0; /* Set and later incremented but not used in BWEM 1.4.1. Remains for portability consistency. */
     private int m_highGroundTiles = 0;
     private int m_veryHighGroundTiles = 0;
     private AbstractMap<Area, List<ChokePoint>> m_ChokePointsByArea = new ConcurrentHashMap<>();
@@ -70,8 +70,6 @@ public final class Area extends Markable<Area> {
     private List<Mineral> m_Minerals = new ArrayList<>();
     private List<Geyser> m_Geysers = new ArrayList<>();
 	private List<Base> m_Bases = new ArrayList<>();
-
-    private Area() {}
 
     public Area(Graph pGraph, AreaId areaId, WalkPosition top, int miniTiles) {
         m_pGraph = pGraph;
@@ -93,6 +91,9 @@ public final class Area extends Markable<Area> {
         m_maxAltitude = topMiniTile.Altitude();
     }
 
+    /**
+     * Returns the internal Graph object. Not used in BWEM 1.4.1. Remains for portability consistency.
+     */
     private Graph GetGraph() {
         return m_pGraph;
     }
