@@ -86,17 +86,26 @@ public final class BwemExt {
         return Utils.squaredNorm(ret.getX(), ret.getY());
     }
 
-    public static double dist(Position A, Position B) {
-        Position ret = A.subtract(B);
-        return Utils.norm(ret.getX(), ret.getY());
-    }
-
     public static double dist(TilePosition A, TilePosition B) {
         TilePosition ret = A.subtract(B);
         return Utils.norm(ret.getX(), ret.getY());
     }
 
+    public static double dist(WalkPosition A, WalkPosition B) {
+        WalkPosition ret = A.subtract(B);
+        return Utils.norm(ret.getX(), ret.getY());
+    }
+
+    public static double dist(Position A, Position B) {
+        Position ret = A.subtract(B);
+        return Utils.norm(ret.getX(), ret.getY());
+    }
+
     public static int roundedDist(TilePosition A, TilePosition B) {
+        return ((int) (Double.valueOf("0.5") + dist(A, B)));
+    }
+
+    public static int roundedDist(WalkPosition A, WalkPosition B) {
         return ((int) (Double.valueOf("0.5") + dist(A, B)));
     }
 
@@ -171,6 +180,11 @@ public final class BwemExt {
         else if (ret.getY() > BottomRight.getY()) ret = new TilePosition(ret.getX(), BottomRight.getY());
 
         return ret;
+    }
+
+    public boolean inBoundingBox(TilePosition A, TilePosition topLeft, TilePosition bottomRight) {
+        return (A.getX() >= topLeft.getX()) && (A.getX() <= bottomRight.getX()) &&
+                (A.getY() >= topLeft.getY()) && (A.getY() <= bottomRight.getY());
     }
 
     public static List<TilePosition> innerBorder(TilePosition TopLeft, TilePosition Size, boolean noCorner) {
