@@ -164,11 +164,11 @@ public final class BwemExt {
     public static TilePosition makePointFitToBoundingBox(TilePosition A, TilePosition TopLeft, TilePosition BottomRight) {
         TilePosition ret = new TilePosition(A.getX(), A.getY());
 
-        if      (A.getX() < TopLeft.getX()) A = new TilePosition(TopLeft.getX(), A.getY());
-        else if (A.getX() > BottomRight.getX()) A = new TilePosition(BottomRight.getX(), A.getY());
+        if      (ret.getX() < TopLeft.getX())     ret = new TilePosition(TopLeft.getX(), ret.getY());
+        else if (ret.getX() > BottomRight.getX()) ret = new TilePosition(BottomRight.getX(), ret.getY());
 
-        if      (A.getY() < TopLeft.getY()) A = new TilePosition(A.getX(), TopLeft.getX());
-        else if (A.getY() > BottomRight.getY())	A = new TilePosition(A.getX(), BottomRight.getY());
+        if      (ret.getY() < TopLeft.getY())     ret = new TilePosition(ret.getX(), TopLeft.getX());
+        else if (ret.getY() > BottomRight.getY()) ret = new TilePosition(ret.getX(), BottomRight.getY());
 
         return ret;
     }
