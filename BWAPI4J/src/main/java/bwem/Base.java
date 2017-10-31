@@ -30,16 +30,14 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public final class Base {
 
-	private Map m_pMap;
-	private Area m_pArea;
+	private final Map m_pMap;
+	private final Area m_pArea;
 	private TilePosition m_location;
 	private Position m_center;
 	private List<Mineral> m_Minerals = new ArrayList<>();
 	private List<Geyser> m_Geysers = new ArrayList<>();
 	private List<Mineral> m_BlockingMinerals;
 	private boolean m_starting = false;
-
-    private Base() {}
 
     public Base(Area pArea, TilePosition location, List<Resource> AssignedResources, List<Mineral> BlockingMinerals) {
         m_pArea = pArea;
@@ -147,7 +145,7 @@ public final class Base {
         if (this == object) {
             return true;
         } else if (!(object instanceof Base)) {
-            throw new IllegalArgumentException("Object is not an instance of Base");
+            return false;
         } else {
             Base that = (Base) object;
             return (this.m_pArea.equals(that.m_pArea)

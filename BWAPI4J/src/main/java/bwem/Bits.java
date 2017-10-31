@@ -1,12 +1,5 @@
 package bwem;
 
-//struct Bits
-//{
-//                    Bits() : buildable(0), groundHeight(0), doodad(0) {}
-//    uint8_t			buildable:1;
-//    uint8_t			groundHeight:2;
-//    uint8_t			doodad:1;
-//};
 public final class Bits {
 
     public byte buildable;

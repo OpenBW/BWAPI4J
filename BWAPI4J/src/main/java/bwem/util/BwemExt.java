@@ -268,28 +268,32 @@ public final class BwemExt {
 
     public static Altitude getMinAltitudeTop(TilePosition t, Map map) {
         WalkPosition w = t.toPosition().toWalkPosition();
-        return new Altitude(Math.min(map.GetMiniTile(w.add(new WalkPosition(1, 0)), check_t.no_check).Altitude().intValue(),
+        return new Altitude(Math.min(
+                map.GetMiniTile(w.add(new WalkPosition(1, 0)), check_t.no_check).Altitude().intValue(),
                 map.GetMiniTile(w.add(new WalkPosition(2, 0)), check_t.no_check).Altitude().intValue()
         ));
     }
 
     public static Altitude getMinAltitudeBottom(TilePosition t, Map map) {
         WalkPosition w = t.toPosition().toWalkPosition();
-        return new Altitude(Math.min(map.GetMiniTile(w.add(new WalkPosition(1, 3)), check_t.no_check).Altitude().intValue(),
+        return new Altitude(Math.min(
+                map.GetMiniTile(w.add(new WalkPosition(1, 3)), check_t.no_check).Altitude().intValue(),
                 map.GetMiniTile(w.add(new WalkPosition(2, 3)), check_t.no_check).Altitude().intValue()
         ));
     }
 
     public static Altitude getMinAltitudeLeft(TilePosition t, Map map) {
         WalkPosition w = t.toPosition().toWalkPosition();
-        return new Altitude(Math.min(map.GetMiniTile(w.add(new WalkPosition(0, 1)), check_t.no_check).Altitude().intValue(),
+        return new Altitude(Math.min(
+                map.GetMiniTile(w.add(new WalkPosition(0, 1)), check_t.no_check).Altitude().intValue(),
                 map.GetMiniTile(w.add(new WalkPosition(0, 2)), check_t.no_check).Altitude().intValue()
         ));
     }
 
     public static Altitude getMinAltitudeRight(TilePosition t, Map map) {
         WalkPosition w = t.toPosition().toWalkPosition();
-        return new Altitude(Math.min(map.GetMiniTile(w.add(new WalkPosition(3, 1)), check_t.no_check).Altitude().intValue(),
+        return new Altitude(Math.min(
+                map.GetMiniTile(w.add(new WalkPosition(3, 1)), check_t.no_check).Altitude().intValue(),
                 map.GetMiniTile(w.add(new WalkPosition(3, 2)), check_t.no_check).Altitude().intValue()
         ));
     }

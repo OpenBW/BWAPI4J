@@ -98,7 +98,7 @@ public final class ChokePoint extends Markable<ChokePoint> {
         m_nodes[ChokePoint.Node.end1.intVal()] = Geometry.get(0);
         m_nodes[ChokePoint.Node.end2.intVal()] = Geometry.get(Geometry.size() - 1);
 
-        m_nodesInArea = new ArrayList<>();
+        m_nodesInArea = new ArrayList<>(ChokePoint.Node.node_count.intVal());
         for (int i = 0; i < ChokePoint.Node.node_count.intVal(); ++i) {
             m_nodesInArea.add(new Pair<>(new WalkPosition(0, 0), new WalkPosition(0, 0)));
         }
@@ -335,7 +335,8 @@ public final class ChokePoint extends Markable<ChokePoint> {
             return false;
         } else {
             ChokePoint that = (ChokePoint) object;
-            return (this.Index().intValue() == that.Index().intValue()
+            return (this.m_Areas.first.Id().equals(that.m_Areas.first.Id())
+                    && this.m_Areas.second.Id().equals(that.m_Areas.second.Id())
                     && this.m_blocked == that.m_blocked
                     && this.userData.Data().intValue() == that.userData.Data().intValue());
         }
@@ -343,7 +344,7 @@ public final class ChokePoint extends Markable<ChokePoint> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.Index().intValue(), this.m_blocked, this.userData.Data().intValue());
+        return Objects.hash(this.m_Areas.first.Id().intValue(), this.m_Areas.second.Id().intValue(), this.m_blocked, this.userData.Data().intValue());
     }
 
 }
