@@ -151,11 +151,11 @@ public final class BwemExt {
         TilePosition first = TopLeft;
         TilePosition second = BottomRight;
 
-        if (A.getX() < TopLeft.getX()) first = new TilePosition(A.getX(), first.getY());
-        if (A.getX() > BottomRight.getX()) second = new TilePosition(A.getX(), second.getY());
+        if (A.getX() < first.getX()) first = new TilePosition(A.getX(), first.getY());
+        if (A.getX() > second.getX()) second = new TilePosition(A.getX(), second.getY());
 
-        if (A.getY() < TopLeft.getY()) first = new TilePosition(first.getX(), A.getY());
-        if (A.getY() > BottomRight.getY()) second = new TilePosition(second.getX(), A.getY());
+        if (A.getY() < first.getY()) first = new TilePosition(first.getX(), A.getY());
+        if (A.getY() > second.getY()) second = new TilePosition(second.getX(), A.getY());
 
         return new Pair<>(first, second);
     }
