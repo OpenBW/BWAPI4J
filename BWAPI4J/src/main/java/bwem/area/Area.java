@@ -641,7 +641,7 @@ public final class Area extends Markable<Area> {
         if (this == object) {
             return true;
         } else if (!(object instanceof Area)) {
-            throw new IllegalArgumentException("Object is not an instance of Area");
+            return false;
         } else {
             Area that = (Area) object;
             return (this.m_id.equals(that.m_id));

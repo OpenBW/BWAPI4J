@@ -222,7 +222,7 @@ public class Neutral {
         if (this == object) {
             return true;
         } else if (!(object instanceof Neutral)) {
-            throw new IllegalArgumentException("Object is not an instance of Neutral.");
+            return false;
         } else {
             Neutral that = (Neutral) object;
             return (this.Unit().getId() == that.Unit().getId());

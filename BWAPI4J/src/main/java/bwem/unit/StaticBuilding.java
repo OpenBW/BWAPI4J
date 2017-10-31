@@ -30,7 +30,7 @@ public class StaticBuilding extends Neutral {
         if (this == object) {
             return true;
         } else if (!(object instanceof StaticBuilding)) {
-            throw new IllegalArgumentException("Object is not an instance of StaticBuilding.");
+            return false;
         } else {
             StaticBuilding that = (StaticBuilding) object;
             return (this.Unit().getId() == that.Unit().getId());

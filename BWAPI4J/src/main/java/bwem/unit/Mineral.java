@@ -50,7 +50,7 @@ public final class Mineral extends Resource {
         if (this == object) {
             return true;
         } else if (!(object instanceof Mineral)) {
-            throw new IllegalArgumentException("Object is not an instance of Mineral.");
+            return false;
         } else {
             Mineral that = (Mineral) object;
             return (this.Unit().getId() == that.Unit().getId());

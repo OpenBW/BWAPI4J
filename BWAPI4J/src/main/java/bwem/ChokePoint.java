@@ -332,7 +332,7 @@ public final class ChokePoint extends Markable<ChokePoint> {
         if (this == object) {
             return true;
         } else if (!(object instanceof ChokePoint)) {
-            throw new IllegalArgumentException("Object is not an instance of ChokePoint");
+            return false;
         } else {
             ChokePoint that = (ChokePoint) object;
             return (this.Index().intValue() == that.Index().intValue()

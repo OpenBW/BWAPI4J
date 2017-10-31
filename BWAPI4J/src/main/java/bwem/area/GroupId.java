@@ -57,7 +57,7 @@ public final class GroupId implements IWrappedInteger<GroupId>, Comparable<Group
         if (this == object) {
             return true;
         } else if (!(object instanceof GroupId)) {
-            throw new IllegalArgumentException("Object is not an instance of GroupId");
+            return false;
         } else {
             GroupId that = (GroupId) object;
             return (this.val == that.val);

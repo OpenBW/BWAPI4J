@@ -57,7 +57,7 @@ public final class AreaId implements IWrappedInteger<AreaId>, Comparable<AreaId>
         if (this == object) {
             return true;
         } else if (!(object instanceof AreaId)) {
-            throw new IllegalArgumentException("Object is not an instance of AreaId");
+            return false;
         } else {
             AreaId that = (AreaId) object;
             return (this.val == that.val);

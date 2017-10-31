@@ -31,7 +31,7 @@ public abstract class Resource extends Neutral {
         if (this == object) {
             return true;
         } else if (!(object instanceof Resource)) {
-            throw new IllegalArgumentException("Object is not an instance of Resource.");
+            return false;
         } else {
             Resource that = (Resource) object;
             return (this.Unit().getId() == that.Unit().getId());
