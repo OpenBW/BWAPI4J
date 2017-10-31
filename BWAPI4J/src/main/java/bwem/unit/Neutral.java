@@ -2,6 +2,7 @@ package bwem.unit;
 
 import bwem.area.Area;
 import bwem.map.Map;
+import bwem.map.MapImpl;
 import bwem.tile.Tile;
 import java.util.ArrayList;
 import java.util.List;
@@ -174,7 +175,12 @@ public class Neutral {
         }
     }
 
-    private void RemoveFromTiles() {
+    /**
+     * Warning: Do not use this function outside of BWEM's internals.
+     * This method was originally private and designed to be called from the
+     * "~Neutral" destructor in C++.
+     */
+    public void RemoveFromTiles() {
         for (int dy = 0; dy < Size().getY(); ++dy)
         for (int dx = 0; dx < Size().getX(); ++dx) {
             Tile tile = GetMap().GetTile_(TopLeft().add(new TilePosition(dx, dy)));
@@ -211,6 +217,11 @@ public class Neutral {
         }
 
         m_pNextStacked = null;
+
+        if (Blocking()) {
+            MapImpl map = (MapImpl) GetMap();
+            map.OnBlockingNeutralDestroyed(this);
+        }
     }
 
     protected Map GetMap() {

@@ -136,6 +136,9 @@ public final class Base {
         return new Position(x + x_offset, y + y_offset);
     }
 
+    /**
+     * Returns the internal Map object. Not used in BWEM 1.4.1. Remains for portability consistency.
+     */
     private Map GetMap() {
         return m_pMap;
     }

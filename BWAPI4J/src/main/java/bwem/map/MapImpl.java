@@ -246,6 +246,7 @@ public final class MapImpl extends Map {
         for (int i = 0; i < m_Minerals.size(); ++i) {
             Mineral mineral = m_Minerals.get(i);
             if (mineral.Unit().equals(u)) {
+                mineral.RemoveFromTiles(); /* IMPORTANT! This is called from the "~Neutral" dtor in C++. */
                 m_Minerals.remove(i--);
                 return;
             }
@@ -265,6 +266,7 @@ public final class MapImpl extends Map {
         for (int i = 0; i < m_StaticBuildings.size(); ++i) {
             StaticBuilding building = m_StaticBuildings.get(i);
             if (building.Unit().equals(u)) {
+                building.RemoveFromTiles(); /* IMPORTANT! This is called from the "~Neutral" dtor in C++. */
                 m_StaticBuildings.remove(i--);
                 return;
             }
@@ -289,7 +291,7 @@ public final class MapImpl extends Map {
         }
 
         // Unblock the miniTiles of pBlocking:
-        AreaId newId = pBlocking.BlockedAreas().get(0).Id();
+        AreaId newId = pBlocking.BlockedAreas().iterator().next().Id();
         WalkPosition pBlockingW = pBlocking.Size().toPosition().toWalkPosition();
         for (int dy = 0; dy < pBlockingW.getY(); ++dy)
         for (int dx = 0; dx < pBlockingW.getX(); ++dx) {

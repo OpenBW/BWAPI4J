@@ -311,7 +311,6 @@ public final class ChokePoint extends Markable<ChokePoint> {
                 }
             }
         }
-
     }
 
 	public Index Index() {
