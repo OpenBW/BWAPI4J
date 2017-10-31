@@ -1,11 +1,14 @@
-package bwem;
+package bwem.typedef;
 
+import bwem.util.IWrappedInteger;
 import java.util.Objects;
 
 /**
  * Immutable wrapper of the integer primitive to satisfy
  * the original C++ definition:
  * defs.h:54:typedef int16_t altitude_t;
+ *
+ * Type of the altitudes in pixels.
  */
 public final class Altitude implements IWrappedInteger<Altitude>, Comparable<Altitude> {
 

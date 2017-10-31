@@ -1,17 +1,17 @@
 package bwem.map;
 
-import bwem.Altitude;
+import bwem.typedef.Altitude;
 import bwem.Base;
-import bwem.CPPath;
-import bwem.check_t;
+import bwem.typedef.CPPath;
 import bwem.ChokePoint;
 import bwem.Graph;
-import bwem.PairGenericAltitudeComparator;
-import bwem.PairGenericMiniTileAltitudeComparator;
-import bwem.Timer;
+import bwem.util.PairGenericAltitudeComparator;
+import bwem.util.PairGenericMiniTileAltitudeComparator;
+import bwem.util.Timer;
 import bwem.area.Area;
-import bwem.area.AreaId;
+import bwem.area.typedef.AreaId;
 import bwem.area.TempAreaInfo;
+import bwem.check_t;
 import bwem.tile.MiniTile;
 import bwem.tile.Tile;
 import bwem.unit.Geyser;

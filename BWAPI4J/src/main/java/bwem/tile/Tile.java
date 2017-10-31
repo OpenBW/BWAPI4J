@@ -1,9 +1,9 @@
 package bwem.tile;
 
-import bwem.Altitude;
-import bwem.Bits;
+import bwem.typedef.Altitude;
+import bwem.typedef.Bits;
 import bwem.Markable;
-import bwem.area.AreaId;
+import bwem.area.typedef.AreaId;
 import bwem.unit.Neutral;
 import org.apache.commons.lang3.mutable.MutableInt;
 

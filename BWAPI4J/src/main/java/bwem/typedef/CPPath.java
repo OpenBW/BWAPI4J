@@ -1,11 +1,17 @@
-package bwem;
+package bwem.typedef;
 
+import bwem.ChokePoint;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-// Type of all the Paths used in BWEM (Cf. Map::GetPath).
+/**
+ * Type of all the Paths used in BWEM (Cf. Map::GetPath).
+ *
+ * cp.h:68:typedef std::vector<const ChokePoint *> Path;
+ * cp.h:168:typedef ChokePoint::Path CPPath;
+ */
 public class CPPath implements Iterable<ChokePoint> {
 
     private List<ChokePoint> chokepoints;

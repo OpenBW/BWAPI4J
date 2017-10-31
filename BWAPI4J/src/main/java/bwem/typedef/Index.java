@@ -1,43 +1,44 @@
-package bwem.area;
+package bwem.typedef;
 
-import bwem.IWrappedInteger;
+import bwem.util.IWrappedInteger;
 import java.util.Objects;
 
 /**
  * Immutable wrapper of the integer primitive to satisfy
  * the original C++ definition:
- * area.h:54:typedef int16_t id;
+ * cp.h:143:typedef int index;
  */
-public final class AreaId implements IWrappedInteger<AreaId>, Comparable<AreaId> {
+public final class Index implements IWrappedInteger<Index>, Comparable<Index> {
 
     private final int val;
 
-    public AreaId(int val) {
+    public Index(int val) {
         this.val = val;
     }
 
-    public AreaId(AreaId areaId) {
-        this.val = areaId.val;
+    public Index(Index index) {
+        this.val = index.val;
     }
 
     @Override
-    public AreaId add(AreaId that) {
-        return new AreaId(this.val + that.val);
+    public Index add(Index that) {
+        return new Index(this.val + that.val);
+    }
+
+
+    @Override
+    public Index add(int val) {
+        return new Index(this.val + val);
     }
 
     @Override
-    public AreaId add(int val) {
-        return new AreaId(this.val + val);
+    public Index subtract(Index that) {
+        return new Index(this.val - that.val);
     }
 
     @Override
-    public AreaId subtract(AreaId that) {
-        return new AreaId(this.val - that.val);
-    }
-
-    @Override
-    public AreaId subtract(int val) {
-        return new AreaId(this.val - val);
+    public Index subtract(int val) {
+        return new Index(this.val - val);
     }
 
     @Override
@@ -46,7 +47,7 @@ public final class AreaId implements IWrappedInteger<AreaId>, Comparable<AreaId>
     }
 
     @Override
-    public int compareTo(AreaId that) {
+    public int compareTo(Index that) {
         int lhs = this.val;
         int rhs = that.val;
         return (lhs < rhs) ? -1 : (lhs > rhs) ? 1 : 0;
@@ -56,10 +57,10 @@ public final class AreaId implements IWrappedInteger<AreaId>, Comparable<AreaId>
     public boolean equals(Object object) {
         if (this == object) {
             return true;
-        } else if (!(object instanceof AreaId)) {
+        } else if (!(object instanceof Index)) {
             return false;
         } else {
-            AreaId that = (AreaId) object;
+            Index that = (Index) object;
             return (this.val == that.val);
         }
     }

@@ -1,9 +1,13 @@
 package bwem;
 
-import bwem.area.Area;
-import bwem.area.AreaId;
-import bwem.area.GroupId;
 import bwem.map.MapImpl;
+import bwem.typedef.CPPath;
+import bwem.typedef.Pred;
+import bwem.typedef.Altitude;
+import bwem.typedef.Index;
+import bwem.area.Area;
+import bwem.area.typedef.AreaId;
+import bwem.area.typedef.GroupId;
 import bwem.tile.MiniTile;
 import bwem.tile.Tile;
 import bwem.unit.Geyser;

@@ -1,4 +1,4 @@
-package bwem;
+package bwem.util;
 
 public interface IWrappedInteger<T extends IWrappedInteger> {
 

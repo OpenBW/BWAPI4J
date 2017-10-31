@@ -1,29 +1,27 @@
-package bwem;
+package bwem.util;
 
-import bwem.tile.MiniTile;
+import bwem.typedef.Altitude;
 import java.util.Comparator;
 import org.openbw.bwapi4j.util.Pair;
 
-public final class PairGenericMiniTileAltitudeComparator<T> implements Comparator<Pair<T, MiniTile>> {
+public final class PairGenericAltitudeComparator<T> implements Comparator<Pair<T, Altitude>> {
 
     public enum Order { ASCENDING, DESCENDING }
 
     private final Order order;
 
-    public PairGenericMiniTileAltitudeComparator() {
+    public PairGenericAltitudeComparator() {
         this.order = Order.ASCENDING;
     }
 
-    public PairGenericMiniTileAltitudeComparator(Order order) {
+    public PairGenericAltitudeComparator(Order order) {
         this.order = order;
     }
 
     @Override
     public int compare(Pair o1, Pair o2) {
-        MiniTile mt1 = (MiniTile) o1.second;
-        int a1 = mt1.Altitude().intValue();
-        MiniTile mt2 = (MiniTile) o2.second;
-        int a2 = mt2.Altitude().intValue();
+        int a1 = ((Altitude) o1.second).intValue();
+        int a2 = ((Altitude) o2.second).intValue();
         switch (this.order) {
             case ASCENDING:
                 return (a1 < a2) ? -1 : (a1 > a2) ? 1 : 0;

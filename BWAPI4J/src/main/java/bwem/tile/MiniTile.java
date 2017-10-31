@@ -1,7 +1,7 @@
 package bwem.tile;
 
-import bwem.Altitude;
-import bwem.area.AreaId;
+import bwem.typedef.Altitude;
+import bwem.area.typedef.AreaId;
 
 public final class MiniTile {
 

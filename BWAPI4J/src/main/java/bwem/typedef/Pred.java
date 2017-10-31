@@ -1,4 +1,4 @@
-package bwem;
+package bwem.typedef;
 
 public interface Pred {
 

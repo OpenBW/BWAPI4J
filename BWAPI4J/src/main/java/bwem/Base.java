@@ -1,7 +1,7 @@
 package bwem;
 
-import bwem.area.Area;
 import bwem.map.Map;
+import bwem.area.Area;
 import bwem.unit.Geyser;
 import bwem.unit.Mineral;
 import bwem.unit.Resource;

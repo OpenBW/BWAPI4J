@@ -1,7 +1,10 @@
 package bwem;
 
-import bwem.area.Area;
 import bwem.map.Map;
+import bwem.typedef.CPPath;
+import bwem.typedef.Pred;
+import bwem.typedef.Index;
+import bwem.area.Area;
 import bwem.tile.MiniTile;
 import bwem.unit.Neutral;
 import java.util.ArrayList;

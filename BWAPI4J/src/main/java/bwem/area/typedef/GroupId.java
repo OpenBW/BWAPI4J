@@ -1,43 +1,43 @@
-package bwem;
+package bwem.area.typedef;
 
+import bwem.util.IWrappedInteger;
 import java.util.Objects;
 
 /**
  * Immutable wrapper of the integer primitive to satisfy
  * the original C++ definition:
- * cp.h:143:typedef int index;
+ * area.h:56:typedef int16_t groupId;
  */
-public final class Index implements IWrappedInteger<Index>, Comparable<Index> {
+public final class GroupId implements IWrappedInteger<GroupId>, Comparable<GroupId> {
 
     private final int val;
 
-    public Index(int val) {
+    public GroupId(int val) {
         this.val = val;
     }
 
-    public Index(Index index) {
-        this.val = index.val;
+    public GroupId(GroupId groupId) {
+        this.val = groupId.val;
     }
 
     @Override
-    public Index add(Index that) {
-        return new Index(this.val + that.val);
-    }
-
-
-    @Override
-    public Index add(int val) {
-        return new Index(this.val + val);
+    public GroupId add(GroupId that) {
+        return new GroupId(this.val + that.val);
     }
 
     @Override
-    public Index subtract(Index that) {
-        return new Index(this.val - that.val);
+    public GroupId add(int val) {
+        return new GroupId(this.val + val);
     }
 
     @Override
-    public Index subtract(int val) {
-        return new Index(this.val - val);
+    public GroupId subtract(GroupId that) {
+        return new GroupId(this.val - that.val);
+    }
+
+    @Override
+    public GroupId subtract(int val) {
+        return new GroupId(this.val - val);
     }
 
     @Override
@@ -46,7 +46,7 @@ public final class Index implements IWrappedInteger<Index>, Comparable<Index> {
     }
 
     @Override
-    public int compareTo(Index that) {
+    public int compareTo(GroupId that) {
         int lhs = this.val;
         int rhs = that.val;
         return (lhs < rhs) ? -1 : (lhs > rhs) ? 1 : 0;
@@ -56,10 +56,10 @@ public final class Index implements IWrappedInteger<Index>, Comparable<Index> {
     public boolean equals(Object object) {
         if (this == object) {
             return true;
-        } else if (!(object instanceof Index)) {
+        } else if (!(object instanceof GroupId)) {
             return false;
         } else {
-            Index that = (Index) object;
+            GroupId that = (GroupId) object;
             return (this.val == that.val);
         }
     }

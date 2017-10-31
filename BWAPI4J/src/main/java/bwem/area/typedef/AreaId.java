@@ -1,43 +1,43 @@
-package bwem.area;
+package bwem.area.typedef;
 
-import bwem.IWrappedInteger;
+import bwem.util.IWrappedInteger;
 import java.util.Objects;
 
 /**
  * Immutable wrapper of the integer primitive to satisfy
  * the original C++ definition:
- * area.h:56:typedef int16_t groupId;
+ * area.h:54:typedef int16_t id;
  */
-public final class GroupId implements IWrappedInteger<GroupId>, Comparable<GroupId> {
+public final class AreaId implements IWrappedInteger<AreaId>, Comparable<AreaId> {
 
     private final int val;
 
-    public GroupId(int val) {
+    public AreaId(int val) {
         this.val = val;
     }
 
-    public GroupId(GroupId groupId) {
-        this.val = groupId.val;
+    public AreaId(AreaId areaId) {
+        this.val = areaId.val;
     }
 
     @Override
-    public GroupId add(GroupId that) {
-        return new GroupId(this.val + that.val);
+    public AreaId add(AreaId that) {
+        return new AreaId(this.val + that.val);
     }
 
     @Override
-    public GroupId add(int val) {
-        return new GroupId(this.val + val);
+    public AreaId add(int val) {
+        return new AreaId(this.val + val);
     }
 
     @Override
-    public GroupId subtract(GroupId that) {
-        return new GroupId(this.val - that.val);
+    public AreaId subtract(AreaId that) {
+        return new AreaId(this.val - that.val);
     }
 
     @Override
-    public GroupId subtract(int val) {
-        return new GroupId(this.val - val);
+    public AreaId subtract(int val) {
+        return new AreaId(this.val - val);
     }
 
     @Override
@@ -46,7 +46,7 @@ public final class GroupId implements IWrappedInteger<GroupId>, Comparable<Group
     }
 
     @Override
-    public int compareTo(GroupId that) {
+    public int compareTo(AreaId that) {
         int lhs = this.val;
         int rhs = that.val;
         return (lhs < rhs) ? -1 : (lhs > rhs) ? 1 : 0;
@@ -56,10 +56,10 @@ public final class GroupId implements IWrappedInteger<GroupId>, Comparable<Group
     public boolean equals(Object object) {
         if (this == object) {
             return true;
-        } else if (!(object instanceof GroupId)) {
+        } else if (!(object instanceof AreaId)) {
             return false;
         } else {
-            GroupId that = (GroupId) object;
+            AreaId that = (AreaId) object;
             return (this.val == that.val);
         }
     }

@@ -1,6 +1,6 @@
 package bwem.util;
 
-import bwem.Altitude;
+import bwem.typedef.Altitude;
 import bwem.check_t;
 import bwem.map.Map;
 import bwem.map.MapImpl;

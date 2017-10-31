@@ -1,11 +1,11 @@
 package bwem.map;
 
-import bwem.Altitude;
-import bwem.CPPath;
-import bwem.check_t;
-import bwem.Pred;
+import bwem.typedef.Altitude;
+import bwem.typedef.CPPath;
+import bwem.typedef.Pred;
 import bwem.area.Area;
-import bwem.area.AreaId;
+import bwem.area.typedef.AreaId;
+import bwem.check_t;
 import bwem.tile.MiniTile;
 import bwem.tile.Tile;
 import bwem.unit.Geyser;

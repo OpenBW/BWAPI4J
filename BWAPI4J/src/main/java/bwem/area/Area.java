@@ -1,12 +1,14 @@
 package bwem.area;
 
-import bwem.Altitude;
+import bwem.area.typedef.AreaId;
+import bwem.area.typedef.GroupId;
+import bwem.typedef.Altitude;
 import bwem.Base;
 import bwem.check_t;
 import bwem.ChokePoint;
 import bwem.Graph;
 import bwem.Markable;
-import bwem.Pred;
+import bwem.typedef.Pred;
 import bwem.map.Map;
 import bwem.tile.MiniTile;
 import bwem.tile.Tile;
