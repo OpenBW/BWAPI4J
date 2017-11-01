@@ -127,11 +127,17 @@ public class BW {
 
     public void createUnit(Player owner, UnitType type, int posX, int posY) {
     
-    	System.out.println("creating " + owner.getColor().ordinal());
     	this.createUnit(owner.getColor().ordinal(), type.getId(), posX, posY);
     }
     
     private native void createUnit(int ownerId, int unitTypeId, int posX, int posY);
+    
+    public void killUnit(Unit unit) {
+    	
+    	this.killUnit(unit.getId());
+    }
+    
+    private native void killUnit(int unitID);
     
     public native void exit();
     

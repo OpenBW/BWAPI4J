@@ -17,6 +17,14 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_createUnit
 
 /*
  * Class:     org_openbw_bwapi4j_BW
+ * Method:    killUnit
+ * Signature: (I)V
+ */
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_killUnit
+  (JNIEnv *, jobject, jint);
+
+/*
+ * Class:     org_openbw_bwapi4j_BW
  * Method:    exit
  * Signature: ()V
  */

@@ -103,7 +103,7 @@ public abstract class PlayerUnit extends Unit {
     }
 
     /**
-     * Convenience method to be used e.g. when doing target-file micro (just
+     * Convenience method to be used e.g. when doing target-fire micro (just
      * provide unit weapon range as radius).
      * 
      * @param radius

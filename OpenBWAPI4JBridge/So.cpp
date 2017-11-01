@@ -127,6 +127,36 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_createUnit(JNIEnv *, jobject, 
 	gamePointer->createUnit(ownerColor, unitType, posX, posY);
 }
 
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_killUnit(JNIEnv *, jobject, jint unitID) {
+
+//	std::cout << "attempting to kill " << unitID << std::endl;
+ // TODO doesn't do what we want yet :( just kill unit with given ID (currently kill all units of type 0 = marine)
+
+	for(BW::UnitIterator iterator = gamePointer->UnitNodeList_VisibleUnit_begin();
+			iterator != gamePointer->UnitNodeList_VisibleUnit_end();
+			iterator++) {
+
+//		std::cout << "found visible " << iterator->getUnitID() << " " << iterator->getIndex() << " type: "<< iterator->unitType() << std::endl;
+		if (iterator->unitType() == 0) {
+			std::cout << "killing visible " << unitID << std::endl;
+			gamePointer->killUnit(*iterator);
+//			break;
+		}
+	}
+
+	for(BW::UnitIterator iterator = gamePointer->UnitNodeList_HiddenUnit_begin();
+				iterator != gamePointer->UnitNodeList_HiddenUnit_end();
+				iterator++) {
+
+//		std::cout << "found hidden " << iterator->getUnitID() << " " << iterator->getIndex() << " type: "<< iterator->unitType() << std::endl;
+		if (iterator->unitType() == 0) {
+			std::cout << "killing hidden " << unitID << std::endl;
+			gamePointer->killUnit(*iterator);
+//			break;
+		}
+	}
+}
+
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_exit(JNIEnv *, jobject) {
 //	do nothing
 }

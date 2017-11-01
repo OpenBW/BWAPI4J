@@ -69,7 +69,7 @@ public final class InteractionHandler {
 
     /**
      * Creates a unit of given type for given player at the given x,y coordinates.
-     * This method works only with OpenBW and will do nothing if used with original BW.
+     * This method works with OpenBW only and will do nothing if used with original BW.
      * @param owner
      * @param type
      * @param posX
@@ -77,6 +77,16 @@ public final class InteractionHandler {
      */
     public void createUnit(Player owner, UnitType type, int posX, int posY) {
     	this.bw.createUnit(owner, type, posX, posY);
+    }
+    
+    /**
+     * Kills the given unit.
+     * This method works with OpenBW only and will do nothing if used with original BW.
+     * @param unit to kill
+     */
+    public void killUnit(Unit unit) {
+    
+    	this.bw.killUnit(unit);
     }
     
     /**
