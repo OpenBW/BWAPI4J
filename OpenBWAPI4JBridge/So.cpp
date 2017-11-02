@@ -5,6 +5,7 @@
  *      Author: imp
  */
 
+#include "BWAPI.h"
 #include "BW/BWData.h"
 #include "BWAPI/GameImpl.h"
 #include "So.h"
@@ -34,7 +35,6 @@ double fixedScale = 100.0;
 
 JNIEnv *globalEnv;
 jobject globalBW;
-BW::Game *gamePointer;
 
 jclass arrayListClass;
 jmethodID arrayListAdd;
@@ -122,39 +122,15 @@ void initializeJavaReferences(JNIEnv *env, jobject caller) {
 	std::cout << "done." << std::endl;
 }
 
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_createUnit(JNIEnv *, jobject, jint ownerColor, jint unitType, jint posX, jint posY) {
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_createUnit(JNIEnv *, jobject, jint playerID, jint unitType, jint posX, jint posY) {
 
-	gamePointer->createUnit(ownerColor, unitType, posX, posY);
+
+	Broodwar->createUnit(Broodwar->getPlayer(playerID), (UnitType) unitType, Position(posX, posY));
 }
 
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_killUnit(JNIEnv *, jobject, jint unitID) {
 
-//	std::cout << "attempting to kill " << unitID << std::endl;
- // TODO doesn't do what we want yet :( just kill unit with given ID (currently kill all units of type 0 = marine)
-
-	for(BW::UnitIterator iterator = gamePointer->UnitNodeList_VisibleUnit_begin();
-			iterator != gamePointer->UnitNodeList_VisibleUnit_end();
-			iterator++) {
-
-//		std::cout << "found visible " << iterator->getUnitID() << " " << iterator->getIndex() << " type: "<< iterator->unitType() << std::endl;
-		if (iterator->unitType() == 0) {
-			std::cout << "killing visible " << unitID << std::endl;
-			gamePointer->killUnit(*iterator);
-//			break;
-		}
-	}
-
-	for(BW::UnitIterator iterator = gamePointer->UnitNodeList_HiddenUnit_begin();
-				iterator != gamePointer->UnitNodeList_HiddenUnit_end();
-				iterator++) {
-
-//		std::cout << "found hidden " << iterator->getUnitID() << " " << iterator->getIndex() << " type: "<< iterator->unitType() << std::endl;
-		if (iterator->unitType() == 0) {
-			std::cout << "killing hidden " << unitID << std::endl;
-			gamePointer->killUnit(*iterator);
-//			break;
-		}
-	}
+	Broodwar->killUnit(Broodwar->getUnit(unitID));
 }
 
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_exit(JNIEnv *, jobject) {
@@ -193,7 +169,6 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
 
 		BW::Game game = gameOwner.getGame();
 		BroodwarImpl_handle handle(game);
-		gamePointer = &game;
 
 		do {
 			handle->autoMenuManager.startGame();

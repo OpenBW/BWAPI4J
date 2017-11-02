@@ -127,7 +127,7 @@ public class BW {
 
     public void createUnit(Player owner, UnitType type, int posX, int posY) {
     
-    	this.createUnit(owner.getColor().ordinal(), type.getId(), posX, posY);
+    	this.createUnit(owner.getId(), type.getId(), posX, posY);
     }
     
     private native void createUnit(int ownerId, int unitTypeId, int posX, int posY);
