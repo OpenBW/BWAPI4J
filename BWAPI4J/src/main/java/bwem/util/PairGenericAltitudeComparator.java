@@ -2,9 +2,9 @@ package bwem.util;
 
 import bwem.typedef.Altitude;
 import java.util.Comparator;
-import org.openbw.bwapi4j.util.Pair;
+import org.apache.commons.lang3.tuple.MutablePair;
 
-public final class PairGenericAltitudeComparator<T> implements Comparator<Pair<T, Altitude>> {
+public final class PairGenericAltitudeComparator<T> implements Comparator<MutablePair<T, Altitude>> {
 
     public enum Order { ASCENDING, DESCENDING }
 
@@ -19,9 +19,9 @@ public final class PairGenericAltitudeComparator<T> implements Comparator<Pair<T
     }
 
     @Override
-    public int compare(Pair o1, Pair o2) {
-        int a1 = ((Altitude) o1.second).intValue();
-        int a2 = ((Altitude) o2.second).intValue();
+    public int compare(MutablePair o1, MutablePair o2) {
+        int a1 = ((Altitude) o1.right).intValue();
+        int a2 = ((Altitude) o2.right).intValue();
         switch (this.order) {
             case ASCENDING:
                 return (a1 < a2) ? -1 : (a1 > a2) ? 1 : 0;

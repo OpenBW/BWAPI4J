@@ -2,9 +2,9 @@ package bwem.util;
 
 import bwem.tile.MiniTile;
 import java.util.Comparator;
-import org.openbw.bwapi4j.util.Pair;
+import org.apache.commons.lang3.tuple.MutablePair;
 
-public final class PairGenericMiniTileAltitudeComparator<T> implements Comparator<Pair<T, MiniTile>> {
+public final class PairGenericMiniTileAltitudeComparator<T> implements Comparator<MutablePair<T, MiniTile>> {
 
     public enum Order { ASCENDING, DESCENDING }
 
@@ -19,10 +19,10 @@ public final class PairGenericMiniTileAltitudeComparator<T> implements Comparato
     }
 
     @Override
-    public int compare(Pair o1, Pair o2) {
-        MiniTile mt1 = (MiniTile) o1.second;
+    public int compare(MutablePair o1, MutablePair o2) {
+        MiniTile mt1 = (MiniTile) o1.right;
         int a1 = mt1.Altitude().intValue();
-        MiniTile mt2 = (MiniTile) o2.second;
+        MiniTile mt2 = (MiniTile) o2.right;
         int a2 = mt2.Altitude().intValue();
         switch (this.order) {
             case ASCENDING:
