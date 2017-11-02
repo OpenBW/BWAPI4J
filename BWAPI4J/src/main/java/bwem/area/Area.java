@@ -27,10 +27,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import org.apache.commons.lang3.mutable.MutableInt;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.type.UnitType;
-import org.openbw.bwapi4j.util.Pair;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -388,12 +388,12 @@ public final class Area extends Markable<Area> {
             TilePosition topLeftResources = new TilePosition(Integer.MAX_VALUE, Integer.MAX_VALUE);
             TilePosition bottomRightResources = new TilePosition(Integer.MIN_VALUE, Integer.MIN_VALUE);
             for (Resource r : RemainingResources) {
-                Pair<TilePosition, TilePosition> pair1 = BwemExt.makeBoundingBoxIncludePoint(topLeftResources, bottomRightResources, r.TopLeft());
-                topLeftResources = pair1.first;
-                bottomRightResources = pair1.second;
-                Pair<TilePosition, TilePosition> pair2 = BwemExt.makeBoundingBoxIncludePoint(topLeftResources, bottomRightResources, r.BottomRight());
-                topLeftResources = pair2.first;
-                bottomRightResources = pair2.second;
+                ImmutablePair<TilePosition, TilePosition> pair1 = BwemExt.makeBoundingBoxIncludePoint(topLeftResources, bottomRightResources, r.TopLeft());
+                topLeftResources = pair1.getLeft();
+                bottomRightResources = pair1.getRight();
+                ImmutablePair<TilePosition, TilePosition> pair2 = BwemExt.makeBoundingBoxIncludePoint(topLeftResources, bottomRightResources, r.BottomRight());
+                topLeftResources = pair2.getLeft();
+                bottomRightResources = pair2.getRight();
             }
 
             TilePosition topLeftSearchBoundingBox = topLeftResources.subtract(dimCC).subtract(new TilePosition(BwemExt.max_tiles_between_CommandCenter_and_resources, BwemExt.max_tiles_between_CommandCenter_and_resources));
@@ -414,7 +414,7 @@ public final class Area extends Markable<Area> {
                         score *= 3;
                     }
                     if (tile.AreaId().equals(Id())) { // note the additive effect (assume tile.InternalData() is 0 at the begining)
-                        tile.SetInternalData(new MutableInt(tile.InternalData().intValue() + score));
+                        tile.InternalData().setValue(tile.InternalData().intValue() + score);
                     }
                 }
             }

@@ -61,8 +61,8 @@ public final class MiniTile {
     }
 
     public void SetWalkable(boolean walkable) {
-        m_areaId = walkable ? new AreaId(-1) : new AreaId(0);
-        m_altitude = walkable ? new Altitude(-1) : new Altitude(1);
+        m_areaId = new AreaId(walkable ? -1 : 0);
+        m_altitude = new Altitude(walkable ? -1 : 1);
     }
 
     public boolean SeaOrLake() {

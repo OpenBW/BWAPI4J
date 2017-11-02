@@ -6,10 +6,10 @@ import bwem.map.Map;
 import bwem.map.MapImpl;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
-import org.openbw.bwapi4j.util.Pair;
 
 public final class BwemExt {
 
@@ -31,9 +31,7 @@ public final class BwemExt {
 
     public static final int max_tiles_between_StartingLocation_and_its_AssignedBase = 3;
 
-    private BwemExt() throws InstantiationException {
-        throw new InstantiationException();
-    }
+    private BwemExt() {}
 
     public static boolean seaSide(WalkPosition p, Map pMap) {
         if (!pMap.GetMiniTile(p).Sea()) {
@@ -81,6 +79,16 @@ public final class BwemExt {
         return Utils.queenWiseNorm(ret.getX(), ret.getY());
     }
 
+    public static int squaredDist(TilePosition A, TilePosition B) {
+        TilePosition ret = A.subtract(B);
+        return Utils.squaredNorm(ret.getX(), ret.getY());
+    }
+
+    public static int squaredDist(WalkPosition A, WalkPosition B) {
+        WalkPosition ret = A.subtract(B);
+        return Utils.squaredNorm(ret.getX(), ret.getY());
+    }
+
     public static int squaredDist(Position A, Position B) {
         Position ret = A.subtract(B);
         return Utils.squaredNorm(ret.getX(), ret.getY());
@@ -114,72 +122,67 @@ public final class BwemExt {
     }
 
     public static int distToRectangle(Position a, TilePosition TopLeft, TilePosition Size) {
-        Position topLeft = TopLeft.toPosition();
-        Position bottomRight = (TopLeft.add(Size).subtract(new TilePosition(1, 1))).toPosition();
+    	Position topLeft = TopLeft.toPosition();
+        Position bottomRight = ((TopLeft.add(Size)).toPosition()).subtract(new Position(1, 1));
 
-        if (a.getX() >= topLeft.getX()) {
-            if (a.getX() <= bottomRight.getX()) {
-                if (a.getY() > bottomRight.getY()) {
-                    /* S */
-                    return (a.getY() - bottomRight.getY());
+    	if (a.getX() >= topLeft.getX()) {
+    		if (a.getX() <= bottomRight.getX()) {
+    			if (a.getY() > bottomRight.getY()) {
+                    return a.getY() - bottomRight.getY(); // S
                 } else if (a.getY() < topLeft.getY()) {
-                    /* N */
-                    return (topLeft.getY() - a.getY());
+                    return topLeft.getY() - a.getY(); // N
                 } else {
-                    /* Inside */
-                    return 0;
+                    return 0; // inside
                 }
             } else {
-                if (a.getY() > bottomRight.getY()) {
-                    /* SE */
-                    return roundedDist(a, bottomRight);
-                } else if (a.getY() < topLeft.getY())	{
-                    /* NE */
-                    return roundedDist(a, new Position(bottomRight.getX(), topLeft.getY()));
+    			if (a.getY() > bottomRight.getY()) {
+                    return roundedDist(a, bottomRight); // SE
+                } else if (a.getY() < topLeft.getY()) {
+                    return roundedDist(a, new Position(bottomRight.getX(), topLeft.getY())); // NE
                 } else {
-                    /* E */
-                    return (a.getX() - bottomRight.getX());
+                    return a.getX() - bottomRight.getX(); // E
                 }
             }
         } else {
-            if (a.getY() > bottomRight.getY()) {
-                /* SW */
-                return roundedDist(a, new Position(topLeft.getX(), bottomRight.getY()));
+    		if (a.getY() > bottomRight.getY()){
+                return roundedDist(a, new Position(topLeft.getX(), bottomRight.getY())); // SW
             } else if (a.getY() < topLeft.getY()) {
-                /* NW */
-                return roundedDist(a, topLeft);
+                return roundedDist(a, topLeft); // NW
             } else {
-                /* W */
-                return (topLeft.getX() - a.getX());
+                return topLeft.getX() - a.getX(); // W
             }
         }
     }
 
     // Enlarges the bounding box [TopLeft, BottomRight] so that it includes A.
-    public static Pair<TilePosition, TilePosition> makeBoundingBoxIncludePoint(TilePosition TopLeft, TilePosition BottomRight, TilePosition A) {
-        TilePosition first = TopLeft;
-        TilePosition second = BottomRight;
+    public static ImmutablePair<TilePosition, TilePosition> makeBoundingBoxIncludePoint(TilePosition TopLeft, TilePosition BottomRight, TilePosition point) {
+        int tl_x = TopLeft.getX();
+        int tl_y = TopLeft.getY();
 
-        if (A.getX() < first.getX()) first = new TilePosition(A.getX(), first.getY());
-        if (A.getX() > second.getX()) second = new TilePosition(A.getX(), second.getY());
+        int br_x = BottomRight.getX();
+        int br_y = BottomRight.getY();
 
-        if (A.getY() < first.getY()) first = new TilePosition(first.getX(), A.getY());
-        if (A.getY() > second.getY()) second = new TilePosition(second.getX(), A.getY());
+        if (point.getX() < tl_x) tl_x = point.getX();
+        if (point.getX() > br_x) br_x = point.getX();
 
-        return new Pair<>(first, second);
+        if (point.getY() < tl_y) tl_y = point.getY();
+        if (point.getY() > br_y) br_y = point.getY();
+
+        return new ImmutablePair<>(new TilePosition(tl_x, tl_y), new TilePosition(br_x, br_y));
     }
 
     // Makes the smallest change to A so that it is included in the bounding box [TopLeft, BottomRight].
-    public static TilePosition makePointFitToBoundingBox(TilePosition A, TilePosition TopLeft, TilePosition BottomRight) {
-        TilePosition ret = new TilePosition(A.getX(), A.getY());
+    public static TilePosition makePointFitToBoundingBox(TilePosition point, TilePosition TopLeft, TilePosition BottomRight) {
+        int ret_x = point.getX();
+        int ret_y = point.getY();
 
-        if      (ret.getX() < TopLeft.getX())     ret = new TilePosition(TopLeft.getX(), ret.getY());
-        else if (ret.getX() > BottomRight.getX()) ret = new TilePosition(BottomRight.getX(), ret.getY());
+        if (ret_x < TopLeft.getX()) ret_x = TopLeft.getX();
+        else if (ret_x > BottomRight.getX()) ret_x = BottomRight.getX();
 
-        if      (ret.getY() < TopLeft.getY())     ret = new TilePosition(ret.getX(), TopLeft.getX());
-        else if (ret.getY() > BottomRight.getY()) ret = new TilePosition(ret.getX(), BottomRight.getY());
+        if (ret_y < TopLeft.getY()) ret_y = TopLeft.getY();
+        else if (ret_y > BottomRight.getY()) ret_y = BottomRight.getY();
 
-        return ret;
+        return new TilePosition(ret_x, ret_y);
     }
 
     public boolean inBoundingBox(TilePosition A, TilePosition topLeft, TilePosition bottomRight) {
@@ -259,6 +262,14 @@ public final class BwemExt {
 
     public static List<WalkPosition> innerMiniTileBorder(TilePosition TopLeft, TilePosition Size) {
         return innerMiniTileBorder(TopLeft, Size, false);
+    }
+
+    public static boolean disjoint(TilePosition TopLeft1, TilePosition Size1, TilePosition TopLeft2, TilePosition Size2) {
+        if (TopLeft2.getX() > TopLeft1.getX() + Size1.getX()) return true;
+        if (TopLeft2.getY() > TopLeft1.getY() + Size1.getY()) return true;
+        if (TopLeft1.getX() > TopLeft2.getX() + Size2.getX()) return true;
+        if (TopLeft1.getY() > TopLeft2.getY() + Size2.getY()) return true;
+        return false;
     }
 
     public static boolean adjoins8SomeLakeOrNeutral(WalkPosition p, MapImpl pMap) {

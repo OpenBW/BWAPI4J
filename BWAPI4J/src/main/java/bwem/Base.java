@@ -5,6 +5,7 @@ import bwem.area.Area;
 import bwem.unit.Geyser;
 import bwem.unit.Mineral;
 import bwem.unit.Resource;
+import bwem.util.BwemExt;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -43,7 +44,7 @@ public final class Base {
         m_pArea = pArea;
         m_pMap = pArea.GetMap();
         m_location = location;
-        m_center = calculateCenter(location);
+        m_center = BwemExt.center(location);
         m_BlockingMinerals = BlockingMinerals;
 
 //        bwem_assert(!AssignedRessources.empty());
@@ -115,7 +116,7 @@ public final class Base {
     public void SetStartingLocation(TilePosition actualLocation) {
         m_starting = true;
         m_location = actualLocation;
-        m_center = calculateCenter(actualLocation);
+        m_center = BwemExt.center(actualLocation);
     }
 
     public void OnMineralDestroyed(Mineral pMineral) {
@@ -125,15 +126,6 @@ public final class Base {
         }
         m_Minerals.remove(pMineral);
         m_BlockingMinerals.remove(pMineral);
-    }
-
-    private Position calculateCenter(TilePosition location) {
-        Position size = UnitType.Terran_Command_Center.tileSize().toPosition();
-        int x = location.toPosition().getX();
-        int x_offset = size.getX() / 2;
-        int y = location.toPosition().getY();
-        int y_offset = size.getY() / 2;
-        return new Position(x + x_offset, y + y_offset);
     }
 
     /**

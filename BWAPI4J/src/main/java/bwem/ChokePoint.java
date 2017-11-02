@@ -337,8 +337,11 @@ public final class ChokePoint extends Markable<ChokePoint> {
             return false;
         } else {
             ChokePoint that = (ChokePoint) object;
-            return (this.m_Areas.first.Id().equals(that.m_Areas.first.Id())
-                    && this.m_Areas.second.Id().equals(that.m_Areas.second.Id())
+            boolean fef = this.m_Areas.first.equals(that.m_Areas.first);
+            boolean fes = this.m_Areas.first.equals(that.m_Areas.second);
+            boolean ses = this.m_Areas.second.equals(that.m_Areas.second);
+            boolean sef = this.m_Areas.second.equals(that.m_Areas.first);
+            return (((fef && ses) || (fes && sef))
                     && this.m_blocked == that.m_blocked
                     && this.userData.Data().intValue() == that.userData.Data().intValue());
         }
@@ -346,7 +349,12 @@ public final class ChokePoint extends Markable<ChokePoint> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.m_Areas.first.Id().intValue(), this.m_Areas.second.Id().intValue(), this.m_blocked, this.userData.Data().intValue());
+        return Objects.hash(
+                this.m_Areas.first.Id().intValue(),
+                this.m_Areas.second.Id().intValue(),
+                this.m_blocked,
+                this.userData.Data().intValue()
+        );
     }
 
 }

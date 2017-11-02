@@ -198,43 +198,37 @@ public abstract class Map {
         return Valid(p.toWalkPosition());
     }
 
-    public TilePosition Crop(TilePosition t) {
-        int x = t.getX();
-        int y = t.getY();
+    private int[] crop(int x, int y, int max_x, int max_y) {
+        int ret_x = x;
+        int ret_y = y;
 
-        if (x < 0) x = 0;
-        else if (x >= Size().getX()) x = Size().getX() - 1;
+        if (ret_x < 0) ret_x = 0;
+        else if (ret_x >= max_x) ret_x = max_x - 1;
 
-        if (y < 0) y = 0;
-        else if (y >= Size().getY()) y = Size().getY() - 1;
+        if (ret_y < 0) ret_y = 0;
+        else if (ret_y >= max_y) ret_y = max_y - 1;
 
-        return new TilePosition(x, y);
+        int[] ret = {ret_x, ret_y};
+
+        return ret;
     }
 
-    public WalkPosition Crop(WalkPosition w) {
-        int x = w.getX();
-        int y = w.getY();
+    public TilePosition Crop(TilePosition p) {
+        int[] ret = crop(p.getX(), p.getY(), Size().getX(), Size().getY());
 
-        if (x < 0) x = 0;
-        else if (x >= WalkSize().getX()) x = WalkSize().getX() - 1;
+        return new TilePosition(ret[0], ret[1]);
+    }
 
-        if (y < 0) y = 0;
-        else if (y >= WalkSize().getY()) y = WalkSize().getY() - 1;
+    public WalkPosition Crop(WalkPosition p) {
+        int[] ret = crop(p.getX(), p.getY(), WalkSize().getX(), WalkSize().getY());
 
-        return new WalkPosition(x, y);
+        return new WalkPosition(ret[0], ret[1]);
     }
 
     public Position Crop(Position p) {
-        int x = p.getX();
-        int y = p.getY();
+        int[] ret = crop(p.getX(), p.getY(), PixelSize().getX(), PixelSize().getY());
 
-        if (x < 0) x = 0;
-        else if (x >= PixelSize().getX()) x = PixelSize().getX() - 1;
-
-        if (y < 0) y = 0;
-        else if (y >= PixelSize().getY()) y = PixelSize().getY() - 1;
-
-        return new Position(x, y);
+        return new Position(ret[0], ret[1]);
     }
 
 	// Returns a reference to the starting Locations.
