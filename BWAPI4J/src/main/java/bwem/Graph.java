@@ -25,10 +25,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import org.apache.commons.lang3.mutable.MutableInt;
+import org.apache.commons.lang3.tuple.MutablePair;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
-import org.openbw.bwapi4j.util.Pair;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -281,10 +281,10 @@ public final class Graph {
     }
 
 	// Creates a new Area for each pair (top, miniTiles) in AreasList (See Area::Top() and Area::MiniTiles())
-    public void CreateAreas(List<Pair<WalkPosition, Integer>> AreasList) {
+    public void CreateAreas(List<MutablePair<WalkPosition, Integer>> AreasList) {
         for (int id = 1; id <= AreasList.size(); ++id) {
-            WalkPosition top = AreasList.get(id - 1).first;
-            int miniTiles = AreasList.get(id - 1).second;
+            WalkPosition top = AreasList.get(id - 1).left;
+            int miniTiles = AreasList.get(id - 1).right;
             m_Areas.add(new Area(this, new AreaId(id), top, miniTiles));
         }
     }
@@ -327,10 +327,10 @@ public final class Graph {
         }
 
     	// 2) Dispatch the global raw frontier between all the relevant pairs of Areas:
-    	AbstractMap<Pair<AreaId, AreaId>, List<WalkPosition>> RawFrontierByAreaPair = new ConcurrentHashMap<>();
-    	for (Pair<Pair<AreaId, AreaId>, WalkPosition> raw : GetMap().RawFrontier()) {
-    		AreaId a = raw.first.first;
-    		AreaId b = raw.first.second;
+    	AbstractMap<MutablePair<AreaId, AreaId>, List<WalkPosition>> RawFrontierByAreaPair = new ConcurrentHashMap<>();
+    	for (MutablePair<MutablePair<AreaId, AreaId>, WalkPosition> raw : GetMap().RawFrontier()) {
+    		AreaId a = raw.left.left;
+    		AreaId b = raw.left.right;
     		if (a.intValue() > b.intValue()) {
                 AreaId a_tmp = new AreaId(a);
                 a = new AreaId(b);
@@ -345,20 +345,20 @@ public final class Graph {
                 throw new IllegalStateException();
             }
 
-            Pair<AreaId, AreaId> key = new Pair<>(a, b);
+            MutablePair<AreaId, AreaId> key = new MutablePair<>(a, b);
             if (!RawFrontierByAreaPair.containsKey(key)) {
                 List<WalkPosition> wpl = new ArrayList<>();
-                wpl.add(raw.second);
+                wpl.add(raw.right);
                 RawFrontierByAreaPair.put(key, wpl);
             } else {
-                RawFrontierByAreaPair.get(key).add(raw.second);
+                RawFrontierByAreaPair.get(key).add(raw.right);
             }
     	}
 
     	// 3) For each pair of Areas (A, B):
-    	for (Pair<AreaId, AreaId> raw : RawFrontierByAreaPair.keySet()) {
-    		AreaId a = raw.first;
-    		AreaId b = raw.second;
+    	for (MutablePair<AreaId, AreaId> raw : RawFrontierByAreaPair.keySet()) {
+    		AreaId a = raw.left;
+    		AreaId b = raw.right;
 
     		List<WalkPosition> RawFrontierAB = RawFrontierByAreaPair.get(raw);
 

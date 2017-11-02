@@ -18,13 +18,13 @@ import java.util.Queue;
 import java.util.Random;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.commons.lang3.mutable.MutableInt;
+import org.apache.commons.lang3.tuple.MutablePair;
 import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.type.Color;
 import org.openbw.bwapi4j.unit.Unit;
-import org.openbw.bwapi4j.util.Pair;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -396,7 +396,7 @@ public abstract class Map {
     }
 
     // Returns the union of the geometry of all the ChokePoints. Cf. ChokePoint::Geometry()
-    public abstract List<Pair<Pair<AreaId, AreaId>, WalkPosition>> RawFrontier();
+    public abstract List<MutablePair<MutablePair<AreaId, AreaId>, WalkPosition>> RawFrontier();
 
     public void drawDiagonalCrossMap(Position topLeft, Position bottomRight, Color col) {
         getBW().getMapDrawer().drawLineMap(topLeft, bottomRight, col);
