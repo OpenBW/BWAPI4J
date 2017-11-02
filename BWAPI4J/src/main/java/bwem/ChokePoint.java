@@ -10,9 +10,9 @@ import bwem.unit.Neutral;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import org.apache.commons.lang3.tuple.MutablePair;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
-import org.openbw.bwapi4j.util.Pair;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -70,9 +70,9 @@ public final class ChokePoint extends Markable<ChokePoint> {
     private Graph m_pGraph;
     private final boolean m_pseudo;
     private final Index m_index;
-    private final Pair<Area, Area> m_Areas;
+    private final MutablePair<Area, Area> m_Areas;
     private WalkPosition[] m_nodes;
-    private List<Pair<WalkPosition, WalkPosition>> m_nodesInArea;
+    private List<MutablePair<WalkPosition, WalkPosition>> m_nodesInArea;
     private final List<WalkPosition> m_Geometry;
     private boolean m_blocked;
     private Neutral m_pBlockingNeutral;
@@ -81,7 +81,7 @@ public final class ChokePoint extends Markable<ChokePoint> {
     public ChokePoint(Graph pGraph, Index idx, Area area1, Area area2, List<WalkPosition> Geometry, Neutral pBlockingNeutral) {
         m_pGraph = pGraph;
         m_index = idx;
-        m_Areas = new Pair<>(area1, area2);
+        m_Areas = new MutablePair<>(area1, area2);
         m_Geometry = Geometry;
         m_pBlockingNeutral = pBlockingNeutral;
         m_blocked = pBlockingNeutral != null;
@@ -103,7 +103,7 @@ public final class ChokePoint extends Markable<ChokePoint> {
 
         m_nodesInArea = new ArrayList<>(ChokePoint.Node.node_count.intVal());
         for (int i = 0; i < ChokePoint.Node.node_count.intVal(); ++i) {
-            m_nodesInArea.add(new Pair<>(new WalkPosition(0, 0), new WalkPosition(0, 0)));
+            m_nodesInArea.add(new MutablePair<>(new WalkPosition(0, 0), new WalkPosition(0, 0)));
         }
 
         int i = Geometry.size() / 2;
@@ -178,14 +178,14 @@ public final class ChokePoint extends Markable<ChokePoint> {
                  * Note: In the original C++ code, "nodeInArea" is a reference to a "WalkPosition" in
                  * "nodesInArea" which changes! Change that object here (after the call to "BreadthFirstSearch")...
                  */
-                WalkPosition first = m_nodesInArea.get(n).first;
-                WalkPosition second = this.m_nodesInArea.get(n).second;
-                Pair<WalkPosition, WalkPosition> replacementPair;
-                if (pArea.equals(m_Areas.first)) {
-                    replacementPair = new Pair<>(new WalkPosition(nodeInArea.getX(), nodeInArea.getY()), new WalkPosition(second.getX(), second.getY()));
+                WalkPosition left = m_nodesInArea.get(n).left;
+                WalkPosition right = this.m_nodesInArea.get(n).right;
+                MutablePair<WalkPosition, WalkPosition> replacementPair;
+                if (pArea.equals(m_Areas.left)) {
+                    replacementPair = new MutablePair<>(new WalkPosition(nodeInArea.getX(), nodeInArea.getY()), new WalkPosition(right.getX(), right.getY()));
                 } else {
-                    //TODO: Determine if we should test "else if (tmpArea.equals(this.areaPair.second))" and then throw an exception if that test also fails.
-                    replacementPair = new Pair<>(new WalkPosition(first.getX(), first.getY()), new WalkPosition(nodeInArea.getX(), nodeInArea.getY()));
+                    //TODO: Determine if we should test "else if (tmpArea.equals(this.areaPair.right))" and then throw an exception if that test also fails.
+                    replacementPair = new MutablePair<>(new WalkPosition(left.getX(), left.getY()), new WalkPosition(nodeInArea.getX(), nodeInArea.getY()));
                 }
                 m_nodesInArea.set(n, replacementPair);
             }
@@ -198,7 +198,7 @@ public final class ChokePoint extends Markable<ChokePoint> {
     }
 
 	// Returns the two Areas of this ChokePoint.
-	public Pair<Area, Area> GetAreas() {
+	public MutablePair<Area, Area> GetAreas() {
         return m_Areas;
     }
 
@@ -220,13 +220,13 @@ public final class ChokePoint extends Markable<ChokePoint> {
 	// Pretty much the same as Pos(n), except that the returned MiniTile position is guaranteed to be part of pArea.
 	// That is: Map::GetArea(PosInArea(n, pArea)) == pArea.
     public WalkPosition PosInArea(Node n, Area pArea) {
-//        bwem_assert((pArea == m_Areas.first) || (pArea == m_Areas.second));
-        if (!(pArea.equals(m_Areas.first) || pArea.equals(m_Areas.second))) {
+//        bwem_assert((pArea == m_Areas.left) || (pArea == m_Areas.right));
+        if (!(pArea.equals(m_Areas.left) || pArea.equals(m_Areas.right))) {
             throw new IllegalArgumentException();
         }
-        return pArea.equals(m_Areas.first)
-                ? m_nodesInArea.get(n.intVal()).first
-                : m_nodesInArea.get(n.intVal()).second;
+        return pArea.equals(m_Areas.left)
+                ? m_nodesInArea.get(n.intVal()).left
+                : m_nodesInArea.get(n.intVal()).right;
     }
 
 	// Returns the set of positions that defines the shape of this ChokePoint.
@@ -337,10 +337,10 @@ public final class ChokePoint extends Markable<ChokePoint> {
             return false;
         } else {
             ChokePoint that = (ChokePoint) object;
-            boolean fef = this.m_Areas.first.equals(that.m_Areas.first);
-            boolean fes = this.m_Areas.first.equals(that.m_Areas.second);
-            boolean ses = this.m_Areas.second.equals(that.m_Areas.second);
-            boolean sef = this.m_Areas.second.equals(that.m_Areas.first);
+            boolean fef = this.m_Areas.left.equals(that.m_Areas.left);
+            boolean fes = this.m_Areas.left.equals(that.m_Areas.right);
+            boolean ses = this.m_Areas.right.equals(that.m_Areas.right);
+            boolean sef = this.m_Areas.right.equals(that.m_Areas.left);
             return (((fef && ses) || (fes && sef))
                     && this.m_blocked == that.m_blocked
                     && this.userData.Data().intValue() == that.userData.Data().intValue());
@@ -350,8 +350,8 @@ public final class ChokePoint extends Markable<ChokePoint> {
     @Override
     public int hashCode() {
         return Objects.hash(
-                this.m_Areas.first.Id().intValue(),
-                this.m_Areas.second.Id().intValue(),
+                this.m_Areas.left.Id().intValue(),
+                this.m_Areas.right.Id().intValue(),
                 this.m_blocked,
                 this.userData.Data().intValue()
         );

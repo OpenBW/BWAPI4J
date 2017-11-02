@@ -706,7 +706,7 @@ public final class Graph {
                 continue;
             }
 
-            Area[] areas = {current.GetAreas().first, current.GetAreas().second};
+            Area[] areas = {current.GetAreas().left, current.GetAreas().right};
             for (Area pArea : areas) {
                 for (ChokePoint next : pArea.ChokePoints()) {
                     if (!next.equals(current)) {
