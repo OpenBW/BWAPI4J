@@ -90,7 +90,7 @@ public final class Area extends Markable<Area> {
             throw new IllegalStateException("assert failed: topMiniTile.AreaId().equals(areaId): expected: " + topMiniTile.AreaId().intValue() + ", actual: " + areaId.intValue());
         }
 
-        m_maxAltitude = topMiniTile.Altitude();
+        m_maxAltitude = new Altitude(topMiniTile.Altitude());
     }
 
     /**
@@ -551,8 +551,6 @@ public final class Area extends Markable<Area> {
         return true;
     }
 
-
-
     // Returns Distances such that Distances[i] == ground_distance(start, Targets[i]) in pixels
     // Note: same algorithm than Graph::ComputeDistances (derived from Dijkstra)
     private List<Integer> ComputeDistances(TilePosition start, List<TilePosition> Targets) {
@@ -592,9 +590,9 @@ public final class Area extends Markable<Area> {
             }
 
             TilePosition[] deltas = {
-                new TilePosition(-1, -1), new TilePosition(0, -1), new TilePosition(1, -1),
-                new TilePosition(-1,  0),                          new TilePosition(1,  0),
-                new TilePosition(-1,  1), new TilePosition(0,  1), new TilePosition(1,  1)
+                new TilePosition(-1, -1), new TilePosition(0, -1), new TilePosition(+1, -1),
+                new TilePosition(-1,  0),                          new TilePosition(+1,  0),
+                new TilePosition(-1, +1), new TilePosition(0, +1), new TilePosition(+1, +1)
             };
             for (TilePosition delta : deltas) {
                 final boolean diagonalMove = (delta.getX() != 0) && (delta.getY() != 0);

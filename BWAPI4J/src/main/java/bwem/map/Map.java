@@ -342,12 +342,10 @@ public abstract class Map {
             }
         }
 
+        //TODO: Are we supposed to return start or not?
 //        bwem_assert(false);
-        if (!(false)) {
-            throw new IllegalStateException();
-        }
-
-        return start;
+        throw new IllegalStateException();
+//        return start;
     }
 
     public TilePosition BreadthFirstSearch(TilePosition start, Pred findCond, Pred visitCond) {
@@ -392,7 +390,8 @@ public abstract class Map {
 
         //TODO: Are we supposed to return start or not?
 //        bwem_assert(false);
-        return start;
+        throw new IllegalStateException();
+//        return start;
     }
 
     public WalkPosition BreadthFirstSearch(WalkPosition start, Pred findCond, Pred visitCond) {
