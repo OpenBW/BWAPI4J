@@ -242,11 +242,30 @@ public final class MapImpl extends Map {
     }
 
     @Override
+    public void OnUnitDestroyed(Unit u) {
+        if (u instanceof MineralPatch) {
+            OnMineralDestroyed(u);
+        } else {
+            try {
+                OnStaticBuildingDestroyed(u);
+            } catch (Exception ex) {
+                //TODO: Handle this exception appropriately.
+                /**
+                 * An exception WILL be thrown if the unit is not in
+                 * the "Map.m_StaticBuildings" list.
+                 * Just ignore the exception.
+                 */
+            }
+        }
+    }
+
+    @Override
     public void OnMineralDestroyed(Unit u) {
         for (int i = 0; i < m_Minerals.size(); ++i) {
             Mineral mineral = m_Minerals.get(i);
             if (mineral.Unit().equals(u)) {
-                mineral.RemoveFromTiles(); /* IMPORTANT! This is called from the "~Neutral" dtor in C++. */
+                OnMineralDestroyed(mineral);
+                mineral.simulateCPPObjectDestructor(); /* IMPORTANT! These actions are performed in the "~Neutral" dtor in BWEM 1.4.1 C++. */
                 m_Minerals.remove(i--);
                 return;
             }
@@ -255,7 +274,11 @@ public final class MapImpl extends Map {
         throw new IllegalArgumentException("Unit is not a Mineral");
     }
 
-    public void OnMineralDestroyed(Mineral pMineral) {
+    /**
+     * This method could be placed in {@link #OnMineralDestroyed(org.openbw.bwapi4j.unit.Unit)}.
+     * This remains as a separate method for portability consistency.
+     */
+    private void OnMineralDestroyed(Mineral pMineral) {
         for (Area area : GetGraph().Areas()) {
             area.OnMineralDestroyed(pMineral);
         }
@@ -266,7 +289,7 @@ public final class MapImpl extends Map {
         for (int i = 0; i < m_StaticBuildings.size(); ++i) {
             StaticBuilding building = m_StaticBuildings.get(i);
             if (building.Unit().equals(u)) {
-                building.RemoveFromTiles(); /* IMPORTANT! This is called from the "~Neutral" dtor in C++. */
+                building.simulateCPPObjectDestructor(); /* IMPORTANT! These actions are performed in the "~Neutral" dtor in BWEM 1.4.1 C++. */
                 m_StaticBuildings.remove(i--);
                 return;
             }

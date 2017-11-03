@@ -47,7 +47,6 @@ public class Neutral {
         PutOnTiles();
     }
 
-    //TODO:
     //protected:
 //    Neutral::~Neutral()
 //    {
@@ -63,6 +62,20 @@ public class Neutral {
 //            bwem_assert(false);
 //        }
 //    }
+    public void simulateCPPObjectDestructor() {
+        RemoveFromTiles();
+
+        if (Blocking()) {
+            Map map = GetMap();
+            if (map instanceof MapImpl) {
+                MapImpl mapImpl = (MapImpl) map;
+                mapImpl.OnBlockingNeutralDestroyed(this);
+                return;
+            } else {
+                throw new IllegalStateException("expected class: " + MapImpl.class.getName() + ", actual class: " + map.getClass().getName());
+            }
+        }
+    }
 
     // Returns the BWAPI::Unit this Neutral is wrapping around.
     public Unit Unit() {
@@ -217,11 +230,6 @@ public class Neutral {
         }
 
         m_pNextStacked = null;
-
-        if (Blocking()) {
-            MapImpl map = (MapImpl) GetMap();
-            map.OnBlockingNeutralDestroyed(this);
-        }
     }
 
     protected Map GetMap() {

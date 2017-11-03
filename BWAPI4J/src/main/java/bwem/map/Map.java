@@ -252,6 +252,11 @@ public abstract class Map {
 	// Otherwise, returns nullptr.
     public abstract Geyser GetGeyser(Unit g);
 
+    /**
+     * Alternative handler for destroyed unit tracking. Not present in BWEM 1.4.1 C++.
+     */
+    public abstract void OnUnitDestroyed(Unit u);
+
     // Should be called for each destroyed BWAPI unit u having u->getType().isMineralField() == true
     public abstract void OnMineralDestroyed(Unit u);
 

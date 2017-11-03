@@ -2,6 +2,7 @@ package bwem.unit;
 
 import bwem.map.Map;
 import java.util.Objects;
+import org.openbw.bwapi4j.unit.Unit;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -16,7 +17,7 @@ import java.util.Objects;
 
 public class StaticBuilding extends Neutral {
 
-    public StaticBuilding(org.openbw.bwapi4j.unit.Unit u, Map pMap) {
+    public StaticBuilding(Unit u, Map pMap) {
         super(u, pMap);
 
         //TODO

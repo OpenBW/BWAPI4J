@@ -26,13 +26,6 @@ public final class Mineral extends Resource {
         }
     }
 
-    //TODO:
-    //public:
-//    Mineral::~Mineral()
-//    {
-//        MapImpl::Get(GetMap())->OnMineralDestroyed(this);
-//    }
-
     @Override
     public int InitialAmount() {
         MineralPatch ret = (MineralPatch) super.Unit();
