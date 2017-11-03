@@ -94,7 +94,7 @@ public final class Graph {
             p,
             new Pred() { // findCond
                 @Override
-                public boolean is(Object... args) {
+                public boolean isTrue(Object... args) {
                     Object ttile = args[0];
                     if (ttile instanceof MiniTile) {
                         MiniTile miniTile = (MiniTile) ttile;
@@ -106,7 +106,7 @@ public final class Graph {
             },
             new Pred() { // visitCond
                 @Override
-                public boolean is(Object... args) {
+                public boolean isTrue(Object... args) {
                     return true;
                 }
             }
@@ -125,7 +125,7 @@ public final class Graph {
             p,
             new Pred() { // findCond
                 @Override
-                public boolean is(Object... args) {
+                public boolean isTrue(Object... args) {
                     Object ttile = args[0];
                     if (ttile instanceof Tile) {
                         Tile tile = (Tile) ttile;
@@ -137,7 +137,7 @@ public final class Graph {
             },
             new Pred() { // visitCond
                 @Override
-                public boolean is(Object... args) {
+                public boolean isTrue(Object... args) {
                     return true;
                 }
             }
@@ -435,7 +435,7 @@ public final class Graph {
                             pNeutral.Pos().toWalkPosition(),
                             new Pred() { // findCond
                                 @Override
-                                public boolean is(Object... args) {
+                                public boolean isTrue(Object... args) {
                                     Object ttile = args[0];
                                     if (ttile instanceof MiniTile) {
                                         MiniTile miniTile = (MiniTile) ttile;
@@ -447,7 +447,7 @@ public final class Graph {
                             },
                             new Pred() { // visitCond
                                 @Override
-                                public boolean is(Object... args) {
+                                public boolean isTrue(Object... args) {
                                     return true;
                                 }
                             }

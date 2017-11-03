@@ -302,7 +302,7 @@ public final class Area extends Markable<Area> {
             pStartCP.PosInArea(ChokePoint.Node.middle, this).toPosition().toTilePosition(),
             new Pred() { // findCond
                 @Override
-                public boolean is(Object... args) {
+                public boolean isTrue(Object... args) {
                     Object ttile = args[0];
                     if (ttile instanceof Tile) {
                         Tile tile = (Tile) ttile;
@@ -314,7 +314,7 @@ public final class Area extends Markable<Area> {
             },
             new Pred() { // visitCond
                 @Override
-                public boolean is(Object... args) {
+                public boolean isTrue(Object... args) {
                     return true;
                 }
             }
@@ -326,7 +326,7 @@ public final class Area extends Markable<Area> {
                 cp.PosInArea(ChokePoint.Node.middle, this).toPosition().toTilePosition(),
                 new Pred() { // findCond
                     @Override
-                    public boolean is(Object... args) {
+                    public boolean isTrue(Object... args) {
                         Object ttile = args[0];
                         if (ttile instanceof Tile) {
                             Tile tile = (Tile) ttile;
@@ -338,7 +338,7 @@ public final class Area extends Markable<Area> {
                 },
                 new Pred() { // visitCond
                     @Override
-                    public boolean is(Object... args) {
+                    public boolean isTrue(Object... args) {
                         return true;
                     }
                 }

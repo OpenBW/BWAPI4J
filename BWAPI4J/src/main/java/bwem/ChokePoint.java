@@ -128,7 +128,7 @@ public final class ChokePoint extends Markable<ChokePoint> {
                     m_nodes[n],
                     new Pred() { // findCond
                         @Override
-                        public boolean is(Object... args) {
+                        public boolean isTrue(Object... args) {
                             Object tmap = args[args.length - 1];
                             Map map = null;
                             if (tmap instanceof Map) {
@@ -143,7 +143,7 @@ public final class ChokePoint extends Markable<ChokePoint> {
                                 MiniTile miniTile = (MiniTile) ttile;
                                 WalkPosition w = (WalkPosition) tpos;
                                 TilePosition t = w.toPosition().toTilePosition();
-                                return (miniTile.AreaId().intValue() > pArea.Id().intValue() && map.GetTile(t, check_t.no_check).GetNeutral() == null);
+                                return (miniTile.AreaId().equals(pArea.Id()) && map.GetTile(t, check_t.no_check).GetNeutral() == null);
                             } else {
                                 throw new IllegalArgumentException("Invalid argument list.");
                             }
@@ -151,7 +151,7 @@ public final class ChokePoint extends Markable<ChokePoint> {
                     },
                     new Pred() { // visitCond
                         @Override
-                        public boolean is(Object... args) {
+                        public boolean isTrue(Object... args) {
                             Object tmap = args[args.length - 1];
                             Map map;
                             if (tmap instanceof Map) {
@@ -166,7 +166,7 @@ public final class ChokePoint extends Markable<ChokePoint> {
                                 MiniTile miniTile = (MiniTile) ttile;
                                 WalkPosition w = (WalkPosition) tpos;
                                 TilePosition t = w.toPosition().toTilePosition();
-                                return (miniTile.AreaId().intValue() > pArea.Id().intValue() || (Blocked() && (miniTile.Blocked() || map.GetTile(t, check_t.no_check).GetNeutral() != null)));
+                                return (miniTile.AreaId().equals(pArea.Id()) || (Blocked() && (miniTile.Blocked() || map.GetTile(t, check_t.no_check).GetNeutral() != null)));
                             } else {
                                 throw new IllegalArgumentException("Invalid argument list.");
                             }
@@ -184,7 +184,6 @@ public final class ChokePoint extends Markable<ChokePoint> {
                 if (pArea.equals(m_Areas.left)) {
                     replacementPair = new MutablePair<>(new WalkPosition(nodeInArea.getX(), nodeInArea.getY()), new WalkPosition(right.getX(), right.getY()));
                 } else {
-                    //TODO: Determine if we should test "else if (tmpArea.equals(this.areaPair.right))" and then throw an exception if that test also fails.
                     replacementPair = new MutablePair<>(new WalkPosition(left.getX(), left.getY()), new WalkPosition(nodeInArea.getX(), nodeInArea.getY()));
                 }
                 m_nodesInArea.set(n, replacementPair);

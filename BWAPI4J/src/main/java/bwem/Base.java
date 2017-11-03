@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Objects;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
-import org.openbw.bwapi4j.type.UnitType;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -31,6 +30,7 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public final class Base {
 
+    private UserData m_UserData = new UserData();
 	private final Map m_pMap;
 	private final Area m_pArea;
 	private TilePosition m_location;
@@ -61,6 +61,10 @@ public final class Base {
                 m_Geysers.add(g);
             }
         }
+    }
+
+    public UserData UserData() {
+        return m_UserData;
     }
 
 	// Tells whether this Base's location is contained in Map::StartingLocations()

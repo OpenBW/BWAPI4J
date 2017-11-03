@@ -302,7 +302,7 @@ public abstract class Map {
 	// Generic algorithm for breadth first search in the Map.
 	// See the several use cases in BWEM source files.
     public TilePosition BreadthFirstSearch(TilePosition start, Pred findCond, Pred visitCond, boolean connect8) {
-        if (findCond.is(GetTile(start), start, this)) {
+        if (findCond.isTrue(GetTile(start), start, this)) {
             return start;
         }
 
@@ -326,10 +326,10 @@ public abstract class Map {
                 TilePosition next = current.add(delta);
                 if (Valid(next)) {
                     Tile nextTile = GetTile(next, check_t.no_check);
-                    if (findCond.is(nextTile, next, this)) {
+                    if (findCond.isTrue(nextTile, next, this)) {
                         return next;
                     }
-                    if (visitCond.is(nextTile, next, this) && !Visited.contains(next)) {
+                    if (visitCond.isTrue(nextTile, next, this) && !Visited.contains(next)) {
                         ToVisit.add(next);
                         Visited.add(next);
                     }
@@ -350,7 +350,7 @@ public abstract class Map {
     }
 
     public WalkPosition BreadthFirstSearch(WalkPosition start, Pred findCond, Pred visitCond, boolean connect8) {
-        if (findCond.is(GetMiniTile(start), start, this)) {
+        if (findCond.isTrue(GetMiniTile(start), start, this)) {
             return start;
         }
 
@@ -374,10 +374,10 @@ public abstract class Map {
                 WalkPosition next = current.add(delta);
                 if (Valid(next)) {
                     MiniTile Next = GetMiniTile(next, check_t.no_check);
-                    if (findCond.is(Next, next, this)) {
+                    if (findCond.isTrue(Next, next, this)) {
                         return next;
                     }
-                    if (visitCond.is(Next, next, this) && !Visited.contains(next)) {
+                    if (visitCond.isTrue(Next, next, this) && !Visited.contains(next)) {
                         ToVisit.add(next);
                         Visited.add(next);
                     }
@@ -385,9 +385,8 @@ public abstract class Map {
             }
         }
 
-        //TODO: ???
+        //TODO: Are we supposed to return start or not?
 //        bwem_assert(false);
-
         return start;
     }
 
