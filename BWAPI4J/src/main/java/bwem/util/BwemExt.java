@@ -7,9 +7,11 @@ import bwem.map.MapImpl;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
+import org.openbw.bwapi4j.type.Color;
 
 public final class BwemExt {
 
@@ -185,7 +187,7 @@ public final class BwemExt {
         return new TilePosition(ret_x, ret_y);
     }
 
-    public boolean inBoundingBox(TilePosition A, TilePosition topLeft, TilePosition bottomRight) {
+    public static boolean inBoundingBox(TilePosition A, TilePosition topLeft, TilePosition bottomRight) {
         return (A.getX() >= topLeft.getX()) && (A.getX() <= bottomRight.getX()) &&
                 (A.getY() >= topLeft.getY()) && (A.getY() <= bottomRight.getY());
     }
@@ -193,7 +195,7 @@ public final class BwemExt {
     public static List<TilePosition> innerBorder(TilePosition TopLeft, TilePosition Size, boolean noCorner) {
         List<TilePosition> Border = new ArrayList<>();
         for (int dy = 0; dy < Size.getY(); ++dy)
-        for (int dx = 0; dx < Size.getY(); ++dx) {
+        for (int dx = 0; dx < Size.getX(); ++dx) {
             if ((dy == 0) || (dy == Size.getY() - 1) ||
                 (dx == 0) || (dx == Size.getX() - 1)) {
                 if (!noCorner ||
@@ -214,7 +216,7 @@ public final class BwemExt {
     public static List<WalkPosition> innerBorder(WalkPosition TopLeft, WalkPosition Size, boolean noCorner) {
         List<WalkPosition> Border = new ArrayList<>();
         for (int dy = 0; dy < Size.getY(); ++dy)
-        for (int dx = 0; dx < Size.getY(); ++dx) {
+        for (int dx = 0; dx < Size.getX(); ++dx) {
             if ((dy == 0) || (dy == Size.getY() - 1) ||
                 (dx == 0) || (dx == Size.getX() - 1)) {
                 if (!noCorner ||
@@ -289,6 +291,21 @@ public final class BwemExt {
         }
 
         return false;
+    }
+
+//    template<typename T, int Scale = 1>
+//    inline bool overlap(const BWAPI::Point<T, Scale> & TopLeft1, const BWAPI::Point<T, Scale> & Size1, const BWAPI::Point<T, Scale> & TopLeft2, const BWAPI::Point<T, Scale> & Size2)
+//    {
+//        if (TopLeft2.x >= TopLeft1.x + Size1.x) return false;
+//        if (TopLeft2.y >= TopLeft1.y + Size1.y) return false;
+//        if (TopLeft1.x >= TopLeft2.x + Size2.x) return false;
+//        if (TopLeft1.y >= TopLeft2.y + Size2.y) return false;
+//        return true;
+//    }
+
+    public static void drawDiagonalCrossMap(BW bw, Position topLeft, Position bottomRight, Color col) {
+        bw.getMapDrawer().drawLineMap(topLeft, bottomRight, col);
+        bw.getMapDrawer().drawLineMap(new Position(bottomRight.getX(), topLeft.getY()), new Position(topLeft.getX(), bottomRight.getY()), col);
     }
 
     public static Altitude getMinAltitudeTop(TilePosition t, Map map) {
