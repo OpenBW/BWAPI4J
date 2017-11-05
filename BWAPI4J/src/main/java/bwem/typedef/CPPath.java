@@ -40,6 +40,10 @@ public class CPPath implements Iterable<ChokePoint> {
         this.chokepoints.clear();
     }
 
+    public boolean isEmpty() {
+        return this.chokepoints.isEmpty();
+    }
+
     private class CPPathIterator implements Iterator<ChokePoint> {
 
         private int cursor = 0;
