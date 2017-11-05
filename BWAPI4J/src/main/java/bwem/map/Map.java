@@ -1,5 +1,6 @@
 package bwem.map;
 
+import bwem.MapPrinter;
 import bwem.typedef.Altitude;
 import bwem.typedef.CPPath;
 import bwem.typedef.Pred;
@@ -49,6 +50,7 @@ import org.openbw.bwapi4j.unit.Unit;
 public abstract class Map {
 
     private final BW m_pBW;
+    private final MapPrinter m_pMapPrinter;
     protected int m_size = 0;
     protected TilePosition m_Size = null;
     protected int m_walkSize;
@@ -61,10 +63,15 @@ public abstract class Map {
 
     protected Map(BW bw) {
         m_pBW = bw;
+        m_pMapPrinter = new MapPrinter();
     }
 
     protected BW getBW() {
         return m_pBW;
+    }
+
+    public MapPrinter getMapPrinter() {
+        return m_pMapPrinter;
     }
 
 	// This has to be called before any other function is called.
