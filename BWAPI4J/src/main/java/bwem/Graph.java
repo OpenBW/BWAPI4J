@@ -315,6 +315,7 @@ public final class Graph {
 
     	// 1) Size the matrix
 //      m_ChokePointsMatrix.resize(AreasCount() + 1);
+        m_ChokePointsMatrix.clear();
         for (int i = 0; i <= AreasCount() + 1; ++i) {
             m_ChokePointsMatrix.add(new ArrayList<>());
         }
@@ -492,6 +493,7 @@ public final class Graph {
         }
 
 //    	m_PathsBetweenChokePoints.resize(m_ChokePointList.size());
+        m_PathsBetweenChokePoints.clear();
         for (int i = 0; i < m_ChokePointList.size(); ++i) {
             m_PathsBetweenChokePoints.add(new ArrayList<>());
         }
