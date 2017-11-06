@@ -316,11 +316,11 @@ public final class MapImpl extends Map {
         }
 
         // Unblock the miniTiles of pBlocking:
-        AreaId newId = pBlocking.BlockedAreas().iterator().next().Id();
+        AreaId newId = new AreaId(pBlocking.BlockedAreas().iterator().next().Id());
         WalkPosition pBlockingW = pBlocking.Size().toPosition().toWalkPosition();
         for (int dy = 0; dy < pBlockingW.getY(); ++dy)
         for (int dx = 0; dx < pBlockingW.getX(); ++dx) {
-            MiniTile miniTile = GetMiniTile_(pBlocking.TopLeft().toPosition().toWalkPosition().add(new WalkPosition(dx, dy)));
+            MiniTile miniTile = GetMiniTile_((pBlocking.TopLeft().toPosition().toWalkPosition()).add(new WalkPosition(dx, dy)));
             if (miniTile.Walkable()) {
                 miniTile.ReplaceBlockedAreaId(newId);
             }
@@ -385,8 +385,8 @@ public final class MapImpl extends Map {
     	for (int y = 0; y < WalkSize().getY(); ++y)
     	for (int x = 0; x < WalkSize().getX(); ++x) {
     		if (!getBW().getBWMap().isWalkable(x, y)) { // For each unwalkable minitile, we also mark its 8 neighbours as not walkable.
-    			for (int dy = -1 ; dy <= +1 ; ++dy)     // According to some tests, this prevents from wrongly pretending one Marine can go by some thin path.
-    			for (int dx = -1 ; dx <= +1 ; ++dx) {
+    			for (int dy = -1; dy <= +1; ++dy)     // According to some tests, this prevents from wrongly pretending one Marine can go by some thin path.
+    			for (int dx = -1; dx <= +1; ++dx) {
     				WalkPosition w = new WalkPosition(x + dx, y + dy);
     				if (Valid(w)) {
     					GetMiniTile_(w, check_t.no_check).SetWalkable(false);
@@ -403,8 +403,8 @@ public final class MapImpl extends Map {
     			GetTile_(t).SetBuildable();
 
     			// Ensures buildable ==> walkable:
-    			for (int dy = 0 ; dy < 4 ; ++dy)
-    			for (int dx = 0 ; dx < 4 ; ++dx) {
+    			for (int dy = 0; dy < 4; ++dy)
+    			for (int dx = 0; dx < 4; ++dx) {
     				GetMiniTile_(new WalkPosition(t).add(new WalkPosition(dx, dy)), check_t.no_check).SetWalkable(true);
                 }
     		}
@@ -429,8 +429,8 @@ public final class MapImpl extends Map {
     			List<MiniTile> SeaExtent = new ArrayList<>();
                 Origin.SetSea();
                 SeaExtent.add(Origin);
-    			WalkPosition topLeft = origin;
-    			WalkPosition bottomRight = origin;
+    			WalkPosition topLeft = new WalkPosition(origin.getX(), origin.getY());
+    			WalkPosition bottomRight = new WalkPosition(origin.getX(), origin.getY());
     			while (!ToSearch.isEmpty()) {
     				WalkPosition current = ToSearch.get(ToSearch.size() - 1);
     				if (current.getX() < topLeft.getX()) topLeft = new WalkPosition(current.getX(), topLeft.getY());
@@ -546,7 +546,7 @@ public final class MapImpl extends Map {
                             if (miniTile.AltitudeMissing()) {
                                 m_maxAltitude = new Altitude(altitude);
                                 Current.right = new Altitude(altitude);
-                                miniTile.SetAltitude(m_maxAltitude);
+                                miniTile.SetAltitude(altitude);
                             }
                         }
                     }
@@ -652,7 +652,7 @@ public final class MapImpl extends Map {
                     WalkPosition pCandidateW = pCandidate.Size().toPosition().toWalkPosition();
                     for (int dy = 0; dy < pCandidateW.getY(); ++dy)
                     for (int dx = 0; dx < pCandidateW.getX(); ++dx) {
-                        MiniTile miniTile = GetMiniTile_(pCandidate.TopLeft().toPosition().toWalkPosition().add(new WalkPosition(dx, dy)));
+                        MiniTile miniTile = GetMiniTile_((pCandidate.TopLeft().toPosition().toWalkPosition()).add(new WalkPosition(dx, dy)));
                         if (miniTile.Walkable()) {
                             miniTile.SetBlocked();
                         }
@@ -699,7 +699,7 @@ public final class MapImpl extends Map {
         List<TempAreaInfo> TempAreaList = new ArrayList<>();
         TempAreaList.add(new TempAreaInfo()); // TempAreaList[0] left unused, as AreaIds are > 0
         for (MutablePair<WalkPosition, MiniTile> Current : MiniTilesByDescendingAltitude) {
-            final WalkPosition pos = Current.left;
+            final WalkPosition pos = new WalkPosition(Current.left.getX(), Current.left.getY());
             MiniTile cur = Current.right;
 
             MutablePair<AreaId, AreaId> neighboringAreas = findNeighboringAreas(pos, this);
@@ -830,7 +830,7 @@ public final class MapImpl extends Map {
 
         for (int dy = 0; dy < 4; ++dy)
         for (int dx = 0; dx < 4; ++dx) {
-            AreaId id = GetMiniTile(t.toPosition().toWalkPosition().add(new WalkPosition(dx, dy)), check_t.no_check).AreaId();
+            AreaId id = GetMiniTile((t.toPosition().toWalkPosition()).add(new WalkPosition(dx, dy)), check_t.no_check).AreaId();
             if (id.intValue() != 0) {
                 if (tile.AreaId().intValue() == 0) {
                     tile.SetAreaId(id);
@@ -847,7 +847,7 @@ public final class MapImpl extends Map {
 
         for (int dy = 0; dy < 4; ++dy)
         for (int dx = 0; dx < 4; ++dx) {
-            Altitude altitude = new Altitude(GetMiniTile(t.toPosition().toWalkPosition().add(new WalkPosition(dx, dy)), check_t.no_check).Altitude());
+            Altitude altitude = new Altitude(GetMiniTile((t.toPosition()).toWalkPosition().add(new WalkPosition(dx, dy)), check_t.no_check).Altitude());
             if (altitude.intValue() < minAltitude.intValue()) {
                 minAltitude = new Altitude(altitude);
             }
@@ -894,14 +894,15 @@ public final class MapImpl extends Map {
             a = new AreaId(b);
             b = new AreaId(a_tmp);
         }
+
         MutablePair<AreaId, AreaId> key = new MutablePair<>(a, b);
-        if (map_AreaPair_counter.containsKey(key)) {
-            int val = map_AreaPair_counter.get(key);
-            map_AreaPair_counter.replace(key, val + 1);
-        } else {
-            map_AreaPair_counter.put(key, 1);
+        Integer val = map_AreaPair_counter.get(key);
+        if (val == null) {
+            val = 0;
         }
-        return ((map_AreaPair_counter.get(key) - 1) % 2 == 0) ? a : b;
+        map_AreaPair_counter.put(key, val + 1);
+
+        return (val % 2 == 0) ? a : b;
     }
 
 }

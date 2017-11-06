@@ -53,9 +53,9 @@ public abstract class Map {
     private final MapPrinter m_pMapPrinter;
     protected int m_size = 0;
     protected TilePosition m_Size = null;
-    protected int m_walkSize;
+    protected int m_walkSize = 0;
     protected WalkPosition m_WalkSize = null;
-    protected int m_pixelSize;
+    protected int m_pixelSize = 0;
     protected Position m_PixelSize = null;
     protected Position m_center = null;
     protected List<Tile> m_Tiles = null;
@@ -202,7 +202,7 @@ public abstract class Map {
     }
 
     public boolean Valid(Position p) {
-        return Valid(p.toWalkPosition());
+        return ((0 <= p.getX()) && (p.getX() < PixelSize().getX()) && (0 <= p.getY()) && (p.getY() < PixelSize().getY()));
     }
 
     private int[] crop(int x, int y, int max_x, int max_y) {
@@ -329,7 +329,7 @@ public abstract class Map {
             new TilePosition(-1,  0),                          new TilePosition(1,  0),
             new TilePosition(-1,  1), new TilePosition(0,  1), new TilePosition(1,  1)
         };
-        TilePosition[] dir4 = {new TilePosition(0, -1), new TilePosition(-1, 0), new TilePosition(1, 0), new TilePosition(0, 1)};
+        TilePosition[] dir4 = {new TilePosition(0, -1), new TilePosition(-1, 0), new TilePosition(+1, 0), new TilePosition(0, +1)};
         TilePosition[] directions = connect8 ? dir8 : dir4;
 
         while (!ToVisit.isEmpty()) {
