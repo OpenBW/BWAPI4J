@@ -196,7 +196,7 @@ public final class Graph {
 
         if (areaA.equals(areaB)) {
             if (pLength != null) {
-                pLength.setValue((int) a.getDistance(b));
+                pLength.setValue(BwemExt.getApproxDistance(a, b));
             }
             return new CPPath();
         }
@@ -210,20 +210,20 @@ public final class Graph {
 
         int minDist_A_B = Integer.MAX_VALUE;
 
-        ChokePoint bestCpA = null;
-        ChokePoint bestCpB = null;
+        ChokePoint pBestCpA = null;
+        ChokePoint pBestCpB = null;
 
         for (ChokePoint cpA : areaA.ChokePoints()) {
             if (!cpA.Blocked()) {
-                int dist_A_cpA = (int) a.getDistance(cpA.Center().toPosition());
+                final int dist_A_cpA = BwemExt.getApproxDistance(a, cpA.Center().toPosition());
                 for (ChokePoint cpB : areaB.ChokePoints()) {
                     if (!cpB.Blocked()) {
-                        int dist_B_cpB = (int) b.getDistance(cpB.Center().toPosition());
-                        int dist_A_B = dist_A_cpA + dist_B_cpB + Distance(cpA, cpB);
+                        final int dist_B_cpB = BwemExt.getApproxDistance(b, cpB.Center().toPosition());
+                        final int dist_A_B = dist_A_cpA + dist_B_cpB + Distance(cpA, cpB);
                         if (dist_A_B < minDist_A_B) {
                             minDist_A_B = dist_A_B;
-                            bestCpA = cpA;
-                            bestCpB = cpB;
+                            pBestCpA = cpA;
+                            pBestCpB = cpB;
                         }
                     }
                 }
@@ -235,7 +235,7 @@ public final class Graph {
             throw new IllegalStateException();
         }
 
-        CPPath path = GetPath(bestCpA, bestCpB);
+        CPPath path = GetPath(pBestCpA, pBestCpB);
 
         if (pLength != null) {
 //            bwem_assert(Path.size() >= 1);
@@ -247,20 +247,20 @@ public final class Graph {
 
             if (path.size() == 1) {
 //                bwem_assert(pBestCpA == pBestCpB);
-                if (!(bestCpA.equals(bestCpB))) {
+                if (!((pBestCpA == null && pBestCpB == null) || pBestCpA.equals(pBestCpB))) {
                     throw new IllegalStateException();
                 }
-                ChokePoint cp = bestCpA;
+                ChokePoint cp = pBestCpA;
 
                 Position cpEnd1 = BwemExt.center(cp.Pos(ChokePoint.Node.end1));
                 Position cpEnd2 = BwemExt.center(cp.Pos(ChokePoint.Node.end2));
                 if (Utils.intersect(a.getX(), a.getY(), b.getX(), b.getY(), cpEnd1.getX(), cpEnd1.getY(), cpEnd2.getX(), cpEnd2.getY())) {
-                    pLength.setValue(a.getDistance(b));
+                    pLength.setValue(BwemExt.getApproxDistance(a, b));
                 } else {
                     ChokePoint.Node[] nodes = {ChokePoint.Node.end1, ChokePoint.Node.end2};
                     for (ChokePoint.Node node : nodes) {
                         Position c = BwemExt.center(cp.Pos(node));
-                        int dist_A_B = (int) (a.getDistance(c) + b.getDistance(c));
+                        int dist_A_B = BwemExt.getApproxDistance(a, c) + BwemExt.getApproxDistance(b, c);
                         if (dist_A_B < pLength.intValue()) {
                             pLength.setValue(dist_A_B);
                         }
@@ -269,7 +269,7 @@ public final class Graph {
             }
         }
 
-        return GetPath(bestCpA, bestCpB);
+        return GetPath(pBestCpA, pBestCpB);
     }
 
 	public CPPath GetPath(Position a, Position b) {
@@ -315,12 +315,12 @@ public final class Graph {
 
     	// 1) Size the matrix
 //      m_ChokePointsMatrix.resize(AreasCount() + 1);
-        for (int i = 0; i <= AreasCount(); ++i) {
+        for (int i = 0; i <= AreasCount() + 1; ++i) {
             m_ChokePointsMatrix.add(new ArrayList<>());
         }
 //    	for (Area::id id = 1 ; id <= AreasCount() ; ++id)
 //    		m_ChokePointsMatrix[id].resize(id);			// triangular matrix
-        for (int id = 0; id <= AreasCount(); ++id) {
+        for (int id = 1; id <= AreasCount(); ++id) {
             for (int j = 0; j <= id; ++j) {
                 m_ChokePointsMatrix.get(id).add(new ArrayList<>());
             }
@@ -329,8 +329,8 @@ public final class Graph {
     	// 2) Dispatch the global raw frontier between all the relevant pairs of Areas:
     	AbstractMap<MutablePair<AreaId, AreaId>, List<WalkPosition>> RawFrontierByAreaPair = new ConcurrentHashMap<>();
     	for (MutablePair<MutablePair<AreaId, AreaId>, WalkPosition> raw : GetMap().RawFrontier()) {
-    		AreaId a = raw.left.left;
-    		AreaId b = raw.left.right;
+    		AreaId a = new AreaId(raw.left.left);
+    		AreaId b = new AreaId(raw.left.right);
     		if (a.intValue() > b.intValue()) {
                 AreaId a_tmp = new AreaId(a);
                 a = new AreaId(b);
@@ -371,13 +371,12 @@ public final class Graph {
     				Altitudes.add(new Altitude(GetMap().GetMiniTile(w).Altitude()));
                 }
 
+//    			bwem_assert(is_sorted(Altitudes.rbegin(), Altitudes.rend()));
                 List<Altitude> AltitudesCopySortedDescending = new ArrayList<>();
                 for (Altitude altitude : Altitudes) {
                     AltitudesCopySortedDescending.add(new Altitude(altitude));
                 }
                 Collections.sort(AltitudesCopySortedDescending, Collections.reverseOrder());
-
-//    			bwem_assert(is_sorted(Altitudes.rbegin(), Altitudes.rend()));
                 for (int i = 0; i < Altitudes.size(); ++i) {
                     if (!Altitudes.get(i).equals(AltitudesCopySortedDescending.get(i))) {
                         throw new IllegalStateException();
@@ -416,7 +415,7 @@ public final class Graph {
     		// 3.2) Create one Chokepoint for each cluster:
 //            GetChokePoints(a, b).reserve(Clusters.size() + pseudoChokePointsToCreate);
     		for (List<WalkPosition> Cluster : Clusters) {
-    			GetChokePoints(a, b).add(new ChokePoint(this, newIndex, GetArea(a), GetArea(b), Cluster, null));
+    			GetChokePoints(a, b).add(new ChokePoint(this, new Index(newIndex), GetArea(a), GetArea(b), Cluster, null));
                 newIndex = newIndex.add(1);
             }
     	}
@@ -455,15 +454,17 @@ public final class Graph {
 
                     List<WalkPosition> wpl = new ArrayList<>();
                     wpl.add(center);
-    				GetChokePoints(pA, pB).add(new ChokePoint(this, newIndex, pA, pB, wpl, pNeutral));
+    				GetChokePoints(pA, pB).add(new ChokePoint(this, new Index(newIndex), pA, pB, wpl, pNeutral));
                     newIndex = newIndex.add(1);
     			}
     		}
         }
 
     	// 5) Set the references to the freshly created Chokepoints:
-    	for (AreaId a = new AreaId(1); a.intValue() <= AreasCount(); a = a.add(1))
-    	for (AreaId b = new AreaId(1); b.intValue() < a.intValue(); b = b.add(1)) {
+    	for (int loop_a = 1; loop_a <= AreasCount(); ++loop_a)
+    	for (int loop_b = 1; loop_b < loop_a; ++loop_b) {
+            AreaId a = new AreaId(loop_a);
+            AreaId b = new AreaId(loop_b);
     		if (!GetChokePoints(a, b).isEmpty()) {
     			GetArea(a).AddChokePoints(GetArea(b), GetChokePoints(a, b));
     			GetArea(b).AddChokePoints(GetArea(a), GetChokePoints(a, b));
@@ -571,8 +572,6 @@ public final class Graph {
     // If Context == Area, Dijkstra's algorithm works on the Tiles inside one Area.
     // If Context == Graph, Dijkstra's algorithm works on the GetChokePoints between the AreaS.
     private void ComputeChokePointDistances(Area pContext) {
-    ///	multimap<int, vector<WalkPosition>> trace;
-
         for (ChokePoint pStart : pContext.ChokePoints()) {
             List<ChokePoint> Targets = new ArrayList<>();
             for (ChokePoint cp : pContext.ChokePoints()) {
@@ -598,15 +597,9 @@ public final class Graph {
                     Path.add(Targets.get(i));
 
                     SetPath(pStart, Targets.get(i), Path);
-
-                ///	vector<WalkPosition> PathTrace;
-                ///	for (auto e : Path) PathTrace.push_back(e->Center());
-                ///	trace.emplace(int(0.5 + DistanceToTargets[i]/8.0), PathTrace);
                 }
             }
         }
-
-    ///	for (auto & line : trace) { Log << line.first; for (auto e : line.second) Log << " " << e; Log << endl; }
     }
 
     // Computes the ground distances between any pair of ChokePoints in pContext
@@ -615,8 +608,6 @@ public final class Graph {
     // If Context == Area, Dijkstra's algorithm works on the Tiles inside one Area.
     // If Context == Graph, Dijkstra's algorithm works on the GetChokePoints between the AreaS.
     private void ComputeChokePointDistances(Graph pContext) {
-    ///	multimap<int, vector<WalkPosition>> trace;
-
         for (ChokePoint pStart : pContext.ChokePoints()) {
             List<ChokePoint> Targets = new ArrayList<>();
             for (ChokePoint cp : pContext.ChokePoints()) {
@@ -644,20 +635,15 @@ public final class Graph {
 //                    // if (Context == Graph), there may be intermediate ChokePoints. They have been set by ComputeDistances,
 //                    // so we just have to collect them (in the reverse order) and insert them into Path:
 //                    if ((void *)(pContext) == (void *)(this))	// tests (Context == Graph) without warning about constant condition
+                        //TODO: Verify this loop is correct.
                         for (ChokePoint pPrev = Targets.get(i).PathBackTrace(); !pPrev.equals(pStart); pPrev = pPrev.PathBackTrace()) {
                             Path.add(1, pPrev);
                         }
 
                     SetPath(pStart, Targets.get(i), Path);
-
-                ///	vector<WalkPosition> PathTrace;
-                ///	for (auto e : Path) PathTrace.push_back(e->Center());
-                ///	trace.emplace(int(0.5 + DistanceToTargets[i]/8.0), PathTrace);
                 }
             }
         }
-
-    ///	for (auto & line : trace) { Log << line.first; for (auto e : line.second) Log << " " << e; Log << endl; }
     }
 
     // Returns Distances such that Distances[i] == ground_distance(start, Targets[i]) in pixels

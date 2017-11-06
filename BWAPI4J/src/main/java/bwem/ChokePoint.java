@@ -336,11 +336,11 @@ public final class ChokePoint extends Markable<ChokePoint> {
             return false;
         } else {
             ChokePoint that = (ChokePoint) object;
-            boolean fef = this.m_Areas.left.equals(that.m_Areas.left);
-            boolean fes = this.m_Areas.left.equals(that.m_Areas.right);
-            boolean ses = this.m_Areas.right.equals(that.m_Areas.right);
-            boolean sef = this.m_Areas.right.equals(that.m_Areas.left);
-            return (((fef && ses) || (fes && sef))
+            boolean lel = this.m_Areas.left.equals(that.m_Areas.left);
+            boolean ler = this.m_Areas.left.equals(that.m_Areas.right);
+            boolean rer = this.m_Areas.right.equals(that.m_Areas.right);
+            boolean rel = this.m_Areas.right.equals(that.m_Areas.left);
+            return (((lel && rer) || (ler && rel)) /* true if area pairs are an exact match or if one pair is reversed. */
                     && this.m_blocked == that.m_blocked
                     && this.userData.Data().intValue() == that.userData.Data().intValue());
         }

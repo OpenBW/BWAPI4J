@@ -308,6 +308,36 @@ public final class BwemExt {
         bw.getMapDrawer().drawLineMap(new Position(bottomRight.getX(), topLeft.getY()), new Position(topLeft.getX(), bottomRight.getY()), col);
     }
 
+    //----------------------------------------------------------------------
+    //TODO: Add these functions to main BWAPI4J target type source files?
+    //----------------------------------------------------------------------
+    private static int getApproxDistance(int x0, int y0, int x1, int y1) {
+        int min = Math.abs(x0 - x1);
+        int max = Math.abs(y0 - y1);
+        if (max < min) {
+            int min_tmp = min;
+            min = max;
+            max = min_tmp;
+        }
+
+        if (min < (max >> 2)) {
+            return max;
+        }
+
+        int minCalc = (3 * min) >> 3;
+        return (minCalc >> 5) + minCalc + max - (max >> 4) - (max >> 6);
+    }
+    public static int getApproxDistance(TilePosition source, TilePosition target) {
+        return getApproxDistance(source.getX(), source.getY(), target.getX(), target.getY());
+    };
+    public static int getApproxDistance(WalkPosition source, WalkPosition target) {
+        return getApproxDistance(source.getX(), source.getY(), target.getX(), target.getY());
+    };
+    public static int getApproxDistance(Position source, Position target) {
+        return getApproxDistance(source.getX(), source.getY(), target.getX(), target.getY());
+    };
+    //----------------------------------------------------------------------
+
     public static Altitude getMinAltitudeTop(TilePosition t, Map map) {
         WalkPosition w = t.toPosition().toWalkPosition();
         return new Altitude(Math.min(
