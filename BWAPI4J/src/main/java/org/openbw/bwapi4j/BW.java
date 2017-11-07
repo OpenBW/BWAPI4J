@@ -109,12 +109,14 @@ public class BW {
     	    @Override
     	    public void run() {
     	    
+    	    	logger.trace("calling native onStart...");
     	    	startGame(myBw);
     	    }
     	            
     	});
     	        
     	thread.start();
+    	logger.trace("calling native mainThread...");
         mainThread();
         try {
 			thread.join();
@@ -244,6 +246,7 @@ public class BW {
                 player = new Player(playerId, this.getPlayerName(playerId));
                 logger.debug("player name: {}", player.getName());
                 this.players.put(playerId, player);
+                logger.debug("initializing...");
                 player.initialize(playerData, index);
                 logger.debug(" done.");
             }
@@ -304,6 +307,8 @@ public class BW {
 
     private void preFrame() {
         
+    	logger.debug(" --- preFrame called.");
+    	
         logger.debug("updating game state for frame {}...", this.frame);
         updateGame();
         logger.debug("updated game.");
@@ -315,6 +320,7 @@ public class BW {
     
     private void onStart() {
 
+    	logger.debug(" --- onStart called.");
         this.frame = 0;
         this.players.clear();
         this.units.clear();

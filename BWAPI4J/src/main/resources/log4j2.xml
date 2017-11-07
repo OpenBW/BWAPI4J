@@ -17,6 +17,10 @@
         </RollingFile>
     </Appenders>
     <Loggers>
+    
+    	<!-- set log levels for individual classes like this -->
+		<Logger name="org.openbw.bwapi4j.BW"							level="trace" additivity="false"><AppenderRef ref="Console"/><AppenderRef ref="File"/></Logger>
+	    
         <Root level="debug">
             <AppenderRef ref="Console" />
             <AppenderRef ref="File" />

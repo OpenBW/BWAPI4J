@@ -25,8 +25,13 @@ public enum Color {
         return this.rgb;
     }
 
-    public static Color valueOf(int ordinal) {
+    public static Color valueOf(int rgb) {
         
-    	return Color.values()[ordinal];
+		for (Color color : Color.values()) {
+            if (color.rgb == rgb) {
+                return color;
+            }
+        }
+    	return null;
     }
 }
