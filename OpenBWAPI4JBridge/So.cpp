@@ -353,13 +353,62 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllUnitsData(JNIEnv * 
 	return result;
 }
 
+// required for the OpenBW version since player->getColor() returns ordinal value insteaf of 256 color value.
+int convertColor(int ordinal) {
+
+	int color;
+	switch(ordinal) {
+	case 0:
+		color = 111;
+		break;
+	case 1:
+		color = 165;
+		break;
+	case 2:
+		color = 159;
+		break;
+	case 3:
+		color = 164;
+		break;
+	case 4:
+		color = 179;
+		break;
+	case 5:
+		color = 19;
+		break;
+	case 6:
+		color = 255;
+		break;
+	case 7:
+		color = 135;
+		break;
+	case 8:
+		color = 117;
+		break;
+	case 9:
+		color = 128;
+		break;
+	case 10:
+		color = 0;
+		break;
+	case 11:
+		color = 74;
+		break;
+	default:
+		color = 0;
+		std::cout << "warning: unrecognized color ordinal value." << std::endl;
+		break;
+	}
+	return color;
+}
+
 int addPlayerDataToBuffer(Player &player, int index) {
 
 	intBuf[index++] = player->getID();
 	intBuf[index++] = player->getRace();
 	intBuf[index++] = player->getStartLocation().x;
 	intBuf[index++] = player->getStartLocation().y;
-	intBuf[index++] = player->getColor();
+	intBuf[index++] = convertColor(player->getColor());
 	intBuf[index++] = player->getTextColor();
 	intBuf[index++] = player->getType();
 	intBuf[index++] = player->getForce()->getID();
