@@ -6,7 +6,7 @@
  */
 
 #include "BridgeMap.h"
-#include "org_openbw_bwapi4j_BWMap.h"
+#include "org_openbw_bwapi4j_BWMapImpl.h"
 #include <BWAPI.h>
 
 BridgeMap::BridgeMap() {
@@ -23,7 +23,7 @@ void BridgeMap::initialize(JNIEnv * env, jclass jc, jobject bwObject, jclass bwM
 
 	// read map information
 		printf("reading map information...\n");
-		jfieldID bwMapField = env->GetFieldID(jc, "bwMap", "Lorg/openbw/bwapi4j/BWMap;");
+		jfieldID bwMapField = env->GetFieldID(jc, "bwMap", "Lorg/openbw/bwapi4j/BWMapImpl;");
 		jobject bwMap = env->GetObjectField(bwObject, bwMapField);
 
 		// set mapHash
