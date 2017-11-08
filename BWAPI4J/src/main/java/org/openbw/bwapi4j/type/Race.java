@@ -13,6 +13,29 @@ public enum Race {
 
     private Race(int id) {
         this.id = id;
+        switch(id) {
+        case 0:
+        	this.worker = UnitType.Zerg_Drone;
+        	this.center = UnitType.Zerg_Hatchery;
+        	this.refinery = UnitType.Zerg_Extractor;
+        	this.transport = UnitType.Zerg_Overlord;
+        	this.supplyProvider = UnitType.Zerg_Overlord;
+        	break;
+        case 1:
+        	this.worker = UnitType.Terran_SCV;
+	    	this.center = UnitType.Terran_Command_Center;
+	    	this.refinery = UnitType.Terran_Refinery;
+	    	this.transport = UnitType.Terran_Dropship;
+	    	this.supplyProvider = UnitType.Terran_Supply_Depot;
+	    	break;
+	    case 2:
+	    	this.worker = UnitType.Protoss_Probe;
+	    	this.center = UnitType.Protoss_Nexus;
+	    	this.refinery = UnitType.Protoss_Assimilator;
+	    	this.transport = UnitType.Protoss_Shuttle;
+	    	this.supplyProvider = UnitType.Protoss_Pylon;
+	    	break;
+        }
     }
 
     public int getId() {
