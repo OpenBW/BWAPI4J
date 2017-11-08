@@ -9,3 +9,6 @@ BrooDat.mpq
 Patch_rt.mpq
 StarDat.mpq
 .nb-gradle/
+out/
+BWAPI4J.iml
+.idea/
