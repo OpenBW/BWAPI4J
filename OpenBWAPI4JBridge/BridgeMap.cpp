@@ -96,18 +96,18 @@ void BridgeMap::initialize(JNIEnv * env, jclass jc, jobject bwObject, jclass bwM
 //	BWMap
 //
 */
-JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMap_isVisible(JNIEnv *, jobject, jint tileX, jint tileY) {
+JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMapImpl_isVisible(JNIEnv *, jobject, jint tileX, jint tileY) {
 	return Broodwar->isVisible(tileX, tileY);
 }
 
-JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMap_isBuildable(JNIEnv *, jobject, jint tileX, jint tileY, jboolean considerBuildings) {
+JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMapImpl_isBuildable(JNIEnv *, jobject, jint tileX, jint tileY, jboolean considerBuildings) {
 	return Broodwar->isBuildable(tileX, tileY, considerBuildings);
 }
 
-JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMap_hasPath(JNIEnv *, jobject, jint x1, jint y1, jint x2, jint y2) {
+JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMapImpl_hasPath(JNIEnv *, jobject, jint x1, jint y1, jint x2, jint y2) {
 	return Broodwar->hasPath(BWAPI::Position(x1, y1), BWAPI::Position(x2, y2));
 }
 
-JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMap_canBuildHere(JNIEnv *, jobject, jint x, jint y, jint typeId) {
+JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMapImpl_canBuildHere(JNIEnv *, jobject, jint x, jint y, jint typeId) {
 	return Broodwar->canBuildHere(BWAPI::TilePosition(x, y), (UnitType)typeId);
 }
