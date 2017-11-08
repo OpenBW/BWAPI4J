@@ -1,14 +1,11 @@
 package org.openbw.bwapi4j;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class WalkPosition {
 
-    private int x;
-    private int y;
+	public static final int SIZE_IN_PIXELS = 8;
 
-    public static final int SIZE_IN_PIXELS = 8;
+	private int x;
+    private int y;
 
     public WalkPosition(int x, int y) {
         this.x = x;
@@ -24,12 +21,6 @@ public class WalkPosition {
         return "[" + x + ", " + y + "]";
     }
 
-    public native boolean isValid();
-
-    public native WalkPosition makeValid();
-
-    public native double getLength();
-
     public int getX() {
         return x;
     }
@@ -38,34 +29,13 @@ public class WalkPosition {
         return y;
     }
 
-    public static WalkPosition Invalid;
-
-    public static WalkPosition None;
-
-    public static WalkPosition Unknown;
-
-    private static Map<Long, WalkPosition> instances = new HashMap<Long, WalkPosition>();
-
-    private WalkPosition(long pointer) {
-        this.pointer = pointer;
-    }
-
-    private static WalkPosition get(long pointer) {
-        WalkPosition instance = instances.get(pointer);
-        if (instance == null) {
-            instance = new WalkPosition(pointer);
-            instances.put(pointer, instance);
-        }
-        return instance;
-    }
-
-    private long pointer;
-
     @Override
     public boolean equals(Object o) {
+    	
         if (this == o) {
             return true;
         }
+        
         if (!(o instanceof WalkPosition)) {
             return false;
         }
@@ -85,10 +55,6 @@ public class WalkPosition {
     @Override
     public int hashCode() {
         return x * 256 * 4 + y;
-    }
-
-    public WalkPosition getPoint() {
-        return this;
     }
 
     public Position toPosition() {

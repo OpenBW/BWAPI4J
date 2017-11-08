@@ -43,7 +43,7 @@ all: libOpenBWAPI4JBridge.so
 libOpenBWAPI4JBridge.so: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C++ Linker'
-	g++ -L"/home/imp/git/bwapi/build/lib" -L"/home/imp/git/BWTA2Linux/BWTA/dist/Release/GNU-Linux" -shared -o "libOpenBWAPI4JBridge.so" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++ -L"/home/imp/git/BWTA2Linux/BWTA/dist/Release/GNU-Linux" -L"/home/imp/git/bwapi/build/lib" -shared -o "libOpenBWAPI4JBridge.so" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 

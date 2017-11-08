@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.openbw.bwapi4j.type.BwError;
 import org.openbw.bwapi4j.type.Key;
+import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.unit.Unit;
 
 /**
@@ -66,10 +67,38 @@ public final class InteractionHandler {
         this.enemyId = data[ENEMY_ID_INDEX];
     }
 
+    /**
+     * Creates a unit of given type for given player at the given x,y coordinates.
+     * This method works with OpenBW only and will do nothing if used with original BW.
+     * @param owner
+     * @param type
+     * @param posX
+     * @param posY
+     */
+    public void createUnit(Player owner, UnitType type, int posX, int posY) {
+    	this.bw.createUnit(owner, type, posX, posY);
+    }
+    
+    /**
+     * Kills the given unit.
+     * This method works with OpenBW only and will do nothing if used with original BW.
+     * @param unit to kill
+     */
+    public void killUnit(Unit unit) {
+    
+    	this.bw.killUnit(unit);
+    }
+    
+    /**
+     * @return the bot player
+     */
     public Player self() {
         return this.bw.getPlayer(this.selfId);
     }
 
+    /**
+     * @return the enemy player in a 1on1 game
+     */
     public Player enemy() {
         return this.bw.getPlayer(this.enemyId);
     }

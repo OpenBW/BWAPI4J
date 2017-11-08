@@ -115,6 +115,7 @@ public class BW {
     	});
 
     	thread.start();
+    	logger.trace("calling native mainThread...");
         mainThread();
         try {
 			thread.join();
@@ -124,6 +125,20 @@ public class BW {
 		}
         logger.trace("finished thread.");
     }
+
+    public void createUnit(Player owner, UnitType type, int posX, int posY) {
+
+    	this.createUnit(owner.getId(), type.getId(), posX, posY);
+    }
+
+    private native void createUnit(int ownerId, int unitTypeId, int posX, int posY);
+
+    public void killUnit(Unit unit) {
+
+    	this.killUnit(unit.getId());
+    }
+
+    private native void killUnit(int unitID);
 
     public native void exit();
 
@@ -230,6 +245,7 @@ public class BW {
                 player = new Player(playerId, this.getPlayerName(playerId));
                 logger.debug("player name: {}", player.getName());
                 this.players.put(playerId, player);
+                logger.debug("initializing...");
                 player.initialize(playerData, index);
                 logger.debug(" done.");
             }
@@ -301,6 +317,7 @@ public class BW {
 
     private void onStart() {
 
+    	logger.debug(" --- onStart called.");
         this.frame = 0;
         this.players.clear();
         this.units.clear();

@@ -116,6 +116,7 @@ public class Player {
         this.race = Race.values()[playerData[index + Player.RACE_INDEX]];
         this.startLocation = new TilePosition(playerData[index + Player.POSITION_X_INDEX],
                 playerData[index + Player.POSITION_Y_INDEX]);
+        System.out.println("color value: " + playerData[index + Player.COLOR_INDEX]);
         this.color = Color.valueOf(playerData[index + Player.COLOR_INDEX]);
         this.textColor = (char) playerData[index + Player.TEXT_COLOR_INDEX];
         this.playerType = PlayerType.values()[playerData[index + Player.TYPE_INDEX]];

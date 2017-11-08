@@ -96,12 +96,12 @@
 								<option id="gnu.cpp.compiler.so.release.option.optimization.level.2442265" name="Optimization Level" superClass="gnu.cpp.compiler.so.release.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.most" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.so.release.option.debugging.level.2000040025" name="Debug Level" superClass="gnu.cpp.compiler.so.release.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.1202025331" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bwapi/bwapi/OpenBWData}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bwapi/bwapi/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/BWTA}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bwapi/bwapi/BWAPI/Source}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bwapi/bwapi/Util/Source}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bwapi/bwapi/BWAPICore}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bwapi/bwapi/OpenBWData}&quot;"/>
 									<listOptionValue builtIn="false" value="/dev/shm/java-8-openjdk-amd64/include"/>
 									<listOptionValue builtIn="false" value="/dev/shm/java-8-openjdk-amd64/include/linux"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/BWAPI4J/src/native/include}&quot;"/>
@@ -121,8 +121,8 @@
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.so.release.125056822" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.so.release">
 								<option defaultValue="true" id="gnu.cpp.link.so.release.option.shared.1721168506" name="Shared (-shared)" superClass="gnu.cpp.link.so.release.option.shared" useByScannerDiscovery="false" valueType="boolean"/>
 								<option id="gnu.cpp.link.option.paths.550188135" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false" valueType="libPaths">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bwapi/build/lib}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/BWTA2Linux/BWTA/dist/Release/GNU-Linux}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bwapi/build/lib}&quot;"/>
 								</option>
 								<option id="gnu.cpp.link.option.libs.540407948" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" useByScannerDiscovery="false" valueType="libs">
 									<listOptionValue builtIn="false" value="BWAPILIB"/>

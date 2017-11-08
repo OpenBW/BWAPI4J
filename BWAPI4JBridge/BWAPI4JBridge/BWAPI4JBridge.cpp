@@ -110,6 +110,16 @@ void println(const char * text) {
 	flushPrint("\n");
 }
 
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_createUnit(JNIEnv *, jobject, jint ownerColor, jint unitType, jint posX, jint posY) {
+
+	// not implemented in original BW
+}
+
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_killUnit(JNIEnv *, jobject, jint unitID) {
+
+	// not implemented in original BW
+}
+
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_exit(JNIEnv *, jobject) {
 
 	finished = true;
@@ -160,10 +170,10 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 
 		} else {
 			
-			jmethodID preFrameCallback = env->GetMethodID(jc, "preFrame", "()V");
-			env->CallObjectMethod(bw, preFrameCallback);
+			std::cout << "calling onStart callback..." << std::endl;;
 			env->CallObjectMethod(bw, env->GetMethodID(jc, "onStart", "()V"));
 
+			jmethodID preFrameCallback = env->GetMethodID(jc, "preFrame", "()V");
 			jmethodID onEndCallback = env->GetMethodID(jc, "onEnd", "(Z)V");
 			jmethodID onFrameCallback = env->GetMethodID(jc, "onFrame", "()V");
 			jmethodID onSendCallback = env->GetMethodID(jc, "onSendText", "(Ljava/lang/String;)V");
