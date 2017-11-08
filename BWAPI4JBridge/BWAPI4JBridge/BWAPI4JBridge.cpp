@@ -86,7 +86,7 @@ void initializeJavaReferences(JNIEnv *env, jobject caller) {
 	pairNew = env->GetMethodID(pairClass, "<init>",
 		"(Ljava/lang/Object;Ljava/lang/Object;)V");
 
-	bwMapClass = env->FindClass("org/openbw/bwapi4j/BWMap");
+	bwMapClass = env->FindClass("org/openbw/bwapi4j/BWMapImpl");
 
 	addRequiredUnit = env->GetMethodID(unitTypeClass, "addRequiredUnit",
 		"(II)V");

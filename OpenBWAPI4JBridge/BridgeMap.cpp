@@ -22,7 +22,7 @@ using namespace BWAPI;
 void BridgeMap::initialize(JNIEnv * env, jclass jc, jobject bwObject, jclass bwMapClass) {
 
 	// read map information
-		printf("reading map information...\n");
+		std::cout << "reading map information..." << std::endl;
 		jfieldID bwMapField = env->GetFieldID(jc, "bwMap", "Lorg/openbw/bwapi4j/BWMapImpl;");
 		jobject bwMap = env->GetObjectField(bwObject, bwMapField);
 
@@ -88,7 +88,7 @@ void BridgeMap::initialize(JNIEnv * env, jclass jc, jobject bwObject, jclass bwM
 			env->ExceptionDescribe();
 			return;
 		}
-		printf("done.\n");
+		std::cout << "done." << std::endl;
 }
 
 /*

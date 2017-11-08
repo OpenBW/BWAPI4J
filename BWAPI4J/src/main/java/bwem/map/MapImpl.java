@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.commons.lang3.mutable.MutableInt;
@@ -55,19 +56,19 @@ public final class MapImpl extends Map {
     private List<MutablePair<MutablePair<AreaId, AreaId>, WalkPosition>> m_RawFrontier = new ArrayList<>();
 
     private BWMap bwMap;
-    private Collection<Player> players;
 	private List<MineralPatch> mineralPatches;
+	private Collection<Player> players;
 	private List<VespeneGeyser> vespeneGeysers;
-	private List<PlayerUnit> playerUnits;
+	private Collection<Unit> units;
     
-    public MapImpl(BWMap bwMap, MapDrawer mapDrawer, Collection<Player> players, List<MineralPatch> mineralPatches, List<VespeneGeyser> vespeneGeysers, List<PlayerUnit> playerUnits) {
+    public MapImpl(BWMap bwMap, MapDrawer mapDrawer, Collection<Player> players, List<MineralPatch> mineralPatches, List<VespeneGeyser> vespeneGeysers, Collection<Unit> units) {
     	
     	super(mapDrawer);
     	this.bwMap = bwMap;
     	this.players = players;
     	this.mineralPatches = mineralPatches;
     	this.vespeneGeysers = vespeneGeysers;
-    	this.playerUnits = playerUnits;
+    	this.units = units;
         m_Graph = new Graph(this);
     }
 
@@ -476,6 +477,12 @@ public final class MapImpl extends Map {
     	}
     }
 
+    private List<PlayerUnit> getUnits(Player player) {
+
+        return this.units.stream().filter(u -> u instanceof PlayerUnit
+                && ((PlayerUnit)u).getPlayer().equals(player)).map(u -> (PlayerUnit)u).collect(Collectors.toList());
+    }
+    
     private void InitializeNeutrals() {
         for (MineralPatch patch : this.mineralPatches) {
             m_Minerals.add(new Mineral(patch, this));
@@ -487,7 +494,7 @@ public final class MapImpl extends Map {
             if (!player.isNeutral()) {
                 continue;
             }
-            for (Unit unit : this.playerUnits) {
+            for (Unit unit : getUnits(player)) {
                 if ((unit instanceof Building) && !(unit instanceof MineralPatch || unit instanceof VespeneGeyser)) {
                     m_StaticBuildings.add(new StaticBuilding(unit, this));
                 }
