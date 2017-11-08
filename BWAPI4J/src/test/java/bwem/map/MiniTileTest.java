@@ -21,14 +21,14 @@ import bwem.BWEM;
 
 public class MiniTileTest implements BWEventListener {
 
-	private int[] results1 = {8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-	private int[] results2 = {8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-	private int[] results3 = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-	private int[] results4 = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,8};
-	private int[] results5 = {8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8};
-	private int[] results6 = {8,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16};
-
+	private int[] results1 = {8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8};
+	private int[] results2 = {8,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16};
+	private int[] results3 = {16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,8,8,16,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,16,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,16,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,16,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+	private int[] results4 = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,16,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,16,8,8,16,24,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,24,16,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+	private int[][] results = new int[][] {results1, results2, results3, results4};
+	
 	private BW bw;
+	private Map map;
 	
 	@BeforeClass
     public static void setUpClass() {
@@ -37,9 +37,24 @@ public class MiniTileTest implements BWEventListener {
 
 	@Test
     public void heightTestReal() throws AssertionError {
-		
+
 		this.bw = new BW(this);
 		bw.startGame();
+		
+		checkMiniTiles();
+	}
+	
+	private void checkMiniTiles() {
+		
+		for (int j = 0; j < results.length; j++ ) {
+			for (int i = 0; i < results[j].length; i++) {
+	    		Assert.assertEquals(j + " / " + i + " : mini tile altitude is wrong.", results[j][i], map.GetMiniTile(new WalkPosition(i, j)).Altitude().intValue());
+	    	}
+		}
+		
+		Assert.assertEquals("148 / 149 : mini tile altitude is wrong.", 243, this.map.GetMiniTile(new WalkPosition(148, 149)).Altitude().intValue());
+        Assert.assertEquals("273 / 260 : mini tile altitude is wrong.", 198, this.map.GetMiniTile(new WalkPosition(273, 260)).Altitude().intValue());
+        Assert.assertEquals("273 / 261 : mini tile altitude is wrong.", 192, this.map.GetMiniTile(new WalkPosition(273, 261)).Altitude().intValue());
 	}
 	
     @Test
@@ -51,32 +66,20 @@ public class MiniTileTest implements BWEventListener {
     	List<VespeneGeyser> geysers = new ArrayList<>();
     	List<Unit> units = new ArrayList<>();
     	
-    	Map map = new MapImpl(mapMock, null, players, mineralPatches, geysers, units);
-    	map.Initialize();
+    	this.map = new MapImpl(mapMock, null, players, mineralPatches, geysers, units);
+    	this.map.Initialize();
 
-    	for (int i = 0; i < results1.length; i++) {
-    		if (map.GetMiniTile(new WalkPosition(i, 0)).Altitude().intValue() != results1[i]) {
-    			System.out.println(i + ": should be " + results1[i] + " but was " + map.GetMiniTile(new WalkPosition(i, 0)).Altitude().intValue());
-    		}
-//    		Assert.assertEquals("mini tile altitude is wrong (" + i + ").", results1[i], map.GetMiniTile(new WalkPosition(i, 0)).Altitude().intValue());
-    	}
-    	Assert.assertEquals("mini tile altitude is wrong.", 243, map.GetMiniTile(new WalkPosition(148, 149)).Altitude().intValue());
-        Assert.assertEquals("mini tile altitude is wrong.", 198, map.GetMiniTile(new WalkPosition(273, 260)).Altitude().intValue());
-        Assert.assertEquals("mini tile altitude is wrong.", 192, map.GetMiniTile(new WalkPosition(273, 261)).Altitude().intValue());
+    	checkMiniTiles();
     }
 
 	@Override
 	public void onStart() {
 		
-		Map map = new BWEM(this.bw).GetMap();
-    	map.Initialize();
+		this.map = new BWEM(this.bw).GetMap();
+    	this.map.Initialize();
 
     	for (int i = 0; i < results1.length; i++) {
-    		if (map.GetMiniTile(new WalkPosition(i, 0)).Altitude().intValue() != results1[i]) {
-    			System.out.println(i + ": should be " + results1[i] + " but was " + map.GetMiniTile(new WalkPosition(i, 0)).Altitude().intValue());
-    		} else {
-    			System.out.println("OK");
-    		}
+    		Assert.assertEquals("mini tile altitude is wrong (" + i + ").", results1[i], map.GetMiniTile(new WalkPosition(i, 0)).Altitude().intValue());
     	}
     	
     	this.bw.exit();
@@ -85,97 +88,81 @@ public class MiniTileTest implements BWEventListener {
 
 	@Override
 	public void onEnd(boolean isWinner) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void onFrame() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void onSendText(String text) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void onReceiveText(Player player, String text) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void onPlayerLeft(Player player) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void onNukeDetect(Position target) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void onUnitDiscover(Unit unit) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void onUnitEvade(Unit unit) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void onUnitShow(Unit unit) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void onUnitHide(Unit unit) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void onUnitCreate(Unit unit) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void onUnitDestroy(Unit unit) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void onUnitMorph(Unit unit) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void onUnitRenegade(Unit unit) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void onSaveGame(String gameName) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void onUnitComplete(Unit unit) {
-		// TODO Auto-generated method stub
 		
 	}
 }
