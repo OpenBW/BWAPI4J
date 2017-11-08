@@ -20,17 +20,19 @@ repositories {
 dependencies {
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.7'
     compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.7'
-    
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
+    compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.1'
+
     testCompile 'junit:junit:4.12'
 }
 
 jar {
      from sourceSets.main.allSource
  }
- 
+
 task generateJniHeaders(type:Exec) {
     def classpath = sourceSets.main.output.classesDir
-    def nativeIncludes = "src/native/include"                     
+    def nativeIncludes = "src/native/include"
     commandLine "javah", "-jni", "-verbose", "-d", nativeIncludes, "-classpath", classpath, "$mainClassName", "bwta.BWTA", "bwta.Polygon", "bwta.BaseLocation", "org.openbw.bwapi4j.BWMap", "org.openbw.bwapi4j.InteractionHandler", "org.openbw.bwapi4j.MapDrawer", "org.openbw.bwapi4j.DamageEvaluator", "org.openbw.bwapi4j.unit.Unit"
 
     dependsOn classes
