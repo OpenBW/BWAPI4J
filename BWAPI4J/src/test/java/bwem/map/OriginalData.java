@@ -49,7 +49,7 @@ public class OriginalData {
         index = 0;
         while (scanner.hasNext()) {
             try {
-                this.groundInfo_ORIGINAL[index++] = scanner.nextInt();
+                this.groundInfo_ORIGINAL[index] = scanner.nextInt();
                 ++index;
             } catch (Exception ex1) {
                 try {
