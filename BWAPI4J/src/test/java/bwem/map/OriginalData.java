@@ -1,14 +1,9 @@
 package bwem.map;
 
 import java.io.FileNotFoundException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class OriginalData {
-
-    private static final Path WALKABILITY_INFO_FILE = Paths.get("BWMapMock_groundInfo.txt");
-    private static final Path GROUND_INFO_FILE = Paths.get("BWMapMock_groundInfo.txt");
 
     public int[] walkabilityInfo_ORIGINAL;
     public int[] groundInfo_ORIGINAL;
@@ -29,7 +24,7 @@ public class OriginalData {
         Scanner scanner;
         int index;
 
-        scanner = new Scanner(WALKABILITY_INFO_FILE.toFile());
+        scanner = new Scanner(OriginalData.class.getResource("BWMapMock_walkabilityInfo.txt").getFile());
         index = 0;
         while (scanner.hasNext()) {
             try {
@@ -45,7 +40,7 @@ public class OriginalData {
             }
         }
 
-        scanner = new Scanner(GROUND_INFO_FILE.toFile());
+        scanner = new Scanner(OriginalData.class.getResource("BWMapMock_groundInfo.txt").getFile());
         index = 0;
         while (scanner.hasNext()) {
             try {

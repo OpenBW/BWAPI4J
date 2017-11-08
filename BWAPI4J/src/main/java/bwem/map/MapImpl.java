@@ -1,42 +1,47 @@
 package bwem.map;
 
-import bwem.typedef.Altitude;
-import bwem.Base;
-import bwem.typedef.CPPath;
-import bwem.ChokePoint;
-import bwem.Graph;
-import bwem.util.PairGenericAltitudeComparator;
-import bwem.util.PairGenericMiniTileAltitudeComparator;
-import bwem.util.Timer;
-import bwem.area.Area;
-import bwem.area.typedef.AreaId;
-import bwem.area.TempAreaInfo;
-import bwem.check_t;
-import bwem.tile.MiniTile;
-import bwem.tile.Tile;
-import bwem.unit.Geyser;
-import bwem.unit.Mineral;
-import bwem.unit.Neutral;
-import bwem.unit.StaticBuilding;
-import bwem.util.BwemExt;
-import bwem.util.Utils;
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.MutablePair;
-import org.openbw.bwapi4j.BW;
+import org.openbw.bwapi4j.BWMap;
+import org.openbw.bwapi4j.MapDrawer;
 import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.unit.Building;
 import org.openbw.bwapi4j.unit.MineralPatch;
+import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.unit.VespeneGeyser;
+
+import bwem.Base;
+import bwem.ChokePoint;
+import bwem.Graph;
+import bwem.check_t;
+import bwem.area.Area;
+import bwem.area.TempAreaInfo;
+import bwem.area.typedef.AreaId;
+import bwem.tile.MiniTile;
+import bwem.tile.Tile;
+import bwem.typedef.Altitude;
+import bwem.typedef.CPPath;
+import bwem.unit.Geyser;
+import bwem.unit.Mineral;
+import bwem.unit.Neutral;
+import bwem.unit.StaticBuilding;
+import bwem.util.BwemExt;
+import bwem.util.PairGenericAltitudeComparator;
+import bwem.util.PairGenericMiniTileAltitudeComparator;
+import bwem.util.Timer;
+import bwem.util.Utils;
 
 public final class MapImpl extends Map {
 
@@ -49,8 +54,20 @@ public final class MapImpl extends Map {
     private List<TilePosition> m_StartingLocations = new ArrayList<>();
     private List<MutablePair<MutablePair<AreaId, AreaId>, WalkPosition>> m_RawFrontier = new ArrayList<>();
 
-    public MapImpl(BW bw) {
-        super(bw);
+    private BWMap bwMap;
+    private Collection<Player> players;
+	private List<MineralPatch> mineralPatches;
+	private List<VespeneGeyser> vespeneGeysers;
+	private List<PlayerUnit> playerUnits;
+    
+    public MapImpl(BWMap bwMap, MapDrawer mapDrawer, Collection<Player> players, List<MineralPatch> mineralPatches, List<VespeneGeyser> vespeneGeysers, List<PlayerUnit> playerUnits) {
+    	
+    	super(mapDrawer);
+    	this.bwMap = bwMap;
+    	this.players = players;
+    	this.mineralPatches = mineralPatches;
+    	this.vespeneGeysers = vespeneGeysers;
+    	this.playerUnits = playerUnits;
         m_Graph = new Graph(this);
     }
 
@@ -64,7 +81,7 @@ public final class MapImpl extends Map {
         Timer overallTimer = new Timer();
         Timer timer = new Timer();
 
-        m_Size = new TilePosition(getBW().getBWMap().mapWidth(), getBW().getBWMap().mapHeight());
+        m_Size = new TilePosition(this.bwMap.mapWidth(), this.bwMap.mapHeight());
         m_size = Size().getX() * Size().getY();
         m_WalkSize = Size().toPosition().toWalkPosition();
         m_walkSize = WalkSize().getX() * WalkSize().getY();
@@ -83,7 +100,7 @@ public final class MapImpl extends Map {
         }
 
         m_StartingLocations = new ArrayList<>();
-        for (TilePosition t: getBW().getBWMap().getStartPositions()) {
+        for (TilePosition t: this.bwMap.getStartPositions()) {
             m_StartingLocations.add(t);
         }
 
@@ -376,7 +393,7 @@ public final class MapImpl extends Map {
     	// Mark unwalkable minitiles (minitiles are walkable by default)
     	for (int y = 0; y < WalkSize().getY(); ++y)
     	for (int x = 0; x < WalkSize().getX(); ++x) {
-    		if (!getBW().getBWMap().isWalkable(x, y)) { // For each unwalkable minitile, we also mark its 8 neighbours as not walkable.
+    		if (!this.bwMap.isWalkable(x, y)) { // For each unwalkable minitile, we also mark its 8 neighbours as not walkable.
     			for (int dy = -1; dy <= +1; ++dy)     // According to some tests, this prevents from wrongly pretending one Marine can go by some thin path.
     			for (int dx = -1; dx <= +1; ++dx) {
     				WalkPosition w = new WalkPosition(x + dx, y + dy);
@@ -391,7 +408,7 @@ public final class MapImpl extends Map {
     	for (int y = 0; y < Size().getY(); ++y)
     	for (int x = 0; x < Size().getX(); ++x) {
     		TilePosition t = new TilePosition(x, y);
-    		if (getBW().getBWMap().isBuildable(t, false)) {
+    		if (this.bwMap.isBuildable(t, false)) {
     			GetTile_(t).SetBuildable();
 
     			// Ensures buildable ==> walkable:
@@ -402,7 +419,7 @@ public final class MapImpl extends Map {
     		}
 
     		// Add groundHeight and doodad information:
-    		int bwapiGroundHeight = getBW().getBWMap().getGroundHeight(t);
+    		int bwapiGroundHeight = this.bwMap.getGroundHeight(t);
     		GetTile_(t).SetGroundHeight(bwapiGroundHeight / 2);
     		if (bwapiGroundHeight % 2 != 0) {
     			GetTile_(t).SetDoodad();
@@ -460,17 +477,17 @@ public final class MapImpl extends Map {
     }
 
     private void InitializeNeutrals() {
-        for (MineralPatch patch : getBW().getMineralPatches()) {
+        for (MineralPatch patch : this.mineralPatches) {
             m_Minerals.add(new Mineral(patch, this));
         }
-        for (VespeneGeyser geyser : getBW().getVespeneGeysers()) {
+        for (VespeneGeyser geyser : this.vespeneGeysers) {
             m_Geysers.add(new Geyser(geyser, this));
         }
-        for (Player player : getBW().getAllPlayers()) {
+        for (Player player : this.players) {
             if (!player.isNeutral()) {
                 continue;
             }
-            for (Unit unit : getBW().getUnits(player)) {
+            for (Unit unit : this.playerUnits) {
                 if ((unit instanceof Building) && !(unit instanceof MineralPatch || unit instanceof VespeneGeyser)) {
                     m_StaticBuildings.add(new StaticBuilding(unit, this));
                 }

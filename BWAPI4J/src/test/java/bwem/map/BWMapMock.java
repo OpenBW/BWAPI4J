@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.junit.Assert;
 import org.openbw.bwapi4j.BWMap;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
@@ -18,25 +19,26 @@ public class BWMapMock implements BWMap {
         new TilePosition(117, 7), new TilePosition(7, 6), new TilePosition(7, 116), new TilePosition(117, 117)
     };
 
-    private OriginalData originalData;
-
 	private int[][] walkabilityInfo;
     private int[][] groundInfo;
     private int width;
     private int height;
     private ArrayList<TilePosition> startLocations;
-
+    
+    private OriginalData data;
+    
 	public BWMapMock() {
 
+		try {
+			this.data = new OriginalData();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			Assert.fail("Could not load dummy map data.");
+		}
 		initializeMock();
 	}
 
 	private void initializeMock() {
-        try {
-            this.originalData = new OriginalData();
-        } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
-        }
 
 		this.width = 128;
 		this.height = 128;
@@ -49,7 +51,7 @@ public class BWMapMock implements BWMap {
 
 			for (int y = 0; y < walkHeight; ++y) {
 
-                this.walkabilityInfo[x][y] = this.originalData.walkabilityInfo_ORIGINAL[walkHeight * y + x];
+                this.walkabilityInfo[x][y] = data.walkabilityInfo_ORIGINAL[walkHeight * y + x];
 			}
 		}
 
@@ -58,7 +60,7 @@ public class BWMapMock implements BWMap {
 
 			for (int y = 0; y < this.height; ++y) {
 
-                this.groundInfo[x][y] = this.originalData.groundInfo_ORIGINAL[this.height * y + x];
+                this.groundInfo[x][y] = data.groundInfo_ORIGINAL[this.height * y + x];
 			}
 		}
 
@@ -104,48 +106,57 @@ public class BWMapMock implements BWMap {
         return this.height;
     }
 
-    @Override
-    public String mapHash() {
-        throw new UnsupportedOperationException("TODO");
-    }
+	@Override
+	public String mapHash() {
+		
+		return "mockHash";
+	}
 
-    @Override
-    public String mapFileName() {
-        throw new UnsupportedOperationException("TODO");
-    }
+	@Override
+	public String mapFileName() {
+		
+		return "FightingSpiritMock";
+	}
 
-    @Override
-    public boolean isBuildable(int tileX, int tileY, boolean considerBuildings) {
-        return true;
-    }
+	@Override
+	public boolean isBuildable(int tileX, int tileY, boolean considerBuildings) {
+		
+		return true;
+	}
 
-    @Override
-    public boolean isBuildable(TilePosition position, boolean considerBuildings) {
-        return true;
-    }
+	@Override
+	public boolean isBuildable(TilePosition position, boolean considerBuildings) {
+		
+		return true;
+	}
 
-    @Override
-    public boolean isVisible(int tileX, int tileY) {
-        throw new UnsupportedOperationException("TODO");
-    }
+	@Override
+	public boolean isVisible(int tileX, int tileY) {
 
-    @Override
-    public boolean isVisible(TilePosition position) {
-        throw new UnsupportedOperationException("TODO");
-    }
+		return true;
+	}
 
-    @Override
-    public boolean hasPath(Position source, Position destination) {
-        throw new UnsupportedOperationException("TODO");
-    }
+	@Override
+	public boolean isVisible(TilePosition position) {
 
-    @Override
-    public boolean canBuildHere(TilePosition position, UnitType type) {
-        throw new UnsupportedOperationException("TODO");
-    }
+		return true;
+	}
 
-    @Override
-    public boolean canBuildHere(TilePosition position, UnitType type, SCV builder, Collection<Unit> units) {
-        throw new UnsupportedOperationException("TODO");
-    }
+	@Override
+	public boolean hasPath(Position source, Position destination) {
+
+		return true;
+	}
+
+	@Override
+	public boolean canBuildHere(TilePosition position, UnitType type) {
+
+		return true;
+	}
+
+	@Override
+	public boolean canBuildHere(TilePosition position, UnitType type, SCV builder, Collection<Unit> units) {
+
+		return true;
+	}
 }

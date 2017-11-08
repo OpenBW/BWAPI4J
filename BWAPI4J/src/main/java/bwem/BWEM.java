@@ -11,7 +11,7 @@ public final class BWEM {
 
     public BWEM(BW bw) {
         m_pBW = bw;
-        m_pMap = new MapImpl(m_pBW);
+        m_pMap = new MapImpl(m_pBW.getBWMap(), m_pBW.getMapDrawer(), m_pBW.getAllPlayers(), m_pBW.getMineralPatches(), m_pBW.getVespeneGeysers(), m_pBW.getUnits(m_pBW.getInteractionHandler().self()));
     }
 
     public Map GetMap() {

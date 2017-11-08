@@ -1,31 +1,33 @@
 package bwem.map;
 
-import bwem.MapPrinter;
-import bwem.typedef.Altitude;
-import bwem.typedef.CPPath;
-import bwem.typedef.Pred;
-import bwem.area.Area;
-import bwem.area.typedef.AreaId;
-import bwem.check_t;
-import bwem.tile.MiniTile;
-import bwem.tile.Tile;
-import bwem.unit.Geyser;
-import bwem.unit.Mineral;
-import bwem.unit.StaticBuilding;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Random;
+
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.MutablePair;
-import org.openbw.bwapi4j.BW;
+import org.openbw.bwapi4j.MapDrawer;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.type.Color;
 import org.openbw.bwapi4j.unit.Unit;
+
+import bwem.MapPrinter;
+import bwem.check_t;
+import bwem.area.Area;
+import bwem.area.typedef.AreaId;
+import bwem.tile.MiniTile;
+import bwem.tile.Tile;
+import bwem.typedef.Altitude;
+import bwem.typedef.CPPath;
+import bwem.typedef.Pred;
+import bwem.unit.Geyser;
+import bwem.unit.Mineral;
+import bwem.unit.StaticBuilding;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -49,7 +51,6 @@ import org.openbw.bwapi4j.unit.Unit;
 
 public abstract class Map {
 
-    private final BW m_pBW;
     private final MapPrinter m_pMapPrinter;
     protected int m_size = 0;
     protected TilePosition m_Size = null;
@@ -61,13 +62,12 @@ public abstract class Map {
     protected List<Tile> m_Tiles = null;
     protected List<MiniTile> m_MiniTiles = null;
 
-    protected Map(BW bw) {
-        m_pBW = bw;
+    protected MapDrawer mapDrawer;
+    
+    protected Map(MapDrawer mapDrawer) {
+    	
+    	this.mapDrawer = mapDrawer;
         m_pMapPrinter = new MapPrinter();
-    }
-
-    protected BW getBW() {
-        return m_pBW;
     }
 
     public MapPrinter getMapPrinter() {
@@ -409,8 +409,9 @@ public abstract class Map {
     public abstract List<MutablePair<MutablePair<AreaId, AreaId>, WalkPosition>> RawFrontier();
 
     public void drawDiagonalCrossMap(Position topLeft, Position bottomRight, Color col) {
-        getBW().getMapDrawer().drawLineMap(topLeft, bottomRight, col);
-        getBW().getMapDrawer().drawLineMap(new Position(bottomRight.getX(), topLeft.getY()), new Position(topLeft.getX(), bottomRight.getY()), col);
+    	
+    	this.mapDrawer.drawLineMap(topLeft, bottomRight, col);
+    	this.mapDrawer.drawLineMap(new Position(bottomRight.getX(), topLeft.getY()), new Position(topLeft.getX(), bottomRight.getY()), col);
     }
 
 }
