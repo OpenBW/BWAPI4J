@@ -32,7 +32,7 @@ public class BWMapMock implements BWMap {
 
 		try {
 			this.data = new OriginalData();
-		} catch (FileNotFoundException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail("Could not load dummy map data.");
 		}
@@ -61,7 +61,7 @@ public class BWMapMock implements BWMap {
 
 			for (int y = 0; y < this.height; ++y) {
 
-                this.groundInfo[x][y] = data.groundInfo_ORIGINAL[this.height * y + x];
+                this.groundInfo[x][y] = data.groundInfo_ORIGINAL[this.width * y + x];
 			}
 		}
 

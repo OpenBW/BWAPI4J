@@ -1,5 +1,7 @@
 package bwem.map;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -77,7 +79,19 @@ public class MiniTileTest implements BWEventListener {
 		
 		this.map = new BWEM(this.bw).GetMap();
     	this.map.Initialize();
-
+		
+    	BWMap map1 = this.bw.getBWMap();
+    	BWMap map2 = new BWMapMock();
+    	
+    	// test the test: are the mock values correct?
+//    	for (int j = 0; j < 128; j++ ) {
+//			for (int i = 0; i < 128; i++) {
+//				int groundHeight1 = map1.getGroundHeight(i, j);
+//				int groundHeight2 = map2.getGroundHeight(i, j);
+//				assertEquals("ground height not equal between real and mock.", groundHeight1, groundHeight2);
+//	    	}
+//		}
+    	
     	for (int i = 0; i < results1.length; i++) {
     		Assert.assertEquals("mini tile altitude is wrong (" + i + ").", results1[i], map.GetMiniTile(new WalkPosition(i, 0)).Altitude().intValue());
     	}

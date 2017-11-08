@@ -32,6 +32,7 @@ class BWMapImpl implements BWMap {
     }
 
     public String mapFileName() {
+    	
         return this.mapFileName;
     }
 
