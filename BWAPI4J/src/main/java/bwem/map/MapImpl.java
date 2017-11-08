@@ -87,38 +87,31 @@ public final class MapImpl extends Map {
             m_StartingLocations.add(t);
         }
 
-//        JSD_BWEM.serialize_MapImpl_Initialize_MapInfo(m_Size, m_size, m_WalkSize, m_walkSize, m_center, m_StartingLocations);
 
 //    ///	bw << "Map::Initialize-resize: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::Initialize-resize: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
         LoadData();
-//        JSD_BWEM.serialize_MapImpl_LoadData(m_Tiles, m_MiniTiles);
 //    ///	bw << "Map::LoadData: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::LoadData: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 //
         DecideSeasOrLakes();
-//        JSD_BWEM.serialize_MapImpl_DecideSeasOrLakes(m_Tiles, m_MiniTiles);
 //    ///	bw << "Map::DecideSeasOrLakes: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::DecideSeasOrLakes: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
         InitializeNeutrals();
-//        JSD_BWEM.serialize_MapImpl_InitializeNeutrals(m_Minerals, m_Geysers, m_StaticBuildings);
 //    ///	bw << "Map::InitializeNeutrals: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::InitializeNeutrals: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
         ComputeAltitude();
-//        JSD_BWEM.serialize_MapImpl_ComputeAltitude(m_MiniTiles);
 //    ///	bw << "Map::ComputeAltitude: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::ComputeAltitude: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
         ProcessBlockingNeutrals();
-//        JSD_BWEM.serialize_MapImpl_ProcessBlockingNeutrals(m_Tiles, m_MiniTiles);
 //    ///	bw << "Map::ProcessBlockingNeutrals: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::ProcessBlockingNeutrals: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
         ComputeAreas();
-//        JSD_BWEM.serialize_MapImpl_ComputeAreas(m_Tiles, m_MiniTiles);
 //    ///	bw << "Map::ComputeAreas: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::ComputeAreas: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
@@ -138,7 +131,6 @@ public final class MapImpl extends Map {
 //    ///	bw << "Graph::CreateBases: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::CreateBases: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
-//        JSD_BWEM.serialize_MapImpl_Initialize_End(m_Tiles, m_MiniTiles);
 //    ///	bw << "Map::Initialize: " << overallTimer.ElapsedMilliseconds() << " ms" << endl;
         System.out.println("Map::Initialize: " + overallTimer.ElapsedMilliseconds() + " ms"); timer.Reset();
     }
@@ -510,11 +502,7 @@ public final class MapImpl extends Map {
             }
         }
 
-//        JSD_BWEM.serialize_MapImpl_ComputeAltitude_DeltasByAscendingAltitude(DeltasByAscendingAltitude);
-
         Collections.sort(DeltasByAscendingAltitude, new PairGenericAltitudeComparator());
-
-//        JSD_BWEM.serialize_MapImpl_ComputeAltitude_DeltasByAscendingAltitude(DeltasByAscendingAltitude);
 
         // 2) Fill in ActiveSeaSideList, which basically contains all the seaside miniTiles (from which altitudes are to be computed)
         //    It also includes extra border-miniTiles which are considered as seaside miniTiles too.
