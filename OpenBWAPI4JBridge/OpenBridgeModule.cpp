@@ -62,6 +62,7 @@ void OpenBridgeModule::onStart()
 	bridgeEnum->initialize();
 	bridgeMap->initialize(globalEnv, globalEnv->GetObjectClass(globalBW), globalBW, bwMapClass);
 
+	std::cout << "calling preFrame..." << std::endl;
 	globalEnv->CallObjectMethod(globalBW, preFrameCallback);
 //	globalEnv->CallObjectMethod(globalBW, onStartCallback);
 }
@@ -82,73 +83,87 @@ void OpenBridgeModule::onFrame()
 
 		switch (e.getType()) {
 			case BWAPI::EventType::MatchStart: {
-						globalEnv->CallObjectMethod(globalBW, onStartCallback);
-					}
-						break;
+				std::cout << "calling onStart..." << std::endl;
+				globalEnv->CallObjectMethod(globalBW, onStartCallback);
+			}
+				break;
 			case BWAPI::EventType::MatchEnd: {
-				globalEnv->CallObjectMethod(globalBW, onEndCallback, (jboolean)e.isWinner());
+				globalEnv->CallObjectMethod(globalBW, onEndCallback,
+						(jboolean) e.isWinner());
 			}
 				break;
 			case BWAPI::EventType::SendText: {
 				jstring string = globalEnv->NewStringUTF(e.getText().c_str());
 				globalEnv->CallObjectMethod(globalBW, onSendTextCallback, string);
 				globalEnv->DeleteLocalRef(string);
-				}
+			}
 				break;
 			case BWAPI::EventType::ReceiveText: {
 				jstring string = globalEnv->NewStringUTF(e.getText().c_str());
-				globalEnv->CallObjectMethod(globalBW, onReceiveTextCallback, e.getPlayer()->getID(), string);
+				globalEnv->CallObjectMethod(globalBW, onReceiveTextCallback,
+						e.getPlayer()->getID(), string);
 				globalEnv->DeleteLocalRef(string);
-				}
+			}
 				break;
 			case BWAPI::EventType::PlayerLeft: {
-				globalEnv->CallObjectMethod(globalBW, onPlayerLeftCallback, e.getPlayer()->getID());
+				globalEnv->CallObjectMethod(globalBW, onPlayerLeftCallback,
+						e.getPlayer()->getID());
 			}
 				break;
 			case BWAPI::EventType::NukeDetect: {
-				globalEnv->CallObjectMethod(globalBW, onNukeDetectCallback, e.getPosition().x, e.getPosition().y);
+				globalEnv->CallObjectMethod(globalBW, onNukeDetectCallback,
+						e.getPosition().x, e.getPosition().y);
 			}
 				break;
 			case BWAPI::EventType::UnitDiscover: {
-				globalEnv->CallObjectMethod(globalBW, onUnitDiscoverCallback, e.getUnit()->getID());
+				globalEnv->CallObjectMethod(globalBW, onUnitDiscoverCallback,
+						e.getUnit()->getID());
 			}
 				break;
 			case BWAPI::EventType::UnitEvade: {
-				globalEnv->CallObjectMethod(globalBW, onUnitEvadeCallback, e.getUnit()->getID());
+				globalEnv->CallObjectMethod(globalBW, onUnitEvadeCallback,
+						e.getUnit()->getID());
 			}
 				break;
 			case BWAPI::EventType::UnitShow: {
-				globalEnv->CallObjectMethod(globalBW, onUnitShowCallback, e.getUnit()->getID());
+				globalEnv->CallObjectMethod(globalBW, onUnitShowCallback,
+						e.getUnit()->getID());
 			}
 				break;
 			case BWAPI::EventType::UnitHide: {
-				globalEnv->CallObjectMethod(globalBW, onUnitHideCallback, e.getUnit()->getID());
+				globalEnv->CallObjectMethod(globalBW, onUnitHideCallback,
+						e.getUnit()->getID());
 			}
 				break;
 			case BWAPI::EventType::UnitCreate: {
-				globalEnv->CallObjectMethod(globalBW, onUnitCreateCallback, e.getUnit()->getID());
+				globalEnv->CallObjectMethod(globalBW, onUnitCreateCallback,
+						e.getUnit()->getID());
 			}
 				break;
 			case BWAPI::EventType::UnitDestroy: {
-				globalEnv->CallObjectMethod(globalBW, onUnitDestroyCallback, e.getUnit()->getID());
+				globalEnv->CallObjectMethod(globalBW, onUnitDestroyCallback,
+						e.getUnit()->getID());
 			}
 				break;
 			case BWAPI::EventType::UnitMorph: {
-				globalEnv->CallObjectMethod(globalBW, onUnitMorphCallback, e.getUnit()->getID());
+				globalEnv->CallObjectMethod(globalBW, onUnitMorphCallback,
+						e.getUnit()->getID());
 			}
 				break;
 			case BWAPI::EventType::UnitRenegade: {
-				globalEnv->CallObjectMethod(globalBW, onUnitRenegadeCallback, e.getUnit()->getID());
+				globalEnv->CallObjectMethod(globalBW, onUnitRenegadeCallback,
+						e.getUnit()->getID());
 			}
 				break;
 			case BWAPI::EventType::SaveGame: {
 				jstring string = globalEnv->NewStringUTF(e.getText().c_str());
 				globalEnv->CallObjectMethod(globalBW, onSaveGameCallback, string);
 				globalEnv->DeleteLocalRef(string);
-				}
+			}
 				break;
 			case BWAPI::EventType::UnitComplete: {
-				globalEnv->CallObjectMethod(globalBW, onUnitCompleteCallback, e.getUnit()->getID());
+				globalEnv->CallObjectMethod(globalBW, onUnitCompleteCallback,
+						e.getUnit()->getID());
 			}
 				break;
 		}

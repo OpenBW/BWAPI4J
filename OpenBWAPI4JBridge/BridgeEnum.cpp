@@ -27,7 +27,6 @@ void BridgeEnum::initialize() {
 	createTechTypeEnum();
 	createWeaponTypeEnum();
 	createUnitTypeEnum();
-	createRaceEnum();
 }
 
 void BridgeEnum::createUpgradeTypeEnum() {
@@ -93,7 +92,7 @@ void BridgeEnum::createUpgradeTypeEnum() {
 void BridgeEnum::createTechTypeEnum() {
 
 	// read static data: TechType
-	printf("reading tech types...\n");
+	std::cout << "reading tech types..." << std::endl;
 	for (TechType techType : TechTypes::allTechTypes()) {
 
 		if (techType.getName().empty()) {
@@ -128,13 +127,13 @@ void BridgeEnum::createTechTypeEnum() {
 		globalEnv->SetObjectField(CurrentTechType, globalEnv->GetFieldID(techTypeClass, "requiredUnit", "Lorg/openbw/bwapi4j/type/UnitType;"), requiredUnit);
 
 	}
-	printf("done.\n");
+	std::cout << "done." << std::endl;
 }
 
 void BridgeEnum::createWeaponTypeEnum() {
 
 	// read static data: WeaponType
-	printf("reading weapon types...\n");
+	std::cout << "reading weapon types..." << std::endl;
 	for (WeaponType weaponType : WeaponTypes::allWeaponTypes()) {
 
 		if (weaponType.getName().empty()) {
@@ -181,12 +180,12 @@ void BridgeEnum::createWeaponTypeEnum() {
 		jobject explosionType = globalEnv->GetStaticObjectField(explosionTypeClass, globalEnv->GetStaticFieldID(explosionTypeClass, weaponType.explosionType().getName().c_str(), "Lorg/openbw/bwapi4j/type/ExplosionType;"));
 		globalEnv->SetObjectField(CurrentWeaponType, globalEnv->GetFieldID(weaponTypeClass, "explosionType", "Lorg/openbw/bwapi4j/type/ExplosionType;"), whatUses);
 	}
-	printf("done.\n");
+	std::cout << "done." << std::endl;
 }
 
 void BridgeEnum::createUnitTypeEnum() {
 
-	printf("reading unit types...\n");
+	std::cout << "reading unit types..." << std::endl;
 	for (UnitType unitType : UnitTypes::allUnitTypes()) {
 
 		if (unitType.getName().empty()) {
@@ -339,9 +338,5 @@ void BridgeEnum::createUnitTypeEnum() {
 		}
 		globalEnv->DeleteLocalRef(CurrentUnitType);
 	}
-	printf("done.\n");
-}
-
-void BridgeEnum::createRaceEnum() {
-
+	std::cout << "done." << std::endl;
 }

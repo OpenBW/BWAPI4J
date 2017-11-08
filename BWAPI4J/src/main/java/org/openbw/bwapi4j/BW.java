@@ -31,7 +31,7 @@ public class BW {
     private InteractionHandler interactionHandler;
     private MapDrawer mapDrawer;
     private DamageEvaluator damageEvaluator;
-    private BWMap bwMap;
+    private BWMapImpl bwMap;
 
     private Map<Integer, Player> players;
     private Map<Integer, Unit> units;
@@ -90,8 +90,7 @@ public class BW {
         this.interactionHandler = new InteractionHandler(this);
         this.mapDrawer = new MapDrawer();
         this.damageEvaluator = new DamageEvaluator();
-        this.bwMap = new BWMap();
-        this.bwMap.setUnits(this.units);
+        this.bwMap = new BWMapImpl();
 
         try {
             charset = Charset.forName("Cp949"); // Korean char set
