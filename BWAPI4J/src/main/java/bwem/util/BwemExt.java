@@ -315,9 +315,11 @@ public final class BwemExt {
             throw new IllegalArgumentException("" + i);
         }
 
+        int vsize = Vector.size();
+
         Vector.remove(i);
 
-        if (i + 1 < Vector.size()) {
+        if (i + 1 < vsize) {
             /* Move the back element to where the ith element was. */
             T BackElement = Vector.remove(Vector.size() - 1);
             Vector.add(i, BackElement);
