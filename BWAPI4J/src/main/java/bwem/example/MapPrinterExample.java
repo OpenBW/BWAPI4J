@@ -77,7 +77,7 @@ public class MapPrinterExample {
         for (int i = 0 ; i < stackSize ; ++i) {
             WalkPosition origin = (new WalkPosition(n.TopLeft())).add(new WalkPosition(delta.getX() * i, delta.getY() * i));
             WalkPosition size = n.Size().toPosition().toWalkPosition();
-            if (!theMap.Valid(origin) || !theMap.Valid(origin.add(size).subtract(new WalkPosition(1, 1)))) break;
+            if (!theMap.isValid(origin) || !theMap.isValid(origin.add(size).subtract(new WalkPosition(1, 1)))) break;
 
             mapPrinter.Rectangle(origin, origin.add(size).subtract(new WalkPosition(1, 1)), col, MapPrinter.fill_t.fill);
 

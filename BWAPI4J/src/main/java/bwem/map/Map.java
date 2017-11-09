@@ -144,7 +144,7 @@ public abstract class Map {
 	// Returns a Tile, given its position.
 	public Tile GetTile(TilePosition p, check_t checkMode) {
 //        bwem_assert((checkMode == utils::check_t::no_check) || Valid(p)); utils::unused(checkMode);
-        if (!((checkMode == check_t.no_check) || Valid(p))) {
+        if (!((checkMode == check_t.no_check) || isValid(p))) {
             throw new IllegalArgumentException();
         }
         return (m_Tiles.get(Size().getX() * p.getY() + p.getX()));
@@ -165,7 +165,7 @@ public abstract class Map {
 	// Returns a MiniTile, given its position.
     public MiniTile GetMiniTile(WalkPosition p, check_t checkMode) {
 //        bwem_assert((checkMode == utils::check_t::no_check) || Valid(p));
-        if (!((checkMode == check_t.no_check) || Valid(p))) {
+        if (!((checkMode == check_t.no_check) || isValid(p))) {
             throw new IllegalArgumentException();
         }
         return m_MiniTiles.get(WalkSize().getX() * p.getY() + p.getX());
@@ -193,15 +193,15 @@ public abstract class Map {
         return m_MiniTiles;
     }
 
-    public boolean Valid(TilePosition p) {
+    public boolean isValid(TilePosition p) {
         return ((0 <= p.getX()) && (p.getX() < Size().getX()) && (0 <= p.getY()) && (p.getY() < Size().getY()));
     }
 
-    public boolean Valid(WalkPosition p) {
+    public boolean isValid(WalkPosition p) {
         return ((0 <= p.getX()) && (p.getX() < WalkSize().getX()) && (0 <= p.getY()) && (p.getY() < WalkSize().getY()));
     }
 
-    public boolean Valid(Position p) {
+    public boolean isValid(Position p) {
         return ((0 <= p.getX()) && (p.getX() < PixelSize().getX()) && (0 <= p.getY()) && (p.getY() < PixelSize().getY()));
     }
 
@@ -336,7 +336,7 @@ public abstract class Map {
             TilePosition current = ToVisit.remove();
             for (TilePosition delta : directions) {
                 TilePosition next = current.add(delta);
-                if (Valid(next)) {
+                if (isValid(next)) {
                     Tile nextTile = GetTile(next, check_t.no_check);
                     if (findCond.isTrue(nextTile, next, this)) {
                         return next;
@@ -382,7 +382,7 @@ public abstract class Map {
             WalkPosition current = ToVisit.remove();
             for (WalkPosition delta : directions) {
                 WalkPosition next = current.add(delta);
-                if (Valid(next)) {
+                if (isValid(next)) {
                     MiniTile Next = GetMiniTile(next, check_t.no_check);
                     if (findCond.isTrue(Next, next, this)) {
                         return next;
