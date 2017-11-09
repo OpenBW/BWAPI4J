@@ -42,21 +42,21 @@ public class MiniTileTest implements BWEventListener {
 
 		this.bw = new BW(this);
 		bw.startGame();
-		
+
 		checkMiniTiles();
 	}
-	
+
 	private void checkMiniTiles() {
-		
+
 		for (int j = 0; j < results.length; j++ ) {
 			for (int i = 0; i < results[j].length; i++) {
 	    		Assert.assertEquals(j + " / " + i + " : mini tile altitude is wrong.", results[j][i], map.GetMiniTile(new WalkPosition(i, j)).Altitude().intValue());
 	    	}
 		}
-		
-		Assert.assertEquals("148 / 149 : mini tile altitude is wrong.", 243, this.map.GetMiniTile(new WalkPosition(148, 149)).Altitude().intValue());
-        Assert.assertEquals("273 / 260 : mini tile altitude is wrong.", 198, this.map.GetMiniTile(new WalkPosition(273, 260)).Altitude().intValue());
-        Assert.assertEquals("273 / 261 : mini tile altitude is wrong.", 192, this.map.GetMiniTile(new WalkPosition(273, 261)).Altitude().intValue());
+
+		Assert.assertEquals("248 / 249 : mini tile altitude is wrong.", 243, this.map.GetMiniTile(new WalkPosition(248, 249)).Altitude().intValue()); // index = 127737
+        Assert.assertEquals("273 / 260 : mini tile altitude is wrong.", 198, this.map.GetMiniTile(new WalkPosition(273, 260)).Altitude().intValue()); // index = 133393
+        Assert.assertEquals("273 / 261 : mini tile altitude is wrong.", 192, this.map.GetMiniTile(new WalkPosition(273, 261)).Altitude().intValue()); // index = 133905
 	}
 	
     @Test
