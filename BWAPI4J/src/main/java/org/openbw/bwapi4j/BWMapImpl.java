@@ -1,12 +1,9 @@
 package org.openbw.bwapi4j;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.openbw.bwapi4j.type.UnitType;
-import org.openbw.bwapi4j.unit.SCV;
-import org.openbw.bwapi4j.unit.Unit;
 
 class BWMapImpl implements BWMap {
 
@@ -84,24 +81,4 @@ class BWMapImpl implements BWMap {
     	
         return canBuildHere(position.getX(), position.getY(), type.getId());
     }
-
-	public boolean canBuildHere(TilePosition position, UnitType type, SCV builder, Collection<Unit> units) {
-
-		if (canBuildHere(position, type)) {
-			
-			for (Unit unit : units) {
-
-				if (unit != builder 
-						&& unit.getTilePosition().getX() + unit.tileWidth() > position.getX()
-						&& unit.getTilePosition().getX() < position.getX() + type.tileWidth()
-						&& unit.getTilePosition().getY() + unit.tileHeight() > position.getY()
-						&& unit.getTilePosition().getY() < position.getY() + type.tileHeight()) {
-
-					return false;
-				}
-			}
-			return true;
-		}
-		return false;
-	}
 }
