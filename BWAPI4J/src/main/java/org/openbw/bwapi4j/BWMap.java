@@ -1,11 +1,8 @@
 package org.openbw.bwapi4j;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.openbw.bwapi4j.type.UnitType;
-import org.openbw.bwapi4j.unit.SCV;
-import org.openbw.bwapi4j.unit.Unit;
 
 public interface BWMap {
 
@@ -36,6 +33,4 @@ public interface BWMap {
     public boolean hasPath(Position source, Position destination);
 
     public boolean canBuildHere(TilePosition position, UnitType type);
-
-	public boolean canBuildHere(TilePosition position, UnitType type, SCV builder, Collection<Unit> units);
 }

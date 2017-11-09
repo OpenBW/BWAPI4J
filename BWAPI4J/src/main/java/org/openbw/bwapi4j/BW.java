@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.unit.MineralPatch;
 import org.openbw.bwapi4j.unit.PlayerUnit;
+import org.openbw.bwapi4j.unit.SCV;
 import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.unit.UnitFactory;
 import org.openbw.bwapi4j.unit.VespeneGeyser;
@@ -303,6 +304,33 @@ public class BW {
         return this.units.values();
     }
 
+    public boolean canBuildHere(TilePosition position, UnitType type) {
+    	
+    	return this.canBuildHere(position, type, null);
+    }
+    
+	public boolean canBuildHere(TilePosition position, UnitType type, SCV builder) {
+
+		// TODO check for creep for zerg buildings
+		
+		if (this.bwMap.canBuildHere(position, type)) {
+			
+			for (Unit unit : this.getAllUnits()) {
+
+				if (unit != builder 
+						&& unit.getTilePosition().getX() + unit.tileWidth() > position.getX()
+						&& unit.getTilePosition().getX() < position.getX() + type.tileWidth()
+						&& unit.getTilePosition().getY() + unit.tileHeight() > position.getY()
+						&& unit.getTilePosition().getY() < position.getY() + type.tileHeight()) {
+
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+	
     private void preFrame() {
 
 //        logger.debug("updating game state for frame {}...", this.frame);

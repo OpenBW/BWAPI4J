@@ -1,7 +1,6 @@
 package bwem.map;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.junit.Assert;
@@ -9,8 +8,6 @@ import org.openbw.bwapi4j.BWMap;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.UnitType;
-import org.openbw.bwapi4j.unit.SCV;
-import org.openbw.bwapi4j.unit.Unit;
 
 public class BWMapMock implements BWMap {
 
@@ -152,12 +149,6 @@ public class BWMapMock implements BWMap {
 
 	@Override
 	public boolean canBuildHere(TilePosition position, UnitType type) {
-
-		return true;
-	}
-
-	@Override
-	public boolean canBuildHere(TilePosition position, UnitType type, SCV builder, Collection<Unit> units) {
 
 		return true;
 	}
