@@ -7,6 +7,7 @@ import bwem.map.MapImpl;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.MutablePair;
 import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
@@ -306,6 +307,21 @@ public final class BwemExt {
     public static void drawDiagonalCrossMap(BW bw, Position topLeft, Position bottomRight, Color col) {
         bw.getMapDrawer().drawLineMap(topLeft, bottomRight, col);
         bw.getMapDrawer().drawLineMap(new Position(bottomRight.getX(), topLeft.getY()), new Position(topLeft.getX(), bottomRight.getY()), col);
+    }
+
+    public static <T> void fast_erase(List<T> Vector, int i) {
+//        bwem_assert((0 <= i) && (i < (int)Vector.size()));
+        if (!((0 <= i) && (i < Vector.size()))) {
+            throw new IllegalArgumentException("" + i);
+        }
+
+        Vector.remove(i);
+
+        if (i + 1 < Vector.size()) {
+            /* Move the back element to where the ith element was. */
+            T BackElement = Vector.remove(Vector.size() - 1);
+            Vector.add(i, BackElement);
+        }
     }
 
     //----------------------------------------------------------------------
