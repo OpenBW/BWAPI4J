@@ -507,6 +507,106 @@ public final class MapImpl extends Map {
         }
     }
 
+    @SuppressWarnings("unchecked")
+	private List<MutablePair<WalkPosition, Altitude>> getSortedDeltasByAscendingAltitude(int mapWalkTileWidth, int mapWalkTileHeight, int altitudeScale) {
+    	
+    	final int range = Math.max(mapWalkTileWidth, mapWalkTileHeight) / 2 + 3;
+    	
+    	List<MutablePair<WalkPosition, Altitude>> deltasByAscendingAltitude = new ArrayList<>();
+    	
+    	for (int dy = 0; dy <= range; ++dy) {
+    		
+            for (int dx = dy; dx <= range; ++dx) { // Only consider 1/8 of possible deltas. Other ones obtained by symmetry.
+            	
+                if (dx != 0 || dy != 0) {
+                    deltasByAscendingAltitude.add(new MutablePair<>(new WalkPosition(dx, dy), 
+                    		new Altitude((int) (Double.valueOf("0.5") + (Utils.norm(dx, dy) * (double) altitudeScale)))));
+                }
+            }
+    	}
+        Collections.sort(deltasByAscendingAltitude, new PairGenericAltitudeComparator());
+        
+        return deltasByAscendingAltitude;
+    }
+    
+    /**
+     * Fill in ActiveSeaSideList, which basically contains all the seaside miniTiles (from which altitudes are to be computed)
+     * It also includes extra border-miniTiles which are considered as seaside miniTiles too.
+     * @return list of active sea sides
+     */
+    private List<MutablePair<WalkPosition, Altitude>> getActiveSeaSides() {
+    	
+        List<MutablePair<WalkPosition, Altitude>> activeSeaSides = new ArrayList<>();
+
+        for (int y = -1; y <= WalkSize().getY(); ++y)
+        for (int x = -1; x <= WalkSize().getX(); ++x) {
+            WalkPosition w = new WalkPosition(x, y);
+            if (!Valid(w) || BwemExt.seaSide(w, this)) {
+                activeSeaSides.add(new MutablePair<>(w, new Altitude(0)));
+            }
+        }
+        
+        return activeSeaSides;
+    }
+    
+    /**
+     * Dijkstra's algorithm to set altitude for mini tiles.
+     * @param deltasByAscendingAltitude
+     * @param activeSeaSides
+     * @param altitudeScale
+     */
+    private void setAltitudes(List<MutablePair<WalkPosition, Altitude>> deltasByAscendingAltitude, List<MutablePair<WalkPosition, Altitude>> activeSeaSides, int altitudeScale) {
+    	
+        for (MutablePair<WalkPosition, Altitude> delta_altitude : deltasByAscendingAltitude) {
+        	
+            final WalkPosition d = new WalkPosition(delta_altitude.left.getX(), delta_altitude.left.getY());
+            final Altitude altitude = new Altitude(delta_altitude.right);
+            
+            for (int i = 0; i < activeSeaSides.size(); ++i) {
+            	
+                MutablePair<WalkPosition, Altitude> Current = activeSeaSides.get(i);
+                if (altitude.intValue() - Current.right.intValue() >= 2 * altitudeScale) { 
+                	
+                	// optimization : once a seaside miniTile verifies this condition,
+                	// we can throw it away as it will not generate min altitudes anymore
+                	activeSeaSides.remove(i--);                                           
+                } else {
+                	
+                    WalkPosition[] deltas = {new WalkPosition(d.getX(), d.getY()), new WalkPosition(-d.getX(), d.getY()), new WalkPosition(d.getX(), -d.getY()), new WalkPosition(-d.getX(), -d.getY()),
+                                             new WalkPosition(d.getY(), d.getX()), new WalkPosition(-d.getY(), d.getX()), new WalkPosition(d.getY(), -d.getX()), new WalkPosition(-d.getY(), -d.getX())};
+                    
+                    for (WalkPosition delta : deltas) {
+                    	
+                        WalkPosition walkPosition = Current.left.add(delta);
+                        
+                        if (Valid(walkPosition)) {
+                        	
+                            MiniTile miniTile = GetMiniTile_(walkPosition, check_t.no_check);
+                            
+                            if (miniTile.AltitudeMissing()) {
+                                m_maxAltitude = new Altitude(altitude);
+                                Current.right = new Altitude(altitude);
+                                miniTile.SetAltitude(altitude);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    private void ComputeAltitude2(int mapWalkTileWidth, int mapWalkTileHeight) {
+    	
+    	// 8 provides a pixel definition for altitude_t, since altitudes are computed from miniTiles which are 8x8 pixels
+    	final int altitudeScale = 8;
+    	
+    	List<MutablePair<WalkPosition, Altitude>> deltasByAscendingAltitude = getSortedDeltasByAscendingAltitude(mapWalkTileWidth, mapWalkTileHeight, altitudeScale);
+    	
+    	List<MutablePair<WalkPosition, Altitude>> activeSeaSides = getActiveSeaSides();
+
+    	setAltitudes(deltasByAscendingAltitude, activeSeaSides, altitudeScale);
+    }
+    
     // Assigns MiniTile::m_altitude foar each miniTile having AltitudeMissing()
     // Cf. MiniTile::Altitude() for meaning of altitude_t.
     // Altitudes are computed using the straightforward Dijkstra's algorithm : the lower ones are computed first, starting from the seaside-miniTiles neighbours.
