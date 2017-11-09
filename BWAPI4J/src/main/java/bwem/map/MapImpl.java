@@ -573,7 +573,7 @@ public final class MapImpl extends Map {
                 	
                 	// optimization : once a seaside miniTile verifies this condition,
                 	// we can throw it away as it will not generate min altitudes anymore
-                	activeSeaSides.remove(i--);                                           
+                	BwemExt.fast_erase(activeSeaSides, i--);
                 } else {
                 	
                     WalkPosition[] deltas = {new WalkPosition(d.getX(), d.getY()), new WalkPosition(-d.getX(), d.getY()), new WalkPosition(d.getX(), -d.getY()), new WalkPosition(-d.getX(), -d.getY()),
