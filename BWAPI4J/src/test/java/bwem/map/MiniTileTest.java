@@ -24,6 +24,8 @@ public class MiniTileTest implements BWEventListener {
 
 	private BW bw;
 	private Map map;
+
+	private OriginalBwemData bwemData = null;
 	
 	@BeforeClass
     public static void setUpClass() {
@@ -35,20 +37,14 @@ public class MiniTileTest implements BWEventListener {
     public void heightTestReal() throws AssertionError {
 
 		this.bw = new BW(this);
-		bw.startGame();
+		this.bw.startGame();
 
 		checkMiniTiles();
 	}
 
 	private void checkMiniTiles() {
-		OriginalBwemData data = null;
-		try {
-			data = new OriginalBwemData();
-		} catch (Exception e) {
-			e.printStackTrace();
-			Assert.fail("Could not load dummy BWEM data.");
-		}
-		int width = (int) Math.sqrt(data.miniTileAltitudes_ORIGINAL.length);
+		ensureBwemData();
+		int width = (int) Math.sqrt(this.bwemData.miniTileAltitudes_ORIGINAL.length);
 		int height = width;
 		for (int y = 0; y < height; ++y) {
 			for (int x = 0; x < width; ++x) {
@@ -57,8 +53,8 @@ public class MiniTileTest implements BWEventListener {
 //				if (x == 273 && y == 261) { continue; } // index = 133905
 				Assert.assertEquals(
 						x + " / " + y + " : mini tile altitude is wrong.",
-						data.miniTileAltitudes_ORIGINAL[width * y + x],
-						map.GetMiniTile(new WalkPosition(x, y)).Altitude().intValue()
+						this.bwemData.miniTileAltitudes_ORIGINAL[width * y + x],
+						this.map.GetMiniTile(new WalkPosition(x, y)).Altitude().intValue()
 				);
 			}
 		}
@@ -78,6 +74,17 @@ public class MiniTileTest implements BWEventListener {
 
     	checkMiniTiles();
     }
+
+    private void ensureBwemData() {
+		if (this.bwemData == null) {
+			try {
+				this.bwemData = new OriginalBwemData();
+			} catch (Exception e) {
+				e.printStackTrace();
+				Assert.fail("Could not load dummy BWEM data.");
+			}
+		}
+	}
 
 	@Override
 	public void onStart() {
