@@ -11,10 +11,6 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class BWMapMock implements BWMap {
 
-    private TilePosition[] startLocations_FightingSpirit_ORIGINAL = {
-        new TilePosition(117, 7), new TilePosition(7, 6), new TilePosition(7, 116), new TilePosition(117, 117)
-    };
-
     private boolean[] buildable;
     private int[][] walkabilityInfo;
     private int[][] groundInfo;
@@ -48,7 +44,7 @@ public class BWMapMock implements BWMap {
 
 			for (int y = 0; y < walkHeight; ++y) {
 
-                this.walkabilityInfo[x][y] = data.walkabilityInfo_ORIGINAL[walkHeight * y + x];
+                this.walkabilityInfo[x][y] = data.walkabilityInfo_ORIGINAL[walkWidth * y + x];
 			}
 		}
 
@@ -64,7 +60,7 @@ public class BWMapMock implements BWMap {
 		this.buildable = data.buildableInfo_ORIGINAL;
 
 		this.startLocations = new ArrayList<>();
-        for (TilePosition loc : this.startLocations_FightingSpirit_ORIGINAL) {
+        for (TilePosition loc : data.startLocations_FightingSpirit_ORIGINAL) {
             this.startLocations.add(loc);
         }
 	}
