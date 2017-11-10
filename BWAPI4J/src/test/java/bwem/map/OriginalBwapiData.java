@@ -9,7 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
-public class OriginalData {
+public class OriginalBwapiData {
 
     public final int[] walkabilityInfo_ORIGINAL;
     public final int[] groundInfo_ORIGINAL;
@@ -18,7 +18,7 @@ public class OriginalData {
     
     private int index;
     
-    public OriginalData() throws IOException, URISyntaxException {
+    public OriginalBwapiData() throws IOException, URISyntaxException {
         int width = 128;
         int height = width;
         int walkWidth = width * 4;
@@ -34,7 +34,7 @@ public class OriginalData {
     private void populateArrays() throws IOException, URISyntaxException {
     	
     	this.index = 0;
-    	URI fileURI = OriginalData.class.getResource("walkabilityInfo_FightingSpirit_ORIGINAL.txt").toURI();
+    	URI fileURI = OriginalBwapiData.class.getResource("walkabilityInfo_FightingSpirit_ORIGINAL.txt").toURI();
     	
     		Stream<String> stream1 = Files.lines(Paths.get(fileURI));
     	
@@ -49,7 +49,7 @@ public class OriginalData {
     	System.out.println("added " + index + " values.");
         
     	this.index = 0;
-    	fileURI = OriginalData.class.getResource("groundInfo_FightingSpirit_ORIGINAL.txt").toURI();
+    	fileURI = OriginalBwapiData.class.getResource("groundInfo_FightingSpirit_ORIGINAL.txt").toURI();
     	Stream<String> stream2 = Files.lines(Paths.get(fileURI));
         stream2.forEach(l -> { 
         	for (String s : l.split(",")) {
@@ -61,7 +61,7 @@ public class OriginalData {
         System.out.println("added " + index + " values.");
         
         this.index = 0;
-    	fileURI = OriginalData.class.getResource("buildableInfo_FightingSpirit_ORIGINAL.txt").toURI();
+    	fileURI = OriginalBwapiData.class.getResource("buildableInfo_FightingSpirit_ORIGINAL.txt").toURI();
     	Stream<String> stream3 = Files.lines(Paths.get(fileURI));
         stream3.forEach(l -> {
         	for (String s : l.split(",")) {

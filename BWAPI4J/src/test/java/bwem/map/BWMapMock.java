@@ -18,12 +18,12 @@ public class BWMapMock implements BWMap {
     private int height;
     private ArrayList<TilePosition> startLocations;
     
-    private OriginalData data;
+    private OriginalBwapiData data;
     
 	public BWMapMock() {
 
 		try {
-			this.data = new OriginalData();
+			this.data = new OriginalBwapiData();
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail("Could not load dummy map data.");
