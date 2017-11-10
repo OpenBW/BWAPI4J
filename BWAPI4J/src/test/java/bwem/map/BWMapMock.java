@@ -11,7 +11,7 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class BWMapMock implements BWMap {
 
-    private boolean[] buildable;
+	private int[][] buildable;
     private int[][] walkabilityInfo;
     private int[][] groundInfo;
     private int width;
@@ -32,7 +32,6 @@ public class BWMapMock implements BWMap {
 	}
 
 	private void initializeMock() {
-
 		this.width = 128;
 		this.height = 128;
 
@@ -40,27 +39,28 @@ public class BWMapMock implements BWMap {
         int walkHeight = this.height * 4;
 
 		this.walkabilityInfo = new int[walkWidth][walkHeight];
-		for (int x = 0; x < walkWidth; ++x) {
-
-			for (int y = 0; y < walkHeight; ++y) {
-
-                this.walkabilityInfo[x][y] = data.walkabilityInfo_ORIGINAL[walkWidth * y + x];
+		for (int y = 0; y < walkHeight; ++y) {
+			for (int x = 0; x < walkWidth; ++x) {
+                this.walkabilityInfo[x][y] = this.data.walkabilityInfo_ORIGINAL[walkWidth * y + x];
 			}
 		}
 
 		this.groundInfo = new int[this.width][this.height];
-		for (int x = 0; x < this.width; ++x) {
-
-			for (int y = 0; y < this.height; ++y) {
-
-                this.groundInfo[x][y] = data.groundInfo_ORIGINAL[this.width * y + x];
+		for (int y = 0; y < this.height; ++y) {
+			for (int x = 0; x < this.width; ++x) {
+                this.groundInfo[x][y] = this.data.groundInfo_ORIGINAL[this.width * y + x];
 			}
 		}
-		
-		this.buildable = data.buildableInfo_ORIGINAL;
+
+		this.buildable = new int[this.width][this.height];
+		for (int y = 0; y < this.height; ++y) {
+			for (int x = 0; x < this.width; ++x) {
+				this.buildable[x][y] = data.buildableInfo_ORIGINAL[this.width * y + x];
+			}
+		}
 
 		this.startLocations = new ArrayList<>();
-        for (TilePosition loc : data.startLocations_FightingSpirit_ORIGINAL) {
+        for (TilePosition loc : this.data.startLocations_FightingSpirit_ORIGINAL) {
             this.startLocations.add(loc);
         }
 	}
@@ -116,7 +116,7 @@ public class BWMapMock implements BWMap {
 	@Override
 	public boolean isBuildable(int tileX, int tileY, boolean considerBuildings) {
 		
-		return this.buildable[tileY * this.width + tileX];
+		return this.buildable[tileX][tileY] == 1;
 	}
 
 	@Override
