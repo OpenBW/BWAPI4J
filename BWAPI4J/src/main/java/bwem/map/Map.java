@@ -1,25 +1,9 @@
 package bwem.map;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.Random;
-
-import org.apache.commons.lang3.mutable.MutableBoolean;
-import org.apache.commons.lang3.mutable.MutableInt;
-import org.apache.commons.lang3.tuple.MutablePair;
-import org.openbw.bwapi4j.MapDrawer;
-import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.TilePosition;
-import org.openbw.bwapi4j.WalkPosition;
-import org.openbw.bwapi4j.type.Color;
-import org.openbw.bwapi4j.unit.Unit;
-
 import bwem.MapPrinter;
-import bwem.check_t;
 import bwem.area.Area;
 import bwem.area.typedef.AreaId;
+import bwem.check_t;
 import bwem.tile.MiniTile;
 import bwem.tile.Tile;
 import bwem.typedef.Altitude;
@@ -28,6 +12,16 @@ import bwem.typedef.Pred;
 import bwem.unit.Geyser;
 import bwem.unit.Mineral;
 import bwem.unit.StaticBuilding;
+import org.apache.commons.lang3.mutable.MutableBoolean;
+import org.apache.commons.lang3.mutable.MutableInt;
+import org.apache.commons.lang3.tuple.MutablePair;
+import org.openbw.bwapi4j.Position;
+import org.openbw.bwapi4j.TilePosition;
+import org.openbw.bwapi4j.WalkPosition;
+import org.openbw.bwapi4j.type.Color;
+import org.openbw.bwapi4j.unit.Unit;
+
+import java.util.List;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -49,39 +43,16 @@ import bwem.unit.StaticBuilding;
 //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-public abstract class Map {
+public interface Map {
 
-    private final MapPrinter m_pMapPrinter;
-    protected int m_size = 0;
-    protected TilePosition m_Size = null;
-    protected int m_walkSize = 0;
-    protected WalkPosition m_WalkSize = null;
-    protected int m_pixelSize = 0;
-    protected Position m_PixelSize = null;
-    protected Position m_center = null;
-    protected List<Tile> m_Tiles = null;
-    protected List<MiniTile> m_MiniTiles = null;
-
-    protected MapDrawer mapDrawer;
-    
-    protected Map(MapDrawer mapDrawer) {
-    	
-    	this.mapDrawer = mapDrawer;
-        m_pMapPrinter = new MapPrinter();
-    }
-
-    public MapPrinter getMapPrinter() {
-        return m_pMapPrinter;
-    }
+    public abstract MapPrinter getMapPrinter();
 
 	// This has to be called before any other function is called.
 	// A good place to do this is in ExampleAIModule::onStart()
     public abstract void Initialize();
 
     // Will return true once Initialize() has been called.
-    public boolean Initialized() {
-        return (m_size != 0);
-    }
+    public abstract boolean Initialized();
 
 	// Returns the status of the automatic path update (off (false) by default).
 	// When on, each time a blocking Neutral (either Mineral or StaticBuilding) is destroyed,
@@ -105,32 +76,19 @@ public abstract class Map {
     public abstract boolean FindBasesForStartingLocations();
 
     // Returns the size of the Map in Tiles.
-    public TilePosition Size() {
-        return m_Size;
-    }
+    public abstract TilePosition Size();
 
     // Returns the size of the Map in MiniTiles.
-    public WalkPosition WalkSize() {
-        return m_WalkSize;
-    }
+    public abstract WalkPosition WalkSize();
 
     // Returns the size of the Map in pixels.
-    public Position PixelSize() {
-        return m_PixelSize;
-    }
+    public abstract Position PixelSize();
 
     // Returns the center of the Map in pixels.
-    public Position Center() {
-        return m_center;
-    }
+    public abstract Position Center();
 
     // Returns a random position in the Map in pixels.
-    public Position RandomPosition() {
-        Random random = new Random();
-        int x = random.nextInt(PixelSize().getX());
-        int y = random.nextInt(PixelSize().getY());
-        return new Position(x, y);
-    }
+    public abstract Position RandomPosition();
 
     // Returns the maximum altitude in the whole Map (Cf. MiniTile::Altitude()).
     public abstract Altitude MaxAltitude();
@@ -142,101 +100,40 @@ public abstract class Map {
     public abstract int ChokePointCount();
 
 	// Returns a Tile, given its position.
-	public Tile GetTile(TilePosition p, check_t checkMode) {
-//        bwem_assert((checkMode == utils::check_t::no_check) || Valid(p)); utils::unused(checkMode);
-        if (!((checkMode == check_t.no_check) || isValid(p))) {
-            throw new IllegalArgumentException();
-        }
-        return (m_Tiles.get(Size().getX() * p.getY() + p.getX()));
-    }
+	public abstract Tile GetTile(TilePosition p, check_t checkMode);
 
-    public Tile GetTile(TilePosition p) {
-        return GetTile(p, check_t.check);
-    }
+    public abstract Tile GetTile(TilePosition p);
 
-    public Tile GetTile_(TilePosition p, check_t checkMode) {
-        return m_Tiles.get(Size().getX() * p.getY() + p.getX());
-    }
+    public abstract Tile GetTile_(TilePosition p, check_t checkMode);
 
-    public Tile GetTile_(TilePosition p) {
-        return GetTile_(p, check_t.check);
-    }
+    public abstract Tile GetTile_(TilePosition p);
 
 	// Returns a MiniTile, given its position.
-    public MiniTile GetMiniTile(WalkPosition p, check_t checkMode) {
-//        bwem_assert((checkMode == utils::check_t::no_check) || Valid(p));
-        if (!((checkMode == check_t.no_check) || isValid(p))) {
-            throw new IllegalArgumentException();
-        }
-        return m_MiniTiles.get(WalkSize().getX() * p.getY() + p.getX());
-    }
+    public abstract MiniTile GetMiniTile(WalkPosition p, check_t checkMode);
 
-    public MiniTile GetMiniTile(WalkPosition p) {
-        return GetMiniTile(p, check_t.check);
-    }
+    public abstract MiniTile GetMiniTile(WalkPosition p);
 
-    public MiniTile GetMiniTile_(WalkPosition p, check_t checkMode) {
-        return m_MiniTiles.get(WalkSize().getX() * p.getY() + p.getX());
-    }
+    public abstract MiniTile GetMiniTile_(WalkPosition p, check_t checkMode);
 
-    public MiniTile GetMiniTile_(WalkPosition p) {
-        return GetMiniTile_(p, check_t.check);
-    }
+    public abstract MiniTile GetMiniTile_(WalkPosition p);
 
     // Provides access to the internal array of Tiles.
-    public List<Tile> Tiles() {
-        return m_Tiles;
-    }
+    public abstract List<Tile> Tiles();
 
     // Provides access to the internal array of MiniTiles.
-    public List<MiniTile> MiniTiles() {
-        return m_MiniTiles;
-    }
+    public abstract List<MiniTile> MiniTiles();
 
-    public boolean isValid(TilePosition p) {
-        return ((0 <= p.getX()) && (p.getX() < Size().getX()) && (0 <= p.getY()) && (p.getY() < Size().getY()));
-    }
+    public abstract boolean isValid(TilePosition p);
 
-    public boolean isValid(WalkPosition p) {
-        return ((0 <= p.getX()) && (p.getX() < WalkSize().getX()) && (0 <= p.getY()) && (p.getY() < WalkSize().getY()));
-    }
+    public abstract boolean isValid(WalkPosition p);
 
-    public boolean isValid(Position p) {
-        return ((0 <= p.getX()) && (p.getX() < PixelSize().getX()) && (0 <= p.getY()) && (p.getY() < PixelSize().getY()));
-    }
+    public abstract boolean isValid(Position p);
 
-    private int[] crop(int x, int y, int max_x, int max_y) {
-        int ret_x = x;
-        int ret_y = y;
+    public abstract TilePosition Crop(TilePosition p);
 
-        if (ret_x < 0) ret_x = 0;
-        else if (ret_x >= max_x) ret_x = max_x - 1;
+    public abstract WalkPosition Crop(WalkPosition p);
 
-        if (ret_y < 0) ret_y = 0;
-        else if (ret_y >= max_y) ret_y = max_y - 1;
-
-        int[] ret = {ret_x, ret_y};
-
-        return ret;
-    }
-
-    public TilePosition Crop(TilePosition p) {
-        int[] ret = crop(p.getX(), p.getY(), Size().getX(), Size().getY());
-
-        return new TilePosition(ret[0], ret[1]);
-    }
-
-    public WalkPosition Crop(WalkPosition p) {
-        int[] ret = crop(p.getX(), p.getY(), WalkSize().getX(), WalkSize().getY());
-
-        return new WalkPosition(ret[0], ret[1]);
-    }
-
-    public Position Crop(Position p) {
-        int[] ret = crop(p.getX(), p.getY(), PixelSize().getX(), PixelSize().getY());
-
-        return new Position(ret[0], ret[1]);
-    }
+    public abstract Position Crop(Position p);
 
 	// Returns a reference to the starting Locations.
 	// Note: these correspond to BWAPI::getStartLocations().
@@ -313,105 +210,17 @@ public abstract class Map {
 
 	// Generic algorithm for breadth first search in the Map.
 	// See the several use cases in BWEM source files.
-    public TilePosition BreadthFirstSearch(TilePosition start, Pred findCond, Pred visitCond, boolean connect8) {
-        if (findCond.isTrue(GetTile(start), start, this)) {
-            return start;
-        }
+    public abstract TilePosition BreadthFirstSearch(TilePosition start, Pred findCond, Pred visitCond, boolean connect8);
 
-        List<TilePosition> Visited = new ArrayList<>();
-        Queue<TilePosition> ToVisit = new LinkedList<>();
+    public abstract TilePosition BreadthFirstSearch(TilePosition start, Pred findCond, Pred visitCond);
 
-        ToVisit.add(start);
-        Visited.add(start);
+    public abstract WalkPosition BreadthFirstSearch(WalkPosition start, Pred findCond, Pred visitCond, boolean connect8);
 
-        TilePosition[] dir8 = {
-            new TilePosition(-1, -1), new TilePosition(0, -1), new TilePosition(1, -1),
-            new TilePosition(-1,  0),                          new TilePosition(1,  0),
-            new TilePosition(-1,  1), new TilePosition(0,  1), new TilePosition(1,  1)
-        };
-        TilePosition[] dir4 = {new TilePosition(0, -1), new TilePosition(-1, 0), new TilePosition(+1, 0), new TilePosition(0, +1)};
-        TilePosition[] directions = connect8 ? dir8 : dir4;
-
-        while (!ToVisit.isEmpty()) {
-            TilePosition current = ToVisit.remove();
-            for (TilePosition delta : directions) {
-                TilePosition next = current.add(delta);
-                if (isValid(next)) {
-                    Tile nextTile = GetTile(next, check_t.no_check);
-                    if (findCond.isTrue(nextTile, next, this)) {
-                        return next;
-                    }
-                    if (visitCond.isTrue(nextTile, next, this) && !Visited.contains(next)) {
-                        ToVisit.add(next);
-                        Visited.add(next);
-                    }
-                }
-            }
-        }
-
-        //TODO: Are we supposed to return start or not?
-//        bwem_assert(false);
-        throw new IllegalStateException();
-//        return start;
-    }
-
-    public TilePosition BreadthFirstSearch(TilePosition start, Pred findCond, Pred visitCond) {
-        return BreadthFirstSearch(start, findCond, visitCond, true);
-    }
-
-    public WalkPosition BreadthFirstSearch(WalkPosition start, Pred findCond, Pred visitCond, boolean connect8) {
-        if (findCond.isTrue(GetMiniTile(start), start, this)) {
-            return start;
-        }
-
-        List<WalkPosition> Visited = new ArrayList<>();
-        Queue<WalkPosition> ToVisit = new LinkedList<>();
-
-        ToVisit.add(start);
-        Visited.add(start);
-
-        WalkPosition[] dir8 = {
-            new WalkPosition(-1, -1), new WalkPosition(0, -1), new WalkPosition(1, -1),
-            new WalkPosition(-1,  0),                          new WalkPosition(1,  0),
-            new WalkPosition(-1,  1), new WalkPosition(0,  1), new WalkPosition(1,  1)
-        };
-        WalkPosition[] dir4 = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(1, 0), new WalkPosition(0, 1)};
-        WalkPosition[] directions = connect8 ? dir8 : dir4;
-
-        while (!ToVisit.isEmpty()) {
-            WalkPosition current = ToVisit.remove();
-            for (WalkPosition delta : directions) {
-                WalkPosition next = current.add(delta);
-                if (isValid(next)) {
-                    MiniTile Next = GetMiniTile(next, check_t.no_check);
-                    if (findCond.isTrue(Next, next, this)) {
-                        return next;
-                    }
-                    if (visitCond.isTrue(Next, next, this) && !Visited.contains(next)) {
-                        ToVisit.add(next);
-                        Visited.add(next);
-                    }
-                }
-            }
-        }
-
-        //TODO: Are we supposed to return start or not?
-//        bwem_assert(false);
-        throw new IllegalStateException();
-//        return start;
-    }
-
-    public WalkPosition BreadthFirstSearch(WalkPosition start, Pred findCond, Pred visitCond) {
-        return BreadthFirstSearch(start, findCond, visitCond, true);
-    }
+    public abstract WalkPosition BreadthFirstSearch(WalkPosition start, Pred findCond, Pred visitCond);
 
     // Returns the union of the geometry of all the ChokePoints. Cf. ChokePoint::Geometry()
     public abstract List<MutablePair<MutablePair<AreaId, AreaId>, WalkPosition>> RawFrontier();
 
-    public void drawDiagonalCrossMap(Position topLeft, Position bottomRight, Color col) {
-    	
-    	this.mapDrawer.drawLineMap(topLeft, bottomRight, col);
-    	this.mapDrawer.drawLineMap(new Position(bottomRight.getX(), topLeft.getY()), new Position(topLeft.getX(), bottomRight.getY()), col);
-    }
+    public abstract void drawDiagonalCrossMap(Position topLeft, Position bottomRight, Color col);
 
 }
