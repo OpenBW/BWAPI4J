@@ -2,7 +2,6 @@ package bwem.map;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 import bwem.*;
 import bwem.typedef.Pred;
@@ -119,7 +118,12 @@ public final class MapImpl implements Map {
 //    ///	bw << "Map::DecideSeasOrLakes: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::DecideSeasOrLakes: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
-        InitializeNeutrals();
+        InitializeNeutrals(
+                this,
+                this.mineralPatches, m_Minerals,
+                this.vespeneGeysers, m_Geysers,
+                filterNeutralPlayerUnits(this.units, this.players), m_StaticBuildings
+        );
 //    ///	bw << "Map::InitializeNeutrals: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::InitializeNeutrals: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
@@ -756,34 +760,57 @@ public final class MapImpl implements Map {
     	}
     }
 
-    private List<PlayerUnit> getUnits(Player player) {
-
-        return this.units.stream().filter(u -> u instanceof PlayerUnit
-                && ((PlayerUnit)u).getPlayer().equals(player)).map(u -> (PlayerUnit)u).collect(Collectors.toList());
-    }
-    
-    private void InitializeNeutrals() {
-        for (MineralPatch patch : this.mineralPatches) {
-            m_Minerals.add(new Mineral(patch, this));
-        }
-        for (VespeneGeyser geyser : this.vespeneGeysers) {
-            m_Geysers.add(new Geyser(geyser, this));
-        }
-        for (Player player : this.players) {
-            if (!player.isNeutral()) {
-                continue;
-            }
-            for (Unit unit : getUnits(player)) {
-                if ((unit instanceof Building) && !(unit instanceof MineralPatch || unit instanceof VespeneGeyser)) {
-                    m_StaticBuildings.add(new StaticBuilding(unit, this));
+    private List<PlayerUnit> filterPlayerUnits(final Collection<Unit> units, final Player player) {
+//        return this.units.stream().filter(u -> u instanceof PlayerUnit
+//                && ((PlayerUnit)u).getPlayer().equals(player)).map(u -> (PlayerUnit)u).collect(Collectors.toList());
+        final List<PlayerUnit> ret = new ArrayList<>();
+        for (final Unit u : units) {
+            if (u instanceof PlayerUnit) {
+                final PlayerUnit playerUnit = (PlayerUnit) u;
+                if (playerUnit.getPlayer().equals(player)) {
+                    ret.add(playerUnit);
                 }
-                //TODO: Add "Special_Pit_Door" and "Special_Right_Pit_Door" to static buildings list? See mapImpl.cpp:238.
+            }
+        }
+        return ret;
+    }
+
+    private List<PlayerUnit> filterNeutralPlayerUnits(final Collection<Unit> units, final Collection<Player> players) {
+        final List<PlayerUnit> ret = new ArrayList<>();
+        for (final Player player : players) {
+            if (player.isNeutral()) {
+                for (final PlayerUnit u : filterPlayerUnits(units, player)) {
+                    ret.add(u);
+                }
+            }
+        }
+        return ret;
+    }
+
+    private void InitializeNeutrals(
+            final MapImpl map,
+            final List<MineralPatch> mineralPatches, final List<Mineral> minerals,
+            final List<VespeneGeyser> vespeneGeysers, final List<Geyser> geysers,
+            final List<PlayerUnit> neutralUnits, final List<StaticBuilding> staticBuildings
+    ) {
+        for (final MineralPatch mineralPatch : mineralPatches) {
+            minerals.add(new Mineral(mineralPatch, map));
+        }
+        for (final VespeneGeyser vespeneGeyser : vespeneGeysers) {
+            geysers.add(new Geyser(vespeneGeyser, map));
+        }
+        for (final Unit neutralUnit : neutralUnits) {
+//                if ((neutralUnit instanceof Building) && !(neutralUnit instanceof MineralPatch || neutralUnit instanceof VespeneGeyser)) {
+            if (neutralUnit instanceof Building) {
+                staticBuildings.add(new StaticBuilding(neutralUnit, map));
+            }
+        }
+
+        //TODO: Add "Special_Pit_Door" and "Special_Right_Pit_Door" to static buildings list? See mapImpl.cpp:238.
 //				if (n->getType() == Special_Pit_Door)
 //					m_StaticBuildings.push_back(make_unique<StaticBuilding>(n, this));
 //				if (n->getType() == Special_Right_Pit_Door)
 //					m_StaticBuildings.push_back(make_unique<StaticBuilding>(n, this));
-            }
-        }
     }
 
 	private List<MutablePair<WalkPosition, Altitude>> getSortedDeltasByAscendingAltitude(int mapWalkTileWidth, int mapWalkTileHeight, int altitudeScale) {
