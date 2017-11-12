@@ -104,29 +104,7 @@ public final class MapImpl implements Map {
         Timer overallTimer = new Timer();
         Timer timer = new Timer();
 
-        m_Size = new TilePosition(this.bwMap.mapWidth(), this.bwMap.mapHeight());
-        m_size = Size().getX() * Size().getY();
-        m_WalkSize = Size().toPosition().toWalkPosition();
-        int walkSize = WalkSize().getX() * WalkSize().getY();
-        m_PixelSize = Size().toPosition();
-        m_center = new Position(PixelSize().getX() / 2, PixelSize().getY() / 2);
-
-        m_Tiles = new ArrayList<>();
-        for (int i = 0; i < m_size; ++i) {
-            m_Tiles.add(new Tile());
-        }
-
-        m_MiniTiles = new ArrayList<>();
-        for (int i = 0; i < walkSize; ++i) {
-            m_MiniTiles.add(new MiniTile());
-        }
-
-        m_StartingLocations = new ArrayList<>();
-        for (TilePosition t: this.bwMap.getStartPositions()) {
-            m_StartingLocations.add(t);
-        }
-
-
+        setBasicMapData(this.bwMap.mapWidth(), this.bwMap.mapHeight(), this.bwMap.getStartPositions());
 //    ///	bw << "Map::Initialize-resize: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::Initialize-resize: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
@@ -648,6 +626,31 @@ public final class MapImpl implements Map {
     public void drawDiagonalCrossMap(Position topLeft, Position bottomRight, Color col) {
         this.mapDrawer.drawLineMap(topLeft, bottomRight, col);
         this.mapDrawer.drawLineMap(new Position(bottomRight.getX(), topLeft.getY()), new Position(topLeft.getX(), bottomRight.getY()), col);
+    }
+
+    private void setBasicMapData(int mapTileWidth, int mapTileHeight, List<TilePosition> startPositions) {
+        m_Size = new TilePosition(mapTileWidth, mapTileHeight);
+        m_WalkSize = Size().toPosition().toWalkPosition();
+        m_PixelSize = Size().toPosition();
+
+        m_size = Size().getX() * Size().getY();
+        m_Tiles = new ArrayList<>();
+        for (int i = 0; i < m_size; ++i) {
+            m_Tiles.add(new Tile());
+        }
+
+        int walkSize = WalkSize().getX() * WalkSize().getY();
+        m_MiniTiles = new ArrayList<>();
+        for (int i = 0; i < walkSize; ++i) {
+            m_MiniTiles.add(new MiniTile());
+        }
+
+        m_center = new Position(PixelSize().getX() / 2, PixelSize().getY() / 2);
+
+        m_StartingLocations = new ArrayList<>();
+        for (TilePosition t: startPositions) {
+            m_StartingLocations.add(t);
+        }
     }
 
     // Computes walkability, buildability and groundHeight and doodad information, using BWAPI corresponding functions
