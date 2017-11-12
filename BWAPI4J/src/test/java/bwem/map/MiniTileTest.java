@@ -34,15 +34,41 @@ public class MiniTileTest implements BWEventListener {
 
 	@Ignore
 	@Test
-    public void heightTestReal() throws AssertionError {
+    public void altitudeTest_Real() throws AssertionError {
 
 		this.bw = new BW(this);
 		this.bw.startGame();
 
-		checkMiniTiles();
+		assertMiniTileAltitudes();
 	}
 
-	private void checkMiniTiles() {
+    @Test
+    public void altitudeTest_Mock() throws AssertionError {
+    	
+    	BWMap mapMock = new BWMapMock();
+    	Collection<Player> players = new ArrayList<>();
+    	List<MineralPatch> mineralPatches = new ArrayList<>();
+    	List<VespeneGeyser> geysers = new ArrayList<>();
+    	List<Unit> units = new ArrayList<>();
+    	
+    	this.map = new MapImpl(mapMock, null, players, mineralPatches, geysers, units);
+    	this.map.Initialize();
+
+    	assertMiniTileAltitudes();
+    }
+
+	private void ensureBwemData() {
+		if (this.bwemData == null) {
+			try {
+				this.bwemData = new OriginalBwemData();
+			} catch (Exception e) {
+				e.printStackTrace();
+				Assert.fail("Could not load dummy BWEM data.");
+			}
+		}
+	}
+
+	private void assertMiniTileAltitudes() {
 		ensureBwemData();
 		int width = (int) Math.sqrt(this.bwemData.miniTileAltitudes_ORIGINAL.length);
 		int height = width;
@@ -59,32 +85,6 @@ public class MiniTileTest implements BWEventListener {
 			}
 		}
 	}
-	
-    @Test
-    public void heightTest() throws AssertionError {
-    	
-    	BWMap mapMock = new BWMapMock();
-    	Collection<Player> players = new ArrayList<>();
-    	List<MineralPatch> mineralPatches = new ArrayList<>();
-    	List<VespeneGeyser> geysers = new ArrayList<>();
-    	List<Unit> units = new ArrayList<>();
-    	
-    	this.map = new MapImpl(mapMock, null, players, mineralPatches, geysers, units);
-    	this.map.Initialize();
-
-    	checkMiniTiles();
-    }
-
-    private void ensureBwemData() {
-		if (this.bwemData == null) {
-			try {
-				this.bwemData = new OriginalBwemData();
-			} catch (Exception e) {
-				e.printStackTrace();
-				Assert.fail("Could not load dummy BWEM data.");
-			}
-		}
-	}
 
 	@Override
 	public void onStart() {
@@ -94,13 +94,13 @@ public class MiniTileTest implements BWEventListener {
 		
     	BWMap map1 = this.bw.getBWMap();
     	BWMap map2 = new BWMapMock();
-    	
+
     	// test the test: are the mock values correct?
 //    	for (int j = 0; j < 128; j++ ) {
 //			for (int i = 0; i < 128; i++) {
 //				int groundHeight1 = map1.getGroundHeight(i, j);
 //				int groundHeight2 = map2.getGroundHeight(i, j);
-//				assertEquals("ground height not equal between real and mock.", groundHeight1, groundHeight2);
+//				Assert.assertEquals("ground height not equal between real and mock.", groundHeight1, groundHeight2);
 //	    	}
 //		}
     	
