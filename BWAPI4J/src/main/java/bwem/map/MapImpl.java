@@ -115,7 +115,7 @@ public final class MapImpl implements Map {
 //    ///	bw << "Map::LoadData: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::LoadData: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 //
-        DecideSeasOrLakes(BwemExt.lake_max_miniTiles, BwemExt.lake_max_width_in_miniTiles);
+        DecideSeasOrLakes(BwemExt.MAX_LAKE_COUNT_IN_MINI_TILES, BwemExt.MAX_LAKE_WIDTH_IN_MINI_TILES);
 //    ///	bw << "Map::DecideSeasOrLakes: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::DecideSeasOrLakes: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 

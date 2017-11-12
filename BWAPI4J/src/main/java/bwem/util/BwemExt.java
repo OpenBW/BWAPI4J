@@ -23,8 +23,8 @@ public final class BwemExt {
     public static final Position WALK_POSITION_CENTER_IN_PIXELS = new Position(BwemExt.WALK_POSITION_CENTER_OFFSET_IN_PIXELS, BwemExt.WALK_POSITION_CENTER_OFFSET_IN_PIXELS);
 
     // These constants control how to decide between Seas and Lakes.
-    public static final int lake_max_miniTiles = 300;
-    public static final int lake_max_width_in_miniTiles = 8 * 4;
+    public static final int MAX_LAKE_COUNT_IN_MINI_TILES = 300;
+    public static final int MAX_LAKE_WIDTH_IN_MINI_TILES = 8 * 4;
 
     // At least area_min_miniTiles connected MiniTiles are necessary for an Area to be created.
     public static final int area_min_miniTiles = 64;
