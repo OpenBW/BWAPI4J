@@ -115,7 +115,7 @@ public final class MapImpl implements Map {
 //    ///	bw << "Map::LoadData: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::LoadData: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 //
-        DecideSeasOrLakes();
+        DecideSeasOrLakes(BwemExt.lake_max_miniTiles, BwemExt.lake_max_width_in_miniTiles);
 //    ///	bw << "Map::DecideSeasOrLakes: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::DecideSeasOrLakes: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
@@ -664,18 +664,16 @@ public final class MapImpl implements Map {
 
     private void markUnwalkableMiniTiles(BWMap bwMap) {
         // Mark unwalkable minitiles (minitiles are walkable by default)
-        for (int y = 0; y < WalkSize().getY(); ++y) {
-            for (int x = 0; x < WalkSize().getX(); ++x) {
-                if (!bwMap.isWalkable(x, y)) {
-                    // For each unwalkable minitile, we also mark its 8 neighbours as not walkable.
-                    // According to some tests, this prevents from wrongly pretending one Marine can go by some thin path.
-                    for (int dy = -1; dy <= +1; ++dy) {
-                        for (int dx = -1; dx <= +1; ++dx) {
-                            WalkPosition w = new WalkPosition(x + dx, y + dy);
-                            if (isValid(w)) {
-                                GetMiniTile_(w, check_t.no_check).SetWalkable(false);
-                            }
-                        }
+        for (int y = 0; y < WalkSize().getY(); ++y)
+        for (int x = 0; x < WalkSize().getX(); ++x) {
+            if (!bwMap.isWalkable(x, y)) {
+                // For each unwalkable minitile, we also mark its 8 neighbours as not walkable.
+                // According to some tests, this prevents from wrongly pretending one Marine can go by some thin path.
+                for (int dy = -1; dy <= +1; ++dy)
+                for (int dx = -1; dx <= +1; ++dx) {
+                    WalkPosition w = new WalkPosition(x + dx, y + dy);
+                    if (isValid(w)) {
+                        GetMiniTile_(w, check_t.no_check).SetWalkable(false);
                     }
                 }
             }
@@ -711,7 +709,7 @@ public final class MapImpl implements Map {
 
 
 
-    private void DecideSeasOrLakes() {
+    private void DecideSeasOrLakes(final int maxLakeCountInMiniTiles, final int maxLakeWidthInMiniTiles) {
     	for (int y = 0; y < WalkSize().getY(); ++y)
     	for (int x = 0; x < WalkSize().getX(); ++x) {
     		WalkPosition origin = new WalkPosition(x, y);
@@ -739,7 +737,7 @@ public final class MapImpl implements Map {
     						MiniTile Next = GetMiniTile_(next, check_t.no_check);
     						if (Next.SeaOrLake()) {
     							ToSearch.add(next);
-    							if (SeaExtent.size() <= BwemExt.lake_max_miniTiles) {
+    							if (SeaExtent.size() <= maxLakeCountInMiniTiles) {
                                     SeaExtent.add(Next);
                                 }
     							Next.SetSea();
@@ -748,9 +746,9 @@ public final class MapImpl implements Map {
     				}
     			}
 
-    			if ((SeaExtent.size() <= BwemExt.lake_max_miniTiles) &&
-    				(bottomRight.getX() - topLeft.getX() <= BwemExt.lake_max_width_in_miniTiles) &&
-    				(bottomRight.getY() - topLeft.getY() <= BwemExt.lake_max_width_in_miniTiles) &&
+    			if ((SeaExtent.size() <= maxLakeCountInMiniTiles) &&
+    				(bottomRight.getX() - topLeft.getX() <= maxLakeWidthInMiniTiles) &&
+    				(bottomRight.getY() - topLeft.getY() <= maxLakeWidthInMiniTiles) &&
     				(topLeft.getX() >= 2) && (topLeft.getY() >= 2) && (bottomRight.getX() < WalkSize().getX() - 2) && (bottomRight.getY() < WalkSize().getY() - 2)) {
     				for (MiniTile pSea : SeaExtent) {
     					pSea.SetLake();
