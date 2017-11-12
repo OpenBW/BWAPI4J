@@ -634,6 +634,33 @@ public final class MapImpl implements Map {
         this.mapDrawer.drawLineMap(new Position(bottomRight.getX(), topLeft.getY()), new Position(topLeft.getX(), bottomRight.getY()), col);
     }
 
+    private List<PlayerUnit> filterPlayerUnits(final Collection<Unit> units, final Player player) {
+//        return this.units.stream().filter(u -> u instanceof PlayerUnit
+//                && ((PlayerUnit)u).getPlayer().equals(player)).map(u -> (PlayerUnit)u).collect(Collectors.toList());
+        final List<PlayerUnit> ret = new ArrayList<>();
+        for (final Unit u : units) {
+            if (u instanceof PlayerUnit) {
+                final PlayerUnit playerUnit = (PlayerUnit) u;
+                if (playerUnit.getPlayer().equals(player)) {
+                    ret.add(playerUnit);
+                }
+            }
+        }
+        return ret;
+    }
+
+    private List<PlayerUnit> filterNeutralPlayerUnits(final Collection<Unit> units, final Collection<Player> players) {
+        final List<PlayerUnit> ret = new ArrayList<>();
+        for (final Player player : players) {
+            if (player.isNeutral()) {
+                for (final PlayerUnit u : filterPlayerUnits(units, player)) {
+                    ret.add(u);
+                }
+            }
+        }
+        return ret;
+    }
+
     private void setBasicMapData(final int mapTileWidth, final int mapTileHeight, final List<TilePosition> startPositions) {
         m_Size = new TilePosition(mapTileWidth, mapTileHeight);
         m_WalkSize = Size().toPosition().toWalkPosition();
@@ -758,33 +785,6 @@ public final class MapImpl implements Map {
                 }
     		}
     	}
-    }
-
-    private List<PlayerUnit> filterPlayerUnits(final Collection<Unit> units, final Player player) {
-//        return this.units.stream().filter(u -> u instanceof PlayerUnit
-//                && ((PlayerUnit)u).getPlayer().equals(player)).map(u -> (PlayerUnit)u).collect(Collectors.toList());
-        final List<PlayerUnit> ret = new ArrayList<>();
-        for (final Unit u : units) {
-            if (u instanceof PlayerUnit) {
-                final PlayerUnit playerUnit = (PlayerUnit) u;
-                if (playerUnit.getPlayer().equals(player)) {
-                    ret.add(playerUnit);
-                }
-            }
-        }
-        return ret;
-    }
-
-    private List<PlayerUnit> filterNeutralPlayerUnits(final Collection<Unit> units, final Collection<Player> players) {
-        final List<PlayerUnit> ret = new ArrayList<>();
-        for (final Player player : players) {
-            if (player.isNeutral()) {
-                for (final PlayerUnit u : filterPlayerUnits(units, player)) {
-                    ret.add(u);
-                }
-            }
-        }
-        return ret;
     }
 
     private void InitializeNeutrals(
