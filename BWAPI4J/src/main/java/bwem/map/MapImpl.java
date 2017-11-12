@@ -108,7 +108,10 @@ public final class MapImpl implements Map {
 //    ///	bw << "Map::Initialize-resize: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::Initialize-resize: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
-        LoadData();
+        // Computes walkability, buildability and groundHeight and doodad information, using BWAPI corresponding functions
+//        LoadData();
+        markUnwalkableMiniTiles(this.bwMap);
+        markBuildableTiles(this.bwMap);
 //    ///	bw << "Map::LoadData: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::LoadData: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 //
@@ -653,44 +656,60 @@ public final class MapImpl implements Map {
         }
     }
 
-    // Computes walkability, buildability and groundHeight and doodad information, using BWAPI corresponding functions
-    private void LoadData() {
-    	// Mark unwalkable minitiles (minitiles are walkable by default)
-    	for (int y = 0; y < WalkSize().getY(); ++y)
-    	for (int x = 0; x < WalkSize().getX(); ++x) {
-    		if (!this.bwMap.isWalkable(x, y)) { // For each unwalkable minitile, we also mark its 8 neighbours as not walkable.
-    			for (int dy = -1; dy <= +1; ++dy)     // According to some tests, this prevents from wrongly pretending one Marine can go by some thin path.
-    			for (int dx = -1; dx <= +1; ++dx) {
-    				WalkPosition w = new WalkPosition(x + dx, y + dy);
-    				if (isValid(w)) {
-    					GetMiniTile_(w, check_t.no_check).SetWalkable(false);
+
+
+    //----------------------------------------------------------------------
+    // LoadData
+    //----------------------------------------------------------------------
+
+    private void markUnwalkableMiniTiles(BWMap bwMap) {
+        // Mark unwalkable minitiles (minitiles are walkable by default)
+        for (int y = 0; y < WalkSize().getY(); ++y) {
+            for (int x = 0; x < WalkSize().getX(); ++x) {
+                if (!bwMap.isWalkable(x, y)) {
+                    // For each unwalkable minitile, we also mark its 8 neighbours as not walkable.
+                    // According to some tests, this prevents from wrongly pretending one Marine can go by some thin path.
+                    for (int dy = -1; dy <= +1; ++dy) {
+                        for (int dx = -1; dx <= +1; ++dx) {
+                            WalkPosition w = new WalkPosition(x + dx, y + dy);
+                            if (isValid(w)) {
+                                GetMiniTile_(w, check_t.no_check).SetWalkable(false);
+                            }
+                        }
                     }
-    			}
+                }
             }
         }
-
-    	// Mark buildable tiles (tiles are unbuildable by default)
-    	for (int y = 0; y < Size().getY(); ++y)
-    	for (int x = 0; x < Size().getX(); ++x) {
-    		TilePosition t = new TilePosition(x, y);
-    		if (this.bwMap.isBuildable(t, false)) {
-    			GetTile_(t).SetBuildable();
-
-    			// Ensures buildable ==> walkable:
-    			for (int dy = 0; dy < 4; ++dy)
-    			for (int dx = 0; dx < 4; ++dx) {
-    				GetMiniTile_(new WalkPosition(t).add(new WalkPosition(dx, dy)), check_t.no_check).SetWalkable(true);
-                }
-    		}
-
-    		// Add groundHeight and doodad information:
-    		int bwapiGroundHeight = this.bwMap.getGroundHeight(t);
-    		GetTile_(t).SetGroundHeight(bwapiGroundHeight / 2);
-    		if (bwapiGroundHeight % 2 != 0) {
-    			GetTile_(t).SetDoodad();
-            }
-    	}
     }
+
+    private void markBuildableTiles(BWMap bwMap) {
+        // Mark buildable tiles (tiles are unbuildable by default)
+        for (int y = 0; y < Size().getY(); ++y)
+        for (int x = 0; x < Size().getX(); ++x) {
+            TilePosition t = new TilePosition(x, y);
+            if (bwMap.isBuildable(t, false)) {
+                GetTile_(t).SetBuildable();
+
+                // Ensures buildable ==> walkable:
+                for (int dy = 0; dy < 4; ++dy) {
+                    for (int dx = 0; dx < 4; ++dx) {
+                        GetMiniTile_(new WalkPosition(t).add(new WalkPosition(dx, dy)), check_t.no_check).SetWalkable(true);
+                    }
+                }
+            }
+
+            // Add groundHeight and doodad information:
+            int bwapiGroundHeight = bwMap.getGroundHeight(t);
+            GetTile_(t).SetGroundHeight(bwapiGroundHeight / 2);
+            if (bwapiGroundHeight % 2 != 0) {
+                GetTile_(t).SetDoodad();
+            }
+        }
+    }
+
+    //----------------------------------------------------------------------
+
+
 
     private void DecideSeasOrLakes() {
     	for (int y = 0; y < WalkSize().getY(); ++y)
