@@ -101,8 +101,8 @@ public final class MapImpl implements Map {
 
     @Override
     public void Initialize() {
-        Timer overallTimer = new Timer();
-        Timer timer = new Timer();
+        final Timer overallTimer = new Timer();
+        final Timer timer = new Timer();
 
         setBasicMapData(this.bwMap.mapWidth(), this.bwMap.mapHeight(), this.bwMap.getStartPositions());
 //    ///	bw << "Map::Initialize-resize: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
@@ -123,7 +123,6 @@ public final class MapImpl implements Map {
 //    ///	bw << "Map::InitializeNeutrals: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::InitializeNeutrals: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
-//        ComputeAltitude();
         ComputeAltitude(WalkSize().getX(), WalkSize().getY());
 //    ///	bw << "Map::ComputeAltitude: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::ComputeAltitude: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
@@ -631,7 +630,7 @@ public final class MapImpl implements Map {
         this.mapDrawer.drawLineMap(new Position(bottomRight.getX(), topLeft.getY()), new Position(topLeft.getX(), bottomRight.getY()), col);
     }
 
-    private void setBasicMapData(int mapTileWidth, int mapTileHeight, List<TilePosition> startPositions) {
+    private void setBasicMapData(final int mapTileWidth, final int mapTileHeight, final List<TilePosition> startPositions) {
         m_Size = new TilePosition(mapTileWidth, mapTileHeight);
         m_WalkSize = Size().toPosition().toWalkPosition();
         m_PixelSize = Size().toPosition();
@@ -642,7 +641,7 @@ public final class MapImpl implements Map {
             m_Tiles.add(new Tile());
         }
 
-        int walkSize = WalkSize().getX() * WalkSize().getY();
+        final int walkSize = WalkSize().getX() * WalkSize().getY();
         m_MiniTiles = new ArrayList<>();
         for (int i = 0; i < walkSize; ++i) {
             m_MiniTiles.add(new MiniTile());
@@ -651,7 +650,7 @@ public final class MapImpl implements Map {
         m_center = new Position(PixelSize().getX() / 2, PixelSize().getY() / 2);
 
         m_StartingLocations = new ArrayList<>();
-        for (TilePosition t: startPositions) {
+        for (final TilePosition t: startPositions) {
             m_StartingLocations.add(t);
         }
     }
@@ -662,7 +661,7 @@ public final class MapImpl implements Map {
     // LoadData
     //----------------------------------------------------------------------
 
-    private void markUnwalkableMiniTiles(BWMap bwMap) {
+    private void markUnwalkableMiniTiles(final BWMap bwMap) {
         // Mark unwalkable minitiles (minitiles are walkable by default)
         for (int y = 0; y < WalkSize().getY(); ++y)
         for (int x = 0; x < WalkSize().getX(); ++x) {
@@ -671,7 +670,7 @@ public final class MapImpl implements Map {
                 // According to some tests, this prevents from wrongly pretending one Marine can go by some thin path.
                 for (int dy = -1; dy <= +1; ++dy)
                 for (int dx = -1; dx <= +1; ++dx) {
-                    WalkPosition w = new WalkPosition(x + dx, y + dy);
+                    final WalkPosition w = new WalkPosition(x + dx, y + dy);
                     if (isValid(w)) {
                         GetMiniTile_(w, check_t.no_check).SetWalkable(false);
                     }
@@ -680,24 +679,23 @@ public final class MapImpl implements Map {
         }
     }
 
-    private void markBuildableTiles(BWMap bwMap) {
+    private void markBuildableTiles(final BWMap bwMap) {
         // Mark buildable tiles (tiles are unbuildable by default)
         for (int y = 0; y < Size().getY(); ++y)
         for (int x = 0; x < Size().getX(); ++x) {
-            TilePosition t = new TilePosition(x, y);
+            final TilePosition t = new TilePosition(x, y);
             if (bwMap.isBuildable(t, false)) {
                 GetTile_(t).SetBuildable();
 
                 // Ensures buildable ==> walkable:
-                for (int dy = 0; dy < 4; ++dy) {
-                    for (int dx = 0; dx < 4; ++dx) {
-                        GetMiniTile_(new WalkPosition(t).add(new WalkPosition(dx, dy)), check_t.no_check).SetWalkable(true);
-                    }
+                for (int dy = 0; dy < 4; ++dy)
+                for (int dx = 0; dx < 4; ++dx) {
+                    GetMiniTile_(new WalkPosition(t).add(new WalkPosition(dx, dy)), check_t.no_check).SetWalkable(true);
                 }
             }
 
             // Add groundHeight and doodad information:
-            int bwapiGroundHeight = bwMap.getGroundHeight(t);
+            final int bwapiGroundHeight = bwMap.getGroundHeight(t);
             GetTile_(t).SetGroundHeight(bwapiGroundHeight / 2);
             if (bwapiGroundHeight % 2 != 0) {
                 GetTile_(t).SetDoodad();
@@ -712,8 +710,8 @@ public final class MapImpl implements Map {
     private void DecideSeasOrLakes(final int maxLakeCountInMiniTiles, final int maxLakeWidthInMiniTiles) {
     	for (int y = 0; y < WalkSize().getY(); ++y)
     	for (int x = 0; x < WalkSize().getX(); ++x) {
-    		WalkPosition origin = new WalkPosition(x, y);
-    		MiniTile Origin = GetMiniTile_(origin, check_t.no_check);
+    		final WalkPosition origin = new WalkPosition(x, y);
+    		final MiniTile Origin = GetMiniTile_(origin, check_t.no_check);
     		if (Origin.SeaOrLake()) {
     			List<WalkPosition> ToSearch = new ArrayList<>();
                 ToSearch.add(origin);
@@ -723,18 +721,18 @@ public final class MapImpl implements Map {
     			WalkPosition topLeft = new WalkPosition(origin.getX(), origin.getY());
     			WalkPosition bottomRight = new WalkPosition(origin.getX(), origin.getY());
     			while (!ToSearch.isEmpty()) {
-    				WalkPosition current = ToSearch.get(ToSearch.size() - 1);
+    				final WalkPosition current = ToSearch.get(ToSearch.size() - 1);
     				if (current.getX() < topLeft.getX()) topLeft = new WalkPosition(current.getX(), topLeft.getY());
     				if (current.getY() < topLeft.getY()) topLeft = new WalkPosition(topLeft.getX(), current.getY());
     				if (current.getX() > bottomRight.getX()) bottomRight = new WalkPosition(current.getX(), bottomRight.getY());
     				if (current.getY() > bottomRight.getY()) bottomRight = new WalkPosition(bottomRight.getX(), current.getY());
 
     				ToSearch.remove(ToSearch.size() - 1);
-                    WalkPosition deltas[] = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(+1, 0), new WalkPosition(0, +1)};
-    				for (WalkPosition delta : deltas) {
-    					WalkPosition next = current.add(delta);
+                    final WalkPosition deltas[] = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(+1, 0), new WalkPosition(0, +1)};
+    				for (final WalkPosition delta : deltas) {
+    					final WalkPosition next = current.add(delta);
     					if (isValid(next)) {
-    						MiniTile Next = GetMiniTile_(next, check_t.no_check);
+    						final MiniTile Next = GetMiniTile_(next, check_t.no_check);
     						if (Next.SeaOrLake()) {
     							ToSearch.add(next);
     							if (SeaExtent.size() <= maxLakeCountInMiniTiles) {
@@ -750,7 +748,7 @@ public final class MapImpl implements Map {
     				(bottomRight.getX() - topLeft.getX() <= maxLakeWidthInMiniTiles) &&
     				(bottomRight.getY() - topLeft.getY() <= maxLakeWidthInMiniTiles) &&
     				(topLeft.getX() >= 2) && (topLeft.getY() >= 2) && (bottomRight.getX() < WalkSize().getX() - 2) && (bottomRight.getY() < WalkSize().getY() - 2)) {
-    				for (MiniTile pSea : SeaExtent) {
+    				for (final MiniTile pSea : SeaExtent) {
     					pSea.SetLake();
                     }
                 }
