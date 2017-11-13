@@ -9,7 +9,7 @@ import org.openbw.bwapi4j.BWEventListener;
 import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
 
-public class TestBwem implements BWEventListener {
+public class TestListenerBwem implements BWEventListener {
 
     private BW bw;
     private BWTA bwta;
@@ -169,7 +169,7 @@ public class TestBwem implements BWEventListener {
      */
     public static void main(String[] args) {
 
-        TestBwem listener = new TestBwem();
+        TestListenerBwem listener = new TestListenerBwem();
         BW bw = new BW(listener);
         listener.bw = bw;
 
