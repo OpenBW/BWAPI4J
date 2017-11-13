@@ -388,7 +388,7 @@ public final class Graph {
     		// 3.1) Use that information to efficiently cluster RawFrontierAB in one or several chokepoints.
     		//    Each cluster will be populated starting with the center of a chokepoint (max altitude)
     		//    and finishing with the ends (min altitude).
-    		int cluster_min_dist = (int) Math.sqrt(BwemExt.MAX_LAKE_COUNT_IN_MINI_TILES);
+    		int cluster_min_dist = (int) Math.sqrt(BwemExt.lake_max_miniTiles);
     		List<List<WalkPosition>> Clusters = new ArrayList<>();
     		for (WalkPosition w : RawFrontierAB) {
     			boolean added = false;

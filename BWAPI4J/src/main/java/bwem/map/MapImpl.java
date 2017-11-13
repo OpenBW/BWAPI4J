@@ -41,34 +41,30 @@ import bwem.util.Utils;
 public final class MapImpl implements Map {
 
     private final MapPrinter m_pMapPrinter;
+
     private int m_size = 0;
     private TilePosition m_Size = null;
     private WalkPosition m_WalkSize = null;
     private Position m_PixelSize = null;
     private Position m_center = null;
-    private List<Tile> m_Tiles = null;
-    private List<MiniTile> m_MiniTiles = null;
-    private MapDrawer mapDrawer;
-
-//    public MapImpl(MapDrawer mapDrawer) {
-//        this.mapDrawer = mapDrawer;
-//        m_pMapPrinter = new MapPrinter();
-//    }
+    private final List<Tile> m_Tiles = new ArrayList<>();
+    private final List<MiniTile> m_MiniTiles = new ArrayList<>();
 
     private Altitude m_maxAltitude;
     private MutableBoolean m_automaticPathUpdate = new MutableBoolean(false);
-    private Graph m_Graph;
-    private List<Mineral> m_Minerals = new ArrayList<>();
-    private List<Geyser> m_Geysers = new ArrayList<>();
-    private List<StaticBuilding> m_StaticBuildings = new ArrayList<>();
-    private List<TilePosition> m_StartingLocations = new ArrayList<>();
-    private List<MutablePair<MutablePair<AreaId, AreaId>, WalkPosition>> m_RawFrontier = new ArrayList<>();
+    private final Graph m_Graph;
+    private final List<Mineral> m_Minerals = new ArrayList<>();
+    private final List<Geyser> m_Geysers = new ArrayList<>();
+    private final List<StaticBuilding> m_StaticBuildings = new ArrayList<>();
+    private final List<TilePosition> m_StartingLocations = new ArrayList<>();
+    private final List<MutablePair<MutablePair<AreaId, AreaId>, WalkPosition>> m_RawFrontier = new ArrayList<>();
 
-    private BWMap bwMap;
-	private List<MineralPatch> mineralPatches;
-	private Collection<Player> players;
-	private List<VespeneGeyser> vespeneGeysers;
-	private Collection<Unit> units;
+    private final BWMap bwMap;
+    private final MapDrawer mapDrawer;
+	private final List<MineralPatch> mineralPatches;
+	private final Collection<Player> players;
+	private final List<VespeneGeyser> vespeneGeysers;
+	private final Collection<Unit> units;
     
     public MapImpl(
             BWMap bwMap,
@@ -110,16 +106,15 @@ public final class MapImpl implements Map {
         // Computes walkability, buildability and groundHeight and doodad information, using BWAPI corresponding functions
 //        LoadData();
         markUnwalkableMiniTiles(this.bwMap);
-        markBuildableTiles(this.bwMap);
+        markBuildableTilesAndGroundHeight(this.bwMap);
 //    ///	bw << "Map::LoadData: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::LoadData: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 //
-        DecideSeasOrLakes(BwemExt.MAX_LAKE_COUNT_IN_MINI_TILES, BwemExt.MAX_LAKE_WIDTH_IN_MINI_TILES);
+        DecideSeasOrLakes(BwemExt.lake_max_miniTiles, BwemExt.lake_max_width_in_miniTiles);
 //    ///	bw << "Map::DecideSeasOrLakes: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::DecideSeasOrLakes: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
         InitializeNeutrals(
-                this,
                 this.mineralPatches, m_Minerals,
                 this.vespeneGeysers, m_Geysers,
                 filterNeutralPlayerUnits(this.units, this.players), m_StaticBuildings
@@ -392,9 +387,9 @@ public final class MapImpl implements Map {
     }
 
     @Override
-    public Geyser GetGeyser(Unit g) {
+    public Geyser GetGeyser(Unit u) {
         for (Geyser geyser : m_Geysers) {
-            if (geyser.Unit().equals(g)) {
+            if (geyser.Unit().equals(u)) {
                 return geyser;
             }
         }
@@ -667,20 +662,17 @@ public final class MapImpl implements Map {
         m_PixelSize = Size().toPosition();
 
         m_size = Size().getX() * Size().getY();
-        m_Tiles = new ArrayList<>();
         for (int i = 0; i < m_size; ++i) {
             m_Tiles.add(new Tile());
         }
 
         final int walkSize = WalkSize().getX() * WalkSize().getY();
-        m_MiniTiles = new ArrayList<>();
         for (int i = 0; i < walkSize; ++i) {
             m_MiniTiles.add(new MiniTile());
         }
 
         m_center = new Position(PixelSize().getX() / 2, PixelSize().getY() / 2);
 
-        m_StartingLocations = new ArrayList<>();
         for (final TilePosition t: startPositions) {
             m_StartingLocations.add(t);
         }
@@ -689,7 +681,7 @@ public final class MapImpl implements Map {
 
 
     //----------------------------------------------------------------------
-    // LoadData
+    // MapImpl::LoadData
     //----------------------------------------------------------------------
 
     private void markUnwalkableMiniTiles(final BWMap bwMap) {
@@ -710,7 +702,7 @@ public final class MapImpl implements Map {
         }
     }
 
-    private void markBuildableTiles(final BWMap bwMap) {
+    private void markBuildableTilesAndGroundHeight(final BWMap bwMap) {
         // Mark buildable tiles (tiles are unbuildable by default)
         for (int y = 0; y < Size().getY(); ++y)
         for (int x = 0; x < Size().getX(); ++x) {
@@ -738,15 +730,15 @@ public final class MapImpl implements Map {
 
 
 
-    private void DecideSeasOrLakes(final int maxLakeCountInMiniTiles, final int maxLakeWidthInMiniTiles) {
+    private void DecideSeasOrLakes(final int lake_max_miniTiles, final int lake_max_width_in_miniTiles) {
     	for (int y = 0; y < WalkSize().getY(); ++y)
     	for (int x = 0; x < WalkSize().getX(); ++x) {
     		final WalkPosition origin = new WalkPosition(x, y);
     		final MiniTile Origin = GetMiniTile_(origin, check_t.no_check);
     		if (Origin.SeaOrLake()) {
-    			List<WalkPosition> ToSearch = new ArrayList<>();
+    			final List<WalkPosition> ToSearch = new ArrayList<>();
                 ToSearch.add(origin);
-    			List<MiniTile> SeaExtent = new ArrayList<>();
+    			final List<MiniTile> SeaExtent = new ArrayList<>();
                 Origin.SetSea();
                 SeaExtent.add(Origin);
     			WalkPosition topLeft = new WalkPosition(origin.getX(), origin.getY());
@@ -766,18 +758,18 @@ public final class MapImpl implements Map {
     						final MiniTile Next = GetMiniTile_(next, check_t.no_check);
     						if (Next.SeaOrLake()) {
     							ToSearch.add(next);
-    							if (SeaExtent.size() <= maxLakeCountInMiniTiles) {
+                                Next.SetSea();
+    							if (SeaExtent.size() <= lake_max_miniTiles) {
                                     SeaExtent.add(Next);
                                 }
-    							Next.SetSea();
     						}
     					}
     				}
     			}
 
-    			if ((SeaExtent.size() <= maxLakeCountInMiniTiles) &&
-    				(bottomRight.getX() - topLeft.getX() <= maxLakeWidthInMiniTiles) &&
-    				(bottomRight.getY() - topLeft.getY() <= maxLakeWidthInMiniTiles) &&
+    			if ((SeaExtent.size() <= lake_max_miniTiles) &&
+    				(bottomRight.getX() - topLeft.getX() <= lake_max_width_in_miniTiles) &&
+    				(bottomRight.getY() - topLeft.getY() <= lake_max_width_in_miniTiles) &&
     				(topLeft.getX() >= 2) && (topLeft.getY() >= 2) && (bottomRight.getX() < WalkSize().getX() - 2) && (bottomRight.getY() < WalkSize().getY() - 2)) {
     				for (final MiniTile pSea : SeaExtent) {
     					pSea.SetLake();
@@ -788,21 +780,20 @@ public final class MapImpl implements Map {
     }
 
     private void InitializeNeutrals(
-            final MapImpl map,
             final List<MineralPatch> mineralPatches, final List<Mineral> minerals,
             final List<VespeneGeyser> vespeneGeysers, final List<Geyser> geysers,
             final List<PlayerUnit> neutralUnits, final List<StaticBuilding> staticBuildings
     ) {
         for (final MineralPatch mineralPatch : mineralPatches) {
-            minerals.add(new Mineral(mineralPatch, map));
+            minerals.add(new Mineral(mineralPatch, this));
         }
         for (final VespeneGeyser vespeneGeyser : vespeneGeysers) {
-            geysers.add(new Geyser(vespeneGeyser, map));
+            geysers.add(new Geyser(vespeneGeyser, this));
         }
         for (final Unit neutralUnit : neutralUnits) {
 //                if ((neutralUnit instanceof Building) && !(neutralUnit instanceof MineralPatch || neutralUnit instanceof VespeneGeyser)) {
             if (neutralUnit instanceof Building) {
-                staticBuildings.add(new StaticBuilding(neutralUnit, map));
+                staticBuildings.add(new StaticBuilding(neutralUnit, this));
             }
         }
 
@@ -813,25 +804,24 @@ public final class MapImpl implements Map {
 //					m_StaticBuildings.push_back(make_unique<StaticBuilding>(n, this));
     }
 
-	private List<MutablePair<WalkPosition, Altitude>> getSortedDeltasByAscendingAltitude(int mapWalkTileWidth, int mapWalkTileHeight, int altitudeScale) {
-    	
+	private List<MutablePair<WalkPosition, Altitude>> getSortedDeltasByAscendingAltitude(final int mapWalkTileWidth, final int mapWalkTileHeight, int altitude_scale) {
     	final int range = Math.max(mapWalkTileWidth, mapWalkTileHeight) / 2 + 3;
     	
-    	List<MutablePair<WalkPosition, Altitude>> deltasByAscendingAltitude = new ArrayList<>();
+    	final List<MutablePair<WalkPosition, Altitude>> DeltasByAscendingAltitude = new ArrayList<>();
     	
-    	for (int dy = 0; dy <= range; ++dy) {
-    		
-            for (int dx = dy; dx <= range; ++dx) { // Only consider 1/8 of possible deltas. Other ones obtained by symmetry.
-            	
-                if (dx != 0 || dy != 0) {
-                    deltasByAscendingAltitude.add(new MutablePair<>(new WalkPosition(dx, dy), 
-                    		new Altitude((int) (Double.valueOf("0.5") + (Utils.norm(dx, dy) * (double) altitudeScale)))));
-                }
+    	for (int dy = 0; dy <= range; ++dy)
+        for (int dx = dy; dx <= range; ++dx) { // Only consider 1/8 of possible deltas. Other ones obtained by symmetry.
+            if (dx != 0 || dy != 0) {
+                DeltasByAscendingAltitude.add(new MutablePair<>(
+                        new WalkPosition(dx, dy),
+                        new Altitude((int) (Double.valueOf("0.5") + (Utils.norm(dx, dy) * (double) altitude_scale)))
+                ));
             }
-    	}
-        Collections.sort(deltasByAscendingAltitude, new PairGenericAltitudeComparator<>());
+        }
+
+        Collections.sort(DeltasByAscendingAltitude, new PairGenericAltitudeComparator<>());
         
-        return deltasByAscendingAltitude;
+        return DeltasByAscendingAltitude;
     }
     
     /**
@@ -839,59 +829,48 @@ public final class MapImpl implements Map {
      * It also includes extra border-miniTiles which are considered as seaside miniTiles too.
      * @return list of active sea sides
      */
-    private List<MutablePair<WalkPosition, Altitude>> getActiveSeaSides(int mapWalkTileWidth, int mapWalkTileHeight) {
-    	
-        List<MutablePair<WalkPosition, Altitude>> activeSeaSides = new ArrayList<>();
+    private List<MutablePair<WalkPosition, Altitude>> getActiveSeaSideList(final int mapWalkTileWidth, final int mapWalkTileHeight) {
+        final List<MutablePair<WalkPosition, Altitude>> ActiveSeaSideList = new ArrayList<>();
 
-        for (int y = -1; y <= mapWalkTileHeight; ++y) {
-        	
-	        for (int x = -1; x <= mapWalkTileWidth; ++x) {
-	        	
-	            WalkPosition walkPosition = new WalkPosition(x, y);
-	            if (!isValid(walkPosition) || BwemExt.seaSide(walkPosition, this)) {
-	            	
-	                activeSeaSides.add(new MutablePair<>(walkPosition, new Altitude(0)));
-	            }
-	        }
+        for (int y = -1; y <= mapWalkTileHeight; ++y)
+        for (int x = -1; x <= mapWalkTileWidth; ++x) {
+            final WalkPosition w = new WalkPosition(x, y);
+            if (!isValid(w) || BwemExt.seaSide(w, this)) {
+                ActiveSeaSideList.add(new MutablePair<>(w, new Altitude(0)));
+            }
         }
-        
-        return activeSeaSides;
+
+        return ActiveSeaSideList;
     }
     
     /**
      * Dijkstra's algorithm to set altitude for mini tiles.
-     * @param deltasByAscendingAltitude
-     * @param activeSeaSides
-     * @param altitudeScale
+     * @param DeltasByAscendingAltitude
+     * @param ActiveSeaSideList
+     * @param altitude_scale
      */
-    private void setAltitudes(List<MutablePair<WalkPosition, Altitude>> deltasByAscendingAltitude, List<MutablePair<WalkPosition, Altitude>> activeSeaSides, int altitudeScale) {
-    	
-        for (MutablePair<WalkPosition, Altitude> delta_altitude : deltasByAscendingAltitude) {
-        	
+    private void setAltitudes(
+            final List<MutablePair<WalkPosition, Altitude>> DeltasByAscendingAltitude,
+            final List<MutablePair<WalkPosition, Altitude>> ActiveSeaSideList,
+            final int altitude_scale
+    ) {
+        for (final MutablePair<WalkPosition, Altitude> delta_altitude : DeltasByAscendingAltitude) {
             final WalkPosition d = new WalkPosition(delta_altitude.left.getX(), delta_altitude.left.getY());
             final Altitude altitude = new Altitude(delta_altitude.right);
             
-            for (int i = 0; i < activeSeaSides.size(); ++i) {
-            	
-                MutablePair<WalkPosition, Altitude> Current = activeSeaSides.get(i);
-                if (altitude.intValue() - Current.right.intValue() >= 2 * altitudeScale) { 
-                	
+            for (int i = 0; i < ActiveSeaSideList.size(); ++i) {
+                final MutablePair<WalkPosition, Altitude> Current = ActiveSeaSideList.get(i);
+                if (altitude.intValue() - Current.right.intValue() >= 2 * altitude_scale) {
                 	// optimization : once a seaside miniTile verifies this condition,
                 	// we can throw it away as it will not generate min altitudes anymore
-                	BwemExt.fast_erase(activeSeaSides, i--);
+                	BwemExt.fast_erase(ActiveSeaSideList, i--);
                 } else {
-                	
-                    WalkPosition[] deltas = {new WalkPosition(d.getX(), d.getY()), new WalkPosition(-d.getX(), d.getY()), new WalkPosition(d.getX(), -d.getY()), new WalkPosition(-d.getX(), -d.getY()),
-                                             new WalkPosition(d.getY(), d.getX()), new WalkPosition(-d.getY(), d.getX()), new WalkPosition(d.getY(), -d.getX()), new WalkPosition(-d.getY(), -d.getX())};
-                    
-                    for (WalkPosition delta : deltas) {
-                    	
-                        WalkPosition walkPosition = Current.left.add(delta);
-                        
-                        if (isValid(walkPosition)) {
-                        	
-                            MiniTile miniTile = GetMiniTile_(walkPosition, check_t.no_check);
-                            
+                    final WalkPosition[] deltas = {new WalkPosition(d.getX(), d.getY()), new WalkPosition(-d.getX(), d.getY()), new WalkPosition(d.getX(), -d.getY()), new WalkPosition(-d.getX(), -d.getY()),
+                                                   new WalkPosition(d.getY(), d.getX()), new WalkPosition(-d.getY(), d.getX()), new WalkPosition(d.getY(), -d.getX()), new WalkPosition(-d.getY(), -d.getX())};
+                    for (final WalkPosition delta : deltas) {
+                        final WalkPosition w = Current.left.add(delta);
+                        if (isValid(w)) {
+                            MiniTile miniTile = GetMiniTile_(w, check_t.no_check);
                             if (miniTile.AltitudeMissing()) {
                                 m_maxAltitude = new Altitude(altitude);
                                 Current.right = new Altitude(altitude);
@@ -908,15 +887,15 @@ public final class MapImpl implements Map {
     // Cf. MiniTile::Altitude() for meaning of altitude_t.
     // Altitudes are computed using the straightforward Dijkstra's algorithm : the lower ones are computed first, starting from the seaside-miniTiles neighbours.
     // The point here is to precompute all possible altitudes for all possible tiles, and sort them.
-    private void ComputeAltitude(int mapWalkTileWidth, int mapWalkTileHeight) {
+    private void ComputeAltitude(final int mapWalkTileWidth, final int mapWalkTileHeight) {
     	// 8 provides a pixel definition for altitude_t, since altitudes are computed from miniTiles which are 8x8 pixels
-    	final int altitudeScale = 8;
+    	final int altitude_scale = 8;
     	
-    	List<MutablePair<WalkPosition, Altitude>> deltasByAscendingAltitude = getSortedDeltasByAscendingAltitude(mapWalkTileWidth, mapWalkTileHeight, altitudeScale);
+    	final List<MutablePair<WalkPosition, Altitude>> DeltasByAscendingAltitude = getSortedDeltasByAscendingAltitude(mapWalkTileWidth, mapWalkTileHeight, altitude_scale);
     	
-    	List<MutablePair<WalkPosition, Altitude>> activeSeaSides = getActiveSeaSides(mapWalkTileWidth, mapWalkTileHeight);
+    	final List<MutablePair<WalkPosition, Altitude>> ActiveSeaSides = getActiveSeaSideList(mapWalkTileWidth, mapWalkTileHeight);
 
-    	setAltitudes(deltasByAscendingAltitude, activeSeaSides, altitudeScale);
+    	setAltitudes(DeltasByAscendingAltitude, ActiveSeaSides, altitude_scale);
     }
 
     private void ProcessBlockingNeutrals() {
@@ -1045,6 +1024,7 @@ public final class MapImpl implements Map {
 
     private List<MutablePair<WalkPosition, MiniTile>> SortMiniTiles() {
         List<MutablePair<WalkPosition, MiniTile>> MiniTilesByDescendingAltitude = new ArrayList<>();
+
         for (int y = 0; y < WalkSize().getY(); ++y)
         for (int x = 0; x < WalkSize().getX(); ++x) {
             WalkPosition w = new WalkPosition(x, y);
@@ -1251,22 +1231,25 @@ public final class MapImpl implements Map {
         return result;
     }
 
-    private static AbstractMap<MutablePair<AreaId, AreaId>, Integer> map_AreaPair_counter = new ConcurrentHashMap<>();
-    public static AreaId chooseNeighboringArea(AreaId a, AreaId b) {
-        if (a.intValue() > b.intValue()) {
-            AreaId a_tmp = new AreaId(a);
-            a = new AreaId(b);
-            b = new AreaId(a_tmp);
+    private static final AbstractMap<MutablePair<AreaId, AreaId>, Integer> map_AreaPair_counter = new ConcurrentHashMap<>();
+    public static AreaId chooseNeighboringArea(final AreaId a, final AreaId b) {
+        int a_val = a.intValue();
+        int b_val = b.intValue();
+
+        if (a_val > b_val) {
+            int a_val_tmp = a_val;
+            a_val = b_val;
+            b_val = a_val_tmp;
         }
 
-        MutablePair<AreaId, AreaId> key = new MutablePair<>(a, b);
+        final MutablePair<AreaId, AreaId> key = new MutablePair<>(new AreaId(a_val), new AreaId(b_val));
         Integer val = map_AreaPair_counter.get(key);
         if (val == null) {
             val = 0;
         }
         map_AreaPair_counter.put(key, val + 1);
 
-        return (val % 2 == 0) ? a : b;
+        return new AreaId((val % 2 == 0) ? a_val : b_val);
     }
 
 }
