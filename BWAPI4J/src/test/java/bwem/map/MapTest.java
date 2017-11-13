@@ -43,7 +43,7 @@ public class MapTest implements BWEventListener {
 		this.bw = new BW(this);
 		this.bw.startGame();
 
-		assertMiniTileAltitudes();
+		assertMiniTileAltitudes(this.bw.getBWMap().mapWidth() * 4, this.bw.getBWMap().mapHeight() * 4);
 	}
 
     @Test
@@ -58,7 +58,7 @@ public class MapTest implements BWEventListener {
     	this.map = new MapImpl(mapMock, null, players, mineralPatches, geysers, units);
     	this.map.Initialize();
 
-    	assertMiniTileAltitudes();
+    	assertMiniTileAltitudes(mapMock.mapWidth() * 4, mapMock.mapHeight() * 4);
     }
 
 	private void ensureBwemData() {
@@ -72,21 +72,28 @@ public class MapTest implements BWEventListener {
 		}
 	}
 
-	private void assertMiniTileAltitudes() {
+	private void assertMiniTileAltitudes(int walkTileWidth, int walkTileHeight) {
 		ensureBwemData();
-		int width = (int) Math.sqrt(this.bwemData.miniTileAltitudes_ORIGINAL.length);
-		int height = width;
-		for (int y = 0; y < height; ++y) {
-			for (int x = 0; x < width; ++x) {
-				if (x == 248 && y == 249) {
-					logger.warn("This mini tile's altitude does not match the original but has been marked as irrelevant or a possible false positive for now: " + x + " / " + y);
-					continue;
-				} // index = 127737
+		for (int y = 0; y < walkTileHeight; ++y) {
+			for (int x = 0; x < walkTileWidth; ++x) {
+				/**********************************************************************/
+				/**
+				 * Three mini tile altitudes that do/did not match original.
+				 */
+				if (x == 248 && y == 249) { // index = 127737
+					if (this.map.GetMiniTile(new WalkPosition(x, y)).Altitude().intValue()
+							!= this.bwemData.miniTileAltitudes_ORIGINAL[walkTileWidth * y + x]) {
+						logger.warn("This mini tile's altitude does not match the original but has been marked as irrelevant or a possible false positive for now: " + x + " / " + y);
+						continue;
+					}
+				}
 //				if (x == 273 && y == 260) { continue; } // index = 133393
 //				if (x == 273 && y == 261) { continue; } // index = 133905
+				/**********************************************************************/
+
 				Assert.assertEquals(
 						x + " / " + y + " : mini tile altitude is wrong.",
-						this.bwemData.miniTileAltitudes_ORIGINAL[width * y + x],
+						this.bwemData.miniTileAltitudes_ORIGINAL[walkTileWidth * y + x],
 						this.map.GetMiniTile(new WalkPosition(x, y)).Altitude().intValue()
 				);
 			}
