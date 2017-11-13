@@ -7,7 +7,6 @@ import bwem.map.MapImpl;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.MutablePair;
 import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
@@ -43,7 +42,7 @@ public final class BwemExt {
 
         WalkPosition deltas[] = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(+1, 0), new WalkPosition(0, +1)};
         for (WalkPosition delta : deltas) {
-            if (pMap.isValid(p.add(delta))) {
+            if (pMap.Valid(p.add(delta))) {
                 if (!pMap.GetMiniTile(p.add(delta), check_t.no_check).Sea()) {
                     return true;
                 }
@@ -281,7 +280,7 @@ public final class BwemExt {
                                  new WalkPosition(-1, +1), new WalkPosition(0, +1), new WalkPosition(+1, +1)};
         for (WalkPosition delta : deltas) {
             WalkPosition next = p.add(delta);
-            if (pMap.isValid(next)) {
+            if (pMap.Valid(next)) {
                 if (pMap.GetTile(next.toPosition().toTilePosition(), check_t.no_check).GetNeutral() != null) {
                     return true;
                 }

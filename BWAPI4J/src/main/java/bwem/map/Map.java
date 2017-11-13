@@ -123,11 +123,11 @@ public interface Map {
     // Provides access to the internal array of MiniTiles.
     public abstract List<MiniTile> MiniTiles();
 
-    public abstract boolean isValid(TilePosition p);
+    public abstract boolean Valid(TilePosition p);
 
-    public abstract boolean isValid(WalkPosition p);
+    public abstract boolean Valid(WalkPosition p);
 
-    public abstract boolean isValid(Position p);
+    public abstract boolean Valid(Position p);
 
     public abstract TilePosition Crop(TilePosition p);
 
