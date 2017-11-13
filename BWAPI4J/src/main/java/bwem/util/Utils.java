@@ -15,11 +15,11 @@ public final class Utils {
         return Math.max(Math.abs(dx), Math.abs(dy));
     }
 
-    public static int squaredNorm(int dx, int dy) {
+    public static int squaredNorm(final int dx, final int dy) {
         return ((dx * dx) + (dy * dy));
     }
 
-    public static double norm(int dx, int dy) {
+    public static double norm(final int dx, final int dy) {
         return Math.sqrt(squaredNorm(dx, dy));
     }
 

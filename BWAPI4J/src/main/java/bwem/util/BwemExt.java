@@ -96,18 +96,18 @@ public final class BwemExt {
         return Utils.squaredNorm(ret.getX(), ret.getY());
     }
 
-    public static double dist(TilePosition A, TilePosition B) {
-        TilePosition ret = A.subtract(B);
+    public static double dist(final TilePosition A, final TilePosition B) {
+        final TilePosition ret = A.subtract(B);
         return Utils.norm(ret.getX(), ret.getY());
     }
 
-    public static double dist(WalkPosition A, WalkPosition B) {
-        WalkPosition ret = A.subtract(B);
+    public static double dist(final WalkPosition A, final WalkPosition B) {
+        final WalkPosition ret = A.subtract(B);
         return Utils.norm(ret.getX(), ret.getY());
     }
 
-    public static double dist(Position A, Position B) {
-        Position ret = A.subtract(B);
+    public static double dist(final Position A, final Position B) {
+        final Position ret = A.subtract(B);
         return Utils.norm(ret.getX(), ret.getY());
     }
 
