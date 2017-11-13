@@ -16,7 +16,7 @@ public final class Utils {
     }
 
     public static int squaredNorm(int dx, int dy) {
-        return (int) ((dx * dx) + (dy * dy));
+        return ((dx * dx) + (dy * dy));
     }
 
     public static double norm(int dx, int dy) {
