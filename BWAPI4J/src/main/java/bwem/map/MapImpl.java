@@ -1048,7 +1048,7 @@ public final class MapImpl implements Map {
      * 4)  If at least 2 true doors, pCandidate is a blocking static building
      */
 
-    private void markBlockingStackedNeutrals(Neutral pCandidate, final List<WalkPosition> TrueDoors) {
+    private void markBlockingStackedNeutrals(final Neutral pCandidate, final List<WalkPosition> TrueDoors) {
         if (TrueDoors.size() >= 2) {
             // Marks pCandidate (and any Neutral stacked with it) as blocking.
             for (Neutral pNeutral = GetTile(pCandidate.TopLeft()).GetNeutral(); pNeutral != null; pNeutral = pNeutral.NextStacked()) {
