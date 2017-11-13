@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import bwem.*;
 import bwem.typedef.Pred;
+import com.sun.xml.internal.ws.runtime.config.TubelineFeatureReader;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.MutablePair;
@@ -126,7 +127,7 @@ public final class MapImpl implements Map {
 //    ///	bw << "Map::ComputeAltitude: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::ComputeAltitude: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
-        ProcessBlockingNeutrals();
+        ProcessBlockingNeutrals(getCandidates(StaticBuildings(), Minerals()));
 //    ///	bw << "Map::ProcessBlockingNeutrals: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::ProcessBlockingNeutrals: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
@@ -906,112 +907,186 @@ public final class MapImpl implements Map {
 
 
 
-    private void ProcessBlockingNeutrals() {
-        List<Neutral> Candidates = new ArrayList<>();
-        for (StaticBuilding s : StaticBuildings()) {
+    //----------------------------------------------------------------------
+    // MapImpl::ProcessBlockingNeutrals
+    //----------------------------------------------------------------------
+
+    private List<Neutral> getCandidates(
+            final List<StaticBuilding> staticBuildings,
+            final List<Mineral> minerals
+    ) {
+        final List<Neutral> Candidates = new ArrayList<>();
+        for (StaticBuilding s : staticBuildings) {
             Candidates.add(s);
         }
-        for (Mineral m : Minerals()) {
+        for (Mineral m : minerals) {
             Candidates.add(m);
         }
+        return Candidates;
+    }
 
-        for (Neutral pCandidate : Candidates) {
-            if (pCandidate.NextStacked() == null) { // in the case where several neutrals are stacked, we only consider the top one
-                // 1)  Retreave the Border: the outer border of pCandidate
-                List<WalkPosition> Border = BwemExt.outerMiniTileBorder(pCandidate.TopLeft(), pCandidate.Size());
-                for (int i = 0; i < Border.size(); ++i) {
-                    WalkPosition w = Border.get(i);
-                    if (!Valid(w) || !GetMiniTile(w, check_t.no_check).Walkable() ||
-                            GetTile(w.toPosition().toTilePosition(), check_t.no_check).GetNeutral() != null) {
-                        Border.remove(i--);
-                    }
-                }
+    /**********************************************************************/
 
-                // 2)  Find the doors in Border: one door for each connected set of walkable, neighbouring miniTiles.
-                //     The searched connected miniTiles all have to be next to some lake or some static building, though they can't be part of one.
-                List<WalkPosition> Doors = new ArrayList<>();
-                while (!Border.isEmpty()) {
-                    WalkPosition door = Border.remove(Border.size() - 1);
-                    Doors.add(door);
-                    List<WalkPosition> ToVisit = new ArrayList<>();
-                    ToVisit.add(door);
-                    List<WalkPosition> Visited = new ArrayList<>();
-                    Visited.add(door);
-                    while (!ToVisit.isEmpty()) {
-                        WalkPosition current = ToVisit.remove(ToVisit.size() - 1);
-                        WalkPosition[] deltas = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(+1, 0), new WalkPosition(0, +1)};
-                        for (WalkPosition delta : deltas) {
-                            WalkPosition next = current.add(delta);
-                            if (Valid(next) && !Visited.contains(next)) {
-                                if (GetMiniTile(next, check_t.no_check).Walkable()) {
-                                    if (GetTile(next.toPosition().toTilePosition(), check_t.no_check).GetNeutral() == null) {
-                                        if (BwemExt.adjoins8SomeLakeOrNeutral(next, this)) {
-                                            ToVisit.add(next);
-                                            Visited.add(next);
-                                        }
-                                    }
+    /**
+     * 1)  Retrieve the Border: the outer border of pCandidate
+     */
+
+    private List<WalkPosition> getOuterMiniTileBorderOfNeutral(final Neutral pCandidate) {
+        return BwemExt.outerMiniTileBorder(pCandidate.TopLeft(), pCandidate.Size());
+    }
+
+    private List<WalkPosition> trimOuterMiniTileBorder(final List<WalkPosition> Border) {
+        Utils.really_remove_if(Border, new Pred() {
+            @Override
+            public boolean isTrue(Object... args) {
+                WalkPosition w = (WalkPosition) args[0];
+                return (!Valid(w)
+                    || !GetMiniTile(w, check_t.no_check).Walkable()
+                    || GetTile(w.toPosition().toTilePosition(), check_t.no_check).GetNeutral() != null);
+            }
+        });
+        return Border;
+    }
+
+    /**********************************************************************/
+
+    /**
+     * 2)  Find the doors in Border: one door for each connected set of walkable, neighbouring miniTiles.
+     *     The searched connected miniTiles all have to be next to some lake or some static building, though they can't be part of one.
+     */
+
+    private List<WalkPosition> getDoors(final List<WalkPosition> Border) {
+        final List<WalkPosition> Doors = new ArrayList<>();
+
+        while (!Border.isEmpty()) {
+            final WalkPosition door = Border.remove(Border.size() - 1);
+            Doors.add(door);
+
+            final List<WalkPosition> ToVisit = new ArrayList<>();
+            ToVisit.add(door);
+
+            final List<WalkPosition> Visited = new ArrayList<>();
+            Visited.add(door);
+
+            while (!ToVisit.isEmpty()) {
+                final WalkPosition current = ToVisit.remove(ToVisit.size() - 1);
+
+                final WalkPosition[] deltas = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(+1, 0), new WalkPosition(0, +1)};
+                for (final WalkPosition delta : deltas) {
+                    final WalkPosition next = current.add(delta);
+                    if (Valid(next) && !Visited.contains(next)) {
+                        if (GetMiniTile(next, check_t.no_check).Walkable()) {
+                            if (GetTile((next.toPosition()).toTilePosition(), check_t.no_check).GetNeutral() == null) {
+                                if (BwemExt.adjoins8SomeLakeOrNeutral(next, this)) {
+                                    ToVisit.add(next);
+                                    Visited.add(next);
                                 }
                             }
-                        }
-                    }
-                    for (int i = 0; i < Border.size(); ++i) {
-                        WalkPosition w = Border.get(i);
-                        if (Visited.contains(w)) {
-                            Border.remove(i--);
-                        }
-                    }
-                }
-
-                // 3)  If at least 2 doors, find the true doors in Border: a true door is a door that gives onto an area big enough
-                List<WalkPosition> TrueDoors = new ArrayList<>();
-                if (Doors.size() >= 2)
-                    for (WalkPosition door : Doors) {
-                        List<WalkPosition> ToVisit = new ArrayList<>();
-                        ToVisit.add(door);
-                        List<WalkPosition> Visited = new ArrayList<>();
-                        Visited.add(door);
-                        final int limit = (pCandidate instanceof StaticBuilding) ? 10 : 400;
-                        while (!ToVisit.isEmpty() && (Visited.size() < limit)) {
-                            WalkPosition current = ToVisit.remove(ToVisit.size() - 1);
-                            WalkPosition[] deltas = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(+1, 0), new WalkPosition(0, +1)};
-                            for (WalkPosition delta : deltas) {
-                                WalkPosition next = current.add(delta);
-                                if (Valid(next) && !Visited.contains(next)) {
-                                    if (GetMiniTile(next, check_t.no_check).Walkable()) {
-                                        if (GetTile(next.toPosition().toTilePosition(), check_t.no_check).GetNeutral() == null) {
-                                            ToVisit.add(next);
-                                            Visited.add(next);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        if (Visited.size() >= limit) {
-                            TrueDoors.add(door);
-                        }
-                    }
-
-                // 4)  If at least 2 true doors, pCandidate is a blocking static building
-                if (TrueDoors.size() >= 2) {
-                    // Marks pCandidate (and any Neutral stacked with it) as blocking.
-                    for (Neutral pNeutral = GetTile(pCandidate.TopLeft()).GetNeutral(); pNeutral != null; pNeutral = pNeutral.NextStacked()) {
-                        pNeutral.SetBlocking(TrueDoors);
-                    }
-
-                    // Marks all the miniTiles of pCandidate as blocked.
-                    // This way, areas at TrueDoors won't merge together.
-                    WalkPosition pCandidateW = pCandidate.Size().toPosition().toWalkPosition();
-                    for (int dy = 0; dy < pCandidateW.getY(); ++dy)
-                    for (int dx = 0; dx < pCandidateW.getX(); ++dx) {
-                        MiniTile miniTile = GetMiniTile_((pCandidate.TopLeft().toPosition().toWalkPosition()).add(new WalkPosition(dx, dy)));
-                        if (miniTile.Walkable()) {
-                            miniTile.SetBlocked();
                         }
                     }
                 }
             }
+
+            Utils.really_remove_if(Border, new Pred() {
+                @Override
+                public boolean isTrue(Object... args) {
+                    WalkPosition w = (WalkPosition) args[0];
+                    return Visited.contains(w);
+                }
+            });
+        }
+
+        return Doors;
+    }
+
+    /**********************************************************************/
+
+    /**
+     * 3)  If at least 2 doors, find the true doors in Border: a true door is a door that gives onto an area big enough
+     */
+
+    private List<WalkPosition> getTrueDoors(final List<WalkPosition> Doors, Neutral pCandidate) {
+        final List<WalkPosition> TrueDoors = new ArrayList<>();
+
+        if (Doors.size() >= 2) {
+            for (final WalkPosition door : Doors) {
+                final List<WalkPosition> ToVisit = new ArrayList<>();
+                ToVisit.add(door);
+
+                final List<WalkPosition> Visited = new ArrayList<>();
+                Visited.add(door);
+
+                final int limit = (pCandidate instanceof StaticBuilding) ? 10 : 400; //TODO: Description for 10 and 400?
+
+                while (!ToVisit.isEmpty() && (Visited.size() < limit)) {
+                    final WalkPosition current = ToVisit.remove(ToVisit.size() - 1);
+                    final WalkPosition[] deltas = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(+1, 0), new WalkPosition(0, +1)};
+                    for (final WalkPosition delta : deltas) {
+                        final WalkPosition next = current.add(delta);
+                        if (Valid(next) && !Visited.contains(next)) {
+                            if (GetMiniTile(next, check_t.no_check).Walkable()) {
+                                if (GetTile(next.toPosition().toTilePosition(), check_t.no_check).GetNeutral() == null) {
+                                    ToVisit.add(next);
+                                    Visited.add(next);
+                                }
+                            }
+                        }
+                    }
+                }
+                if (Visited.size() >= limit) {
+                    TrueDoors.add(door);
+                }
+            }
+        }
+
+        return TrueDoors;
+    }
+
+    /**********************************************************************/
+
+    /**
+     * 4)  If at least 2 true doors, pCandidate is a blocking static building
+     */
+
+    private void markBlockingStackedNeutrals(Neutral pCandidate, final List<WalkPosition> TrueDoors) {
+        if (TrueDoors.size() >= 2) {
+            // Marks pCandidate (and any Neutral stacked with it) as blocking.
+            for (Neutral pNeutral = GetTile(pCandidate.TopLeft()).GetNeutral(); pNeutral != null; pNeutral = pNeutral.NextStacked()) {
+                pNeutral.SetBlocking(TrueDoors);
+            }
+
+            // Marks all the miniTiles of pCandidate as blocked.
+            // This way, areas at TrueDoors won't merge together.
+            final WalkPosition pCandidateW = pCandidate.Size().toPosition().toWalkPosition();
+            for (int dy = 0; dy < pCandidateW.getY(); ++dy)
+                for (int dx = 0; dx < pCandidateW.getX(); ++dx) {
+                    final MiniTile miniTile = GetMiniTile_(((pCandidate.TopLeft().toPosition()).toWalkPosition()).add(new WalkPosition(dx, dy)));
+                    if (miniTile.Walkable()) {
+                        miniTile.SetBlocked();
+                    }
+                }
         }
     }
+
+    /**********************************************************************/
+
+    private void ProcessBlockingNeutrals(final List<Neutral> Candidates) {
+        for (final Neutral pCandidate : Candidates) {
+            if (pCandidate.NextStacked() == null) { // in the case where several neutrals are stacked, we only consider the top one
+                final List<WalkPosition> Border = trimOuterMiniTileBorder(getOuterMiniTileBorderOfNeutral(pCandidate));
+
+                final List<WalkPosition> Doors = getDoors(Border);
+
+                final List<WalkPosition> TrueDoors = getTrueDoors(Doors, pCandidate);
+
+                markBlockingStackedNeutrals(pCandidate, TrueDoors);
+            }
+        }
+    }
+
+    //----------------------------------------------------------------------
+
+
 
     // Assigns MiniTile::m_areaId for each miniTile having AreaIdMissing()
     // Areas are computed using MiniTile::Altitude() information only.
