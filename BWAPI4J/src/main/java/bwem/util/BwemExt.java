@@ -274,12 +274,12 @@ public final class BwemExt {
         return false;
     }
 
-    public static boolean adjoins8SomeLakeOrNeutral(WalkPosition p, MapImpl pMap) {
-        WalkPosition[] deltas = {new WalkPosition(-1, -1), new WalkPosition(0, -1), new WalkPosition(+1, -1),
-                                 new WalkPosition(-1,  0),                          new WalkPosition(+1,  0),
-                                 new WalkPosition(-1, +1), new WalkPosition(0, +1), new WalkPosition(+1, +1)};
-        for (WalkPosition delta : deltas) {
-            WalkPosition next = p.add(delta);
+    public static boolean adjoins8SomeLakeOrNeutral(final WalkPosition p, final MapImpl pMap) {
+        final WalkPosition[] deltas = {new WalkPosition(-1, -1), new WalkPosition(0, -1), new WalkPosition(+1, -1),
+                                       new WalkPosition(-1,  0),                          new WalkPosition(+1,  0),
+                                       new WalkPosition(-1, +1), new WalkPosition(0, +1), new WalkPosition(+1, +1)};
+        for (final WalkPosition delta : deltas) {
+            final WalkPosition next = p.add(delta);
             if (pMap.Valid(next)) {
                 if (pMap.GetTile(next.toPosition().toTilePosition(), check_t.no_check).GetNeutral() != null) {
                     return true;
