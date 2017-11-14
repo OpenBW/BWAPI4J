@@ -71,4 +71,9 @@ public final class Altitude implements IWrappedInteger<Altitude>, Comparable<Alt
         return Objects.hash(this.val);
     }
 
+    @Override
+    public String toString() {
+        return String.valueOf(this.val);
+    }
+
 }
