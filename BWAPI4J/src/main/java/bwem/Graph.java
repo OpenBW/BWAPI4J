@@ -281,10 +281,10 @@ public final class Graph {
     }
 
 	// Creates a new Area for each pair (top, miniTiles) in AreasList (See Area::Top() and Area::MiniTiles())
-    public void CreateAreas(List<MutablePair<WalkPosition, Integer>> AreasList) {
+    public void CreateAreas(final List<MutablePair<WalkPosition, Integer>> AreasList) {
         for (int id = 1; id <= AreasList.size(); ++id) {
-            WalkPosition top = AreasList.get(id - 1).left;
-            int miniTiles = AreasList.get(id - 1).right;
+            final WalkPosition top = AreasList.get(id - 1).left;
+            final int miniTiles = AreasList.get(id - 1).right;
             m_Areas.add(new Area(this, new AreaId(id), top, miniTiles));
         }
     }

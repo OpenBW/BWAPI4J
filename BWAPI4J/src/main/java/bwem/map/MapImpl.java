@@ -5,7 +5,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import bwem.*;
 import bwem.typedef.Pred;
-import com.sun.xml.internal.ws.runtime.config.TubelineFeatureReader;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.MutablePair;
@@ -131,7 +130,7 @@ public final class MapImpl implements Map {
 //    ///	bw << "Map::ProcessBlockingNeutrals: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::ProcessBlockingNeutrals: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
-        ComputeAreas();
+        ComputeAreas(ComputeTempAreas(getSortedMiniTilesByDescendingAltitude()), BwemExt.area_min_miniTiles);
 //    ///	bw << "Map::ComputeAreas: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::ComputeAreas: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
@@ -1095,23 +1094,18 @@ public final class MapImpl implements Map {
     //   - involves the creation of a new area.
     //   - is added to some existing neighbouring area.
     //   - makes two neighbouring areas merge together.
-    private void ComputeAreas() {
-        List<MutablePair<WalkPosition, MiniTile>> MiniTilesByDescendingAltitude = SortMiniTiles();
-
-        List<TempAreaInfo> TempAreaList = ComputeTempAreas(MiniTilesByDescendingAltitude);
-
-        CreateAreas(TempAreaList);
-
-        SetAreaIdInTiles();
+    private void ComputeAreas(final List<TempAreaInfo> TempAreaList, final int area_min_miniTiles) {
+        CreateAreas(TempAreaList, area_min_miniTiles);
+        SetAreaIdAndMinAltitudeInTiles();
     }
 
-    private List<MutablePair<WalkPosition, MiniTile>> SortMiniTiles() {
-        List<MutablePair<WalkPosition, MiniTile>> MiniTilesByDescendingAltitude = new ArrayList<>();
+    private List<MutablePair<WalkPosition, MiniTile>> getSortedMiniTilesByDescendingAltitude() {
+        final List<MutablePair<WalkPosition, MiniTile>> MiniTilesByDescendingAltitude = new ArrayList<>();
 
         for (int y = 0; y < WalkSize().getY(); ++y)
         for (int x = 0; x < WalkSize().getX(); ++x) {
-            WalkPosition w = new WalkPosition(x, y);
-            MiniTile miniTile = GetMiniTile_(w, check_t.no_check);
+            final WalkPosition w = new WalkPosition(x, y);
+            final MiniTile miniTile = GetMiniTile_(w, check_t.no_check);
             if (miniTile.AreaIdMissing()) {
                 MiniTilesByDescendingAltitude.add(new MutablePair<>(w, miniTile));
             }
@@ -1122,14 +1116,15 @@ public final class MapImpl implements Map {
         return MiniTilesByDescendingAltitude;
     }
 
-    private List<TempAreaInfo> ComputeTempAreas(List<MutablePair<WalkPosition, MiniTile>> MiniTilesByDescendingAltitude) {
-        List<TempAreaInfo> TempAreaList = new ArrayList<>();
+    private List<TempAreaInfo> ComputeTempAreas(final List<MutablePair<WalkPosition, MiniTile>> MiniTilesByDescendingAltitude) {
+        final List<TempAreaInfo> TempAreaList = new ArrayList<>();
         TempAreaList.add(new TempAreaInfo()); // TempAreaList[0] left unused, as AreaIds are > 0
-        for (MutablePair<WalkPosition, MiniTile> Current : MiniTilesByDescendingAltitude) {
-            final WalkPosition pos = new WalkPosition(Current.left.getX(), Current.left.getY());
-            MiniTile cur = Current.right;
 
-            MutablePair<AreaId, AreaId> neighboringAreas = findNeighboringAreas(pos, this);
+        for (final MutablePair<WalkPosition, MiniTile> Current : MiniTilesByDescendingAltitude) {
+            final WalkPosition pos = new WalkPosition(Current.left.getX(), Current.left.getY());
+            final MiniTile cur = Current.right;
+
+            final MutablePair<AreaId, AreaId> neighboringAreas = findNeighboringAreas(pos);
             if (neighboringAreas.left == null) { // no neighboring area : creates of a new area
                 TempAreaList.add(new TempAreaInfo(new AreaId(TempAreaList.size()), cur, pos));
             } else if (neighboringAreas.right == null) { // one neighboring area : adds cur to the existing area
@@ -1147,16 +1142,19 @@ public final class MapImpl implements Map {
 //                any_of(StartingLocations().begin(), StartingLocations().end(), [&pos](const TilePosition & startingLoc)
 //                    { return dist(TilePosition(pos), startingLoc + TilePosition(2, 1)) <= 3;})
                 boolean cpp_algorithm_std_any_of = false;
-                for (TilePosition startingLoc : StartingLocations()) {
+                for (final TilePosition startingLoc : StartingLocations()) {
                     if (Double.compare(BwemExt.dist(pos.toPosition().toTilePosition(), startingLoc.add(new TilePosition(2, 1))), Double.valueOf("3")) <= 0) {
                         cpp_algorithm_std_any_of = true;
                         break;
                     }
                 }
+                final int curAltitude = cur.Altitude().intValue();
+                final int biggerHighestAltitude = TempAreaList.get(bigger.intValue()).HighestAltitude().intValue();
+                final int smallerHighestAltitude = TempAreaList.get(smaller.intValue()).HighestAltitude().intValue();
                 if ((TempAreaList.get(smaller.intValue()).Size() < 80)
-                        || (TempAreaList.get(smaller.intValue()).HighestAltitude().intValue() < 80)
-                        || Double.compare((double) cur.Altitude().intValue() / (double) TempAreaList.get(bigger.intValue()).HighestAltitude().intValue(), Double.valueOf("0.90")) >= 0
-                        || Double.compare((double) cur.Altitude().intValue() / (double) TempAreaList.get(smaller.intValue()).HighestAltitude().intValue(), Double.valueOf("0.90")) >= 0
+                        || (smallerHighestAltitude < 80)
+                        || (Double.compare((double) curAltitude / (double) biggerHighestAltitude, Double.valueOf("0.90")) >= 0)
+                        || (Double.compare((double) curAltitude / (double) smallerHighestAltitude, Double.valueOf("0.90")) >= 0)
                         || cpp_algorithm_std_any_of) {
                     // adds cur to the absorbing area:
                     TempAreaList.get(bigger.intValue()).Add(cur);
@@ -1173,30 +1171,34 @@ public final class MapImpl implements Map {
         }
 
         // Remove from the frontier obsolete positions
-        for (int i = 0; i < m_RawFrontier.size(); ++i) {
-            MutablePair<MutablePair<AreaId, AreaId>, WalkPosition> f = m_RawFrontier.get(i);
-            if (f.left.left.equals(f.left.right)) {
-                m_RawFrontier.remove(i--);
+        Utils.really_remove_if(m_RawFrontier, new Pred() {
+            @Override
+            public boolean isTrue(Object... args) {
+                @SuppressWarnings("unchecked")
+                final MutablePair<MutablePair<AreaId, AreaId>, WalkPosition> f
+                        = (MutablePair<MutablePair<AreaId, AreaId>, WalkPosition>) args[0];
+                return f.left.left.equals(f.left.right);
             }
-        }
+        });
 
         return TempAreaList;
     }
 
-    private void ReplaceAreaIds(WalkPosition p, AreaId newAreaId) {
-        MiniTile Origin = GetMiniTile_(p, check_t.no_check);
-        AreaId oldAreaId = Origin.AreaId();
+    private void ReplaceAreaIds(final WalkPosition p, final AreaId newAreaId) {
+        final MiniTile Origin = GetMiniTile_(p, check_t.no_check);
+        final AreaId oldAreaId = Origin.AreaId();
         Origin.ReplaceAreaId(newAreaId);
 
         List<WalkPosition> ToSearch = new ArrayList<>();
         ToSearch.add(p);
         while (!ToSearch.isEmpty()) {
-            WalkPosition current = ToSearch.remove(ToSearch.size() - 1);
-            WalkPosition[] deltas = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(+1, 0), new WalkPosition(0, +1)};
-            for (WalkPosition delta : deltas) {
-                WalkPosition next = current.add(delta);
+            final WalkPosition current = ToSearch.remove(ToSearch.size() - 1);
+
+            final WalkPosition[] deltas = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(+1, 0), new WalkPosition(0, +1)};
+            for (final WalkPosition delta : deltas) {
+                final WalkPosition next = current.add(delta);
                 if (Valid(next)) {
-                    MiniTile Next = GetMiniTile_(next, check_t.no_check);
+                    final MiniTile Next = GetMiniTile_(next, check_t.no_check);
                     if (Next.AreaId().equals(oldAreaId)) {
                         ToSearch.add(next);
                         Next.ReplaceAreaId(newAreaId);
@@ -1207,7 +1209,7 @@ public final class MapImpl implements Map {
 
         // also replaces references of oldAreaId by newAreaId in m_RawFrontier:
         if (newAreaId.intValue() > 0) {
-            for (MutablePair<MutablePair<AreaId, AreaId>, WalkPosition> f : m_RawFrontier) {
+            for (final MutablePair<MutablePair<AreaId, AreaId>, WalkPosition> f : m_RawFrontier) {
                 if (f.left.left.equals(oldAreaId)) {
                     f.left.left = new AreaId(newAreaId);
                 }
@@ -1219,15 +1221,15 @@ public final class MapImpl implements Map {
     }
 
     // Initializes m_Graph with the valid and big enough areas in TempAreaList.
-    private void CreateAreas(List<TempAreaInfo> TempAreaList) {
-        List<MutablePair<WalkPosition, Integer>> AreasList = new ArrayList<>();
+    private void CreateAreas(final List<TempAreaInfo> TempAreaList, final int area_min_miniTiles) {
+        final List<MutablePair<WalkPosition, Integer>> AreasList = new ArrayList<>();
 
         int newAreaId = 1;
         int newTinyAreaId = -2;
 
-        for (TempAreaInfo TempArea : TempAreaList) {
+        for (final TempAreaInfo TempArea : TempAreaList) {
             if (TempArea.Valid()) {
-                if (TempArea.Size() >= BwemExt.area_min_miniTiles) {
+                if (TempArea.Size() >= area_min_miniTiles) {
 //                    bwem_assert(newAreaId <= TempArea.Id());
                     if (!(newAreaId <= TempArea.Id().intValue())) {
                         throw new IllegalStateException();
@@ -1248,8 +1250,8 @@ public final class MapImpl implements Map {
         GetGraph().CreateAreas(AreasList);
     }
 
-    private void SetAreaIdInTile(TilePosition t) {
-        Tile tile = GetTile_(t);
+    private void SetAreaIdInTile(final TilePosition t) {
+        final Tile tile = GetTile_(t);
 //        bwem_assert(tile.AreaId() == 0);	// initialized to 0
         if (!(tile.AreaId().intValue() == 0)) { // initialized to 0
             throw new IllegalStateException();
@@ -1257,7 +1259,7 @@ public final class MapImpl implements Map {
 
         for (int dy = 0; dy < 4; ++dy)
         for (int dx = 0; dx < 4; ++dx) {
-            AreaId id = GetMiniTile((t.toPosition().toWalkPosition()).add(new WalkPosition(dx, dy)), check_t.no_check).AreaId();
+            final AreaId id = GetMiniTile((t.toPosition().toWalkPosition()).add(new WalkPosition(dx, dy)), check_t.no_check).AreaId();
             if (id.intValue() != 0) {
                 if (tile.AreaId().intValue() == 0) {
                     tile.SetAreaId(id);
@@ -1269,12 +1271,13 @@ public final class MapImpl implements Map {
         }
     }
 
-    private void SetAltitudeInTile(TilePosition t) {
+    // Renamed from "MapImpl::SetAltitudeInTile"
+    private void SetMinAltitudeInTile(final TilePosition t) {
         Altitude minAltitude = new Altitude(Integer.MAX_VALUE);
 
         for (int dy = 0; dy < 4; ++dy)
         for (int dx = 0; dx < 4; ++dx) {
-            Altitude altitude = new Altitude(GetMiniTile((t.toPosition()).toWalkPosition().add(new WalkPosition(dx, dy)), check_t.no_check).Altitude());
+            final Altitude altitude = new Altitude(GetMiniTile(((t.toPosition()).toWalkPosition()).add(new WalkPosition(dx, dy)), check_t.no_check).Altitude());
             if (altitude.intValue() < minAltitude.intValue()) {
                 minAltitude = new Altitude(altitude);
             }
@@ -1283,22 +1286,23 @@ public final class MapImpl implements Map {
         GetTile_(t).SetMinAltitude(minAltitude);
     }
 
-    private void SetAreaIdInTiles() {
+    // Renamed from "MapImpl::SetAreaIdInTiles"
+    private void SetAreaIdAndMinAltitudeInTiles() {
         for (int y = 0; y < Size().getY(); ++y)
         for (int x = 0; x < Size().getX(); ++x) {
-            TilePosition t = new TilePosition(x, y);
+            final TilePosition t = new TilePosition(x, y);
             SetAreaIdInTile(t);
-            SetAltitudeInTile(t);
+            SetMinAltitudeInTile(t);
         }
     }
 
-    public static MutablePair<AreaId, AreaId> findNeighboringAreas(WalkPosition p, MapImpl pMap) {
-        MutablePair<AreaId, AreaId> result = new MutablePair<>(null, null);
+    public MutablePair<AreaId, AreaId> findNeighboringAreas(final WalkPosition p) {
+        final MutablePair<AreaId, AreaId> result = new MutablePair<>(null, null);
 
-        WalkPosition[] deltas = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(+1, 0), new WalkPosition(0, +1)};
-        for (WalkPosition delta : deltas) {
-            if (pMap.Valid(p.add(delta))) {
-                AreaId areaId = pMap.GetMiniTile(p.add(delta), check_t.no_check).AreaId();
+        final WalkPosition[] deltas = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(+1, 0), new WalkPosition(0, +1)};
+        for (final WalkPosition delta : deltas) {
+            if (Valid(p.add(delta))) {
+                final AreaId areaId = GetMiniTile(p.add(delta), check_t.no_check).AreaId();
                 if (areaId.intValue() > 0) {
                     if (result.left == null) {
                         result.left = new AreaId(areaId);
