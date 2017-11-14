@@ -148,7 +148,7 @@ JNIEXPORT void JNICALL Java_bwta_BWTA_analyze(JNIEnv * env, jobject caller, jobj
 		jobject jposition = env->NewObject(positionClass, positionNew, (jint)baseLocation->getPosition().x, (jint)baseLocation->getPosition().y);
 		env->SetObjectField(jbaseLocation, env->GetFieldID(baseLocationClass, "position", "Lorg/openbw/bwapi4j/Position;"), jposition);
 
-		jobject jtilePosition = env->NewObject(positionClass, positionNew, (jint)baseLocation->getTilePosition().x, (jint)baseLocation->getTilePosition().y);
+		jobject jtilePosition = env->NewObject(tilePositionClass, tilePositionNew, (jint)baseLocation->getTilePosition().x, (jint)baseLocation->getTilePosition().y);
 		env->SetObjectField(jbaseLocation, env->GetFieldID(baseLocationClass, "tilePosition", "Lorg/openbw/bwapi4j/TilePosition;"), jtilePosition);
 
 		env->SetBooleanField(jbaseLocation, env->GetFieldID(baseLocationClass, "isIsland", "Z"), (jboolean)baseLocation->isIsland());
@@ -208,7 +208,7 @@ JNIEXPORT jobject JNICALL Java_bwta_BWTA_getShortestPath(JNIEnv *env, jobject, j
 
 	jclass arrayListClass = env->FindClass("java/util/ArrayList");
 	jmethodID arrayListAdd = env->GetMethodID(arrayListClass, "add", "(Ljava/lang/Object;)Z");
-	jmethodID arrayListNew = env->GetMethodID(arrayListClass, "init", "()V");
+	jmethodID arrayListNew = env->GetMethodID(arrayListClass, "<init>", "()V");
 	jobject list = env->NewObject(arrayListClass, arrayListNew);
 
 	jclass tilePositionClass = env->FindClass("org/openbw/bwapi4j/TilePosition");
