@@ -1,6 +1,9 @@
 package bwem.util;
 
+import bwem.typedef.Pred;
 import org.apache.commons.lang3.mutable.MutableDouble;
+
+import java.util.List;
 
 public final class Utils {
 
@@ -8,15 +11,15 @@ public final class Utils {
         throw new InstantiationException();
     }
 
-    public static int queenWiseNorm(int dx, int dy) {
+    public static int queenWiseNorm(final int dx, final int dy) {
         return Math.max(Math.abs(dx), Math.abs(dy));
     }
 
-    public static int squaredNorm(int dx, int dy) {
-        return (int) ((dx * dx) + (dy * dy));
+    public static int squaredNorm(final int dx, final int dy) {
+        return ((dx * dx) + (dy * dy));
     }
 
-    public static double norm(int dx, int dy) {
+    public static double norm(final int dx, final int dy) {
         return Math.sqrt(squaredNorm(dx, dy));
     }
 
@@ -60,6 +63,14 @@ public final class Utils {
     // Returns whether the line segments [a, b] and [c, d] intersect.
     public static boolean intersect(int ax, int ay, int bx, int by, int cx, int cy, int dx, int dy) {
         return get_line_intersection(ax, ay, bx, by, cx, cy, dx, dy, null, null);
+    }
+
+    public static <T> void really_remove_if(final List<T> Container, final Pred pred) {
+        for (int i = 0; i < Container.size(); ++i) {
+            if (pred.isTrue(Container.get(i))) {
+                Container.remove(i--);
+            }
+        }
     }
 
 }

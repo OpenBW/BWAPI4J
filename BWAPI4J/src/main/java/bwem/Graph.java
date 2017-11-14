@@ -16,6 +16,7 @@ import bwem.unit.Neutral;
 import bwem.unit.StaticBuilding;
 import bwem.util.BwemExt;
 import bwem.util.Utils;
+
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -152,7 +153,7 @@ public final class Graph {
     }
 
     // Returns the ChokePoints between two Areas.
-    public List<ChokePoint> GetChokePoints(AreaId a, AreaId b) {
+    public List<ChokePoint> GetChokePoints(final AreaId a, final AreaId b) {
         if (!Valid(a)) {
 //            bwem_assert(Valid(a));
             throw new IllegalArgumentException();
@@ -281,25 +282,96 @@ public final class Graph {
     }
 
 	// Creates a new Area for each pair (top, miniTiles) in AreasList (See Area::Top() and Area::MiniTiles())
-    public void CreateAreas(List<MutablePair<WalkPosition, Integer>> AreasList) {
+    public void CreateAreas(final List<MutablePair<WalkPosition, Integer>> AreasList) {
         for (int id = 1; id <= AreasList.size(); ++id) {
-            WalkPosition top = AreasList.get(id - 1).left;
-            int miniTiles = AreasList.get(id - 1).right;
+            final WalkPosition top = AreasList.get(id - 1).left;
+            final int miniTiles = AreasList.get(id - 1).right;
             m_Areas.add(new Area(this, new AreaId(id), top, miniTiles));
         }
     }
 
-    // Creates a new Area for each pair (top, miniTiles) in AreasList (See Area::Top() and Area::MiniTiles())
-    public void CreateChokePoints() {
-    	Index newIndex = new Index(0);
+    ////////////////////////////////////////////////////////////////////////
+    // Graph::CreateChokePoints
+    ////////////////////////////////////////////////////////////////////////
 
-    	List<Neutral> BlockingNeutrals = new ArrayList<>();
-    	for (StaticBuilding s : GetMap().StaticBuildings()) {
+    //----------------------------------------------------------------------
+    // 1) Size the matrix
+    //----------------------------------------------------------------------
+    private void initializeChokePointsMatrix(
+            final List<List<List<ChokePoint>>> chokePointsMatrix,
+            final int AreasCount
+    ) {
+//      m_ChokePointsMatrix.resize(AreasCount() + 1);
+        chokePointsMatrix.clear();
+        for (int i = 0; i <= AreasCount + 1; ++i) {
+            chokePointsMatrix.add(new ArrayList<>());
+        }
+//    	for (Area::id id = 1 ; id <= AreasCount() ; ++id)
+//    		m_ChokePointsMatrix[id].resize(id);			// triangular matrix
+        for (int id = 1; id <= AreasCount; ++id) { // triangular matrix
+            for (int n = 1; n <= id; ++n) {
+                chokePointsMatrix.get(id).add(new ArrayList<>());
+            }
+        }
+    }
+    //----------------------------------------------------------------------
+
+    //----------------------------------------------------------------------
+    // 2) Dispatch the global raw frontier between all the relevant pairs of Areas:
+    //----------------------------------------------------------------------
+    private AbstractMap<MutablePair<AreaId, AreaId>, List<WalkPosition>> createRawFrontierByAreaPairMap(
+            final List<MutablePair<MutablePair<AreaId, AreaId>, WalkPosition>> RawFrontier
+    ) {
+        final AbstractMap<MutablePair<AreaId, AreaId>, List<WalkPosition>> RawFrontierByAreaPair = new ConcurrentHashMap<>();
+
+        for (final MutablePair<MutablePair<AreaId, AreaId>, WalkPosition> raw : RawFrontier) {
+            AreaId a = new AreaId(raw.left.left);
+            AreaId b = new AreaId(raw.left.right);
+            if (a.intValue() > b.intValue()) {
+                AreaId a_tmp = new AreaId(a);
+                a = new AreaId(b);
+                b = new AreaId(a_tmp);
+            }
+//    		bwem_assert(a <= b);
+            if (!(a.intValue() <= b.intValue())) {
+                throw new IllegalStateException();
+            }
+//    		bwem_assert((a >= 1) && (b <= AreasCount()));
+            if (!((a.intValue() >= 1) && (b.intValue() <= AreasCount()))) {
+                throw new IllegalStateException();
+            }
+
+            final MutablePair<AreaId, AreaId> key = new MutablePair<>(a, b);
+            if (!RawFrontierByAreaPair.containsKey(key)) {
+                final List<WalkPosition> list = new ArrayList<>();
+                list.add(raw.right);
+                RawFrontierByAreaPair.put(key, list);
+            } else {
+                RawFrontierByAreaPair.get(key).add(raw.right);
+            }
+        }
+
+        return RawFrontierByAreaPair;
+    }
+    //----------------------------------------------------------------------
+
+    ////////////////////////////////////////////////////////////////////////
+
+    // Creates a new Area for each pair (top, miniTiles) in AreasList (See Area::Top() and Area::MiniTiles())
+    public void CreateChokePoints(
+            final List<StaticBuilding> staticBuildings,
+            final List<Mineral> minerals,
+            final List<MutablePair<MutablePair<AreaId, AreaId>, WalkPosition>> RawFrontier
+    ) {
+        Index newIndex = new Index(0);
+
+    	final List<Neutral> BlockingNeutrals = new ArrayList<>();
+    	for (final StaticBuilding s : staticBuildings) {
             if (s.Blocking()) {
                 BlockingNeutrals.add(s);
             }
         }
-    	for (Mineral m : GetMap().Minerals()) {
+    	for (final Mineral m : minerals) {
             if (m.Blocking()) {
                 BlockingNeutrals.add(m);
             }
@@ -314,72 +386,38 @@ public final class Graph {
 //        }
 
     	// 1) Size the matrix
-//      m_ChokePointsMatrix.resize(AreasCount() + 1);
-        m_ChokePointsMatrix.clear();
-        for (int i = 0; i <= AreasCount() + 1; ++i) {
-            m_ChokePointsMatrix.add(new ArrayList<>());
-        }
-//    	for (Area::id id = 1 ; id <= AreasCount() ; ++id)
-//    		m_ChokePointsMatrix[id].resize(id);			// triangular matrix
-        for (int id = 1; id <= AreasCount(); ++id) {
-            for (int j = 0; j <= id; ++j) {
-                m_ChokePointsMatrix.get(id).add(new ArrayList<>());
-            }
-        }
+        initializeChokePointsMatrix(m_ChokePointsMatrix, AreasCount());
 
     	// 2) Dispatch the global raw frontier between all the relevant pairs of Areas:
-    	AbstractMap<MutablePair<AreaId, AreaId>, List<WalkPosition>> RawFrontierByAreaPair = new ConcurrentHashMap<>();
-    	for (MutablePair<MutablePair<AreaId, AreaId>, WalkPosition> raw : GetMap().RawFrontier()) {
-    		AreaId a = new AreaId(raw.left.left);
-    		AreaId b = new AreaId(raw.left.right);
-    		if (a.intValue() > b.intValue()) {
-                AreaId a_tmp = new AreaId(a);
-                a = new AreaId(b);
-                b = new AreaId(a_tmp);
-            }
-//    		bwem_assert(a <= b);
-            if (!(a.intValue() <= b.intValue())) {
-                throw new IllegalStateException();
-            }
-//    		bwem_assert((a >= 1) && (b <= AreasCount()));
-            if (!((a.intValue() >= 1) && (b.intValue() <= AreasCount()))) {
-                throw new IllegalStateException();
-            }
-
-            MutablePair<AreaId, AreaId> key = new MutablePair<>(a, b);
-            if (!RawFrontierByAreaPair.containsKey(key)) {
-                List<WalkPosition> wpl = new ArrayList<>();
-                wpl.add(raw.right);
-                RawFrontierByAreaPair.put(key, wpl);
-            } else {
-                RawFrontierByAreaPair.get(key).add(raw.right);
-            }
-    	}
+        final AbstractMap<MutablePair<AreaId, AreaId>, List<WalkPosition>> RawFrontierByAreaPair
+                = createRawFrontierByAreaPairMap(RawFrontier);
 
     	// 3) For each pair of Areas (A, B):
-    	for (MutablePair<AreaId, AreaId> raw : RawFrontierByAreaPair.keySet()) {
-    		AreaId a = raw.left;
-    		AreaId b = raw.right;
+    	for (final MutablePair<AreaId, AreaId> rawleft : RawFrontierByAreaPair.keySet()) {
+            final AreaId a = new AreaId(rawleft.left);
+            final AreaId b = new AreaId(rawleft.right);
 
-    		List<WalkPosition> RawFrontierAB = RawFrontierByAreaPair.get(raw);
+    	    final List<WalkPosition> rawright = RawFrontierByAreaPair.get(rawleft);
+
+    		final List<WalkPosition> RawFrontierAB = rawright;
 
     		// Because our dispatching preserved order,
     		// and because Map::m_RawFrontier was populated in descending order of the altitude (see Map::ComputeAreas),
     		// we know that RawFrontierAB is also ordered the same way, but let's check it:
     		{
-    			List<Altitude> Altitudes = new ArrayList<>();
-    			for (WalkPosition w : RawFrontierAB) {
+    			final List<Altitude> Altitudes = new ArrayList<>();
+    			for (final WalkPosition w : RawFrontierAB) {
     				Altitudes.add(new Altitude(GetMap().GetMiniTile(w).Altitude()));
                 }
 
 //    			bwem_assert(is_sorted(Altitudes.rbegin(), Altitudes.rend()));
-                List<Altitude> AltitudesCopySortedDescending = new ArrayList<>();
+                List<Altitude> SortedAltitudesCopy = new ArrayList<>();
                 for (Altitude altitude : Altitudes) {
-                    AltitudesCopySortedDescending.add(new Altitude(altitude));
+                    SortedAltitudesCopy.add(new Altitude(altitude));
                 }
-                Collections.sort(AltitudesCopySortedDescending, Collections.reverseOrder());
+                Collections.sort(SortedAltitudesCopy, Collections.reverseOrder());
                 for (int i = 0; i < Altitudes.size(); ++i) {
-                    if (!Altitudes.get(i).equals(AltitudesCopySortedDescending.get(i))) {
+                    if (!Altitudes.get(i).equals(SortedAltitudesCopy.get(i))) {
                         throw new IllegalStateException();
                     }
                 }
@@ -388,13 +426,13 @@ public final class Graph {
     		// 3.1) Use that information to efficiently cluster RawFrontierAB in one or several chokepoints.
     		//    Each cluster will be populated starting with the center of a chokepoint (max altitude)
     		//    and finishing with the ends (min altitude).
-    		int cluster_min_dist = (int) Math.sqrt(BwemExt.lake_max_miniTiles);
-    		List<List<WalkPosition>> Clusters = new ArrayList<>();
-    		for (WalkPosition w : RawFrontierAB) {
+    		final int cluster_min_dist = (int) Math.sqrt(BwemExt.lake_max_miniTiles);
+    		final List<List<WalkPosition>> Clusters = new ArrayList<>();
+    		for (final WalkPosition w : RawFrontierAB) {
     			boolean added = false;
-    			for (List<WalkPosition> Cluster : Clusters) {
-    				int distToFront = BwemExt.queenWiseDist(Cluster.get(0), w);
-    				int distToBack = BwemExt.queenWiseDist(Cluster.get(Cluster.size() - 1), w);
+    			for (final List<WalkPosition> Cluster : Clusters) {
+    				final int distToFront = BwemExt.queenWiseDist(Cluster.get(0), w);
+    				final int distToBack = BwemExt.queenWiseDist(Cluster.get(Cluster.size() - 1), w);
     				if (Math.min(distToFront, distToBack) <= cluster_min_dist) {
                         if (distToFront < distToBack) {
                             Cluster.add(0, w);
@@ -407,42 +445,41 @@ public final class Graph {
     			}
 
     			if (!added) {
-                    List<WalkPosition> wpl = new ArrayList<>();
-                    wpl.add(w);
-                    Clusters.add(wpl);
+                    final List<WalkPosition> list = new ArrayList<>();
+                    list.add(w);
+                    Clusters.add(list);
                 }
     		}
 
     		// 3.2) Create one Chokepoint for each cluster:
 //            GetChokePoints(a, b).reserve(Clusters.size() + pseudoChokePointsToCreate);
-    		for (List<WalkPosition> Cluster : Clusters) {
-    			GetChokePoints(a, b).add(new ChokePoint(this, new Index(newIndex), GetArea(a), GetArea(b), Cluster, null));
+    		for (final List<WalkPosition> Cluster : Clusters) {
+    			GetChokePoints(a, b).add(new ChokePoint(this, new Index(newIndex), GetArea(a), GetArea(b), Cluster));
                 newIndex = newIndex.add(1);
             }
     	}
 
     	// 4) Create one Chokepoint for each pair of blocked areas, for each blocking Neutral:
-    	for (Neutral pNeutral : BlockingNeutrals) {
+    	for (final Neutral pNeutral : BlockingNeutrals) {
     		if (pNeutral.NextStacked() == null) { // in the case where several neutrals are stacked, we only consider the top
-    			List<Area> BlockedAreas = pNeutral.BlockedAreas();
-    			for (Area pA : BlockedAreas)
-    			for (Area pB : BlockedAreas) {
+    			final List<Area> BlockedAreas = pNeutral.BlockedAreas();
+    			for (final Area pA : BlockedAreas)
+    			for (final Area pB : BlockedAreas) {
     				if (pB.equals(pA)) {
                         break; // breaks symmetry
                     }
 
-                    WalkPosition center = GetMap().BreadthFirstSearch(
+                    final WalkPosition center = GetMap().BreadthFirstSearch(
                             pNeutral.Pos().toWalkPosition(),
                             new Pred() { // findCond
                                 @Override
                                 public boolean isTrue(Object... args) {
                                     Object ttile = args[0];
-                                    if (ttile instanceof MiniTile) {
-                                        MiniTile miniTile = (MiniTile) ttile;
-                                        return miniTile.Walkable();
-                                    } else {
+                                    if (!(ttile instanceof MiniTile)) {
                                         throw new IllegalArgumentException();
                                     }
+                                    MiniTile miniTile = (MiniTile) ttile;
+                                    return miniTile.Walkable();
                                 }
                             },
                             new Pred() { // visitCond
@@ -453,9 +490,9 @@ public final class Graph {
                             }
                     );
 
-                    List<WalkPosition> wpl = new ArrayList<>();
-                    wpl.add(center);
-    				GetChokePoints(pA, pB).add(new ChokePoint(this, new Index(newIndex), pA, pB, wpl, pNeutral));
+                    final List<WalkPosition> list = new ArrayList<>();
+                    list.add(center);
+    				GetChokePoints(pA, pB).add(new ChokePoint(this, new Index(newIndex), pA, pB, list, pNeutral));
                     newIndex = newIndex.add(1);
     			}
     		}
@@ -464,8 +501,8 @@ public final class Graph {
     	// 5) Set the references to the freshly created Chokepoints:
     	for (int loop_a = 1; loop_a <= AreasCount(); ++loop_a)
     	for (int loop_b = 1; loop_b < loop_a; ++loop_b) {
-            AreaId a = new AreaId(loop_a);
-            AreaId b = new AreaId(loop_b);
+            final AreaId a = new AreaId(loop_a);
+            final AreaId b = new AreaId(loop_b);
     		if (!GetChokePoints(a, b).isEmpty()) {
     			GetArea(a).AddChokePoints(GetArea(b), GetChokePoints(a, b));
     			GetArea(b).AddChokePoints(GetArea(a), GetChokePoints(a, b));
@@ -476,6 +513,8 @@ public final class Graph {
     		}
         }
     }
+
+    //----------------------------------------------------------------------
 
     public void ComputeChokePointDistanceMatrix() {
     	// 1) Size the matrix

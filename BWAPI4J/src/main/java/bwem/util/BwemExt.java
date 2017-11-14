@@ -42,7 +42,7 @@ public final class BwemExt {
 
         WalkPosition deltas[] = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(+1, 0), new WalkPosition(0, +1)};
         for (WalkPosition delta : deltas) {
-            if (pMap.isValid(p.add(delta))) {
+            if (pMap.Valid(p.add(delta))) {
                 if (!pMap.GetMiniTile(p.add(delta), check_t.no_check).Sea()) {
                     return true;
                 }
@@ -66,18 +66,18 @@ public final class BwemExt {
         return A;
     }
 
-    public static int queenWiseDist(TilePosition A, TilePosition B) {
-        TilePosition ret = A.subtract(B);
+    public static int queenWiseDist(final TilePosition A, final TilePosition B) {
+        final TilePosition ret = A.subtract(B);
         return Utils.queenWiseNorm(ret.getX(), ret.getY());
     }
 
-    public static int queenWiseDist(WalkPosition A, WalkPosition B) {
-        WalkPosition ret = A.subtract(B);
+    public static int queenWiseDist(final WalkPosition A, final WalkPosition B) {
+        final WalkPosition ret = A.subtract(B);
         return Utils.queenWiseNorm(ret.getX(), ret.getY());
     }
 
-    public static int queenWiseDist(Position A, Position B) {
-        Position ret = A.subtract(B);
+    public static int queenWiseDist(final Position A, final Position B) {
+        final Position ret = A.subtract(B);
         return Utils.queenWiseNorm(ret.getX(), ret.getY());
     }
 
@@ -96,18 +96,18 @@ public final class BwemExt {
         return Utils.squaredNorm(ret.getX(), ret.getY());
     }
 
-    public static double dist(TilePosition A, TilePosition B) {
-        TilePosition ret = A.subtract(B);
+    public static double dist(final TilePosition A, final TilePosition B) {
+        final TilePosition ret = A.subtract(B);
         return Utils.norm(ret.getX(), ret.getY());
     }
 
-    public static double dist(WalkPosition A, WalkPosition B) {
-        WalkPosition ret = A.subtract(B);
+    public static double dist(final WalkPosition A, final WalkPosition B) {
+        final WalkPosition ret = A.subtract(B);
         return Utils.norm(ret.getX(), ret.getY());
     }
 
-    public static double dist(Position A, Position B) {
-        Position ret = A.subtract(B);
+    public static double dist(final Position A, final Position B) {
+        final Position ret = A.subtract(B);
         return Utils.norm(ret.getX(), ret.getY());
     }
 
@@ -274,13 +274,13 @@ public final class BwemExt {
         return false;
     }
 
-    public static boolean adjoins8SomeLakeOrNeutral(WalkPosition p, MapImpl pMap) {
-        WalkPosition[] deltas = {new WalkPosition(-1, -1), new WalkPosition(0, -1), new WalkPosition(+1, -1),
-                                 new WalkPosition(-1,  0),                          new WalkPosition(+1,  0),
-                                 new WalkPosition(-1, +1), new WalkPosition(0, +1), new WalkPosition(+1, +1)};
-        for (WalkPosition delta : deltas) {
-            WalkPosition next = p.add(delta);
-            if (pMap.isValid(next)) {
+    public static boolean adjoins8SomeLakeOrNeutral(final WalkPosition p, final MapImpl pMap) {
+        final WalkPosition[] deltas = {new WalkPosition(-1, -1), new WalkPosition(0, -1), new WalkPosition(+1, -1),
+                                       new WalkPosition(-1,  0),                          new WalkPosition(+1,  0),
+                                       new WalkPosition(-1, +1), new WalkPosition(0, +1), new WalkPosition(+1, +1)};
+        for (final WalkPosition delta : deltas) {
+            final WalkPosition next = p.add(delta);
+            if (pMap.Valid(next)) {
                 if (pMap.GetTile(next.toPosition().toTilePosition(), check_t.no_check).GetNeutral() != null) {
                     return true;
                 }
@@ -306,6 +306,23 @@ public final class BwemExt {
     public static void drawDiagonalCrossMap(BW bw, Position topLeft, Position bottomRight, Color col) {
         bw.getMapDrawer().drawLineMap(topLeft, bottomRight, col);
         bw.getMapDrawer().drawLineMap(new Position(bottomRight.getX(), topLeft.getY()), new Position(topLeft.getX(), bottomRight.getY()), col);
+    }
+
+    public static <T> void fast_erase(List<T> Vector, int i) {
+//        bwem_assert((0 <= i) && (i < (int)Vector.size()));
+        if (!((0 <= i) && (i < Vector.size()))) {
+            throw new IllegalArgumentException("" + i);
+        }
+
+        final boolean isBackElement = (i >= Vector.size() - 1);
+
+        Vector.remove(i);
+
+        if (Vector.size() > 1 && !isBackElement) {
+            /* Move the back element to where the ith element was. */
+            T BackElement = Vector.remove(Vector.size() - 1);
+            Vector.add(i, BackElement);
+        }
     }
 
     //----------------------------------------------------------------------

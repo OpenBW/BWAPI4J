@@ -70,4 +70,9 @@ public final class Index implements IWrappedInteger<Index>, Comparable<Index> {
         return Objects.hash(this.val);
     }
 
+    @Override
+    public String toString() {
+        return String.valueOf(this.val);
+    }
+
 }

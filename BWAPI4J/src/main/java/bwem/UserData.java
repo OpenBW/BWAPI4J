@@ -33,4 +33,9 @@ public final class UserData {
         m_data = data;
     }
 
+    @Override
+    public String toString() {
+        return String.valueOf(m_data.intValue());
+    }
+
 }

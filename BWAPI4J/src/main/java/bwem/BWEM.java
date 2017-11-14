@@ -8,8 +8,15 @@ public final class BWEM {
 
     private final Map m_pMap;
 
-    public BWEM(BW bw) {
-        m_pMap = new MapImpl(bw.getBWMap(), bw.getMapDrawer(), bw.getAllPlayers(), bw.getMineralPatches(), bw.getVespeneGeysers(), bw.getAllUnits());
+    public BWEM(final BW bw) {
+        m_pMap = new MapImpl(
+                bw.getBWMap(),
+                bw.getMapDrawer(),
+                bw.getAllPlayers(),
+                bw.getMineralPatches(),
+                bw.getVespeneGeysers(),
+                bw.getAllUnits()
+        );
     }
 
     public Map GetMap() {

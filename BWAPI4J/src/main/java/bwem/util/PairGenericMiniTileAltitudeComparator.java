@@ -20,10 +20,8 @@ public final class PairGenericMiniTileAltitudeComparator<T> implements Comparato
 
     @Override
     public int compare(MutablePair o1, MutablePair o2) {
-        MiniTile mt1 = (MiniTile) o1.right;
-        int a1 = mt1.Altitude().intValue();
-        MiniTile mt2 = (MiniTile) o2.right;
-        int a2 = mt2.Altitude().intValue();
+        int a1 = ((MiniTile) o1.right).Altitude().intValue();
+        int a2 = ((MiniTile) o2.right).Altitude().intValue();
         switch (this.order) {
             case ASCENDING:
                 return (a1 < a2) ? -1 : (a1 > a2) ? 1 : 0;
