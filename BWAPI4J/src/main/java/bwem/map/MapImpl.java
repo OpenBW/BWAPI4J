@@ -134,7 +134,7 @@ public final class MapImpl implements Map {
 //    ///	bw << "Map::ComputeAreas: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::ComputeAreas: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
-        GetGraph().CreateChokePoints(StaticBuildings(), Minerals());
+        GetGraph().CreateChokePoints(StaticBuildings(), Minerals(), RawFrontier());
 //    ///	bw << "Graph::CreateChokePoints: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::CreateChokePoints: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
@@ -578,31 +578,31 @@ public final class MapImpl implements Map {
         return BreadthFirstSearch(start, findCond, visitCond, true);
     }
 
-    public WalkPosition BreadthFirstSearch(WalkPosition start, Pred findCond, Pred visitCond, boolean connect8) {
+    public WalkPosition BreadthFirstSearch(final WalkPosition start, final Pred findCond, final Pred visitCond, final boolean connect8) {
         if (findCond.isTrue(GetMiniTile(start), start, this)) {
             return start;
         }
 
-        List<WalkPosition> Visited = new ArrayList<>();
-        Queue<WalkPosition> ToVisit = new LinkedList<>();
+        final List<WalkPosition> Visited = new ArrayList<>();
+        final Queue<WalkPosition> ToVisit = new LinkedList<>();
 
         ToVisit.add(start);
         Visited.add(start);
 
-        WalkPosition[] dir8 = {
+        final WalkPosition[] dir8 = {
                 new WalkPosition(-1, -1), new WalkPosition(0, -1), new WalkPosition(1, -1),
                 new WalkPosition(-1,  0),                          new WalkPosition(1,  0),
                 new WalkPosition(-1,  1), new WalkPosition(0,  1), new WalkPosition(1,  1)
         };
-        WalkPosition[] dir4 = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(1, 0), new WalkPosition(0, 1)};
-        WalkPosition[] directions = connect8 ? dir8 : dir4;
+        final WalkPosition[] dir4 = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(1, 0), new WalkPosition(0, 1)};
+        final WalkPosition[] directions = connect8 ? dir8 : dir4;
 
         while (!ToVisit.isEmpty()) {
-            WalkPosition current = ToVisit.remove();
-            for (WalkPosition delta : directions) {
-                WalkPosition next = current.add(delta);
+            final WalkPosition current = ToVisit.remove();
+            for (final WalkPosition delta : directions) {
+                final WalkPosition next = current.add(delta);
                 if (Valid(next)) {
-                    MiniTile Next = GetMiniTile(next, check_t.no_check);
+                    final MiniTile Next = GetMiniTile(next, check_t.no_check);
                     if (findCond.isTrue(Next, next, this)) {
                         return next;
                     }
@@ -620,7 +620,7 @@ public final class MapImpl implements Map {
 //        return start;
     }
 
-    public WalkPosition BreadthFirstSearch(WalkPosition start, Pred findCond, Pred visitCond) {
+    public WalkPosition BreadthFirstSearch(final WalkPosition start, final Pred findCond, final Pred visitCond) {
         return BreadthFirstSearch(start, findCond, visitCond, true);
     }
 

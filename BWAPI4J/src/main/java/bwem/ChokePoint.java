@@ -129,23 +129,17 @@ public final class ChokePoint extends Markable<ChokePoint> {
                     new Pred() { // findCond
                         @Override
                         public boolean isTrue(Object... args) {
-                            Object tmap = args[args.length - 1];
-                            Map map = null;
-                            if (tmap instanceof Map) {
-                                map = (Map) tmap;
-                            } else {
-                                throw new IllegalArgumentException("Invalid map argument.");
-                            }
-
                             Object ttile = args[0];
                             Object tpos = args[1];
-                            if (ttile instanceof MiniTile && tpos instanceof WalkPosition) {
+                            Object tmap = args[args.length - 1];
+                            if (ttile instanceof MiniTile && tpos instanceof WalkPosition && tmap instanceof Map) {
                                 MiniTile miniTile = (MiniTile) ttile;
                                 WalkPosition w = (WalkPosition) tpos;
                                 TilePosition t = w.toPosition().toTilePosition();
+                                Map map = (Map) tmap;
                                 return (miniTile.AreaId().equals(pArea.Id()) && map.GetTile(t, check_t.no_check).GetNeutral() == null);
                             } else {
-                                throw new IllegalArgumentException("Invalid argument list.");
+                                throw new IllegalArgumentException();
                             }
                         }
                     },
@@ -189,6 +183,10 @@ public final class ChokePoint extends Markable<ChokePoint> {
                 m_nodesInArea.set(n, replacementPair);
             }
         }
+    }
+
+    public ChokePoint(Graph pGraph, Index idx, Area area1, Area area2, List<WalkPosition> Geometry) {
+        this(pGraph, idx, area1, area2, Geometry, null);
     }
 
 	// Tells whether this ChokePoint is a pseudo ChokePoint, i.e., it was created on top of a blocking Neutral.
