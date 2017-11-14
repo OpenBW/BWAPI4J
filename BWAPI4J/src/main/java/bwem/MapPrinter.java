@@ -56,8 +56,6 @@ public class MapPrinter {
     private Map m_pMap;
     private BufferedImage m_pImage;
     private Graphics2D m_pBMP;
-    private int m_width;
-    private int m_height;
     public final boolean showAltitude = true;				// renders the Altitude() value for each MiniTile
     public final boolean showAreas = true;					// renders Areas with distinct colors
     public final boolean showContinents = !showAreas && true;				// renders continents with distinct colors, unless showAreas == true
@@ -104,19 +102,17 @@ public class MapPrinter {
 
         m_pBW = pBW;
         m_pMap = pMap;
-        m_width = pBW.getBWMap().mapWidth() * 4;
-        m_height = pBW.getBWMap().mapHeight() * 4;
-        m_pImage = new BufferedImage(m_width, m_height, BufferedImage.TYPE_INT_RGB);
+        m_pImage = new BufferedImage(pBW.getBWMap().mapWidth() * 4, pBW.getBWMap().mapHeight() * 4, BufferedImage.TYPE_INT_RGB);
         m_pBMP = m_pImage.createGraphics();
     }
 
     public void Point(int x, int y, Color col) {
 //    	bwem_assert((0 <= x) && (x < m_pBMP->TellWidth()));
-        if (!((0 <= x) && (x < m_width))) {
+        if (!((0 <= x) && (x < m_pImage.getWidth()))) {
             throw new IllegalArgumentException();
         }
 //    	bwem_assert((0 <= y) && (y < m_pBMP->TellHeight()));
-        if (!((0 <= y) && (y < m_height))) {
+        if (!((0 <= y) && (y < m_pImage.getHeight()))) {
             throw new IllegalArgumentException();
         }
 
