@@ -14,4 +14,10 @@ public interface IWrappedInteger<T extends IWrappedInteger> {
 
     public int compareTo(T that);
 
+    public boolean equals(Object that);
+
+    public int hashCode();
+
+    public String toString();
+
 }

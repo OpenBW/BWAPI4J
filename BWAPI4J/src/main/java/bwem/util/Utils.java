@@ -11,7 +11,7 @@ public final class Utils {
         throw new InstantiationException();
     }
 
-    public static int queenWiseNorm(int dx, int dy) {
+    public static int queenWiseNorm(final int dx, final int dy) {
         return Math.max(Math.abs(dx), Math.abs(dy));
     }
 

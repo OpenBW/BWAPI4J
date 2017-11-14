@@ -66,18 +66,18 @@ public final class BwemExt {
         return A;
     }
 
-    public static int queenWiseDist(TilePosition A, TilePosition B) {
-        TilePosition ret = A.subtract(B);
+    public static int queenWiseDist(final TilePosition A, final TilePosition B) {
+        final TilePosition ret = A.subtract(B);
         return Utils.queenWiseNorm(ret.getX(), ret.getY());
     }
 
-    public static int queenWiseDist(WalkPosition A, WalkPosition B) {
-        WalkPosition ret = A.subtract(B);
+    public static int queenWiseDist(final WalkPosition A, final WalkPosition B) {
+        final WalkPosition ret = A.subtract(B);
         return Utils.queenWiseNorm(ret.getX(), ret.getY());
     }
 
-    public static int queenWiseDist(Position A, Position B) {
-        Position ret = A.subtract(B);
+    public static int queenWiseDist(final Position A, final Position B) {
+        final Position ret = A.subtract(B);
         return Utils.queenWiseNorm(ret.getX(), ret.getY());
     }
 
