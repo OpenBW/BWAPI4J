@@ -290,16 +290,19 @@ public final class Graph {
     }
 
     // Creates a new Area for each pair (top, miniTiles) in AreasList (See Area::Top() and Area::MiniTiles())
-    public void CreateChokePoints() {
+    public void CreateChokePoints(
+            List<StaticBuilding> staticBuildings,
+            List<Mineral> minerals
+    ) {
     	Index newIndex = new Index(0);
 
-    	List<Neutral> BlockingNeutrals = new ArrayList<>();
-    	for (StaticBuilding s : GetMap().StaticBuildings()) {
+    	final List<Neutral> BlockingNeutrals = new ArrayList<>();
+    	for (final StaticBuilding s : staticBuildings) {
             if (s.Blocking()) {
                 BlockingNeutrals.add(s);
             }
         }
-    	for (Mineral m : GetMap().Minerals()) {
+    	for (final Mineral m : minerals) {
             if (m.Blocking()) {
                 BlockingNeutrals.add(m);
             }
@@ -322,7 +325,7 @@ public final class Graph {
 //    	for (Area::id id = 1 ; id <= AreasCount() ; ++id)
 //    		m_ChokePointsMatrix[id].resize(id);			// triangular matrix
         for (int id = 1; id <= AreasCount(); ++id) {
-            for (int j = 0; j <= id; ++j) {
+            for (int n = 1; n <= id; ++n) {
                 m_ChokePointsMatrix.get(id).add(new ArrayList<>());
             }
         }
