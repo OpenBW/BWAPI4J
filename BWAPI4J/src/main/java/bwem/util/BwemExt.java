@@ -52,18 +52,20 @@ public final class BwemExt {
         return false;
     }
 
-    public static Position center(TilePosition A) {
-        Position ret = (A.toPosition()).add(BwemExt.TILE_POSITION_CENTER_IN_PIXELS);
+    public static Position center(final TilePosition A) {
+        final Position ret = (A.toPosition()).add(BwemExt.TILE_POSITION_CENTER_IN_PIXELS);
         return ret;
     }
 
-    public static Position center(WalkPosition A) {
-        Position ret = (A.toPosition()).add(BwemExt.WALK_POSITION_CENTER_IN_PIXELS);
+    public static Position center(final WalkPosition A) {
+        final Position ret = (A.toPosition()).add(BwemExt.WALK_POSITION_CENTER_IN_PIXELS);
         return ret;
     }
 
-    public static Position center(Position A) {
-        return A;
+    public static Position centerOfBuilding(final TilePosition tilePosition, final TilePosition tileSize) {
+        final Position pixelSize = tileSize.toPosition();
+        final Position pixelOffset = new Position(pixelSize.getX() / 2, pixelSize.getY() / 2);
+        return (tilePosition.toPosition()).add(pixelOffset);
     }
 
     public static int queenWiseDist(final TilePosition A, final TilePosition B) {
