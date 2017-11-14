@@ -78,7 +78,13 @@ public final class ChokePoint extends Markable<ChokePoint> {
     private Neutral m_pBlockingNeutral;
     private ChokePoint m_pPathBackTrace = null;
 
-    public ChokePoint(Graph pGraph, Index idx, Area area1, Area area2, List<WalkPosition> Geometry, Neutral pBlockingNeutral) {
+    public ChokePoint(
+            final Graph pGraph,
+            final Index idx,
+            final Area area1, Area area2,
+            final List<WalkPosition> Geometry,
+            final Neutral pBlockingNeutral
+    ) {
         m_pGraph = pGraph;
         m_index = idx;
         m_Areas = new MutablePair<>(area1, area2);
@@ -120,11 +126,11 @@ public final class ChokePoint extends Markable<ChokePoint> {
         m_nodes[ChokePoint.Node.middle.intVal()] = Geometry.get(i);
 
         for (int n = 0; n < ChokePoint.Node.node_count.intVal(); ++n) {
-            List<Area> tmpAreaList = new ArrayList<>();
+            final List<Area> tmpAreaList = new ArrayList<>();
             tmpAreaList.add(area1);
             tmpAreaList.add(area2);
-            for (Area pArea : tmpAreaList) {
-                WalkPosition nodeInArea = GetGraph().GetMap().BreadthFirstSearch(
+            for (final Area pArea : tmpAreaList) {
+                final WalkPosition nodeInArea = GetGraph().GetMap().BreadthFirstSearch(
                     m_nodes[n],
                     new Pred() { // findCond
                         @Override
@@ -135,7 +141,7 @@ public final class ChokePoint extends Markable<ChokePoint> {
                             if (ttile instanceof MiniTile && tpos instanceof WalkPosition && tmap instanceof Map) {
                                 MiniTile miniTile = (MiniTile) ttile;
                                 WalkPosition w = (WalkPosition) tpos;
-                                TilePosition t = w.toPosition().toTilePosition();
+                                TilePosition t = (w.toPosition()).toTilePosition();
                                 Map map = (Map) tmap;
                                 return (miniTile.AreaId().equals(pArea.Id()) && map.GetTile(t, check_t.no_check).GetNeutral() == null);
                             } else {
@@ -146,20 +152,14 @@ public final class ChokePoint extends Markable<ChokePoint> {
                     new Pred() { // visitCond
                         @Override
                         public boolean isTrue(Object... args) {
-                            Object tmap = args[args.length - 1];
-                            Map map;
-                            if (tmap instanceof Map) {
-                                map = (Map) tmap;
-                            } else {
-                                throw new IllegalArgumentException("Invalid map argument.");
-                            }
-
                             Object ttile = args[0];
                             Object tpos = args[1];
+                            Object tmap = args[args.length - 1];
                             if (ttile instanceof MiniTile && tpos instanceof WalkPosition) {
                                 MiniTile miniTile = (MiniTile) ttile;
                                 WalkPosition w = (WalkPosition) tpos;
-                                TilePosition t = w.toPosition().toTilePosition();
+                                TilePosition t = (w.toPosition()).toTilePosition();
+                                Map map = (Map) tmap;
                                 return (miniTile.AreaId().equals(pArea.Id()) || (Blocked() && (miniTile.Blocked() || map.GetTile(t, check_t.no_check).GetNeutral() != null)));
                             } else {
                                 throw new IllegalArgumentException("Invalid argument list.");
@@ -172,13 +172,14 @@ public final class ChokePoint extends Markable<ChokePoint> {
                  * Note: In the original C++ code, "nodeInArea" is a reference to a "WalkPosition" in
                  * "nodesInArea" which changes! Change that object here (after the call to "BreadthFirstSearch")...
                  */
-                WalkPosition left = m_nodesInArea.get(n).left;
-                WalkPosition right = this.m_nodesInArea.get(n).right;
-                MutablePair<WalkPosition, WalkPosition> replacementPair;
+                final WalkPosition left = m_nodesInArea.get(n).left;
+                final WalkPosition right = m_nodesInArea.get(n).right;
+                final MutablePair<WalkPosition, WalkPosition> replacementPair
+                        = new MutablePair<>(new WalkPosition(left.getX(), left.getY()), new WalkPosition(right.getX(), right.getY()));
                 if (pArea.equals(m_Areas.left)) {
-                    replacementPair = new MutablePair<>(new WalkPosition(nodeInArea.getX(), nodeInArea.getY()), new WalkPosition(right.getX(), right.getY()));
+                    replacementPair.left = nodeInArea;
                 } else {
-                    replacementPair = new MutablePair<>(new WalkPosition(left.getX(), left.getY()), new WalkPosition(nodeInArea.getX(), nodeInArea.getY()));
+                    replacementPair.right = nodeInArea;
                 }
                 m_nodesInArea.set(n, replacementPair);
             }
