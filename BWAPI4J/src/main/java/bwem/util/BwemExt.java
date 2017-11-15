@@ -36,14 +36,14 @@ public final class BwemExt {
     private BwemExt() {}
 
     public static boolean seaSide(WalkPosition p, Map pMap) {
-        if (!pMap.GetMiniTile(p).Sea()) {
+        if (!pMap.getData().getMiniTile(p).Sea()) {
             return false;
         }
 
         WalkPosition deltas[] = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(+1, 0), new WalkPosition(0, +1)};
         for (WalkPosition delta : deltas) {
-            if (pMap.getMapData().isValid(p.add(delta))) {
-                if (!pMap.GetMiniTile(p.add(delta), check_t.no_check).Sea()) {
+            if (pMap.getData().getMapData().isValid(p.add(delta))) {
+                if (!pMap.getData().getMiniTile(p.add(delta), check_t.no_check).Sea()) {
                     return true;
                 }
             }
@@ -282,11 +282,11 @@ public final class BwemExt {
                                        new WalkPosition(-1, +1), new WalkPosition(0, +1), new WalkPosition(+1, +1)};
         for (final WalkPosition delta : deltas) {
             final WalkPosition next = p.add(delta);
-            if (pMap.getMapData().isValid(next)) {
-                if (pMap.GetTile(next.toPosition().toTilePosition(), check_t.no_check).GetNeutral() != null) {
+            if (pMap.getData().getMapData().isValid(next)) {
+                if (pMap.getData().getTile(next.toPosition().toTilePosition(), check_t.no_check).GetNeutral() != null) {
                     return true;
                 }
-                if (pMap.GetMiniTile(next, check_t.no_check).Lake()) {
+                if (pMap.getData().getMiniTile(next, check_t.no_check).Lake()) {
                     return true;
                 }
             }
@@ -360,32 +360,32 @@ public final class BwemExt {
     public static Altitude getMinAltitudeTop(TilePosition t, Map map) {
         WalkPosition w = t.toPosition().toWalkPosition();
         return new Altitude(Math.min(
-                map.GetMiniTile(w.add(new WalkPosition(1, 0)), check_t.no_check).Altitude().intValue(),
-                map.GetMiniTile(w.add(new WalkPosition(2, 0)), check_t.no_check).Altitude().intValue()
+                map.getData().getMiniTile(w.add(new WalkPosition(1, 0)), check_t.no_check).Altitude().intValue(),
+                map.getData().getMiniTile(w.add(new WalkPosition(2, 0)), check_t.no_check).Altitude().intValue()
         ));
     }
 
     public static Altitude getMinAltitudeBottom(TilePosition t, Map map) {
         WalkPosition w = t.toPosition().toWalkPosition();
         return new Altitude(Math.min(
-                map.GetMiniTile(w.add(new WalkPosition(1, 3)), check_t.no_check).Altitude().intValue(),
-                map.GetMiniTile(w.add(new WalkPosition(2, 3)), check_t.no_check).Altitude().intValue()
+                map.getData().getMiniTile(w.add(new WalkPosition(1, 3)), check_t.no_check).Altitude().intValue(),
+                map.getData().getMiniTile(w.add(new WalkPosition(2, 3)), check_t.no_check).Altitude().intValue()
         ));
     }
 
     public static Altitude getMinAltitudeLeft(TilePosition t, Map map) {
         WalkPosition w = t.toPosition().toWalkPosition();
         return new Altitude(Math.min(
-                map.GetMiniTile(w.add(new WalkPosition(0, 1)), check_t.no_check).Altitude().intValue(),
-                map.GetMiniTile(w.add(new WalkPosition(0, 2)), check_t.no_check).Altitude().intValue()
+                map.getData().getMiniTile(w.add(new WalkPosition(0, 1)), check_t.no_check).Altitude().intValue(),
+                map.getData().getMiniTile(w.add(new WalkPosition(0, 2)), check_t.no_check).Altitude().intValue()
         ));
     }
 
     public static Altitude getMinAltitudeRight(TilePosition t, Map map) {
         WalkPosition w = t.toPosition().toWalkPosition();
         return new Altitude(Math.min(
-                map.GetMiniTile(w.add(new WalkPosition(3, 1)), check_t.no_check).Altitude().intValue(),
-                map.GetMiniTile(w.add(new WalkPosition(3, 2)), check_t.no_check).Altitude().intValue()
+                map.getData().getMiniTile(w.add(new WalkPosition(3, 1)), check_t.no_check).Altitude().intValue(),
+                map.getData().getMiniTile(w.add(new WalkPosition(3, 2)), check_t.no_check).Altitude().intValue()
         ));
     }
 

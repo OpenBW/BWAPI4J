@@ -72,14 +72,14 @@ public final class Graph {
     }
 
     public Area GetArea(WalkPosition w) {
-        AreaId id = GetMap().GetMiniTile(w).AreaId();
+        AreaId id = GetMap().getData().getMiniTile(w).AreaId();
         return (id.intValue() > 0)
                 ? GetArea(id)
                 : null;
     }
 
     public Area GetArea(TilePosition w) {
-        AreaId id = GetMap().GetTile(w).AreaId();
+        AreaId id = GetMap().getData().getTile(w).AreaId();
         return (id.intValue() > 0)
                 ? GetArea(id)
                 : null;
@@ -407,7 +407,7 @@ public final class Graph {
     		{
     			final List<Altitude> Altitudes = new ArrayList<>();
     			for (final WalkPosition w : RawFrontierAB) {
-    				Altitudes.add(new Altitude(GetMap().GetMiniTile(w).Altitude()));
+    				Altitudes.add(new Altitude(GetMap().getData().getMiniTile(w).Altitude()));
                 }
 
 //    			bwem_assert(is_sorted(Altitudes.rbegin(), Altitudes.rend()));
@@ -584,9 +584,9 @@ public final class Graph {
             }
         }
 
-        for (int y = 0; y < GetMap().getMapData().getTileSize().getY(); ++y)
-        for (int x = 0; x < GetMap().getMapData().getTileSize().getX(); ++x) {
-            Tile tile = GetMap().GetTile(new TilePosition(x, y));
+        for (int y = 0; y < GetMap().getData().getMapData().getTileSize().getY(); ++y)
+        for (int x = 0; x < GetMap().getData().getMapData().getTileSize().getX(); ++x) {
+            Tile tile = GetMap().getData().getTile(new TilePosition(x, y));
             if (tile.AreaId().intValue() > 0) {
                 GetArea(tile.AreaId()).AddTileInformation(new TilePosition(x, y), tile);
             }
@@ -710,7 +710,7 @@ public final class Graph {
         while (!ToVisit.isEmpty()) {
             int currentDist = ToVisit.keys().iterator().next();
             ChokePoint current = ToVisit.get(currentDist).iterator().next();
-            Tile currentTile = pMap.GetTile(current.Center().toPosition().toTilePosition(), check_t.no_check);
+            Tile currentTile = pMap.getData().getTile(current.Center().toPosition().toTilePosition(), check_t.no_check);
 //            bwem_assert(currentTile.InternalData() == currentDist);
             if (!(currentTile.InternalData().intValue() == currentDist)) {
                 throw new IllegalStateException();
@@ -738,7 +738,7 @@ public final class Graph {
                 for (ChokePoint next : pArea.ChokePoints()) {
                     if (!next.equals(current)) {
                         final int newNextDist = currentDist + Distance(current, next);
-                        final Tile nextTile = pMap.GetTile(next.Center().toPosition().toTilePosition(), check_t.no_check);
+                        final Tile nextTile = pMap.getData().getTile(next.Center().toPosition().toTilePosition(), check_t.no_check);
                         if (!nextTile.Marked()) {
                             if (nextTile.InternalData().intValue() != 0) { // next already in ToVisit
                                 if (newNextDist < nextTile.InternalData().intValue()) { // nextNewDist < nextOldDist
@@ -772,7 +772,7 @@ public final class Graph {
         for (Integer key : ToVisit.keySet()) {
             Collection<ChokePoint> coll = ToVisit.get(key);
             for (ChokePoint cp : coll) {
-                pMap.GetTile(cp.Center().toPosition().toTilePosition(), check_t.no_check).SetInternalData(new MutableInt(0));
+                pMap.getData().getTile(cp.Center().toPosition().toTilePosition(), check_t.no_check).SetInternalData(new MutableInt(0));
             }
         }
 

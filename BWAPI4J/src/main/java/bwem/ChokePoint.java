@@ -100,7 +100,7 @@ public final class ChokePoint extends Markable<ChokePoint> {
 
         // Ensures that in the case where several neutrals are stacked, m_pBlockingNeutral points to the bottom one:
         if (m_pBlockingNeutral != null) {
-            m_pBlockingNeutral = GetMap().GetTile(m_pBlockingNeutral.TopLeft()).GetNeutral();
+            m_pBlockingNeutral = GetMap().getData().getTile(m_pBlockingNeutral.TopLeft()).GetNeutral();
         }
 
         m_nodes = new WalkPosition[ChokePoint.Node.node_count.intVal()];
@@ -114,13 +114,13 @@ public final class ChokePoint extends Markable<ChokePoint> {
 
         int i = Geometry.size() / 2;
         while ((i > 0)
-                && (GetMap().GetMiniTile(Geometry.get(i - 1)).Altitude().intValue()
-                    > GetMap().GetMiniTile(Geometry.get(i)).Altitude().intValue())) {
+                && (GetMap().getData().getMiniTile(Geometry.get(i - 1)).Altitude().intValue()
+                    > GetMap().getData().getMiniTile(Geometry.get(i)).Altitude().intValue())) {
             --i;
         }
         while ((i < Geometry.size() - 1)
-                && (GetMap().GetMiniTile(Geometry.get(i + 1)).Altitude().intValue()
-                    > GetMap().GetMiniTile(Geometry.get(i)).Altitude().intValue())) {
+                && (GetMap().getData().getMiniTile(Geometry.get(i + 1)).Altitude().intValue()
+                    > GetMap().getData().getMiniTile(Geometry.get(i)).Altitude().intValue())) {
             ++i;
         }
         m_nodes[ChokePoint.Node.middle.intVal()] = Geometry.get(i);
@@ -143,7 +143,7 @@ public final class ChokePoint extends Markable<ChokePoint> {
                                 WalkPosition w = (WalkPosition) tpos;
                                 TilePosition t = (w.toPosition()).toTilePosition();
                                 Map map = (Map) tmap;
-                                return (miniTile.AreaId().equals(pArea.Id()) && map.GetTile(t, check_t.no_check).GetNeutral() == null);
+                                return (miniTile.AreaId().equals(pArea.Id()) && map.getData().getTile(t, check_t.no_check).GetNeutral() == null);
                             } else {
                                 throw new IllegalArgumentException();
                             }
@@ -160,7 +160,7 @@ public final class ChokePoint extends Markable<ChokePoint> {
                                 WalkPosition w = (WalkPosition) tpos;
                                 TilePosition t = (w.toPosition()).toTilePosition();
                                 Map map = (Map) tmap;
-                                return (miniTile.AreaId().equals(pArea.Id()) || (Blocked() && (miniTile.Blocked() || map.GetTile(t, check_t.no_check).GetNeutral() != null)));
+                                return (miniTile.AreaId().equals(pArea.Id()) || (Blocked() && (miniTile.Blocked() || map.getData().getTile(t, check_t.no_check).GetNeutral() != null)));
                             } else {
                                 throw new IllegalArgumentException("Invalid argument list.");
                             }
@@ -301,7 +301,7 @@ public final class ChokePoint extends Markable<ChokePoint> {
 
         if (m_pBlockingNeutral.equals(pBlocking)) {
             // Ensures that in the case where several neutrals are stacked, m_pBlockingNeutral points to the bottom one:
-            m_pBlockingNeutral = GetMap().GetTile(m_pBlockingNeutral.TopLeft()).GetNeutral();
+            m_pBlockingNeutral = GetMap().getData().getTile(m_pBlockingNeutral.TopLeft()).GetNeutral();
 
             if (m_pBlockingNeutral == null) {
                 if (GetGraph().GetMap().AutomaticPathUpdate().booleanValue()) {

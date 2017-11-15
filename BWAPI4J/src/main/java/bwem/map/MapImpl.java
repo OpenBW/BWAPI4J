@@ -42,8 +42,7 @@ public final class MapImpl implements Map {
 
     private final MapPrinter m_pMapPrinter;
 
-    private MapData mapData = null;
-    private TileData tileData = null;
+    private AdvancedData advancedData = null;
 
     private Altitude m_maxAltitude;
     private MutableBoolean m_automaticPathUpdate = new MutableBoolean(false);
@@ -51,7 +50,6 @@ public final class MapImpl implements Map {
     private final List<Mineral> m_Minerals = new ArrayList<>();
     private final List<Geyser> m_Geysers = new ArrayList<>();
     private final List<StaticBuilding> m_StaticBuildings = new ArrayList<>();
-    private final List<TilePosition> m_StartingLocations = new ArrayList<>();
     private final List<MutablePair<MutablePair<AreaId, AreaId>, WalkPosition>> m_RawFrontier = new ArrayList<>();
 
     private final BWMap bwMap;
@@ -85,15 +83,10 @@ public final class MapImpl implements Map {
 //    }
 
     @Override
-    public MapData getMapData() {
-        return this.mapData;
+    public AdvancedData getData() {
+        return this.advancedData;
     }
-    
-    @Override
-    public TileData getTileData() {
-        return this.tileData;
-    }
-    
+
     @Override
     public MapPrinter getMapPrinter() {
         return m_pMapPrinter;
@@ -104,11 +97,12 @@ public final class MapImpl implements Map {
         final Timer overallTimer = new Timer();
         final Timer timer = new Timer();
 
-        this.mapData = new MapDataImpl(this.bwMap.mapWidth(), this.bwMap.mapHeight(), this.bwMap.getStartPositions());
-        this.tileData = new TileDataImpl(
-                getMapData().getTileSize().getX() * getMapData().getTileSize().getY(),
-                getMapData().getWalkSize().getX() * getMapData().getWalkSize().getY()
+        final MapData mapData = new MapDataImpl(this.bwMap.mapWidth(), this.bwMap.mapHeight(), this.bwMap.getStartPositions());
+        final TileData tileData = new TileDataImpl(
+                mapData.getTileSize().getX() * mapData.getTileSize().getY(),
+                mapData.getWalkSize().getX() * mapData.getWalkSize().getY()
         );
+        this.advancedData = new AdvancedDataImpl(mapData, tileData);
 //    ///	bw << "Map::Initialize-resize: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::Initialize-resize: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
@@ -131,7 +125,7 @@ public final class MapImpl implements Map {
 //    ///	bw << "Map::InitializeNeutrals: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::InitializeNeutrals: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
-        ComputeAltitude(getMapData().getWalkSize().getX(), getMapData().getWalkSize().getY());
+        ComputeAltitude(getData().getMapData().getWalkSize().getX(), getData().getMapData().getWalkSize().getY());
 //    ///	bw << "Map::ComputeAltitude: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::ComputeAltitude: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
@@ -165,7 +159,7 @@ public final class MapImpl implements Map {
 
     @Override
     public boolean Initialized() {
-        return (this.mapData != null);
+        return (this.advancedData != null);
     }
 
     public Graph GetGraph() {
@@ -190,7 +184,7 @@ public final class MapImpl implements Map {
     @Override
     public boolean FindBasesForStartingLocations() {
         boolean atLeastOneFailed = false;
-        for (TilePosition location : getMapData().getStartingLocations()) {
+        for (TilePosition location : getData().getMapData().getStartingLocations()) {
             boolean found = false;
             for (Area area : GetGraph().Areas()) {
                 if (!found) {
@@ -226,54 +220,6 @@ public final class MapImpl implements Map {
     @Override
     public int ChokePointCount() {
         return GetGraph().ChokePoints().size();
-    }
-
-    @Override
-    public Tile GetTile(TilePosition p, check_t checkMode) {
-//        bwem_assert((checkMode == utils::check_t::no_check) || Valid(p)); utils::unused(checkMode);
-        if (!((checkMode == check_t.no_check) || getMapData().isValid(p))) {
-            throw new IllegalArgumentException();
-        }
-        return (this.tileData.getTiles().get(getMapData().getTileSize().getX() * p.getY() + p.getX()));
-    }
-
-    @Override
-    public Tile GetTile(TilePosition p) {
-        return GetTile(p, check_t.check);
-    }
-
-    @Override
-    public Tile GetTile_(TilePosition p, check_t checkMode) {
-        return this.tileData.getTiles().get(getMapData().getTileSize().getX() * p.getY() + p.getX());
-    }
-
-    @Override
-    public Tile GetTile_(TilePosition p) {
-        return GetTile_(p, check_t.check);
-    }
-
-    @Override
-    public MiniTile GetMiniTile(WalkPosition p, check_t checkMode) {
-//        bwem_assert((checkMode == utils::check_t::no_check) || Valid(p));
-        if (!((checkMode == check_t.no_check) || getMapData().isValid(p))) {
-            throw new IllegalArgumentException();
-        }
-        return this.tileData.getMiniTiles().get(getMapData().getWalkSize().getX() * p.getY() + p.getX());
-    }
-
-    @Override
-    public MiniTile GetMiniTile(WalkPosition p) {
-        return GetMiniTile(p, check_t.check);
-    }
-
-    @Override
-    public MiniTile GetMiniTile_(WalkPosition p, check_t checkMode) {
-        return this.tileData.getMiniTiles().get(getMapData().getWalkSize().getX() * p.getY() + p.getX());
-    }
-
-    @Override
-    public MiniTile GetMiniTile_(WalkPosition p) {
-        return GetMiniTile_(p, check_t.check);
     }
 
     @Override
@@ -379,7 +325,7 @@ public final class MapImpl implements Map {
             cp.OnBlockingNeutralDestroyed(pBlocking);
         }
 
-        if (GetTile(pBlocking.TopLeft()).GetNeutral() != null) { // there remains some blocking Neutrals at the same location
+        if (getData().getTile(pBlocking.TopLeft()).GetNeutral() != null) { // there remains some blocking Neutrals at the same location
             return;
         }
 
@@ -388,7 +334,7 @@ public final class MapImpl implements Map {
         WalkPosition pBlockingW = pBlocking.Size().toPosition().toWalkPosition();
         for (int dy = 0; dy < pBlockingW.getY(); ++dy)
         for (int dx = 0; dx < pBlockingW.getX(); ++dx) {
-            MiniTile miniTile = GetMiniTile_((pBlocking.TopLeft().toPosition().toWalkPosition()).add(new WalkPosition(dx, dy)));
+            MiniTile miniTile = getData().getMiniTile_((pBlocking.TopLeft().toPosition().toWalkPosition()).add(new WalkPosition(dx, dy)));
             if (miniTile.Walkable()) {
                 miniTile.ReplaceBlockedAreaId(newId);
             }
@@ -397,7 +343,7 @@ public final class MapImpl implements Map {
         // Unblock the Tiles of pBlocking:
         for (int dy = 0; dy < pBlocking.Size().getY(); ++dy)
         for (int dx = 0; dx < pBlocking.Size().getX(); ++dx) {
-            GetTile_(pBlocking.TopLeft().add(new TilePosition(dx, dy))).ResetAreaId();
+            getData().getTile_(pBlocking.TopLeft().add(new TilePosition(dx, dy))).ResetAreaId();
             SetAreaIdInTile(pBlocking.TopLeft().add(new TilePosition(dx, dy)));
         }
 
@@ -448,7 +394,7 @@ public final class MapImpl implements Map {
     }
 
     public TilePosition BreadthFirstSearch(TilePosition start, Pred findCond, Pred visitCond, boolean connect8) {
-        if (findCond.isTrue(GetTile(start), start, this)) {
+        if (findCond.isTrue(getData().getTile(start), start, this)) {
             return start;
         }
 
@@ -470,8 +416,8 @@ public final class MapImpl implements Map {
             TilePosition current = ToVisit.remove();
             for (TilePosition delta : directions) {
                 TilePosition next = current.add(delta);
-                if (getMapData().isValid(next)) {
-                    Tile nextTile = GetTile(next, check_t.no_check);
+                if (getData().getMapData().isValid(next)) {
+                    Tile nextTile = getData().getTile(next, check_t.no_check);
                     if (findCond.isTrue(nextTile, next, this)) {
                         return next;
                     }
@@ -494,7 +440,7 @@ public final class MapImpl implements Map {
     }
 
     public WalkPosition BreadthFirstSearch(final WalkPosition start, final Pred findCond, final Pred visitCond, final boolean connect8) {
-        if (findCond.isTrue(GetMiniTile(start), start, this)) {
+        if (findCond.isTrue(getData().getMiniTile(start), start, this)) {
             return start;
         }
 
@@ -516,8 +462,8 @@ public final class MapImpl implements Map {
             final WalkPosition current = ToVisit.remove();
             for (final WalkPosition delta : directions) {
                 final WalkPosition next = current.add(delta);
-                if (getMapData().isValid(next)) {
-                    final MiniTile Next = GetMiniTile(next, check_t.no_check);
+                if (getData().getMapData().isValid(next)) {
+                    final MiniTile Next = getData().getMiniTile(next, check_t.no_check);
                     if (findCond.isTrue(Next, next, this)) {
                         return next;
                     }
@@ -579,16 +525,16 @@ public final class MapImpl implements Map {
 
     private void markUnwalkableMiniTiles(final BWMap bwMap) {
         // Mark unwalkable minitiles (minitiles are walkable by default)
-        for (int y = 0; y < getMapData().getWalkSize().getY(); ++y)
-        for (int x = 0; x < getMapData().getWalkSize().getX(); ++x) {
+        for (int y = 0; y < getData().getMapData().getWalkSize().getY(); ++y)
+        for (int x = 0; x < getData().getMapData().getWalkSize().getX(); ++x) {
             if (!bwMap.isWalkable(x, y)) {
                 // For each unwalkable minitile, we also mark its 8 neighbours as not walkable.
                 // According to some tests, this prevents from wrongly pretending one Marine can go by some thin path.
                 for (int dy = -1; dy <= +1; ++dy)
                 for (int dx = -1; dx <= +1; ++dx) {
                     final WalkPosition w = new WalkPosition(x + dx, y + dy);
-                    if (getMapData().isValid(w)) {
-                        GetMiniTile_(w, check_t.no_check).SetWalkable(false);
+                    if (getData().getMapData().isValid(w)) {
+                        getData().getMiniTile_(w, check_t.no_check).SetWalkable(false);
                     }
                 }
             }
@@ -597,24 +543,24 @@ public final class MapImpl implements Map {
 
     private void markBuildableTilesAndGroundHeight(final BWMap bwMap) {
         // Mark buildable tiles (tiles are unbuildable by default)
-        for (int y = 0; y < getMapData().getTileSize().getY(); ++y)
-        for (int x = 0; x < getMapData().getTileSize().getX(); ++x) {
+        for (int y = 0; y < getData().getMapData().getTileSize().getY(); ++y)
+        for (int x = 0; x < getData().getMapData().getTileSize().getX(); ++x) {
             final TilePosition t = new TilePosition(x, y);
             if (bwMap.isBuildable(t, false)) {
-                GetTile_(t).SetBuildable();
+                getData().getTile_(t).SetBuildable();
 
                 // Ensures buildable ==> walkable:
                 for (int dy = 0; dy < 4; ++dy)
                 for (int dx = 0; dx < 4; ++dx) {
-                    GetMiniTile_(new WalkPosition(t).add(new WalkPosition(dx, dy)), check_t.no_check).SetWalkable(true);
+                    getData().getMiniTile_(new WalkPosition(t).add(new WalkPosition(dx, dy)), check_t.no_check).SetWalkable(true);
                 }
             }
 
             // Add groundHeight and doodad information:
             final int bwapiGroundHeight = bwMap.getGroundHeight(t);
-            GetTile_(t).SetGroundHeight(bwapiGroundHeight / 2);
+            getData().getTile_(t).SetGroundHeight(bwapiGroundHeight / 2);
             if (bwapiGroundHeight % 2 != 0) {
-                GetTile_(t).SetDoodad();
+                getData().getTile_(t).SetDoodad();
             }
         }
     }
@@ -624,10 +570,10 @@ public final class MapImpl implements Map {
 
 
     private void DecideSeasOrLakes(final int lake_max_miniTiles, final int lake_max_width_in_miniTiles) {
-    	for (int y = 0; y < getMapData().getWalkSize().getY(); ++y)
-    	for (int x = 0; x < getMapData().getWalkSize().getX(); ++x) {
+    	for (int y = 0; y < getData().getMapData().getWalkSize().getY(); ++y)
+    	for (int x = 0; x < getData().getMapData().getWalkSize().getX(); ++x) {
     		final WalkPosition origin = new WalkPosition(x, y);
-    		final MiniTile Origin = GetMiniTile_(origin, check_t.no_check);
+    		final MiniTile Origin = getData().getMiniTile_(origin, check_t.no_check);
     		if (Origin.SeaOrLake()) {
     			final List<WalkPosition> ToSearch = new ArrayList<>();
                 ToSearch.add(origin);
@@ -647,8 +593,8 @@ public final class MapImpl implements Map {
                     final WalkPosition deltas[] = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(+1, 0), new WalkPosition(0, +1)};
     				for (final WalkPosition delta : deltas) {
     					final WalkPosition next = current.add(delta);
-    					if (getMapData().isValid(next)) {
-    						final MiniTile Next = GetMiniTile_(next, check_t.no_check);
+    					if (getData().getMapData().isValid(next)) {
+    						final MiniTile Next = getData().getMiniTile_(next, check_t.no_check);
     						if (Next.SeaOrLake()) {
     							ToSearch.add(next);
                                 Next.SetSea();
@@ -663,7 +609,7 @@ public final class MapImpl implements Map {
     			if ((SeaExtent.size() <= lake_max_miniTiles) &&
     				(bottomRight.getX() - topLeft.getX() <= lake_max_width_in_miniTiles) &&
     				(bottomRight.getY() - topLeft.getY() <= lake_max_width_in_miniTiles) &&
-    				(topLeft.getX() >= 2) && (topLeft.getY() >= 2) && (bottomRight.getX() < getMapData().getWalkSize().getX() - 2) && (bottomRight.getY() < getMapData().getWalkSize().getY() - 2)) {
+    				(topLeft.getX() >= 2) && (topLeft.getY() >= 2) && (bottomRight.getX() < getData().getMapData().getWalkSize().getX() - 2) && (bottomRight.getY() < getData().getMapData().getWalkSize().getY() - 2)) {
     				for (final MiniTile pSea : SeaExtent) {
     					pSea.SetLake();
                     }
@@ -736,7 +682,7 @@ public final class MapImpl implements Map {
         for (int y = -1; y <= mapWalkTileHeight; ++y)
         for (int x = -1; x <= mapWalkTileWidth; ++x) {
             final WalkPosition w = new WalkPosition(x, y);
-            if (!getMapData().isValid(w) || BwemExt.seaSide(w, this)) {
+            if (!getData().getMapData().isValid(w) || BwemExt.seaSide(w, this)) {
                 ActiveSeaSideList.add(new MutablePair<>(w, new Altitude(0)));
             }
         }
@@ -767,8 +713,8 @@ public final class MapImpl implements Map {
                                                    new WalkPosition(d.getY(), d.getX()), new WalkPosition(-d.getY(), d.getX()), new WalkPosition(d.getY(), -d.getX()), new WalkPosition(-d.getY(), -d.getX())};
                     for (final WalkPosition delta : deltas) {
                         final WalkPosition w = Current.left.add(delta);
-                        if (getMapData().isValid(w)) {
-                            MiniTile miniTile = GetMiniTile_(w, check_t.no_check);
+                        if (getData().getMapData().isValid(w)) {
+                            MiniTile miniTile = getData().getMiniTile_(w, check_t.no_check);
                             if (miniTile.AltitudeMissing()) {
                                 m_maxAltitude = new Altitude(altitude);
                                 Current.right = new Altitude(altitude);
@@ -832,9 +778,9 @@ public final class MapImpl implements Map {
             @Override
             public boolean isTrue(Object... args) {
                 WalkPosition w = (WalkPosition) args[0];
-                return (!getMapData().isValid(w)
-                    || !GetMiniTile(w, check_t.no_check).Walkable()
-                    || GetTile(w.toPosition().toTilePosition(), check_t.no_check).GetNeutral() != null);
+                return (!getData().getMapData().isValid(w)
+                    || !getData().getMiniTile(w, check_t.no_check).Walkable()
+                    || getData().getTile(w.toPosition().toTilePosition(), check_t.no_check).GetNeutral() != null);
             }
         });
         return Border;
@@ -866,9 +812,9 @@ public final class MapImpl implements Map {
                 final WalkPosition[] deltas = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(+1, 0), new WalkPosition(0, +1)};
                 for (final WalkPosition delta : deltas) {
                     final WalkPosition next = current.add(delta);
-                    if (getMapData().isValid(next) && !Visited.contains(next)) {
-                        if (GetMiniTile(next, check_t.no_check).Walkable()) {
-                            if (GetTile((next.toPosition()).toTilePosition(), check_t.no_check).GetNeutral() == null) {
+                    if (getData().getMapData().isValid(next) && !Visited.contains(next)) {
+                        if (getData().getMiniTile(next, check_t.no_check).Walkable()) {
+                            if (getData().getTile((next.toPosition()).toTilePosition(), check_t.no_check).GetNeutral() == null) {
                                 if (BwemExt.adjoins8SomeLakeOrNeutral(next, this)) {
                                     ToVisit.add(next);
                                     Visited.add(next);
@@ -915,9 +861,9 @@ public final class MapImpl implements Map {
                     final WalkPosition[] deltas = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(+1, 0), new WalkPosition(0, +1)};
                     for (final WalkPosition delta : deltas) {
                         final WalkPosition next = current.add(delta);
-                        if (getMapData().isValid(next) && !Visited.contains(next)) {
-                            if (GetMiniTile(next, check_t.no_check).Walkable()) {
-                                if (GetTile(next.toPosition().toTilePosition(), check_t.no_check).GetNeutral() == null) {
+                        if (getData().getMapData().isValid(next) && !Visited.contains(next)) {
+                            if (getData().getMiniTile(next, check_t.no_check).Walkable()) {
+                                if (getData().getTile(next.toPosition().toTilePosition(), check_t.no_check).GetNeutral() == null) {
                                     ToVisit.add(next);
                                     Visited.add(next);
                                 }
@@ -943,7 +889,7 @@ public final class MapImpl implements Map {
     private void markBlockingStackedNeutrals(final Neutral pCandidate, final List<WalkPosition> TrueDoors) {
         if (TrueDoors.size() >= 2) {
             // Marks pCandidate (and any Neutral stacked with it) as blocking.
-            for (Neutral pNeutral = GetTile(pCandidate.TopLeft()).GetNeutral(); pNeutral != null; pNeutral = pNeutral.NextStacked()) {
+            for (Neutral pNeutral = getData().getTile(pCandidate.TopLeft()).GetNeutral(); pNeutral != null; pNeutral = pNeutral.NextStacked()) {
                 pNeutral.SetBlocking(TrueDoors);
             }
 
@@ -952,7 +898,7 @@ public final class MapImpl implements Map {
             final WalkPosition pCandidateW = pCandidate.Size().toPosition().toWalkPosition();
             for (int dy = 0; dy < pCandidateW.getY(); ++dy)
                 for (int dx = 0; dx < pCandidateW.getX(); ++dx) {
-                    final MiniTile miniTile = GetMiniTile_(((pCandidate.TopLeft().toPosition()).toWalkPosition()).add(new WalkPosition(dx, dy)));
+                    final MiniTile miniTile = getData().getMiniTile_(((pCandidate.TopLeft().toPosition()).toWalkPosition()).add(new WalkPosition(dx, dy)));
                     if (miniTile.Walkable()) {
                         miniTile.SetBlocked();
                     }
@@ -995,10 +941,10 @@ public final class MapImpl implements Map {
     private List<MutablePair<WalkPosition, MiniTile>> getSortedMiniTilesByDescendingAltitude() {
         final List<MutablePair<WalkPosition, MiniTile>> MiniTilesByDescendingAltitude = new ArrayList<>();
 
-        for (int y = 0; y < getMapData().getWalkSize().getY(); ++y)
-        for (int x = 0; x < getMapData().getWalkSize().getX(); ++x) {
+        for (int y = 0; y < getData().getMapData().getWalkSize().getY(); ++y)
+        for (int x = 0; x < getData().getMapData().getWalkSize().getX(); ++x) {
             final WalkPosition w = new WalkPosition(x, y);
-            final MiniTile miniTile = GetMiniTile_(w, check_t.no_check);
+            final MiniTile miniTile = getData().getMiniTile_(w, check_t.no_check);
             if (miniTile.AreaIdMissing()) {
                 MiniTilesByDescendingAltitude.add(new MutablePair<>(w, miniTile));
             }
@@ -1036,7 +982,7 @@ public final class MapImpl implements Map {
 //                any_of(StartingLocations().begin(), StartingLocations().end(), [&pos](const TilePosition & startingLoc)
 //                    { return dist(TilePosition(pos), startingLoc + TilePosition(2, 1)) <= 3;})
                 boolean cpp_algorithm_std_any_of = false;
-                for (final TilePosition startingLoc : getMapData().getStartingLocations()) {
+                for (final TilePosition startingLoc : getData().getMapData().getStartingLocations()) {
                     if (Double.compare(BwemExt.dist(pos.toPosition().toTilePosition(), startingLoc.add(new TilePosition(2, 1))), Double.valueOf("3")) <= 0) {
                         cpp_algorithm_std_any_of = true;
                         break;
@@ -1079,7 +1025,7 @@ public final class MapImpl implements Map {
     }
 
     private void ReplaceAreaIds(final WalkPosition p, final AreaId newAreaId) {
-        final MiniTile Origin = GetMiniTile_(p, check_t.no_check);
+        final MiniTile Origin = getData().getMiniTile_(p, check_t.no_check);
         final AreaId oldAreaId = Origin.AreaId();
         Origin.ReplaceAreaId(newAreaId);
 
@@ -1091,8 +1037,8 @@ public final class MapImpl implements Map {
             final WalkPosition[] deltas = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(+1, 0), new WalkPosition(0, +1)};
             for (final WalkPosition delta : deltas) {
                 final WalkPosition next = current.add(delta);
-                if (getMapData().isValid(next)) {
-                    final MiniTile Next = GetMiniTile_(next, check_t.no_check);
+                if (getData().getMapData().isValid(next)) {
+                    final MiniTile Next = getData().getMiniTile_(next, check_t.no_check);
                     if (Next.AreaId().equals(oldAreaId)) {
                         ToSearch.add(next);
                         Next.ReplaceAreaId(newAreaId);
@@ -1145,7 +1091,7 @@ public final class MapImpl implements Map {
     }
 
     private void SetAreaIdInTile(final TilePosition t) {
-        final Tile tile = GetTile_(t);
+        final Tile tile = getData().getTile_(t);
 //        bwem_assert(tile.AreaId() == 0);	// initialized to 0
         if (!(tile.AreaId().intValue() == 0)) { // initialized to 0
             throw new IllegalStateException();
@@ -1153,7 +1099,7 @@ public final class MapImpl implements Map {
 
         for (int dy = 0; dy < 4; ++dy)
         for (int dx = 0; dx < 4; ++dx) {
-            final AreaId id = GetMiniTile((t.toPosition().toWalkPosition()).add(new WalkPosition(dx, dy)), check_t.no_check).AreaId();
+            final AreaId id = getData().getMiniTile((t.toPosition().toWalkPosition()).add(new WalkPosition(dx, dy)), check_t.no_check).AreaId();
             if (id.intValue() != 0) {
                 if (tile.AreaId().intValue() == 0) {
                     tile.SetAreaId(id);
@@ -1171,19 +1117,19 @@ public final class MapImpl implements Map {
 
         for (int dy = 0; dy < 4; ++dy)
         for (int dx = 0; dx < 4; ++dx) {
-            final Altitude altitude = new Altitude(GetMiniTile(((t.toPosition()).toWalkPosition()).add(new WalkPosition(dx, dy)), check_t.no_check).Altitude());
+            final Altitude altitude = new Altitude(getData().getMiniTile(((t.toPosition()).toWalkPosition()).add(new WalkPosition(dx, dy)), check_t.no_check).Altitude());
             if (altitude.intValue() < minAltitude.intValue()) {
                 minAltitude = new Altitude(altitude);
             }
         }
 
-        GetTile_(t).SetMinAltitude(minAltitude);
+        getData().getTile_(t).SetMinAltitude(minAltitude);
     }
 
     // Renamed from "MapImpl::SetAreaIdInTiles"
     private void SetAreaIdAndMinAltitudeInTiles() {
-        for (int y = 0; y < getMapData().getTileSize().getY(); ++y)
-        for (int x = 0; x < getMapData().getTileSize().getX(); ++x) {
+        for (int y = 0; y < getData().getMapData().getTileSize().getY(); ++y)
+        for (int x = 0; x < getData().getMapData().getTileSize().getX(); ++x) {
             final TilePosition t = new TilePosition(x, y);
             SetAreaIdInTile(t);
             SetMinAltitudeInTile(t);
@@ -1195,8 +1141,8 @@ public final class MapImpl implements Map {
 
         final WalkPosition[] deltas = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(+1, 0), new WalkPosition(0, +1)};
         for (final WalkPosition delta : deltas) {
-            if (getMapData().isValid(p.add(delta))) {
-                final AreaId areaId = GetMiniTile(p.add(delta), check_t.no_check).AreaId();
+            if (getData().getMapData().isValid(p.add(delta))) {
+                final AreaId areaId = getData().getMiniTile(p.add(delta), check_t.no_check).AreaId();
                 if (areaId.intValue() > 0) {
                     if (result.left == null) {
                         result.left = new AreaId(areaId);

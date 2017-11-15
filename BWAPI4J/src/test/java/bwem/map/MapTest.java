@@ -81,7 +81,7 @@ public class MapTest implements BWEventListener {
 				 * Three mini tile altitudes that do/did not match original.
 				 */
 				if (x == 248 && y == 249) { // index = 127737
-					if (this.map.GetMiniTile(new WalkPosition(x, y)).Altitude().intValue()
+					if (this.map.getData().getMiniTile(new WalkPosition(x, y)).Altitude().intValue()
 							!= this.bwemData.miniTileAltitudes_ORIGINAL[walkTileWidth * y + x]) {
 						logger.warn("This mini tile's altitude does not match the original but has been marked as irrelevant or a possible false positive for now: " + x + " / " + y);
 						continue;
@@ -94,7 +94,7 @@ public class MapTest implements BWEventListener {
 				Assert.assertEquals(
 						x + " / " + y + " : mini tile altitude is wrong.",
 						this.bwemData.miniTileAltitudes_ORIGINAL[walkTileWidth * y + x],
-						this.map.GetMiniTile(new WalkPosition(x, y)).Altitude().intValue()
+						this.map.getData().getMiniTile(new WalkPosition(x, y)).Altitude().intValue()
 				);
 			}
 		}

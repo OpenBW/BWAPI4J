@@ -158,7 +158,7 @@ public class Neutral {
 
         for (int dy = 0; dy < Size().getY(); ++dy)
         for (int dx = 0; dx < Size().getX(); ++dx) {
-            Tile tile = GetMap().GetTile_(TopLeft().add(new TilePosition(dx, dy)));
+            Tile tile = GetMap().getData().getTile_(TopLeft().add(new TilePosition(dx, dy)));
             if (tile.GetNeutral() == null) {
                 tile.AddNeutral(this);
             } else {
@@ -196,7 +196,7 @@ public class Neutral {
     public void RemoveFromTiles() {
         for (int dy = 0; dy < Size().getY(); ++dy)
         for (int dx = 0; dx < Size().getX(); ++dx) {
-            Tile tile = GetMap().GetTile_(TopLeft().add(new TilePosition(dx, dy)));
+            Tile tile = GetMap().getData().getTile_(TopLeft().add(new TilePosition(dx, dy)));
 //            bwem_assert(tile.GetNeutral());
             if (!(tile.GetNeutral() != null)) {
                 throw new IllegalStateException();

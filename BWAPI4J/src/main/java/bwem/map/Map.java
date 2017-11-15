@@ -3,9 +3,6 @@ package bwem.map;
 import bwem.MapPrinter;
 import bwem.area.Area;
 import bwem.area.typedef.AreaId;
-import bwem.check_t;
-import bwem.tile.MiniTile;
-import bwem.tile.Tile;
 import bwem.typedef.Altitude;
 import bwem.typedef.CPPath;
 import bwem.typedef.Pred;
@@ -45,9 +42,7 @@ import java.util.List;
 
 public interface Map {
 
-    public abstract MapData getMapData();
-
-    public abstract TileData getTileData();
+    public abstract AdvancedData getData();
 
     public abstract MapPrinter getMapPrinter();
 
@@ -87,24 +82,6 @@ public interface Map {
 
     // Returns the number of ChokePoints.
     public abstract int ChokePointCount();
-
-	// Returns a Tile, given its position.
-	public abstract Tile GetTile(TilePosition p, check_t checkMode);
-
-    public abstract Tile GetTile(TilePosition p);
-
-    public abstract Tile GetTile_(TilePosition p, check_t checkMode);
-
-    public abstract Tile GetTile_(TilePosition p);
-
-	// Returns a MiniTile, given its position.
-    public abstract MiniTile GetMiniTile(WalkPosition p, check_t checkMode);
-
-    public abstract MiniTile GetMiniTile(WalkPosition p);
-
-    public abstract MiniTile GetMiniTile_(WalkPosition p, check_t checkMode);
-
-    public abstract MiniTile GetMiniTile_(WalkPosition p);
 
     // Returns a reference to the Minerals (Cf. Mineral).
     public abstract List<Mineral> Minerals();
