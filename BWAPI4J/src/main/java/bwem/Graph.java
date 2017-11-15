@@ -584,8 +584,8 @@ public final class Graph {
             }
         }
 
-        for (int y = 0; y < GetMap().Size().getY(); ++y)
-        for (int x = 0; x < GetMap().Size().getX(); ++x) {
+        for (int y = 0; y < GetMap().getTileSize().getY(); ++y)
+        for (int x = 0; x < GetMap().getTileSize().getX(); ++x) {
             Tile tile = GetMap().GetTile(new TilePosition(x, y));
             if (tile.AreaId().intValue() > 0) {
                 GetArea(tile.AreaId()).AddTileInformation(new TilePosition(x, y), tile);

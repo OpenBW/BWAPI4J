@@ -75,21 +75,6 @@ public interface Map {
 	// BWEM's suggested locations for the Bases.
     public abstract boolean FindBasesForStartingLocations();
 
-    // Returns the size of the Map in Tiles.
-    public abstract TilePosition Size();
-
-    // Returns the size of the Map in MiniTiles.
-    public abstract WalkPosition WalkSize();
-
-    // Returns the size of the Map in pixels.
-    public abstract Position PixelSize();
-
-    // Returns the center of the Map in pixels.
-    public abstract Position Center();
-
-    // Returns a random position in the Map in pixels.
-    public abstract Position RandomPosition();
-
     // Returns the maximum altitude in the whole Map (Cf. MiniTile::Altitude()).
     public abstract Altitude MaxAltitude();
 
@@ -122,22 +107,6 @@ public interface Map {
 
     // Provides access to the internal array of MiniTiles.
     public abstract List<MiniTile> MiniTiles();
-
-    public abstract boolean Valid(TilePosition p);
-
-    public abstract boolean Valid(WalkPosition p);
-
-    public abstract boolean Valid(Position p);
-
-    public abstract TilePosition Crop(TilePosition p);
-
-    public abstract WalkPosition Crop(WalkPosition p);
-
-    public abstract Position Crop(Position p);
-
-	// Returns a reference to the starting Locations.
-	// Note: these correspond to BWAPI::getStartLocations().
-    public abstract List<TilePosition> StartingLocations();
 
     // Returns a reference to the Minerals (Cf. Mineral).
     public abstract List<Mineral> Minerals();

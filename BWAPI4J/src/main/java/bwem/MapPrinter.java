@@ -161,7 +161,7 @@ public class MapPrinter {
     	for (int y = Center.getY() - radius; y <= Center.getY() + radius; ++y)
     	for (int x = Center.getX() - radius; x <= Center.getX() + radius; ++x)
     		if ((fillMode == fill_t.fill) || (y == Center.getY() - radius) || (y == Center.getY() + radius) || (x == Center.getX() - radius) || (x == Center.getX() + radius))
-    			if (m_pMap.Valid(new WalkPosition(x, y)))
+    			if (m_pMap.isValid(new WalkPosition(x, y)))
     				Point(x, y, col);
     }
 
@@ -176,7 +176,7 @@ public class MapPrinter {
             WalkPosition w = new WalkPosition(x, y);
             if (BwemExt.dist(w, Center) <= radius)
             if ((fillMode == fill_t.fill) || (BwemExt.dist(w, Center) >= radius - 1))
-                if (m_pMap.Valid(w))
+                if (m_pMap.isValid(w))
                     Point(x, y, col);
         }
     }
