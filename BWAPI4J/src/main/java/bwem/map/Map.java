@@ -45,6 +45,10 @@ import java.util.List;
 
 public interface Map {
 
+    public abstract MapData getMapData();
+
+    public abstract TileData getTileData();
+
     public abstract MapPrinter getMapPrinter();
 
 	// This has to be called before any other function is called.

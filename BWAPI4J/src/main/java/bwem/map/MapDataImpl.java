@@ -48,7 +48,7 @@ public class MapDataImpl implements MapData {
 
     @Override
     public List<TilePosition> getStartingLocations() {
-        return this.getStartingLocations();
+        return this.startingLocations;
     }
 
     @Override

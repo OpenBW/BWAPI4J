@@ -406,7 +406,7 @@ public final class Area extends Markable<Area> {
             for (int dy = -dimCC.getY() - BwemExt.max_tiles_between_CommandCenter_and_resources; dy < r.Size().getY() + dimCC.getY() + BwemExt.max_tiles_between_CommandCenter_and_resources; ++dy)
             for (int dx = -dimCC.getX() - BwemExt.max_tiles_between_CommandCenter_and_resources; dx < r.Size().getX() + dimCC.getX() + BwemExt.max_tiles_between_CommandCenter_and_resources; ++dx) {
                 TilePosition t = r.TopLeft().add(new TilePosition(dx, dy));
-                if (pMap.isValid(t)) {
+                if (pMap.getMapData().isValid(t)) {
                     Tile tile = pMap.GetTile(t, check_t.no_check);
                     int dist = (BwemExt.distToRectangle(BwemExt.center(t), r.TopLeft(), r.Size()) + 16) / 32;
                     int score = Math.max(BwemExt.max_tiles_between_CommandCenter_and_resources + 3 - dist, 0);
@@ -424,7 +424,7 @@ public final class Area extends Markable<Area> {
             for (int dy = -3; dy < r.Size().getY() + 3; ++dy)
             for (int dx = -3; dx < r.Size().getX() + 3; ++dx) {
                 TilePosition t = r.TopLeft().add(new TilePosition(dx, dy));
-                if (pMap.isValid(t)) {
+                if (pMap.getMapData().isValid(t)) {
                     pMap.GetTile(t, check_t.no_check).SetInternalData(new MutableInt(-1));
                 }
             }
@@ -451,7 +451,7 @@ public final class Area extends Markable<Area> {
                 for (int dy = -dimCC.getY() - BwemExt.max_tiles_between_CommandCenter_and_resources; dy < r.Size().getY() + dimCC.getY() + BwemExt.max_tiles_between_CommandCenter_and_resources; ++dy)
                 for (int dx = -dimCC.getX() - BwemExt.max_tiles_between_CommandCenter_and_resources; dx < r.Size().getX() + dimCC.getX() + BwemExt.max_tiles_between_CommandCenter_and_resources; ++dx) {
                     TilePosition t = r.TopLeft().add(new TilePosition(dx, dy));
-                    if (pMap.isValid(t)) {
+                    if (pMap.getMapData().isValid(t)) {
                         pMap.GetTile(t, check_t.no_check).SetInternalData(new MutableInt(0));
                     }
                 }
@@ -523,7 +523,7 @@ public final class Area extends Markable<Area> {
         for (int dy = -3; dy < dimCC.getY() + 3; ++dy)
         for (int dx = -3; dx < dimCC.getX() + 3; ++dx) {
             TilePosition t = location.add(new TilePosition(dx, dy));
-            if (pMap.isValid(t)) {
+            if (pMap.getMapData().isValid(t)) {
                 Tile tile = pMap.GetTile(t, check_t.no_check);
                 Neutral n = tile.GetNeutral();
                 if (n != null) {
@@ -599,7 +599,7 @@ public final class Area extends Markable<Area> {
                 final int newNextDist = currentDist + (diagonalMove ? 14142 : 10000);
 
                 TilePosition next = current.add(delta);
-                if (pMap.isValid(next)) {
+                if (pMap.getMapData().isValid(next)) {
                     Tile nextTile = pMap.GetTile(next, check_t.no_check);
                     if (!nextTile.Marked()) {
                         if (nextTile.InternalData().intValue() != 0) { // next already in ToVisit
