@@ -266,21 +266,6 @@ public final class MapImpl implements Map {
     }
 
     @Override
-    public List<Tile> Tiles() {
-        return m_Tiles;
-    }
-
-    @Override
-    public List<MiniTile> MiniTiles() {
-        return m_MiniTiles;
-    }
-
-    @Override
-    public List<TilePosition> getStartingLocations() {
-        return m_StartingLocations;
-    }
-
-    @Override
     public List<Mineral> Minerals() {
         return m_Minerals;
     }

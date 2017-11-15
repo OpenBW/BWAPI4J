@@ -102,12 +102,6 @@ public interface Map {
 
     public abstract MiniTile GetMiniTile_(WalkPosition p);
 
-    // Provides access to the internal array of Tiles.
-    public abstract List<Tile> Tiles();
-
-    // Provides access to the internal array of MiniTiles.
-    public abstract List<MiniTile> MiniTiles();
-
     // Returns a reference to the Minerals (Cf. Mineral).
     public abstract List<Mineral> Minerals();
 
