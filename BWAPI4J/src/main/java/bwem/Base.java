@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Objects;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
+import org.openbw.bwapi4j.type.UnitType;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -44,7 +45,7 @@ public final class Base {
         m_pArea = pArea;
         m_pMap = pArea.GetMap();
         m_location = location;
-        m_center = BwemExt.center(location);
+        m_center = BwemExt.centerOfBuilding(location, UnitType.Terran_Command_Center.tileSize());
         m_BlockingMinerals = BlockingMinerals;
 
 //        bwem_assert(!AssignedRessources.empty());
@@ -120,7 +121,7 @@ public final class Base {
     public void SetStartingLocation(TilePosition actualLocation) {
         m_starting = true;
         m_location = actualLocation;
-        m_center = BwemExt.center(actualLocation);
+        m_center = BwemExt.centerOfBuilding(actualLocation, UnitType.Terran_Command_Center.tileSize());
     }
 
     public void OnMineralDestroyed(Mineral pMineral) {

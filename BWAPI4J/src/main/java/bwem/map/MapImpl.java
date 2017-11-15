@@ -1111,7 +1111,8 @@ public final class MapImpl implements Map {
             }
         }
 
-        Collections.sort(MiniTilesByDescendingAltitude, new PairGenericMiniTileAltitudeComparator(PairGenericMiniTileAltitudeComparator.Order.DESCENDING));
+        Collections.sort(MiniTilesByDescendingAltitude, new PairGenericMiniTileAltitudeComparator<>());
+        Collections.reverse(MiniTilesByDescendingAltitude);
 
         return MiniTilesByDescendingAltitude;
     }
