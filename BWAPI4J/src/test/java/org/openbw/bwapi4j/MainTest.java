@@ -9,6 +9,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.unit.MineralPatch;
@@ -27,6 +28,7 @@ public class MainTest implements BWEventListener {
         
     }
     
+    @Ignore
     @Test
     public void smokeTest() throws AssertionError {
         

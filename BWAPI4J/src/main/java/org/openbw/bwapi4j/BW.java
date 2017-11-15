@@ -40,6 +40,8 @@ public class BW {
     private int frame;
     private Charset charset;
 
+    private boolean onStartInitializationDone;
+    
     /**
      * Creates a BW instance required to start a game.
      * @param listener listener to inform of various game events
@@ -105,6 +107,7 @@ public class BW {
     
     public void startGame() {
 
+    	this.onStartInitializationDone = false;
     	BW myBw = this;
     	Thread thread = new Thread(new Runnable() {
 
@@ -335,24 +338,34 @@ public class BW {
 	
     private void preFrame() {
 
-//        logger.debug("updating game state for frame {}...", this.frame);
+        logger.trace("updating game state for frame {}...", this.frame);
         updateGame();
-//        logger.debug("updated game.");
+        logger.trace("updated game.");
         updateAllPlayers();
-//        logger.debug("updated players.");
+        logger.trace("updated players.");
         updateAllUnits(this.frame);
-//        logger.debug("updated all units.");
+        logger.trace("updated all units.");
     }
 
     private void onStart() {
 
-    	logger.debug(" --- onStart called.");
+    	try {
+    	logger.trace(" --- onStart called.");
         this.frame = 0;
         this.players.clear();
         this.units.clear();
 
+        logger.trace(" --- calling initial preFrame...");
         preFrame();
+        logger.trace("done.");
         listener.onStart();
+    	} catch (Exception e) {
+    		
+    		logger.error("exception during onStart.", e);
+    		throw e;
+    	} finally {
+    		this.onStartInitializationDone = true;
+    	}
     }
 
     private void onEnd(boolean isWinner) {

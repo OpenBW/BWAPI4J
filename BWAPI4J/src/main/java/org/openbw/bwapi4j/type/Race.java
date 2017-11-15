@@ -2,7 +2,7 @@ package org.openbw.bwapi4j.type;
 
 public enum Race {
 
-    Zerg(0), Terran(1), Protoss(2), None(3), Unknown(4);
+    Zerg(0), Terran(1), Protoss(2), Other(3), Unused(4), Select(5), Random(6), None(7), Unknown(8);
 
     private int id;
     private UnitType worker;

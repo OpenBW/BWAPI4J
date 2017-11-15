@@ -173,6 +173,10 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 			std::cout << "calling onStart callback..." << std::endl;;
 			env->CallObjectMethod(bw, env->GetMethodID(jc, "onStart", "()V"));
 
+			// this is a hack to ensure the Java-side onStart gets enough time to finish initialization before the event callbacks trigger.
+			// TODO ideally, this should be solved via a callback from Java to c++ once Java-side onStart has finished initialization.
+			std::this_thread::sleep_for(std::chrono::milliseconds{ 40 });
+
 			jmethodID preFrameCallback = env->GetMethodID(jc, "preFrame", "()V");
 			jmethodID onEndCallback = env->GetMethodID(jc, "onEnd", "(Z)V");
 			jmethodID onFrameCallback = env->GetMethodID(jc, "onFrame", "()V");
@@ -190,6 +194,8 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 			jmethodID onUnitRenegadeCallback = env->GetMethodID(jc, "onUnitRenegade", "(I)V");
 			jmethodID onSaveGameCallback = env->GetMethodID(jc, "onSaveGame", "(Ljava/lang/String;)V");
 			jmethodID onUnitCompleteCallback = env->GetMethodID(jc, "onUnitComplete", "(I)V");
+
+			std::cout << "entering in-game event loop..." << std::endl;;
 
 			while (Broodwar->isInGame()) {
 				
@@ -294,7 +300,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 							}
 							break;
 						case EventType::UnitComplete: {
-							// std::cout << "calling onUnitComplete..." << std::endl;
+							std::cout << "calling onUnitComplete..." << std::endl;
 							env->CallObjectMethod(bw, onUnitCompleteCallback, e.getUnit()->getID());
 							// std::cout << "done." << std::endl;;
 						}
