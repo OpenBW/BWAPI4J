@@ -40,9 +40,34 @@ public class BW {
     private int frame;
     private Charset charset;
 
-    static {
+    /**
+     * Creates a BW instance required to start a game.
+     * @param listener listener to inform of various game events
+     */
+    public BW(BWEventListener listener) {
 
-        String libraryPathProperty = System.getProperty("java.library.path");
+    	loadDLL();
+    	
+        this.players = new HashMap<Integer, Player>();
+        this.units = new ConcurrentHashMap<Integer, Unit>();
+        this.listener = listener;
+        this.unitFactory = new UnitFactory(this);
+        this.interactionHandler = new InteractionHandler(this);
+        this.mapDrawer = new MapDrawer();
+        this.damageEvaluator = new DamageEvaluator();
+        this.bwMap = new BWMapImpl();
+
+        try {
+            charset = Charset.forName("Cp949"); // Korean char set
+        } catch (UnsupportedCharsetException e) {
+            logger.warn("Korean character set not available. Some characters may not be read properly.");
+            charset = StandardCharsets.ISO_8859_1;
+        }
+    }
+
+    private void loadDLL() {
+    	
+    	String libraryPathProperty = System.getProperty("java.library.path");
         if (libraryPathProperty == null || libraryPathProperty == "") {
 
             logger.warn("library path not set, using CWD as default.");
@@ -77,30 +102,7 @@ public class BW {
 
         logger.debug("DLL/SO loaded.");
     }
-
-    /**
-     * Creates a BW instance required to start a game.
-     * @param listener listener to inform of various game events
-     */
-    public BW(BWEventListener listener) {
-
-        this.players = new HashMap<Integer, Player>();
-        this.units = new ConcurrentHashMap<Integer, Unit>();
-        this.listener = listener;
-        this.unitFactory = new UnitFactory(this);
-        this.interactionHandler = new InteractionHandler(this);
-        this.mapDrawer = new MapDrawer();
-        this.damageEvaluator = new DamageEvaluator();
-        this.bwMap = new BWMapImpl();
-
-        try {
-            charset = Charset.forName("Cp949"); // Korean char set
-        } catch (UnsupportedCharsetException e) {
-            logger.warn("Korean character set not available. Some characters may not be read properly.");
-            charset = StandardCharsets.ISO_8859_1;
-        }
-    }
-
+    
     public void startGame() {
 
     	BW myBw = this;

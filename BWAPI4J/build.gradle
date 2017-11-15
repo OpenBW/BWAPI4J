@@ -5,10 +5,6 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'java-library-distribution'
 
-
-sourceCompatibility = 1.8
-
-
 repositories {
     mavenCentral()
     jcenter()
