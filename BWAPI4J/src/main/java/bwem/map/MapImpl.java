@@ -108,12 +108,12 @@ public final class MapImpl implements Map {
 
         // Computes walkability, buildability and groundHeight and doodad information, using BWAPI corresponding functions
 //        LoadData();
-        markUnwalkableMiniTiles(this.bwMap);
-        markBuildableTilesAndGroundHeight(this.bwMap);
+        markUnwalkableMiniTiles(this.advancedData, this.bwMap);
+        markBuildableTilesAndGroundHeight(this.advancedData, this.bwMap);
 //    ///	bw << "Map::LoadData: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::LoadData: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 //
-        DecideSeasOrLakes(BwemExt.lake_max_miniTiles, BwemExt.lake_max_width_in_miniTiles);
+        DecideSeasOrLakes(this.advancedData, BwemExt.lake_max_miniTiles, BwemExt.lake_max_width_in_miniTiles);
 //    ///	bw << "Map::DecideSeasOrLakes: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::DecideSeasOrLakes: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
@@ -125,7 +125,7 @@ public final class MapImpl implements Map {
 //    ///	bw << "Map::InitializeNeutrals: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::InitializeNeutrals: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
-        ComputeAltitude(getData().getMapData().getWalkSize().getX(), getData().getMapData().getWalkSize().getY());
+        ComputeAltitude(this.advancedData);
 //    ///	bw << "Map::ComputeAltitude: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         System.out.println("Map::ComputeAltitude: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
@@ -523,44 +523,44 @@ public final class MapImpl implements Map {
     // MapImpl::LoadData
     //----------------------------------------------------------------------
 
-    private void markUnwalkableMiniTiles(final BWMap bwMap) {
+    private void markUnwalkableMiniTiles(final AdvancedData advancedData, final BWMap bwMap) {
         // Mark unwalkable minitiles (minitiles are walkable by default)
-        for (int y = 0; y < getData().getMapData().getWalkSize().getY(); ++y)
-        for (int x = 0; x < getData().getMapData().getWalkSize().getX(); ++x) {
+        for (int y = 0; y < advancedData.getMapData().getWalkSize().getY(); ++y)
+        for (int x = 0; x < advancedData.getMapData().getWalkSize().getX(); ++x) {
             if (!bwMap.isWalkable(x, y)) {
                 // For each unwalkable minitile, we also mark its 8 neighbours as not walkable.
                 // According to some tests, this prevents from wrongly pretending one Marine can go by some thin path.
                 for (int dy = -1; dy <= +1; ++dy)
                 for (int dx = -1; dx <= +1; ++dx) {
                     final WalkPosition w = new WalkPosition(x + dx, y + dy);
-                    if (getData().getMapData().isValid(w)) {
-                        getData().getMiniTile_(w, check_t.no_check).SetWalkable(false);
+                    if (advancedData.getMapData().isValid(w)) {
+                        advancedData.getMiniTile_(w, check_t.no_check).SetWalkable(false);
                     }
                 }
             }
         }
     }
 
-    private void markBuildableTilesAndGroundHeight(final BWMap bwMap) {
+    private void markBuildableTilesAndGroundHeight(final AdvancedData advancedData, final BWMap bwMap) {
         // Mark buildable tiles (tiles are unbuildable by default)
-        for (int y = 0; y < getData().getMapData().getTileSize().getY(); ++y)
-        for (int x = 0; x < getData().getMapData().getTileSize().getX(); ++x) {
+        for (int y = 0; y < advancedData.getMapData().getTileSize().getY(); ++y)
+        for (int x = 0; x < advancedData.getMapData().getTileSize().getX(); ++x) {
             final TilePosition t = new TilePosition(x, y);
             if (bwMap.isBuildable(t, false)) {
-                getData().getTile_(t).SetBuildable();
+                advancedData.getTile_(t).SetBuildable();
 
                 // Ensures buildable ==> walkable:
                 for (int dy = 0; dy < 4; ++dy)
                 for (int dx = 0; dx < 4; ++dx) {
-                    getData().getMiniTile_(new WalkPosition(t).add(new WalkPosition(dx, dy)), check_t.no_check).SetWalkable(true);
+                    advancedData.getMiniTile_((t.toPosition().toWalkPosition()).add(new WalkPosition(dx, dy)), check_t.no_check).SetWalkable(true);
                 }
             }
 
             // Add groundHeight and doodad information:
             final int bwapiGroundHeight = bwMap.getGroundHeight(t);
-            getData().getTile_(t).SetGroundHeight(bwapiGroundHeight / 2);
+            advancedData.getTile_(t).SetGroundHeight(bwapiGroundHeight / 2);
             if (bwapiGroundHeight % 2 != 0) {
-                getData().getTile_(t).SetDoodad();
+                advancedData.getTile_(t).SetDoodad();
             }
         }
     }
@@ -569,11 +569,11 @@ public final class MapImpl implements Map {
 
 
 
-    private void DecideSeasOrLakes(final int lake_max_miniTiles, final int lake_max_width_in_miniTiles) {
-    	for (int y = 0; y < getData().getMapData().getWalkSize().getY(); ++y)
-    	for (int x = 0; x < getData().getMapData().getWalkSize().getX(); ++x) {
+    private void DecideSeasOrLakes(final AdvancedData advancedData, final int lake_max_miniTiles, final int lake_max_width_in_miniTiles) {
+    	for (int y = 0; y < advancedData.getMapData().getWalkSize().getY(); ++y)
+    	for (int x = 0; x < advancedData.getMapData().getWalkSize().getX(); ++x) {
     		final WalkPosition origin = new WalkPosition(x, y);
-    		final MiniTile Origin = getData().getMiniTile_(origin, check_t.no_check);
+    		final MiniTile Origin = advancedData.getMiniTile_(origin, check_t.no_check);
     		if (Origin.SeaOrLake()) {
     			final List<WalkPosition> ToSearch = new ArrayList<>();
                 ToSearch.add(origin);
@@ -593,8 +593,8 @@ public final class MapImpl implements Map {
                     final WalkPosition deltas[] = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(+1, 0), new WalkPosition(0, +1)};
     				for (final WalkPosition delta : deltas) {
     					final WalkPosition next = current.add(delta);
-    					if (getData().getMapData().isValid(next)) {
-    						final MiniTile Next = getData().getMiniTile_(next, check_t.no_check);
+    					if (advancedData.getMapData().isValid(next)) {
+    						final MiniTile Next = advancedData.getMiniTile_(next, check_t.no_check);
     						if (Next.SeaOrLake()) {
     							ToSearch.add(next);
                                 Next.SetSea();
@@ -609,7 +609,7 @@ public final class MapImpl implements Map {
     			if ((SeaExtent.size() <= lake_max_miniTiles) &&
     				(bottomRight.getX() - topLeft.getX() <= lake_max_width_in_miniTiles) &&
     				(bottomRight.getY() - topLeft.getY() <= lake_max_width_in_miniTiles) &&
-    				(topLeft.getX() >= 2) && (topLeft.getY() >= 2) && (bottomRight.getX() < getData().getMapData().getWalkSize().getX() - 2) && (bottomRight.getY() < getData().getMapData().getWalkSize().getY() - 2)) {
+    				(topLeft.getX() >= 2) && (topLeft.getY() >= 2) && (bottomRight.getX() < advancedData.getMapData().getWalkSize().getX() - 2) && (bottomRight.getY() < advancedData.getMapData().getWalkSize().getY() - 2)) {
     				for (final MiniTile pSea : SeaExtent) {
     					pSea.SetLake();
                     }
@@ -676,13 +676,13 @@ public final class MapImpl implements Map {
      * 2) Fill in ActiveSeaSideList, which basically contains all the seaside miniTiles (from which altitudes are to be computed)
      *    It also includes extra border-miniTiles which are considered as seaside miniTiles too.
      */
-    private List<MutablePair<WalkPosition, Altitude>> getActiveSeaSideList(final int mapWalkTileWidth, final int mapWalkTileHeight) {
+    private List<MutablePair<WalkPosition, Altitude>> getActiveSeaSideList(final MapData mapData) {
         final List<MutablePair<WalkPosition, Altitude>> ActiveSeaSideList = new ArrayList<>();
 
-        for (int y = -1; y <= mapWalkTileHeight; ++y)
-        for (int x = -1; x <= mapWalkTileWidth; ++x) {
+        for (int y = -1; y <= mapData.getWalkSize().getX(); ++y)
+        for (int x = -1; x <= mapData.getWalkSize().getY(); ++x) {
             final WalkPosition w = new WalkPosition(x, y);
-            if (!getData().getMapData().isValid(w) || BwemExt.seaSide(w, this)) {
+            if (!mapData.isValid(w) || BwemExt.seaSide(w, this)) {
                 ActiveSeaSideList.add(new MutablePair<>(w, new Altitude(0)));
             }
         }
@@ -694,6 +694,7 @@ public final class MapImpl implements Map {
      * 3) Dijkstra's algorithm to set altitude for mini tiles.
      */
     private void setAltitudes(
+            final AdvancedData advancedData,
             final List<MutablePair<WalkPosition, Altitude>> DeltasByAscendingAltitude,
             final List<MutablePair<WalkPosition, Altitude>> ActiveSeaSideList,
             final int altitude_scale
@@ -713,8 +714,8 @@ public final class MapImpl implements Map {
                                                    new WalkPosition(d.getY(), d.getX()), new WalkPosition(-d.getY(), d.getX()), new WalkPosition(d.getY(), -d.getX()), new WalkPosition(-d.getY(), -d.getX())};
                     for (final WalkPosition delta : deltas) {
                         final WalkPosition w = Current.left.add(delta);
-                        if (getData().getMapData().isValid(w)) {
-                            MiniTile miniTile = getData().getMiniTile_(w, check_t.no_check);
+                        if (advancedData.getMapData().isValid(w)) {
+                            final MiniTile miniTile = advancedData.getMiniTile_(w, check_t.no_check);
                             if (miniTile.AltitudeMissing()) {
                                 m_maxAltitude = new Altitude(altitude);
                                 Current.right = new Altitude(altitude);
@@ -731,14 +732,18 @@ public final class MapImpl implements Map {
     // Cf. MiniTile::Altitude() for meaning of altitude_t.
     // Altitudes are computed using the straightforward Dijkstra's algorithm : the lower ones are computed first, starting from the seaside-miniTiles neighbours.
     // The point here is to precompute all possible altitudes for all possible tiles, and sort them.
-    private void ComputeAltitude(final int mapWalkTileWidth, final int mapWalkTileHeight) {
+    private void ComputeAltitude(final AdvancedData advancedData) {
     	final int altitude_scale = 8; // 8 provides a pixel definition for altitude_t, since altitudes are computed from miniTiles which are 8x8 pixels
-    	
-    	final List<MutablePair<WalkPosition, Altitude>> DeltasByAscendingAltitude = getSortedDeltasByAscendingAltitude(mapWalkTileWidth, mapWalkTileHeight, altitude_scale);
-    	
-    	final List<MutablePair<WalkPosition, Altitude>> ActiveSeaSides = getActiveSeaSideList(mapWalkTileWidth, mapWalkTileHeight);
 
-    	setAltitudes(DeltasByAscendingAltitude, ActiveSeaSides, altitude_scale);
+        final List<MutablePair<WalkPosition, Altitude>> DeltasByAscendingAltitude
+                = getSortedDeltasByAscendingAltitude(
+                advancedData.getMapData().getWalkSize().getX(),
+                advancedData.getMapData().getWalkSize().getY(),
+                altitude_scale);
+    	
+    	final List<MutablePair<WalkPosition, Altitude>> ActiveSeaSides = getActiveSeaSideList(advancedData.getMapData());
+
+    	setAltitudes(advancedData, DeltasByAscendingAltitude, ActiveSeaSides, altitude_scale);
     }
 
     //----------------------------------------------------------------------
