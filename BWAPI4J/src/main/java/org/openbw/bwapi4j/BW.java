@@ -40,9 +40,36 @@ public class BW {
     private int frame;
     private Charset charset;
 
-    static {
+    private boolean onStartInitializationDone;
+    
+    /**
+     * Creates a BW instance required to start a game.
+     * @param listener listener to inform of various game events
+     */
+    public BW(BWEventListener listener) {
 
-        String libraryPathProperty = System.getProperty("java.library.path");
+    	loadDLL();
+    	
+        this.players = new HashMap<Integer, Player>();
+        this.units = new ConcurrentHashMap<Integer, Unit>();
+        this.listener = listener;
+        this.unitFactory = new UnitFactory(this);
+        this.interactionHandler = new InteractionHandler(this);
+        this.mapDrawer = new MapDrawer();
+        this.damageEvaluator = new DamageEvaluator();
+        this.bwMap = new BWMapImpl();
+
+        try {
+            charset = Charset.forName("Cp949"); // Korean char set
+        } catch (UnsupportedCharsetException e) {
+            logger.warn("Korean character set not available. Some characters may not be read properly.");
+            charset = StandardCharsets.ISO_8859_1;
+        }
+    }
+
+    private void loadDLL() {
+    	
+    	String libraryPathProperty = System.getProperty("java.library.path");
         if (libraryPathProperty == null || libraryPathProperty == "") {
 
             logger.warn("library path not set, using CWD as default.");
@@ -77,32 +104,10 @@ public class BW {
 
         logger.debug("DLL/SO loaded.");
     }
-
-    /**
-     * Creates a BW instance required to start a game.
-     * @param listener listener to inform of various game events
-     */
-    public BW(BWEventListener listener) {
-
-        this.players = new HashMap<Integer, Player>();
-        this.units = new ConcurrentHashMap<Integer, Unit>();
-        this.listener = listener;
-        this.unitFactory = new UnitFactory(this);
-        this.interactionHandler = new InteractionHandler(this);
-        this.mapDrawer = new MapDrawer();
-        this.damageEvaluator = new DamageEvaluator();
-        this.bwMap = new BWMapImpl();
-
-        try {
-            charset = Charset.forName("Cp949"); // Korean char set
-        } catch (UnsupportedCharsetException e) {
-            logger.warn("Korean character set not available. Some characters may not be read properly.");
-            charset = StandardCharsets.ISO_8859_1;
-        }
-    }
-
+    
     public void startGame() {
 
+    	this.onStartInitializationDone = false;
     	BW myBw = this;
     	Thread thread = new Thread(new Runnable() {
 
@@ -333,24 +338,34 @@ public class BW {
 	
     private void preFrame() {
 
-//        logger.debug("updating game state for frame {}...", this.frame);
+        logger.trace("updating game state for frame {}...", this.frame);
         updateGame();
-//        logger.debug("updated game.");
+        logger.trace("updated game.");
         updateAllPlayers();
-//        logger.debug("updated players.");
+        logger.trace("updated players.");
         updateAllUnits(this.frame);
-//        logger.debug("updated all units.");
+        logger.trace("updated all units.");
     }
 
     private void onStart() {
 
-    	logger.debug(" --- onStart called.");
+    	try {
+    	logger.trace(" --- onStart called.");
         this.frame = 0;
         this.players.clear();
         this.units.clear();
 
+        logger.trace(" --- calling initial preFrame...");
         preFrame();
+        logger.trace("done.");
         listener.onStart();
+    	} catch (Exception e) {
+    		
+    		logger.error("exception during onStart.", e);
+    		throw e;
+    	} finally {
+    		this.onStartInitializationDone = true;
+    	}
     }
 
     private void onEnd(boolean isWinner) {
