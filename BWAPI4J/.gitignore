@@ -15,3 +15,4 @@ BWAPI4J.iml
 *.bmp
 QuickFileWriter.java
 *.txt
+log4j2-test.xml
