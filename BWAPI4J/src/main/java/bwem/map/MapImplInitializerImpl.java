@@ -10,7 +10,7 @@ import org.openbw.bwapi4j.unit.VespeneGeyser;
 import java.util.Collection;
 import java.util.List;
 
-public class MapImplInitializerImpl extends MapImpl {
+public class MapImplInitializerImpl extends MapImpl implements MapInitializer {
 
     public MapImplInitializerImpl(
             BWMap bwMap,
