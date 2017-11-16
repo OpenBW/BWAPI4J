@@ -38,7 +38,7 @@ import bwem.util.PairGenericMiniTileAltitudeComparator;
 import bwem.util.Timer;
 import bwem.util.Utils;
 
-public final class MapImpl implements Map {
+public class MapImpl implements Map {
 
     private final MapPrinter m_pMapPrinter;
 
