@@ -55,8 +55,8 @@ public class MapTest implements BWEventListener {
     	List<VespeneGeyser> geysers = new ArrayList<>();
     	List<Unit> units = new ArrayList<>();
     	
-    	this.map = new MapImpl(mapMock, null, players, mineralPatches, geysers, units);
-    	this.map.Initialize();
+    	this.map = new MapInitializerImpl(mapMock, null, players, mineralPatches, geysers, units);
+		((MapInitializer) this.map).Initialize();
 
     	assertMiniTileAltitudes(mapMock.mapWidth() * 4, mapMock.mapHeight() * 4);
     }
@@ -104,7 +104,7 @@ public class MapTest implements BWEventListener {
 	public void onStart() {
 		
 		this.map = new BWEM(this.bw).GetMap();
-    	this.map.Initialize();
+		((MapInitializer) this.map).Initialize();
 		
     	BWMap map1 = this.bw.getBWMap();
     	BWMap map2 = new BWMapMock();

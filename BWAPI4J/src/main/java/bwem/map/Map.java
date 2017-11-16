@@ -46,10 +46,6 @@ public interface Map {
 
     public abstract MapPrinter getMapPrinter();
 
-	// This has to be called before any other function is called.
-	// A good place to do this is in ExampleAIModule::onStart()
-    public abstract void Initialize();
-
     // Will return true once Initialize() has been called.
     public abstract boolean Initialized();
 

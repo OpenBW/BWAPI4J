@@ -29,7 +29,8 @@ public class TestListenerBwem implements BWEventListener {
 
             System.out.println("BWEM initialization started.");
             this.bwem = new BWEM(this.bw);
-            this.bwem.GetMap().Initialize();
+//            this.bwem.GetMap().Initialize();
+            this.bwem.initialize();
             this.bwem.GetMap().EnableAutomaticPathAnalysis();
             this.bwem.GetMap().getMapPrinter().Initialize(this.bw, this.bwem.GetMap());
             MapPrinterExample example = new MapPrinterExample(this.bwem.GetMap().getMapPrinter());
