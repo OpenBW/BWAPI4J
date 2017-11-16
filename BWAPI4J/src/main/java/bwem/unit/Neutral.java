@@ -7,6 +7,8 @@ import bwem.tile.Tile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import org.apache.logging.log4j.core.util.Assert;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
@@ -158,6 +160,14 @@ public class Neutral {
 
         for (int dy = 0; dy < Size().getY(); ++dy)
         for (int dx = 0; dx < Size().getX(); ++dx) {
+            Map map = GetMap();
+            if (map == null) {
+                throw new IllegalStateException("Map object is null");
+            } else if (map.getData() == null) {
+                throw new IllegalStateException("AdvancedData object is null");
+            } else if (TopLeft() == null) {
+                throw new IllegalStateException("TopLeft is null");
+            }
             Tile tile = GetMap().getData().getTile_(TopLeft().add(new TilePosition(dx, dy)));
             if (tile.GetNeutral() == null) {
                 tile.AddNeutral(this);

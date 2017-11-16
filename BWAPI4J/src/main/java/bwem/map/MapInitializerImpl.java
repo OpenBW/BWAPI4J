@@ -16,6 +16,8 @@ import bwem.util.PairGenericMiniTileAltitudeComparator;
 import bwem.util.Timer;
 import bwem.util.Utils;
 import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.BWMap;
 import org.openbw.bwapi4j.MapDrawer;
 import org.openbw.bwapi4j.Player;
@@ -34,6 +36,8 @@ import java.util.List;
 
 public class MapInitializerImpl extends MapImpl implements MapInitializer {
 
+    private static final Logger logger = LogManager.getLogger();
+
     public MapInitializerImpl(
             BWMap bwMap,
             MapDrawer mapDrawer,
@@ -50,25 +54,20 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
         final Timer overallTimer = new Timer();
         final Timer timer = new Timer();
 
-        final MapData mapData = new MapDataImpl(super.bwMap.mapWidth(), super.bwMap.mapHeight(), super.bwMap.getStartPositions());
-        final TileData tileData = new TileDataImpl(
-                mapData.getTileSize().getX() * mapData.getTileSize().getY(),
-                mapData.getWalkSize().getX() * mapData.getWalkSize().getY()
-        );
-        super.advancedData = new AdvancedDataImpl(mapData, tileData);
+        compileAdvancedData(super.bwMap.mapWidth(), super.bwMap.mapHeight(), super.bwMap.getStartPositions());
 //    ///	bw << "Map::Initialize-resize: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
-        System.out.println("Map::Initialize-resize: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
+        logger.info("Map::Initialize-resize: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
         // Computes walkability, buildability and groundHeight and doodad information, using BWAPI corresponding functions
 //        LoadData();
         markUnwalkableMiniTiles(super.advancedData, super.bwMap);
         markBuildableTilesAndGroundHeight(super.advancedData, super.bwMap);
 //    ///	bw << "Map::LoadData: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
-        System.out.println("Map::LoadData: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
+        logger.info("Map::LoadData: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 //
         DecideSeasOrLakes(super.advancedData, BwemExt.lake_max_miniTiles, BwemExt.lake_max_width_in_miniTiles);
 //    ///	bw << "Map::DecideSeasOrLakes: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
-        System.out.println("Map::DecideSeasOrLakes: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
+        logger.info("Map::DecideSeasOrLakes: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
         InitializeNeutrals(
                 super.mineralPatches, Minerals(),
@@ -76,38 +75,48 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                 filterNeutralPlayerUnits(super.units, super.players), StaticBuildings()
         );
 //    ///	bw << "Map::InitializeNeutrals: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
-        System.out.println("Map::InitializeNeutrals: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
+        logger.info("Map::InitializeNeutrals: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
         ComputeAltitude(super.advancedData);
 //    ///	bw << "Map::ComputeAltitude: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
-        System.out.println("Map::ComputeAltitude: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
+        logger.info("Map::ComputeAltitude: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
         ProcessBlockingNeutrals(getCandidates(StaticBuildings(), Minerals()));
 //    ///	bw << "Map::ProcessBlockingNeutrals: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
-        System.out.println("Map::ProcessBlockingNeutrals: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
+        logger.info("Map::ProcessBlockingNeutrals: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
         ComputeAreas(ComputeTempAreas(getSortedMiniTilesByDescendingAltitude()), BwemExt.area_min_miniTiles);
 //    ///	bw << "Map::ComputeAreas: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
-        System.out.println("Map::ComputeAreas: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
+        logger.info("Map::ComputeAreas: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
         GetGraph().CreateChokePoints(StaticBuildings(), Minerals(), RawFrontier());
 //    ///	bw << "Graph::CreateChokePoints: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
-        System.out.println("Map::CreateChokePoints: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
+        logger.info("Map::CreateChokePoints: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
         GetGraph().ComputeChokePointDistanceMatrix();
 //    ///	bw << "Graph::ComputeChokePointDistanceMatrix: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
-        System.out.println("Map::ComputeChokePointDistanceMatrix: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
+        logger.info("Map::ComputeChokePointDistanceMatrix: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
         GetGraph().CollectInformation();
 //    ///	bw << "Graph::CollectInformation: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
-        System.out.println("Map::CollectInformation: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
+        logger.info("Map::CollectInformation: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
         GetGraph().CreateBases();
 //    ///	bw << "Graph::CreateBases: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
-        System.out.println("Map::CreateBases: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
+        logger.info("Map::CreateBases: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
 //    ///	bw << "Map::Initialize: " << overallTimer.ElapsedMilliseconds() << " ms" << endl;
-        System.out.println("Map::Initialize: " + overallTimer.ElapsedMilliseconds() + " ms"); timer.Reset();
+        logger.info("Map::Initialize: " + overallTimer.ElapsedMilliseconds() + " ms"); timer.Reset();
+    }
+
+    @Override
+    public void compileAdvancedData(final int mapTileWidth, final int mapTileHeight, final List<TilePosition> startingLocations) {
+        final MapData mapData = new MapDataImpl(mapTileWidth, mapTileHeight, startingLocations);
+        final TileData tileData = new TileDataImpl(
+                mapData.getTileSize().getX() * mapData.getTileSize().getY(),
+                mapData.getWalkSize().getX() * mapData.getWalkSize().getY()
+        );
+        super.advancedData = new AdvancedDataImpl(mapData, tileData);
     }
 
 
@@ -749,5 +758,17 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
     }
 
     ////////////////////////////////////////////////////////////////////////
+
+
+
+    @Override
+    public List<PlayerUnit> filterPlayerUnits(final Collection<Unit> units, final Player player) {
+        return super.filterPlayerUnits(units, player);
+    }
+
+    @Override
+    public List<PlayerUnit> filterNeutralPlayerUnits(final Collection<Unit> units, final Collection<Player> players) {
+        return super.filterNeutralPlayerUnits(units, players);
+    }
 
 }

@@ -10,12 +10,15 @@ import bwem.unit.Neutral;
 import bwem.unit.StaticBuilding;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.openbw.bwapi4j.BWMap;
+import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.unit.MineralPatch;
 import org.openbw.bwapi4j.unit.PlayerUnit;
+import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.unit.VespeneGeyser;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface MapInitializer {
@@ -23,6 +26,8 @@ public interface MapInitializer {
     // This has to be called before any other function is called.
     // A good place to do this is in ExampleAIModule::onStart()
     public abstract void Initialize();
+
+    public abstract void compileAdvancedData(int mapTileWidth, int mapTileHeight, List<TilePosition> startingLocations);
 
     public abstract void markUnwalkableMiniTiles(AdvancedData advancedData, BWMap bwMap);
     public abstract void markBuildableTilesAndGroundHeight(AdvancedData advancedData, BWMap bwMap);
@@ -59,5 +64,8 @@ public interface MapInitializer {
     public abstract void ReplaceAreaIds(WalkPosition p, AreaId newAreaId);
     public abstract void CreateAreas(List<TempAreaInfo> TempAreaList, int area_min_miniTiles);
     public abstract void SetMinAltitudeInTile(TilePosition t);
+
+    public abstract List<PlayerUnit> filterPlayerUnits(Collection<Unit> units, Player player);
+    public abstract List<PlayerUnit> filterNeutralPlayerUnits(Collection<Unit> units, Collection<Player> players);
 
 }

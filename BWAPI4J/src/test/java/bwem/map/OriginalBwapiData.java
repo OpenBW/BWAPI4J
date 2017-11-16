@@ -19,6 +19,7 @@ public class OriginalBwapiData {
     public final int[] walkabilityInfo_ORIGINAL;
     public final int[] groundInfo_ORIGINAL;
     public final int[] buildableInfo_ORIGINAL;
+    public final TilePosition mapSize_FightingSpirit_ORIGINAL = new TilePosition(128, 128);
     public final TilePosition[] startLocations_FightingSpirit_ORIGINAL = {new TilePosition(117, 7), new TilePosition(7, 6), new TilePosition(7, 116), new TilePosition(117, 117)};
 
     public OriginalBwapiData() throws IOException, URISyntaxException {
