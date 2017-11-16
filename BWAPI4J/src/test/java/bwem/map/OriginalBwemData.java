@@ -3,6 +3,8 @@ package bwem.map;
 import bwem.typedef.Altitude;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.openbw.bwapi4j.WalkPosition;
 
@@ -16,6 +18,8 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class OriginalBwemData {
+
+    private static final Logger logger = LogManager.getLogger();
 
     public final int[] miniTileAltitudes_ORIGINAL;
     public final List<MutablePair<WalkPosition, Altitude>> deltasByAscendingAltitude;
@@ -45,9 +49,9 @@ public class OriginalBwemData {
                 }
             });
             stream.close();
-            System.out.println("added " + index + " values.");
+            logger.debug("Added " + index + " values");
 
-            Assert.assertTrue("dummy data file contains invalid number of integers: " + array.size(), (array.size() >= 3) && (array.size() % 3 == 0));
+            Assert.assertTrue("Dummy data file contains invalid number of integers: " + array.size(), (array.size() >= 3) && (array.size() % 3 == 0));
 
             for (int i = 0; i < array.size(); i += 3) {
                 final int x = array.get(i);
@@ -69,7 +73,7 @@ public class OriginalBwemData {
             }
         });
         stream.close();
-        System.out.println("added " + index + " values.");
+        logger.debug("Added " + index + " values");
     }
 
 }

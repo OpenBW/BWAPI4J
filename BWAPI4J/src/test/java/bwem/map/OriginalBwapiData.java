@@ -1,6 +1,8 @@
 package bwem.map;
 
 import org.apache.commons.lang3.mutable.MutableInt;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.TilePosition;
 
 import java.io.IOException;
@@ -11,6 +13,8 @@ import java.nio.file.Paths;
 import java.util.stream.Stream;
 
 public class OriginalBwapiData {
+
+    private static final Logger logger = LogManager.getLogger();
 
     public final int[] walkabilityInfo_ORIGINAL;
     public final int[] groundInfo_ORIGINAL;
@@ -43,7 +47,7 @@ public class OriginalBwapiData {
             }
         });
         stream.close();
-        System.out.println("added " + index + " values.");
+        logger.debug("Added " + index + " values");
     }
 
 }
