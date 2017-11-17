@@ -288,7 +288,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
 
         final List<MutablePair<WalkPosition, Altitude>> ActiveSeaSides = getActiveSeaSideList(advancedData.getMapData());
 
-        setAltitudes(advancedData, DeltasByAscendingAltitude, ActiveSeaSides, altitude_scale);
+        setMaxAltitude(setAltitudesAndGetUpdatedMaxAltitude(this.m_maxAltitude, advancedData, DeltasByAscendingAltitude, ActiveSeaSides, altitude_scale));
     }
 
     /**
@@ -336,16 +336,20 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
         return ActiveSeaSideList;
     }
 
-    /**
-     * 3) Dijkstra's algorithm to set altitude for mini tiles.
-     */
+    //----------------------------------------------------------------------
+    // 3) Dijkstra's algorithm to set altitude for mini tiles.
+    //----------------------------------------------------------------------
+
     @Override
-    public void setAltitudes(
+    public Altitude setAltitudesAndGetUpdatedMaxAltitude(
+            final Altitude currentMaxAltitude,
             final AdvancedData advancedData,
             final List<MutablePair<WalkPosition, Altitude>> DeltasByAscendingAltitude,
             final List<MutablePair<WalkPosition, Altitude>> ActiveSeaSideList,
             final int altitude_scale
     ) {
+        Altitude updatedMaxAltitude = (currentMaxAltitude != null) ? new Altitude(currentMaxAltitude) : null;
+
         for (final MutablePair<WalkPosition, Altitude> delta_altitude : DeltasByAscendingAltitude) {
             final WalkPosition d = new WalkPosition(delta_altitude.left.getX(), delta_altitude.left.getY());
             final Altitude altitude = new Altitude(delta_altitude.right);
@@ -364,7 +368,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                         if (advancedData.getMapData().isValid(w)) {
                             final MiniTile miniTile = advancedData.getMiniTile_(w, check_t.no_check);
                             if (miniTile.AltitudeMissing()) {
-                                super.m_maxAltitude = new Altitude(altitude);
+                                updatedMaxAltitude = new Altitude(altitude);
                                 Current.right = new Altitude(altitude);
                                 miniTile.SetAltitude(altitude);
                             }
@@ -373,7 +377,16 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                 }
             }
         }
+
+        return updatedMaxAltitude;
     }
+
+    @Override
+    public void setMaxAltitude(final Altitude altitude) {
+        super.m_maxAltitude = new Altitude(altitude);
+    }
+
+    //----------------------------------------------------------------------
 
     ////////////////////////////////////////////////////////////////////////
 

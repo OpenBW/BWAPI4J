@@ -43,12 +43,14 @@ public interface MapInitializer {
     public abstract void ComputeAltitude(AdvancedData advancedData);
     public abstract List<MutablePair<WalkPosition, Altitude>> getSortedDeltasByAscendingAltitude(int mapWalkTileWidth, int mapWalkTileHeight, int altitude_scale);
     public abstract List<MutablePair<WalkPosition, Altitude>> getActiveSeaSideList(MapData mapData);
-    public abstract void setAltitudes(
+    public abstract Altitude setAltitudesAndGetUpdatedMaxAltitude(
+            Altitude currentMaxAltitude,
             AdvancedData advancedData,
             List<MutablePair<WalkPosition, Altitude>> DeltasByAscendingAltitude,
             List<MutablePair<WalkPosition, Altitude>> ActiveSeaSideList,
             int altitude_scale
     );
+    public abstract void setMaxAltitude(Altitude altitude);
 
     public abstract void ProcessBlockingNeutrals(List<Neutral> Candidates);
     public abstract List<Neutral> getCandidates(List<StaticBuilding> staticBuildings, List<Mineral> minerals);
