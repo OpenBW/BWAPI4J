@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import mockdata.BWEM_DummyData;
+import mockdata.BWEM_FightingSpirit;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -29,17 +32,28 @@ public class MapTest implements BWEventListener {
 	private BW bw;
 	private Map map;
 
-	private OriginalBwemData bwemData = null;
+	private BWEM_DummyData bwemData = null;
 	
 	@BeforeClass
     public static void setUpClass() {
 
     }
 
+    @Before
+	public void setUp() {
+		if (this.bwemData == null) {
+			try {
+				this.bwemData = new BWEM_FightingSpirit();
+			} catch (Exception e) {
+				e.printStackTrace();
+				Assert.fail("Failed to load dummy BWEM data.");
+			}
+		}
+	}
+
 	@Ignore
 	@Test
     public void altitudeTest_Real() throws AssertionError {
-
 		this.bw = new BW(this);
 		this.bw.startGame();
 
@@ -48,7 +62,6 @@ public class MapTest implements BWEventListener {
 
     @Test
     public void altitudeTest_Mock() throws AssertionError {
-    	
     	BWMap mapMock = new BWMapMock();
     	Collection<Player> players = new ArrayList<>();
     	List<MineralPatch> mineralPatches = new ArrayList<>();
@@ -61,39 +74,30 @@ public class MapTest implements BWEventListener {
     	assertMiniTileAltitudes(mapMock.mapWidth() * 4, mapMock.mapHeight() * 4);
     }
 
-	private void ensureBwemData() {
-		if (this.bwemData == null) {
-			try {
-				this.bwemData = new OriginalBwemData();
-			} catch (Exception e) {
-				e.printStackTrace();
-				Assert.fail("Could not load dummy BWEM data.");
-			}
-		}
-	}
-
+	/**
+	 * Tests that each MiniTile's Altitude for all WalkPositions match between
+	 * the original BWAPI/BWEM in C++ and this Java port.
+	 */
 	private void assertMiniTileAltitudes(int walkTileWidth, int walkTileHeight) {
-		ensureBwemData();
 		for (int y = 0; y < walkTileHeight; ++y) {
 			for (int x = 0; x < walkTileWidth; ++x) {
-				/**********************************************************************/
-				/**
-				 * Three mini tile altitudes that do/did not match original.
-				 */
+				//----------------------------------------------------------------------
+				// Three mini tile altitudes that do/did not match original.
+				//----------------------------------------------------------------------
 				if (x == 248 && y == 249) { // index = 127737
 					if (this.map.getData().getMiniTile(new WalkPosition(x, y)).Altitude().intValue()
-							!= this.bwemData.miniTileAltitudes_ORIGINAL[walkTileWidth * y + x]) {
+							!= this.bwemData.getMiniTileAltitudes()[walkTileWidth * y + x]) {
 						logger.warn("This mini tile's altitude does not match the original but has been marked as irrelevant or a possible false positive for now: " + x + " / " + y);
 						continue;
 					}
 				}
 //				if (x == 273 && y == 260) { continue; } // index = 133393
 //				if (x == 273 && y == 261) { continue; } // index = 133905
-				/**********************************************************************/
+				//----------------------------------------------------------------------
 
 				Assert.assertEquals(
 						x + " / " + y + " : mini tile altitude is wrong.",
-						this.bwemData.miniTileAltitudes_ORIGINAL[walkTileWidth * y + x],
+						this.bwemData.getMiniTileAltitudes()[walkTileWidth * y + x],
 						this.map.getData().getMiniTile(new WalkPosition(x, y)).Altitude().intValue()
 				);
 			}
@@ -102,14 +106,13 @@ public class MapTest implements BWEventListener {
 
 	@Override
 	public void onStart() {
-		
 		this.map = new BWEM(this.bw).GetMap();
 		((MapInitializer) this.map).Initialize();
 		
-    	BWMap map1 = this.bw.getBWMap();
-    	BWMap map2 = new BWMapMock();
-
-    	// test the test: are the mock values correct?
+//    	BWMap map1 = this.bw.getBWMap();
+//    	BWMap map2 = new BWMapMock();
+//
+//    	// test the test: are the mock values correct?
 //    	for (int j = 0; j < 128; j++ ) {
 //			for (int i = 0; i < 128; i++) {
 //				int groundHeight1 = map1.getGroundHeight(i, j);
@@ -201,4 +204,5 @@ public class MapTest implements BWEventListener {
 	public void onUnitComplete(Unit unit) {
 		
 	}
+
 }

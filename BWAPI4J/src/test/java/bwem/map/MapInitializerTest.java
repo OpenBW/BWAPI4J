@@ -3,6 +3,8 @@ package bwem.map;
 import bwem.BWEM;
 import bwem.Graph;
 import bwem.util.BwemExt;
+import mockdata.BWAPI_FightingSpirit;
+import mockdata.BWAPI_DummyData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
@@ -21,7 +23,7 @@ public class MapInitializerTest implements BWEventListener {
 
     private static final Logger logger = LogManager.getLogger();
 
-    private OriginalBwapiData bwapiData;
+    private BWAPI_DummyData bwapiData;
 
     private BW bw;
     private Map map;
@@ -30,10 +32,10 @@ public class MapInitializerTest implements BWEventListener {
     public void setUp() {
         if (this.bwapiData == null) {
             try {
-                this.bwapiData = new OriginalBwapiData();
+                this.bwapiData = new BWAPI_FightingSpirit();
             } catch (Exception e) {
                 e.printStackTrace();
-                Assert.fail("Could not load dummy BWAPI data.");
+                Assert.fail("Failed to load dummy BWAPI data.");
             }
         }
     }
@@ -44,22 +46,18 @@ public class MapInitializerTest implements BWEventListener {
         this.bw.startGame();
     }
 
-    @Override
-    public void onStart() {
-        logger.debug("ack");
+    private void test_MapImpl_Initialize() {
+        final BWMap bwMap = this.bw.getBWMap();
+        final Graph graph = ((MapImpl) this.map).GetGraph();
 
-        BWMap bwMap = this.bw.getBWMap();
-        this.map = new BWEM(this.bw).GetMap();
-        Graph graph = ((MapImpl) this.map).GetGraph();
-
-        MapInitializer mapInitializer = (MapInitializer) this.map;
+        final MapInitializer mapInitializer = (MapInitializer) this.map;
 
         mapInitializer.compileAdvancedData(
-                this.bwapiData.mapSize_FightingSpirit_ORIGINAL.getX(),
-                this.bwapiData.mapSize_FightingSpirit_ORIGINAL.getY(),
-                Arrays.asList(this.bwapiData.startLocations_FightingSpirit_ORIGINAL)
+                this.bwapiData.getMapSize().getX(),
+                this.bwapiData.getMapSize().getY(),
+                Arrays.asList(this.bwapiData.getStartingLocations())
         );
-        AdvancedData advancedData = this.map.getData();
+        final AdvancedData advancedData = this.map.getData();
 
         mapInitializer.markUnwalkableMiniTiles(advancedData, bwMap);
         mapInitializer.markBuildableTilesAndGroundHeight(advancedData, bwMap);
@@ -88,6 +86,13 @@ public class MapInitializerTest implements BWEventListener {
         graph.CollectInformation();
 
         graph.CreateBases();
+    }
+
+    @Override
+    public void onStart() {
+        this.map = new BWEM(this.bw).GetMap();
+
+        test_MapImpl_Initialize();
 
         this.bw.exit();
         this.bw.getInteractionHandler().leaveGame();
