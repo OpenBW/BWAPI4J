@@ -12,6 +12,11 @@ public class TilePosition {
         this.y = y;
     }
 
+    public TilePosition(WalkPosition w) {
+        this.x = (w.getX() * WalkPosition.SIZE_IN_PIXELS) / TilePosition.SIZE_IN_PIXELS;
+        this.y = (w.getY() * WalkPosition.SIZE_IN_PIXELS) / TilePosition.SIZE_IN_PIXELS;
+    }
+
     public String toString() {
         return "[" + x + ", " + y + "]";
     }
