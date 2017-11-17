@@ -64,9 +64,6 @@ public class MapInitializerTest implements BWEventListener {
 
         mapInitializer.DecideSeasOrLakes(advancedData, BwemExt.lake_max_miniTiles, BwemExt.lake_max_width_in_miniTiles);
 
-        Assert.assertTrue("MineralPatches list is null", this.bw.getMineralPatches() != null);
-        Assert.assertTrue("Minerals list is null", this.map.Minerals() != null);
-
         mapInitializer.InitializeNeutrals(
                 this.bw.getMineralPatches(), this.map.Minerals(),
                 this.bw.getVespeneGeysers(), this.map.Geysers(),
