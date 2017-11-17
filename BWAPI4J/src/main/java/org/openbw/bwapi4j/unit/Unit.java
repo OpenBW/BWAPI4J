@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.BW;
+import org.openbw.bwapi4j.DamageEvaluator;
 import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
@@ -213,6 +214,11 @@ public abstract class Unit implements Comparable<Unit> {
     protected Unit getUnit(int id) {
         
         return bw.getUnit(id);
+    }
+    
+    protected DamageEvaluator getDamageEvaluator() {
+    	
+    	return bw.getDamageEvaluator();
     }
     
     protected Player getPlayer(int id) {
