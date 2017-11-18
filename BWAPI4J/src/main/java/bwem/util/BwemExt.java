@@ -1,5 +1,6 @@
 package bwem.util;
 
+import bwem.map.AdvancedData;
 import bwem.typedef.Altitude;
 import bwem.check_t;
 import bwem.map.Map;
@@ -35,15 +36,15 @@ public final class BwemExt {
 
     private BwemExt() {}
 
-    public static boolean seaSide(WalkPosition p, Map pMap) {
-        if (!pMap.getData().getMiniTile(p).Sea()) {
+    public static boolean seaSide(final WalkPosition p, final AdvancedData data) {
+        if (!data.getMiniTile(p).Sea()) {
             return false;
         }
 
         WalkPosition deltas[] = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(+1, 0), new WalkPosition(0, +1)};
-        for (WalkPosition delta : deltas) {
-            if (pMap.getData().getMapData().isValid(p.add(delta))) {
-                if (!pMap.getData().getMiniTile(p.add(delta), check_t.no_check).Sea()) {
+        for (final WalkPosition delta : deltas) {
+            if (data.getMapData().isValid(p.add(delta))) {
+                if (!data.getMiniTile(p.add(delta), check_t.no_check).Sea()) {
                     return true;
                 }
             }

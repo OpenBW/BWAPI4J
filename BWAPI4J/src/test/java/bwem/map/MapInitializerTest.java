@@ -2,7 +2,9 @@ package bwem.map;
 
 import bwem.BWEM;
 import bwem.Graph;
+import bwem.area.TempAreaInfo;
 import bwem.example.MapPrinterExample;
+import bwem.tile.MiniTile;
 import bwem.typedef.Altitude;
 import bwem.util.BwemExt;
 import mockdata.BWAPI_FightingSpirit;
@@ -64,7 +66,6 @@ public class MapInitializerTest implements BWEventListener {
     }
 
     private void test_MapImpl_Initialize(final boolean useOriginalValues) {
-
         final BWMap bwMap = this.bw.getBWMap();
         final Graph graph = ((MapImpl) this.map).GetGraph();
 
@@ -100,7 +101,7 @@ public class MapInitializerTest implements BWEventListener {
         //----------------------------------------------------------------------
         final boolean useOriginalDeltasByAscendingAltitude = useOriginalValues && true;
         final List<MutablePair<WalkPosition, Altitude>> DeltasByAscendingAltitude = useOriginalDeltasByAscendingAltitude
-                ? this.bwemData.getDeltasByAscendingAltitude()
+                ? this.bwemData.deltasByAscendingAltitude
                 : mapInitializer.getSortedDeltasByAscendingAltitude(
                 advancedData.getMapData().getWalkSize().getX(),
                 advancedData.getMapData().getWalkSize().getY(),
@@ -115,7 +116,21 @@ public class MapInitializerTest implements BWEventListener {
 
         mapInitializer.ProcessBlockingNeutrals(mapInitializer.getCandidates(this.map.StaticBuildings(), this.map.Minerals()));
 
-        mapInitializer.ComputeAreas(mapInitializer.ComputeTempAreas(mapInitializer.getSortedMiniTilesByDescendingAltitude()), BwemExt.area_min_miniTiles);
+        //////////////////////////////////////////////////////////////////////
+        // ComputeAreas
+        //////////////////////////////////////////////////////////////////////
+
+        final boolean useOriginalMiniTilesByDescendingAltitude = useOriginalValues && true;
+        final List<MutablePair<WalkPosition, MiniTile>> MiniTilesByDescendingAltitude = useOriginalMiniTilesByDescendingAltitude
+                ? this.bwemData.miniTilesByDescendingAltitude
+                : mapInitializer.getSortedMiniTilesByDescendingAltitude();
+        final boolean useOriginalTempAreaList = useOriginalValues && true;
+        final List<TempAreaInfo> TempAreaList = useOriginalTempAreaList
+                ? this.bwemData.tempAreaList
+                : mapInitializer.ComputeTempAreas(MiniTilesByDescendingAltitude);
+        mapInitializer.ComputeAreas(TempAreaList, BwemExt.area_min_miniTiles);
+
+        //////////////////////////////////////////////////////////////////////
 
         graph.CreateChokePoints(this.map.StaticBuildings(), this.map.Minerals(), this.map.RawFrontier());
 

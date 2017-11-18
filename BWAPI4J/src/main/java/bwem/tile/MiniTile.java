@@ -111,10 +111,16 @@ public final class MiniTile {
 
     public void ReplaceAreaId(AreaId id) {
 //        { bwem_assert((m_areaId > 0) && ((id >= 1) || (id <= -2)) && (id != m_areaId)); m_areaId = id; }
-        if (!((m_areaId.intValue() > 0) && ((id.intValue() >= 1) || (id.intValue() <= -2)) && (!id.equals(m_areaId)))) {
-            throw new IllegalStateException();
+//        if (!((m_areaId.intValue() > 0) && ((id.intValue() >= 1) || (id.intValue() <= -2)) && (!id.equals(m_areaId)))) {
+        if (!(m_areaId.intValue() > 0)) {
+            throw new IllegalStateException("Failed assert: m_areaId.intValue() > 0: " + m_areaId.intValue());
+        } else if (!((id.intValue() >= 1) || (id.intValue() <= -2))) {
+            throw new IllegalArgumentException("Failed assert: (id.intValue() >= 1) || (id.intValue() <= -2): " + id.intValue());
+        } else if (!(!id.equals(m_areaId))) {
+            throw new IllegalArgumentException("Failed assert: !id.equals(m_areaId): not expected: " + m_areaId.intValue() + ", actual: " + id.intValue());
+        } else {
+            m_areaId = new AreaId(id);
         }
-        m_areaId = new AreaId(id);
     }
 
     public void SetBlocked() {

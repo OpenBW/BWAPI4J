@@ -154,10 +154,11 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                     advancedData.getTile_(t).SetBuildable();
 
                     // Ensures buildable ==> walkable:
-                    for (int dy = 0; dy < 4; ++dy)
+                    for (int dy = 0; dy < 4; ++dy) {
                         for (int dx = 0; dx < 4; ++dx) {
                             advancedData.getMiniTile_((t.toPosition().toWalkPosition()).add(new WalkPosition(dx, dy)), check_t.no_check).SetWalkable(true);
                         }
+                    }
                 }
 
                 // Add groundHeight and doodad information:
@@ -324,10 +325,10 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
     public List<MutablePair<WalkPosition, Altitude>> getActiveSeaSideList(final MapData mapData) {
         final List<MutablePair<WalkPosition, Altitude>> ActiveSeaSideList = new ArrayList<>();
 
-        for (int y = -1; y <= mapData.getWalkSize().getX(); ++y) {
-            for (int x = -1; x <= mapData.getWalkSize().getY(); ++x) {
+        for (int y = -1; y <= mapData.getWalkSize().getY(); ++y) {
+            for (int x = -1; x <= mapData.getWalkSize().getX(); ++x) {
                 final WalkPosition w = new WalkPosition(x, y);
-                if (!mapData.isValid(w) || BwemExt.seaSide(w, this)) {
+                if (!mapData.isValid(w) || BwemExt.seaSide(w, getData())) {
                     ActiveSeaSideList.add(new MutablePair<>(w, new Altitude(0)));
                 }
             }
@@ -362,12 +363,16 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                     BwemExt.fast_erase(ActiveSeaSideList, i--);
                 } else {
                     final WalkPosition[] deltas = {new WalkPosition(d.getX(), d.getY()), new WalkPosition(-d.getX(), d.getY()), new WalkPosition(d.getX(), -d.getY()), new WalkPosition(-d.getX(), -d.getY()),
-                            new WalkPosition(d.getY(), d.getX()), new WalkPosition(-d.getY(), d.getX()), new WalkPosition(d.getY(), -d.getX()), new WalkPosition(-d.getY(), -d.getX())};
+                                                   new WalkPosition(d.getY(), d.getX()), new WalkPosition(-d.getY(), d.getX()), new WalkPosition(d.getY(), -d.getX()), new WalkPosition(-d.getY(), -d.getX())};
                     for (final WalkPosition delta : deltas) {
                         final WalkPosition w = Current.left.add(delta);
                         if (advancedData.getMapData().isValid(w)) {
                             final MiniTile miniTile = advancedData.getMiniTile_(w, check_t.no_check);
                             if (miniTile.AltitudeMissing()) {
+                                //TODO: Determine whether to delete this check.
+                                if (updatedMaxAltitude != null && updatedMaxAltitude.intValue() > altitude.intValue()) {
+                                    throw new IllegalStateException();
+                                }
                                 updatedMaxAltitude = new Altitude(altitude);
                                 Current.right = new Altitude(altitude);
                                 miniTile.SetAltitude(altitude);

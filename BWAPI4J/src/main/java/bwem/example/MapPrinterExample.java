@@ -103,7 +103,7 @@ public class MapPrinterExample {
 
             Color col;
             if (miniTile.Sea()) {
-                if (mapPrinter.showSeaSide && BwemExt.seaSide(p, theMap)) col = MapPrinter.CustomColor.SEA_SIDE.color();
+                if (mapPrinter.showSeaSide && BwemExt.seaSide(p, theMap.getData())) col = MapPrinter.CustomColor.SEA_SIDE.color();
                 else col = MapPrinter.CustomColor.SEA.color();
             } else {
                 if (mapPrinter.showLakes && miniTile.Lake()) {
