@@ -17,6 +17,14 @@ JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMapImpl_isBuildable
 
 /*
  * Class:     org_openbw_bwapi4j_BWMapImpl
+ * Method:    isExplored
+ * Signature: (II)Z
+ */
+JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMapImpl_isExplored
+  (JNIEnv *, jobject, jint, jint);
+
+/*
+ * Class:     org_openbw_bwapi4j_BWMapImpl
  * Method:    isVisible
  * Signature: (II)Z
  */

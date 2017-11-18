@@ -126,6 +126,18 @@ public class BWMapMock implements BWMap {
 	}
 
 	@Override
+	public boolean isExplored(int tileX, int tileY) {
+
+		return true;
+	}
+
+	@Override
+	public boolean isExplored(TilePosition position) {
+
+		return true;
+	}
+	
+	@Override
 	public boolean isVisible(int tileX, int tileY) {
 
 		return true;

@@ -46,7 +46,6 @@ void BridgeMap::initialize(JNIEnv * env, jclass jc, jobject bwObject, jclass bwM
 
 		// set groundInfo (tile resolution)
 		jfieldID groundInfoField = env->GetFieldID(bwMapClass, "groundInfo", "[[I");
-		jobject* groundInfo2D = new jobject[Broodwar->mapWidth()];
 		jobjectArray groundInfo2DArray = env->NewObjectArray(Broodwar->mapWidth(), env->GetObjectClass(env->NewIntArray(Broodwar->mapHeight())), 0);
 		for (int i = 0; i < Broodwar->mapWidth(); ++i) {
 
@@ -62,7 +61,6 @@ void BridgeMap::initialize(JNIEnv * env, jclass jc, jobject bwObject, jclass bwM
 
 		// set walkabilityInfo (mini-tile resolution)
 		jfieldID walkabilityInfoField = env->GetFieldID(bwMapClass, "walkabilityInfo", "[[I");
-		jobject* walkabilityInfo2D = new jobject[Broodwar->mapWidth() * 4];
 		jobjectArray walkabilityInfo2DArray = env->NewObjectArray(Broodwar->mapWidth() * 4, env->GetObjectClass(env->NewIntArray(Broodwar->mapHeight() * 4)), 0);
 		for (int i = 0; i < Broodwar->mapWidth() * 4; ++i) {
 
@@ -96,6 +94,10 @@ void BridgeMap::initialize(JNIEnv * env, jclass jc, jobject bwObject, jclass bwM
 //	BWMap
 //
 */
+JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMapImpl_isExplored(JNIEnv *, jobject, jint tileX, jint tileY) {
+	return Broodwar->isExplored(tileX, tileY);
+}
+
 JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMapImpl_isVisible(JNIEnv *, jobject, jint tileX, jint tileY) {
 	return Broodwar->isVisible(tileX, tileY);
 }
