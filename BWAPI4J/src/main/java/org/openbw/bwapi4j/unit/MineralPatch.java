@@ -28,7 +28,7 @@ public class MineralPatch extends Unit {
         this.resources = unitData[index + Unit.RESOURCES_INDEX];
         this.isBeingGathered = unitData[index + Unit.IS_BEING_GATHERED_INDEX] == 1;
 
-        if (super.isVisible) {
+        if (this.isVisible) {
             this.lastKnownResources = this.resources;
         }
         super.update(unitData, index);

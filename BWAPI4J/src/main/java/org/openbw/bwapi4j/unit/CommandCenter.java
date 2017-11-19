@@ -40,7 +40,7 @@ public class CommandCenter extends Building implements Mechanical, FlyingBuildin
      */
     public NuclearSilo getNuclearSilo() {
 
-        Unit unit = super.getUnit(addonId);
+        Unit unit = this.getUnit(addonId);
         if (unit != null && unit instanceof NuclearSilo) {
             return (NuclearSilo) unit;
         } else {
@@ -54,7 +54,7 @@ public class CommandCenter extends Building implements Mechanical, FlyingBuildin
      */
     public ComsatStation getComsatStation() {
 
-        Unit unit = super.getUnit(addonId);
+        Unit unit = this.getUnit(addonId);
         if (unit != null && unit instanceof ComsatStation) {
             return (ComsatStation) unit;
         } else {
