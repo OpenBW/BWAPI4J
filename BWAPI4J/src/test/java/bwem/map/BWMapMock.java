@@ -23,19 +23,18 @@ public class BWMapMock implements BWMap {
     private BWAPI_DummyData data;
     
 	public BWMapMock() {
-
 		try {
 			this.data = new BWAPI_FightingSpirit();
 		} catch (Exception e) {
 			e.printStackTrace();
-			Assert.fail("Could not load dummy map data.");
+			Assert.fail("Could not load dummy BWAPI data.");
 		}
 		initializeMock();
 	}
 
 	private void initializeMock() {
-		this.width = 128;
-		this.height = 128;
+		this.width = this.data.getMapSize().getX();
+		this.height = this.data.getMapSize().getY();
 
         int walkWidth = this.width * 4;
         int walkHeight = this.height * 4;
@@ -69,85 +68,71 @@ public class BWMapMock implements BWMap {
 
 	@Override
 	public int getGroundHeight(TilePosition position) {
-
         return this.groundInfo[position.getX()][position.getY()];
     }
 
 	@Override
     public int getGroundHeight(int tileX, int tileY) {
-
         return this.groundInfo[tileX][tileY];
     }
 
 	@Override
     public List<TilePosition> getStartPositions() {
-
         return this.startLocations;
     }
 
 	@Override
     public boolean isWalkable(int walkX, int walkY) {
-
         return this.walkabilityInfo[walkX][walkY] == 1;
     }
 
 	@Override
     public int mapWidth() {
-
         return this.width;
     }
 
 	@Override
     public int mapHeight() {
-
         return this.height;
     }
 
 	@Override
 	public String mapHash() {
-		
-		return "mockHash";
+		return this.data.getMapHash();
 	}
 
 	@Override
 	public String mapFileName() {
-		
-		return "FightingSpiritMock";
+		return this.data.getMapFilename();
 	}
 
 	@Override
 	public boolean isBuildable(int tileX, int tileY, boolean considerBuildings) {
-		
 		return this.buildable[tileX][tileY] == 1;
 	}
 
 	@Override
 	public boolean isBuildable(TilePosition position, boolean considerBuildings) {
-		
 		return isBuildable(position.getX(), position.getY(), considerBuildings);
 	}
 
 	@Override
 	public boolean isVisible(int tileX, int tileY) {
-
-		return true;
+		throw new UnsupportedOperationException("This mock method is disabled.");
 	}
 
 	@Override
 	public boolean isVisible(TilePosition position) {
-
-		return true;
+		throw new UnsupportedOperationException("This mock method is disabled.");
 	}
 
 	@Override
 	public boolean hasPath(Position source, Position destination) {
-
-		return true;
+		throw new UnsupportedOperationException("This mock method is disabled.");
 	}
 
 	@Override
 	public boolean canBuildHere(TilePosition position, UnitType type) {
-
-		return true;
+		throw new UnsupportedOperationException("This mock method is disabled.");
 	}
 }

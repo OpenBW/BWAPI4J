@@ -141,17 +141,21 @@ public class MapInitializerTest implements BWEventListener {
         graph.CreateBases();
     }
 
+    private void runMapPrinterExample() {
+        this.map.EnableAutomaticPathAnalysis();
+        this.map.getMapPrinter().Initialize(this.bw, this.map);
+        final MapPrinterExample example = new MapPrinterExample(this.map.getMapPrinter());
+        example.printMap(this.map);
+        example.pathExample(this.map);
+    }
+
     @Override
     public void onStart() {
         this.map = new BWEM(this.bw).GetMap();
 
         test_MapImpl_Initialize(true);
 
-        this.map.EnableAutomaticPathAnalysis();
-        this.map.getMapPrinter().Initialize(this.bw, this.map);
-        MapPrinterExample example = new MapPrinterExample(this.map.getMapPrinter());
-        example.printMap(this.map);
-        example.pathExample(this.map);
+        runMapPrinterExample();
 
         this.bw.exit();
         this.bw.getInteractionHandler().leaveGame();

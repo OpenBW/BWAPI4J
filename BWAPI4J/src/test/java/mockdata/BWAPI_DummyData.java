@@ -1,23 +1,18 @@
 package mockdata;
 
-import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.TilePosition;
 
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.stream.Stream;
 
 public abstract class BWAPI_DummyData {
 
     private static final Logger logger = LogManager.getLogger();
 
-    protected String name = null;
-    protected String hash = null;
+    protected String mapName = null;
+    protected String mapHash = null;
     protected TilePosition mapSize = null;
     protected TilePosition[] startingLocations = null;
     protected int[] walkabilityInfo = null;
@@ -42,12 +37,12 @@ public abstract class BWAPI_DummyData {
         DummyDataUtils.populateIntegerArray("buildableInfo" + filenameSuffix, this.buildableInfo, " ");
     }
 
-    public String getName() {
-        return this.name;
+    public String getMapFilename() {
+        return this.mapName;
     }
 
-    public String getHash() {
-        return this.hash;
+    public String getMapHash() {
+        return this.mapHash;
     }
 
     public TilePosition getMapSize() {
