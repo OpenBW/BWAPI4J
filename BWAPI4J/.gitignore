@@ -1,18 +1,27 @@
 bin/
 .classpath
-.gradle/
 build/
-bwapi-data/bwapi.ini
-gradle.properties
-maps/
+QuickFileWriter.java
+src/test/resources/mockdata/*.txt
+*.bmp
+src/main/java/jsd/
+log4j2-test.xml
+
+# BW
 BrooDat.mpq
 Patch_rt.mpq
 StarDat.mpq
+maps/
+bwapi-data/bwapi.ini
+
+# Gradle
+.gradle/
+gradle.properties
+
+# NetBeans
 .nb-gradle/
-out/
+
+# IntelliJ
 BWAPI4J.iml
 .idea/
-*.bmp
-QuickFileWriter.java
-*.txt
-log4j2-test.xml
+out/
