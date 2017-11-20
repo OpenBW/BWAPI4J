@@ -353,7 +353,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllUnitsData(JNIEnv * 
 	return result;
 }
 
-// required for the OpenBW version since player->getColor() returns ordinal value insteaf of 256 color value.
+// required for the OpenBW version since player->getColor() returns ordinal value instead of 256 color value.
 int convertColor(int ordinal) {
 
 	int color;

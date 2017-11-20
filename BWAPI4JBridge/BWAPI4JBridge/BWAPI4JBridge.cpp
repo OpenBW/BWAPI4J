@@ -205,7 +205,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 					switch (e.getType()) {
 						case EventType::MatchEnd: {
 							//  std::cout << "calling onEnd..." << std::endl;
-							env->CallObjectMethod(bw, onEndCallback, (jboolean)e.isWinner());
+							env->CallObjectMethod(bw, onEndCallback, e.isWinner() ? JNI_TRUE : JNI_FALSE);
 							// std::cout << "done." << std::endl;;
 						}
 							break;
