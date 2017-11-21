@@ -201,6 +201,14 @@ public abstract class MobileUnit extends PlayerUnit {
         return this.type.airWeapon();
     }
 
+    public int getMaxGroundHits() {
+        return this.type.maxGroundHits();
+    }
+    
+    public int getMaxAirHits() {
+        return this.type.maxAirHits();
+    }
+    
     public int getTurnRadius() {
         
         return this.type.turnRadius();
