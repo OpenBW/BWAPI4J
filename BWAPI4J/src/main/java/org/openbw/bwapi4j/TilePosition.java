@@ -4,46 +4,78 @@ public class TilePosition {
 
     public static final int SIZE_IN_PIXELS = 32;
 
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
 
-    public TilePosition(int x, int y) {
+    public TilePosition(final int x, final int y) {
         this.x = x;
         this.y = y;
     }
 
-    public TilePosition(WalkPosition w) {
-        this.x = (w.getX() * WalkPosition.SIZE_IN_PIXELS) / TilePosition.SIZE_IN_PIXELS;
-        this.y = (w.getY() * WalkPosition.SIZE_IN_PIXELS) / TilePosition.SIZE_IN_PIXELS;
-    }
-
-    public String toString() {
-        return "[" + x + ", " + y + "]";
-    }
-
     public int getX() {
-        return x;
+        return this.x;
     }
 
     public int getY() {
-        return y;
+        return this.y;
+    }
+
+    public WalkPosition toWalkPosition() {
+        final int x = (getX() * TilePosition.SIZE_IN_PIXELS) / WalkPosition.SIZE_IN_PIXELS;
+        final int y = (getY() * TilePosition.SIZE_IN_PIXELS) / WalkPosition.SIZE_IN_PIXELS;
+        return new WalkPosition(x, y);
+    }
+
+    public Position toPosition() {
+        final int x = getX() * TilePosition.SIZE_IN_PIXELS;
+        final int y = getY() * TilePosition.SIZE_IN_PIXELS;
+        return new Position(x, y);
+    }
+
+    public TilePosition add(final TilePosition tilePosition) {
+        final int x = getX() + tilePosition.getX();
+        final int y = getY() + tilePosition.getY();
+        return new TilePosition(x, y);
+    }
+
+    public TilePosition subtract(final TilePosition tilePosition) {
+        final int x = getX() - tilePosition.getX();
+        final int y = getY() - tilePosition.getY();
+        return new TilePosition(x, y);
+    }
+
+    public TilePosition multiply(final TilePosition tilePosition) {
+        final int x = getX() * tilePosition.getX();
+        final int y = getY() * tilePosition.getY();
+        return new TilePosition(x, y);
+    }
+
+    public TilePosition divide(final TilePosition tilePosition) {
+        final int x = getX() / tilePosition.getX();
+        final int y = getY() / tilePosition.getY();
+        return new TilePosition(x, y);
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    public String toString() {
+        return "[" + getX() + "," + getY() + "]";
+    }
+
+    @Override
+    public boolean equals(final Object object) {
+        if (this == object) {
             return true;
         }
-        if (!(o instanceof TilePosition)) {
+
+        if (!(object instanceof TilePosition)) {
             return false;
         }
 
-        TilePosition that = (TilePosition) o;
-
-        if (x != that.x) {
+        final TilePosition tilePosition = (TilePosition) object;
+        if (getX() != tilePosition.getX()) {
             return false;
         }
-        if (y != that.y) {
+        if (getY() != tilePosition.getY()) {
             return false;
         }
 
@@ -52,22 +84,7 @@ public class TilePosition {
 
     @Override
     public int hashCode() {
-        return x * 256 + y;
+        return (getX() * 2048 + getY());
     }
 
-    public Position toPosition() {
-        return new Position(x * SIZE_IN_PIXELS, y * SIZE_IN_PIXELS);
-    }
-
-    public TilePosition add(TilePosition rhs) {
-        int x = this.x + rhs.getX();
-        int y = this.y + rhs.getY();
-        return new TilePosition(x, y);
-    }
-
-    public TilePosition subtract(TilePosition rhs) {
-        int x = this.x - rhs.getX();
-        int y = this.y - rhs.getY();
-        return new TilePosition(x, y);
-    }
 }

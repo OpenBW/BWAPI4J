@@ -2,50 +2,80 @@ package org.openbw.bwapi4j;
 
 public class WalkPosition {
 
-	public static final int SIZE_IN_PIXELS = 8;
+    public static final int SIZE_IN_PIXELS = 8;
 
-	private int x;
-    private int y;
+    private final int x;
+    private final int y;
 
-    public WalkPosition(int x, int y) {
+    public WalkPosition(final int x, final int y) {
         this.x = x;
         this.y = y;
     }
 
-    public WalkPosition(TilePosition p) {
-        this.x = p.getX() * TilePosition.SIZE_IN_PIXELS / WalkPosition.SIZE_IN_PIXELS;
-        this.y = p.getY() * TilePosition.SIZE_IN_PIXELS / WalkPosition.SIZE_IN_PIXELS;
-    }
-
-    public String toString() {
-        return "[" + x + ", " + y + "]";
-    }
-
     public int getX() {
-        return x;
+        return this.x;
     }
 
     public int getY() {
-        return y;
+        return this.y;
+    }
+
+    public TilePosition toTilePosition() {
+        final int x = (getX() * WalkPosition.SIZE_IN_PIXELS) / TilePosition.SIZE_IN_PIXELS;
+        final int y = (getY() * WalkPosition.SIZE_IN_PIXELS) / TilePosition.SIZE_IN_PIXELS;
+        return new TilePosition(x, y);
+    }
+
+    public Position toPosition() {
+        final int x = getX() * WalkPosition.SIZE_IN_PIXELS;
+        final int y = getY() * WalkPosition.SIZE_IN_PIXELS;
+        return new Position(x, y);
+    }
+
+    public WalkPosition add(WalkPosition walkPosition) {
+        final int x = getX() + walkPosition.getX();
+        final int y = getY() + walkPosition.getY();
+        return new WalkPosition(x, y);
+    }
+
+    public WalkPosition subtract(WalkPosition walkPosition) {
+        final int x = getX() - walkPosition.getX();
+        final int y = getY() - walkPosition.getY();
+        return new WalkPosition(x, y);
+    }
+
+    public WalkPosition multiply(WalkPosition walkPosition) {
+        final int x = getX() * walkPosition.getX();
+        final int y = getY() * walkPosition.getY();
+        return new WalkPosition(x, y);
+    }
+
+    public WalkPosition divide(WalkPosition walkPosition) {
+        final int x = getX() / walkPosition.getX();
+        final int y = getY() / walkPosition.getY();
+        return new WalkPosition(x, y);
     }
 
     @Override
-    public boolean equals(Object o) {
-    	
-        if (this == o) {
+    public String toString() {
+        return "[" + getX() + "," + getY() + "]";
+    }
+
+    @Override
+    public boolean equals(final Object object) {
+        if (this == object) {
             return true;
         }
-        
-        if (!(o instanceof WalkPosition)) {
+
+        if (!(object instanceof WalkPosition)) {
             return false;
         }
 
-        WalkPosition that = (WalkPosition) o;
-
-        if (x != that.x) {
+        final WalkPosition walkPosition = (WalkPosition) object;
+        if (getX() != walkPosition.getX()) {
             return false;
         }
-        if (y != that.y) {
+        if (getY() != walkPosition.getY()) {
             return false;
         }
 
@@ -54,22 +84,7 @@ public class WalkPosition {
 
     @Override
     public int hashCode() {
-        return x * 256 * 4 + y;
+        return (getX() * 2048 * WalkPosition.SIZE_IN_PIXELS + getY());
     }
 
-    public Position toPosition() {
-        return new Position(x * SIZE_IN_PIXELS, y * SIZE_IN_PIXELS);
-    }
-
-    public WalkPosition add(WalkPosition rhs) {
-        int x = this.x + rhs.getX();
-        int y = this.y + rhs.getY();
-        return new WalkPosition(x, y);
-    }
-
-    public WalkPosition subtract(WalkPosition rhs) {
-        int x = this.x - rhs.getX();
-        int y = this.y - rhs.getY();
-        return new WalkPosition(x, y);
-    }
 }
