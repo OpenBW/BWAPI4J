@@ -11,7 +11,7 @@ public abstract class BWAPI_DummyData {
 
     private static final Logger logger = LogManager.getLogger();
 
-    protected String mapName = null;
+    protected String mapFilename = null;
     protected String mapHash = null;
     protected TilePosition mapSize = null;
     protected TilePosition[] startingLocations = null;
@@ -38,7 +38,7 @@ public abstract class BWAPI_DummyData {
     }
 
     public String getMapFilename() {
-        return this.mapName;
+        return this.mapFilename;
     }
 
     public String getMapHash() {

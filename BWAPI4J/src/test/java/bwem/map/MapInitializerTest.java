@@ -124,7 +124,7 @@ public class MapInitializerTest implements BWEventListener {
         final List<MutablePair<WalkPosition, MiniTile>> MiniTilesByDescendingAltitude = useOriginalMiniTilesByDescendingAltitude
                 ? this.bwemData.miniTilesByDescendingAltitude
                 : mapInitializer.getSortedMiniTilesByDescendingAltitude();
-        final boolean useOriginalTempAreaList = useOriginalValues && true;
+        final boolean useOriginalTempAreaList = useOriginalValues && false;
         final List<TempAreaInfo> TempAreaList = useOriginalTempAreaList
                 ? this.bwemData.tempAreaList
                 : mapInitializer.ComputeTempAreas(MiniTilesByDescendingAltitude);

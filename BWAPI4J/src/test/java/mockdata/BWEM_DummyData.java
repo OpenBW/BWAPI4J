@@ -67,7 +67,9 @@ public abstract class BWEM_DummyData {
                 final int x = array.get(i);
                 final int y = array.get(i + 1);
                 final WalkPosition w = new WalkPosition(x, y);
+
                 final int altitude = array.get(i + 2);
+
                 this.deltasByAscendingAltitude.add(new MutablePair<>(w, new Altitude(altitude)));
             }
         }
@@ -101,7 +103,9 @@ public abstract class BWEM_DummyData {
                 if (areaId != -1) {
                     miniTile.SetAreaId(new AreaId(areaId));
                 }
-                miniTile.SetAltitude(new Altitude(altitude));
+                if (altitude != -1) {
+                    miniTile.SetAltitude(new Altitude(altitude));
+                }
 
                 this.miniTilesByDescendingAltitude.add(new MutablePair<>(w, miniTile));
             }
