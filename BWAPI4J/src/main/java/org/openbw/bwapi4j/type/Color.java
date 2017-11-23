@@ -18,10 +18,12 @@ public enum Color {
     private int rgb;
 
     private Color(int rgb) {
-
+    	
+    	this.rgb = rgb;
     }
 
     public int getValue() {
+    	
         return this.rgb;
     }
 

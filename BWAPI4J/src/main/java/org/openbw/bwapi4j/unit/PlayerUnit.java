@@ -59,8 +59,8 @@ public abstract class PlayerUnit extends Unit {
         this.initialHitPoints = unitData[index + Unit.INITIAL_HITPOINTS_INDEX];
         super.initialize(unitData, index);
         
-        this.lastKnownPosition = super.initialPosition;
-        this.lastKnownTilePosition = super.initialTilePosition;
+        this.lastKnownPosition = this.initialPosition;
+        this.lastKnownTilePosition = this.initialTilePosition;
         this.lastKnownHitPoints = this.initialHitPoints;
     }
 
@@ -95,9 +95,9 @@ public abstract class PlayerUnit extends Unit {
         
         super.update(unitData, index);
         
-        if (super.isVisible) {
-            this.lastKnownPosition = super.position;
-            this.lastKnownTilePosition = super.tilePosition;
+        if (this.isVisible) {
+            this.lastKnownPosition = this.position;
+            this.lastKnownTilePosition = this.tilePosition;
             this.lastKnownHitPoints = this.hitPoints;
         }
     }
@@ -166,24 +166,29 @@ public abstract class PlayerUnit extends Unit {
         return this.hitPoints;
     }
 
+    public int getShields() {
+    	
+    	return this.shields;
+    }
+    
     public int getGroundWeaponCooldown() {
         
-        return groundWeaponCooldown;
+        return this.groundWeaponCooldown;
     }
 
     public int getAirWeaponCooldown() {
         
-        return airWeaponCooldown;
+        return this.airWeaponCooldown;
     }
 
     public int getSpellCooldown() {
         
-        return spellCooldown;
+        return this.spellCooldown;
     }
 
     public Player getPlayer() {
         
-        return super.getPlayer(this.playerId);
+        return this.getPlayer(this.playerId);
     }
 
     public int getInitialHitPoints() {
@@ -328,15 +333,11 @@ public abstract class PlayerUnit extends Unit {
     
     public int getDamageTo(PlayerUnit to) {
 
-        return 0;
-        // TODO return damageEvaluator.getDamageTo(to.bwUnit.getType(),
-        // this.unitType, to.bwUnit.getPlayer(), this.bwUnit.getPlayer());
+        return this.getDamageEvaluator().getDamageTo(to.initialType, this.initialType, to.getPlayer(), this.getPlayer());
     }
 
     public int getDamageFrom(PlayerUnit from) {
 
-        return 0;
-        // TODO return damageEvaluator.getDamageFrom(from.bwUnit.getType(),
-        // this.unitType, from.bwUnit.getPlayer(), this.bwUnit.getPlayer());
+    	return this.getDamageEvaluator().getDamageFrom(from.initialType, this.initialType, from.getPlayer(), this.getPlayer());
     }
 }

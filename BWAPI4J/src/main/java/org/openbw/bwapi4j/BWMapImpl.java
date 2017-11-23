@@ -63,6 +63,12 @@ class BWMapImpl implements BWMap {
     	return isBuildable(position.getX(), position.getY(), considerBuildings);
     }
     
+    public native boolean isExplored(int tileX, int tileY);
+    
+    public boolean isExplored(TilePosition position) {
+        return isExplored(position.getX(), position.getY());
+    }
+    
     public native boolean isVisible(int tileX, int tileY);
     
     public boolean isVisible(TilePosition position) {

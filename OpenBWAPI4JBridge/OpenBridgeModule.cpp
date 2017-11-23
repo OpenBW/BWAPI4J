@@ -54,7 +54,6 @@ void initializeCallbackMethods() {
 void OpenBridgeModule::onStart()
 {
 	initializeCallbackMethods();
-	std::cout << "onStart..." << std::endl;
 
 	BridgeEnum *bridgeEnum = new BridgeEnum();
 	BridgeMap *bridgeMap = new BridgeMap();
@@ -62,14 +61,13 @@ void OpenBridgeModule::onStart()
 	bridgeEnum->initialize();
 	bridgeMap->initialize(globalEnv, globalEnv->GetObjectClass(globalBW), globalBW, bwMapClass);
 
-	std::cout << "calling preFrame..." << std::endl;
 	globalEnv->CallObjectMethod(globalBW, preFrameCallback);
 //	globalEnv->CallObjectMethod(globalBW, onStartCallback);
 }
 
 void OpenBridgeModule::onEnd(bool isWinner)
 {
-	std::cout << "onEnd..." << std::endl;
+	std::cout << "c winner: " << isWinner << " / " << (isWinner ? "true" : "false") << std::endl;
 //	globalEnv->CallObjectMethod(globalBW, onEndCallback, (jboolean)isWinner);
 }
 
@@ -83,13 +81,12 @@ void OpenBridgeModule::onFrame()
 
 		switch (e.getType()) {
 			case BWAPI::EventType::MatchStart: {
-				std::cout << "calling onStart..." << std::endl;
 				globalEnv->CallObjectMethod(globalBW, onStartCallback);
 			}
 				break;
 			case BWAPI::EventType::MatchEnd: {
-				globalEnv->CallObjectMethod(globalBW, onEndCallback,
-						(jboolean) e.isWinner());
+				std::cout << "winner: " << e.isWinner() << " / " << (e.isWinner() ? "true" : "false") << std::endl;
+				globalEnv->CallObjectMethod(globalBW, onEndCallback, e.isWinner() ? JNI_TRUE : JNI_FALSE);
 			}
 				break;
 			case BWAPI::EventType::SendText: {
@@ -174,7 +171,6 @@ void OpenBridgeModule::onFrame()
 
 void OpenBridgeModule::onSendText(std::string text)
 {
-	std::cout << "onSendText..." << std::endl;
 //	jstring string = globalEnv->NewStringUTF(text.c_str());
 //	globalEnv->CallObjectMethod(globalBW, onSendTextCallback, string);
 //	globalEnv->DeleteLocalRef(string);
@@ -182,7 +178,6 @@ void OpenBridgeModule::onSendText(std::string text)
 
 void OpenBridgeModule::onReceiveText(BWAPI::Player player, std::string text)
 {
-	std::cout << "onReceiveText..." << std::endl;
 //	jstring string = globalEnv->NewStringUTF(text.c_str());
 //	globalEnv->CallObjectMethod(globalBW, onReceiveTextCallback, player->getID(), string);
 //	globalEnv->DeleteLocalRef(string);
@@ -190,13 +185,11 @@ void OpenBridgeModule::onReceiveText(BWAPI::Player player, std::string text)
 
 void OpenBridgeModule::onPlayerLeft(BWAPI::Player player)
 {
-	std::cout << "onPlayerLeft..." << std::endl;
 //	globalEnv->CallObjectMethod(globalBW, onPlayerLeftCallback, player->getID());
 }
 
 void OpenBridgeModule::onNukeDetect(BWAPI::Position target)
 {
-	std::cout << "onNukeDetect..." << std::endl;
 //	globalEnv->CallObjectMethod(globalBW, onNukeDetectCallback, target.x, target.y);
 }
 
@@ -238,19 +231,16 @@ void OpenBridgeModule::onUnitDestroy(BWAPI::Unit unit)
 
 void OpenBridgeModule::onUnitMorph(BWAPI::Unit unit)
 {
-	std::cout << "onUnitMorph..." << std::endl;
 //	globalEnv->CallObjectMethod(globalBW, onUnitMorphCallback, unit->getID());
 }
 
 void OpenBridgeModule::onUnitRenegade(BWAPI::Unit unit)
 {
-	std::cout << "onUnitRenegade..." << std::endl;
 //	globalEnv->CallObjectMethod(globalBW, onUnitRenegadeCallback, unit->getID());
 }
 
 void OpenBridgeModule::onSaveGame(std::string gameName) {
 
-	std::cout << "onSaveGame..." << std::endl;
 //	jstring string = globalEnv->NewStringUTF(gameName.c_str());
 //	globalEnv->CallObjectMethod(globalBW, onSaveGameCallback, string);
 //	globalEnv->DeleteLocalRef(string);

@@ -39,7 +39,7 @@ public class Carrier extends MobileUnit implements Mechanical {
      */
     public List<Interceptor> getInterceptors() {
         
-        return super.getAllUnits().stream()
+        return this.getAllUnits().stream()
                 .filter(u -> u instanceof Interceptor && ((Interceptor)u).getCarrier().getId() == this.getId())
                 .map(u -> (Interceptor)u).collect(Collectors.toList());
     }

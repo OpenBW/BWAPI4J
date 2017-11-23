@@ -37,7 +37,7 @@ public class ScienceFacility extends Building implements Mechanical, Researching
      */
     public CovertOps getCovertOps() {
 
-        Unit unit = super.getUnit(addonId);
+        Unit unit = this.getUnit(addonId);
         if (unit != null && unit instanceof CovertOps) {
             return (CovertOps) unit;
         } else {
@@ -51,7 +51,7 @@ public class ScienceFacility extends Building implements Mechanical, Researching
      */
     public PhysicsLab getPhysicsLab() {
 
-        Unit unit = super.getUnit(addonId);
+        Unit unit = this.getUnit(addonId);
         if (unit != null && unit instanceof PhysicsLab) {
             return (PhysicsLab) unit;
         } else {

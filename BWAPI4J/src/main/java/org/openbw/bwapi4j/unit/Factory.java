@@ -66,7 +66,7 @@ public class Factory extends Building implements Mechanical, FlyingBuilding, Tra
 
     public MachineShop getMachineShop() {
         
-        return (MachineShop) super.getUnit(this.addonId);
+        return (MachineShop) this.getUnit(this.addonId);
     }
 
     @Override

@@ -205,7 +205,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 					switch (e.getType()) {
 						case EventType::MatchEnd: {
 							//  std::cout << "calling onEnd..." << std::endl;
-							env->CallObjectMethod(bw, onEndCallback, (jboolean)e.isWinner());
+							env->CallObjectMethod(bw, onEndCallback, e.isWinner() ? JNI_TRUE : JNI_FALSE);
 							// std::cout << "done." << std::endl;;
 						}
 							break;
@@ -292,7 +292,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 						}
 							break;
 						case EventType::SaveGame: {
-							std::cout << "calling onSaveGame..." << std::endl;
+							// std::cout << "calling onSaveGame..." << std::endl;
 							jstring string = env->NewStringUTF(e.getText().c_str());
 							env->CallObjectMethod(bw, onSaveGameCallback, string);
 							env->DeleteLocalRef(string);
@@ -300,7 +300,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 							}
 							break;
 						case EventType::UnitComplete: {
-							std::cout << "calling onUnitComplete..." << std::endl;
+							// std::cout << "calling onUnitComplete..." << std::endl;
 							env->CallObjectMethod(bw, onUnitCompleteCallback, e.getUnit()->getID());
 							// std::cout << "done." << std::endl;;
 						}

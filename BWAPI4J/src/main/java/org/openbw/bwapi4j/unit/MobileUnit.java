@@ -128,7 +128,7 @@ public abstract class MobileUnit extends PlayerUnit {
     
     public Unit getTransport() {
         
-        return super.getUnit(this.transportId);
+        return this.getUnit(this.transportId);
     }
     
     public boolean isFollowing() {
@@ -188,7 +188,7 @@ public abstract class MobileUnit extends PlayerUnit {
 
     public Unit getTargetUnit() {
         
-        return super.getUnit(this.targetId);
+        return this.getUnit(this.targetId);
     }
 
     public WeaponType getGroundWeapon() {
@@ -201,6 +201,14 @@ public abstract class MobileUnit extends PlayerUnit {
         return this.type.airWeapon();
     }
 
+    public int getMaxGroundHits() {
+        return this.type.maxGroundHits();
+    }
+    
+    public int getMaxAirHits() {
+        return this.type.maxAirHits();
+    }
+    
     public int getTurnRadius() {
         
         return this.type.turnRadius();

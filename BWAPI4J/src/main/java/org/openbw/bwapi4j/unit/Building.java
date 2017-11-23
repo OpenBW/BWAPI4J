@@ -190,7 +190,7 @@ public abstract class Building extends PlayerUnit {
 
     public SCV getBuildUnit() {
         
-        return (SCV) super.getUnit(builderId);
+        return (SCV) this.getUnit(builderId);
     }
 
     public int getBuildTime() {
@@ -227,18 +227,18 @@ public abstract class Building extends PlayerUnit {
     public int getLastKnownDistance(TilePosition position) {
 
         // compute x distance
-        int distX = super.getLastKnownTilePosition().getX() - position.getX();
+        int distX = this.getLastKnownTilePosition().getX() - position.getX();
         if (distX < 0) {
-            distX = position.getX() - (super.getLastKnownTilePosition().getX() + this.type.tileWidth());
+            distX = position.getX() - (this.getLastKnownTilePosition().getX() + this.type.tileWidth());
             if (distX < 0) {
                 distX = 0;
             }
         }
 
         // compute y distance
-        int distY = super.getLastKnownTilePosition().getY() - position.getY();
+        int distY = this.getLastKnownTilePosition().getY() - position.getY();
         if (distY < 0) {
-            distY = position.getY() - (super.getLastKnownTilePosition().getY() + this.type.tileHeight());
+            distY = position.getY() - (this.getLastKnownTilePosition().getY() + this.type.tileHeight());
             if (distY < 0) {
                 distY = 0;
             }
@@ -259,18 +259,18 @@ public abstract class Building extends PlayerUnit {
         int bottom = position.getY() + 1;
 
         // compute x distance
-        int distX = (super.getLastKnownPosition().getX() - this.type.dimensionLeft()) - right;
+        int distX = (this.getLastKnownPosition().getX() - this.type.dimensionLeft()) - right;
         if (distX < 0) {
-            distX = left - (super.getLastKnownPosition().getX() + this.type.dimensionRight());
+            distX = left - (this.getLastKnownPosition().getX() + this.type.dimensionRight());
             if (distX < 0) {
                 distX = 0;
             }
         }
 
         // compute y distance
-        int distY = (super.getLastKnownPosition().getY() - this.type.dimensionUp()) - bottom;
+        int distY = (this.getLastKnownPosition().getY() - this.type.dimensionUp()) - bottom;
         if (distY < 0) {
-            distY = top - (super.getLastKnownPosition().getY() + this.type.dimensionDown());
+            distY = top - (this.getLastKnownPosition().getY() + this.type.dimensionDown());
             if (distY < 0) {
                 distY = 0;
             }

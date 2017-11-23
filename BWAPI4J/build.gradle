@@ -2,8 +2,21 @@ group 'org.openbw.bwapi4j'
 version ''
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'java-library-distribution'
+apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+mainClassName = 'org.openbw.bwapi4j.BW'
+
+buildscript {
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath "com.github.jengelman.gradle.plugins:shadow:2.0.1"
+  }
+}
 
 repositories {
     mavenCentral()
@@ -24,8 +37,14 @@ dependencies {
 }
 
 jar {
-     from sourceSets.main.allSource
- }
+	manifest {
+		attributes 'Main-Class': mainClassName
+    }
+}
+
+shadowJar {
+	classifier = null
+}
 
 task generateJniHeaders(type:Exec) {
     def classpath = sourceSets.main.output.classesDir
@@ -33,12 +52,4 @@ task generateJniHeaders(type:Exec) {
     commandLine "javah", "-jni", "-verbose", "-d", nativeIncludes, "-classpath", classpath, "$mainClassName", "bwta.BWTA", "bwta.Polygon", "bwta.BaseLocation", "org.openbw.bwapi4j.BWMapImpl", "org.openbw.bwapi4j.InteractionHandler", "org.openbw.bwapi4j.MapDrawer", "org.openbw.bwapi4j.DamageEvaluator", "org.openbw.bwapi4j.unit.Unit"
 
     dependsOn classes
-}
-
-distributions {
-    main {
-        contents {
-            from { '../OpenBWAPI4JBridge/Release/libOpenBWAPI4JBridge.so' }
-        }
-    }
 }

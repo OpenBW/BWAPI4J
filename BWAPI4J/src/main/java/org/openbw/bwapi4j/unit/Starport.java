@@ -51,7 +51,7 @@ public class Starport extends Building implements Mechanical, FlyingBuilding, Tr
 
     public ControlTower getControlTower() {
         
-        return (ControlTower) super.getUnit(this.addonId);
+        return (ControlTower) this.getUnit(this.addonId);
     }
     
     public boolean trainWraith() {

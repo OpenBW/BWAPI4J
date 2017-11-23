@@ -3,6 +3,8 @@ package org.openbw.bwapi4j;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.type.BwError;
 import org.openbw.bwapi4j.type.Key;
 import org.openbw.bwapi4j.type.UnitType;
@@ -13,6 +15,8 @@ import org.openbw.bwapi4j.unit.Unit;
  */
 public final class InteractionHandler {
 
+	private static final Logger logger = LogManager.getLogger();
+	
     public static int LAST_ERROR_INDEX                  = 0;
     public static int SCREEN_POSITION_X_INDEX           = 1;
     public static int SCREEN_POSITION_Y_INDEX           = 2;
@@ -151,6 +155,12 @@ public final class InteractionHandler {
 
     public native void leaveGame();
 
+    public void sendTextAndLog(String text) {
+    
+    	logger.info(text);
+    	sendText(text);
+    }
+    
     public native void sendText(String text);
 
     public native void setLocalSpeed(int speed);
