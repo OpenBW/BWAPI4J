@@ -46,6 +46,10 @@ public class TilePositionTest {
                 final Position p = t.toPosition();
                 Assert.assertEquals("Position: wrong value for 'x': " + p.toString(), TILE_POSITION_X_ARR[x] * TilePosition.SIZE_IN_PIXELS, p.getX());
                 Assert.assertEquals("Position: wrong value for 'y': " + p.toString(), TILE_POSITION_Y_ARR[y] * TilePosition.SIZE_IN_PIXELS, p.getY());
+
+                final WalkPosition w = t.toWalkPosition();
+                Assert.assertEquals("WalkPosition: wrong value for 'x': " + w.toString(), (TILE_POSITION_X_ARR[x] * TilePosition.SIZE_IN_PIXELS) / WalkPosition.SIZE_IN_PIXELS, w.getX());
+                Assert.assertEquals("WalkPosition: wrong value for 'y': " + w.toString(), (TILE_POSITION_Y_ARR[y] * TilePosition.SIZE_IN_PIXELS) / WalkPosition.SIZE_IN_PIXELS, w.getY());
             }
         }
     }
