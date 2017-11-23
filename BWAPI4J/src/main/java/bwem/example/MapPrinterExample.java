@@ -75,7 +75,7 @@ public class MapPrinterExample {
         final int stackSize = mapPrinter.showStackedNeutrals ? theMap.getData().getTile(n.TopLeft()).StackedNeutrals() : 1;
 
         for (int i = 0 ; i < stackSize ; ++i) {
-            WalkPosition origin = (new WalkPosition(n.TopLeft())).add(new WalkPosition(delta.getX() * i, delta.getY() * i));
+            WalkPosition origin = n.TopLeft().toWalkPosition().add(delta.multiply(new WalkPosition(i, i)));
             WalkPosition size = n.Size().toPosition().toWalkPosition();
             if (!theMap.getData().getMapData().isValid(origin) || !theMap.getData().getMapData().isValid(origin.add(size).subtract(new WalkPosition(1, 1)))) break;
 
