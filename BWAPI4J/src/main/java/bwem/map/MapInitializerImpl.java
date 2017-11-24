@@ -129,19 +129,19 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
     public void markUnwalkableMiniTiles(final AdvancedData advancedData, final BWMap bwMap) {
         // Mark unwalkable minitiles (minitiles are walkable by default)
         for (int y = 0; y < advancedData.getMapData().getWalkSize().getY(); ++y)
-            for (int x = 0; x < advancedData.getMapData().getWalkSize().getX(); ++x) {
-                if (!bwMap.isWalkable(x, y)) {
-                    // For each unwalkable minitile, we also mark its 8 neighbours as not walkable.
-                    // According to some tests, this prevents from wrongly pretending one Marine can go by some thin path.
-                    for (int dy = -1; dy <= +1; ++dy)
-                        for (int dx = -1; dx <= +1; ++dx) {
-                            final WalkPosition w = new WalkPosition(x + dx, y + dy);
-                            if (advancedData.getMapData().isValid(w)) {
-                                advancedData.getMiniTile_(w, check_t.no_check).SetWalkable(false);
-                            }
-                        }
+        for (int x = 0; x < advancedData.getMapData().getWalkSize().getX(); ++x) {
+            if (!bwMap.isWalkable(x, y)) {
+                // For each unwalkable minitile, we also mark its 8 neighbours as not walkable.
+                // According to some tests, this prevents from wrongly pretending one Marine can go by some thin path.
+                for (int dy = -1; dy <= +1; ++dy)
+                for (int dx = -1; dx <= +1; ++dx) {
+                    final WalkPosition w = new WalkPosition(x + dx, y + dy);
+                    if (advancedData.getMapData().isValid(w)) {
+                        advancedData.getMiniTile_(w, check_t.no_check).SetWalkable(false);
+                    }
                 }
             }
+        }
     }
 
     @Override
@@ -289,7 +289,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
 
         final List<MutablePair<WalkPosition, Altitude>> ActiveSeaSides = getActiveSeaSideList(advancedData.getMapData());
 
-        setMaxAltitude(setAltitudesAndGetUpdatedMaxAltitude(this.m_maxAltitude, advancedData, DeltasByAscendingAltitude, ActiveSeaSides, altitude_scale));
+        setMaxAltitude(setAltitudesAndGetUpdatedMaxAltitude(MaxAltitude(), advancedData, DeltasByAscendingAltitude, ActiveSeaSides, altitude_scale));
     }
 
     /**

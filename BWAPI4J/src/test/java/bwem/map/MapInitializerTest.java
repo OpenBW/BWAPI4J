@@ -72,9 +72,9 @@ public class MapInitializerTest implements BWEventListener {
         final MapInitializer mapInitializer = (MapInitializer) this.map;
 
         mapInitializer.compileAdvancedData(
-                this.bwapiData.getMapSize().getX(),
-                this.bwapiData.getMapSize().getY(),
-                Arrays.asList(this.bwapiData.getStartingLocations())
+                (useOriginalValues ? this.bwapiData.getMapSize().getX() : this.bw.getBWMap().mapWidth()),
+                (useOriginalValues ? this.bwapiData.getMapSize().getY() : this.bw.getBWMap().mapHeight()),
+                (useOriginalValues ? Arrays.asList(this.bwapiData.getStartingLocations()) : this.bw.getBWMap().getStartPositions())
         );
         final AdvancedData advancedData = this.map.getData();
 
