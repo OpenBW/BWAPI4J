@@ -71,7 +71,7 @@ public class MapInitializerTest implements BWEventListener {
 
         final MapInitializer mapInitializer = (MapInitializer) this.map;
 
-        mapInitializer.compileAdvancedData(
+        mapInitializer.initializeAdvancedData(
                 (useOriginalValues ? this.bwapiData.getMapSize().getX() : this.bw.getBWMap().mapWidth()),
                 (useOriginalValues ? this.bwapiData.getMapSize().getY() : this.bw.getBWMap().mapHeight()),
                 (useOriginalValues ? Arrays.asList(this.bwapiData.getStartingLocations()) : this.bw.getBWMap().getStartPositions())
@@ -83,7 +83,7 @@ public class MapInitializerTest implements BWEventListener {
 
         ((AdvancedDataInit) advancedData).decideSeasOrLakes(BwemExt.lake_max_miniTiles, BwemExt.lake_max_width_in_miniTiles);
 
-        mapInitializer.initializeNeutrals(
+        mapInitializer.initializeNeutralData(
                 this.bw.getMineralPatches(),
                 this.bw.getVespeneGeysers(),
                 mapInitializer.filterNeutralPlayerUnits(this.bw.getAllUnits(), this.bw.getAllPlayers())
@@ -114,7 +114,7 @@ public class MapInitializerTest implements BWEventListener {
 
         //////////////////////////////////////////////////////////////////////
 
-        mapInitializer.ProcessBlockingNeutrals(mapInitializer.getCandidates(this.map.StaticBuildings(), this.map.Minerals()));
+        mapInitializer.ProcessBlockingNeutrals(mapInitializer.getCandidates(this.map.getNeutralData().getStaticBuildings(), this.map.getNeutralData().getMinerals()));
 
         //////////////////////////////////////////////////////////////////////
         // ComputeAreas
@@ -132,7 +132,7 @@ public class MapInitializerTest implements BWEventListener {
 
         //////////////////////////////////////////////////////////////////////
 
-        graph.CreateChokePoints(this.map.StaticBuildings(), this.map.Minerals(), this.map.RawFrontier());
+        graph.CreateChokePoints(this.map.getNeutralData().getStaticBuildings(), this.map.getNeutralData().getMinerals(), this.map.RawFrontier());
 
         graph.ComputeChokePointDistanceMatrix();
 

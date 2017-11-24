@@ -570,14 +570,14 @@ public final class Graph {
     public void CollectInformation() {
         // 1) Process the whole Map:
 
-        for (Mineral m : GetMap().Minerals()) {
+        for (Mineral m : GetMap().getNeutralData().getMinerals()) {
             Area pArea = mainArea(GetMap(), m.TopLeft(), m.Size());
             if (pArea != null) {
                 pArea.AddMineral(m);
             }
         }
 
-        for (Geyser g : GetMap().Geysers()) {
+        for (Geyser g : GetMap().getNeutralData().getGeysers()) {
             Area pArea = mainArea(GetMap(), g.TopLeft(), g.Size());
             if (pArea != null) {
                 pArea.AddGeyser(g);

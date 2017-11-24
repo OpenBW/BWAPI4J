@@ -6,7 +6,6 @@ import bwem.check_t;
 import bwem.tile.MiniTile;
 import bwem.typedef.Altitude;
 import bwem.typedef.Pred;
-import bwem.unit.Geyser;
 import bwem.unit.Mineral;
 import bwem.unit.Neutral;
 import bwem.unit.StaticBuilding;
@@ -23,7 +22,6 @@ import org.openbw.bwapi4j.MapDrawer;
 import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
-import org.openbw.bwapi4j.unit.Building;
 import org.openbw.bwapi4j.unit.MineralPatch;
 import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.unit.Unit;
@@ -54,7 +52,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
         final Timer overallTimer = new Timer();
         final Timer timer = new Timer();
 
-        compileAdvancedData(getBWMap().mapWidth(), getBWMap().mapHeight(), getBWMap().getStartPositions());
+        initializeAdvancedData(getBWMap().mapWidth(), getBWMap().mapHeight(), getBWMap().getStartPositions());
 //    ///	bw << "Map::Initialize-resize: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         logger.info("Map::Initialize-resize: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
@@ -68,7 +66,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
 //    ///	bw << "Map::DecideSeasOrLakes: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         logger.info("Map::DecideSeasOrLakes: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
-        initializeNeutrals(
+        initializeNeutralData(
                 super.mineralPatches,
                 super.vespeneGeysers,
                 filterNeutralPlayerUnits(super.units, super.players)
@@ -80,7 +78,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
 //    ///	bw << "Map::ComputeAltitude: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         logger.info("Map::ComputeAltitude: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
-        ProcessBlockingNeutrals(getCandidates(StaticBuildings(), Minerals()));
+        ProcessBlockingNeutrals(getCandidates(getNeutralData().getStaticBuildings(), getNeutralData().getMinerals()));
 //    ///	bw << "Map::ProcessBlockingNeutrals: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         logger.info("Map::ProcessBlockingNeutrals: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
@@ -88,7 +86,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
 //    ///	bw << "Map::ComputeAreas: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         logger.info("Map::ComputeAreas: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
-        GetGraph().CreateChokePoints(StaticBuildings(), Minerals(), RawFrontier());
+        GetGraph().CreateChokePoints(getNeutralData().getStaticBuildings(), getNeutralData().getMinerals(), RawFrontier());
 //    ///	bw << "Graph::CreateChokePoints: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         logger.info("Map::CreateChokePoints: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
@@ -109,7 +107,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
     }
 
     @Override
-    public void compileAdvancedData(final int mapTileWidth, final int mapTileHeight, final List<TilePosition> startingLocations) {
+    public void initializeAdvancedData(final int mapTileWidth, final int mapTileHeight, final List<TilePosition> startingLocations) {
         final MapData mapData = new MapDataImpl(mapTileWidth, mapTileHeight, startingLocations);
         final TileData tileData = new TileDataImpl(
                 mapData.getTileSize().getX() * mapData.getTileSize().getY(),
@@ -125,29 +123,12 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
     ////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void initializeNeutrals(
+    public void initializeNeutralData(
             final List<MineralPatch> mineralPatches,
             final List<VespeneGeyser> vespeneGeysers,
             final List<PlayerUnit> neutralUnits
     ) {
-        for (final MineralPatch mineralPatch : mineralPatches) {
-            Minerals().add(new Mineral(mineralPatch, this));
-        }
-        for (final VespeneGeyser vespeneGeyser : vespeneGeysers) {
-            Geysers().add(new Geyser(vespeneGeyser, this));
-        }
-        for (final Unit neutralUnit : neutralUnits) {
-//                if ((neutralUnit instanceof Building) && !(neutralUnit instanceof MineralPatch || neutralUnit instanceof VespeneGeyser)) {
-            if (neutralUnit instanceof Building) {
-                StaticBuildings().add(new StaticBuilding(neutralUnit, this));
-            }
-        }
-
-        //TODO: Add "Special_Pit_Door" and "Special_Right_Pit_Door" to static buildings list? See mapImpl.cpp:238.
-//				if (n->getType() == Special_Pit_Door)
-//					m_StaticBuildings.push_back(make_unique<StaticBuilding>(n, this));
-//				if (n->getType() == Special_Right_Pit_Door)
-//					m_StaticBuildings.push_back(make_unique<StaticBuilding>(n, this));
+        super.neutralData = new NeutralDataImpl(this, mineralPatches, vespeneGeysers, neutralUnits);
     }
 
     ////////////////////////////////////////////////////////////////////////

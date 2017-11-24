@@ -79,14 +79,7 @@ public interface Map {
     // Returns the number of ChokePoints.
     public abstract int ChokePointCount();
 
-    // Returns a reference to the Minerals (Cf. Mineral).
-    public abstract List<Mineral> Minerals();
-
-    // Returns a reference to the Geysers (Cf. Geyser).
-    public abstract List<Geyser> Geysers();
-
-    // Returns a reference to the StaticBuildings (Cf. StaticBuilding).
-    public abstract List<StaticBuilding> StaticBuildings();
+    public abstract NeutralData getNeutralData();
 
 	// If a Mineral wrappers the given BWAPI unit, returns a pointer to it.
 	// Otherwise, returns nullptr.

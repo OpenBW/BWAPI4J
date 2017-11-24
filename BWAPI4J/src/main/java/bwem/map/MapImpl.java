@@ -45,13 +45,12 @@ public class MapImpl implements Map {
     private final MapPrinter m_pMapPrinter;
 
     protected AdvancedData advancedData = null;
+    protected NeutralData neutralData = null;
 
     protected Altitude m_maxAltitude;
     private MutableBoolean m_automaticPathUpdate = new MutableBoolean(false);
     private final Graph m_Graph;
-    private final List<Mineral> m_Minerals = new ArrayList<>();
-    private final List<Geyser> m_Geysers = new ArrayList<>();
-    private final List<StaticBuilding> m_StaticBuildings = new ArrayList<>();
+
     protected final List<MutablePair<MutablePair<AreaId, AreaId>, WalkPosition>> m_RawFrontier = new ArrayList<>();
 
     private final BWMap bwMap;
@@ -164,23 +163,13 @@ public class MapImpl implements Map {
     }
 
     @Override
-    public List<Mineral> Minerals() {
-        return m_Minerals;
-    }
-
-    @Override
-    public List<Geyser> Geysers() {
-        return m_Geysers;
-    }
-
-    @Override
-    public List<StaticBuilding> StaticBuildings() {
-        return m_StaticBuildings;
+    public NeutralData getNeutralData() {
+        return this.neutralData;
     }
 
     @Override
     public Mineral GetMineral(Unit u) {
-        for (Mineral mineral : m_Minerals) {
+        for (Mineral mineral : getNeutralData().getMinerals()) {
             if (mineral.Unit().equals(u)) {
                 return mineral;
             }
@@ -190,7 +179,7 @@ public class MapImpl implements Map {
 
     @Override
     public Geyser GetGeyser(Unit u) {
-        for (Geyser geyser : m_Geysers) {
+        for (Geyser geyser : getNeutralData().getGeysers()) {
             if (geyser.Unit().equals(u)) {
                 return geyser;
             }
@@ -218,12 +207,12 @@ public class MapImpl implements Map {
 
     @Override
     public void OnMineralDestroyed(Unit u) {
-        for (int i = 0; i < m_Minerals.size(); ++i) {
-            Mineral mineral = m_Minerals.get(i);
+        for (int i = 0; i < getNeutralData().getMinerals().size(); ++i) {
+            Mineral mineral = getNeutralData().getMinerals().get(i);
             if (mineral.Unit().equals(u)) {
                 OnMineralDestroyed(mineral);
                 mineral.simulateCPPObjectDestructor(); /* IMPORTANT! These actions are performed in the "~Neutral" dtor in BWEM 1.4.1 C++. */
-                m_Minerals.remove(i--);
+                getNeutralData().getMinerals().remove(i--);
                 return;
             }
         }
@@ -243,11 +232,11 @@ public class MapImpl implements Map {
 
     @Override
     public void OnStaticBuildingDestroyed(Unit u) {
-        for (int i = 0; i < m_StaticBuildings.size(); ++i) {
-            StaticBuilding building = m_StaticBuildings.get(i);
+        for (int i = 0; i < getNeutralData().getStaticBuildings().size(); ++i) {
+            StaticBuilding building = getNeutralData().getStaticBuildings().get(i);
             if (building.Unit().equals(u)) {
                 building.simulateCPPObjectDestructor(); /* IMPORTANT! These actions are performed in the "~Neutral" dtor in BWEM 1.4.1 C++. */
-                m_StaticBuildings.remove(i--);
+                getNeutralData().getStaticBuildings().remove(i--);
                 return;
             }
         }

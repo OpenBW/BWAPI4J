@@ -27,9 +27,9 @@ public interface MapInitializer {
     // A good place to do this is in ExampleAIModule::onStart()
     public abstract void Initialize();
 
-    public abstract void compileAdvancedData(int mapTileWidth, int mapTileHeight, List<TilePosition> startingLocations);
+    public abstract void initializeAdvancedData(int mapTileWidth, int mapTileHeight, List<TilePosition> startingLocations);
 
-    public abstract void initializeNeutrals(
+    public abstract void initializeNeutralData(
             List<MineralPatch> mineralPatches,
             List<VespeneGeyser> vespeneGeysers,
             List<PlayerUnit> neutralUnits

@@ -174,15 +174,15 @@ public class MapPrinterExample {
                 }
 
         if (mapPrinter.showGeysers)
-            for (Geyser g : theMap.Geysers())
+            for (Geyser g : theMap.getNeutralData().getGeysers())
                 printNeutral(theMap, g, MapPrinter.CustomColor.GEYSERS.color());
 
         if (mapPrinter.showMinerals)
-            for (Mineral m : theMap.Minerals())
+            for (Mineral m : theMap.getNeutralData().getMinerals())
                 printNeutral(theMap, m, MapPrinter.CustomColor.MINERALS.color());
 
         if (mapPrinter.showStaticBuildings)
-            for (StaticBuilding s : theMap.StaticBuildings())
+            for (StaticBuilding s : theMap.getNeutralData().getStaticBuildings())
                 printNeutral(theMap, s, MapPrinter.CustomColor.STATIC_BUILDINGS.color());
 
         if (mapPrinter.showStartingLocations)
