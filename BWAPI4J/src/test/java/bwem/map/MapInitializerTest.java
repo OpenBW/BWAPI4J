@@ -83,10 +83,10 @@ public class MapInitializerTest implements BWEventListener {
 
         ((AdvancedDataInit) advancedData).decideSeasOrLakes(BwemExt.lake_max_miniTiles, BwemExt.lake_max_width_in_miniTiles);
 
-        mapInitializer.InitializeNeutrals(
-                this.bw.getMineralPatches(), this.map.Minerals(),
-                this.bw.getVespeneGeysers(), this.map.Geysers(),
-                mapInitializer.filterNeutralPlayerUnits(this.bw.getAllUnits(), this.bw.getAllPlayers()), this.map.StaticBuildings()
+        mapInitializer.initializeNeutrals(
+                this.bw.getMineralPatches(),
+                this.bw.getVespeneGeysers(),
+                mapInitializer.filterNeutralPlayerUnits(this.bw.getAllUnits(), this.bw.getAllPlayers())
         );
 
         //////////////////////////////////////////////////////////////////////

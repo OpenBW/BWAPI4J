@@ -29,10 +29,10 @@ public interface MapInitializer {
 
     public abstract void compileAdvancedData(int mapTileWidth, int mapTileHeight, List<TilePosition> startingLocations);
 
-    public abstract void InitializeNeutrals(
-            List<MineralPatch> mineralPatches, List<Mineral> minerals,
-            List<VespeneGeyser> vespeneGeysers, List<Geyser> geysers,
-            List<PlayerUnit> neutralUnits, List<StaticBuilding> staticBuildings
+    public abstract void initializeNeutrals(
+            List<MineralPatch> mineralPatches,
+            List<VespeneGeyser> vespeneGeysers,
+            List<PlayerUnit> neutralUnits
     );
 
     public abstract void ComputeAltitude(AdvancedData advancedData);

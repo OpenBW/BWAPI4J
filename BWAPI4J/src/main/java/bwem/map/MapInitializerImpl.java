@@ -68,10 +68,10 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
 //    ///	bw << "Map::DecideSeasOrLakes: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         logger.info("Map::DecideSeasOrLakes: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
-        InitializeNeutrals(
-                super.mineralPatches, Minerals(),
-                super.vespeneGeysers, Geysers(),
-                filterNeutralPlayerUnits(super.units, super.players), StaticBuildings()
+        initializeNeutrals(
+                super.mineralPatches,
+                super.vespeneGeysers,
+                filterNeutralPlayerUnits(super.units, super.players)
         );
 //    ///	bw << "Map::InitializeNeutrals: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         logger.info("Map::InitializeNeutrals: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
@@ -125,21 +125,21 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
     ////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void InitializeNeutrals(
-            final List<MineralPatch> mineralPatches, final List<Mineral> minerals,
-            final List<VespeneGeyser> vespeneGeysers, final List<Geyser> geysers,
-            final List<PlayerUnit> neutralUnits, final List<StaticBuilding> staticBuildings
+    public void initializeNeutrals(
+            final List<MineralPatch> mineralPatches,
+            final List<VespeneGeyser> vespeneGeysers,
+            final List<PlayerUnit> neutralUnits
     ) {
         for (final MineralPatch mineralPatch : mineralPatches) {
-            minerals.add(new Mineral(mineralPatch, this));
+            Minerals().add(new Mineral(mineralPatch, this));
         }
         for (final VespeneGeyser vespeneGeyser : vespeneGeysers) {
-            geysers.add(new Geyser(vespeneGeyser, this));
+            Geysers().add(new Geyser(vespeneGeyser, this));
         }
         for (final Unit neutralUnit : neutralUnits) {
 //                if ((neutralUnit instanceof Building) && !(neutralUnit instanceof MineralPatch || neutralUnit instanceof VespeneGeyser)) {
             if (neutralUnit instanceof Building) {
-                staticBuildings.add(new StaticBuilding(neutralUnit, this));
+                StaticBuildings().add(new StaticBuilding(neutralUnit, this));
             }
         }
 
