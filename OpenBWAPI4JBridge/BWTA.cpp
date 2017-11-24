@@ -24,6 +24,14 @@ jobject createPolygon(JNIEnv * env, const BWTA::Polygon &polygon, jclass positio
 	jobject jpolcenter = env->NewObject(positionClass, positionNew, (jint)polygon.getCenter().x, (jint)polygon.getCenter().y);
 	env->SetObjectField(jpolygon, env->GetFieldID(polygonClass, "center", "Lorg/openbw/bwapi4j/Position;"), jpolcenter);
 
+	// set points
+	jobject pointList = env->GetObjectField(jpolygon, env->GetFieldID(polygonClass, "points", "Ljava/util/ArrayList;"));
+	for (Position position : polygon) {
+
+		jobject jpoint = env->NewObject(positionClass, positionNew, (jint)position.x, (jint)position.y);
+		env->CallObjectMethod(pointList, arrayListAdd, jpoint);
+	}
+
 	// set holes recursively in polygon
 	jobject holeList = env->GetObjectField(jpolygon, env->GetFieldID(polygonClass, "holes", "Ljava/util/ArrayList;"));
 	for (const auto& hole : polygon.getHoles()) {
