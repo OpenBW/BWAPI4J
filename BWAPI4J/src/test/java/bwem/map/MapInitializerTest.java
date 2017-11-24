@@ -81,7 +81,7 @@ public class MapInitializerTest implements BWEventListener {
         ((AdvancedDataInit) advancedData).markUnwalkableMiniTiles(bwMap);
         ((AdvancedDataInit) advancedData).markBuildableTilesAndGroundHeight(bwMap);
 
-        mapInitializer.DecideSeasOrLakes(advancedData, BwemExt.lake_max_miniTiles, BwemExt.lake_max_width_in_miniTiles);
+        ((AdvancedDataInit) advancedData).decideSeasOrLakes(BwemExt.lake_max_miniTiles, BwemExt.lake_max_width_in_miniTiles);
 
         mapInitializer.InitializeNeutrals(
                 this.bw.getMineralPatches(), this.map.Minerals(),

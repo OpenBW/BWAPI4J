@@ -29,8 +29,6 @@ public interface MapInitializer {
 
     public abstract void compileAdvancedData(int mapTileWidth, int mapTileHeight, List<TilePosition> startingLocations);
 
-    public abstract void DecideSeasOrLakes(AdvancedData advancedData, int lake_max_miniTiles, int lake_max_width_in_miniTiles);
-
     public abstract void InitializeNeutrals(
             List<MineralPatch> mineralPatches, List<Mineral> minerals,
             List<VespeneGeyser> vespeneGeysers, List<Geyser> geysers,
