@@ -2,7 +2,7 @@ package bwem.map;
 
 import org.openbw.bwapi4j.BWMap;
 
-public interface AdvancedDataInit {
+public interface AdvancedDataInitializer {
 
     public abstract void markUnwalkableMiniTiles(BWMap bwMap);
 

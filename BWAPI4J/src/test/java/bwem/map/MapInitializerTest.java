@@ -78,10 +78,10 @@ public class MapInitializerTest implements BWEventListener {
         );
         final AdvancedData advancedData = this.map.getData();
 
-        ((AdvancedDataInit) advancedData).markUnwalkableMiniTiles(bwMap);
-        ((AdvancedDataInit) advancedData).markBuildableTilesAndGroundHeight(bwMap);
+        ((AdvancedDataInitializer) advancedData).markUnwalkableMiniTiles(bwMap);
+        ((AdvancedDataInitializer) advancedData).markBuildableTilesAndGroundHeight(bwMap);
 
-        ((AdvancedDataInit) advancedData).decideSeasOrLakes(BwemExt.lake_max_miniTiles, BwemExt.lake_max_width_in_miniTiles);
+        ((AdvancedDataInitializer) advancedData).decideSeasOrLakes(BwemExt.lake_max_miniTiles, BwemExt.lake_max_width_in_miniTiles);
 
         mapInitializer.initializeNeutralData(
                 this.bw.getMineralPatches(),

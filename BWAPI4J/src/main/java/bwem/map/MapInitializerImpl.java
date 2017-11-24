@@ -57,12 +57,12 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
         logger.info("Map::Initialize-resize: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
         // Computes walkability, buildability and groundHeight and doodad information, using BWAPI corresponding functions
-        ((AdvancedDataInit) getData()).markUnwalkableMiniTiles(getBWMap());
-        ((AdvancedDataInit) getData()).markBuildableTilesAndGroundHeight(getBWMap());
+        ((AdvancedDataInitializer) getData()).markUnwalkableMiniTiles(getBWMap());
+        ((AdvancedDataInitializer) getData()).markBuildableTilesAndGroundHeight(getBWMap());
 //    ///	bw << "Map::LoadData: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         logger.info("Map::LoadData: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 //
-        ((AdvancedDataInit) getData()).decideSeasOrLakes(BwemExt.lake_max_miniTiles, BwemExt.lake_max_width_in_miniTiles);
+        ((AdvancedDataInitializer) getData()).decideSeasOrLakes(BwemExt.lake_max_miniTiles, BwemExt.lake_max_width_in_miniTiles);
 //    ///	bw << "Map::DecideSeasOrLakes: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         logger.info("Map::DecideSeasOrLakes: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
@@ -113,7 +113,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                 mapData.getTileSize().getX() * mapData.getTileSize().getY(),
                 mapData.getWalkSize().getX() * mapData.getWalkSize().getY()
         );
-        super.advancedData = new AdvancedDataInitImpl(mapData, tileData);
+        super.advancedData = new AdvancedDataInitializerImpl(mapData, tileData);
     }
 
 

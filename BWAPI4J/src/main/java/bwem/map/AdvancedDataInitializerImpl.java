@@ -9,9 +9,9 @@ import org.openbw.bwapi4j.WalkPosition;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdvancedDataInitImpl extends AdvancedDataImpl implements AdvancedDataInit {
+public class AdvancedDataInitializerImpl extends AdvancedDataImpl implements AdvancedDataInitializer {
 
-    public AdvancedDataInitImpl(final MapData mapData, final TileData tileData) {
+    public AdvancedDataInitializerImpl(final MapData mapData, final TileData tileData) {
         super(mapData, tileData);
     }
 
