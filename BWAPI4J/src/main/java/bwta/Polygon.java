@@ -13,6 +13,7 @@ public class Polygon {
     private double perimeter;
     private Position center;
     private ArrayList<Polygon> holes;
+    private ArrayList<Position> points;
     
     /**
      * Creates a new Polygon.
@@ -22,6 +23,7 @@ public class Polygon {
         this.id = id;
         
         this.holes = new ArrayList<Polygon>();
+        this.points = new ArrayList<Position>();
     }
     
     public double getArea() {
@@ -50,6 +52,11 @@ public class Polygon {
     public List<Polygon> getHoles() {
         
         return this.holes;
+    }
+    
+    public List<Position> getPoints() {
+        
+        return this.points;
     }
     
     @Override

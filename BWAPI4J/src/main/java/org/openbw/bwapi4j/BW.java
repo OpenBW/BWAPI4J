@@ -69,40 +69,65 @@ public class BW {
 
     private void loadDLL() {
     	
-    	String libraryPathProperty = System.getProperty("java.library.path");
-        if (libraryPathProperty == null || libraryPathProperty == "") {
-
-            logger.warn("library path not set, using CWD as default.");
-            System.setProperty("java.library.path", "./");
-        } else {
-
-            logger.debug("library path set to {}", libraryPathProperty);
-        }
-
-        logger.debug("DLL exists: {}",
-                new File(System.getProperty("java.library.path") + "\\BWAPI4JBridge.dll").exists());
-        logger.debug("SO exists: {}",
-                new File(System.getProperty("java.library.path") + "/libOpenBWAPI4JBridge.so").exists());
-        logger.debug("user directory: {}", System.getProperty("user.dir"));
-
-        logger.info("jvm: {} ({}bit).", System.getProperty("java.version"), System.getProperty("sun.arch.data.model") );
+    	logger.info("jvm: {} ({}bit).", System.getProperty("java.version"), System.getProperty("sun.arch.data.model") );
         logger.info("os: {}", System.getProperty("os.name"));
 
+    	logger.debug("user directory: {}", System.getProperty("user.dir"));
+        logger.debug("bot directory: {}", BW.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+
+    	String libraryPathProperty = System.getProperty("java.library.path");
+
+        boolean dllExists = new File(libraryPathProperty + "\\BWAPI4JBridge.dll").exists();
+        boolean soExists = new File(libraryPathProperty + "/libOpenBWAPI4JBridge.so").exists();
+        
+        logger.debug("DLL exists: {}", dllExists);
+        logger.debug("SO exists: {}", soExists);
+        
+        if (!(dllExists || soExists)) {
+        	
+        	logger.info("Could not find libraries on path {}", System.getProperty("java.library.path"));
+
+        	try {
+				
+				java.lang.reflect.Field fieldSysPath = ClassLoader.class.getDeclaredField("sys_paths");
+				fieldSysPath.setAccessible(true);
+	            fieldSysPath.set(null, null);
+	            
+	            String path = BW.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+                String decodedPath = java.net.URLDecoder.decode(path, "UTF-8");
+                File file = new File(decodedPath);
+                
+                System.setProperty("java.library.path", file.getParent());
+                logger.info("Changed library path to {}", System.getProperty("java.library.path"));
+			} catch (Exception e) {
+				logger.error("Could not modify library path.", e);
+				e.printStackTrace();
+			}
+        }
+        
+        
         /* this is pretty hacky but required for now to run BWAPI4J on both Windows and Linux without modifying the source.
          *
          * Possible future solutions:
          *  - name BWAPI4JBridge and OpenBWAPI4JBridge the same. This way linux loads <name>.so and windows loads <name>.dll
          *  - build a single bwta.dll rather than libgmp-10 and libmpfr-4 and load bwta.so accordingly on linux.
          */
-        if (System.getProperty("os.name").contains("Windows")) {
-	        System.loadLibrary("libgmp-10");
-	        System.loadLibrary("libmpfr-4");
-	        System.loadLibrary("BWAPI4JBridge");
-        } else {
-        	System.loadLibrary("OpenBWAPI4JBridge");
+        try {
+	        if (System.getProperty("os.name").contains("Windows")) {
+		        System.loadLibrary("libgmp-10");
+		        System.loadLibrary("libmpfr-4");
+		        System.loadLibrary("BWAPI4JBridge");
+		        logger.debug("DLLs successfully loaded.");
+	        } else {
+	        	System.loadLibrary("OpenBWAPI4JBridge");
+	        }
+	        logger.debug("SO successfully loaded.");
+        } catch (UnsatisfiedLinkError e) {
+        	
+        	logger.fatal("Could not load libraries.", e);
+        	e.printStackTrace();
+        	System.exit(1);
         }
-
-        logger.debug("DLL/SO loaded.");
     }
     
     public void startGame() {
@@ -211,7 +236,7 @@ public class BW {
 
             		logger.debug("unit {} changed type from {} to {}.", unit.getId(), unit.getInitialType(), UnitType.values()[typeId]);
             	}
-                logger.debug("creating unit for id {} and type {} ({}) ...", unitId, typeId, UnitType.values()[typeId]);
+                logger.trace("creating unit for id {} and type {} ({}) ...", unitId, typeId, UnitType.values()[typeId]);
 
                 unit = unitFactory.createUnit(unitId, UnitType.values()[typeId], frame);
 
@@ -227,7 +252,7 @@ public class BW {
                     logger.trace("initial pos: {}", unit.getInitialTilePosition());
                     logger.trace("current pos: {}", unit.getTilePosition());
 
-                    logger.debug(" done.");
+                    logger.trace(" done.");
                 }
             } else {
 
@@ -248,11 +273,11 @@ public class BW {
 
                 logger.debug("creating player for id {} ...", playerId);
                 player = new Player(playerId, this.getPlayerName(playerId));
-                logger.debug("player name: {}", player.getName());
+                logger.trace("player name: {}", player.getName());
                 this.players.put(playerId, player);
-                logger.debug("initializing...");
+                logger.trace("initializing...");
                 player.initialize(playerData, index);
-                logger.debug(" done.");
+                logger.trace(" done.");
             }
             player.update(playerData, index, this.getResearchStatus(playerId), this.getUpgradeStatus(playerId));
         }
