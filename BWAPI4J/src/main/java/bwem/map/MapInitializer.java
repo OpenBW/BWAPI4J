@@ -29,9 +29,6 @@ public interface MapInitializer {
 
     public abstract void compileAdvancedData(int mapTileWidth, int mapTileHeight, List<TilePosition> startingLocations);
 
-    public abstract void markUnwalkableMiniTiles(AdvancedData advancedData, BWMap bwMap);
-    public abstract void markBuildableTilesAndGroundHeight(AdvancedData advancedData, BWMap bwMap);
-
     public abstract void DecideSeasOrLakes(AdvancedData advancedData, int lake_max_miniTiles, int lake_max_width_in_miniTiles);
 
     public abstract void InitializeNeutrals(

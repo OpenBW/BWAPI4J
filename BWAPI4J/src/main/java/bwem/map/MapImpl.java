@@ -54,7 +54,7 @@ public class MapImpl implements Map {
     private final List<StaticBuilding> m_StaticBuildings = new ArrayList<>();
     protected final List<MutablePair<MutablePair<AreaId, AreaId>, WalkPosition>> m_RawFrontier = new ArrayList<>();
 
-    protected final BWMap bwMap;
+    private final BWMap bwMap;
     private final MapDrawer mapDrawer;
 	protected final List<MineralPatch> mineralPatches;
     protected final Collection<Player> players;
@@ -83,6 +83,10 @@ public class MapImpl implements Map {
 //    {
 //        m_automaticPathUpdate = false;		// now there is no need to update the paths
 //    }
+
+    protected BWMap getBWMap() {
+        return this.bwMap;
+    }
 
     @Override
     public AdvancedData getData() {
