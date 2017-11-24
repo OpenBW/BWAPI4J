@@ -1,4 +1,4 @@
-package bwem.map;
+package bwem.unit;
 
 import bwem.unit.Geyser;
 import bwem.unit.Mineral;

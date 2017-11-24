@@ -1,8 +1,6 @@
-package bwem.map;
+package bwem.unit;
 
-import bwem.unit.Geyser;
-import bwem.unit.Mineral;
-import bwem.unit.StaticBuilding;
+import bwem.map.Map;
 import org.openbw.bwapi4j.unit.Building;
 import org.openbw.bwapi4j.unit.MineralPatch;
 import org.openbw.bwapi4j.unit.PlayerUnit;

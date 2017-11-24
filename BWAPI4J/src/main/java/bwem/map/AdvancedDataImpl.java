@@ -3,6 +3,7 @@ package bwem.map;
 import bwem.check_t;
 import bwem.tile.MiniTile;
 import bwem.tile.Tile;
+import bwem.tile.TileData;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 

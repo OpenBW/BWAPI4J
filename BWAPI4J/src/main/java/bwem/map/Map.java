@@ -8,7 +8,7 @@ import bwem.typedef.CPPath;
 import bwem.typedef.Pred;
 import bwem.unit.Geyser;
 import bwem.unit.Mineral;
-import bwem.unit.StaticBuilding;
+import bwem.unit.NeutralData;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.MutablePair;

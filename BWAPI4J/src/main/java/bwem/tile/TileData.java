@@ -1,4 +1,4 @@
-package bwem.map;
+package bwem.tile;
 
 import bwem.tile.MiniTile;
 import bwem.tile.Tile;

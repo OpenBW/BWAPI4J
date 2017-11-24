@@ -1,7 +1,4 @@
-package bwem.map;
-
-import bwem.tile.MiniTile;
-import bwem.tile.Tile;
+package bwem.tile;
 
 import java.util.ArrayList;
 import java.util.List;

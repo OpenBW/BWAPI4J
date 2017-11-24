@@ -15,6 +15,7 @@ import bwem.typedef.Pred;
 import bwem.unit.Geyser;
 import bwem.unit.Mineral;
 import bwem.unit.Neutral;
+import bwem.unit.NeutralData;
 import bwem.unit.StaticBuilding;
 import bwem.util.BwemExt;
 import org.apache.commons.lang3.mutable.MutableBoolean;
