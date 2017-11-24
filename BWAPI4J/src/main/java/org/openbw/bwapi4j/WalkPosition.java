@@ -12,6 +12,16 @@ public class WalkPosition {
         this.y = y;
     }
 
+    public WalkPosition(final TilePosition tilePosition) {
+        this.x = (tilePosition.getX() * TilePosition.SIZE_IN_PIXELS) / WalkPosition.SIZE_IN_PIXELS;
+        this.y = (tilePosition.getY() * TilePosition.SIZE_IN_PIXELS) / WalkPosition.SIZE_IN_PIXELS;
+    }
+
+    public WalkPosition(final Position position) {
+        this.x = position.getX() / WalkPosition.SIZE_IN_PIXELS;
+        this.y = position.getY() / WalkPosition.SIZE_IN_PIXELS;
+    }
+
     public int getX() {
         return this.x;
     }
@@ -58,7 +68,7 @@ public class WalkPosition {
 
     @Override
     public String toString() {
-        return "[" + getX() + "," + getY() + "]";
+        return "[" + getX() + ", " + getY() + "]";
     }
 
     @Override
