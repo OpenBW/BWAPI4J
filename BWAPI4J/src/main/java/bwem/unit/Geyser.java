@@ -52,7 +52,7 @@ public final class Geyser extends Resource {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.Unit().getId());
+        return Unit().hashCode();
     }
 
 }

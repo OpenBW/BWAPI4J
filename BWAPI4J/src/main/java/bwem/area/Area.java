@@ -651,7 +651,7 @@ public final class Area extends Markable<Area> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.m_id.intValue());
+        return this.m_id.hashCode();
     }
 
 

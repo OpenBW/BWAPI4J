@@ -40,7 +40,7 @@ public abstract class Resource extends Neutral {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.Unit().getId());
+        return Unit().hashCode();
     }
 
 }
