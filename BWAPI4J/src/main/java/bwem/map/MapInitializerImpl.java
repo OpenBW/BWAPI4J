@@ -197,7 +197,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
         for (int y = -1; y <= mapData.getWalkSize().getY(); ++y) {
             for (int x = -1; x <= mapData.getWalkSize().getX(); ++x) {
                 final WalkPosition w = new WalkPosition(x, y);
-                if (!mapData.isValid(w) || BwemExt.seaSide(w, getData())) {
+                if (!mapData.isValid(w) || getData().isSeaWithNonSeaNeighbors(w)) {
                     ActiveSeaSideList.add(new MutablePair<>(w, new Altitude(0)));
                 }
             }

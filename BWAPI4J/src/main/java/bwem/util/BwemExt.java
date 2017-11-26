@@ -36,23 +36,6 @@ public final class BwemExt {
 
     private BwemExt() {}
 
-    public static boolean seaSide(final WalkPosition p, final AdvancedData data) {
-        if (!data.getMiniTile(p).Sea()) {
-            return false;
-        }
-
-        WalkPosition deltas[] = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(+1, 0), new WalkPosition(0, +1)};
-        for (final WalkPosition delta : deltas) {
-            if (data.getMapData().isValid(p.add(delta))) {
-                if (!data.getMiniTile(p.add(delta), check_t.no_check).Sea()) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
     public static Position center(final TilePosition A) {
         final Position ret = (A.toPosition()).add(BwemExt.TILE_POSITION_CENTER_IN_PIXELS);
         return ret;

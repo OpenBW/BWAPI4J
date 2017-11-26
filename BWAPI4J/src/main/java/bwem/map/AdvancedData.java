@@ -31,4 +31,7 @@ public interface AdvancedData {
 
     public abstract MiniTile getMiniTile_(WalkPosition walkPosition);
 
+    // map.cpp:29:seaSide
+    public abstract boolean isSeaWithNonSeaNeighbors(WalkPosition walkPosition);
+
 }

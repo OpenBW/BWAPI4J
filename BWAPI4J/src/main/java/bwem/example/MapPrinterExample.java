@@ -13,7 +13,7 @@ import bwem.unit.Geyser;
 import bwem.unit.Mineral;
 import bwem.unit.Neutral;
 import bwem.unit.StaticBuilding;
-import bwem.util.BwemExt;
+
 import java.awt.Color;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -103,7 +103,7 @@ public class MapPrinterExample {
 
             Color col;
             if (miniTile.Sea()) {
-                if (mapPrinter.showSeaSide && BwemExt.seaSide(p, theMap.getData())) col = MapPrinter.CustomColor.SEA_SIDE.color();
+                if (mapPrinter.showSeaSide && theMap.getData().isSeaWithNonSeaNeighbors(p)) col = MapPrinter.CustomColor.SEA_SIDE.color();
                 else col = MapPrinter.CustomColor.SEA.color();
             } else {
                 if (mapPrinter.showLakes && miniTile.Lake()) {
