@@ -1,18 +1,18 @@
 package bwem.util;
 
-import bwem.map.AdvancedData;
-import bwem.typedef.Altitude;
 import bwem.check_t;
 import bwem.map.Map;
 import bwem.map.MapImpl;
-import java.util.ArrayList;
-import java.util.List;
+import bwem.typedef.Altitude;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.type.Color;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class BwemExt {
 
@@ -48,7 +48,7 @@ public final class BwemExt {
 
     public static Position centerOfBuilding(final TilePosition tilePosition, final TilePosition tileSize) {
         final Position pixelSize = tileSize.toPosition();
-        final Position pixelOffset = new Position(pixelSize.getX() / 2, pixelSize.getY() / 2);
+        final Position pixelOffset = pixelSize.divide(new Position(2, 2));
         return (tilePosition.toPosition()).add(pixelOffset);
     }
 
@@ -252,13 +252,25 @@ public final class BwemExt {
         return innerMiniTileBorder(TopLeft, Size, false);
     }
 
-    public static boolean disjoint(TilePosition TopLeft1, TilePosition Size1, TilePosition TopLeft2, TilePosition Size2) {
-        if (TopLeft2.getX() > TopLeft1.getX() + Size1.getX()) return true;
-        if (TopLeft2.getY() > TopLeft1.getY() + Size1.getY()) return true;
-        if (TopLeft1.getX() > TopLeft2.getX() + Size2.getX()) return true;
-        if (TopLeft1.getY() > TopLeft2.getY() + Size2.getY()) return true;
-        return false;
-    }
+//    template<typename T, int Scale = 1>
+//            inline bool overlap(const BWAPI::Point<T, Scale> & TopLeft1, const BWAPI::Point<T, Scale> & Size1, const BWAPI::Point<T, Scale> & TopLeft2, const BWAPI::Point<T, Scale> & Size2)
+//    {
+//        if (TopLeft2.x >= TopLeft1.x + Size1.x) return false;
+//        if (TopLeft2.y >= TopLeft1.y + Size1.y) return false;
+//        if (TopLeft1.x >= TopLeft2.x + Size2.x) return false;
+//        if (TopLeft1.y >= TopLeft2.y + Size2.y) return false;
+//        return true;
+//    }
+//
+//    template<typename T, int Scale = 1>
+//            inline bool disjoint(const BWAPI::Point<T, Scale> & TopLeft1, const BWAPI::Point<T, Scale> & Size1, const BWAPI::Point<T, Scale> & TopLeft2, const BWAPI::Point<T, Scale> & Size2)
+//    {
+//        if (TopLeft2.x > TopLeft1.x + Size1.x) return true;
+//        if (TopLeft2.y > TopLeft1.y + Size1.y) return true;
+//        if (TopLeft1.x > TopLeft2.x + Size2.x) return true;
+//        if (TopLeft1.y > TopLeft2.y + Size2.y) return true;
+//        return false;
+//    }
 
     public static boolean adjoins8SomeLakeOrNeutral(final WalkPosition p, final MapImpl pMap) {
         final WalkPosition[] deltas = {new WalkPosition(-1, -1), new WalkPosition(0, -1), new WalkPosition(+1, -1),
@@ -278,16 +290,6 @@ public final class BwemExt {
 
         return false;
     }
-
-//    template<typename T, int Scale = 1>
-//    inline bool overlap(const BWAPI::Point<T, Scale> & TopLeft1, const BWAPI::Point<T, Scale> & Size1, const BWAPI::Point<T, Scale> & TopLeft2, const BWAPI::Point<T, Scale> & Size2)
-//    {
-//        if (TopLeft2.x >= TopLeft1.x + Size1.x) return false;
-//        if (TopLeft2.y >= TopLeft1.y + Size1.y) return false;
-//        if (TopLeft1.x >= TopLeft2.x + Size2.x) return false;
-//        if (TopLeft1.y >= TopLeft2.y + Size2.y) return false;
-//        return true;
-//    }
 
     public static void drawDiagonalCrossMap(BW bw, Position topLeft, Position bottomRight, Color col) {
         bw.getMapDrawer().drawLineMap(topLeft, bottomRight, col);
