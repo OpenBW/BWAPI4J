@@ -67,7 +67,7 @@ public final class Index implements IWrappedInteger<Index>, Comparable<Index> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.val);
+        return this.val;
     }
 
     @Override

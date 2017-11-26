@@ -157,11 +157,9 @@ public final class Base {
     @Override
     public int hashCode() {
         return Objects.hash(
-                this.m_pArea.Id().intValue(),
-                this.m_location.getX(),
-                this.m_location.getY(),
-                this.m_center.getX(),
-                this.m_center.getY()
+                this.m_pArea,
+                this.m_location,
+                this.m_center
         );
     }
 

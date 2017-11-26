@@ -68,7 +68,7 @@ public final class Altitude implements IWrappedInteger<Altitude>, Comparable<Alt
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.val);
+        return this.val;
     }
 
     @Override

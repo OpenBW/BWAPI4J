@@ -66,7 +66,7 @@ public final class AreaId implements IWrappedInteger<AreaId>, Comparable<AreaId>
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.val);
+        return this.val;
     }
 
 }

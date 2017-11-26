@@ -66,7 +66,7 @@ public final class GroupId implements IWrappedInteger<GroupId>, Comparable<Group
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.val);
+        return this.val;
     }
 
 }
