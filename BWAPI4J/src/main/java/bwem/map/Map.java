@@ -81,14 +81,6 @@ public interface Map {
 
     public abstract NeutralData getNeutralData();
 
-	// If a Mineral wrappers the given BWAPI unit, returns a pointer to it.
-	// Otherwise, returns nullptr.
-    public abstract Mineral GetMineral(Unit u);
-
-	// If a Geyser wrappers the given BWAPI unit, returns a pointer to it.
-	// Otherwise, returns nullptr.
-    public abstract Geyser GetGeyser(Unit g);
-
     /**
      * Alternative handler for destroyed unit tracking. Not present in BWEM 1.4.1 C++.
      */

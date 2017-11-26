@@ -12,7 +12,6 @@ import bwem.tile.Tile;
 import bwem.typedef.Altitude;
 import bwem.typedef.CPPath;
 import bwem.typedef.Pred;
-import bwem.unit.Geyser;
 import bwem.unit.Mineral;
 import bwem.unit.Neutral;
 import bwem.unit.NeutralData;
@@ -166,26 +165,6 @@ public class MapImpl implements Map {
     @Override
     public NeutralData getNeutralData() {
         return this.neutralData;
-    }
-
-    @Override
-    public Mineral GetMineral(Unit u) {
-        for (Mineral mineral : getNeutralData().getMinerals()) {
-            if (mineral.Unit().equals(u)) {
-                return mineral;
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public Geyser GetGeyser(Unit u) {
-        for (Geyser geyser : getNeutralData().getGeysers()) {
-            if (geyser.Unit().equals(u)) {
-                return geyser;
-            }
-        }
-        return null;
     }
 
     @Override
