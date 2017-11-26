@@ -47,9 +47,7 @@ public final class GroupId implements IWrappedInteger<GroupId>, Comparable<Group
 
     @Override
     public int compareTo(GroupId that) {
-        int lhs = this.val;
-        int rhs = that.val;
-        return (lhs < rhs) ? -1 : (lhs > rhs) ? 1 : 0;
+        return Integer.compare(this.val, that.val);
     }
 
     @Override

@@ -49,9 +49,7 @@ public final class Altitude implements IWrappedInteger<Altitude>, Comparable<Alt
 
     @Override
     public int compareTo(Altitude that) {
-        int lhs = this.val;
-        int rhs = that.val;
-        return (lhs < rhs) ? -1 : (lhs > rhs) ? 1 : 0;
+        return Integer.compare(this.val, that.val);
     }
 
     @Override
