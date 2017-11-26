@@ -63,7 +63,7 @@ public final class Graph {
         return m_Areas.size();
     }
 
-    public Area GetArea(AreaId id) {
+    public Area GetArea(final AreaId id) {
 //        bwem_assert(Valid(id));
         if (!(Valid(id))) {
             throw new IllegalArgumentException();
@@ -71,34 +71,34 @@ public final class Graph {
         return m_Areas.get(id.intValue() - 1);
     }
 
-    public Area GetArea(WalkPosition w) {
-        AreaId id = GetMap().getData().getMiniTile(w).AreaId();
+    public Area GetArea(final WalkPosition walkPosition) {
+        final AreaId id = GetMap().getData().getMiniTile(walkPosition).AreaId();
         return (id.intValue() > 0)
                 ? GetArea(id)
                 : null;
     }
 
-    public Area GetArea(TilePosition w) {
-        AreaId id = GetMap().getData().getTile(w).AreaId();
+    public Area GetArea(final TilePosition tilePosition) {
+        final AreaId id = GetMap().getData().getTile(tilePosition).AreaId();
         return (id.intValue() > 0)
                 ? GetArea(id)
                 : null;
     }
 
-    public Area GetNearestArea(WalkPosition p) {
-        Area area = GetArea(p);
+    public Area GetNearestArea(final WalkPosition walkPosition) {
+        final Area area = GetArea(walkPosition);
         if (area != null) {
             return area;
         }
 
-        p = GetMap().BreadthFirstSearch(
-            p,
+        final WalkPosition p = GetMap().BreadthFirstSearch(
+            walkPosition,
             new Pred() { // findCond
                 @Override
                 public boolean isTrue(Object... args) {
-                    Object ttile = args[0];
+                    final Object ttile = args[0];
                     if (ttile instanceof MiniTile) {
-                        MiniTile miniTile = (MiniTile) ttile;
+                        final MiniTile miniTile = (MiniTile) ttile;
                         return (miniTile.AreaId().intValue() > 0);
                     } else {
                         throw new IllegalArgumentException();
@@ -116,14 +116,14 @@ public final class Graph {
         return GetArea(p);
     }
 
-    public Area GetNearestArea(TilePosition p) {
-        Area area = GetArea(p);
+    public Area GetNearestArea(final TilePosition tilePosition) {
+        final Area area = GetArea(tilePosition);
         if (area != null) {
             return area;
         }
 
-        p = GetMap().BreadthFirstSearch(
-            p,
+        final TilePosition p = GetMap().BreadthFirstSearch(
+            tilePosition,
             new Pred() { // findCond
                 @Override
                 public boolean isTrue(Object... args) {
@@ -191,9 +191,9 @@ public final class Graph {
         return m_PathsBetweenChokePoints.get(cpA.Index().intValue()).get(cpB.Index().intValue());
     }
 
-    public CPPath GetPath(Position a, Position b, MutableInt pLength) {
-        Area areaA = GetNearestArea(a.toWalkPosition());
-        Area areaB = GetNearestArea(b.toWalkPosition());
+    public CPPath GetPath(final Position a, final Position b, final MutableInt pLength) {
+        final Area areaA = GetNearestArea(a.toWalkPosition());
+        final Area areaB = GetNearestArea(b.toWalkPosition());
 
         if (areaA.equals(areaB)) {
             if (pLength != null) {
@@ -214,10 +214,10 @@ public final class Graph {
         ChokePoint pBestCpA = null;
         ChokePoint pBestCpB = null;
 
-        for (ChokePoint cpA : areaA.ChokePoints()) {
+        for (final ChokePoint cpA : areaA.ChokePoints()) {
             if (!cpA.Blocked()) {
                 final int dist_A_cpA = BwemExt.getApproxDistance(a, cpA.Center().toPosition());
-                for (ChokePoint cpB : areaB.ChokePoints()) {
+                for (final ChokePoint cpB : areaB.ChokePoints()) {
                     if (!cpB.Blocked()) {
                         final int dist_B_cpB = BwemExt.getApproxDistance(b, cpB.Center().toPosition());
                         final int dist_A_B = dist_A_cpA + dist_B_cpB + Distance(cpA, cpB);
@@ -236,7 +236,7 @@ public final class Graph {
             throw new IllegalStateException();
         }
 
-        CPPath path = GetPath(pBestCpA, pBestCpB);
+        final CPPath path = GetPath(pBestCpA, pBestCpB);
 
         if (pLength != null) {
 //            bwem_assert(Path.size() >= 1);
@@ -251,17 +251,17 @@ public final class Graph {
                 if (!((pBestCpA == null && pBestCpB == null) || pBestCpA.equals(pBestCpB))) {
                     throw new IllegalStateException();
                 }
-                ChokePoint cp = pBestCpA;
+                final ChokePoint cp = pBestCpA;
 
-                Position cpEnd1 = BwemExt.center(cp.Pos(ChokePoint.Node.end1));
-                Position cpEnd2 = BwemExt.center(cp.Pos(ChokePoint.Node.end2));
+                final Position cpEnd1 = BwemExt.center(cp.Pos(ChokePoint.Node.end1));
+                final Position cpEnd2 = BwemExt.center(cp.Pos(ChokePoint.Node.end2));
                 if (Utils.intersect(a.getX(), a.getY(), b.getX(), b.getY(), cpEnd1.getX(), cpEnd1.getY(), cpEnd2.getX(), cpEnd2.getY())) {
                     pLength.setValue(BwemExt.getApproxDistance(a, b));
                 } else {
-                    ChokePoint.Node[] nodes = {ChokePoint.Node.end1, ChokePoint.Node.end2};
-                    for (ChokePoint.Node node : nodes) {
-                        Position c = BwemExt.center(cp.Pos(node));
-                        int dist_A_B = BwemExt.getApproxDistance(a, c) + BwemExt.getApproxDistance(b, c);
+                    final ChokePoint.Node[] nodes = {ChokePoint.Node.end1, ChokePoint.Node.end2};
+                    for (final ChokePoint.Node node : nodes) {
+                        final Position c = BwemExt.center(cp.Pos(node));
+                        final int dist_A_B = BwemExt.getApproxDistance(a, c) + BwemExt.getApproxDistance(b, c);
                         if (dist_A_B < pLength.intValue()) {
                             pLength.setValue(dist_A_B);
                         }
