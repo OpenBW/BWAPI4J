@@ -54,19 +54,36 @@ public class NeutralDataImpl implements NeutralData {
 
     }
 
-    // Returns a reference to the Minerals (Cf. Mineral).
     @Override
     public List<Mineral> getMinerals() {
         return this.minerals;
     }
 
-    // Returns a reference to the Geysers (Cf. Geyser).
+    @Override
+    public Mineral getMineral(final Unit unit) {
+        for (final Mineral mineral : getMinerals()) {
+            if (mineral.Unit().equals(unit)) {
+                return mineral;
+            }
+        }
+        return null;
+    }
+
     @Override
     public List<Geyser> getGeysers() {
         return this.geysers;
     }
 
-    // Returns a reference to the StaticBuildings (Cf. StaticBuilding).
+    @Override
+    public Geyser getGeyser(final Unit unit) {
+        for (final Geyser geyser : getGeysers()) {
+            if (geyser.Unit().equals(unit)) {
+                return geyser;
+            }
+        }
+        return null;
+    }
+
     @Override
     public List<StaticBuilding> getStaticBuildings() {
         return this.staticBuildings;
