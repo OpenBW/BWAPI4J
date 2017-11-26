@@ -165,15 +165,15 @@ public final class Graph {
             throw new IllegalArgumentException();
         }
 
-        int a_id = a.intValue();
-        int b_id = b.intValue();
-        if (a.intValue() > b.intValue()) {
-            int a_id_tmp = a_id;
-            a_id = b_id;
-            b_id = a_id_tmp;
+        int a_val = a.intValue();
+        int b_val = b.intValue();
+        if (a_val > b_val) {
+            int a_val_tmp = a_val;
+            a_val = b_val;
+            b_val = a_val_tmp;
         }
 
-        return m_ChokePointsMatrix.get(b_id).get(a_id);
+        return m_ChokePointsMatrix.get(b_val).get(a_val);
     }
 
     // Returns the ChokePoints between two Areas.
