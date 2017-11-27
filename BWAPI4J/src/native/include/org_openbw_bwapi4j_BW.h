@@ -57,6 +57,14 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllUnitsData
 
 /*
  * Class:     org_openbw_bwapi4j_BW
+ * Method:    getAllBulletsData
+ * Signature: ()[I
+ */
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllBulletsData
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     org_openbw_bwapi4j_BW
  * Method:    getAllPlayersData
  * Signature: ()[I
  */
