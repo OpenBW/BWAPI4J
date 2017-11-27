@@ -171,7 +171,7 @@ public abstract class Building extends PlayerUnit {
 
     protected int probableConstructionStart;
     protected int remainingBuildTime;
-    private int builderId;
+    protected int builderId;
 
     protected Building(int id, UnitType type, int timeSpotted) {
         

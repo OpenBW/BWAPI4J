@@ -45,8 +45,7 @@ public class Starport extends Building implements Mechanical, FlyingBuilding, Tr
      */
     public boolean buildControlTower() {
         
-        return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), UnitType.Terran_Control_Tower.getId(), -1,
-                -1, -1);
+        return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), -1, -1, -1, UnitType.Terran_Control_Tower.getId());
     }
 
     public ControlTower getControlTower() {

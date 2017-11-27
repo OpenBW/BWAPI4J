@@ -60,8 +60,7 @@ public class Factory extends Building implements Mechanical, FlyingBuilding, Tra
      */
     public boolean buildMachineShop() {
         
-        return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), UnitType.Terran_Machine_Shop.getId(), -1,
-                -1, -1);
+        return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), -1, -1, -1, UnitType.Terran_Machine_Shop.getId());
     }
 
     public MachineShop getMachineShop() {
