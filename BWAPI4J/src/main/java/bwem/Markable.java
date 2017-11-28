@@ -1,19 +1,5 @@
 package bwem;
 
-//////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                          //
-//                                  class Markable
-//                                                                                          //
-//////////////////////////////////////////////////////////////////////////////////////////////
-//
-//  Provides efficient marking ability.
-//
-//  Usage: class MyNode : (public) Markable<MyNode, unsigned> {...};
-//
-//  Note: This implementation uses a static member.
-//
-//////////////////////////////////////////////////////////////////////////////////////////////
-
 public class Markable<Derived> {
 
     private int m_lastMark;
