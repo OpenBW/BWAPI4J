@@ -7,9 +7,7 @@ import java.util.List;
 
 public final class Utils {
 
-    private Utils() throws InstantiationException {
-        throw new InstantiationException();
-    }
+    private Utils() {}
 
     public static int queenWiseNorm(final int dx, final int dy) {
         return Math.max(Math.abs(dx), Math.abs(dy));

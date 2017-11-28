@@ -10,6 +10,8 @@ import bwem.unit.Neutral;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
@@ -66,7 +68,6 @@ public final class ChokePoint extends Markable<ChokePoint> {
 
     }
 
-    private UserData userData = new UserData();
     private Graph m_pGraph;
     private final boolean m_pseudo;
     private final Index m_index;
@@ -339,20 +340,20 @@ public final class ChokePoint extends Markable<ChokePoint> {
             boolean ler = this.m_Areas.left.equals(that.m_Areas.right);
             boolean rer = this.m_Areas.right.equals(that.m_Areas.right);
             boolean rel = this.m_Areas.right.equals(that.m_Areas.left);
-            return (((lel && rer) || (ler && rel)) /* true if area pairs are an exact match or if one pair is reversed. */
-                    && this.m_blocked == that.m_blocked
-                    && this.userData.Data().intValue() == that.userData.Data().intValue());
+            return (((lel && rer) || (ler && rel))); /* true if area pairs are an exact match or if one pair is reversed. */
         }
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(
-                this.m_Areas.left.Id().intValue(),
-                this.m_Areas.right.Id().intValue(),
-                this.m_blocked,
-                this.userData.Data().intValue()
-        );
+        int id_left = m_Areas.left.Id().intValue();
+        int id_right = m_Areas.right.Id().intValue();
+        if (id_left > id_right) {
+            int tmp = id_left;
+            id_left = id_right;
+            id_right = tmp;
+        }
+        return Objects.hash(id_left, id_right);
     }
 
 }
