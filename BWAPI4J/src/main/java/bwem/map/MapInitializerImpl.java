@@ -229,7 +229,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                 if (altitude.intValue() - Current.right.intValue() >= 2 * altitude_scale) {
                     // optimization : once a seaside miniTile verifies this condition,
                     // we can throw it away as it will not generate min altitudes anymore
-                    BwemExt.fast_erase(ActiveSeaSideList, i--);
+                    Utils.fast_erase(ActiveSeaSideList, i--);
                 } else {
                     final WalkPosition[] deltas = {new WalkPosition(d.getX(), d.getY()), new WalkPosition(-d.getX(), d.getY()), new WalkPosition(d.getX(), -d.getY()), new WalkPosition(-d.getX(), -d.getY()),
                                                    new WalkPosition(d.getY(), d.getX()), new WalkPosition(-d.getY(), d.getX()), new WalkPosition(d.getY(), -d.getX()), new WalkPosition(-d.getY(), -d.getX())};

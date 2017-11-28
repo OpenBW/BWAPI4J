@@ -408,7 +408,7 @@ public final class Area extends Markable<Area> {
                 TilePosition t = r.TopLeft().add(new TilePosition(dx, dy));
                 if (pMap.getData().getMapData().isValid(t)) {
                     Tile tile = pMap.getData().getTile(t, check_t.no_check);
-                    int dist = (BwemExt.distToRectangle(BwemExt.center(t), r.TopLeft(), r.Size()) + 16) / 32;
+                    int dist = (BwemExt.distToRectangle(BwemExt.center(t), r.TopLeft().toPosition(), r.Size().toPosition()) + 16) / 32; //TODO: Replace 16 and 32 with TilePosition.SIZE_IN_PIXELS constant?
                     int score = Math.max(BwemExt.max_tiles_between_CommandCenter_and_resources + 3 - dist, 0);
                     if (r instanceof Geyser) { // somewhat compensates for Geyser alone vs the several Minerals
                         score *= 3;
@@ -464,7 +464,7 @@ public final class Area extends Markable<Area> {
             // 6) Create a new Base at bestLocation, assign to it the relevant ressources and remove them from RemainingRessources:
             List<Resource> AssignedResources = new ArrayList<>();
             for (Resource r : RemainingResources) {
-                if (BwemExt.distToRectangle(r.Pos(), bestLocation, dimCC) + 2 <= BwemExt.max_tiles_between_CommandCenter_and_resources * TilePosition.SIZE_IN_PIXELS) {
+                if (BwemExt.distToRectangle(r.Pos(), bestLocation.toPosition(), dimCC.toPosition()) + 2 <= BwemExt.max_tiles_between_CommandCenter_and_resources * TilePosition.SIZE_IN_PIXELS) {
                     AssignedResources.add(r);
                 }
             }
