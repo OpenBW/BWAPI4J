@@ -612,32 +612,32 @@ public final class Graph {
     // which effectively computes the distances from one starting ChokePoint, using Dijkstra's algorithm.
     // If Context == Area, Dijkstra's algorithm works on the Tiles inside one Area.
     // If Context == Graph, Dijkstra's algorithm works on the GetChokePoints between the AreaS.
-    private void ComputeChokePointDistances(Area pContext) {
-        for (ChokePoint pStart : pContext.ChokePoints()) {
-            List<ChokePoint> Targets = new ArrayList<>();
-            for (ChokePoint cp : pContext.ChokePoints()) {
+    private void ComputeChokePointDistances(final Area pContext) {
+        for (final ChokePoint pStart : pContext.ChokePoints()) {
+            final List<ChokePoint> Targets = new ArrayList<>();
+            for (final ChokePoint cp : pContext.ChokePoints()) {
                 if (cp.equals(pStart)) {
                     break; // breaks symmetry
                 }
                 Targets.add(cp);
             }
 
-            List<Integer> DistanceToTargets = pContext.ComputeDistances(pStart, Targets);
+            final List<Integer> DistanceToTargets = pContext.ComputeDistances(pStart, Targets);
 
             for (int i = 0; i < Targets.size(); ++i) {
-                int newDist = DistanceToTargets.get(i);
-                int existingDist = Distance(pStart, Targets.get(i));
+                final int newDist = DistanceToTargets.get(i);
+                final int existingDist = Distance(pStart, Targets.get(i));
 
                 if (newDist != 0 && ((existingDist == -1) || (newDist < existingDist))) {
                     SetDistance(pStart, Targets.get(i), newDist);
 
                     // Build the path from pStart to Targets[i]:
 
-                    CPPath Path = new CPPath();
-                    Path.add(pStart);
-                    Path.add(Targets.get(i));
+                    final CPPath path = new CPPath();
+                    path.add(pStart);
+                    path.add(Targets.get(i));
 
-                    SetPath(pStart, Targets.get(i), Path);
+                    SetPath(pStart, Targets.get(i), path);
                 }
             }
         }
@@ -648,40 +648,40 @@ public final class Graph {
     // which effectively computes the distances from one starting ChokePoint, using Dijkstra's algorithm.
     // If Context == Area, Dijkstra's algorithm works on the Tiles inside one Area.
     // If Context == Graph, Dijkstra's algorithm works on the GetChokePoints between the AreaS.
-    private void ComputeChokePointDistances(Graph pContext) {
-        for (ChokePoint pStart : pContext.ChokePoints()) {
-            List<ChokePoint> Targets = new ArrayList<>();
-            for (ChokePoint cp : pContext.ChokePoints()) {
+    private void ComputeChokePointDistances(final Graph pContext) {
+        for (final ChokePoint pStart : pContext.ChokePoints()) {
+            final List<ChokePoint> Targets = new ArrayList<>();
+            for (final ChokePoint cp : pContext.ChokePoints()) {
                 if (cp.equals(pStart)) {
                     break; // breaks symmetry
                 }
                 Targets.add(cp);
             }
 
-            List<Integer> DistanceToTargets = pContext.ComputeDistances(pStart, Targets);
+            final List<Integer> DistanceToTargets = pContext.ComputeDistances(pStart, Targets);
 
             for (int i = 0; i < Targets.size(); ++i) {
-                int newDist = DistanceToTargets.get(i);
-                int existingDist = Distance(pStart, Targets.get(i));
+                final int newDist = DistanceToTargets.get(i);
+                final int existingDist = Distance(pStart, Targets.get(i));
 
                 if (newDist != 0 && ((existingDist == -1) || (newDist < existingDist))) {
                     SetDistance(pStart, Targets.get(i), newDist);
 
                     // Build the path from pStart to Targets[i]:
 
-                    CPPath Path = new CPPath();
-                    Path.add(pStart);
-                    Path.add(Targets.get(i));
+                    final CPPath path = new CPPath();
+                    path.add(pStart);
+                    path.add(Targets.get(i));
 
 //                    // if (Context == Graph), there may be intermediate ChokePoints. They have been set by ComputeDistances,
 //                    // so we just have to collect them (in the reverse order) and insert them into Path:
 //                    if ((void *)(pContext) == (void *)(this))	// tests (Context == Graph) without warning about constant condition
                         //TODO: Verify this loop is correct.
                         for (ChokePoint pPrev = Targets.get(i).PathBackTrace(); !pPrev.equals(pStart); pPrev = pPrev.PathBackTrace()) {
-                            Path.add(1, pPrev);
+                            path.add(1, pPrev);
                         }
 
-                    SetPath(pStart, Targets.get(i), Path);
+                    SetPath(pStart, Targets.get(i), path);
                 }
             }
         }
@@ -693,24 +693,23 @@ public final class Graph {
     // For each reached target, the shortest path can be derived using
     // the backward trace set in cp->PathBackTrace() for each intermediate ChokePoint cp from the target.
     // Note: same algo than Area::ComputeDistances (derived from Dijkstra)
-    private List<Integer> ComputeDistances(ChokePoint start, List<ChokePoint> Targets) {
-        MapImpl pMap = GetMap();
-        List<Integer> Distances = new ArrayList<>(Targets.size());
+    private List<Integer> ComputeDistances(final ChokePoint start, final List<ChokePoint> Targets) {
+        final List<Integer> Distances = new ArrayList<>(Targets.size());
         for (int i = 0; i < Targets.size(); ++i) {
             Distances.add(0);
         }
 
         Tile.UnmarkAll();
 
-        MultiValuedMap<Integer, ChokePoint> ToVisit = new ArrayListValuedHashMap<>(); // a priority queue holding the GetChokePoints to visit ordered by their distance to start.
-                                                                                      //Using ArrayListValuedHashMap to substitute std::multimap since it sorts keys but not values.
+        final MultiValuedMap<Integer, ChokePoint> ToVisit = new ArrayListValuedHashMap<>(); // a priority queue holding the GetChokePoints to visit ordered by their distance to start.
+                                                                                            //Using ArrayListValuedHashMap to substitute std::multimap since it sorts keys but not values.
         ToVisit.put(0, start);
 
         int remainingTargets = Targets.size();
         while (!ToVisit.isEmpty()) {
-            int currentDist = ToVisit.keys().iterator().next();
-            ChokePoint current = ToVisit.get(currentDist).iterator().next();
-            Tile currentTile = pMap.getData().getTile(current.Center().toPosition().toTilePosition(), check_t.no_check);
+            final int currentDist = ToVisit.keys().iterator().next();
+            final ChokePoint current = ToVisit.get(currentDist).iterator().next();
+            final Tile currentTile = GetMap().getData().getTile(current.Center().toTilePosition(), check_t.no_check);
 //            bwem_assert(currentTile.InternalData() == currentDist);
             if (!(currentTile.InternalData().intValue() == currentDist)) {
                 throw new IllegalStateException();
@@ -733,18 +732,18 @@ public final class Graph {
                 continue;
             }
 
-            Area[] areas = {current.GetAreas().left, current.GetAreas().right};
-            for (Area pArea : areas) {
-                for (ChokePoint next : pArea.ChokePoints()) {
+            final Area[] areas = {current.GetAreas().left, current.GetAreas().right};
+            for (final Area pArea : areas) {
+                for (final ChokePoint next : pArea.ChokePoints()) {
                     if (!next.equals(current)) {
                         final int newNextDist = currentDist + Distance(current, next);
-                        final Tile nextTile = pMap.getData().getTile(next.Center().toPosition().toTilePosition(), check_t.no_check);
+                        final Tile nextTile = GetMap().getData().getTile(next.Center().toTilePosition(), check_t.no_check);
                         if (!nextTile.Marked()) {
                             if (nextTile.InternalData().intValue() != 0) { // next already in ToVisit
                                 if (newNextDist < nextTile.InternalData().intValue()) { // nextNewDist < nextOldDist
                                                                                         // To update next's distance, we need to remove-insert it from ToVisit:
 //                                    bwem_assert(iNext != range.second);
-                                    boolean removed = ToVisit.removeMapping(nextTile.InternalData().intValue(), next);
+                                    final boolean removed = ToVisit.removeMapping(nextTile.InternalData().intValue(), next);
                                     if (!removed) {
                                         throw new IllegalStateException();
                                     }
@@ -769,51 +768,51 @@ public final class Graph {
 //        }
 
         // Reset Tile::m_internalData for future usage
-        for (Integer key : ToVisit.keySet()) {
-            Collection<ChokePoint> coll = ToVisit.get(key);
-            for (ChokePoint cp : coll) {
-                pMap.getData().getTile(cp.Center().toPosition().toTilePosition(), check_t.no_check).SetInternalData(new MutableInt(0));
+        for (final Integer key : ToVisit.keySet()) {
+            final Collection<ChokePoint> coll = ToVisit.get(key);
+            for (final ChokePoint cp : coll) {
+                GetMap().getData().getTile(cp.Center().toTilePosition(), check_t.no_check).SetInternalData(new MutableInt(0));
             }
         }
 
         return Distances;
     }
 
-    private void SetDistance(ChokePoint cpA, ChokePoint cpB, int value) {
-        m_ChokePointDistanceMatrix.get(cpA.Index().intValue()).set(cpB.Index().intValue(), value);
-        m_ChokePointDistanceMatrix.get(cpB.Index().intValue()).set(cpA.Index().intValue(), value);
-    }
-
     private void UpdateGroupIds() {
-    	GroupId nextGroupId = new GroupId(1);
+    	int nextGroupId = 1;
 
     	Area.UnmarkAll();
-    	for (Area start : Areas()) {
+    	for (final Area start : Areas()) {
     		if (!start.Marked()) {
-    			List<Area> ToVisit = new ArrayList<>();
+    			final List<Area> ToVisit = new ArrayList<>();
                 ToVisit.add(start);
     			while (!ToVisit.isEmpty()) {
-    				Area current = ToVisit.remove(ToVisit.size() - 1);
-    				current.SetGroupId(nextGroupId);
+    				final Area current = ToVisit.remove(ToVisit.size() - 1);
+    				current.SetGroupId(new GroupId(nextGroupId));
 
-    				for (Area next : current.AccessibleNeighbours()) {
+    				for (final Area next : current.AccessibleNeighbors()) {
     					if (!next.Marked()) {
     						next.SetMarked();
     						ToVisit.add(next);
     					}
                     }
     			}
-                nextGroupId = nextGroupId.add(1);
+                ++nextGroupId;
     		}
         }
     }
 
-    private void SetPath(ChokePoint cpA, ChokePoint cpB, CPPath PathAB) {
+    private void SetDistance(final ChokePoint cpA, final ChokePoint cpB, final int value) {
+        m_ChokePointDistanceMatrix.get(cpA.Index().intValue()).set(cpB.Index().intValue(), value);
+        m_ChokePointDistanceMatrix.get(cpB.Index().intValue()).set(cpA.Index().intValue(), value);
+    }
+
+    private void SetPath(final ChokePoint cpA, final ChokePoint cpB, final CPPath PathAB) {
         m_PathsBetweenChokePoints.get(cpA.Index().intValue()).set(cpB.Index().intValue(), PathAB);
 
         m_PathsBetweenChokePoints.get(cpB.Index().intValue()).get(cpA.Index().intValue()).clear();
         for (int i = PathAB.size() - 1; i >= 0; --i) {
-            ChokePoint cp = PathAB.get(i);
+            final ChokePoint cp = PathAB.get(i);
             m_PathsBetweenChokePoints.get(cpB.Index().intValue()).get(cpA.Index().intValue()).add(cp);
         }
     }
