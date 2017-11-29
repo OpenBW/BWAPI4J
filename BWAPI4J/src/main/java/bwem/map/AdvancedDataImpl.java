@@ -83,8 +83,9 @@ public class AdvancedDataImpl implements AdvancedData {
 
         final WalkPosition deltas[] = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(+1, 0), new WalkPosition(0, +1)};
         for (final WalkPosition delta : deltas) {
-            if (getMapData().isValid(walkPosition.add(delta))) {
-                if (!getMiniTile(walkPosition.add(delta), check_t.no_check).Sea()) {
+            final WalkPosition walkPositionDelta = walkPosition.add(delta);
+            if (getMapData().isValid(walkPositionDelta)) {
+                if (!getMiniTile(walkPositionDelta, check_t.no_check).Sea()) {
                     return true;
                 }
             }

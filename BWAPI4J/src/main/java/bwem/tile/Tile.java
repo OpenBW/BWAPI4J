@@ -146,7 +146,7 @@ public final class Tile extends Markable<Tile> {
         if (!(a.intValue() >= 0)) {
             throw new IllegalArgumentException();
         }
-        m_minAltitude = new Altitude(a);
+        m_minAltitude = a;
     }
 
     public void RemoveNeutral(Neutral pNeutral) {

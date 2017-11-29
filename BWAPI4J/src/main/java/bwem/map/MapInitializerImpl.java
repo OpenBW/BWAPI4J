@@ -77,7 +77,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
 //    ///	bw << "Map::InitializeNeutrals: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         logger.info("Map::InitializeNeutrals: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
-        ComputeAltitude(super.advancedData);
+        ComputeAltitude(getData());
 //    ///	bw << "Map::ComputeAltitude: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         logger.info("Map::ComputeAltitude: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
@@ -150,15 +150,20 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
     public void ComputeAltitude(final AdvancedData advancedData) {
         final int altitude_scale = 8; // 8 provides a pixel definition for altitude_t, since altitudes are computed from miniTiles which are 8x8 pixels
 
+        final Timer timer = new Timer();
+
         final List<MutablePair<WalkPosition, Altitude>> DeltasByAscendingAltitude
                 = getSortedDeltasByAscendingAltitude(
                 advancedData.getMapData().getWalkSize().getX(),
                 advancedData.getMapData().getWalkSize().getY(),
                 altitude_scale);
+        logger.info("Map::ComputeAltitude:getSortedDeltasByAscendingAltitude: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
         final List<MutablePair<WalkPosition, Altitude>> ActiveSeaSides = getActiveSeaSideList(advancedData.getMapData());
+        logger.info("Map::ComputeAltitude:getActiveSeaSideList: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
         setMaxAltitude(setAltitudesAndGetUpdatedMaxAltitude(MaxAltitude(), advancedData, DeltasByAscendingAltitude, ActiveSeaSides, altitude_scale));
+        logger.info("Map::ComputeAltitude:setAltitudesAndGetUpdatedMaxAltitude: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
     }
 
     /**
@@ -221,12 +226,12 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
         Altitude updatedMaxAltitude = (currentMaxAltitude != null) ? new Altitude(currentMaxAltitude) : null;
 
         for (final MutablePair<WalkPosition, Altitude> delta_altitude : DeltasByAscendingAltitude) {
-            final WalkPosition d = new WalkPosition(delta_altitude.left.getX(), delta_altitude.left.getY());
-            final Altitude altitude = new Altitude(delta_altitude.right);
+            final WalkPosition d = delta_altitude.getLeft();
+            final Altitude altitude = delta_altitude.getRight();
 
             for (int i = 0; i < ActiveSeaSideList.size(); ++i) {
                 final MutablePair<WalkPosition, Altitude> Current = ActiveSeaSideList.get(i);
-                if (altitude.intValue() - Current.right.intValue() >= 2 * altitude_scale) {
+                if (altitude.intValue() - Current.getRight().intValue() >= 2 * altitude_scale) {
                     // optimization : once a seaside miniTile verifies this condition,
                     // we can throw it away as it will not generate min altitudes anymore
                     Utils.fast_erase(ActiveSeaSideList, i--);
@@ -234,16 +239,15 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                     final WalkPosition[] deltas = {new WalkPosition(d.getX(), d.getY()), new WalkPosition(-d.getX(), d.getY()), new WalkPosition(d.getX(), -d.getY()), new WalkPosition(-d.getX(), -d.getY()),
                                                    new WalkPosition(d.getY(), d.getX()), new WalkPosition(-d.getY(), d.getX()), new WalkPosition(d.getY(), -d.getX()), new WalkPosition(-d.getY(), -d.getX())};
                     for (final WalkPosition delta : deltas) {
-                        final WalkPosition w = Current.left.add(delta);
+                        final WalkPosition w = Current.getLeft().add(delta);
                         if (advancedData.getMapData().isValid(w)) {
                             final MiniTile miniTile = advancedData.getMiniTile_(w, check_t.no_check);
                             if (miniTile.AltitudeMissing()) {
-                                //TODO: Determine whether to delete this check.
                                 if (updatedMaxAltitude != null && updatedMaxAltitude.intValue() > altitude.intValue()) {
                                     throw new IllegalStateException();
                                 }
-                                updatedMaxAltitude = new Altitude(altitude);
-                                Current.right = new Altitude(altitude);
+                                updatedMaxAltitude = altitude;
+                                Current.setRight(altitude);
                                 miniTile.SetAltitude(altitude);
                             }
                         }
