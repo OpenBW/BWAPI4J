@@ -247,7 +247,7 @@ public final class BwemExt {
         for (final WalkPosition delta : deltas) {
             final WalkPosition next = p.add(delta);
             if (pMap.getData().getMapData().isValid(next)) {
-                if (pMap.getData().getTile(next.toPosition().toTilePosition(), check_t.no_check).GetNeutral() != null) {
+                if (pMap.getData().getTile(next.toTilePosition(), check_t.no_check).GetNeutral() != null) {
                     return true;
                 }
                 if (pMap.getData().getMiniTile(next, check_t.no_check).Lake()) {

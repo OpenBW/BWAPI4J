@@ -51,7 +51,7 @@ public class AdvancedDataInitializerImpl extends AdvancedDataImpl implements Adv
                 // Ensures buildable ==> walkable:
                 for (int dy = 0; dy < 4; ++dy)
                 for (int dx = 0; dx < 4; ++dx) {
-                    getMiniTile_((t.toPosition().toWalkPosition()).add(new WalkPosition(dx, dy)), check_t.no_check).SetWalkable(true);
+                    getMiniTile_(t.toWalkPosition().add(new WalkPosition(dx, dy)), check_t.no_check).SetWalkable(true);
                 }
             }
 

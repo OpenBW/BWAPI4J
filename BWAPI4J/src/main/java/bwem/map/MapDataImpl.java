@@ -18,7 +18,7 @@ public class MapDataImpl implements MapData {
 
     public MapDataImpl(final int tileWidth, final int tileHeight, final List<TilePosition> startingLocations) {
         this.tileSize = new TilePosition(tileWidth, tileHeight);
-        this.walkSize = this.tileSize.toPosition().toWalkPosition();
+        this.walkSize = this.tileSize.toWalkPosition();
         this.pixelSize = this.tileSize.toPosition();
 
         this.center = new Position(this.pixelSize.getX() / 2, this.pixelSize.getY() / 2);

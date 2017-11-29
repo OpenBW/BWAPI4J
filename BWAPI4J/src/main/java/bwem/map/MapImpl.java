@@ -243,10 +243,10 @@ public class MapImpl implements Map {
 
         // Unblock the miniTiles of pBlocking:
         AreaId newId = new AreaId(pBlocking.BlockedAreas().iterator().next().Id());
-        WalkPosition pBlockingW = pBlocking.Size().toPosition().toWalkPosition();
+        WalkPosition pBlockingW = pBlocking.Size().toWalkPosition();
         for (int dy = 0; dy < pBlockingW.getY(); ++dy)
         for (int dx = 0; dx < pBlockingW.getX(); ++dx) {
-            MiniTile miniTile = getData().getMiniTile_((pBlocking.TopLeft().toPosition().toWalkPosition()).add(new WalkPosition(dx, dy)));
+            MiniTile miniTile = getData().getMiniTile_(pBlocking.TopLeft().toWalkPosition().add(new WalkPosition(dx, dy)));
             if (miniTile.Walkable()) {
                 miniTile.ReplaceBlockedAreaId(newId);
             }
@@ -490,7 +490,7 @@ public class MapImpl implements Map {
 
         for (int dy = 0; dy < 4; ++dy) {
             for (int dx = 0; dx < 4; ++dx) {
-                final AreaId id = getData().getMiniTile((t.toPosition().toWalkPosition()).add(new WalkPosition(dx, dy)), check_t.no_check).AreaId();
+                final AreaId id = getData().getMiniTile(t.toWalkPosition().add(new WalkPosition(dx, dy)), check_t.no_check).AreaId();
                 if (id.intValue() != 0) {
                     if (tile.AreaId().intValue() == 0) {
                         tile.SetAreaId(id);

@@ -76,7 +76,7 @@ public class MapPrinterExample {
 
         for (int i = 0 ; i < stackSize ; ++i) {
             WalkPosition origin = n.TopLeft().toWalkPosition().add(delta.multiply(new WalkPosition(i, i)));
-            WalkPosition size = n.Size().toPosition().toWalkPosition();
+            WalkPosition size = n.Size().toWalkPosition();
             if (!theMap.getData().getMapData().isValid(origin) || !theMap.getData().getMapData().isValid(origin.add(size).subtract(new WalkPosition(1, 1)))) break;
 
             mapPrinter.Rectangle(origin, origin.add(size).subtract(new WalkPosition(1, 1)), col, MapPrinter.fill_t.fill);
@@ -138,7 +138,7 @@ public class MapPrinterExample {
                 int data = theMap.getData().getTile(new TilePosition(x, y)).InternalData().intValue();
                 int c = (((data / 1) * 1) % 256);
                 Color col = new Color(c, c, c);
-                WalkPosition origin = (new TilePosition(x, y)).toPosition().toWalkPosition();
+                WalkPosition origin = (new TilePosition(x, y)).toWalkPosition();
                 mapPrinter.Rectangle(origin, origin.add(new WalkPosition(3, 3)), col, MapPrinter.fill_t.fill);
             }
 
@@ -146,7 +146,7 @@ public class MapPrinterExample {
             for (int y = 0; y < theMap.getData().getMapData().getTileSize().getY(); ++y)
             for (int x = 0; x < theMap.getData().getMapData().getTileSize().getX(); ++x)
                 if (!theMap.getData().getTile(new TilePosition(x, y)).Buildable()) {
-                    WalkPosition origin = (new TilePosition(x, y)).toPosition().toWalkPosition();
+                    WalkPosition origin = (new TilePosition(x, y)).toWalkPosition();
                     mapPrinter.Rectangle(origin.add(new WalkPosition(1, 1)), origin.add(new WalkPosition(2, 2)), MapPrinter.CustomColor.UNBUILDABLE.color());
                 }
 
@@ -157,7 +157,7 @@ public class MapPrinterExample {
                 if (groundHeight >= 1)
                     for (int dy = 0; dy < 4; ++dy)
                     for (int dx = 0; dx < 4; ++dx) {
-                        WalkPosition p = (new TilePosition(x, y).toPosition().toWalkPosition()).add(new WalkPosition(dx, dy));
+                        WalkPosition p = (new TilePosition(x, y).toWalkPosition()).add(new WalkPosition(dx, dy));
                         if (theMap.getData().getMiniTile(p, check_t.no_check).Walkable()) // groundHeight is usefull only for walkable miniTiles
                             if (((dx + dy) & (groundHeight == 1 ? 1 : 3)) != 0)
                                 mapPrinter.Point(p, MapPrinter.CustomColor.HIGHER_GROUND.color());
@@ -187,16 +187,16 @@ public class MapPrinterExample {
 
         if (mapPrinter.showStartingLocations)
             for (TilePosition t : theMap.getData().getMapData().getStartingLocations()) {
-                WalkPosition origin = t.toPosition().toWalkPosition();
-                WalkPosition size = (UnitType.Terran_Command_Center.tileSize()).toPosition().toWalkPosition(); // same size for other races
+                WalkPosition origin = t.toWalkPosition();
+                WalkPosition size = UnitType.Terran_Command_Center.tileSize().toWalkPosition(); // same size for other races
                 mapPrinter.Rectangle(origin, origin.add(size).subtract(new WalkPosition(1, 1)), MapPrinter.CustomColor.STARTING_LOCATIONS.color(), MapPrinter.fill_t.fill);
             }
 
         if (mapPrinter.showBases)
             for (Area area : theMap.Areas()) {
                 for (Base base : area.Bases()) {
-                    WalkPosition origin = base.Location().toPosition().toWalkPosition();
-                    WalkPosition size = (UnitType.Terran_Command_Center.tileSize()).toPosition().toWalkPosition(); // same size for other races
+                    WalkPosition origin = base.Location().toWalkPosition();
+                    WalkPosition size = UnitType.Terran_Command_Center.tileSize().toWalkPosition(); // same size for other races
                     MapPrinter.dashed_t dashMode = base.BlockingMinerals().isEmpty() ? MapPrinter.dashed_t.not_dashed : MapPrinter.dashed_t.dashed;
                     mapPrinter.Rectangle(origin, origin.add(size).subtract(new WalkPosition(1, 1)), MapPrinter.CustomColor.BASES.color(), MapPrinter.fill_t.do_not_fill, dashMode);
                 }
@@ -229,11 +229,11 @@ public class MapPrinterExample {
 
     	Color col = new Color(255, 255, 255);
 
-    	WalkPosition a = (theMap.getData().getMapData().getStartingLocations().get(rand.nextInt(theMap.getData().getMapData().getStartingLocations().size()))).toPosition().toWalkPosition();
+    	WalkPosition a = (theMap.getData().getMapData().getStartingLocations().get(rand.nextInt(theMap.getData().getMapData().getStartingLocations().size()))).toWalkPosition();
 
     	WalkPosition b = a;
     	while (b.equals(a)) {
-            b = (theMap.getData().getMapData().getStartingLocations().get(rand.nextInt(theMap.getData().getMapData().getStartingLocations().size()))).toPosition().toWalkPosition();
+            b = (theMap.getData().getMapData().getStartingLocations().get(rand.nextInt(theMap.getData().getMapData().getStartingLocations().size()))).toWalkPosition();
         }
 
     //	Uncomment this to use random positions for a and b:
