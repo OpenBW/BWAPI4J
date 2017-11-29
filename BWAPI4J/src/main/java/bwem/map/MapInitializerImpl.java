@@ -321,7 +321,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                 WalkPosition w = (WalkPosition) args[0];
                 return (!getData().getMapData().isValid(w)
                         || !getData().getMiniTile(w, check_t.no_check).Walkable()
-                        || getData().getTile(w.toPosition().toTilePosition(), check_t.no_check).GetNeutral() != null);
+                        || getData().getTile(w.toTilePosition(), check_t.no_check).GetNeutral() != null);
             }
         });
         return Border;
@@ -402,7 +402,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                         final WalkPosition next = current.add(delta);
                         if (getData().getMapData().isValid(next) && !Visited.contains(next)) {
                             if (getData().getMiniTile(next, check_t.no_check).Walkable()) {
-                                if (getData().getTile(next.toPosition().toTilePosition(), check_t.no_check).GetNeutral() == null) {
+                                if (getData().getTile(next.toTilePosition(), check_t.no_check).GetNeutral() == null) {
                                     ToVisit.add(next);
                                     Visited.add(next);
                                 }
@@ -432,7 +432,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
 
             // Marks all the miniTiles of pCandidate as blocked.
             // This way, areas at TrueDoors won't merge together.
-            final WalkPosition pCandidateW = pCandidate.Size().toPosition().toWalkPosition();
+            final WalkPosition pCandidateW = pCandidate.Size().toWalkPosition();
             for (int dy = 0; dy < pCandidateW.getY(); ++dy) {
                 for (int dx = 0; dx < pCandidateW.getX(); ++dx) {
                     final MiniTile miniTile = getData().getMiniTile_(((pCandidate.TopLeft().toPosition()).toWalkPosition()).add(new WalkPosition(dx, dy)));
@@ -513,7 +513,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
 //                    { return dist(TilePosition(pos), startingLoc + TilePosition(2, 1)) <= 3;})
                 boolean cpp_algorithm_std_any_of = false;
                 for (final TilePosition startingLoc : getData().getMapData().getStartingLocations()) {
-                    if (Double.compare(BwemExt.dist(pos.toPosition().toTilePosition(), startingLoc.add(new TilePosition(2, 1))), Double.valueOf("3")) <= 0) {
+                    if (Double.compare(BwemExt.dist(pos.toTilePosition(), startingLoc.add(new TilePosition(2, 1))), Double.valueOf("3")) <= 0) {
                         cpp_algorithm_std_any_of = true;
                         break;
                     }
