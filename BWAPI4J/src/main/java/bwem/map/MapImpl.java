@@ -19,6 +19,7 @@ import bwem.unit.StaticBuilding;
 import bwem.util.BwemExt;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.commons.lang3.mutable.MutableInt;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.openbw.bwapi4j.BWMap;
 import org.openbw.bwapi4j.MapDrawer;
@@ -35,6 +36,7 @@ import org.openbw.bwapi4j.unit.VespeneGeyser;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -293,28 +295,56 @@ public class MapImpl implements Map {
         return m_Graph.GetNearestArea(t);
     }
 
+    //graph.cpp:30:Area * mainArea(MapImpl * pMap, TilePosition topLeft, TilePosition size)
+    //Note: The original C++ code appears to return the last discovered area instead of the area with the highest frequency.
+    //TODO: Determine if we desire the last discovered area or the area with the highest frequency.
     @Override
     public Area getMainArea(final TilePosition topLeft, final TilePosition size) {
-        final AbstractMap<Area, Integer> map_Area_freq = new ConcurrentHashMap<>();
+//        //----------------------------------------------------------------------
+//        // Area with the highest frequency.
+//        //----------------------------------------------------------------------
+//        final AbstractMap<Area, Integer> areaFrequency = new HashMap<>();
+//        for (int dy = 0; dy < size.getY(); ++dy)
+//        for (int dx = 0; dx < size.getX(); ++dx) {
+//            final Area area = GetArea(topLeft.add(new TilePosition(dx, dy)));
+//            if (area != null) {
+//                Integer val = areaFrequency.get(area);
+//                if (val == null) {
+//                    val = 0;
+//                }
+//                areaFrequency.put(area, val + 1);
+//            }
+//        }
+//
+//        if (!areaFrequency.isEmpty()) {
+//            java.util.Map.Entry<Area, Integer> highestFreqEntry = null;
+//            for (final java.util.Map.Entry<Area, Integer> currentEntry : areaFrequency.entrySet()) {
+//                if (highestFreqEntry == null || (currentEntry.getValue() > highestFreqEntry.getValue())) {
+//                    highestFreqEntry = currentEntry;
+//                }
+//            }
+//            return highestFreqEntry.getKey();
+//        } else {
+//            return null;
+//        }
+//        //----------------------------------------------------------------------
+
+
+
+        //----------------------------------------------------------------------
+        // Last area.
+        //----------------------------------------------------------------------
+        final List<Area> areas = new ArrayList<>();
         for (int dy = 0; dy < size.getY(); ++dy)
         for (int dx = 0; dx < size.getX(); ++dx) {
             final Area area = GetArea(topLeft.add(new TilePosition(dx, dy)));
-            if (area != null) {
-                Integer val = map_Area_freq.get(area);
-                if (val == null) {
-                    val = 0;
-                }
-                map_Area_freq.put(area, val + 1);
+            if (area != null && !areas.contains(area)) {
+                areas.add(area);
             }
         }
 
-        Area lastArea = null;
-        if (!map_Area_freq.isEmpty()) {
-            for (final Area area : map_Area_freq.keySet()) {
-                lastArea = area;
-            }
-        }
-        return lastArea;
+        return areas.isEmpty() ? null : areas.get(areas.size() - 1);
+        //----------------------------------------------------------------------
     }
 
     @Override
