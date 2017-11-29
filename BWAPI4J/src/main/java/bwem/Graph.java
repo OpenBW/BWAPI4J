@@ -570,23 +570,23 @@ public final class Graph {
     public void CollectInformation() {
         // 1) Process the whole Map:
 
-        for (Mineral m : GetMap().getNeutralData().getMinerals()) {
-            Area pArea = mainArea(m.TopLeft(), m.Size());
-            if (pArea != null) {
-                pArea.AddMineral(m);
+        for (final Mineral mineral : GetMap().getNeutralData().getMinerals()) {
+            final Area area = GetMap().getMainArea(mineral.TopLeft(), mineral.Size());
+            if (area != null) {
+                area.AddMineral(mineral);
             }
         }
 
-        for (Geyser g : GetMap().getNeutralData().getGeysers()) {
-            Area pArea = mainArea(g.TopLeft(), g.Size());
-            if (pArea != null) {
-                pArea.AddGeyser(g);
+        for (Geyser geyser : GetMap().getNeutralData().getGeysers()) {
+            final Area area = GetMap().getMainArea(geyser.TopLeft(), geyser.Size());
+            if (area != null) {
+                area.AddGeyser(geyser);
             }
         }
 
         for (int y = 0; y < GetMap().getData().getMapData().getTileSize().getY(); ++y)
         for (int x = 0; x < GetMap().getData().getMapData().getTileSize().getX(); ++x) {
-            Tile tile = GetMap().getData().getTile(new TilePosition(x, y));
+            final Tile tile = GetMap().getData().getTile(new TilePosition(x, y));
             if (tile.AreaId().intValue() > 0) {
                 GetArea(tile.AreaId()).AddTileInformation(new TilePosition(x, y), tile);
             }
@@ -594,7 +594,7 @@ public final class Graph {
 
         // 2) Post-process each Area separately:
 
-        for (Area area : m_Areas) {
+        for (final Area area : m_Areas) {
             area.PostCollectInformation();
         }
     }
@@ -819,29 +819,6 @@ public final class Graph {
 
     private boolean Valid(AreaId id) {
         return (1 <= id.intValue() && id.intValue() <= AreasCount());
-    }
-
-    public Area mainArea(final TilePosition topLeft, final TilePosition size) {
-        final AbstractMap<Area, Integer> map_Area_freq = new ConcurrentHashMap<>();
-        for (int dy = 0; dy < size.getY(); ++dy)
-        for (int dx = 0; dx < size.getX(); ++dx) {
-            final Area area = GetMap().GetArea(topLeft.add(new TilePosition(dx, dy)));
-            if (area != null) {
-                Integer val = map_Area_freq.get(area);
-                if (val == null) {
-                    val = 0;
-                }
-                map_Area_freq.put(area, val + 1);
-            }
-        }
-
-        Area lastArea = null;
-        if (!map_Area_freq.isEmpty()) {
-            for (final Area area : map_Area_freq.keySet()) {
-                lastArea = area;
-            }
-        }
-        return lastArea;
     }
 
 }

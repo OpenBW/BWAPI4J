@@ -260,16 +260,21 @@ public final class Area extends Markable<Area> {
     }
 
     // Called for each tile t of this Area
-    public void AddTileInformation(TilePosition t, Tile tile) {
+    public void AddTileInformation(final TilePosition tilePosition, final Tile tile) {
         ++m_tiles;
         if (tile.Buildable()) ++m_buildableTiles;
         if (tile.GroundHeight() == 1) ++m_highGroundTiles;
         if (tile.GroundHeight() == 2) ++m_veryHighGroundTiles;
 
-        if (t.getX() < m_topLeft.getX()) m_topLeft = new TilePosition(t.getX(), m_topLeft.getY());
-        if (t.getY() < m_topLeft.getY()) m_topLeft = new TilePosition(m_topLeft.getX(), t.getY());
-        if (t.getX() > m_bottomRight.getX()) m_bottomRight = new TilePosition(t.getX(), m_bottomRight.getY());
-        if (t.getY() > m_bottomRight.getY()) m_bottomRight = new TilePosition(m_bottomRight.getX(), t.getY());
+        if (tilePosition.getX() < m_topLeft.getX()) m_topLeft = new TilePosition(tilePosition.getX(), m_topLeft.getY());
+        if (tilePosition.getY() < m_topLeft.getY()) m_topLeft = new TilePosition(m_topLeft.getX(), tilePosition.getY());
+        if (tilePosition.getX() > m_bottomRight.getX()) m_bottomRight = new TilePosition(tilePosition.getX(), m_bottomRight.getY());
+        if (tilePosition.getY() > m_bottomRight.getY()) m_bottomRight = new TilePosition(m_bottomRight.getX(), tilePosition.getY());
+    }
+
+    // Called after AddTileInformation(t) has been called for each tile t of this Area
+    public void PostCollectInformation() {
+        /* Do nothing. This function is blank in BWEM 1.4.1 */
     }
 
     public void OnMineralDestroyed(Mineral pMineral) {
@@ -285,11 +290,6 @@ public final class Area extends Markable<Area> {
         for (Base base : Bases()) {
             base.OnMineralDestroyed(pMineral);
         }
-    }
-
-    // Called after AddTileInformation(t) has been called for each tile t of this Area
-    public void PostCollectInformation() {
-        /* Do nothing. Empty in BWEM 1.4.1 */
     }
 
     public List<Integer> ComputeDistances(ChokePoint pStartCP, List<ChokePoint> TargetCPs) {
