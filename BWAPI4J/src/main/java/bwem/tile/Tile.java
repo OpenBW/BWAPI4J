@@ -114,7 +114,7 @@ public final class Tile extends Markable<Tile> {
         if (!((0 <= h) && (h <= 2))) {
             throw new IllegalArgumentException();
         }
-        m_bits.groundHeight = (byte) h;
+        m_bits.groundHeight = h;
     }
 
     public void SetDoodad() {
