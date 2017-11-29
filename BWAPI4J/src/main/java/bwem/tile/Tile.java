@@ -1,9 +1,8 @@
 package bwem.tile;
 
-import bwem.typedef.Altitude;
-import bwem.typedef.Bits;
 import bwem.Markable;
 import bwem.area.typedef.AreaId;
+import bwem.typedef.Altitude;
 import bwem.unit.Neutral;
 import org.apache.commons.lang3.mutable.MutableInt;
 
@@ -29,6 +28,20 @@ import org.apache.commons.lang3.mutable.MutableInt;
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 public final class Tile extends Markable<Tile> {
+
+    private static final class Bits {
+
+        public byte buildable;
+        public int groundHeight;
+        public byte doodad;
+
+        public Bits() {
+            this.buildable = 0x0;
+            this.groundHeight = 0;
+            this.doodad = 0x0;
+        }
+
+    }
 
     private Neutral m_pNeutral = null;
     private Altitude m_minAltitude = new Altitude(0);
