@@ -194,7 +194,7 @@ public final class Area extends Markable<Area> {
 	// Returns the accessible neighbouring Areas.
 	// The accessible neighbouring Areas are a subset of the neighbouring Areas (the neighbouring Areas can be iterated using ChokePointsByArea()).
 	// Two neighbouring Areas are accessible from each over if at least one the ChokePoints they share is not Blocked (Cf. ChokePoint::Blocked).
-	public List<Area> AccessibleNeighbours() {
+	public List<Area> AccessibleNeighbors() {
         return m_AccessibleNeighbors;
     }
 
@@ -351,11 +351,12 @@ public final class Area extends Markable<Area> {
 
     public void UpdateAccessibleNeighbors() {
         m_AccessibleNeighbors.clear();
-        for (Area area : ChokePointsByArea().keySet())
-        for (ChokePoint cp : ChokePointsByArea().get(area)) {
-            if (!cp.Blocked()) {
-                m_AccessibleNeighbors.add(area);
-                break;
+        for (final Area area : ChokePointsByArea().keySet()) {
+            for (final ChokePoint cp : ChokePointsByArea().get(area)) {
+                if (!cp.Blocked()) {
+                    m_AccessibleNeighbors.add(area);
+                    break;
+                }
             }
         }
     }

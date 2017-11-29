@@ -32,6 +32,11 @@ public class TestListenerBwem implements BWEventListener {
 //            this.bwem.GetMap().Initialize();
             this.bwem.initialize();
             this.bwem.GetMap().EnableAutomaticPathAnalysis();
+            final boolean startLocationsOK = this.bwem.GetMap().FindBasesForStartingLocations();
+            if (!startLocationsOK) {
+                System.out.println("startLocationsOK: FAIL");
+                System.exit(0);
+            }
             this.bwem.GetMap().getMapPrinter().Initialize(this.bw, this.bwem.GetMap());
             MapPrinterExample example = new MapPrinterExample(this.bwem.GetMap().getMapPrinter());
             example.printMap(this.bwem.GetMap());
