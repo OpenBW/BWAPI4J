@@ -571,14 +571,14 @@ public final class Graph {
         // 1) Process the whole Map:
 
         for (Mineral m : GetMap().getNeutralData().getMinerals()) {
-            Area pArea = mainArea(GetMap(), m.TopLeft(), m.Size());
+            Area pArea = mainArea(m.TopLeft(), m.Size());
             if (pArea != null) {
                 pArea.AddMineral(m);
             }
         }
 
         for (Geyser g : GetMap().getNeutralData().getGeysers()) {
-            Area pArea = mainArea(GetMap(), g.TopLeft(), g.Size());
+            Area pArea = mainArea(g.TopLeft(), g.Size());
             if (pArea != null) {
                 pArea.AddGeyser(g);
             }
@@ -821,12 +821,11 @@ public final class Graph {
         return (1 <= id.intValue() && id.intValue() <= AreasCount());
     }
 
-    public static Area mainArea(MapImpl pMap, TilePosition topLeft, TilePosition size) {
-        AbstractMap<Area, Integer> map_Area_freq = new ConcurrentHashMap<>();
-
+    public Area mainArea(final TilePosition topLeft, final TilePosition size) {
+        final AbstractMap<Area, Integer> map_Area_freq = new ConcurrentHashMap<>();
         for (int dy = 0; dy < size.getY(); ++dy)
         for (int dx = 0; dx < size.getX(); ++dx) {
-            Area area = pMap.GetArea(topLeft.add(new TilePosition(dx, dy)));
+            final Area area = GetMap().GetArea(topLeft.add(new TilePosition(dx, dy)));
             if (area != null) {
                 Integer val = map_Area_freq.get(area);
                 if (val == null) {
@@ -838,8 +837,8 @@ public final class Graph {
 
         Area lastArea = null;
         if (!map_Area_freq.isEmpty()) {
-            for (Area tmpArea : map_Area_freq.keySet()) {
-                lastArea = tmpArea;
+            for (final Area area : map_Area_freq.keySet()) {
+                lastArea = area;
             }
         }
         return lastArea;
