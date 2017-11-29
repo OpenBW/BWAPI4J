@@ -94,7 +94,7 @@ public final class MiniTile {
         if (!(AltitudeMissing() && a.intValue() > 0)) {
             throw new IllegalStateException();
         }
-        m_altitude = new Altitude(a);
+        m_altitude = a;
     }
 
     public boolean AreaIdMissing() {
@@ -106,7 +106,7 @@ public final class MiniTile {
         if (!(AreaIdMissing() && id.intValue() >= 1)) {
             throw new IllegalStateException();
         }
-        m_areaId = new AreaId(id);
+        m_areaId = id;
     }
 
     public void ReplaceAreaId(AreaId id) {
@@ -119,7 +119,7 @@ public final class MiniTile {
         } else if (!(!id.equals(m_areaId))) {
             throw new IllegalArgumentException("Failed assert: !id.equals(m_areaId): not expected: " + m_areaId.intValue() + ", actual: " + id.intValue());
         } else {
-            m_areaId = new AreaId(id);
+            m_areaId = id;
         }
     }
 
@@ -128,7 +128,7 @@ public final class MiniTile {
         if (!AreaIdMissing()) {
             throw new IllegalStateException();
         }
-        m_areaId = new AreaId(MiniTile.blockingCP);
+        m_areaId = MiniTile.blockingCP;
     }
 
     public boolean Blocked() {
@@ -140,7 +140,7 @@ public final class MiniTile {
         if (!(m_areaId.equals(MiniTile.blockingCP) && id.intValue() >= 1)) {
             throw new IllegalStateException();
         }
-        m_areaId = new AreaId(id);
+        m_areaId = id;
     }
 
 }
