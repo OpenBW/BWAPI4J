@@ -118,6 +118,8 @@ public interface Map {
 	// Note: Uses a breadth first search.
     public abstract Area GetNearestArea(TilePosition t);
 
+    public abstract Area getMainArea(TilePosition topLeft, TilePosition size);
+
 	// Returns a list of ChokePoints, which is intended to be the shortest walking path from 'a' to 'b'.
 	// Furthermore, if pLength != nullptr, the pointed integer is set to the corresponding length in pixels.
 	// If 'a' is not accessible from 'b', the empty Path is returned, and -1 is put in *pLength (if pLength != nullptr).

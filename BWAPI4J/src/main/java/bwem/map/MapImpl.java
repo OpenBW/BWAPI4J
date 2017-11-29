@@ -294,6 +294,30 @@ public class MapImpl implements Map {
     }
 
     @Override
+    public Area getMainArea(final TilePosition topLeft, final TilePosition size) {
+        final AbstractMap<Area, Integer> map_Area_freq = new ConcurrentHashMap<>();
+        for (int dy = 0; dy < size.getY(); ++dy)
+        for (int dx = 0; dx < size.getX(); ++dx) {
+            final Area area = GetArea(topLeft.add(new TilePosition(dx, dy)));
+            if (area != null) {
+                Integer val = map_Area_freq.get(area);
+                if (val == null) {
+                    val = 0;
+                }
+                map_Area_freq.put(area, val + 1);
+            }
+        }
+
+        Area lastArea = null;
+        if (!map_Area_freq.isEmpty()) {
+            for (final Area area : map_Area_freq.keySet()) {
+                lastArea = area;
+            }
+        }
+        return lastArea;
+    }
+
+    @Override
     public CPPath GetPath(Position a, Position b, MutableInt pLength) {
         return m_Graph.GetPath(a, b, pLength);
     }
