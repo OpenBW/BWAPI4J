@@ -284,8 +284,8 @@ public final class Graph {
 	// Creates a new Area for each pair (top, miniTiles) in AreasList (See Area::Top() and Area::MiniTiles())
     public void CreateAreas(final List<MutablePair<WalkPosition, Integer>> AreasList) {
         for (int id = 1; id <= AreasList.size(); ++id) {
-            final WalkPosition top = AreasList.get(id - 1).left;
-            final int miniTiles = AreasList.get(id - 1).right;
+            final WalkPosition top = AreasList.get(id - 1).getLeft();
+            final int miniTiles = AreasList.get(id - 1).getRight();
             m_Areas.add(new Area(this, new AreaId(id), top, miniTiles));
         }
     }
@@ -325,8 +325,8 @@ public final class Graph {
         final AbstractMap<MutablePair<AreaId, AreaId>, List<WalkPosition>> RawFrontierByAreaPair = new ConcurrentHashMap<>();
 
         for (final MutablePair<MutablePair<AreaId, AreaId>, WalkPosition> raw : RawFrontier) {
-            AreaId a = new AreaId(raw.left.left);
-            AreaId b = new AreaId(raw.left.right);
+            AreaId a = new AreaId(raw.getLeft().getLeft());
+            AreaId b = new AreaId(raw.getLeft().getRight());
             if (a.intValue() > b.intValue()) {
                 AreaId a_tmp = new AreaId(a);
                 a = new AreaId(b);
@@ -344,10 +344,10 @@ public final class Graph {
             final MutablePair<AreaId, AreaId> key = new MutablePair<>(a, b);
             if (!RawFrontierByAreaPair.containsKey(key)) {
                 final List<WalkPosition> list = new ArrayList<>();
-                list.add(raw.right);
+                list.add(raw.getRight());
                 RawFrontierByAreaPair.put(key, list);
             } else {
-                RawFrontierByAreaPair.get(key).add(raw.right);
+                RawFrontierByAreaPair.get(key).add(raw.getRight());
             }
         }
 
@@ -394,8 +394,8 @@ public final class Graph {
 
     	// 3) For each pair of Areas (A, B):
     	for (final MutablePair<AreaId, AreaId> rawleft : RawFrontierByAreaPair.keySet()) {
-            final AreaId a = new AreaId(rawleft.left);
-            final AreaId b = new AreaId(rawleft.right);
+            final AreaId a = new AreaId(rawleft.getLeft());
+            final AreaId b = new AreaId(rawleft.getRight());
 
     	    final List<WalkPosition> rawright = RawFrontierByAreaPair.get(rawleft);
 
@@ -732,7 +732,7 @@ public final class Graph {
                 continue;
             }
 
-            final Area[] areas = {current.GetAreas().left, current.GetAreas().right};
+            final Area[] areas = {current.GetAreas().getLeft(), current.GetAreas().getRight()};
             for (final Area pArea : areas) {
                 for (final ChokePoint next : pArea.ChokePoints()) {
                     if (!next.equals(current)) {

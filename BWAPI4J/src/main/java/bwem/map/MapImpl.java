@@ -511,11 +511,11 @@ public class MapImpl implements Map {
             if (getData().getMapData().isValid(p.add(delta))) {
                 final AreaId areaId = getData().getMiniTile(p.add(delta), check_t.no_check).AreaId();
                 if (areaId.intValue() > 0) {
-                    if (result.left == null) {
-                        result.left = new AreaId(areaId);
-                    } else if (!result.left.equals(areaId)) {
-                        if (result.right == null || ((areaId.intValue() < result.right.intValue()))) {
-                            result.right = new AreaId(areaId);
+                    if (result.getLeft() == null) {
+                        result.setLeft(areaId);
+                    } else if (!result.getLeft().equals(areaId)) {
+                        if (result.getRight() == null || ((areaId.intValue() < result.getRight().intValue()))) {
+                            result.setRight(areaId);
                         }
                     }
                 }

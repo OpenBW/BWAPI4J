@@ -204,7 +204,7 @@ public class MapPrinterExample {
 
         if (mapPrinter.showChokePoints) {
             for (MutablePair<MutablePair<AreaId, AreaId>, WalkPosition> f : theMap.RawFrontier())
-                mapPrinter.Point(f.right, mapPrinter.showAreas ? MapPrinter.CustomColor.CHOKE_POINTS_SHOW_AREAS.color() : MapPrinter.CustomColor.CHOKE_POINTS_SHOW_CONTINENTS.color());
+                mapPrinter.Point(f.getRight(), mapPrinter.showAreas ? MapPrinter.CustomColor.CHOKE_POINTS_SHOW_AREAS.color() : MapPrinter.CustomColor.CHOKE_POINTS_SHOW_CONTINENTS.color());
 
             for (Area area : theMap.Areas())
                 for (ChokePoint cp : area.ChokePoints()) {
