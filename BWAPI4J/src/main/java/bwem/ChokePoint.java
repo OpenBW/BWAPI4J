@@ -173,14 +173,14 @@ public final class ChokePoint extends Markable<ChokePoint> {
                  * Note: In the original C++ code, "nodeInArea" is a reference to a "WalkPosition" in
                  * "nodesInArea" which changes! Change that object here (after the call to "BreadthFirstSearch")...
                  */
-                final WalkPosition left = m_nodesInArea.get(n).left;
-                final WalkPosition right = m_nodesInArea.get(n).right;
+                final WalkPosition left = m_nodesInArea.get(n).getLeft();
+                final WalkPosition right = m_nodesInArea.get(n).getRight();
                 final MutablePair<WalkPosition, WalkPosition> replacementPair
                         = new MutablePair<>(new WalkPosition(left.getX(), left.getY()), new WalkPosition(right.getX(), right.getY()));
-                if (pArea.equals(m_Areas.left)) {
-                    replacementPair.left = nodeInArea;
+                if (pArea.equals(m_Areas.getLeft())) {
+                    replacementPair.setLeft(nodeInArea);
                 } else {
-                    replacementPair.right = nodeInArea;
+                    replacementPair.setRight(nodeInArea);
                 }
                 m_nodesInArea.set(n, replacementPair);
             }
@@ -219,13 +219,13 @@ public final class ChokePoint extends Markable<ChokePoint> {
 	// Pretty much the same as Pos(n), except that the returned MiniTile position is guaranteed to be part of pArea.
 	// That is: Map::GetArea(PosInArea(n, pArea)) == pArea.
     public WalkPosition PosInArea(Node n, Area pArea) {
-//        bwem_assert((pArea == m_Areas.left) || (pArea == m_Areas.right));
-        if (!(pArea.equals(m_Areas.left) || pArea.equals(m_Areas.right))) {
+//        bwem_assert((pArea == m_Areas.getLeft()) || (pArea == m_Areas.getRight()));
+        if (!(pArea.equals(m_Areas.getLeft()) || pArea.equals(m_Areas.getRight()))) {
             throw new IllegalArgumentException();
         }
-        return pArea.equals(m_Areas.left)
-                ? m_nodesInArea.get(n.intVal()).left
-                : m_nodesInArea.get(n.intVal()).right;
+        return pArea.equals(m_Areas.getLeft())
+                ? m_nodesInArea.get(n.intVal()).getLeft()
+                : m_nodesInArea.get(n.intVal()).getRight();
     }
 
 	// Returns the set of positions that defines the shape of this ChokePoint.
@@ -336,18 +336,18 @@ public final class ChokePoint extends Markable<ChokePoint> {
             return false;
         } else {
             ChokePoint that = (ChokePoint) object;
-            boolean lel = this.m_Areas.left.equals(that.m_Areas.left);
-            boolean ler = this.m_Areas.left.equals(that.m_Areas.right);
-            boolean rer = this.m_Areas.right.equals(that.m_Areas.right);
-            boolean rel = this.m_Areas.right.equals(that.m_Areas.left);
+            boolean lel = this.m_Areas.getLeft().equals(that.m_Areas.getLeft());
+            boolean ler = this.m_Areas.getLeft().equals(that.m_Areas.getRight());
+            boolean rer = this.m_Areas.getRight().equals(that.m_Areas.getRight());
+            boolean rel = this.m_Areas.getRight().equals(that.m_Areas.getLeft());
             return (((lel && rer) || (ler && rel))); /* true if area pairs are an exact match or if one pair is reversed. */
         }
     }
 
     @Override
     public int hashCode() {
-        int id_left = m_Areas.left.Id().intValue();
-        int id_right = m_Areas.right.Id().intValue();
+        int id_left = m_Areas.getLeft().Id().intValue();
+        int id_right = m_Areas.getRight().Id().intValue();
         if (id_left > id_right) {
             int tmp = id_left;
             id_left = id_right;

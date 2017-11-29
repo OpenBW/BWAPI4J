@@ -491,17 +491,17 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
         TempAreaList.add(new TempAreaInfo()); // TempAreaList[0] left unused, as AreaIds are > 0
 
         for (final MutablePair<WalkPosition, MiniTile> Current : MiniTilesByDescendingAltitude) {
-            final WalkPosition pos = new WalkPosition(Current.left.getX(), Current.left.getY());
-            final MiniTile cur = Current.right;
+            final WalkPosition pos = new WalkPosition(Current.getLeft().getX(), Current.getLeft().getY());
+            final MiniTile cur = Current.getRight();
 
             final MutablePair<AreaId, AreaId> neighboringAreas = findNeighboringAreas(pos);
-            if (neighboringAreas.left == null) { // no neighboring area : creates of a new area
+            if (neighboringAreas.getLeft() == null) { // no neighboring area : creates of a new area
                 TempAreaList.add(new TempAreaInfo(new AreaId(TempAreaList.size()), cur, pos));
-            } else if (neighboringAreas.right == null) { // one neighboring area : adds cur to the existing area
-                TempAreaList.get(neighboringAreas.left.intValue()).Add(cur);
+            } else if (neighboringAreas.getRight() == null) { // one neighboring area : adds cur to the existing area
+                TempAreaList.get(neighboringAreas.getLeft().intValue()).Add(cur);
             } else { // two neighboring areas : adds cur to one of them  &  possible merging
-                AreaId smaller = new AreaId(neighboringAreas.left);
-                AreaId bigger = new AreaId(neighboringAreas.right);
+                AreaId smaller = new AreaId(neighboringAreas.getLeft());
+                AreaId bigger = new AreaId(neighboringAreas.getRight());
                 if (TempAreaList.get(smaller.intValue()).Size() > TempAreaList.get(bigger.intValue()).Size()) {
                     AreaId smaller_tmp = new AreaId(smaller);
                     smaller = new AreaId(bigger);
@@ -547,7 +547,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                 @SuppressWarnings("unchecked")
                 final MutablePair<MutablePair<AreaId, AreaId>, WalkPosition> f
                         = (MutablePair<MutablePair<AreaId, AreaId>, WalkPosition>) args[0];
-                return f.left.left.equals(f.left.right);
+                return f.getLeft().getLeft().equals(f.getLeft().getRight());
             }
         });
 
@@ -581,11 +581,11 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
         // also replaces references of oldAreaId by newAreaId in m_RawFrontier:
         if (newAreaId.intValue() > 0) {
             for (final MutablePair<MutablePair<AreaId, AreaId>, WalkPosition> f : super.m_RawFrontier) {
-                if (f.left.left.equals(oldAreaId)) {
-                    f.left.left = new AreaId(newAreaId);
+                if (f.getLeft().getLeft().equals(oldAreaId)) {
+                    f.getLeft().setLeft(newAreaId);
                 }
-                if (f.left.right.equals(oldAreaId)) {
-                    f.left.right = new AreaId(newAreaId);
+                if (f.getLeft().getRight().equals(oldAreaId)) {
+                    f.getLeft().setRight(newAreaId);
                 }
             }
         }
