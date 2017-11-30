@@ -321,7 +321,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                 WalkPosition w = (WalkPosition) args[0];
                 return (!getData().getMapData().isValid(w)
                         || !getData().getMiniTile(w, check_t.no_check).Walkable()
-                        || getData().getTile(w.toTilePosition(), check_t.no_check).GetNeutral() != null);
+                        || getData().getTile(w.toTilePosition(), check_t.no_check).getNeutral() != null);
             }
         });
         return Border;
@@ -355,7 +355,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                     final WalkPosition next = current.add(delta);
                     if (getData().getMapData().isValid(next) && !Visited.contains(next)) {
                         if (getData().getMiniTile(next, check_t.no_check).Walkable()) {
-                            if (getData().getTile((next.toPosition()).toTilePosition(), check_t.no_check).GetNeutral() == null) {
+                            if (getData().getTile((next.toPosition()).toTilePosition(), check_t.no_check).getNeutral() == null) {
                                 if (BwemExt.adjoins8SomeLakeOrNeutral(next, this)) {
                                     ToVisit.add(next);
                                     Visited.add(next);
@@ -402,7 +402,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                         final WalkPosition next = current.add(delta);
                         if (getData().getMapData().isValid(next) && !Visited.contains(next)) {
                             if (getData().getMiniTile(next, check_t.no_check).Walkable()) {
-                                if (getData().getTile(next.toTilePosition(), check_t.no_check).GetNeutral() == null) {
+                                if (getData().getTile(next.toTilePosition(), check_t.no_check).getNeutral() == null) {
                                     ToVisit.add(next);
                                     Visited.add(next);
                                 }
@@ -426,7 +426,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
     public void markBlockingStackedNeutrals(final Neutral pCandidate, final List<WalkPosition> TrueDoors) {
         if (TrueDoors.size() >= 2) {
             // Marks pCandidate (and any Neutral stacked with it) as blocking.
-            for (Neutral pNeutral = getData().getTile(pCandidate.TopLeft()).GetNeutral(); pNeutral != null; pNeutral = pNeutral.NextStacked()) {
+            for (Neutral pNeutral = getData().getTile(pCandidate.TopLeft()).getNeutral(); pNeutral != null; pNeutral = pNeutral.NextStacked()) {
                 pNeutral.SetBlocking(TrueDoors);
             }
 
@@ -635,7 +635,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                 }
             }
 
-        getData().getTile_(t).SetMinAltitude(minAltitude);
+        getData().getTile_(t).setMinAltitude(minAltitude);
     }
 
     // Renamed from "MapImpl::SetAreaIdInTiles"

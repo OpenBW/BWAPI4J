@@ -1,9 +1,7 @@
 package bwem.util;
 
 import bwem.check_t;
-import bwem.map.Map;
 import bwem.map.MapImpl;
-import bwem.typedef.Altitude;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.openbw.bwapi4j.MapDrawer;
 import org.openbw.bwapi4j.Position;
@@ -247,7 +245,7 @@ public final class BwemExt {
         for (final WalkPosition delta : deltas) {
             final WalkPosition next = p.add(delta);
             if (pMap.getData().getMapData().isValid(next)) {
-                if (pMap.getData().getTile(next.toTilePosition(), check_t.no_check).GetNeutral() != null) {
+                if (pMap.getData().getTile(next.toTilePosition(), check_t.no_check).getNeutral() != null) {
                     return true;
                 }
                 if (pMap.getData().getMiniTile(next, check_t.no_check).Lake()) {
