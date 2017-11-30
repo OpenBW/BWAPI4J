@@ -29,18 +29,6 @@ import org.apache.commons.lang3.mutable.MutableInt;
 
 public final class Tile extends Markable<Tile> {
 
-    private static final class Bits {
-
-        public byte buildable;
-        public byte doodad;
-
-        public Bits() {
-            this.buildable = 0x0;
-            this.doodad = 0x0;
-        }
-
-    }
-
     // 0: lower ground    1: high ground    2: very high ground
     // Corresponds to BWAPI::getGroundHeight / 2
     public static enum GroundHeight {
@@ -79,22 +67,24 @@ public final class Tile extends Markable<Tile> {
     private Altitude m_minAltitude;
     private AreaId m_areaId;
     private MutableInt m_internalData;
-    private Bits m_bits;
     private GroundHeight groundHeight;
+    private boolean isBuildable;
+    private boolean isDoodad;
 
     public Tile() {
         m_pNeutral = null;
         m_minAltitude = new Altitude(0);
         m_areaId = new AreaId(0);
         m_internalData = new MutableInt(0);
-        m_bits = new Bits();
         this.groundHeight = GroundHeight.LOW_GROUND;
+        this.isBuildable = false;
+        this.isDoodad = false;
     }
 
 	// Corresponds to BWAPI::isBuildable
 	// Note: BWEM enforces the relation buildable ==> walkable (Cf. MiniTile::Walkable)
-    public boolean Buildable() {
-        return (m_bits.buildable != 0x0);
+    public boolean isBuildable() {
+        return this.isBuildable;
     }
 
 	// Tile::AreaId() somewhat aggregates the MiniTile::AreaId() values of the 4 x 4 sub-MiniTiles.
@@ -130,8 +120,8 @@ public final class Tile extends Markable<Tile> {
 
 	// Tells if this Tile is part of a doodad.
 	// Corresponds to BWAPI::getGroundHeight % 2
-    public boolean Doodad() {
-        return (m_bits.doodad != 0x0);
+    public boolean isDoodad() {
+        return this.isDoodad;
     }
 
 	// If any Neutral occupies this Tile, returns it (note that all the Tiles it occupies will then return it).
@@ -156,8 +146,8 @@ public final class Tile extends Markable<Tile> {
         return stackSize;
     }
 
-    public void SetBuildable() {
-        m_bits.buildable = 0x1;
+    public void setBuildable() {
+        this.isBuildable = true;
     }
 
     public void setGroundHeight(final int h) {
@@ -168,8 +158,8 @@ public final class Tile extends Markable<Tile> {
         this.groundHeight = GroundHeight.parseGroundHeight(h);
     }
 
-    public void SetDoodad() {
-        m_bits.doodad = 0x1;
+    public void setDoodad() {
+        this.isDoodad = true;
     }
 
     public void AddNeutral(Neutral pNeutral) {
