@@ -56,9 +56,9 @@ public class Chokepoint {
     
         if (this.regions == null) {
             
-            logger.debug("attempting to get region pair for id {} and {}...", region1Id, region2Id);
+            logger.trace("attempting to get region pair for id {} and {}...", region1Id, region2Id);
             this.regions = new Pair<>(Region.getCachedRegion(region1Id), Region.getCachedRegion(region2Id));
-            logger.debug("retrieved {} and {}.", this.regions.first, this.regions.second);
+            logger.trace("retrieved {} and {}.", this.regions.first, this.regions.second);
         }
         
         return this.regions;

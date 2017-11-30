@@ -80,6 +80,7 @@ public final class InteractionHandler {
      * @param posY
      */
     public void createUnit(Player owner, UnitType type, int posX, int posY) {
+    	
     	this.bw.createUnit(owner, type, posX, posY);
     }
     
@@ -97,6 +98,7 @@ public final class InteractionHandler {
      * @return the bot player
      */
     public Player self() {
+    	
         return this.bw.getPlayer(this.selfId);
     }
 
@@ -104,50 +106,62 @@ public final class InteractionHandler {
      * @return the enemy player in a 1on1 game
      */
     public Player enemy() {
+    	
         return this.bw.getPlayer(this.enemyId);
     }
 
     public BwError getLastError() {
+    	
         return this.lastError;
     }
 
     public Position getScreenPosition() {
+    	
         return new Position(screenPositionX, screenPositionY);
     }
 
     public Position getMousePosition() {
+    	
         return new Position(mousePositionX, mousePositionY);
     }
 
     public int getFrameCount() {
+    	
         return this.frameCount;
     }
 
     public int getFPS() {
+    	
         return this.fps;
     }
 
     public boolean isLatComEnabled() {
+    	
         return this.latComEnabled;
     }
 
     public int getRemainingLatencyFrames() {
+    	
         return this.remainingLatencyFrames;
     }
 
     public int getLatencyFrames() {
+    	
         return this.latencyFrames;
     }
 
     public int getLatency() {
+    	
         return this.latency;
     }
 
     public List<Unit> getSelectedUnits() {
+    	
         return bw.getAllUnits().stream().filter(u -> u.isSelected()).collect(Collectors.toList());
     }
 
     public boolean isKeyPressed(Key key) {
+    	
         return getKeyState(key.getValue());
     }
 
