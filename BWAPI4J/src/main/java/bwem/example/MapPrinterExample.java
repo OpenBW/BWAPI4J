@@ -8,6 +8,7 @@ import bwem.area.typedef.AreaId;
 import bwem.check_t;
 import bwem.map.Map;
 import bwem.tile.MiniTile;
+import bwem.tile.Tile;
 import bwem.typedef.CPPath;
 import bwem.unit.Geyser;
 import bwem.unit.Mineral;
@@ -153,13 +154,13 @@ public class MapPrinterExample {
         if (mapPrinter.showGroundHeight)
             for (int y = 0; y < theMap.getData().getMapData().getTileSize().getY(); ++y)
             for (int x = 0; x < theMap.getData().getMapData().getTileSize().getX(); ++x) {
-                int groundHeight = theMap.getData().getTile(new TilePosition(x, y)).GroundHeight();
-                if (groundHeight >= 1)
+                Tile.GroundHeight groundHeight = theMap.getData().getTile(new TilePosition(x, y)).getGroundHeight();
+                if (groundHeight.intValue() >= Tile.GroundHeight.HIGH_GROUND.intValue())
                     for (int dy = 0; dy < 4; ++dy)
                     for (int dx = 0; dx < 4; ++dx) {
                         WalkPosition p = (new TilePosition(x, y).toWalkPosition()).add(new WalkPosition(dx, dy));
                         if (theMap.getData().getMiniTile(p, check_t.no_check).Walkable()) // groundHeight is usefull only for walkable miniTiles
-                            if (((dx + dy) & (groundHeight == 1 ? 1 : 3)) != 0)
+                            if (((dx + dy) & (groundHeight == Tile.GroundHeight.HIGH_GROUND ? 1 : 3)) != 0)
                                 mapPrinter.Point(p, MapPrinter.CustomColor.HIGHER_GROUND.color());
                     }
             }

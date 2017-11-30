@@ -20,9 +20,7 @@ import bwem.unit.StaticBuilding;
 import bwem.util.BwemExt;
 import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
@@ -262,9 +260,11 @@ public final class Area extends Markable<Area> {
     // Called for each tile t of this Area
     public void AddTileInformation(final TilePosition tilePosition, final Tile tile) {
         ++m_tiles;
+
         if (tile.Buildable()) ++m_buildableTiles;
-        if (tile.GroundHeight() == 1) ++m_highGroundTiles;
-        if (tile.GroundHeight() == 2) ++m_veryHighGroundTiles;
+
+        if (tile.getGroundHeight() == Tile.GroundHeight.HIGH_GROUND) ++m_highGroundTiles;
+        else if (tile.getGroundHeight() == Tile.GroundHeight.VERY_HIGH_GROUND) ++m_veryHighGroundTiles;
 
         if (tilePosition.getX() < m_topLeft.getX()) m_topLeft = new TilePosition(tilePosition.getX(), m_topLeft.getY());
         if (tilePosition.getY() < m_topLeft.getY()) m_topLeft = new TilePosition(m_topLeft.getX(), tilePosition.getY());

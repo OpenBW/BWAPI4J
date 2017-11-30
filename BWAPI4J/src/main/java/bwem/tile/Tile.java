@@ -32,12 +32,10 @@ public final class Tile extends Markable<Tile> {
     private static final class Bits {
 
         public byte buildable;
-        public int groundHeight;
         public byte doodad;
 
         public Bits() {
             this.buildable = 0x0;
-            this.groundHeight = 0;
             this.doodad = 0x0;
         }
 
@@ -66,16 +64,31 @@ public final class Tile extends Markable<Tile> {
             return String.valueOf(intValue());
         }
 
+        public static GroundHeight parseGroundHeight(final int height) {
+            for (final GroundHeight val : GroundHeight.values()) {
+                if (val.intValue() == height) {
+                    return val;
+                }
+            }
+            throw new IllegalArgumentException("Unrecognized height: " + height);
+        }
+
     }
 
-    private Neutral m_pNeutral = null;
-    private Altitude m_minAltitude = new Altitude(0);
-    private AreaId m_areaId = new AreaId(0);
-    private MutableInt m_internalData = new MutableInt(0);
-    private Bits m_bits = new Bits();
+    private Neutral m_pNeutral;
+    private Altitude m_minAltitude;
+    private AreaId m_areaId;
+    private MutableInt m_internalData;
+    private Bits m_bits;
+    private GroundHeight groundHeight;
 
     public Tile() {
-        /* Do nothing. */
+        m_pNeutral = null;
+        m_minAltitude = new Altitude(0);
+        m_areaId = new AreaId(0);
+        m_internalData = new MutableInt(0);
+        m_bits = new Bits();
+        this.groundHeight = GroundHeight.LOW_GROUND;
     }
 
 	// Corresponds to BWAPI::isBuildable
@@ -111,8 +124,8 @@ public final class Tile extends Markable<Tile> {
 
 	// 0: lower ground    1: high ground    2: very high ground
 	// Corresponds to BWAPI::getGroundHeight / 2
-    public int GroundHeight() {
-        return m_bits.groundHeight;
+    public GroundHeight getGroundHeight() {
+        return this.groundHeight;
     }
 
 	// Tells if this Tile is part of a doodad.
@@ -147,12 +160,12 @@ public final class Tile extends Markable<Tile> {
         m_bits.buildable = 0x1;
     }
 
-    public void SetGroundHeight(int h) {
+    public void setGroundHeight(final int h) {
 //        { bwem_assert((0 <= h) && (h <= 2)); m_bits.groundHeight = h; }
-        if (!((0 <= h) && (h <= 2))) {
-            throw new IllegalArgumentException();
-        }
-        m_bits.groundHeight = h;
+//        if (!((0 <= h) && (h <= 2))) {
+//            throw new IllegalArgumentException();
+//        }
+        this.groundHeight = GroundHeight.parseGroundHeight(h);
     }
 
     public void SetDoodad() {
