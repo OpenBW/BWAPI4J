@@ -261,7 +261,7 @@ public final class Area extends Markable<Area> {
     public void AddTileInformation(final TilePosition tilePosition, final Tile tile) {
         ++m_tiles;
 
-        if (tile.Buildable()) ++m_buildableTiles;
+        if (tile.isBuildable()) ++m_buildableTiles;
 
         if (tile.getGroundHeight() == Tile.GroundHeight.HIGH_GROUND) ++m_highGroundTiles;
         else if (tile.getGroundHeight() == Tile.GroundHeight.VERY_HIGH_GROUND) ++m_veryHighGroundTiles;
@@ -491,14 +491,13 @@ public final class Area extends Markable<Area> {
     // The job is therefore made easier : just need to sum the InternalData() values.
     // Returns -1 if the location is impossible.
     private int ComputeBaseLocationScore(TilePosition location) {
-        Map pMap = GetMap();
-        TilePosition dimCC = UnitType.Terran_Command_Center.tileSize();
+        final TilePosition dimCC = UnitType.Terran_Command_Center.tileSize();
 
         int sumScore = 0;
         for (int dy = 0; dy < dimCC.getY(); ++dy)
         for (int dx = 0; dx < dimCC.getX(); ++dx) {
-            Tile tile = pMap.getData().getTile(location.add(new TilePosition(dx, dy)), check_t.no_check);
-            if (!tile.Buildable()) return -1;
+            final Tile tile = GetMap().getData().getTile(location.add(new TilePosition(dx, dy)), check_t.no_check);
+            if (!tile.isBuildable()) return -1;
             if (tile.InternalData().intValue() == -1) return -1; // The special value InternalData() == -1 means there is some ressource at maximum 3 tiles, which Starcraft rules forbid.
                                                                  // Unfortunately, this is guaranteed only for the ressources in this Area, which is the very reason of ValidateBaseLocation
             if (!tile.AreaId().equals(Id())) return -1;

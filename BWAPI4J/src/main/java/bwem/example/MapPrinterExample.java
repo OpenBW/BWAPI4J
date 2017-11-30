@@ -146,7 +146,7 @@ public class MapPrinterExample {
         if (mapPrinter.showUnbuildable)
             for (int y = 0; y < theMap.getData().getMapData().getTileSize().getY(); ++y)
             for (int x = 0; x < theMap.getData().getMapData().getTileSize().getX(); ++x)
-                if (!theMap.getData().getTile(new TilePosition(x, y)).Buildable()) {
+                if (!theMap.getData().getTile(new TilePosition(x, y)).isBuildable()) {
                     WalkPosition origin = (new TilePosition(x, y)).toWalkPosition();
                     mapPrinter.Rectangle(origin.add(new WalkPosition(1, 1)), origin.add(new WalkPosition(2, 2)), MapPrinter.CustomColor.UNBUILDABLE.color());
                 }

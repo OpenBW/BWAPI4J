@@ -46,7 +46,7 @@ public class AdvancedDataInitializerImpl extends AdvancedDataImpl implements Adv
         for (int x = 0; x < getMapData().getTileSize().getX(); ++x) {
             final TilePosition t = new TilePosition(x, y);
             if (bwMap.isBuildable(t, false)) {
-                getTile_(t).SetBuildable();
+                getTile_(t).setBuildable();
 
                 // Ensures buildable ==> walkable:
                 for (int dy = 0; dy < 4; ++dy)
@@ -59,7 +59,7 @@ public class AdvancedDataInitializerImpl extends AdvancedDataImpl implements Adv
             final int bwapiGroundHeight = bwMap.getGroundHeight(t);
             getTile_(t).setGroundHeight(bwapiGroundHeight / 2);
             if (bwapiGroundHeight % 2 != 0) {
-                getTile_(t).SetDoodad();
+                getTile_(t).setDoodad();
             }
         }
     }
