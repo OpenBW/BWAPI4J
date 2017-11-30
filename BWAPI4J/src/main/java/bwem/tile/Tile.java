@@ -63,19 +63,19 @@ public final class Tile extends Markable<Tile> {
 
     }
 
-    private Neutral m_pNeutral;
-    private Altitude m_minAltitude;
-    private AreaId m_areaId;
-    private MutableInt m_internalData;
+    private Neutral neutral;
+    private Altitude minAltitude;
+    private AreaId areaId;
+    private final MutableInt internalData;
     private GroundHeight groundHeight;
     private boolean isBuildable;
     private boolean isDoodad;
 
     public Tile() {
-        m_pNeutral = null;
-        m_minAltitude = new Altitude(0);
-        m_areaId = new AreaId(0);
-        m_internalData = new MutableInt(0);
+        this.neutral = null;
+        this.minAltitude = new Altitude(0);
+        this.areaId = new AreaId(0);
+        this.internalData = new MutableInt(0);
         this.groundHeight = GroundHeight.LOW_GROUND;
         this.isBuildable = false;
         this.isDoodad = false;
@@ -87,29 +87,29 @@ public final class Tile extends Markable<Tile> {
         return this.isBuildable;
     }
 
-	// Tile::AreaId() somewhat aggregates the MiniTile::AreaId() values of the 4 x 4 sub-MiniTiles.
+	// Tile::AreaId() somewhat aggregates the MiniTile::getAreaId() values of the 4 x 4 sub-MiniTiles.
 	// Let S be the set of MiniTile::AreaId() values for each walkable MiniTile in this Tile.
 	// If empty(S), returns 0. Note: in this case, no contained MiniTile is walkable, so all of them have their AreaId() == 0.
 	// If S = {a}, returns a (whether positive or negative).
 	// If size(S) > 1 returns -1 (note that -1 is never returned by MiniTile::AreaId()).
-    public AreaId AreaId() {
-        return m_areaId;
+    public AreaId getAreaId() {
+        return this.areaId;
     }
 
 	// Tile::MinAltitude() somewhat aggregates the MiniTile::Altitude() values of the 4 x 4 sub-MiniTiles.
 	// Returns the minimum value.
-    public Altitude MinAltitude() {
-        return m_minAltitude;
+    public Altitude getMinAltitude() {
+        return this.minAltitude;
     }
 
     // Tells if at least one of the sub-MiniTiles is Walkable.
-    public boolean Walkable() {
-        return (m_areaId.intValue() != 0);
+    public boolean isWalkable() {
+        return (getAreaId().intValue() != 0);
     }
 
     // Tells if at least one of the sub-MiniTiles is a Terrain-MiniTile.
-    public boolean Terrain() {
-        return Walkable();
+    public boolean isTerrain() {
+        return isWalkable();
     }
 
 	// 0: lower ground    1: high ground    2: very high ground
@@ -133,14 +133,14 @@ public final class Tile extends Markable<Tile> {
 	// is destroyed and BWEM is informed of that by a call of Map::OnMineralDestroyed(BWAPI::Unit u) for exemple. In such a case,
 	// BWEM automatically updates the data by deleting the Neutral instance and clearing any reference to it such as the one
 	// returned by Tile::GetNeutral(). In case of stacked Neutrals, the next one is then returned.
-    public Neutral GetNeutral() {
-        return m_pNeutral;
+    public Neutral getNeutral() {
+        return this.neutral;
     }
 
     // Returns the number of Neutrals that occupy this Tile (Cf. GetNeutral).
-    public int StackedNeutrals() {
+    public int getStackedNeutralCount() {
         int stackSize = 0;
-        for (Neutral pStacked = GetNeutral(); pStacked != null; pStacked = pStacked.NextStacked()) {
+        for (Neutral pStacked = getNeutral(); pStacked != null; pStacked = pStacked.NextStacked()) {
             ++stackSize;
         }
         return stackSize;
@@ -150,61 +150,57 @@ public final class Tile extends Markable<Tile> {
         this.isBuildable = true;
     }
 
-    public void setGroundHeight(final int h) {
+    public void setGroundHeight(final int groundHeight) {
 //        { bwem_assert((0 <= h) && (h <= 2)); m_bits.groundHeight = h; }
 //        if (!((0 <= h) && (h <= 2))) {
 //            throw new IllegalArgumentException();
 //        }
-        this.groundHeight = GroundHeight.parseGroundHeight(h);
+        this.groundHeight = GroundHeight.parseGroundHeight(groundHeight);
     }
 
     public void setDoodad() {
         this.isDoodad = true;
     }
 
-    public void AddNeutral(Neutral pNeutral) {
-//        { bwem_assert(!m_pNeutral && pNeutral); m_pNeutral = pNeutral; }
-        if (!(m_pNeutral == null && pNeutral != null)) {
+    public void addNeutral(final Neutral neutral) {
+//        { bwem_assert(!m_pNeutral && pNeutral); neutral = pNeutral; }
+        if (!(getNeutral() == null && neutral != null)) {
             throw new IllegalStateException();
         }
-        m_pNeutral = pNeutral;
+        this.neutral = neutral;
     }
 
-    public void SetAreaId(AreaId id) {
-//        { bwem_assert((id == -1) || !m_areaId && id); m_areaId = id; }
-        if (!(id.intValue() == -1 || m_areaId.intValue() == 0 && id.intValue() != 0)) {
+    public void setAreaId(final AreaId areaId) {
+//        { bwem_assert((id == -1) || !m_areaId && id); areaId = id; }
+        if (!(areaId.intValue() == -1 || getAreaId().intValue() == 0 && areaId.intValue() != 0)) {
             throw new IllegalStateException();
         }
-        m_areaId = id;
+        this.areaId = areaId;
     }
 
-    public void ResetAreaId() {
-        m_areaId = new AreaId(0);
+    public void resetAreaId() {
+        this.areaId = new AreaId(0);
     }
 
-    public void SetMinAltitude(Altitude a) {
-//        { bwem_assert(a >= 0); m_minAltitude = a; }
-        if (!(a.intValue() >= 0)) {
+    public void setMinAltitude(final Altitude minAltitude) {
+//        { bwem_assert(a >= 0); this.m_minAltitude = a; }
+        if (!(minAltitude.intValue() >= 0)) {
             throw new IllegalArgumentException();
         }
-        m_minAltitude = a;
+        this.minAltitude = minAltitude;
     }
 
-    public void RemoveNeutral(Neutral pNeutral) {
+    public void RemoveNeutral(final Neutral neutral) {
 //        { bwem_assert(pNeutral && (m_pNeutral == pNeutral));
 //          utils::unused(pNeutral); m_pNeutral = nullptr; }
-        if (!(pNeutral != null) && m_pNeutral.equals(pNeutral)) {
+        if (!(neutral != null && getNeutral().equals(neutral))) {
             throw new IllegalStateException();
         }
-        m_pNeutral = null;
+        this.neutral = null;
     }
 
-    public MutableInt InternalData() {
-        return m_internalData;
-    }
-
-    public void SetInternalData(MutableInt data) {
-        m_internalData = data;
+    public MutableInt getInternalData() {
+        return this.internalData;
     }
 
 }

@@ -19,7 +19,6 @@ import bwem.unit.StaticBuilding;
 import bwem.util.BwemExt;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.commons.lang3.mutable.MutableInt;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.openbw.bwapi4j.BWMap;
 import org.openbw.bwapi4j.MapDrawer;
@@ -36,7 +35,6 @@ import org.openbw.bwapi4j.unit.VespeneGeyser;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -237,7 +235,7 @@ public class MapImpl implements Map {
             cp.OnBlockingNeutralDestroyed(pBlocking);
         }
 
-        if (getData().getTile(pBlocking.TopLeft()).GetNeutral() != null) { // there remains some blocking Neutrals at the same location
+        if (getData().getTile(pBlocking.TopLeft()).getNeutral() != null) { // there remains some blocking Neutrals at the same location
             return;
         }
 
@@ -255,7 +253,7 @@ public class MapImpl implements Map {
         // Unblock the Tiles of pBlocking:
         for (int dy = 0; dy < pBlocking.Size().getY(); ++dy)
         for (int dx = 0; dx < pBlocking.Size().getX(); ++dx) {
-            getData().getTile_(pBlocking.TopLeft().add(new TilePosition(dx, dy))).ResetAreaId();
+            getData().getTile_(pBlocking.TopLeft().add(new TilePosition(dx, dy))).resetAreaId();
             SetAreaIdInTile(pBlocking.TopLeft().add(new TilePosition(dx, dy)));
         }
 
@@ -484,7 +482,7 @@ public class MapImpl implements Map {
     public void SetAreaIdInTile(final TilePosition t) {
         final Tile tile = getData().getTile_(t);
 //        bwem_assert(tile.AreaId() == 0);	// initialized to 0
-        if (!(tile.AreaId().intValue() == 0)) { // initialized to 0
+        if (!(tile.getAreaId().intValue() == 0)) { // initialized to 0
             throw new IllegalStateException();
         }
 
@@ -492,10 +490,10 @@ public class MapImpl implements Map {
             for (int dx = 0; dx < 4; ++dx) {
                 final AreaId id = getData().getMiniTile(t.toWalkPosition().add(new WalkPosition(dx, dy)), check_t.no_check).AreaId();
                 if (id.intValue() != 0) {
-                    if (tile.AreaId().intValue() == 0) {
-                        tile.SetAreaId(id);
-                    } else if (!tile.AreaId().equals(id)) {
-                        tile.SetAreaId(new AreaId(-1));
+                    if (tile.getAreaId().intValue() == 0) {
+                        tile.setAreaId(id);
+                    } else if (!tile.getAreaId().equals(id)) {
+                        tile.setAreaId(new AreaId(-1));
                         return;
                     }
                 }

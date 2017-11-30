@@ -306,7 +306,7 @@ public final class Area extends Markable<Area> {
                     final Object ttile = args[0];
                     if (ttile instanceof Tile) {
                         final Tile tile = (Tile) ttile;
-                        return tile.AreaId().equals(Id());
+                        return tile.getAreaId().equals(Id());
                     } else {
                         throw new IllegalArgumentException();
                     }
@@ -330,7 +330,7 @@ public final class Area extends Markable<Area> {
                         final Object ttile = args[0];
                         if (ttile instanceof Tile) {
                             final Tile tile = (Tile) ttile;
-                            return (tile.AreaId().equals(Id()));
+                            return (tile.getAreaId().equals(Id()));
                         } else {
                             throw new IllegalArgumentException();
                         }
@@ -414,8 +414,8 @@ public final class Area extends Markable<Area> {
                     if (r instanceof Geyser) { // somewhat compensates for Geyser alone vs the several Minerals
                         score *= 3;
                     }
-                    if (tile.AreaId().equals(Id())) { // note the additive effect (assume tile.InternalData() is 0 at the begining)
-                        tile.InternalData().setValue(tile.InternalData().intValue() + score);
+                    if (tile.getAreaId().equals(Id())) { // note the additive effect (assume tile.InternalData() is 0 at the begining)
+                        tile.getInternalData().setValue(tile.getInternalData().intValue() + score);
                     }
                 }
             }
@@ -426,7 +426,7 @@ public final class Area extends Markable<Area> {
             for (int dx = -3; dx < r.Size().getX() + 3; ++dx) {
                 TilePosition t = r.TopLeft().add(new TilePosition(dx, dy));
                 if (pMap.getData().getMapData().isValid(t)) {
-                    pMap.getData().getTile(t, check_t.no_check).SetInternalData(new MutableInt(-1));
+                    pMap.getData().getTile(t, check_t.no_check).getInternalData().setValue(-1);
                 }
             }
 
@@ -453,7 +453,7 @@ public final class Area extends Markable<Area> {
                 for (int dx = -dimCC.getX() - BwemExt.max_tiles_between_CommandCenter_and_resources; dx < r.Size().getX() + dimCC.getX() + BwemExt.max_tiles_between_CommandCenter_and_resources; ++dx) {
                     TilePosition t = r.TopLeft().add(new TilePosition(dx, dy));
                     if (pMap.getData().getMapData().isValid(t)) {
-                        pMap.getData().getTile(t, check_t.no_check).SetInternalData(new MutableInt(0));
+                        pMap.getData().getTile(t, check_t.no_check).getInternalData().setValue(0);
                     }
                 }
             }
@@ -498,12 +498,12 @@ public final class Area extends Markable<Area> {
         for (int dx = 0; dx < dimCC.getX(); ++dx) {
             final Tile tile = GetMap().getData().getTile(location.add(new TilePosition(dx, dy)), check_t.no_check);
             if (!tile.isBuildable()) return -1;
-            if (tile.InternalData().intValue() == -1) return -1; // The special value InternalData() == -1 means there is some ressource at maximum 3 tiles, which Starcraft rules forbid.
-                                                                 // Unfortunately, this is guaranteed only for the ressources in this Area, which is the very reason of ValidateBaseLocation
-            if (!tile.AreaId().equals(Id())) return -1;
-            if (tile.GetNeutral() != null && (tile.GetNeutral() instanceof StaticBuilding)) return -1;
+            if (tile.getInternalData().intValue() == -1) return -1; // The special value InternalData() == -1 means there is some ressource at maximum 3 tiles, which Starcraft rules forbid.
+                                                                    // Unfortunately, this is guaranteed only for the ressources in this Area, which is the very reason of ValidateBaseLocation
+            if (!tile.getAreaId().equals(Id())) return -1;
+            if (tile.getNeutral() != null && (tile.getNeutral() instanceof StaticBuilding)) return -1;
 
-            sumScore += tile.InternalData().intValue();
+            sumScore += tile.getInternalData().intValue();
         }
 
         return sumScore;
@@ -525,7 +525,7 @@ public final class Area extends Markable<Area> {
             TilePosition t = location.add(new TilePosition(dx, dy));
             if (pMap.getData().getMapData().isValid(t)) {
                 Tile tile = pMap.getData().getTile(t, check_t.no_check);
-                Neutral n = tile.GetNeutral();
+                Neutral n = tile.getNeutral();
                 if (n != null) {
                     if (n instanceof Geyser) {
                         return false;
@@ -571,11 +571,11 @@ public final class Area extends Markable<Area> {
             final TilePosition current = ToVisit.get(currentDist).iterator().next();
             final Tile currentTile = GetMap().getData().getTile(current, check_t.no_check);
 //            bwem_assert(currentTile.InternalData() == currentDist);
-            if (!(currentTile.InternalData().intValue() == currentDist)) {
-                throw new IllegalStateException("currentTile.InternalData().intValue()=" + currentTile.InternalData().intValue() + ", currentDist=" + currentDist);
+            if (!(currentTile.getInternalData().intValue() == currentDist)) {
+                throw new IllegalStateException("currentTile.InternalData().intValue()=" + currentTile.getInternalData().intValue() + ", currentDist=" + currentDist);
             }
             ToVisit.removeMapping(currentDist, current);
-            currentTile.SetInternalData(new MutableInt(0)); // resets Tile::m_internalData for future usage
+            currentTile.getInternalData().setValue(0); // resets Tile::m_internalData for future usage
             currentTile.SetMarked();
 
             for (int i = 0; i < Targets.size(); ++i) {
@@ -601,19 +601,19 @@ public final class Area extends Markable<Area> {
                 if (GetMap().getData().getMapData().isValid(next)) {
                     final Tile nextTile = GetMap().getData().getTile(next, check_t.no_check);
                     if (!nextTile.Marked()) {
-                        if (nextTile.InternalData().intValue() != 0) { // next already in ToVisit
-                            if (newNextDist < nextTile.InternalData().intValue()) { // nextNewDist < nextOldDist
+                        if (nextTile.getInternalData().intValue() != 0) { // next already in ToVisit
+                            if (newNextDist < nextTile.getInternalData().intValue()) { // nextNewDist < nextOldDist
                                 // To update next's distance, we need to remove-insert it from ToVisit:
 //                                bwem_assert(iNext != range.second);
-                                final boolean removed = ToVisit.removeMapping(nextTile.InternalData().intValue(), next);
+                                final boolean removed = ToVisit.removeMapping(nextTile.getInternalData().intValue(), next);
                                 if (!removed) {
                                     throw new IllegalStateException();
                                 }
-                                nextTile.SetInternalData(new MutableInt(newNextDist));
+                                nextTile.getInternalData().setValue(newNextDist);
                                 ToVisit.put(newNextDist, next);
                             }
-                        } else if ((nextTile.AreaId().equals(Id())) || (nextTile.AreaId().equals(new AreaId(-1)))) {
-                            nextTile.SetInternalData(new MutableInt(newNextDist));
+                        } else if ((nextTile.getAreaId().equals(Id())) || (nextTile.getAreaId().equals(new AreaId(-1)))) {
+                            nextTile.getInternalData().setValue(newNextDist);
                             ToVisit.put(newNextDist, next);
                         }
                     }
@@ -627,7 +627,7 @@ public final class Area extends Markable<Area> {
         }
 
         for (final java.util.Map.Entry<Integer, TilePosition> entry : ToVisit.entries()) {
-            GetMap().getData().getTile(entry.getValue(), check_t.no_check).SetInternalData(new MutableInt(0));
+            GetMap().getData().getTile(entry.getValue(), check_t.no_check).getInternalData().setValue(0);
         }
 
         return Distances;

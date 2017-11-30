@@ -6,9 +6,7 @@ import bwem.map.MapImpl;
 import bwem.tile.Tile;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-import org.apache.logging.log4j.core.util.Assert;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
@@ -161,11 +159,11 @@ public class Neutral {
         for (int dy = 0; dy < Size().getY(); ++dy)
         for (int dx = 0; dx < Size().getX(); ++dx) {
             Tile tile = GetMap().getData().getTile_(TopLeft().add(new TilePosition(dx, dy)));
-            if (tile.GetNeutral() == null) {
-                tile.AddNeutral(this);
+            if (tile.getNeutral() == null) {
+                tile.addNeutral(this);
             } else {
-                Neutral pTop = tile.GetNeutral().LastStacked();
-                if (!(!this.equals(tile.GetNeutral()))) {
+                Neutral pTop = tile.getNeutral().LastStacked();
+                if (!(!this.equals(tile.getNeutral()))) {
 //                    bwem_assert(this != tile.GetNeutral());
                     throw new IllegalStateException();
                 } else if (!(!this.equals(pTop))) {
@@ -200,17 +198,17 @@ public class Neutral {
         for (int dx = 0; dx < Size().getX(); ++dx) {
             Tile tile = GetMap().getData().getTile_(TopLeft().add(new TilePosition(dx, dy)));
 //            bwem_assert(tile.GetNeutral());
-            if (!(tile.GetNeutral() != null)) {
+            if (!(tile.getNeutral() != null)) {
                 throw new IllegalStateException();
             }
 
-            if (tile.GetNeutral().equals(this)) {
+            if (tile.getNeutral().equals(this)) {
                 tile.RemoveNeutral(this);
                 if (m_pNextStacked != null) {
-                    tile.AddNeutral(m_pNextStacked);
+                    tile.addNeutral(m_pNextStacked);
                 }
             } else {
-                Neutral pPrevStacked = tile.GetNeutral();
+                Neutral pPrevStacked = tile.getNeutral();
                 while (!pPrevStacked.NextStacked().equals(this)) {
                     pPrevStacked = pPrevStacked.NextStacked();
                 }

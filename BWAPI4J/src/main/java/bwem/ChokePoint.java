@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
@@ -101,7 +100,7 @@ public final class ChokePoint extends Markable<ChokePoint> {
 
         // Ensures that in the case where several neutrals are stacked, m_pBlockingNeutral points to the bottom one:
         if (m_pBlockingNeutral != null) {
-            m_pBlockingNeutral = GetMap().getData().getTile(m_pBlockingNeutral.TopLeft()).GetNeutral();
+            m_pBlockingNeutral = GetMap().getData().getTile(m_pBlockingNeutral.TopLeft()).getNeutral();
         }
 
         m_nodes = new WalkPosition[ChokePoint.Node.node_count.intVal()];
@@ -144,7 +143,7 @@ public final class ChokePoint extends Markable<ChokePoint> {
                                 WalkPosition w = (WalkPosition) tpos;
                                 TilePosition t = (w.toPosition()).toTilePosition();
                                 Map map = (Map) tmap;
-                                return (miniTile.AreaId().equals(pArea.Id()) && map.getData().getTile(t, check_t.no_check).GetNeutral() == null);
+                                return (miniTile.AreaId().equals(pArea.Id()) && map.getData().getTile(t, check_t.no_check).getNeutral() == null);
                             } else {
                                 throw new IllegalArgumentException();
                             }
@@ -161,7 +160,7 @@ public final class ChokePoint extends Markable<ChokePoint> {
                                 WalkPosition w = (WalkPosition) tpos;
                                 TilePosition t = (w.toPosition()).toTilePosition();
                                 Map map = (Map) tmap;
-                                return (miniTile.AreaId().equals(pArea.Id()) || (Blocked() && (miniTile.Blocked() || map.getData().getTile(t, check_t.no_check).GetNeutral() != null)));
+                                return (miniTile.AreaId().equals(pArea.Id()) || (Blocked() && (miniTile.Blocked() || map.getData().getTile(t, check_t.no_check).getNeutral() != null)));
                             } else {
                                 throw new IllegalArgumentException("Invalid argument list.");
                             }
@@ -302,7 +301,7 @@ public final class ChokePoint extends Markable<ChokePoint> {
 
         if (m_pBlockingNeutral.equals(pBlocking)) {
             // Ensures that in the case where several neutrals are stacked, m_pBlockingNeutral points to the bottom one:
-            m_pBlockingNeutral = GetMap().getData().getTile(m_pBlockingNeutral.TopLeft()).GetNeutral();
+            m_pBlockingNeutral = GetMap().getData().getTile(m_pBlockingNeutral.TopLeft()).getNeutral();
 
             if (m_pBlockingNeutral == null) {
                 if (GetGraph().GetMap().AutomaticPathUpdate().booleanValue()) {

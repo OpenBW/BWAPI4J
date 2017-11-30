@@ -73,7 +73,7 @@ public class MapPrinterExample {
 
     private void printNeutral(Map theMap, Neutral n, Color col) {
         final WalkPosition delta = new WalkPosition(n.Pos().getX() < theMap.getData().getMapData().getCenter().getX() ? +1 : -1, n.Pos().getY() < theMap.getData().getMapData().getCenter().getY() ? +1 : -1);
-        final int stackSize = mapPrinter.showStackedNeutrals ? theMap.getData().getTile(n.TopLeft()).StackedNeutrals() : 1;
+        final int stackSize = mapPrinter.showStackedNeutrals ? theMap.getData().getTile(n.TopLeft()).getStackedNeutralCount() : 1;
 
         for (int i = 0 ; i < stackSize ; ++i) {
             WalkPosition origin = n.TopLeft().toWalkPosition().add(delta.multiply(new WalkPosition(i, i)));
@@ -136,7 +136,7 @@ public class MapPrinterExample {
         if (mapPrinter.showData)
             for (int y = 0; y < theMap.getData().getMapData().getTileSize().getY(); ++y)
             for (int x = 0; x < theMap.getData().getMapData().getTileSize().getX(); ++x) {
-                int data = theMap.getData().getTile(new TilePosition(x, y)).InternalData().intValue();
+                int data = theMap.getData().getTile(new TilePosition(x, y)).getInternalData().intValue();
                 int c = (((data / 1) * 1) % 256);
                 Color col = new Color(c, c, c);
                 WalkPosition origin = (new TilePosition(x, y)).toWalkPosition();
