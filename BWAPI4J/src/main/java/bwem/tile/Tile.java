@@ -43,6 +43,31 @@ public final class Tile extends Markable<Tile> {
 
     }
 
+    // 0: lower ground    1: high ground    2: very high ground
+    // Corresponds to BWAPI::getGroundHeight / 2
+    public static enum GroundHeight {
+
+        LOW_GROUND(0),
+        HIGH_GROUND(1),
+        VERY_HIGH_GROUND(2);
+
+        private final int val;
+
+        private GroundHeight(final int val) {
+            this.val = val;
+        }
+
+        public int intValue() {
+            return this.val;
+        }
+
+        @Override
+        public String toString() {
+            return String.valueOf(intValue());
+        }
+
+    }
+
     private Neutral m_pNeutral = null;
     private Altitude m_minAltitude = new Altitude(0);
     private AreaId m_areaId = new AreaId(0);
