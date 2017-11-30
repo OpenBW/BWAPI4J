@@ -321,6 +321,45 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv * env, jobjec
 	}
 }
 
+int addBulletDataToBuffer(Bullet &b, int index) {
+
+	intBuf[index++] = b->exists() ? 1 : 0;
+	intBuf[index++] = static_cast<int>(TO_DEGREES * b->getAngle());
+	intBuf[index++] = b->getID();
+	intBuf[index++] = b->getPlayer() == NULL ? -1 : b->getPlayer()->getID();
+	intBuf[index++] = b->getPosition().x;
+	intBuf[index++] = b->getPosition().y;
+	intBuf[index++] = b->getRemoveTimer();
+	intBuf[index++] = b->getSource() == NULL ? -1 : b->getSource()->getID();
+	intBuf[index++] = b->getTarget() == NULL ? -1 : b->getTarget()->getID();
+	intBuf[index++] = b->getTargetPosition().x;
+	intBuf[index++] = b->getTargetPosition().y;
+	intBuf[index++] = b->getType();
+	intBuf[index++] = static_cast<int>(fixedScale * b->getVelocityX());
+	intBuf[index++] = static_cast<int>(fixedScale * b->getVelocityY());
+	intBuf[index++] = b->isVisible() ? 1 : 0;
+
+	return index;
+}
+
+/**
+* Returns the list of active bullets in the game.
+*
+* Each bullet takes up a fixed number of integer values. Currently: 15.
+*/
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllBulletsData(JNIEnv * env, jobject jObject) {
+
+	int index = 0;
+	for (Bullet bullet : Broodwar->getBullets()) {
+
+		index = addBulletDataToBuffer(bullet, index);
+	}
+
+	jintArray result = env->NewIntArray(index);
+	env->SetIntArrayRegion(result, 0, index, intBuf);
+	return result;
+}
+
 int addUnitDataToBuffer(Unit &u, int index) {
 
 	intBuf[index++] = u->getID();

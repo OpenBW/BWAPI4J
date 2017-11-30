@@ -102,8 +102,10 @@ public class UnitFactory {
             unit = new SCV(unitId);
             break;
         case Terran_Siege_Tank_Tank_Mode:
+        	unit = new SiegeTank(unitId, false);
+            break;
         case Terran_Siege_Tank_Siege_Mode:
-            unit = new SiegeTank(unitId);
+            unit = new SiegeTank(unitId, true);
             break;
         case Terran_Vulture_Spider_Mine:
             unit = new SpiderMine(unitId);

@@ -36,6 +36,7 @@ public class BW {
 
     private Map<Integer, Player> players;
     private Map<Integer, Unit> units;
+    private Map<Integer, Bullet> bullets;
     private UnitFactory unitFactory;
     private int frame;
     private Charset charset;
@@ -52,6 +53,7 @@ public class BW {
     	
         this.players = new HashMap<Integer, Player>();
         this.units = new ConcurrentHashMap<Integer, Unit>();
+        this.bullets = new ConcurrentHashMap<Integer, Bullet>();
         this.listener = listener;
         this.unitFactory = new UnitFactory(this);
         this.interactionHandler = new InteractionHandler(this);
@@ -178,6 +180,8 @@ public class BW {
 
     private native int[] getAllUnitsData();
 
+    private native int[] getAllBulletsData();
+
     private native int[] getAllPlayersData();
 
     private native int[] getGameData();
@@ -221,6 +225,28 @@ public class BW {
         this.interactionHandler.update(data);
     }
 
+    private void updateAllBullets() {
+    	
+    	int[] bulletData = this.getAllBulletsData();
+    	
+    	for (int index = 0; index < bulletData.length; index += Unit.TOTAL_PROPERTIES) {
+    		
+    		int bulletId = bulletData[index + Bullet.ID_INDEX];
+    		Bullet bullet = this.bullets.get(bulletId);
+    		if (bullet == null) {
+    			bullet = new Bullet(this);
+    			this.bullets.put(bulletId, bullet);
+    			bullet.initialize(bulletData, index);
+    		}
+    		bullet.update(bulletData, index);
+    	}
+    }
+    
+    private boolean typeChanged(UnitType oldType, UnitType newType) {
+    	
+    	return !oldType.equals(newType) && !oldType.equals(UnitType.Terran_Siege_Tank_Siege_Mode) && !newType.equals(UnitType.Terran_Siege_Tank_Siege_Mode);
+    }
+    
     private void updateAllUnits(int frame) {
 
         int[] unitData = this.getAllUnitsData();
@@ -230,7 +256,7 @@ public class BW {
             int unitId = unitData[index + 0];
             int typeId = unitData[index + 3];
             Unit unit = this.units.get(unitId);
-            if (unit == null || !unit.getInitialType().equals(UnitType.values()[typeId])) {
+            if (unit == null || typeChanged(unit.getInitialType(), UnitType.values()[typeId])) {
 
             	if (unit != null) {
 
@@ -298,6 +324,16 @@ public class BW {
         return this.units.get(id);
     }
 
+    public Collection<Bullet> getBullets() {
+    
+    	return this.bullets.values();
+    }
+    
+    public Bullet getBullet(int id) {
+    	
+    	return this.bullets.get(id);
+    }
+    
     /**
      * Gets all units for given player.
      * @param player player whose units to return
@@ -370,6 +406,8 @@ public class BW {
         logger.trace("updated players.");
         updateAllUnits(this.frame);
         logger.trace("updated all units.");
+        updateAllBullets();
+        logger.trace("updated all bullets.");
     }
 
     private void onStart() {
@@ -379,6 +417,7 @@ public class BW {
         this.frame = 0;
         this.players.clear();
         this.units.clear();
+        this.bullets.clear();
 
         logger.trace(" --- calling initial preFrame...");
         preFrame();
