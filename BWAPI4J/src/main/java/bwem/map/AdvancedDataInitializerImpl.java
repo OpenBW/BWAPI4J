@@ -57,7 +57,7 @@ public class AdvancedDataInitializerImpl extends AdvancedDataImpl implements Adv
 
             // Add groundHeight and doodad information:
             final int bwapiGroundHeight = bwMap.getGroundHeight(t);
-            getTile_(t).SetGroundHeight(bwapiGroundHeight / 2);
+            getTile_(t).setGroundHeight(bwapiGroundHeight / 2);
             if (bwapiGroundHeight % 2 != 0) {
                 getTile_(t).SetDoodad();
             }
