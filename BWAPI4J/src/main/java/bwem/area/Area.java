@@ -90,11 +90,11 @@ public final class Area {
 
         MiniTile topMiniTile = GetMap().getData().getMiniTile(top);
 //        bwem_assert(topMiniTile.AreaId() == areaId);
-        if (!(topMiniTile.AreaId().equals(areaId))) {
-            throw new IllegalStateException("assert failed: topMiniTile.AreaId().equals(areaId): expected: " + topMiniTile.AreaId().intValue() + ", actual: " + areaId.intValue());
+        if (!(topMiniTile.getAreaId().equals(areaId))) {
+            throw new IllegalStateException("assert failed: topMiniTile.AreaId().equals(areaId): expected: " + topMiniTile.getAreaId().intValue() + ", actual: " + areaId.intValue());
         }
 
-        m_maxAltitude = new Altitude(topMiniTile.Altitude());
+        m_maxAltitude = new Altitude(topMiniTile.getAltitude());
     }
 
     public static StaticMarkable getStaticMarkable() {

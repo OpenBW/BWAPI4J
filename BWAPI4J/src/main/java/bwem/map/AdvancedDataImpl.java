@@ -77,7 +77,7 @@ public class AdvancedDataImpl implements AdvancedData {
 
     @Override
     public boolean isSeaWithNonSeaNeighbors(final WalkPosition walkPosition) {
-        if (!getMiniTile(walkPosition).Sea()) {
+        if (!getMiniTile(walkPosition).isSea()) {
             return false;
         }
 
@@ -85,7 +85,7 @@ public class AdvancedDataImpl implements AdvancedData {
         for (final WalkPosition delta : deltas) {
             final WalkPosition walkPositionDelta = walkPosition.add(delta);
             if (getMapData().isValid(walkPositionDelta)) {
-                if (!getMiniTile(walkPositionDelta, check_t.no_check).Sea()) {
+                if (!getMiniTile(walkPositionDelta, check_t.no_check).isSea()) {
                     return true;
                 }
             }

@@ -33,7 +33,7 @@ public class AdvancedDataInitializerImpl extends AdvancedDataImpl implements Adv
                 for (int dx = -1; dx <= +1; ++dx) {
                     final WalkPosition w = new WalkPosition(x + dx, y + dy);
                     if (getMapData().isValid(w)) {
-                        getMiniTile_(w, check_t.no_check).SetWalkable(false);
+                        getMiniTile_(w, check_t.no_check).setWalkable(false);
                     }
                 }
             }
@@ -53,7 +53,7 @@ public class AdvancedDataInitializerImpl extends AdvancedDataImpl implements Adv
                 // Ensures buildable ==> walkable:
                 for (int dy = 0; dy < 4; ++dy)
                 for (int dx = 0; dx < 4; ++dx) {
-                    getMiniTile_(tilePosition.toWalkPosition().add(new WalkPosition(dx, dy)), check_t.no_check).SetWalkable(true);
+                    getMiniTile_(tilePosition.toWalkPosition().add(new WalkPosition(dx, dy)), check_t.no_check).setWalkable(true);
                 }
             }
 
@@ -80,11 +80,11 @@ public class AdvancedDataInitializerImpl extends AdvancedDataImpl implements Adv
         for (int x = 0; x < getMapData().getWalkSize().getX(); ++x) {
             final WalkPosition origin = new WalkPosition(x, y);
             final MiniTile Origin = getMiniTile_(origin, check_t.no_check);
-            if (Origin.SeaOrLake()) {
+            if (Origin.isSeaOrLake()) {
                 final List<WalkPosition> ToSearch = new ArrayList<>();
                 ToSearch.add(origin);
                 final List<MiniTile> SeaExtent = new ArrayList<>();
-                Origin.SetSea();
+                Origin.setSea();
                 SeaExtent.add(Origin);
                 WalkPosition topLeft = origin;
                 WalkPosition bottomRight = origin;
@@ -101,10 +101,10 @@ public class AdvancedDataInitializerImpl extends AdvancedDataImpl implements Adv
                         final WalkPosition next = current.add(delta);
                         if (getMapData().isValid(next)) {
                             final MiniTile Next = getMiniTile_(next, check_t.no_check);
-                            if (Next.SeaOrLake()) {
+                            if (Next.isSeaOrLake()) {
                                 ToSearch.add(next);
                                 if (SeaExtent.size() <= lake_max_miniTiles) SeaExtent.add(Next);
-                                Next.SetSea();
+                                Next.setSea();
                             }
                         }
                     }
@@ -115,7 +115,7 @@ public class AdvancedDataInitializerImpl extends AdvancedDataImpl implements Adv
                         (bottomRight.getY() - topLeft.getY() <= lake_max_width_in_miniTiles) &&
                         (topLeft.getX() >= 2) && (topLeft.getY() >= 2) && (bottomRight.getX() < getMapData().getWalkSize().getX() - 2) && (bottomRight.getY() < getMapData().getWalkSize().getY() - 2)) {
                     for (final MiniTile pSea : SeaExtent) {
-                        pSea.SetLake();
+                        pSea.setLake();
                     }
                 }
             }

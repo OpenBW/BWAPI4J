@@ -101,10 +101,10 @@ public abstract class BWEM_DummyData {
                 final int altitude = array.get(i + 3);
                 final MiniTile miniTile = new MiniTile();
                 if (areaId != -1) {
-                    miniTile.SetAreaId(new AreaId(areaId));
+                    miniTile.setAreaId(new AreaId(areaId));
                 }
                 if (altitude != -1) {
-                    miniTile.SetAltitude(new Altitude(altitude));
+                    miniTile.setAltitude(new Altitude(altitude));
                 }
 
                 this.miniTilesByDescendingAltitude.add(new MutablePair<>(w, miniTile));

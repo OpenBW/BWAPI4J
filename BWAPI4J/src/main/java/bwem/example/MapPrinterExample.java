@@ -104,23 +104,23 @@ public class MapPrinterExample {
             MiniTile miniTile = theMap.getData().getMiniTile(p, check_t.no_check);
 
             Color col;
-            if (miniTile.Sea()) {
+            if (miniTile.isSea()) {
                 if (mapPrinter.showSeaSide && theMap.getData().isSeaWithNonSeaNeighbors(p)) col = MapPrinter.CustomColor.SEA_SIDE.color();
                 else col = MapPrinter.CustomColor.SEA.color();
             } else {
-                if (mapPrinter.showLakes && miniTile.Lake()) {
+                if (mapPrinter.showLakes && miniTile.isLake()) {
                     col = MapPrinter.CustomColor.LAKE.color();
                 } else {
                     if (mapPrinter.showAltitude) {
-                        int c = 255 - ((miniTile.Altitude().intValue() * 255) / theMap.MaxAltitude().intValue());
+                        int c = 255 - ((miniTile.getAltitude().intValue() * 255) / theMap.MaxAltitude().intValue());
                         col = new Color(c, c, c);
                     } else {
                         col = MapPrinter.CustomColor.TERRAIN.color();
                     }
 
                     if (mapPrinter.showAreas || mapPrinter.showContinents)
-                        if (miniTile.AreaId().intValue() > 0) {
-                            Area area = theMap.GetArea(miniTile.AreaId());
+                        if (miniTile.getAreaId().intValue() > 0) {
+                            Area area = theMap.GetArea(miniTile.getAreaId());
                             Color zoneColor = getZoneColor(area, map_Zone_Color);
                             int red = zoneColor.getRed() * col.getRed() / 255;
                             int green = zoneColor.getGreen() * col.getGreen() / 255;
@@ -160,7 +160,7 @@ public class MapPrinterExample {
                     for (int dy = 0; dy < 4; ++dy)
                     for (int dx = 0; dx < 4; ++dx) {
                         WalkPosition p = (new TilePosition(x, y).toWalkPosition()).add(new WalkPosition(dx, dy));
-                        if (theMap.getData().getMiniTile(p, check_t.no_check).Walkable()) // groundHeight is usefull only for walkable miniTiles
+                        if (theMap.getData().getMiniTile(p, check_t.no_check).isWalkable()) // groundHeight is usefull only for walkable miniTiles
                             if (((dx + dy) & (groundHeight == Tile.GroundHeight.HIGH_GROUND ? 1 : 3)) != 0)
                                 mapPrinter.Point(p, MapPrinter.CustomColor.HIGHER_GROUND.color());
                     }

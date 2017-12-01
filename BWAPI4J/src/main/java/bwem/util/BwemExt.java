@@ -248,7 +248,7 @@ public final class BwemExt {
                 if (pMap.getData().getTile(next.toTilePosition(), check_t.no_check).getNeutral() != null) {
                     return true;
                 }
-                if (pMap.getData().getMiniTile(next, check_t.no_check).Lake()) {
+                if (pMap.getData().getMiniTile(next, check_t.no_check).isLake()) {
                     return true;
                 }
             }
