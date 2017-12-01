@@ -3,6 +3,24 @@ package bwem.tile;
 import bwem.typedef.Altitude;
 import bwem.area.typedef.AreaId;
 
+//////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                          //
+//                                  class MiniTile
+//                                                                                          //
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Corresponds to BWAPI/Starcraft's concept of minitile (8x8 pixels).
+// MiniTiles are accessed using WalkPositions (Cf. Map::GetMiniTile).
+// A Map holds Map::WalkSize().x * Map::WalkSize().y MiniTiles as its "MiniTile map".
+// A MiniTile contains essentialy 3 informations:
+//	- its Walkability
+//	- its altitude (distance from the nearest non walkable MiniTile, except those which are part of small enough zones (lakes))
+//	- the id of the Area it is part of, if ever.
+// The whole process of analysis of a Map relies on the walkability information
+// from which are derived successively : altitudes, Areas, ChokePoints.
+//
+//////////////////////////////////////////////////////////////////////////////////////////////
+
 public interface MiniTile {
 
 	// Corresponds approximatively to BWAPI::isWalkable
