@@ -16,7 +16,7 @@ public class TileDataImpl implements TileData {
 
         this.miniTiles = new ArrayList<>(miniTileCount);
         for (int i = 0; i < miniTileCount; ++i) {
-            this.miniTiles.add(new MiniTile());
+            this.miniTiles.add(new MiniTileImpl());
         }
     }
 

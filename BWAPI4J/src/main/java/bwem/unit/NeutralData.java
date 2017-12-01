@@ -26,5 +26,4 @@ public interface NeutralData {
     // Returns a reference to the StaticBuildings (Cf. StaticBuilding).
     public abstract List<StaticBuilding> getStaticBuildings();
 
-
 }

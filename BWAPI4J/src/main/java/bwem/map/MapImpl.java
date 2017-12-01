@@ -8,6 +8,7 @@ import bwem.area.Area;
 import bwem.area.typedef.AreaId;
 import bwem.check_t;
 import bwem.tile.MiniTile;
+import bwem.tile.MiniTileImpl;
 import bwem.tile.Tile;
 import bwem.tile.TileImpl;
 import bwem.typedef.Altitude;
@@ -247,7 +248,7 @@ public class MapImpl implements Map {
         for (int dx = 0; dx < pBlockingW.getX(); ++dx) {
             MiniTile miniTile = getData().getMiniTile_(pBlocking.TopLeft().toWalkPosition().add(new WalkPosition(dx, dy)));
             if (miniTile.isWalkable()) {
-                miniTile.replaceBlockedAreaId(newId);
+                ((MiniTileImpl) miniTile).replaceBlockedAreaId(newId);
             }
         }
 

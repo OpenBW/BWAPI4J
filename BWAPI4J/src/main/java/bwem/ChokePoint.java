@@ -1,6 +1,7 @@
 package bwem;
 
 import bwem.map.Map;
+import bwem.tile.MiniTileImpl;
 import bwem.typedef.CPPath;
 import bwem.typedef.Pred;
 import bwem.typedef.Index;
@@ -160,7 +161,7 @@ public final class ChokePoint {
                                 WalkPosition w = (WalkPosition) tpos;
                                 TilePosition t = (w.toPosition()).toTilePosition();
                                 Map map = (Map) tmap;
-                                return (miniTile.getAreaId().equals(pArea.Id()) || (Blocked() && (miniTile.isBlocked() || map.getData().getTile(t, check_t.no_check).getNeutral() != null)));
+                                return (miniTile.getAreaId().equals(pArea.Id()) || (Blocked() && (((MiniTileImpl) miniTile).isBlocked() || map.getData().getTile(t, check_t.no_check).getNeutral() != null)));
                             } else {
                                 throw new IllegalArgumentException("Invalid argument list.");
                             }

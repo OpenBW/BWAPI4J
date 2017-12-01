@@ -3,6 +3,7 @@ package mockdata;
 import bwem.area.TempAreaInfo;
 import bwem.area.typedef.AreaId;
 import bwem.tile.MiniTile;
+import bwem.tile.MiniTileImpl;
 import bwem.typedef.Altitude;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.MutablePair;
@@ -99,12 +100,12 @@ public abstract class BWEM_DummyData {
 
                 final int areaId = array.get(i + 2);
                 final int altitude = array.get(i + 3);
-                final MiniTile miniTile = new MiniTile();
+                final MiniTile miniTile = new MiniTileImpl();
                 if (areaId != -1) {
-                    miniTile.setAreaId(new AreaId(areaId));
+                    ((MiniTileImpl) miniTile).setAreaId(new AreaId(areaId));
                 }
                 if (altitude != -1) {
-                    miniTile.setAltitude(new Altitude(altitude));
+                    ((MiniTileImpl) miniTile).setAltitude(new Altitude(altitude));
                 }
 
                 this.miniTilesByDescendingAltitude.add(new MutablePair<>(w, miniTile));
