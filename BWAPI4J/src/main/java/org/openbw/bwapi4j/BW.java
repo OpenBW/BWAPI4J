@@ -229,7 +229,7 @@ public class BW {
     	
     	int[] bulletData = this.getAllBulletsData();
     	
-    	for (int index = 0; index < bulletData.length; index += Unit.TOTAL_PROPERTIES) {
+    	for (int index = 0; index < bulletData.length; index += Bullet.TOTAL_PROPERTIES) {
     		
     		int bulletId = bulletData[index + Bullet.ID_INDEX];
     		Bullet bullet = this.bullets.get(bulletId);

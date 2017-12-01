@@ -8,4 +8,9 @@ public abstract class Addon extends Building {
         
         super(id, unitType, timeSpotted);
     }
+    
+    public Building getMainBuilding() {
+        
+        return (Building) this.getUnit(builderId);
+    }
 }

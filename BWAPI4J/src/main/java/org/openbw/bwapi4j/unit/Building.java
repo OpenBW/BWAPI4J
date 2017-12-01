@@ -171,7 +171,7 @@ public abstract class Building extends PlayerUnit {
 
     protected int probableConstructionStart;
     protected int remainingBuildTime;
-    private int builderId;
+    protected int builderId;
 
     protected Building(int id, UnitType type, int timeSpotted) {
         
@@ -209,7 +209,7 @@ public abstract class Building extends PlayerUnit {
         if (this.isCompleted()) {
             time = currentFrame - this.type.buildTime();
         } else {
-            time = currentFrame - (this.getHitPoints() / this.type.maxHitPoints()) * this.type.buildTime();
+            time = currentFrame - this.getHitPoints() * this.type.buildTime() / this.type.maxHitPoints();
         }
         return time;
     }

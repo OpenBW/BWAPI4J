@@ -69,14 +69,12 @@ public class CommandCenter extends Building implements Mechanical, FlyingBuildin
     
     public boolean buildComsatStation() {
         
-        return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), UnitType.Terran_Comsat_Station.getId(), -1,
-                -1, -1);
+        return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), -1, -1, -1, UnitType.Terran_Comsat_Station.getId());
     }
 
     public boolean buildNuclearSilo() {
         
-        return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), UnitType.Terran_Nuclear_Silo.getId(), -1,
-                -1, -1);
+        return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), -1, -1, -1, UnitType.Terran_Nuclear_Silo.getId());
     }
 
     public boolean trainWorker() {

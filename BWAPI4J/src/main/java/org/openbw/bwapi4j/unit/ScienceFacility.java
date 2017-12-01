@@ -70,8 +70,7 @@ public class ScienceFacility extends Building implements Mechanical, Researching
      */
     public boolean buildPhysicslab() {
         
-        return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), UnitType.Terran_Physics_Lab.getId(), -1,
-                -1, -1);
+        return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), -1, -1, -1, UnitType.Terran_Physics_Lab.getId());
     }
 
     /**
@@ -80,8 +79,7 @@ public class ScienceFacility extends Building implements Mechanical, Researching
      */
     public boolean buildCovertOps() {
         
-        return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), UnitType.Terran_Covert_Ops.getId(), -1,
-                -1, -1);
+        return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), -1, -1, -1, UnitType.Terran_Covert_Ops.getId());
     }
 
     public boolean researchEmpShockwave() {
