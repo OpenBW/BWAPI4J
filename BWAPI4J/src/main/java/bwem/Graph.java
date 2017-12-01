@@ -1,6 +1,7 @@
 package bwem;
 
 import bwem.map.MapImpl;
+import bwem.tile.TileImpl;
 import bwem.typedef.CPPath;
 import bwem.typedef.Pred;
 import bwem.typedef.Altitude;
@@ -699,7 +700,7 @@ public final class Graph {
             Distances.add(0);
         }
 
-        Tile.getStaticMarkable().unmarkAll();
+        TileImpl.getStaticMarkable().unmarkAll();
 
         final MultiValuedMap<Integer, ChokePoint> ToVisit = new ArrayListValuedHashMap<>(); // a priority queue holding the GetChokePoints to visit ordered by their distance to start.
                                                                                             //Using ArrayListValuedHashMap to substitute std::multimap since it sorts keys but not values.

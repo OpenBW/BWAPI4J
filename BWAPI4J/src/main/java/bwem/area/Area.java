@@ -3,6 +3,7 @@ package bwem.area;
 import bwem.StaticMarkable;
 import bwem.area.typedef.AreaId;
 import bwem.area.typedef.GroupId;
+import bwem.tile.TileImpl;
 import bwem.typedef.Altitude;
 import bwem.Base;
 import bwem.check_t;
@@ -572,7 +573,7 @@ public final class Area {
             Distances.add(0);
         }
 
-        Tile.getStaticMarkable().unmarkAll();
+        TileImpl.getStaticMarkable().unmarkAll();
 
         final MultiValuedMap<Integer, TilePosition> ToVisit = new ArrayListValuedHashMap<>(); // a priority queue holding the tiles to visit ordered by their distance to start.
                                                                                               //Using ArrayListValuedHashMap to substitute std::multimap since it sorts keys but not values.
