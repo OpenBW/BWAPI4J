@@ -1,6 +1,7 @@
 package bwem.tile;
 
 import bwem.Markable;
+import bwem.StaticMarkable;
 import bwem.area.typedef.AreaId;
 import bwem.typedef.Altitude;
 import bwem.unit.Neutral;
@@ -27,7 +28,7 @@ import org.apache.commons.lang3.mutable.MutableInt;
 //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-public final class Tile extends Markable<Tile> {
+public final class Tile {
 
     // 0: lower ground    1: high ground    2: very high ground
     // Corresponds to BWAPI::getGroundHeight / 2
@@ -63,6 +64,9 @@ public final class Tile extends Markable<Tile> {
 
     }
 
+    private final static StaticMarkable staticMarkable = new StaticMarkable();
+    private final Markable markable;
+
     private Neutral neutral;
     private Altitude minAltitude;
     private AreaId areaId;
@@ -72,6 +76,7 @@ public final class Tile extends Markable<Tile> {
     private boolean isDoodad;
 
     public Tile() {
+        this.markable = new Markable(Tile.staticMarkable);
         this.neutral = null;
         this.minAltitude = new Altitude(0);
         this.areaId = new AreaId(0);
@@ -81,7 +86,15 @@ public final class Tile extends Markable<Tile> {
         this.isDoodad = false;
     }
 
-	// Corresponds to BWAPI::isBuildable
+    public static StaticMarkable getStaticMarkable() {
+        return Tile.staticMarkable;
+    }
+
+    public Markable getMarkable() {
+        return this.markable;
+    }
+
+    // Corresponds to BWAPI::isBuildable
 	// Note: BWEM enforces the relation buildable ==> walkable (Cf. MiniTile::Walkable)
     public boolean isBuildable() {
         return this.isBuildable;
