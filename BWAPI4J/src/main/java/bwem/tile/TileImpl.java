@@ -89,12 +89,10 @@ public class TileImpl implements Tile {
         return stackSize;
     }
 
-    @Override
     public void setBuildable() {
         this.isBuildable = true;
     }
 
-    @Override
     public void setGroundHeight(final int groundHeight) {
 //        { bwem_assert((0 <= h) && (h <= 2)); m_bits.groundHeight = h; }
 //        if (!((0 <= h) && (h <= 2))) {
@@ -103,12 +101,10 @@ public class TileImpl implements Tile {
         this.groundHeight = GroundHeight.parseGroundHeight(groundHeight);
     }
 
-    @Override
     public void setDoodad() {
         this.isDoodad = true;
     }
 
-    @Override
     public void addNeutral(final Neutral neutral) {
 //        { bwem_assert(!m_pNeutral && pNeutral); neutral = pNeutral; }
         if (!(getNeutral() == null && neutral != null)) {
@@ -117,7 +113,6 @@ public class TileImpl implements Tile {
         this.neutral = neutral;
     }
 
-    @Override
     public void setAreaId(final AreaId areaId) {
 //        { bwem_assert((id == -1) || !m_areaId && id); areaId = id; }
         if (!(areaId.intValue() == -1 || getAreaId().intValue() == 0 && areaId.intValue() != 0)) {
@@ -126,12 +121,10 @@ public class TileImpl implements Tile {
         this.areaId = areaId;
     }
 
-    @Override
     public void resetAreaId() {
         this.areaId = new AreaId(0);
     }
 
-    @Override
     public void setMinAltitude(final Altitude minAltitude) {
 //        { bwem_assert(a >= 0); this.m_minAltitude = a; }
         if (!(minAltitude.intValue() >= 0)) {
@@ -140,7 +133,6 @@ public class TileImpl implements Tile {
         this.minAltitude = minAltitude;
     }
 
-    @Override
     public void RemoveNeutral(final Neutral neutral) {
 //        { bwem_assert(pNeutral && (m_pNeutral == pNeutral));
 //          utils::unused(pNeutral); m_pNeutral = nullptr; }
@@ -150,7 +142,6 @@ public class TileImpl implements Tile {
         this.neutral = null;
     }
 
-    @Override
     public MutableInt getInternalData() {
         return this.internalData;
     }

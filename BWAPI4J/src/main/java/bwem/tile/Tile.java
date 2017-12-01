@@ -109,22 +109,4 @@ public interface Tile {
     // Returns the number of Neutrals that occupy this Tile (Cf. GetNeutral).
     public abstract int getStackedNeutralCount();
 
-    public abstract void setBuildable();
-
-    public abstract void setGroundHeight(int groundHeight);
-
-    public abstract void setDoodad();
-
-    public abstract void addNeutral(final Neutral neutral);
-
-    public abstract void setAreaId(final AreaId areaId);
-
-    public abstract void resetAreaId();
-
-    public abstract void setMinAltitude(final Altitude minAltitude);
-
-    public abstract void RemoveNeutral(final Neutral neutral);
-
-    public abstract MutableInt getInternalData();
-
 }

@@ -9,6 +9,7 @@ import bwem.area.typedef.AreaId;
 import bwem.check_t;
 import bwem.tile.MiniTile;
 import bwem.tile.Tile;
+import bwem.tile.TileImpl;
 import bwem.typedef.Altitude;
 import bwem.typedef.CPPath;
 import bwem.typedef.Pred;
@@ -253,7 +254,7 @@ public class MapImpl implements Map {
         // Unblock the Tiles of pBlocking:
         for (int dy = 0; dy < pBlocking.Size().getY(); ++dy)
         for (int dx = 0; dx < pBlocking.Size().getX(); ++dx) {
-            getData().getTile_(pBlocking.TopLeft().add(new TilePosition(dx, dy))).resetAreaId();
+            ((TileImpl) getData().getTile_(pBlocking.TopLeft().add(new TilePosition(dx, dy)))).resetAreaId();
             SetAreaIdInTile(pBlocking.TopLeft().add(new TilePosition(dx, dy)));
         }
 
@@ -491,9 +492,9 @@ public class MapImpl implements Map {
                 final AreaId id = getData().getMiniTile(t.toWalkPosition().add(new WalkPosition(dx, dy)), check_t.no_check).AreaId();
                 if (id.intValue() != 0) {
                     if (tile.getAreaId().intValue() == 0) {
-                        tile.setAreaId(id);
+                        ((TileImpl) tile).setAreaId(id);
                     } else if (!tile.getAreaId().equals(id)) {
-                        tile.setAreaId(new AreaId(-1));
+                        ((TileImpl) tile).setAreaId(new AreaId(-1));
                         return;
                     }
                 }

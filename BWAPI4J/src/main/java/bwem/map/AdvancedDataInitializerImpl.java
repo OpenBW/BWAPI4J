@@ -3,6 +3,7 @@ package bwem.map;
 import bwem.check_t;
 import bwem.tile.MiniTile;
 import bwem.tile.TileData;
+import bwem.tile.TileImpl;
 import org.openbw.bwapi4j.BWMap;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
@@ -44,22 +45,23 @@ public class AdvancedDataInitializerImpl extends AdvancedDataImpl implements Adv
         // Mark buildable tiles (tiles are unbuildable by default)
         for (int y = 0; y < getMapData().getTileSize().getY(); ++y)
         for (int x = 0; x < getMapData().getTileSize().getX(); ++x) {
-            final TilePosition t = new TilePosition(x, y);
-            if (bwMap.isBuildable(t, false)) {
-                getTile_(t).setBuildable();
+            final TilePosition tilePosition = new TilePosition(x, y);
+            final TileImpl tile = (TileImpl) getTile_(tilePosition);
+            if (bwMap.isBuildable(tilePosition, false)) {
+                tile.setBuildable();
 
                 // Ensures buildable ==> walkable:
                 for (int dy = 0; dy < 4; ++dy)
                 for (int dx = 0; dx < 4; ++dx) {
-                    getMiniTile_(t.toWalkPosition().add(new WalkPosition(dx, dy)), check_t.no_check).SetWalkable(true);
+                    getMiniTile_(tilePosition.toWalkPosition().add(new WalkPosition(dx, dy)), check_t.no_check).SetWalkable(true);
                 }
             }
 
             // Add groundHeight and doodad information:
-            final int bwapiGroundHeight = bwMap.getGroundHeight(t);
-            getTile_(t).setGroundHeight(bwapiGroundHeight / 2);
+            final int bwapiGroundHeight = bwMap.getGroundHeight(tilePosition);
+            tile.setGroundHeight(bwapiGroundHeight / 2);
             if (bwapiGroundHeight % 2 != 0) {
-                getTile_(t).setDoodad();
+                tile.setDoodad();
             }
         }
     }

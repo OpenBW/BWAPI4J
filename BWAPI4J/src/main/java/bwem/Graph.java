@@ -712,11 +712,11 @@ public final class Graph {
             final ChokePoint current = ToVisit.get(currentDist).iterator().next();
             final Tile currentTile = GetMap().getData().getTile(current.Center().toTilePosition(), check_t.no_check);
 //            bwem_assert(currentTile.InternalData() == currentDist);
-            if (!(currentTile.getInternalData().intValue() == currentDist)) {
+            if (!(((TileImpl) currentTile).getInternalData().intValue() == currentDist)) {
                 throw new IllegalStateException();
             }
             ToVisit.removeMapping(currentDist, current);
-            currentTile.getInternalData().setValue(0); // resets Tile::m_internalData for future usage
+            ((TileImpl) currentTile).getInternalData().setValue(0); // resets Tile::m_internalData for future usage
             currentTile.getMarkable().setMarked();
 
             for (int i = 0; i < Targets.size(); ++i) {
@@ -740,20 +740,20 @@ public final class Graph {
                         final int newNextDist = currentDist + Distance(current, next);
                         final Tile nextTile = GetMap().getData().getTile(next.Center().toTilePosition(), check_t.no_check);
                         if (!nextTile.getMarkable().isMarked()) {
-                            if (nextTile.getInternalData().intValue() != 0) { // next already in ToVisit
-                                if (newNextDist < nextTile.getInternalData().intValue()) { // nextNewDist < nextOldDist
+                            if (((TileImpl) nextTile).getInternalData().intValue() != 0) { // next already in ToVisit
+                                if (newNextDist < ((TileImpl) nextTile).getInternalData().intValue()) { // nextNewDist < nextOldDist
                                                                                            // To update next's distance, we need to remove-insert it from ToVisit:
 //                                    bwem_assert(iNext != range.second);
-                                    final boolean removed = ToVisit.removeMapping(nextTile.getInternalData().intValue(), next);
+                                    final boolean removed = ToVisit.removeMapping(((TileImpl) nextTile).getInternalData().intValue(), next);
                                     if (!removed) {
                                         throw new IllegalStateException();
                                     }
-                                    nextTile.getInternalData().setValue(newNextDist);
+                                    ((TileImpl) nextTile).getInternalData().setValue(newNextDist);
                                     next.SetPathBackTrace(current);
                                     ToVisit.put(newNextDist, next);
                                 }
                             } else {
-                                nextTile.getInternalData().setValue(newNextDist);
+                                ((TileImpl) nextTile).getInternalData().setValue(newNextDist);
                                 next.SetPathBackTrace(current);
                                 ToVisit.put(newNextDist, next);
                             }
@@ -772,7 +772,7 @@ public final class Graph {
         for (final Integer key : ToVisit.keySet()) {
             final Collection<ChokePoint> coll = ToVisit.get(key);
             for (final ChokePoint cp : coll) {
-                GetMap().getData().getTile(cp.Center().toTilePosition(), check_t.no_check).getInternalData().setValue(0);
+                ((TileImpl) GetMap().getData().getTile(cp.Center().toTilePosition(), check_t.no_check)).getInternalData().setValue(0);
             }
         }
 
