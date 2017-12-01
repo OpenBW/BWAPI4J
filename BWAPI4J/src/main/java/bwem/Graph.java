@@ -699,7 +699,7 @@ public final class Graph {
             Distances.add(0);
         }
 
-        Tile.UnmarkAll();
+        Tile.getStaticMarkable().unmarkAll();
 
         final MultiValuedMap<Integer, ChokePoint> ToVisit = new ArrayListValuedHashMap<>(); // a priority queue holding the GetChokePoints to visit ordered by their distance to start.
                                                                                             //Using ArrayListValuedHashMap to substitute std::multimap since it sorts keys but not values.
@@ -716,7 +716,7 @@ public final class Graph {
             }
             ToVisit.removeMapping(currentDist, current);
             currentTile.getInternalData().setValue(0); // resets Tile::m_internalData for future usage
-            currentTile.SetMarked();
+            currentTile.getMarkable().setMarked();
 
             for (int i = 0; i < Targets.size(); ++i) {
                 if (current.equals(Targets.get(i))) {
@@ -738,7 +738,7 @@ public final class Graph {
                     if (!next.equals(current)) {
                         final int newNextDist = currentDist + Distance(current, next);
                         final Tile nextTile = GetMap().getData().getTile(next.Center().toTilePosition(), check_t.no_check);
-                        if (!nextTile.Marked()) {
+                        if (!nextTile.getMarkable().isMarked()) {
                             if (nextTile.getInternalData().intValue() != 0) { // next already in ToVisit
                                 if (newNextDist < nextTile.getInternalData().intValue()) { // nextNewDist < nextOldDist
                                                                                            // To update next's distance, we need to remove-insert it from ToVisit:
@@ -781,9 +781,9 @@ public final class Graph {
     private void UpdateGroupIds() {
     	int nextGroupId = 1;
 
-    	Area.UnmarkAll();
+    	Area.getStaticMarkable().unmarkAll();
     	for (final Area start : Areas()) {
-    		if (!start.Marked()) {
+    		if (!start.getMarkable().isMarked()) {
     			final List<Area> ToVisit = new ArrayList<>();
                 ToVisit.add(start);
     			while (!ToVisit.isEmpty()) {
@@ -791,8 +791,8 @@ public final class Graph {
     				current.SetGroupId(new GroupId(nextGroupId));
 
     				for (final Area next : current.AccessibleNeighbors()) {
-    					if (!next.Marked()) {
-    						next.SetMarked();
+    					if (!next.getMarkable().isMarked()) {
+    						next.getMarkable().setMarked();
     						ToVisit.add(next);
     					}
                     }

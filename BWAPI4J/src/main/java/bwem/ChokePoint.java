@@ -42,7 +42,7 @@ import org.openbw.bwapi4j.WalkPosition;
 //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-public final class ChokePoint extends Markable<ChokePoint> {
+public final class ChokePoint {
 
 	// ChokePoint::middle denotes the "middle" MiniTile of Geometry(), while
 	// ChokePoint::end1 and ChokePoint::end2 denote its "ends".

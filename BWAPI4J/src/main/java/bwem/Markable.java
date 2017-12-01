@@ -1,28 +1,29 @@
 package bwem;
 
-public class Markable<Derived> {
+public final class Markable {
 
-    private int m_lastMark;
-    private static int m_currentMark = 0;
+    private final StaticMarkable staticMarkable;
+    private int lastMark;
 
-    public Markable() {
-        m_lastMark = 0;
+    public Markable(StaticMarkable staticMarkable) {
+        this.staticMarkable = staticMarkable;
+        this.lastMark = 0;
     }
 
-    public boolean Marked() {
-        return (m_lastMark == m_currentMark);
+    private StaticMarkable getStaticMarkable() {
+        return this.staticMarkable;
     }
 
-    public void SetMarked() {
-        m_lastMark = m_currentMark;
+    public boolean isMarked() {
+        return (this.lastMark == getStaticMarkable().getCurrentMark());
     }
 
-    public void SetUnmarked() {
-        m_lastMark = m_currentMark - 1;
+    public void setMarked() {
+        this.lastMark = getStaticMarkable().getCurrentMark();
     }
 
-    public static void UnmarkAll() {
-        ++m_currentMark;
+    public void setUnmarked() {
+        this.lastMark = getStaticMarkable().getCurrentMark() - 1;
     }
 
 }

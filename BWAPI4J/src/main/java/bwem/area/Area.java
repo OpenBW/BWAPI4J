@@ -1,5 +1,6 @@
 package bwem.area;
 
+import bwem.StaticMarkable;
 import bwem.area.typedef.AreaId;
 import bwem.area.typedef.GroupId;
 import bwem.typedef.Altitude;
@@ -24,7 +25,6 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
-import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
@@ -50,7 +50,10 @@ import org.openbw.bwapi4j.type.UnitType;
 //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-public final class Area extends Markable<Area> {
+public final class Area {
+
+    private static final StaticMarkable staticMarkable = new StaticMarkable();
+    private final Markable markable;
 
     private final Graph m_pGraph;
     private final AreaId m_id;
@@ -72,6 +75,8 @@ public final class Area extends Markable<Area> {
 	private List<Base> m_Bases = new ArrayList<>();
 
     public Area(Graph pGraph, AreaId areaId, WalkPosition top, int miniTiles) {
+        this.markable = new Markable(Area.staticMarkable);
+
         m_pGraph = pGraph;
         m_id = areaId;
         m_top = top;
@@ -89,6 +94,14 @@ public final class Area extends Markable<Area> {
         }
 
         m_maxAltitude = new Altitude(topMiniTile.Altitude());
+    }
+
+    public static StaticMarkable getStaticMarkable() {
+        return Area.staticMarkable;
+    }
+
+    public Markable getMarkable() {
+        return this.markable;
     }
 
     /**
@@ -559,7 +572,7 @@ public final class Area extends Markable<Area> {
             Distances.add(0);
         }
 
-        Tile.UnmarkAll();
+        Tile.getStaticMarkable().unmarkAll();
 
         final MultiValuedMap<Integer, TilePosition> ToVisit = new ArrayListValuedHashMap<>(); // a priority queue holding the tiles to visit ordered by their distance to start.
                                                                                               //Using ArrayListValuedHashMap to substitute std::multimap since it sorts keys but not values.
@@ -576,7 +589,7 @@ public final class Area extends Markable<Area> {
             }
             ToVisit.removeMapping(currentDist, current);
             currentTile.getInternalData().setValue(0); // resets Tile::m_internalData for future usage
-            currentTile.SetMarked();
+            currentTile.getMarkable().setMarked();
 
             for (int i = 0; i < Targets.size(); ++i) {
                 if (current.equals(Targets.get(i))) {
@@ -600,7 +613,7 @@ public final class Area extends Markable<Area> {
                 final TilePosition next = current.add(delta);
                 if (GetMap().getData().getMapData().isValid(next)) {
                     final Tile nextTile = GetMap().getData().getTile(next, check_t.no_check);
-                    if (!nextTile.Marked()) {
+                    if (!nextTile.getMarkable().isMarked()) {
                         if (nextTile.getInternalData().intValue() != 0) { // next already in ToVisit
                             if (newNextDist < nextTile.getInternalData().intValue()) { // nextNewDist < nextOldDist
                                 // To update next's distance, we need to remove-insert it from ToVisit:
