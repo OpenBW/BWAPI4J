@@ -246,8 +246,8 @@ public class MapImpl implements Map {
         for (int dy = 0; dy < pBlockingW.getY(); ++dy)
         for (int dx = 0; dx < pBlockingW.getX(); ++dx) {
             MiniTile miniTile = getData().getMiniTile_(pBlocking.TopLeft().toWalkPosition().add(new WalkPosition(dx, dy)));
-            if (miniTile.Walkable()) {
-                miniTile.ReplaceBlockedAreaId(newId);
+            if (miniTile.isWalkable()) {
+                miniTile.replaceBlockedAreaId(newId);
             }
         }
 
@@ -489,7 +489,7 @@ public class MapImpl implements Map {
 
         for (int dy = 0; dy < 4; ++dy) {
             for (int dx = 0; dx < 4; ++dx) {
-                final AreaId id = getData().getMiniTile(t.toWalkPosition().add(new WalkPosition(dx, dy)), check_t.no_check).AreaId();
+                final AreaId id = getData().getMiniTile(t.toWalkPosition().add(new WalkPosition(dx, dy)), check_t.no_check).getAreaId();
                 if (id.intValue() != 0) {
                     if (tile.getAreaId().intValue() == 0) {
                         ((TileImpl) tile).setAreaId(id);
@@ -508,7 +508,7 @@ public class MapImpl implements Map {
         final WalkPosition[] deltas = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(+1, 0), new WalkPosition(0, +1)};
         for (final WalkPosition delta : deltas) {
             if (getData().getMapData().isValid(p.add(delta))) {
-                final AreaId areaId = getData().getMiniTile(p.add(delta), check_t.no_check).AreaId();
+                final AreaId areaId = getData().getMiniTile(p.add(delta), check_t.no_check).getAreaId();
                 if (areaId.intValue() > 0) {
                     if (result.getLeft() == null) {
                         result.setLeft(areaId);

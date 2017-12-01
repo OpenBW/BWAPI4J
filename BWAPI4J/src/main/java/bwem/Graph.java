@@ -73,7 +73,7 @@ public final class Graph {
     }
 
     public Area GetArea(final WalkPosition walkPosition) {
-        final AreaId id = GetMap().getData().getMiniTile(walkPosition).AreaId();
+        final AreaId id = GetMap().getData().getMiniTile(walkPosition).getAreaId();
         return (id.intValue() > 0)
                 ? GetArea(id)
                 : null;
@@ -100,7 +100,7 @@ public final class Graph {
                     final Object ttile = args[0];
                     if (ttile instanceof MiniTile) {
                         final MiniTile miniTile = (MiniTile) ttile;
-                        return (miniTile.AreaId().intValue() > 0);
+                        return (miniTile.getAreaId().intValue() > 0);
                     } else {
                         throw new IllegalArgumentException();
                     }
@@ -408,7 +408,7 @@ public final class Graph {
     		{
     			final List<Altitude> Altitudes = new ArrayList<>();
     			for (final WalkPosition w : RawFrontierAB) {
-    				Altitudes.add(new Altitude(GetMap().getData().getMiniTile(w).Altitude()));
+    				Altitudes.add(new Altitude(GetMap().getData().getMiniTile(w).getAltitude()));
                 }
 
 //    			bwem_assert(is_sorted(Altitudes.rbegin(), Altitudes.rend()));
@@ -480,7 +480,7 @@ public final class Graph {
                                         throw new IllegalArgumentException();
                                     }
                                     MiniTile miniTile = (MiniTile) ttile;
-                                    return miniTile.Walkable();
+                                    return miniTile.isWalkable();
                                 }
                             },
                             new Pred() { // visitCond

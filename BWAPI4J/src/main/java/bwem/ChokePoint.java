@@ -114,13 +114,13 @@ public final class ChokePoint {
 
         int i = Geometry.size() / 2;
         while ((i > 0)
-                && (GetMap().getData().getMiniTile(Geometry.get(i - 1)).Altitude().intValue()
-                    > GetMap().getData().getMiniTile(Geometry.get(i)).Altitude().intValue())) {
+                && (GetMap().getData().getMiniTile(Geometry.get(i - 1)).getAltitude().intValue()
+                    > GetMap().getData().getMiniTile(Geometry.get(i)).getAltitude().intValue())) {
             --i;
         }
         while ((i < Geometry.size() - 1)
-                && (GetMap().getData().getMiniTile(Geometry.get(i + 1)).Altitude().intValue()
-                    > GetMap().getData().getMiniTile(Geometry.get(i)).Altitude().intValue())) {
+                && (GetMap().getData().getMiniTile(Geometry.get(i + 1)).getAltitude().intValue()
+                    > GetMap().getData().getMiniTile(Geometry.get(i)).getAltitude().intValue())) {
             ++i;
         }
         m_nodes[ChokePoint.Node.middle.intVal()] = Geometry.get(i);
@@ -143,7 +143,7 @@ public final class ChokePoint {
                                 WalkPosition w = (WalkPosition) tpos;
                                 TilePosition t = (w.toPosition()).toTilePosition();
                                 Map map = (Map) tmap;
-                                return (miniTile.AreaId().equals(pArea.Id()) && map.getData().getTile(t, check_t.no_check).getNeutral() == null);
+                                return (miniTile.getAreaId().equals(pArea.Id()) && map.getData().getTile(t, check_t.no_check).getNeutral() == null);
                             } else {
                                 throw new IllegalArgumentException();
                             }
@@ -160,7 +160,7 @@ public final class ChokePoint {
                                 WalkPosition w = (WalkPosition) tpos;
                                 TilePosition t = (w.toPosition()).toTilePosition();
                                 Map map = (Map) tmap;
-                                return (miniTile.AreaId().equals(pArea.Id()) || (Blocked() && (miniTile.Blocked() || map.getData().getTile(t, check_t.no_check).getNeutral() != null)));
+                                return (miniTile.getAreaId().equals(pArea.Id()) || (Blocked() && (miniTile.isBlocked() || map.getData().getTile(t, check_t.no_check).getNeutral() != null)));
                             } else {
                                 throw new IllegalArgumentException("Invalid argument list.");
                             }

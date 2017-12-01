@@ -243,13 +243,13 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                         final WalkPosition w = Current.getLeft().add(delta);
                         if (advancedData.getMapData().isValid(w)) {
                             final MiniTile miniTile = advancedData.getMiniTile_(w, check_t.no_check);
-                            if (miniTile.AltitudeMissing()) {
+                            if (miniTile.isAltitudeMissing()) {
                                 if (updatedMaxAltitude != null && updatedMaxAltitude.intValue() > altitude.intValue()) {
                                     throw new IllegalStateException();
                                 }
                                 updatedMaxAltitude = altitude;
                                 Current.setRight(altitude);
-                                miniTile.SetAltitude(altitude);
+                                miniTile.setAltitude(altitude);
                             }
                         }
                     }
@@ -321,7 +321,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
             public boolean isTrue(Object... args) {
                 WalkPosition w = (WalkPosition) args[0];
                 return (!getData().getMapData().isValid(w)
-                        || !getData().getMiniTile(w, check_t.no_check).Walkable()
+                        || !getData().getMiniTile(w, check_t.no_check).isWalkable()
                         || getData().getTile(w.toTilePosition(), check_t.no_check).getNeutral() != null);
             }
         });
@@ -355,7 +355,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                 for (final WalkPosition delta : deltas) {
                     final WalkPosition next = current.add(delta);
                     if (getData().getMapData().isValid(next) && !Visited.contains(next)) {
-                        if (getData().getMiniTile(next, check_t.no_check).Walkable()) {
+                        if (getData().getMiniTile(next, check_t.no_check).isWalkable()) {
                             if (getData().getTile((next.toPosition()).toTilePosition(), check_t.no_check).getNeutral() == null) {
                                 if (BwemExt.adjoins8SomeLakeOrNeutral(next, this)) {
                                     ToVisit.add(next);
@@ -402,7 +402,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                     for (final WalkPosition delta : deltas) {
                         final WalkPosition next = current.add(delta);
                         if (getData().getMapData().isValid(next) && !Visited.contains(next)) {
-                            if (getData().getMiniTile(next, check_t.no_check).Walkable()) {
+                            if (getData().getMiniTile(next, check_t.no_check).isWalkable()) {
                                 if (getData().getTile(next.toTilePosition(), check_t.no_check).getNeutral() == null) {
                                     ToVisit.add(next);
                                     Visited.add(next);
@@ -437,8 +437,8 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
             for (int dy = 0; dy < pCandidateW.getY(); ++dy) {
                 for (int dx = 0; dx < pCandidateW.getX(); ++dx) {
                     final MiniTile miniTile = getData().getMiniTile_(((pCandidate.TopLeft().toPosition()).toWalkPosition()).add(new WalkPosition(dx, dy)));
-                    if (miniTile.Walkable()) {
-                        miniTile.SetBlocked();
+                    if (miniTile.isWalkable()) {
+                        miniTile.setBlocked();
                     }
                 }
             }
@@ -474,7 +474,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
             for (int x = 0; x < getData().getMapData().getWalkSize().getX(); ++x) {
                 final WalkPosition w = new WalkPosition(x, y);
                 final MiniTile miniTile = getData().getMiniTile_(w, check_t.no_check);
-                if (miniTile.AreaIdMissing()) {
+                if (miniTile.isAreaIdMissing()) {
                     MiniTilesByDescendingAltitude.add(new MutablePair<>(w, miniTile));
                 }
             }
@@ -519,7 +519,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                         break;
                     }
                 }
-                final int curAltitude = cur.Altitude().intValue();
+                final int curAltitude = cur.getAltitude().intValue();
                 final int biggerHighestAltitude = TempAreaList.get(bigger.intValue()).HighestAltitude().intValue();
                 final int smallerHighestAltitude = TempAreaList.get(smaller.intValue()).HighestAltitude().intValue();
                 if ((TempAreaList.get(smaller.intValue()).Size() < 80)
@@ -558,8 +558,8 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
     @Override
     public void ReplaceAreaIds(final WalkPosition p, final AreaId newAreaId) {
         final MiniTile Origin = getData().getMiniTile_(p, check_t.no_check);
-        final AreaId oldAreaId = Origin.AreaId();
-        Origin.ReplaceAreaId(newAreaId);
+        final AreaId oldAreaId = Origin.getAreaId();
+        Origin.replaceAreaId(newAreaId);
 
         List<WalkPosition> ToSearch = new ArrayList<>();
         ToSearch.add(p);
@@ -571,9 +571,9 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                 final WalkPosition next = current.add(delta);
                 if (getData().getMapData().isValid(next)) {
                     final MiniTile Next = getData().getMiniTile_(next, check_t.no_check);
-                    if (Next.AreaId().equals(oldAreaId)) {
+                    if (Next.getAreaId().equals(oldAreaId)) {
                         ToSearch.add(next);
-                        Next.ReplaceAreaId(newAreaId);
+                        Next.replaceAreaId(newAreaId);
                     }
                 }
             }
@@ -630,7 +630,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
 
         for (int dy = 0; dy < 4; ++dy)
             for (int dx = 0; dx < 4; ++dx) {
-                final Altitude altitude = new Altitude(getData().getMiniTile(((t.toPosition()).toWalkPosition()).add(new WalkPosition(dx, dy)), check_t.no_check).Altitude());
+                final Altitude altitude = new Altitude(getData().getMiniTile(((t.toPosition()).toWalkPosition()).add(new WalkPosition(dx, dy)), check_t.no_check).getAltitude());
                 if (altitude.intValue() < minAltitude.intValue()) {
                     minAltitude = new Altitude(altitude);
                 }
