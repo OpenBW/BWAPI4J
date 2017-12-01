@@ -7,6 +7,7 @@ import bwem.tile.Tile;
 import java.util.ArrayList;
 import java.util.List;
 
+import bwem.tile.TileImpl;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
@@ -160,7 +161,7 @@ public class Neutral {
         for (int dx = 0; dx < Size().getX(); ++dx) {
             Tile tile = GetMap().getData().getTile_(TopLeft().add(new TilePosition(dx, dy)));
             if (tile.getNeutral() == null) {
-                tile.addNeutral(this);
+                ((TileImpl) tile).addNeutral(this);
             } else {
                 Neutral pTop = tile.getNeutral().LastStacked();
                 if (!(!this.equals(tile.getNeutral()))) {
@@ -203,9 +204,9 @@ public class Neutral {
             }
 
             if (tile.getNeutral().equals(this)) {
-                tile.RemoveNeutral(this);
+                ((TileImpl) tile).RemoveNeutral(this);
                 if (m_pNextStacked != null) {
-                    tile.addNeutral(m_pNextStacked);
+                    ((TileImpl) tile).addNeutral(m_pNextStacked);
                 }
             } else {
                 Neutral pPrevStacked = tile.getNeutral();

@@ -429,7 +429,7 @@ public final class Area {
                         score *= 3;
                     }
                     if (tile.getAreaId().equals(Id())) { // note the additive effect (assume tile.InternalData() is 0 at the begining)
-                        tile.getInternalData().setValue(tile.getInternalData().intValue() + score);
+                        ((TileImpl) tile).getInternalData().setValue(((TileImpl) tile).getInternalData().intValue() + score);
                     }
                 }
             }
@@ -440,7 +440,7 @@ public final class Area {
             for (int dx = -3; dx < r.Size().getX() + 3; ++dx) {
                 TilePosition t = r.TopLeft().add(new TilePosition(dx, dy));
                 if (pMap.getData().getMapData().isValid(t)) {
-                    pMap.getData().getTile(t, check_t.no_check).getInternalData().setValue(-1);
+                    ((TileImpl) pMap.getData().getTile(t, check_t.no_check)).getInternalData().setValue(-1);
                 }
             }
 
@@ -467,7 +467,7 @@ public final class Area {
                 for (int dx = -dimCC.getX() - BwemExt.max_tiles_between_CommandCenter_and_resources; dx < r.Size().getX() + dimCC.getX() + BwemExt.max_tiles_between_CommandCenter_and_resources; ++dx) {
                     TilePosition t = r.TopLeft().add(new TilePosition(dx, dy));
                     if (pMap.getData().getMapData().isValid(t)) {
-                        pMap.getData().getTile(t, check_t.no_check).getInternalData().setValue(0);
+                        ((TileImpl) pMap.getData().getTile(t, check_t.no_check)).getInternalData().setValue(0);
                     }
                 }
             }
@@ -512,12 +512,12 @@ public final class Area {
         for (int dx = 0; dx < dimCC.getX(); ++dx) {
             final Tile tile = GetMap().getData().getTile(location.add(new TilePosition(dx, dy)), check_t.no_check);
             if (!tile.isBuildable()) return -1;
-            if (tile.getInternalData().intValue() == -1) return -1; // The special value InternalData() == -1 means there is some ressource at maximum 3 tiles, which Starcraft rules forbid.
+            if (((TileImpl) tile).getInternalData().intValue() == -1) return -1; // The special value InternalData() == -1 means there is some ressource at maximum 3 tiles, which Starcraft rules forbid.
                                                                     // Unfortunately, this is guaranteed only for the ressources in this Area, which is the very reason of ValidateBaseLocation
             if (!tile.getAreaId().equals(Id())) return -1;
             if (tile.getNeutral() != null && (tile.getNeutral() instanceof StaticBuilding)) return -1;
 
-            sumScore += tile.getInternalData().intValue();
+            sumScore += ((TileImpl) tile).getInternalData().intValue();
         }
 
         return sumScore;
@@ -585,11 +585,11 @@ public final class Area {
             final TilePosition current = ToVisit.get(currentDist).iterator().next();
             final Tile currentTile = GetMap().getData().getTile(current, check_t.no_check);
 //            bwem_assert(currentTile.InternalData() == currentDist);
-            if (!(currentTile.getInternalData().intValue() == currentDist)) {
-                throw new IllegalStateException("currentTile.InternalData().intValue()=" + currentTile.getInternalData().intValue() + ", currentDist=" + currentDist);
+            if (!(((TileImpl) currentTile).getInternalData().intValue() == currentDist)) {
+                throw new IllegalStateException("currentTile.InternalData().intValue()=" + ((TileImpl) currentTile).getInternalData().intValue() + ", currentDist=" + currentDist);
             }
             ToVisit.removeMapping(currentDist, current);
-            currentTile.getInternalData().setValue(0); // resets Tile::m_internalData for future usage
+            ((TileImpl) currentTile).getInternalData().setValue(0); // resets Tile::m_internalData for future usage
             currentTile.getMarkable().setMarked();
 
             for (int i = 0; i < Targets.size(); ++i) {
@@ -615,19 +615,19 @@ public final class Area {
                 if (GetMap().getData().getMapData().isValid(next)) {
                     final Tile nextTile = GetMap().getData().getTile(next, check_t.no_check);
                     if (!nextTile.getMarkable().isMarked()) {
-                        if (nextTile.getInternalData().intValue() != 0) { // next already in ToVisit
-                            if (newNextDist < nextTile.getInternalData().intValue()) { // nextNewDist < nextOldDist
+                        if (((TileImpl) nextTile).getInternalData().intValue() != 0) { // next already in ToVisit
+                            if (newNextDist < ((TileImpl) nextTile).getInternalData().intValue()) { // nextNewDist < nextOldDist
                                 // To update next's distance, we need to remove-insert it from ToVisit:
 //                                bwem_assert(iNext != range.second);
-                                final boolean removed = ToVisit.removeMapping(nextTile.getInternalData().intValue(), next);
+                                final boolean removed = ToVisit.removeMapping(((TileImpl) nextTile).getInternalData().intValue(), next);
                                 if (!removed) {
                                     throw new IllegalStateException();
                                 }
-                                nextTile.getInternalData().setValue(newNextDist);
+                                ((TileImpl) nextTile).getInternalData().setValue(newNextDist);
                                 ToVisit.put(newNextDist, next);
                             }
                         } else if ((nextTile.getAreaId().equals(Id())) || (nextTile.getAreaId().equals(new AreaId(-1)))) {
-                            nextTile.getInternalData().setValue(newNextDist);
+                            ((TileImpl) nextTile).getInternalData().setValue(newNextDist);
                             ToVisit.put(newNextDist, next);
                         }
                     }
@@ -641,7 +641,7 @@ public final class Area {
         }
 
         for (final java.util.Map.Entry<Integer, TilePosition> entry : ToVisit.entries()) {
-            GetMap().getData().getTile(entry.getValue(), check_t.no_check).getInternalData().setValue(0);
+            ((TileImpl) GetMap().getData().getTile(entry.getValue(), check_t.no_check)).getInternalData().setValue(0);
         }
 
         return Distances;

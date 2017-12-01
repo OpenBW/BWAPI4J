@@ -6,6 +6,7 @@ import bwem.check_t;
 import bwem.tile.MiniTile;
 import bwem.tile.TileData;
 import bwem.tile.TileDataImpl;
+import bwem.tile.TileImpl;
 import bwem.typedef.Altitude;
 import bwem.typedef.Pred;
 import bwem.unit.Mineral;
@@ -635,7 +636,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                 }
             }
 
-        getData().getTile_(t).setMinAltitude(minAltitude);
+        ((TileImpl) getData().getTile_(t)).setMinAltitude(minAltitude);
     }
 
     // Renamed from "MapImpl::SetAreaIdInTiles"
