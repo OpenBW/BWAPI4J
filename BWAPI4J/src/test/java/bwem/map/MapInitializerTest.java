@@ -93,7 +93,7 @@ public class MapInitializerTest implements BWEventListener {
         // ComputeAltitude
         //////////////////////////////////////////////////////////////////////
 
-//        mapInitializer.ComputeAltitude(advancedData);
+//        mapInitializer.computeAltitude(advancedData);
         final int altitude_scale = 8; // 8 provides a pixel definition for altitude_t, since altitudes are computed from miniTiles which are 8x8 pixels
 
         //----------------------------------------------------------------------
@@ -108,7 +108,7 @@ public class MapInitializerTest implements BWEventListener {
                 altitude_scale);
         //----------------------------------------------------------------------
 
-        final List<MutablePair<WalkPosition, Altitude>> ActiveSeaSides = mapInitializer.getActiveSeaSideList(advancedData.getMapData());
+        final List<MutablePair<WalkPosition, Altitude>> ActiveSeaSides = mapInitializer.getActiveSeaSideList(advancedData);
 
         mapInitializer.setMaxAltitude(mapInitializer.setAltitudesAndGetUpdatedMaxAltitude(this.map.MaxAltitude(), advancedData, DeltasByAscendingAltitude, ActiveSeaSides, altitude_scale));
 

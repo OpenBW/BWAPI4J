@@ -48,11 +48,6 @@ public interface Tile {
             return this.val;
         }
 
-        @Override
-        public String toString() {
-            return String.valueOf(intValue());
-        }
-
         public static GroundHeight parseGroundHeight(final int height) {
             for (final GroundHeight val : GroundHeight.values()) {
                 if (val.intValue() == height) {
