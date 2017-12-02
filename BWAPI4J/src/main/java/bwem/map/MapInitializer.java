@@ -35,9 +35,9 @@ public interface MapInitializer {
             List<PlayerUnit> neutralUnits
     );
 
-    public abstract void ComputeAltitude(AdvancedData advancedData);
+    public abstract void computeAltitude(AdvancedData advancedData);
     public abstract List<MutablePair<WalkPosition, Altitude>> getSortedDeltasByAscendingAltitude(int mapWalkTileWidth, int mapWalkTileHeight, int altitude_scale);
-    public abstract List<MutablePair<WalkPosition, Altitude>> getActiveSeaSideList(MapData mapData);
+    public abstract List<MutablePair<WalkPosition, Altitude>> getActiveSeaSideList(AdvancedData advancedData);
     public abstract Altitude setAltitudesAndGetUpdatedMaxAltitude(
             Altitude currentMaxAltitude,
             AdvancedData advancedData,

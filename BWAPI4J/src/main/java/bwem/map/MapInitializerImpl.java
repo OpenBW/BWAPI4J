@@ -79,7 +79,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
 //    ///	bw << "Map::InitializeNeutrals: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         logger.info("Map::InitializeNeutrals: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
-        ComputeAltitude(getData());
+        computeAltitude(getData());
 //    ///	bw << "Map::ComputeAltitude: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         logger.info("Map::ComputeAltitude: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
@@ -149,22 +149,22 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
     // Altitudes are computed using the straightforward Dijkstra's algorithm : the lower ones are computed first, starting from the seaside-miniTiles neighbours.
     // The point here is to precompute all possible altitudes for all possible tiles, and sort them.
     @Override
-    public void ComputeAltitude(final AdvancedData advancedData) {
+    public void computeAltitude(final AdvancedData advancedData) {
         final int altitude_scale = 8; // 8 provides a pixel definition for altitude_t, since altitudes are computed from miniTiles which are 8x8 pixels
 
         final Timer timer = new Timer();
 
-        final List<MutablePair<WalkPosition, Altitude>> DeltasByAscendingAltitude
+        final List<MutablePair<WalkPosition, Altitude>> deltasByAscendingAltitude
                 = getSortedDeltasByAscendingAltitude(
                 advancedData.getMapData().getWalkSize().getX(),
                 advancedData.getMapData().getWalkSize().getY(),
                 altitude_scale);
         logger.info("Map::ComputeAltitude:getSortedDeltasByAscendingAltitude: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
-        final List<MutablePair<WalkPosition, Altitude>> ActiveSeaSides = getActiveSeaSideList(advancedData.getMapData());
+        final List<MutablePair<WalkPosition, Altitude>> ActiveSeaSides = getActiveSeaSideList(advancedData);
         logger.info("Map::ComputeAltitude:getActiveSeaSideList: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
-        setMaxAltitude(setAltitudesAndGetUpdatedMaxAltitude(MaxAltitude(), advancedData, DeltasByAscendingAltitude, ActiveSeaSides, altitude_scale));
+        setMaxAltitude(setAltitudesAndGetUpdatedMaxAltitude(MaxAltitude(), advancedData, deltasByAscendingAltitude, ActiveSeaSides, altitude_scale));
         logger.info("Map::ComputeAltitude:setAltitudesAndGetUpdatedMaxAltitude: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
     }
 
@@ -175,12 +175,12 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
     public List<MutablePair<WalkPosition, Altitude>> getSortedDeltasByAscendingAltitude(final int mapWalkTileWidth, final int mapWalkTileHeight, int altitude_scale) {
         final int range = Math.max(mapWalkTileWidth, mapWalkTileHeight) / 2 + 3; // should suffice for maps with no Sea.
 
-        final List<MutablePair<WalkPosition, Altitude>> DeltasByAscendingAltitude = new ArrayList<>();
+        final List<MutablePair<WalkPosition, Altitude>> deltasByAscendingAltitude = new ArrayList<>();
 
         for (int dy = 0; dy <= range; ++dy) {
             for (int dx = dy; dx <= range; ++dx) { // Only consider 1/8 of possible deltas. Other ones obtained by symmetry.
                 if (dx != 0 || dy != 0) {
-                    DeltasByAscendingAltitude.add(new MutablePair<>(
+                    deltasByAscendingAltitude.add(new MutablePair<>(
                             new WalkPosition(dx, dy),
                             new Altitude((int) (Double.valueOf("0.5") + (Utils.norm(dx, dy) * (double) altitude_scale)))
                     ));
@@ -188,9 +188,9 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
             }
         }
 
-        Collections.sort(DeltasByAscendingAltitude, new PairGenericAltitudeComparator<>());
+        Collections.sort(deltasByAscendingAltitude, new PairGenericAltitudeComparator<>());
 
-        return DeltasByAscendingAltitude;
+        return deltasByAscendingAltitude;
     }
 
     /**
@@ -198,19 +198,19 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
      *    It also includes extra border-miniTiles which are considered as seaside miniTiles too.
      */
     @Override
-    public List<MutablePair<WalkPosition, Altitude>> getActiveSeaSideList(final MapData mapData) {
-        final List<MutablePair<WalkPosition, Altitude>> ActiveSeaSideList = new ArrayList<>();
+    public List<MutablePair<WalkPosition, Altitude>> getActiveSeaSideList(final AdvancedData advancedData) {
+        final List<MutablePair<WalkPosition, Altitude>> activeSeaSideList = new ArrayList<>();
 
-        for (int y = -1; y <= mapData.getWalkSize().getY(); ++y) {
-            for (int x = -1; x <= mapData.getWalkSize().getX(); ++x) {
-                final WalkPosition w = new WalkPosition(x, y);
-                if (!mapData.isValid(w) || getData().isSeaWithNonSeaNeighbors(w)) {
-                    ActiveSeaSideList.add(new MutablePair<>(w, new Altitude(0)));
+        for (int y = -1; y <= advancedData.getMapData().getWalkSize().getY(); ++y) {
+            for (int x = -1; x <= advancedData.getMapData().getWalkSize().getX(); ++x) {
+                final WalkPosition walkPosition = new WalkPosition(x, y);
+                if (!advancedData.getMapData().isValid(walkPosition) || advancedData.isSeaWithNonSeaNeighbors(walkPosition)) {
+                    activeSeaSideList.add(new MutablePair<>(walkPosition, new Altitude(0)));
                 }
             }
         }
 
-        return ActiveSeaSideList;
+        return activeSeaSideList;
     }
 
     //----------------------------------------------------------------------
