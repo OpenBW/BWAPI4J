@@ -1,5 +1,7 @@
 package org.openbw.bwapi4j.unit;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.TechType;
@@ -9,6 +11,8 @@ import org.openbw.bwapi4j.type.UpgradeType;
 
 public abstract class Building extends PlayerUnit {
 
+	private static final Logger logger = LogManager.getLogger();
+	
     protected class Researcher implements ResearchingFacility {
 
         private boolean isUpgrading;
@@ -180,16 +184,19 @@ public abstract class Building extends PlayerUnit {
     }
 
     @Override
-    public void update(int[] unitData, int index) {
+    public void update(int[] unitData, int index, int frame) {
 
         this.builderId = unitData[index + Unit.BUILD_UNIT_ID_INDEX];
         this.remainingBuildTime = unitData[index + Unit.REMAINING_BUILD_TIME_INDEX];
 
-        super.update(unitData, index);
+        super.update(unitData, index, frame);
     }
 
     public SCV getBuildUnit() {
         
+    	if (!(this.getUnit(builderId) instanceof SCV)) {
+    		logger.error("build unit for {} should be SCV but is {}.", this, this.getUnit(builderId));
+    	}
         return (SCV) this.getUnit(builderId);
     }
 
@@ -276,5 +283,30 @@ public abstract class Building extends PlayerUnit {
             }
         }
         return (int) Math.sqrt(distX * distX + distY * distY);
+    }
+    
+    public double getLasKnownDistance(Unit target) {
+    	
+        if (this == target) {
+            return 0;
+        }
+
+        int xDist = (this.getLastKnownPosition().getX() - this.type.dimensionLeft()) - (target.getRight() + 1);
+        if (xDist < 0) {
+            xDist = target.getLeft() - ((this.getLastKnownPosition().getX() + this.type.dimensionRight()) + 1);
+            if (xDist < 0) {
+                xDist = 0;
+            }
+        }
+        int yDist = (this.getLastKnownPosition().getY() - this.type.dimensionUp()) - (target.getBottom() + 1);
+        if (yDist < 0) {
+            yDist = target.getTop() - ((this.getLastKnownPosition().getY() + this.type.dimensionDown()) + 1);
+            if (yDist < 0) {
+                yDist = 0;
+            }
+        }
+        logger.trace("dx, dy: {}, {}.", xDist, yDist);
+        
+        return new Position(0, 0).getDistance(new Position(xDist, yDist));
     }
 }

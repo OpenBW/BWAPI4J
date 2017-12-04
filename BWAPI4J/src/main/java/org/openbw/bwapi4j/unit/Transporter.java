@@ -26,10 +26,10 @@ public class Transporter extends MobileUnit {
     }
 
     @Override
-    public void update(int[] unitData, int index) {
+    public void update(int[] unitData, int index, int frame) {
 
         this.isLoaded = unitData[index + Unit.IS_LOADED_INDEX] == 1;
-        super.update(unitData, index);
+        super.update(unitData, index, frame);
     }
 
     public boolean isLoaded() {

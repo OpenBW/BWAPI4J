@@ -22,7 +22,7 @@ public class VespeneGeyser extends Unit {
     }
 
     @Override
-    public void update(int[] unitData, int index) {
+    public void update(int[] unitData, int index, int frame) {
 
         this.resources = unitData[index + Unit.RESOURCES_INDEX];
         this.isBeingGathered = unitData[index + Unit.IS_BEING_GATHERED_INDEX] == 1;
@@ -31,7 +31,7 @@ public class VespeneGeyser extends Unit {
             this.lastKnownResources = this.resources;
         }
         
-        super.update(unitData, index);
+        super.update(unitData, index, frame);
     }
 
     public int getResources() {

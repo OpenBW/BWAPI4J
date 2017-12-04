@@ -33,7 +33,7 @@ public class SCV extends MobileUnit implements Mechanical {
     }
 
     @Override
-    public void update(int[] unitData, int index) {
+    public void update(int[] unitData, int index, int frame) {
 
         this.isGatheringGas = unitData[index + Unit.IS_GATHERING_GAS_INDEX] == 1;
         this.isGatheringMinerals = unitData[index + Unit.IS_GATHERING_MINERALS_INDEX] == 1;
@@ -41,7 +41,7 @@ public class SCV extends MobileUnit implements Mechanical {
         this.isCarryingMinerals = unitData[index + Unit.IS_CARRYING_MINERALS_INDEX] == 1;
         this.isConstructing = unitData[index + Unit.IS_CONSTRUCTING_INDEX] == 1;
         this.isRepairing = unitData[index + Unit.IS_REPAIRING_INDEX] == 1;
-        super.update(unitData, index);
+        super.update(unitData, index, frame);
     }
     
     public boolean isGatheringMinerals() {

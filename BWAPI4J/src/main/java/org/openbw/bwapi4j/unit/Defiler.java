@@ -29,11 +29,11 @@ public class Defiler extends MobileUnit implements Organic, SpellCaster, Burrowa
     }
 
     @Override
-    public void update(int[] unitData, int index) {
+    public void update(int[] unitData, int index, int frame) {
 
         this.burrowed = unitData[index + Unit.IS_BURROWED_INDEX] == 1;
         this.energy = unitData[index + Unit.ENERGY_INDEX];
-        super.update(unitData, index);
+        super.update(unitData, index, frame);
     }
 
     @Override

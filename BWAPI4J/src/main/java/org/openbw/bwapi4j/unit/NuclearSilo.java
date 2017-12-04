@@ -19,10 +19,10 @@ public class NuclearSilo extends Addon implements Mechanical {
     }
     
     @Override
-    public void update(int[] unitData, int index) {
+    public void update(int[] unitData, int index, int frame) {
 
         this.hasNuke = unitData[index + Unit.HAS_NUKE_INDEX] == 1;
-        super.update(unitData, index);
+        super.update(unitData, index, frame);
     }
     
     public boolean hasNuke() {

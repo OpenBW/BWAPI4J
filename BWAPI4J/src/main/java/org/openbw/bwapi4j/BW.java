@@ -274,7 +274,7 @@ public class BW {
 
                     this.units.put(unitId, unit);
                     unit.initialize(unitData, index);
-                    unit.update(unitData, index);
+                    unit.update(unitData, index, frame);
                     logger.trace("initial pos: {}", unit.getInitialTilePosition());
                     logger.trace("current pos: {}", unit.getTilePosition());
 
@@ -282,7 +282,7 @@ public class BW {
                 }
             } else {
 
-                unit.update(unitData, index);
+                unit.update(unitData, index, frame);
             }
         }
     }

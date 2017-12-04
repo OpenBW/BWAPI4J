@@ -14,10 +14,10 @@ public class GreaterSpire extends Building implements Organic, ResearchingFacili
     }
 
     @Override
-    public void update(int[] unitData, int index) {
+    public void update(int[] unitData, int index, int frame) {
 
         this.researcher.update(unitData, index);
-        super.update(unitData, index);
+        super.update(unitData, index, frame);
     }
     
     public boolean upgradeFlyerAttacks() {

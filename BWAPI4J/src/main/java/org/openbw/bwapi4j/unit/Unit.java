@@ -163,7 +163,7 @@ public abstract class Unit implements Comparable<Unit> {
     protected Position position;
     protected TilePosition tilePosition;
     protected double angle;
-    // protected Region region; // TODO region
+
     protected boolean isVisible;
     protected boolean exists;
     protected boolean isSelected;
@@ -171,12 +171,13 @@ public abstract class Unit implements Comparable<Unit> {
     // internal
     private BW bw;
     private int lastSpotted;
-
+    
     protected Unit(int id, UnitType unitType) {
         
         this.id = id;
         this.type = unitType;
         this.initialType = unitType;
+        this.lastSpotted = 0;
     }
     
     final void setBW(BW bw) {
@@ -192,7 +193,7 @@ public abstract class Unit implements Comparable<Unit> {
                 unitData[index + Unit.TILEPOSITION_Y_INDEX]);
     }
 
-    public void update(int[] unitData, int index) {
+    public void update(int[] unitData, int index, int frame) {
 
         this.type = UnitType.values()[unitData[index + Unit.TYPE_ID_INDEX]];
         this.x = unitData[index + Unit.POSITION_X_INDEX];
@@ -202,10 +203,18 @@ public abstract class Unit implements Comparable<Unit> {
                 unitData[index + Unit.TILEPOSITION_Y_INDEX]);
         this.angle = unitData[index + Unit.ANGLE_INDEX] / 100.0;
         this.isVisible = unitData[index + Unit.IS_VISIBLE_INDEX] == 1;
+        if (this.isVisible) {
+        	this.lastSpotted = frame;
+        }
         this.exists = unitData[index + Unit.EXISTS_INDEX] == 1;
         this.isSelected = unitData[index + Unit.IS_SELECTED_INDEX] == 1;
     }
 
+    public int getLastSpotted() {
+    	
+    	return this.lastSpotted;
+    }
+    
     protected Collection<Unit> getAllUnits() {
         
         return bw.getAllUnits();
@@ -293,11 +302,6 @@ public abstract class Unit implements Comparable<Unit> {
         return this.type.tileWidth();
     }
 
-    // TODO implement unit.getRegion()
-    // public Region getRegion() {
-    // return this.region;
-    // }
-
     public TilePosition getTilePosition() {
         return this.tilePosition;
     }
@@ -312,7 +316,9 @@ public abstract class Unit implements Comparable<Unit> {
     }
 
     public double getDistance(int x, int y) {
+    	
         if (!this.exists) {
+        	
             return Integer.MAX_VALUE;
         }
         int xDist = getLeft() - (x + 1);
@@ -443,8 +449,6 @@ public abstract class Unit implements Comparable<Unit> {
     private Order secondaryOrder;
     private Unit orderTarget;
     private Position orderTargetPosition;
-    private Unit addon;
-    private Unit powerUp;
    
     private boolean isMorphing;
     private boolean isTargetable;

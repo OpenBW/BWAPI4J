@@ -18,40 +18,40 @@ public enum UpgradeType {
     Protoss_Ground_Weapons,
     Protoss_Air_Weapons,
     Protoss_Plasma_Shields,
-    U_238_Shells,
-    Ion_Thrusters,
-    Titan_Reactor,
-    Ocular_Implants,
-    Moebius_Reactor,
-    Apollo_Reactor,
-    Colossus_Reactor,
-    Ventral_Sacs,
-    Antennae,
-    Pneumatized_Carapace,
-    Metabolic_Boost,
-    Adrenal_Glands,
-    Muscular_Augments,
-    Grooved_Spines,
-    Gamete_Meiosis,
-    Metasynaptic_Node,
-    Singularity_Charge,
-    Leg_Enhancements,
-    Scarab_Damage,
-    Reaver_Capacity,
-    Gravitic_Drive,
-    Sensor_Array,
-    Gravitic_Boosters,
-    Khaydarin_Amulet,
-    Apial_Sensors,
-    Gravitic_Thrusters,
-    Carrier_Capacity,
-    Khaydarin_Core,
-    Argus_Jewel,
-    Argus_Talisman,
-    Caduceus_Reactor,
-    Chitinous_Plating,
-    Anabolic_Synthesis,
-    Charon_Boosters,
+    U_238_Shells,				// marine range +1
+    Ion_Thrusters,				// vulture speed +50%
+    Titan_Reactor,				// science vessel start energy +12.5, max energy +50
+    Ocular_Implants,			// ghost sight/detection range +2
+    Moebius_Reactor,			// ghost start energy +12.5, max energy +50
+    Apollo_Reactor,				// wraith start energy +12.5, max energy +50
+    Colossus_Reactor,			// battlecruiser start energy +12.5, max energy +50
+    Ventral_Sacs,				// overlord transport ability
+    Antennae,					// overlord sight/detection range +2
+    Pneumatized_Carapace,		// overlord speed +400%
+    Metabolic_Boost,			// zergling speed +50%
+    Adrenal_Glands,				// zergling attack rate increase (TODO HOW MUCH??)
+    Muscular_Augments,			// hydralisk speed +50%
+    Grooved_Spines,				// hydralisk range +1
+    Gamete_Meiosis,				// queen start energy +12.5, max energy +50
+    Metasynaptic_Node,			// defiler start energy +12.5, max energy +50
+    Singularity_Charge,			// dragoon range +2
+    Leg_Enhancements,			// zealot speed +50%
+    Scarab_Damage,				// reaver scarab damage +25
+    Reaver_Capacity,			// reaver capacity +5
+    Gravitic_Drive,				// shuttle speed +50%
+    Sensor_Array,				// observer sight/detection range +2
+    Gravitic_Boosters,			// observer speed +50%
+    Khaydarin_Amulet,			// high templar start energy +12.5, max energy +50
+    Apial_Sensors,				// scout sight/detection range +2
+    Gravitic_Thrusters,			// scout speed +50%
+    Carrier_Capacity,			// carrier capacity +4
+    Khaydarin_Core,				// arbiter start energy +12.5, max energy +50
+    Argus_Jewel,				// corsair start energy +12.5, max energy +50
+    Argus_Talisman,				// dark archon max energy +50
+    Caduceus_Reactor,			// medic start energy +12.5, max energy +50
+    Chitinous_Plating,			// ultralisk armor +2
+    Anabolic_Synthesis,			// ultralisk speed +50%
+    Charon_Boosters,			// goliath air range +3
     Upgrade_60,
     None,
     Unknown;
