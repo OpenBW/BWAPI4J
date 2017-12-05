@@ -14,10 +14,10 @@ public class Stargate extends Building implements Mechanical, TrainingFacility {
     }
 
     @Override
-    public void update(int[] unitData, int index) {
+    public void update(int[] unitData, int index, int frame) {
 
         this.trainer.update(unitData, index);
-        super.update(unitData, index);
+        super.update(unitData, index, frame);
     }
 
     public boolean trainScout() {

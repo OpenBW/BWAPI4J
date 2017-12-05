@@ -492,10 +492,16 @@ public class UnitFactory {
             throw new UnsupportedUnitException("UnitType " + unitType + " is not supported.");
         }
         
-        if (unit != null) {
-            unit.setBW(bw);
-        }
+        setBW(unit);
         
         return unit;
     }
+    
+    protected void setBW(Unit unit) {
+    	
+    	if (unit != null) {
+            unit.setBW(bw);
+        }
+    }
+    
 }

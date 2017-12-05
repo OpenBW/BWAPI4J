@@ -20,10 +20,10 @@ public class InfestedTerran extends MobileUnit implements Organic, Burrowable {
     }
 
     @Override
-    public void update(int[] unitData, int index) {
+    public void update(int[] unitData, int index, int frame) {
 
         this.burrowed = unitData[index + Unit.IS_BURROWED_INDEX] == 1;
-        super.update(unitData, index);
+        super.update(unitData, index, frame);
     }
     
     @Override

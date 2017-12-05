@@ -23,10 +23,10 @@ public class Carrier extends MobileUnit implements Mechanical {
     }
 
     @Override
-    public void update(int[] unitData, int index) {
+    public void update(int[] unitData, int index, int frame) {
 
         this.interceptorCount = unitData[index + Unit.INTERCEPTOR_COUNT_INDEX];
-        super.update(unitData, index);
+        super.update(unitData, index, frame);
     }
     
     public int getInterceptorCount() {

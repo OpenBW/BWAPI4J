@@ -34,7 +34,7 @@ public abstract class MobileUnit extends PlayerUnit {
     }
 
     @Override
-    public void update(int[] unitData, int index) {
+    public void update(int[] unitData, int index, int frame) {
 
         this.isFollowing = unitData[index + Unit.IS_FOLLOWING_INDEX] == 1;
         this.isHoldingPosition = unitData[index + Unit.IS_HOLDING_POSITION_INDEX] == 1;
@@ -58,7 +58,7 @@ public abstract class MobileUnit extends PlayerUnit {
         this.isDefenseMatrixed = unitData[index + Unit.IS_DEFENSE_MATRIXED_INDEX] == 1;
         this.isEnsnared = unitData[index + Unit.IS_ENSNARED_INDEX] == 1;
         
-        super.update(unitData, index);
+        super.update(unitData, index, frame);
     }
 
     public boolean attack(Position p) {

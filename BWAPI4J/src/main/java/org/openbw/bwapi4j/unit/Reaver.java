@@ -20,10 +20,10 @@ public class Reaver extends MobileUnit implements Mechanical {
     }
 
     @Override
-    public void update(int[] unitData, int index) {
+    public void update(int[] unitData, int index, int frame) {
 
         this.scarabCount = unitData[index + Unit.SCARAB_COUNT_INDEX];
-        super.update(unitData, index);
+        super.update(unitData, index, frame);
     }
     
     public int getScarabCount() {

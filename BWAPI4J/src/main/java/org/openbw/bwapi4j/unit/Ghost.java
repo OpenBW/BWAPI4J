@@ -26,10 +26,10 @@ public class Ghost extends MobileUnit implements SpellCaster, Organic {
     }
 
     @Override
-    public void update(int[] unitData, int index) {
+    public void update(int[] unitData, int index, int frame) {
 
         this.energy = unitData[index + Unit.ENERGY_INDEX];
-        super.update(unitData, index);
+        super.update(unitData, index, frame);
     }
 
     @Override

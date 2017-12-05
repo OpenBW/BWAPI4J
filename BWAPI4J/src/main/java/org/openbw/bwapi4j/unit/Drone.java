@@ -28,14 +28,14 @@ public class Drone extends MobileUnit implements Organic, Burrowable {
     }
 
     @Override
-    public void update(int[] unitData, int index) {
+    public void update(int[] unitData, int index, int frame) {
 
         this.burrowed = unitData[index + Unit.IS_BURROWED_INDEX] == 1;
         this.isGatheringGas = unitData[index + Unit.IS_GATHERING_GAS_INDEX] == 1;
         this.isGatheringMinerals = unitData[index + Unit.IS_GATHERING_MINERALS_INDEX] == 1;
         this.isCarryingGas = unitData[index + Unit.IS_CARRYING_GAS_INDEX] == 1;
         this.isCarryingMinerals = unitData[index + Unit.IS_CARRYING_MINERALS_INDEX] == 1;
-        super.update(unitData, index);
+        super.update(unitData, index, frame);
     }
     
     public boolean isGatheringMinerals() {

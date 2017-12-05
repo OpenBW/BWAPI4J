@@ -14,10 +14,10 @@ public class NydusCanal extends Building implements Organic {
     }
 
     @Override
-    public void update(int[] unitData, int index) {
+    public void update(int[] unitData, int index, int frame) {
         
         this.nydusExitId = unitData[index + Unit.NYDUS_EXIT_INDEX];
-        super.update(unitData, index);
+        super.update(unitData, index, frame);
     }
     
     public Unit getNydusExit() {

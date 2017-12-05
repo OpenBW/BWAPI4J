@@ -21,11 +21,11 @@ public class Assimilator extends Building implements Mechanical {
     }
 
     @Override
-    public void update(int[] unitData, int index) {
+    public void update(int[] unitData, int index, int frame) {
 
         this.resources = unitData[index + Unit.RESOURCES_INDEX];
         this.isBeingGathered = unitData[index + Unit.IS_BEING_GATHERED_INDEX] == 1;
-        super.update(unitData, index);
+        super.update(unitData, index, frame);
     }
 
     public int getResources() {

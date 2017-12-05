@@ -124,7 +124,6 @@ void initializeJavaReferences(JNIEnv *env, jobject caller) {
 
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_createUnit(JNIEnv *, jobject, jint playerID, jint unitType, jint posX, jint posY) {
 
-
 	Broodwar->createUnit(Broodwar->getPlayer(playerID), (UnitType) unitType, Position(posX, posY));
 }
 

@@ -65,7 +65,7 @@ public abstract class PlayerUnit extends Unit {
     }
 
     @Override
-    public void update(int[] unitData, int index) {
+    public void update(int[] unitData, int index, int frame) {
 
         this.playerId = unitData[index + Unit.PLAYER_ID_INDEX];
         this.hitPoints = unitData[index + Unit.HITPOINTS_INDEX];
@@ -93,9 +93,10 @@ public abstract class PlayerUnit extends Unit {
         this.isUnderAttack = unitData[index + Unit.IS_UNDER_ATTACK_INDEX] == 1;
         this.isPowered = unitData[index + Unit.IS_POWERED_INDEX] == 1;
         
-        super.update(unitData, index);
+        super.update(unitData, index, frame);
         
         if (this.isVisible) {
+        	
             this.lastKnownPosition = this.position;
             this.lastKnownTilePosition = this.tilePosition;
             this.lastKnownHitPoints = this.hitPoints;
