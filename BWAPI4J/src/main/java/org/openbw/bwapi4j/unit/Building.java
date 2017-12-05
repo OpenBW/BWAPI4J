@@ -65,7 +65,7 @@ public abstract class Building extends PlayerUnit {
 
         public boolean upgrade(UpgradeType upgrade) {
             
-            return issueCommand(id, UnitCommandType.Research.ordinal(), -1, -1, -1, upgrade.getId());
+            return issueCommand(id, UnitCommandType.Upgrade.ordinal(), -1, -1, -1, upgrade.getId());
         }
     }
 
