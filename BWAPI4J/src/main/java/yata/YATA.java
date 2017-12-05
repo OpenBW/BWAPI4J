@@ -21,6 +21,9 @@ public final class YATA {
     private final int width;
     private final int height;
     private final GridCell[][] nodes;
+    private final GridFinderOptions finderOptions;
+    private final NavigationGraph<GridCell> navigationGrid;
+    private final AStarFinder<GridCell> finder;
 
     public YATA(final BWMap bwMap) {
         this.width = bwMap.mapWidth();
@@ -50,6 +53,13 @@ public final class YATA {
                 getNodes()[x][y].setWalkable(isTileWalkable);
             }
         }
+
+        this.finderOptions = new GridFinderOptions();
+        this.finderOptions.allowDiagonal = true;
+
+        this.navigationGrid = new NavigationGrid<>(this.nodes, true);
+
+        this.finder = new AStarGridFinder<>(GridCell.class, this.finderOptions);
     }
 
     public int getWidth() {
@@ -65,15 +75,9 @@ public final class YATA {
     }
 
     public List<TilePosition> getPath(final TilePosition start, final TilePosition end) {
-        final NavigationGraph<GridCell> navigationGrid = new NavigationGrid(this.nodes, true);
-
-        final GridFinderOptions finderOptions = new GridFinderOptions();
-        finderOptions.allowDiagonal = true;
-        final AStarFinder<GridCell> finder = new AStarGridFinder<>(GridCell.class, finderOptions);
-
         final GridCell startNode = this.nodes[start.getX()][start.getY()];
         final GridCell endNode = this.nodes[end.getX()][end.getY()];
-        final List<GridCell> gridCellPath = finder.findPath(startNode, endNode, navigationGrid);
+        final List<GridCell> gridCellPath = this.finder.findPath(startNode, endNode, this.navigationGrid);
 
         final List<TilePosition> tilePath = new ArrayList<>();
         if (gridCellPath != null) {
