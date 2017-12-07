@@ -9,42 +9,42 @@ extern "C" {
 #endif
 /*
  * Class:     org_openbw_bwapi4j_BWMapImpl
- * Method:    isBuildable
- * Signature: (IIZ)Z
+ * Method:    _isBuildable
+ * Signature: (IIZ)I
  */
-JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMapImpl_isBuildable
+JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl__1isBuildable
   (JNIEnv *, jobject, jint, jint, jboolean);
 
 /*
  * Class:     org_openbw_bwapi4j_BWMapImpl
- * Method:    isExplored
- * Signature: (II)Z
+ * Method:    _isExplored
+ * Signature: (II)I
  */
-JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMapImpl_isExplored
+JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl__1isExplored
   (JNIEnv *, jobject, jint, jint);
 
 /*
  * Class:     org_openbw_bwapi4j_BWMapImpl
- * Method:    isVisible
- * Signature: (II)Z
+ * Method:    _isVisible
+ * Signature: (II)I
  */
-JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMapImpl_isVisible
+JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl__1isVisible
   (JNIEnv *, jobject, jint, jint);
 
 /*
  * Class:     org_openbw_bwapi4j_BWMapImpl
- * Method:    hasPath
- * Signature: (IIII)Z
+ * Method:    _hasPath
+ * Signature: (IIII)I
  */
-JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMapImpl_hasPath
+JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl__1hasPath
   (JNIEnv *, jobject, jint, jint, jint, jint);
 
 /*
  * Class:     org_openbw_bwapi4j_BWMapImpl
- * Method:    canBuildHere
- * Signature: (III)Z
+ * Method:    _canBuildHere
+ * Signature: (III)I
  */
-JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMapImpl_canBuildHere
+JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl__1canBuildHere
   (JNIEnv *, jobject, jint, jint, jint);
 
 #ifdef __cplusplus

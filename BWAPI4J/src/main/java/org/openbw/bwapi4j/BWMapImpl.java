@@ -57,34 +57,53 @@ class BWMapImpl implements BWMap {
         return this.height;
     }
 
-    public native boolean isBuildable(int tileX, int tileY, boolean considerBuildings);
+    private native int _isBuildable(int tileX, int tileY, boolean considerBuildings);
+    
+    public boolean isBuildable(int tileX, int tileY, boolean considerBuildings) {
+    	
+    	return _isBuildable(tileX, tileY, considerBuildings) == 1;
+    }
 
     public boolean isBuildable(TilePosition position, boolean considerBuildings) {
-    	return isBuildable(position.getX(), position.getY(), considerBuildings);
+    	
+    	return _isBuildable(position.getX(), position.getY(), considerBuildings) == 1;
     }
     
-    public native boolean isExplored(int tileX, int tileY);
+    private native int _isExplored(int tileX, int tileY);
+    
+    public boolean isExplored(int tileX, int tileY) {
+    	
+    	return _isExplored(tileX, tileY) == 1;
+    }
     
     public boolean isExplored(TilePosition position) {
-        return isExplored(position.getX(), position.getY());
+    	
+        return _isExplored(position.getX(), position.getY()) == 1;
     }
     
-    public native boolean isVisible(int tileX, int tileY);
+    private native int _isVisible(int tileX, int tileY);
+    
+    public boolean isVisible(int tileX, int tileY) {
+    	
+    	return _isVisible(tileX, tileY) == 1;
+    }
     
     public boolean isVisible(TilePosition position) {
-        return isVisible(position.getX(), position.getY());
+    	
+        return _isVisible(position.getX(), position.getY()) == 1;
     }
 
-    private native boolean hasPath(int x1, int y1, int x2, int y2);
+    private native int _hasPath(int x1, int y1, int x2, int y2);
 
     public boolean hasPath(Position source, Position destination) {
-        return hasPath(source.getX(), source.getY(), destination.getX(), destination.getY());
+    	
+        return _hasPath(source.getX(), source.getY(), destination.getX(), destination.getY()) == 1;
     }
 
-    private native boolean canBuildHere(int x, int y, int typeId);
+    private native int _canBuildHere(int x, int y, int typeId);
 
     public boolean canBuildHere(TilePosition position, UnitType type) {
     	
-        return canBuildHere(position.getX(), position.getY(), type.getId());
+        return _canBuildHere(position.getX(), position.getY(), type.getId()) == 1;
     }
 }

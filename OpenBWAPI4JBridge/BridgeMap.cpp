@@ -94,22 +94,23 @@ void BridgeMap::initialize(JNIEnv * env, jclass jc, jobject bwObject, jclass bwM
 //	BWMap
 //
 */
-JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMapImpl_isExplored(JNIEnv *, jobject, jint tileX, jint tileY) {
-	return Broodwar->isExplored(tileX, tileY);
+JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl__1isBuildable (JNIEnv *, jobject, jint tileX, jint tileY, jboolean considerBuildings) {
+	return Broodwar->isBuildable(tileX, tileY, considerBuildings) ? 1 : 0;
 }
 
-JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMapImpl_isVisible(JNIEnv *, jobject, jint tileX, jint tileY) {
-	return Broodwar->isVisible(tileX, tileY);
+JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl__1isExplored (JNIEnv *, jobject, jint tileX, jint tileY) {
+	return Broodwar->isExplored(tileX, tileY) ? 1 : 0;
 }
 
-JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMapImpl_isBuildable(JNIEnv *, jobject, jint tileX, jint tileY, jboolean considerBuildings) {
-	return Broodwar->isBuildable(tileX, tileY, considerBuildings);
+JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl__1isVisible (JNIEnv *, jobject, jint tileX, jint tileY) {
+	return Broodwar->isVisible(tileX, tileY) ? 1 : 0;
 }
 
-JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMapImpl_hasPath(JNIEnv *, jobject, jint x1, jint y1, jint x2, jint y2) {
-	return Broodwar->hasPath(BWAPI::Position(x1, y1), BWAPI::Position(x2, y2));
+JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl__1hasPath (JNIEnv *, jobject, int x1, jint y1, jint x2, jint y2) {
+	return Broodwar->hasPath(BWAPI::Position(x1, y1), BWAPI::Position(x2, y2)) ? 1 : 0;
 }
 
-JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMapImpl_canBuildHere(JNIEnv *, jobject, jint x, jint y, jint typeId) {
-	return Broodwar->canBuildHere(BWAPI::TilePosition(x, y), (UnitType)typeId);
+JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl__1canBuildHere (JNIEnv *, jobject, jint x, jint y, jint typeId) {
+	return Broodwar->canBuildHere(BWAPI::TilePosition(x, y), (UnitType)typeId) ? 1 : 0;
 }
+
