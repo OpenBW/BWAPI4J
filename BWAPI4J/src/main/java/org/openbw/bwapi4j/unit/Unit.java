@@ -272,18 +272,12 @@ public abstract class Unit implements Comparable<Unit> {
     	return this.angle;
     }
     
-    /**
-     * @deprecated 
-     */
     public <T extends Unit> T getClosest(Collection<T> group) {
 
         Comparator<T> comp = (u1, u2) -> Double.compare(this.getDistance(u1), this.getDistance(u2));
         return group.parallelStream().min(comp).get();
     }
 
-    /**
-     * @deprecated
-     */
     public <T extends Unit> List<T> getUnitsInRadius(int radius, Collection<T> group) {
 
         return group.parallelStream().filter(t -> this.getDistance(t) <= radius).collect(Collectors.toList());
@@ -380,31 +374,43 @@ public abstract class Unit implements Comparable<Unit> {
     }
 
     public boolean isVisible() {
+    	
         return this.isVisible;
     }
 
     public boolean isSelected() {
+    	
         return this.isSelected;
     }
 
     public boolean exists() {
+    	
         return this.exists;
     }
 
+    public void setExists(boolean exists) {
+    	
+    	this.exists = exists;
+    }
+    
     public UnitType getInitialType() {
+    	
         return initialType;
     }
 
     public Position getInitialPosition() {
+    	
         return initialPosition;
     }
 
     public TilePosition getInitialTilePosition() {
+    	
         return initialTilePosition;
     }
 
     @Override
     public int hashCode() {
+    	
         return this.id;
     }
 
@@ -420,11 +426,13 @@ public abstract class Unit implements Comparable<Unit> {
 
     @Override
     public String toString() {
+    	
         return this.getId() + ":" + this.type;
     }
 
     @Override
     public int compareTo(Unit otherUnit) {
+    	
         return this.getId() - otherUnit.getId();
     }
 
