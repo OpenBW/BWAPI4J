@@ -201,7 +201,7 @@ public abstract class Unit implements Comparable<Unit> {
         this.position = new Position(x, y);
         this.tilePosition = new TilePosition(unitData[index + Unit.TILEPOSITION_X_INDEX],
                 unitData[index + Unit.TILEPOSITION_Y_INDEX]);
-        this.angle = unitData[index + Unit.ANGLE_INDEX] / 100.0;
+        this.angle = unitData[index + Unit.ANGLE_INDEX] * Math.PI / 180.0;
         this.isVisible = unitData[index + Unit.IS_VISIBLE_INDEX] == 1;
         if (this.isVisible) {
         	this.lastSpotted = frame;
@@ -267,12 +267,23 @@ public abstract class Unit implements Comparable<Unit> {
         return new Position(x + dx / 2, y + dy / 2);
     }
 
+    public double getAngle() {
+    	
+    	return this.angle;
+    }
+    
+    /**
+     * @deprecated 
+     */
     public <T extends Unit> T getClosest(Collection<T> group) {
 
         Comparator<T> comp = (u1, u2) -> Double.compare(this.getDistance(u1), this.getDistance(u2));
         return group.parallelStream().min(comp).get();
     }
 
+    /**
+     * @deprecated
+     */
     public <T extends Unit> List<T> getUnitsInRadius(int radius, Collection<T> group) {
 
         return group.parallelStream().filter(t -> this.getDistance(t) <= radius).collect(Collectors.toList());
