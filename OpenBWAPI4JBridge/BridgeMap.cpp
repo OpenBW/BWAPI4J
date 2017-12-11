@@ -106,7 +106,7 @@ JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl__1isVisible (JNIEnv *, 
 	return Broodwar->isVisible(tileX, tileY) ? 1 : 0;
 }
 
-JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl__1hasPath (JNIEnv *, jobject, int x1, jint y1, jint x2, jint y2) {
+JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl__1hasPath (JNIEnv *, jobject, jint x1, jint y1, jint x2, jint y2) {
 	return Broodwar->hasPath(BWAPI::Position(x1, y1), BWAPI::Position(x2, y2)) ? 1 : 0;
 }
 
