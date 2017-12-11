@@ -1,17 +1,22 @@
 package org.openbw.bwapi4j.unit;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class SCV extends MobileUnit implements Mechanical {
 
+	private static final Logger logger = LogManager.getLogger();
+	
     private boolean isGatheringGas;
     private boolean isGatheringMinerals;
     private boolean isCarryingGas;
     private boolean isCarryingMinerals;
     private boolean isConstructing;
     private boolean isRepairing;
+    private int builderId;
 
     // TODO Worker superclass for all 3 races?
     
@@ -41,6 +46,7 @@ public class SCV extends MobileUnit implements Mechanical {
         this.isCarryingMinerals = unitData[index + Unit.IS_CARRYING_MINERALS_INDEX] == 1;
         this.isConstructing = unitData[index + Unit.IS_CONSTRUCTING_INDEX] == 1;
         this.isRepairing = unitData[index + Unit.IS_REPAIRING_INDEX] == 1;
+        this.builderId = unitData[index + Unit.BUILD_UNIT_ID_INDEX];
         super.update(unitData, index, frame);
     }
     
@@ -121,6 +127,18 @@ public class SCV extends MobileUnit implements Mechanical {
                 shiftQueueCommand ? 1 : 0);
     }
 
+    public Building getBuildUnit() {
+    
+    	Unit unit = this.getUnit(builderId);
+    	if (unit instanceof Building) {
+    		return (Building) unit;
+    	} else {
+    		
+    		logger.error("build unit for {} should be Building but is {}.", this, unit);
+    		return null;
+    	}
+    }
+    
     public boolean build(TilePosition p, UnitType type) {
         
         return issueCommand(this.id, UnitCommandType.Build.ordinal(), -1, p.getX(), p.getY(), type.getId());

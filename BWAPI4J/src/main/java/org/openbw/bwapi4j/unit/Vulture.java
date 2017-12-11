@@ -40,7 +40,7 @@ public class Vulture extends MobileUnit implements Mechanical {
      */
     public boolean spiderMine(Position position) {
         
-        return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), -1, 
+        return issueCommand(this.id, UnitCommandType.Use_Tech_Position.ordinal(), -1, 
                 position.getX(), position.getY(), TechType.Spider_Mines.getId());
     }
 }

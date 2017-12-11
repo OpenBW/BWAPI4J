@@ -16,7 +16,7 @@ public class ComsatStation extends Addon implements Mechanical, SpellCaster {
 
     public boolean scannerSweep(Position p) {
         
-        return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), -1, p.getX(), p.getY(),
+        return issueCommand(this.id, UnitCommandType.Use_Tech_Position.ordinal(), -1, p.getX(), p.getY(),
                 TechType.Scanner_Sweep.getId());
     }
 

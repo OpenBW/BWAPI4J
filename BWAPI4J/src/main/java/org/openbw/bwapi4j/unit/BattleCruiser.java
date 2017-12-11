@@ -29,7 +29,7 @@ public class BattleCruiser extends MobileUnit implements Mechanical, SpellCaster
 
     public boolean yamatoGun(PlayerUnit unit) {
         
-        return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), unit.getId(), -1, -1,
+        return issueCommand(this.id, UnitCommandType.Use_Tech_Unit.ordinal(), unit.getId(), -1, -1,
                 TechType.Yamato_Gun.getId());
     }
 

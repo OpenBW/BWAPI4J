@@ -39,7 +39,7 @@ public class Arbiter extends MobileUnit implements Mechanical, SpellCaster {
         if (this.energy < TechType.Stasis_Field.energyCost()) {
             return false;
         } else {
-            return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), -1, 
+            return issueCommand(this.id, UnitCommandType.Use_Tech_Position.ordinal(), -1, 
                     position.getX(), position.getY(), TechType.Stasis_Field.getId());
         }
     }
@@ -49,7 +49,7 @@ public class Arbiter extends MobileUnit implements Mechanical, SpellCaster {
         if (this.energy < TechType.Recall.energyCost()) {
             return false;
         } else {
-            return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), -1, 
+            return issueCommand(this.id, UnitCommandType.Use_Tech_Position.ordinal(), -1, 
                     position.getX(), position.getY(), TechType.Recall.getId());
         }
     }

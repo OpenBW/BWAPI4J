@@ -57,7 +57,7 @@ public class Defiler extends MobileUnit implements Organic, SpellCaster, Burrowa
             logger.info("Consume spell does not work on {} (only non-larva Zerg units can be consumed)", target);
             return false;
         } else {
-            return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), target.getId(), -1, -1, TechType.Spawn_Broodlings.getId());
+            return issueCommand(this.id, UnitCommandType.Use_Tech_Unit.ordinal(), target.getId(), -1, -1, TechType.Spawn_Broodlings.getId());
         }
     }
     
@@ -68,7 +68,7 @@ public class Defiler extends MobileUnit implements Organic, SpellCaster, Burrowa
             return false;
         } else {
             
-            return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), -1, position.getX(), position.getY(), TechType.Plague.getId());
+            return issueCommand(this.id, UnitCommandType.Use_Tech_Position.ordinal(), -1, position.getX(), position.getY(), TechType.Plague.getId());
         }
     }
     
@@ -79,7 +79,7 @@ public class Defiler extends MobileUnit implements Organic, SpellCaster, Burrowa
             return false;
         } else {
             
-            return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), -1, position.getX(), position.getY(), TechType.Dark_Swarm.getId());
+            return issueCommand(this.id, UnitCommandType.Use_Tech_Position.ordinal(), -1, position.getX(), position.getY(), TechType.Dark_Swarm.getId());
         }
     }
 

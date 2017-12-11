@@ -49,7 +49,7 @@ public class Queen extends MobileUnit implements Organic, SpellCaster {
             return false;
         } else {
             
-            return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), commandCenter.getId(), 
+            return issueCommand(this.id, UnitCommandType.Use_Tech_Unit.ordinal(), commandCenter.getId(), 
                     -1, -1, TechType.Infestation.getId());
         }
     }
@@ -66,7 +66,7 @@ public class Queen extends MobileUnit implements Organic, SpellCaster {
             return false;
         } else {
             
-            return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), target.getId(), 
+            return issueCommand(this.id, UnitCommandType.Use_Tech_Unit.ordinal(), target.getId(), 
                     -1, -1, TechType.Parasite.getId());
         }
     }
@@ -82,7 +82,7 @@ public class Queen extends MobileUnit implements Organic, SpellCaster {
             return false;
         } else {
             
-            return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), target.getId(), -1, -1, TechType.Spawn_Broodlings.getId());
+            return issueCommand(this.id, UnitCommandType.Use_Tech_Unit.ordinal(), target.getId(), -1, -1, TechType.Spawn_Broodlings.getId());
         }
     }
     
@@ -93,7 +93,7 @@ public class Queen extends MobileUnit implements Organic, SpellCaster {
             return false;
         } else {
             
-            return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), -1, position.getX(), position.getY(), TechType.Ensnare.getId());
+            return issueCommand(this.id, UnitCommandType.Use_Tech_Position.ordinal(), -1, position.getX(), position.getY(), TechType.Ensnare.getId());
         }
     }
 }

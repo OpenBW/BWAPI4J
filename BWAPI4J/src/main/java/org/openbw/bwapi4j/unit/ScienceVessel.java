@@ -30,19 +30,19 @@ public class ScienceVessel extends MobileUnit implements Mechanical, SpellCaster
 
     public boolean defensiveMatrix(PlayerUnit unit) {
         
-        return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), unit.getId(), -1, -1,
+        return issueCommand(this.id, UnitCommandType.Use_Tech_Unit.ordinal(), unit.getId(), -1, -1,
                 TechType.Defensive_Matrix.getId());
     }
 
     public boolean irradiate(Organic unit) {
         
-        return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), ((Unit) unit).getId(), -1, -1,
+        return issueCommand(this.id, UnitCommandType.Use_Tech_Unit.ordinal(), ((Unit) unit).getId(), -1, -1,
                 TechType.Irradiate.getId());
     }
 
     public boolean empShockWave(Position p) {
         
-        return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), -1, p.getX(), p.getY(),
+        return issueCommand(this.id, UnitCommandType.Use_Tech_Position.ordinal(), -1, p.getX(), p.getY(),
                 TechType.EMP_Shockwave.getId());
     }
 

@@ -312,9 +312,9 @@ public class BW {
         }
     }
 
-    public Player getPlayer(int id) {
+    public Player getPlayer(int playerId) {
 
-        return this.players.get(id);
+        return this.players.get(playerId);
     }
 
     public Collection<Player> getAllPlayers() {
@@ -322,9 +322,9 @@ public class BW {
         return this.players.values();
     }
 
-    public Unit getUnit(int id) {
+    public Unit getUnit(int unitId) {
 
-        return this.units.get(id);
+        return this.units.get(unitId);
     }
 
     public Collection<Bullet> getBullets() {
@@ -332,9 +332,9 @@ public class BW {
     	return this.bullets.values();
     }
     
-    public Bullet getBullet(int id) {
+    public Bullet getBullet(int bulletId) {
     	
-    	return this.bullets.get(id);
+    	return this.bullets.get(bulletId);
     }
     
     /**
@@ -416,16 +416,16 @@ public class BW {
     private void onStart() {
 
     	try {
-    	logger.trace(" --- onStart called.");
-        this.frame = 0;
-        this.players.clear();
-        this.units.clear();
-        this.bullets.clear();
-
-        logger.trace(" --- calling initial preFrame...");
-        preFrame();
-        logger.trace("done.");
-        listener.onStart();
+	    	logger.trace(" --- onStart called.");
+	        this.frame = 0;
+	        this.players.clear();
+	        this.units.clear();
+	        this.bullets.clear();
+	
+	        logger.trace(" --- calling initial preFrame...");
+	        preFrame();
+	        logger.trace("done.");
+	        listener.onStart();
     	} catch (Exception e) {
     		
     		logger.error("exception during onStart.", e);

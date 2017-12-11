@@ -47,7 +47,7 @@ public class HighTemplar extends MobileUnit implements Organic, SpellCaster {
             return false;
         } else {
             
-            return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), unit.getId(), 
+            return issueCommand(this.id, UnitCommandType.Use_Tech_Unit.ordinal(), unit.getId(), 
                     -1, -1, TechType.Hallucination.getId());
         }
     }
@@ -59,7 +59,7 @@ public class HighTemplar extends MobileUnit implements Organic, SpellCaster {
             return false;
         } else {
             
-            return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), -1, 
+            return issueCommand(this.id, UnitCommandType.Use_Tech_Position.ordinal(), -1, 
                     position.getX(), position.getY(), TechType.Psionic_Storm.getId());
         }
     }

@@ -194,10 +194,14 @@ public abstract class Building extends PlayerUnit {
 
     public SCV getBuildUnit() {
         
-    	if (!(this.getUnit(builderId) instanceof SCV)) {
-    		logger.error("build unit for {} should be SCV but is {}.", this, this.getUnit(builderId));
+    	Unit unit = this.getUnit(builderId);
+    	if (unit instanceof SCV) {
+    		return (SCV) unit;
+    	} else {
+    		
+    		logger.error("build unit for {} should be SCV but is {}.", this, unit);
+    		return null;
     	}
-        return (SCV) this.getUnit(builderId);
     }
 
     public int getBuildTime() {

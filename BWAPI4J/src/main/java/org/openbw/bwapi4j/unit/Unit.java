@@ -437,7 +437,7 @@ public abstract class Unit implements Comparable<Unit> {
     }
 
     protected native boolean issueCommand(int unitId, int unitCommandTypeId, int targetUnitId, int x, int y, int extra);
-
+    
     // --------------------------------------------------
 
     // dynamic

@@ -52,7 +52,7 @@ public class Ghost extends MobileUnit implements SpellCaster, Organic {
     public boolean lockdown(Mechanical unit) {
         
         if (unit instanceof Unit) {
-            return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), ((Unit) unit).getId(), -1, -1,
+            return issueCommand(this.id, UnitCommandType.Use_Tech_Unit.ordinal(), ((Unit) unit).getId(), -1, -1,
                     TechType.Lockdown.getId());
         } else {
             logger.error("unit {} is not a valid target for lockDown.", unit);
@@ -62,7 +62,7 @@ public class Ghost extends MobileUnit implements SpellCaster, Organic {
 
     public boolean nuclearStrike(Position p) {
         
-        return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), -1, p.getX(), p.getY(),
+        return issueCommand(this.id, UnitCommandType.Use_Tech_Position.ordinal(), -1, p.getX(), p.getY(),
                 TechType.Nuclear_Strike.getId());
     }
 }

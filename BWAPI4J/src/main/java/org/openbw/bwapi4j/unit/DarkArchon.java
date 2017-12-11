@@ -41,7 +41,7 @@ public class DarkArchon extends MobileUnit implements Organic, SpellCaster {
             return false;
         } else {
             
-            return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), unit.getId(), 
+            return issueCommand(this.id, UnitCommandType.Use_Tech_Unit.ordinal(), unit.getId(), 
                     -1, -1, TechType.Feedback.getId());
         }
     }
@@ -53,7 +53,7 @@ public class DarkArchon extends MobileUnit implements Organic, SpellCaster {
             return false;
         } else {
             
-            return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), unit.getId(), 
+            return issueCommand(this.id, UnitCommandType.Use_Tech_Unit.ordinal(), unit.getId(), 
                     -1, -1, TechType.Mind_Control.getId());
         }
     }
@@ -65,7 +65,7 @@ public class DarkArchon extends MobileUnit implements Organic, SpellCaster {
             return false;
         } else {
             
-            return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), -1, 
+            return issueCommand(this.id, UnitCommandType.Use_Tech_Position.ordinal(), -1, 
                     position.getX(), position.getY(), TechType.Maelstrom.getId());
         }
     }
