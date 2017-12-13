@@ -21,7 +21,6 @@ public abstract class PlayerUnit extends Unit {
     protected int killCount;
     protected boolean isCloaked;
     protected boolean isDetected;
-    protected boolean isFlying;
     protected double velocityX;
     protected double velocityY;
     protected boolean isIdle;
@@ -73,7 +72,6 @@ public abstract class PlayerUnit extends Unit {
         this.killCount = unitData[index + Unit.KILLCOUNT_INDEX];
         this.isCloaked = unitData[index + Unit.IS_CLOAKED_INDEX] == 1;
         this.isDetected = unitData[index + Unit.IS_DETECTED_INDEX] == 1;
-        this.isFlying = unitData[index + Unit.IS_FLYING_INDEX] == 1;
         this.velocityX = unitData[index + Unit.VELOCITY_X_INDEX] / 100.0;
         this.velocityY = unitData[index + Unit.VELOCITY_Y_INDEX] / 100.0;
         this.isIdle = unitData[index + Unit.IS_IDLE_INDEX] == 1;
@@ -225,11 +223,6 @@ public abstract class PlayerUnit extends Unit {
     public int getSightRange() {
         
         return this.type.sightRange();
-    }
-
-    public boolean isFlying() {
-        
-        return this.isFlying;
     }
 
     public boolean isDetected() {

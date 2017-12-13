@@ -386,7 +386,7 @@ public class BW {
 			
 			for (Unit unit : this.getAllUnits()) {
 
-				if (unit != builder 
+				if (unit != builder && !unit.isFlying()
 						&& unit.getTilePosition().getX() + unit.tileWidth() > position.getX()
 						&& unit.getTilePosition().getX() < position.getX() + type.tileWidth()
 						&& unit.getTilePosition().getY() + unit.tileHeight() > position.getY()

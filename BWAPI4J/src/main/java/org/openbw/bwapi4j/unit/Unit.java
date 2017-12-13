@@ -167,7 +167,8 @@ public abstract class Unit implements Comparable<Unit> {
     protected boolean isVisible;
     protected boolean exists;
     protected boolean isSelected;
-
+    protected boolean isFlying;
+    
     // internal
     private BW bw;
     private int lastSpotted;
@@ -208,6 +209,7 @@ public abstract class Unit implements Comparable<Unit> {
         }
         this.exists = unitData[index + Unit.EXISTS_INDEX] == 1;
         this.isSelected = unitData[index + Unit.IS_SELECTED_INDEX] == 1;
+        this.isFlying = unitData[index + Unit.IS_FLYING_INDEX] == 1;
     }
 
     public int getLastSpotted() {
@@ -371,6 +373,11 @@ public abstract class Unit implements Comparable<Unit> {
         logger.trace("dx, dy: {}, {}.", xDist, yDist);
         
         return new Position(0, 0).getDistance(new Position(xDist, yDist));
+    }
+
+    public boolean isFlying() {
+        
+        return this.isFlying;
     }
 
     public boolean isVisible() {
