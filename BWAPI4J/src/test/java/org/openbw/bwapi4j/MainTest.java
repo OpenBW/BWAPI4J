@@ -37,9 +37,8 @@ public class MainTest implements BWEventListener {
     public void smokeTest() throws AssertionError {
         
     	logger.info("test start.");
-        BW bw = new BW(this);
-        this.bw = bw;
-        bw.startGame();
+    	this.bw = new BW(this);
+        this.bw.startGame();
         logger.info("test done.");
     }
 

@@ -558,7 +558,14 @@ public class Player {
      * UnitInterface::upgrade, getMaxUpgradeLevel
      */
     public int getUpgradeLevel(UpgradeType upgrade) {
-        return this.upgradeStatus[upgrade.ordinal() * 3 + 1];
+    	
+    	for (int i = 0; i < this.upgradeStatus.length; i += 3) {
+    		
+    		if (this.upgradeStatus[i] == upgrade.getId()) {
+    			return this.upgradeStatus[i + 1];
+    		}
+    	}
+        return 0;
     }
 
     /**
@@ -568,7 +575,14 @@ public class Player {
      * isResearching, UnitInterface::research, isResearchAvailable
      */
     public boolean hasResearched(TechType tech) {
-        return this.researchStatus[tech.ordinal() * 3 + 1] == 1;
+    	
+    	for (int i = 0; i < this.researchStatus.length; i += 3) {
+    		
+    		if (this.researchStatus[i] == tech.getId()) {
+    			return this.researchStatus[i + 1] == 1;
+    		}
+    	}
+        return false;
     }
 
     /**
@@ -578,7 +592,14 @@ public class Player {
      * UnitInterface::research, hasResearched
      */
     public boolean isResearching(TechType tech) {
-        return this.researchStatus[tech.ordinal() * 3 + 2] == 1;
+        
+    	for (int i = 0; i < this.researchStatus.length; i += 3) {
+    		
+    		if (this.researchStatus[i] == tech.getId()) {
+    			return this.researchStatus[i + 2] == 1;
+    		}
+    	}
+        return false;
     }
 
     /**
@@ -595,7 +616,14 @@ public class Player {
      * UnitInterface::upgrade
      */
     public boolean isUpgrading(UpgradeType upgrade) {
-        return this.upgradeStatus[upgrade.ordinal() * 3 + 2] == 1;
+    	
+    	for (int i = 0; i < this.upgradeStatus.length; i += 3) {
+    		
+    		if (this.upgradeStatus[i] == upgrade.getId()) {
+    			return this.upgradeStatus[i + 2] == 1;
+    		}
+    	}
+        return false;
     }
 
     /**

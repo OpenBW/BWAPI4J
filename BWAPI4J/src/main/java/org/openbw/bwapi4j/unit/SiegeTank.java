@@ -20,12 +20,12 @@ public class SiegeTank extends MobileUnit implements Mechanical {
         super.update(unitData, index, frame);
     }
 
-    protected boolean siege() {
+    public boolean siege() {
         
         return issueCommand(this.id, UnitCommandType.Siege.ordinal(), -1, -1, -1, -1);
     }
 
-    protected boolean unsiege() {
+    public boolean unsiege() {
         
         return issueCommand(this.id, UnitCommandType.Unsiege.ordinal(), -1, -1, -1, -1);
     }

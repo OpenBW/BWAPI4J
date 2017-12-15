@@ -55,12 +55,12 @@ public class BW {
         this.units = new ConcurrentHashMap<Integer, Unit>();
         this.bullets = new ConcurrentHashMap<Integer, Bullet>();
         this.listener = listener;
-        this.unitFactory = new UnitFactory(this);
         this.interactionHandler = new InteractionHandler(this);
         this.mapDrawer = new MapDrawer();
         this.damageEvaluator = new DamageEvaluator();
         this.bwMap = new BWMapImpl();
-
+        setUnitFactory(new UnitFactory());
+        
         try {
             charset = Charset.forName("Cp949"); // Korean char set
         } catch (UnsupportedCharsetException e) {
@@ -197,6 +197,7 @@ public class BW {
     public void setUnitFactory(UnitFactory unitFactory) {
 
         this.unitFactory = unitFactory;
+        this.unitFactory.setBW(this);
     }
 
     public BWMap getBWMap() {

@@ -43,6 +43,7 @@ jar {
 }
 
 shadowJar {
+	from sourceSets.main.allSource
 	classifier = null
 }
 

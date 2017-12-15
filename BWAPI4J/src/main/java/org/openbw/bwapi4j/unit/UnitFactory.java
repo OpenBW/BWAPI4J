@@ -11,10 +11,56 @@ public class UnitFactory {
     
     private BW bw;
     
-    public UnitFactory(BW bw) {
-        this.bw = bw;
+    public UnitFactory() {
+    	
     }
     
+    public final void setBW(BW bw) {
+    	this.bw = bw;
+    }
+    
+    protected MineralPatch getMineralPatch(int unitId, int timeSpotted) {
+    	
+		return new MineralPatch(unitId);
+	}
+
+	protected VespeneGeyser getVespeneGeyser(int unitId, int timeSpotted) {
+
+		return new VespeneGeyser(unitId);
+	}
+
+	protected Refinery getRefinery(int unitId, int timeSpotted) {
+
+		return new Refinery(unitId, timeSpotted);
+	}
+
+	protected SCV getSCV(int unitId, int timeSpotted) {
+
+    	return new SCV(unitId);
+    }
+	
+    protected Marine getMarine(int unitId, int timeSpotted) {
+    	
+    	return new Marine(unitId);
+    }
+    
+	protected Vulture getVulture(int unitId, int timeSpotted) {
+	    	
+	    	return new Vulture(unitId);
+	    }
+	
+	protected SiegeTank getSiegeTank(int unitId, int timeSpotted, boolean sieged) {
+		
+		return new SiegeTank(unitId, sieged);
+	}
+	
+	protected Wraith getWraith(int unitId, int timeSpotted) {
+		
+		return new Wraith(unitId);
+	}
+    
+	// TODO all the other getters
+	
     /**
      * Creates a unit for given ID and type.
      * @param unitId ID of the unit to create
@@ -22,7 +68,7 @@ public class UnitFactory {
      * @param timeSpotted time stamp when unit first appeared
      * @return the created unit
      */
-    public Unit createUnit(int unitId, UnitType unitType, int timeSpotted) {
+    public final Unit createUnit(int unitId, UnitType unitType, int timeSpotted) {
 
         Unit unit;
         switch (unitType) {
@@ -75,7 +121,7 @@ public class UnitFactory {
             unit = new MachineShop(unitId, timeSpotted);
             break;
         case Terran_Marine:
-            unit = new Marine(unitId);
+            unit = getMarine(unitId, timeSpotted);
             break;
         case Terran_Medic:
             unit = new Medic(unitId);
@@ -90,7 +136,7 @@ public class UnitFactory {
             unit = new PhysicsLab(unitId, timeSpotted);
             break;
         case Terran_Refinery:
-            unit = new Refinery(unitId, timeSpotted);
+            unit = getRefinery(unitId, timeSpotted);
             break;
         case Terran_Science_Facility:
             unit = new ScienceFacility(unitId, timeSpotted);
@@ -99,13 +145,13 @@ public class UnitFactory {
             unit = new ScienceVessel(unitId);
             break;
         case Terran_SCV:
-            unit = new SCV(unitId);
+            unit = getSCV(unitId, timeSpotted);
             break;
         case Terran_Siege_Tank_Tank_Mode:
-        	unit = new SiegeTank(unitId, false);
+        	unit = getSiegeTank(unitId, timeSpotted, false);
             break;
         case Terran_Siege_Tank_Siege_Mode:
-            unit = new SiegeTank(unitId, true);
+            unit = getSiegeTank(unitId, timeSpotted, true);
             break;
         case Terran_Vulture_Spider_Mine:
             unit = new SpiderMine(unitId);
@@ -120,10 +166,10 @@ public class UnitFactory {
             unit = new Valkyrie(unitId);
             break;
         case Terran_Vulture:
-            unit = new Vulture(unitId);
+            unit = getVulture(unitId, timeSpotted);
             break;
         case Terran_Wraith:
-            unit = new Wraith(unitId);
+            unit = getWraith(unitId, timeSpotted);
             break;
         case Zerg_Zergling:
             unit = new Zergling(unitId);
@@ -182,10 +228,10 @@ public class UnitFactory {
         case Resource_Mineral_Field:
         case Resource_Mineral_Field_Type_2:
         case Resource_Mineral_Field_Type_3:
-            unit = new MineralPatch(unitId);
+            unit = getMineralPatch(unitId, timeSpotted);
             break;
         case Resource_Vespene_Geyser:
-            unit = new VespeneGeyser(unitId);
+            unit = getVespeneGeyser(unitId, timeSpotted);
             break;
         case Terran_Nuclear_Missile:
             unit = new NuclearMissile(unitId);
@@ -492,16 +538,11 @@ public class UnitFactory {
             throw new UnsupportedUnitException("UnitType " + unitType + " is not supported.");
         }
         
-        setBW(unit);
+        if (unit != null) {
+        	
+            unit.setBW(bw);
+        }
         
         return unit;
     }
-    
-    protected void setBW(Unit unit) {
-    	
-    	if (unit != null) {
-            unit.setBW(bw);
-        }
-    }
-    
 }
