@@ -44,10 +44,30 @@ public class UnitFactory {
     	return new Marine(unitId);
     }
     
+    protected Medic getMedic(int unitId, int timeSpotted) {
+    	
+    	return new Medic(unitId);
+    }
+    
+    protected Firebat getFirebat(int unitId, int timeSpotted) {
+    	
+    	return new Firebat(unitId);
+    }
+    
+    protected Ghost getGhost(int unitId, int timeSpotted) {
+    	
+    	return new Ghost(unitId);
+    }
+    
 	protected Vulture getVulture(int unitId, int timeSpotted) {
 	    	
-	    	return new Vulture(unitId);
-	    }
+    	return new Vulture(unitId);
+    }
+	
+	protected Goliath getGoliath(int unitId, int timeSpotted) {
+    	
+    	return new Goliath(unitId);
+    }
 	
 	protected SiegeTank getSiegeTank(int unitId, int timeSpotted, boolean sieged) {
 		
@@ -57,6 +77,26 @@ public class UnitFactory {
 	protected Wraith getWraith(int unitId, int timeSpotted) {
 		
 		return new Wraith(unitId);
+	}
+	
+	protected Dropship getDropship(int unitId, int timeSpotted) {
+		
+		return new Dropship(unitId);
+	}
+	
+	protected Valkyrie getValkyrie(int unitId, int timeSpotted) {
+		
+		return new Valkyrie(unitId);
+	}
+	
+	protected BattleCruiser getBattleCruiser(int unitId, int timeSpotted) {
+		
+		return new BattleCruiser(unitId);
+	}
+	
+	protected ScienceVessel getScienceVessel(int unitId, int timeSpotted) {
+		
+		return new ScienceVessel(unitId);
 	}
     
 	// TODO all the other getters
@@ -82,7 +122,7 @@ public class UnitFactory {
             unit = new Barracks(unitId, timeSpotted);
             break;
         case Terran_Battlecruiser:
-            unit = new BattleCruiser(unitId);
+            unit = getBattleCruiser(unitId, timeSpotted);
             break;
         case Terran_Bunker:
             unit = new Bunker(unitId, timeSpotted);
@@ -100,7 +140,7 @@ public class UnitFactory {
             unit = new CovertOps(unitId, timeSpotted);
             break;
         case Terran_Dropship:
-            unit = new Dropship(unitId);
+            unit = getDropship(unitId, timeSpotted);
             break;
         case Terran_Engineering_Bay:
             unit = new EngineeringBay(unitId, timeSpotted);
@@ -109,13 +149,13 @@ public class UnitFactory {
             unit = new Factory(unitId, timeSpotted);
             break;
         case Terran_Firebat:
-            unit = new Firebat(unitId);
+            unit = getFirebat(unitId, timeSpotted);
             break;
         case Terran_Ghost:
-            unit = new Ghost(unitId);
+            unit = getGhost(unitId, timeSpotted);
             break;
         case Terran_Goliath:
-            unit = new Goliath(unitId);
+            unit = getGoliath(unitId, timeSpotted);
             break;
         case Terran_Machine_Shop:
             unit = new MachineShop(unitId, timeSpotted);
@@ -124,7 +164,7 @@ public class UnitFactory {
             unit = getMarine(unitId, timeSpotted);
             break;
         case Terran_Medic:
-            unit = new Medic(unitId);
+            unit = getMedic(unitId, timeSpotted);
             break;
         case Terran_Missile_Turret:
             unit = new MissileTurret(unitId, timeSpotted);
@@ -142,7 +182,7 @@ public class UnitFactory {
             unit = new ScienceFacility(unitId, timeSpotted);
             break;
         case Terran_Science_Vessel:
-            unit = new ScienceVessel(unitId);
+            unit = getScienceVessel(unitId, timeSpotted);
             break;
         case Terran_SCV:
             unit = getSCV(unitId, timeSpotted);
@@ -163,7 +203,7 @@ public class UnitFactory {
             unit = new SupplyDepot(unitId, timeSpotted);
             break;
         case Terran_Valkyrie:
-            unit = new Valkyrie(unitId);
+            unit = getValkyrie(unitId, timeSpotted);
             break;
         case Terran_Vulture:
             unit = getVulture(unitId, timeSpotted);
