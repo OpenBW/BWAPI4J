@@ -4,7 +4,7 @@ import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.WeaponType;
 
-public class SunkenColony extends Building implements Organic {
+public class SunkenColony extends Building implements Organic, Armed {
 
     protected SunkenColony(int id, int timeSpotted) {
         
@@ -20,10 +20,16 @@ public class SunkenColony extends Building implements Organic {
         
         return issueCommand(this.id, UnitCommandType.Attack_Unit.ordinal(), target.getId(), -1, -1, queued ? 1 : 0);
     }
-    
-    public WeaponType getGroundWeapon() {
+
+    @Override
+    public Weapon getGroundWeapon() {
         
-        return this.type.groundWeapon();
+        return groundWeapon;
+    }
+
+    @Override
+    public Weapon getAirWeapon() {
+        return airWeapon;
     }
 
     public int getMaxGroundHits() {

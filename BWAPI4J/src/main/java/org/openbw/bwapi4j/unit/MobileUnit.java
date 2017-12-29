@@ -3,9 +3,8 @@ package org.openbw.bwapi4j.unit;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
-import org.openbw.bwapi4j.type.WeaponType;
 
-public abstract class MobileUnit extends PlayerUnit {
+public abstract class MobileUnit extends PlayerUnit implements Armed {
 
     private boolean isFollowing;
     private boolean isHoldingPosition;
@@ -29,7 +28,7 @@ public abstract class MobileUnit extends PlayerUnit {
     private boolean isEnsnared;
 
     protected MobileUnit(int id, UnitType unitType) {
-        
+
         super(id, unitType);
     }
 
@@ -57,195 +56,196 @@ public abstract class MobileUnit extends PlayerUnit {
         this.isBraking = unitData[index + Unit.IS_BRAKING_INDEX] == 1;
         this.isDefenseMatrixed = unitData[index + Unit.IS_DEFENSE_MATRIXED_INDEX] == 1;
         this.isEnsnared = unitData[index + Unit.IS_ENSNARED_INDEX] == 1;
-        
         super.update(unitData, index, frame);
     }
 
     public boolean attack(Position p) {
-        
+
         return attack(p, false);
     }
 
     public boolean attack(Position p, boolean queued) {
-        
+
         return issueCommand(this.id, UnitCommandType.Attack_Move.ordinal(), -1, p.getX(), p.getY(), queued ? 1 : 0);
     }
 
     public boolean attack(Unit target) {
-        
+
         return attack(target, false);
     }
 
     public boolean attack(Unit target, boolean queued) {
-        
+
         return issueCommand(this.id, UnitCommandType.Attack_Unit.ordinal(), target.getId(), -1, -1, queued ? 1 : 0);
     }
 
     public boolean move(Position p) {
-        
+
         return move(p, false);
     }
 
     public boolean move(Position p, boolean queued) {
-        
+
         return issueCommand(this.id, UnitCommandType.Move.ordinal(), -1, p.getX(), p.getY(), queued ? 1 : 0);
     }
 
     public boolean patrol(Position p) {
-        
+
         return patrol(p, false);
     }
 
     public boolean patrol(Position p, boolean queued) {
-        
+
         return issueCommand(this.id, UnitCommandType.Patrol.ordinal(), -1, p.getX(), p.getY(), queued ? 1 : 0);
     }
 
     public boolean holdPosition() {
-        
+
         return holdPosition(false);
     }
 
     public boolean holdPosition(boolean queued) {
-        
+
         return issueCommand(this.id, UnitCommandType.Hold_Position.ordinal(), -1, -1, -1, queued ? 1 : 0);
     }
 
     public boolean stop(boolean queued) {
-        
+
         return issueCommand(this.id, UnitCommandType.Stop.ordinal(), -1, -1, -1, queued ? 1 : 0);
     }
 
     public boolean follow(Unit target, boolean queued) {
-        
+
         return issueCommand(this.id, UnitCommandType.Follow.ordinal(), target.getId(), -1, -1, queued ? 1 : 0);
     }
 
     public int getAcidSporeCount() {
-        
+
         return this.acidSporeCount;
     }
-    
+
     public Unit getTransport() {
-        
+
         return this.getUnit(this.transportId);
     }
-    
+
     public boolean isFollowing() {
-        
+
         return isFollowing;
     }
 
     public boolean isHoldingPosition() {
-        
+
         return isHoldingPosition;
     }
 
     public boolean isStasised() {
-        
+
         return isStasised;
     }
 
     public boolean isUnderDarkSwarm() {
-        
+
         return isUnderDarkSwarm;
     }
 
     public boolean isUnderDisruptionWeb() {
-        
+
         return isUnderDisruptionWeb;
     }
 
     public boolean isUnderStorm() {
-        
+
         return isUnderStorm;
     }
 
     public boolean isParasited() {
-        
+
         return isParasited;
     }
 
     public boolean isPatrolling() {
-        
+
         return isPatrolling;
     }
 
     public boolean isPlagued() {
-        
+
         return isPlagued;
     }
 
     public boolean isMoving() {
-        
+
         return this.isMoving;
     }
 
     public Position getTargetPosition() {
-        
+
         return this.targetPosition;
     }
 
     public Unit getTargetUnit() {
-        
+
         return this.getUnit(this.targetId);
     }
 
-    public WeaponType getGroundWeapon() {
-        
-        return this.type.groundWeapon();
+    @Override
+    public Weapon getGroundWeapon() {
+
+        return groundWeapon;
     }
 
-    public WeaponType getAirWeapon() {
-        
-        return this.type.airWeapon();
+    @Override
+    public Weapon getAirWeapon() {
+
+        return airWeapon;
     }
 
     public int getMaxGroundHits() {
         return this.type.maxGroundHits();
     }
-    
+
     public int getMaxAirHits() {
         return this.type.maxAirHits();
     }
-    
+
     public int getTurnRadius() {
-        
+
         return this.type.turnRadius();
     }
 
     public boolean isStuck() {
-        
+
         return this.isStuck;
     }
 
     public int getSupplyRequired() {
-        
+
         return this.type.supplyRequired();
     }
-    
+
     public boolean isHallucination() {
-    
+
         return this.isHallucination;
     }
-    
+
     public boolean isBlind() {
-        
+
         return this.isBlind;
     }
-    
+
     public boolean isBraking() {
-    
+
         return this.isBraking;
     }
-    
+
     public boolean isDefenseMatrixed() {
-        
+
         return this.isDefenseMatrixed;
     }
-    
+
     public boolean isEnsnared() {
-        
+
         return this.isEnsnared;
     }
 }

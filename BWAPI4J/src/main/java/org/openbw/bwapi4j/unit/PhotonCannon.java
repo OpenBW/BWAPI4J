@@ -4,7 +4,7 @@ import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.WeaponType;
 
-public class PhotonCannon extends Building implements Detector, Mechanical {
+public class PhotonCannon extends Building implements Detector, Mechanical, Armed {
 
     protected PhotonCannon(int id, int timeSpotted) {
         
@@ -15,15 +15,17 @@ public class PhotonCannon extends Building implements Detector, Mechanical {
         
         return issueCommand(this.id, UnitCommandType.Attack_Unit.ordinal(), target.getId(), -1, -1, queued ? 1 : 0);
     }
-    
-    public WeaponType getGroundWeapon() {
+
+    @Override
+    public Weapon getGroundWeapon() {
         
-        return this.type.groundWeapon();
+        return groundWeapon;
     }
 
-    public WeaponType getAirWeapon() {
+    @Override
+    public Weapon getAirWeapon() {
         
-        return this.type.airWeapon();
+        return airWeapon;
     }
 
     public int getMaxGroundHits() {

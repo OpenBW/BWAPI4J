@@ -9,6 +9,7 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
+import org.openbw.bwapi4j.type.WeaponType;
 
 public abstract class PlayerUnit extends Unit {
 
@@ -25,8 +26,8 @@ public abstract class PlayerUnit extends Unit {
     protected double velocityY;
     protected boolean isIdle;
     protected boolean isCompleted;
-    protected int groundWeaponCooldown;
-    protected int airWeaponCooldown;
+    protected Weapon groundWeapon = new Weapon(WeaponType.None, 0);
+    protected Weapon airWeapon = new Weapon(WeaponType.None, 0);
     protected int spellCooldown;
     private boolean isAccelerating;
     private boolean isAttacking;
@@ -76,8 +77,6 @@ public abstract class PlayerUnit extends Unit {
         this.velocityY = unitData[index + Unit.VELOCITY_Y_INDEX] / 100.0;
         this.isIdle = unitData[index + Unit.IS_IDLE_INDEX] == 1;
         this.isCompleted = unitData[index + Unit.IS_COMPLETED_INDEX] == 1;
-        this.groundWeaponCooldown = unitData[index + Unit.GROUND_WEAPON_COOLDOWN_INDEX];
-        this.airWeaponCooldown = unitData[index + Unit.AIR_WEAPON_COOLDOWN_INDEX];
         this.spellCooldown = unitData[index + Unit.SPELL_COOLDOWN_INDEX];
         this.isAccelerating = unitData[index + Unit.IS_ACCELERATING_INDEX] == 1;
         this.isAttacking = unitData[index + Unit.IS_ATTACKING_INDEX] == 1;
@@ -92,7 +91,10 @@ public abstract class PlayerUnit extends Unit {
         this.isPowered = unitData[index + Unit.IS_POWERED_INDEX] == 1;
         
         super.update(unitData, index, frame);
-        
+
+        this.groundWeapon.update(type.groundWeapon(), unitData[index + Unit.GROUND_WEAPON_COOLDOWN_INDEX]);
+        this.airWeapon.update(type.airWeapon(), unitData[index + Unit.AIR_WEAPON_COOLDOWN_INDEX]);
+
         if (this.isVisible) {
         	
             this.lastKnownPosition = this.position;
@@ -170,16 +172,6 @@ public abstract class PlayerUnit extends Unit {
     	return this.shields;
     }
     
-    public int getGroundWeaponCooldown() {
-        
-        return this.groundWeaponCooldown;
-    }
-
-    public int getAirWeaponCooldown() {
-        
-        return this.airWeaponCooldown;
-    }
-
     public int getSpellCooldown() {
         
         return this.spellCooldown;
