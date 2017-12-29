@@ -276,13 +276,13 @@ public abstract class Unit implements Comparable<Unit> {
     
     public <T extends Unit> T getClosest(Collection<T> group) {
 
-        Comparator<T> comp = (u1, u2) -> Double.compare(this.getDistance(u1), this.getDistance(u2));
-        return group.parallelStream().min(comp).get();
+        Comparator<T> comp = Comparator.comparingDouble(this::getDistance);
+        return group.stream().min(comp).get();
     }
 
     public <T extends Unit> List<T> getUnitsInRadius(int radius, Collection<T> group) {
 
-        return group.parallelStream().filter(t -> this.getDistance(t) <= radius).collect(Collectors.toList());
+        return group.stream().filter(t -> this.getDistance(t) <= radius).collect(Collectors.toList());
     }
 
     public int getX() {

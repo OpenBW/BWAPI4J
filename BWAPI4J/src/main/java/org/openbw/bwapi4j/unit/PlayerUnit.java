@@ -122,8 +122,8 @@ public abstract class PlayerUnit extends Unit {
             weakestUnit = this.getClosest(units);
         } else {
             
-            Comparator<T> comp = (u1, u2) -> Integer.compare(u1.getHitPoints(), u2.getHitPoints());
-            weakestUnit = inRange.parallelStream().min(comp).get();
+            Comparator<T> comp = Comparator.comparingInt(PlayerUnit::getHitPoints);
+            weakestUnit = inRange.stream().min(comp).get();
         }
         return weakestUnit;
     }
