@@ -49,6 +49,11 @@ class BWMapImpl implements BWMap {
         return this.walkabilityInfo[walkX][walkY] == 1;
     }
 
+    @Override
+    public boolean isWalkable(WalkPosition walkPosition) {
+        return isWalkable(walkPosition.getX(), walkPosition.getY());
+    }
+
     public int mapWidth() {
         return this.width;
     }

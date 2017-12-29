@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.openbw.bwapi4j.BWMap;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
+import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class BWMapMock implements BWMap {
@@ -85,6 +86,11 @@ public class BWMapMock implements BWMap {
     public boolean isWalkable(int walkX, int walkY) {
         return this.walkabilityInfo[walkX][walkY] == 1;
     }
+
+	@Override
+	public boolean isWalkable(WalkPosition walkPosition) {
+		return isWalkable(walkPosition.getX(), walkPosition.getY());
+	}
 
 	@Override
     public int mapWidth() {

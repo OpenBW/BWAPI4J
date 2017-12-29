@@ -18,6 +18,8 @@ public interface BWMap {
 
     public boolean isWalkable(int walkX, int walkY);
 
+    boolean isWalkable(WalkPosition walkPosition);
+
     public int mapWidth();
 
     public int mapHeight();
