@@ -29,6 +29,7 @@ public abstract class PlayerUnit extends Unit {
     protected Weapon groundWeapon = new Weapon(WeaponType.None, 0);
     protected Weapon airWeapon = new Weapon(WeaponType.None, 0);
     protected int spellCooldown;
+    protected int targetId;
     private boolean isAccelerating;
     private boolean isAttacking;
     private boolean isAttackFrame;
@@ -89,7 +90,8 @@ public abstract class PlayerUnit extends Unit {
         this.isStartingAttack = unitData[index + Unit.IS_STARTING_ATTACK_INDEX] == 1;
         this.isUnderAttack = unitData[index + Unit.IS_UNDER_ATTACK_INDEX] == 1;
         this.isPowered = unitData[index + Unit.IS_POWERED_INDEX] == 1;
-        
+        this.targetId = unitData[index + Unit.TARGET_ID_INDEX];
+
         super.update(unitData, index, frame);
 
         this.groundWeapon.update(type.groundWeapon(), unitData[index + Unit.GROUND_WEAPON_COOLDOWN_INDEX]);
@@ -101,6 +103,11 @@ public abstract class PlayerUnit extends Unit {
             this.lastKnownTilePosition = this.tilePosition;
             this.lastKnownHitPoints = this.hitPoints;
         }
+    }
+
+    protected Unit getTargetUnit() {
+
+        return this.getUnit(this.targetId);
     }
 
     /**

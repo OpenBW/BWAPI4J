@@ -34,7 +34,7 @@ public class Position {
      * Returns the distance as BW would.
      * This is ported from BWAPI's getApproxDistance method.
      */
-    public double getDistance(final Position position) {
+    public int getDistance(final Position position) {
     	int min = abs(getX() - position.getX());
     	int max = abs(getY() - position.getY());
 

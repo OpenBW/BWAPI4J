@@ -18,7 +18,6 @@ public abstract class MobileUnit extends PlayerUnit implements Armed {
     private boolean isPatrolling;
     private boolean isPlagued;
     private Position targetPosition;
-    private int targetId;
     private int transportId;
     private int acidSporeCount;
     private boolean isHallucination;
@@ -48,7 +47,6 @@ public abstract class MobileUnit extends PlayerUnit implements Armed {
         this.isPlagued = unitData[index + Unit.IS_PLAGUED_INDEX] == 1;
         this.targetPosition = new Position(unitData[index + Unit.TARGET_POSITION_X_INDEX],
                 unitData[index + Unit.TARGET_POSITION_Y_INDEX]);
-        this.targetId = unitData[index + Unit.TARGET_ID_INDEX];
         this.transportId = unitData[index + Unit.TRANSPORT_INDEX];
         this.acidSporeCount = unitData[index + Unit.ACID_SPORE_COUNT_INDEX];
         this.isHallucination = unitData[index + Unit.IS_HALLUCINATION_INDEX] == 1;
@@ -184,9 +182,10 @@ public abstract class MobileUnit extends PlayerUnit implements Armed {
         return this.targetPosition;
     }
 
+    @Override
     public Unit getTargetUnit() {
 
-        return this.getUnit(this.targetId);
+        return super.getTargetUnit();
     }
 
     @Override

@@ -11,7 +11,13 @@ public class PhotonCannon extends Building implements Detector, Mechanical, Arme
         super(id, UnitType.Protoss_Photon_Cannon, timeSpotted);
     }
 
-    protected boolean attack(Unit target, boolean queued) {
+    @Override
+    public boolean attack(Unit target) {
+        return attack(target, false);
+    }
+
+    @Override
+    public boolean attack(Unit target, boolean queued) {
         
         return issueCommand(this.id, UnitCommandType.Attack_Unit.ordinal(), target.getId(), -1, -1, queued ? 1 : 0);
     }
@@ -26,6 +32,11 @@ public class PhotonCannon extends Building implements Detector, Mechanical, Arme
     public Weapon getAirWeapon() {
         
         return airWeapon;
+    }
+
+    @Override
+    public Unit getTargetUnit() {
+        return super.getTargetUnit();
     }
 
     public int getMaxGroundHits() {

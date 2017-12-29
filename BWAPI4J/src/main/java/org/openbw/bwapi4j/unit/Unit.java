@@ -346,7 +346,7 @@ public abstract class Unit implements Comparable<Unit> {
         return new Position(0, 0).getDistance(new Position(xDist, yDist));
     }
 
-    public double getDistance(Unit target) {
+    public int getDistance(Unit target) {
     	
         if (!this.exists || target == null || !target.exists()) {
             return Integer.MAX_VALUE;
