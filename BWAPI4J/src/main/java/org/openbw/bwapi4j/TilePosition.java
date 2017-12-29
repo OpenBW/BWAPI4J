@@ -30,6 +30,13 @@ public class TilePosition {
         return this.y;
     }
 
+    public double getDistance(final TilePosition position) {
+        double dx = getX() - position.getX();
+        double dy = getY() - position.getY();
+
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
     public WalkPosition toWalkPosition() {
         final int x = (getX() * TilePosition.SIZE_IN_PIXELS) / WalkPosition.SIZE_IN_PIXELS;
         final int y = (getY() * TilePosition.SIZE_IN_PIXELS) / WalkPosition.SIZE_IN_PIXELS;
