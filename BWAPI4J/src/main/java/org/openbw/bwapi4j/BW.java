@@ -523,6 +523,7 @@ public class BW {
             logger.error("onUnitDestroy: no unit found for ID {}.", unitId);
         }
         listener.onUnitDestroy(unit);
+        this.units.remove(unitId);
     }
 
     private void onUnitMorph(int unitId) {
