@@ -65,14 +65,14 @@ public class Probe extends MobileUnit implements Mechanical, Robotic {
         return issueCommand(this.id, UnitCommandType.Return_Cargo.ordinal(), -1, -1, -1, queued ? 1 : 0);
     }
 
-    public boolean gather(Refinery refinery) {
+    public boolean gather(Assimilator assimilator) {
         
-        return issueCommand(this.id, UnitCommandType.Gather.ordinal(), refinery.getId(), -1, -1, 0);
+        return issueCommand(this.id, UnitCommandType.Gather.ordinal(), assimilator.getId(), -1, -1, 0);
     }
 
-    public boolean gather(Refinery refinery, boolean shiftQueueCommand) {
+    public boolean gather(Assimilator assimilator, boolean shiftQueueCommand) {
         
-        return issueCommand(this.id, UnitCommandType.Gather.ordinal(), refinery.getId(), -1, -1,
+        return issueCommand(this.id, UnitCommandType.Gather.ordinal(), assimilator.getId(), -1, -1,
                 shiftQueueCommand ? 1 : 0);
     }
 
