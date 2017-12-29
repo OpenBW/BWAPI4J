@@ -4,7 +4,7 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
-public class Factory extends Building implements Mechanical, FlyingBuilding, TrainingFacility {
+public class Factory extends Building implements Mechanical, FlyingBuilding, TrainingFacility, ExtendibleByAddon {
 
     private int addonId;
     
@@ -49,6 +49,7 @@ public class Factory extends Building implements Mechanical, FlyingBuilding, Tra
         return this.trainer.train(UnitType.Terran_Goliath);
     }
 
+    @Override
     public boolean cancelAddon() {
         
         return issueCommand(this.id, UnitCommandType.Cancel_Addon.ordinal(), -1, -1, -1, -1);

@@ -5,7 +5,7 @@ import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
-public class ScienceFacility extends Building implements Mechanical, ResearchingFacility {
+public class ScienceFacility extends Building implements Mechanical, ResearchingFacility, ExtendibleByAddon {
 
     private int addonId;
     private Researcher researcher;
@@ -59,6 +59,7 @@ public class ScienceFacility extends Building implements Mechanical, Researching
         }
     }
 
+    @Override
     public boolean cancelAddon() {
         
         return issueCommand(this.id, UnitCommandType.Cancel_Addon.ordinal(), -1, -1, -1, -1);

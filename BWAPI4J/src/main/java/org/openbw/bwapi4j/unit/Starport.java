@@ -4,7 +4,7 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
-public class Starport extends Building implements Mechanical, FlyingBuilding, TrainingFacility {
+public class Starport extends Building implements Mechanical, FlyingBuilding, TrainingFacility, ExtendibleByAddon {
 
     private int addonId;
     
@@ -34,6 +34,7 @@ public class Starport extends Building implements Mechanical, FlyingBuilding, Tr
         super.update(unitData, index, frame);
     }
 
+    @Override
     public boolean cancelAddon() {
         
         return issueCommand(this.id, UnitCommandType.Cancel_Addon.ordinal(), -1, -1, -1, -1);

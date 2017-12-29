@@ -2,17 +2,17 @@ package org.openbw.bwapi4j.unit;
 
 import org.openbw.bwapi4j.Position;
 
-interface TrainingFacility {
+public interface TrainingFacility {
 
-    public boolean isTraining();
+    boolean isTraining();
 
-    public int getTrainingQueueSize();
+    int getTrainingQueueSize();
 
-    public boolean cancelTrain(int slot);
+    boolean cancelTrain(int slot);
 
-    public boolean cancelTrain();
+    boolean cancelTrain();
 
-    public boolean setRallyPoint(Position p);
+    boolean setRallyPoint(Position p);
 
-    public boolean setRallyPoint(Unit target);
+    boolean setRallyPoint(Unit target);
 }
