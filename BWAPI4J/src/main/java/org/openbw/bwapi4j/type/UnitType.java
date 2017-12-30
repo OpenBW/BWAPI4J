@@ -356,7 +356,11 @@ public enum UnitType {
      * pair(UnitTypes::None,0) If this unit type cannot be made by the player.
      */
     public Pair<UnitType, Integer> whatBuilds() {
-        return this.whatBuilds;
+        // Workaround for unit types where BWAPI doesn't include it in its allUnitTypes
+        if (whatBuilds == null) {
+            whatBuilds = new Pair<>(None, 0);
+        }
+        return whatBuilds;
     }
 
     /**
