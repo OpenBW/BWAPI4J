@@ -10,7 +10,6 @@ public class SCV extends Worker<Refinery> implements Mechanical {
 
 	private static final Logger logger = LogManager.getLogger();
 	
-    private boolean isConstructing;
     private boolean isRepairing;
     private int builderId;
 
@@ -22,7 +21,6 @@ public class SCV extends Worker<Refinery> implements Mechanical {
     @Override
     public void initialize(int[] unitData, int index) {
 
-        this.isConstructing = false;
         this.isRepairing = false;
         super.initialize(unitData, index);
     }
@@ -30,7 +28,6 @@ public class SCV extends Worker<Refinery> implements Mechanical {
     @Override
     public void update(int[] unitData, int index, int frame) {
 
-        this.isConstructing = unitData[index + Unit.IS_CONSTRUCTING_INDEX] == 1;
         this.isRepairing = unitData[index + Unit.IS_REPAIRING_INDEX] == 1;
         this.builderId = unitData[index + Unit.BUILD_UNIT_ID_INDEX];
         super.update(unitData, index, frame);
@@ -46,11 +43,6 @@ public class SCV extends Worker<Refinery> implements Mechanical {
     		logger.error("build unit for {} should be Building but is {}.", this, unit);
     		return null;
     	}
-    }
-    
-    public boolean build(TilePosition p, UnitType type) {
-        
-        return issueCommand(this.id, UnitCommandType.Build.ordinal(), -1, p.getX(), p.getY(), type.getId());
     }
 
     public boolean cancelConstruction() {

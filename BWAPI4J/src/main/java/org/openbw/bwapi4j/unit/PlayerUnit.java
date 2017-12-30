@@ -174,6 +174,10 @@ public abstract class PlayerUnit extends Unit {
         return this.hitPoints;
     }
 
+    public int getArmor() {
+        return type.armor();
+    }
+
     public int getShields() {
     	
     	return this.shields;

@@ -2,12 +2,15 @@ package org.openbw.bwapi4j.unit;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
+
+import java.util.stream.Collectors;
 
 public abstract class Building extends PlayerUnit {
 
@@ -111,6 +114,10 @@ public abstract class Building extends PlayerUnit {
         public int getTrainingQueueSize() {
             
             return this.trainingQueueSize;
+        }
+
+        public boolean canTrain(UnitType type) {
+            return Building.this.type.equals(type.whatBuilds().first) && getPlayer().canMake(type);
         }
 
         public boolean train(UnitType type) {

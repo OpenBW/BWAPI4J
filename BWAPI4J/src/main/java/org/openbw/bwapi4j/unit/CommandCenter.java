@@ -4,7 +4,7 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
-public class CommandCenter extends Building implements Mechanical, FlyingBuilding, TrainingFacility, ExtendibleByAddon {
+public class CommandCenter extends Building implements Mechanical, FlyingBuilding, TrainingFacility, ExtendibleByAddon, Base {
 
     private int addonId;
 
@@ -78,9 +78,24 @@ public class CommandCenter extends Building implements Mechanical, FlyingBuildin
         return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), -1, -1, -1, UnitType.Terran_Nuclear_Silo.getId());
     }
 
+    @Override
+    public boolean build(UnitType addon) {
+        return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), -1, -1, -1, addon.getId());
+    }
+
     public boolean trainWorker() {
         
         return this.trainer.train(UnitType.Terran_SCV);
+    }
+
+    @Override
+    public boolean canTrain(UnitType type) {
+        return this.trainer.canTrain(type);
+    }
+
+    @Override
+    public boolean train(UnitType type) {
+        return this.trainer.train(type);
     }
 
     @Override

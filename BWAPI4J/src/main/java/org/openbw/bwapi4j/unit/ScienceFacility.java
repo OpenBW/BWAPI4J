@@ -83,6 +83,11 @@ public class ScienceFacility extends Building implements Mechanical, Researching
         return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), -1, -1, -1, UnitType.Terran_Covert_Ops.getId());
     }
 
+    @Override
+    public boolean build(UnitType addon) {
+        return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), -1, -1, -1, addon.getId());
+    }
+
     public boolean researchEmpShockwave() {
         
         return this.researcher.research(TechType.EMP_Shockwave);

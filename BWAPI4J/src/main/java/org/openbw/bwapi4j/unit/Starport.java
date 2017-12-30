@@ -53,7 +53,12 @@ public class Starport extends Building implements Mechanical, FlyingBuilding, Tr
         
         return (ControlTower) this.getUnit(this.addonId);
     }
-    
+
+    @Override
+    public boolean build(UnitType addon) {
+        return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), -1, -1, -1, addon.getId());
+    }
+
     public boolean trainWraith() {
         
         return this.trainer.train(UnitType.Terran_Wraith);
@@ -77,6 +82,16 @@ public class Starport extends Building implements Mechanical, FlyingBuilding, Tr
     public boolean trainBattlecruiser() {
         
         return this.trainer.train(UnitType.Terran_Battlecruiser);
+    }
+
+    @Override
+    public boolean canTrain(UnitType type) {
+        return this.trainer.canTrain(type);
+    }
+
+    @Override
+    public boolean train(UnitType type) {
+        return this.trainer.train(type);
     }
 
     @Override

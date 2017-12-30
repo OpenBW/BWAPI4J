@@ -44,6 +44,16 @@ public class Barracks extends Building implements Mechanical, FlyingBuilding, Tr
     }
 
     @Override
+    public boolean train(UnitType type) {
+        return trainer.train(type);
+    }
+
+    @Override
+    public boolean canTrain(UnitType type) {
+        return trainer.canTrain(type);
+    }
+
+    @Override
     public boolean lift() {
         
         return this.flyer.lift();

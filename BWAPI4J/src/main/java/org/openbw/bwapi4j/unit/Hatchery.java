@@ -7,7 +7,7 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
-public class Hatchery extends Building implements Organic, ResearchingFacility {
+public class Hatchery extends Building implements Organic, ResearchingFacility, Base {
 
     protected Researcher researcher;
     

@@ -12,16 +12,12 @@ import org.openbw.bwapi4j.DamageEvaluator;
 import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
-import org.openbw.bwapi4j.type.Order;
-import org.openbw.bwapi4j.type.TechType;
-import org.openbw.bwapi4j.type.UnitCommandType;
-import org.openbw.bwapi4j.type.UnitType;
-import org.openbw.bwapi4j.type.UpgradeType;
+import org.openbw.bwapi4j.type.*;
 
 public abstract class Unit implements Comparable<Unit> {
 
 	private static final Logger logger = LogManager.getLogger();
-	
+
     protected static int ID_INDEX = 0;
     protected static int REPLAY_ID_INDEX = 1;
     protected static int PLAYER_ID_INDEX = 2;
@@ -168,25 +164,25 @@ public abstract class Unit implements Comparable<Unit> {
     protected boolean exists;
     protected boolean isSelected;
     protected boolean isFlying;
-    
+
     // internal
     private BW bw;
     private int lastSpotted;
-    
+
     protected Unit(int id, UnitType unitType) {
-        
+
         this.id = id;
         this.type = unitType;
         this.initialType = unitType;
         this.lastSpotted = 0;
     }
-    
+
     final void setBW(BW bw) {
         this.bw = bw;
     }
-    
+
     public void initialize(int[] unitData, int index) {
-    	
+
     	// TODO this is a workaround because initialTilePosition gives wrong results with OpenBW
         this.initialPosition = new Position(unitData[index + Unit.POSITION_X_INDEX],
                 unitData[index + Unit.POSITION_Y_INDEX]);
@@ -213,32 +209,36 @@ public abstract class Unit implements Comparable<Unit> {
     }
 
     public int getLastSpotted() {
-    	
+
     	return this.lastSpotted;
     }
-    
+
     protected Collection<Unit> getAllUnits() {
-        
+
         return bw.getAllUnits();
     }
-    
+
     protected Unit getUnit(int id) {
-        
+
         return bw.getUnit(id);
     }
-    
+
     protected DamageEvaluator getDamageEvaluator() {
-    	
+
     	return bw.getDamageEvaluator();
     }
-    
+
     protected Player getPlayer(int id) {
-        
+
         return bw.getPlayer(id);
     }
-    
+
+    public boolean isA(UnitType type) {
+        return this.type == type;
+    }
+
     public int getId() {
-        
+
         return this.id;
     }
 
@@ -270,10 +270,10 @@ public abstract class Unit implements Comparable<Unit> {
     }
 
     public double getAngle() {
-    	
+
     	return this.angle;
     }
-    
+
     public <T extends Unit> T getClosest(Collection<T> group) {
 
         Comparator<T> comp = Comparator.comparingDouble(this::getDistance);
@@ -317,15 +317,19 @@ public abstract class Unit implements Comparable<Unit> {
         return this.position;
     }
 
+    public UnitSizeType getSize() {
+        return type.size();
+    }
+
     public double getDistance(Position target) {
-    	
+
         return getDistance(target.getX(), target.getY());
     }
 
     public double getDistance(int x, int y) {
-    	
+
         if (!this.exists) {
-        	
+
             return Integer.MAX_VALUE;
         }
         int xDist = getLeft() - (x + 1);
@@ -342,12 +346,12 @@ public abstract class Unit implements Comparable<Unit> {
                 yDist = 0;
             }
         }
-        
+
         return new Position(0, 0).getDistance(new Position(xDist, yDist));
     }
 
     public int getDistance(Unit target) {
-    	
+
         if (!this.exists || target == null || !target.exists()) {
             return Integer.MAX_VALUE;
         }
@@ -371,53 +375,53 @@ public abstract class Unit implements Comparable<Unit> {
             }
         }
         logger.trace("dx, dy: {}, {}.", xDist, yDist);
-        
+
         return new Position(0, 0).getDistance(new Position(xDist, yDist));
     }
 
     public boolean isFlying() {
-        
+
         return this.isFlying;
     }
 
     public boolean isVisible() {
-    	
+
         return this.isVisible;
     }
 
     public boolean isSelected() {
-    	
+
         return this.isSelected;
     }
 
     public boolean exists() {
-    	
+
         return this.exists;
     }
 
     public void setExists(boolean exists) {
-    	
+
     	this.exists = exists;
     }
-    
+
     public UnitType getInitialType() {
-    	
+
         return initialType;
     }
 
     public Position getInitialPosition() {
-    	
+
         return initialPosition;
     }
 
     public TilePosition getInitialTilePosition() {
-    	
+
         return initialTilePosition;
     }
 
     @Override
     public int hashCode() {
-    	
+
         return this.id;
     }
 
@@ -433,18 +437,18 @@ public abstract class Unit implements Comparable<Unit> {
 
     @Override
     public String toString() {
-    	
+
         return this.getId() + ":" + this.type;
     }
 
     @Override
     public int compareTo(Unit otherUnit) {
-    	
+
         return this.getId() - otherUnit.getId();
     }
 
     protected native boolean issueCommand(int unitId, int unitCommandTypeId, int targetUnitId, int x, int y, int extra);
-    
+
     // --------------------------------------------------
 
     // dynamic
@@ -469,13 +473,13 @@ public abstract class Unit implements Comparable<Unit> {
     private List<UnitType> trainingQueue;
     private TechType tech;
     private UpgradeType uppgrade;
-    
+
     private Unit buildUnit;
     private Order order;
     private Order secondaryOrder;
     private Unit orderTarget;
     private Position orderTargetPosition;
-   
+
     private boolean isMorphing;
     private boolean isTargetable;
     private boolean isInterruptible;

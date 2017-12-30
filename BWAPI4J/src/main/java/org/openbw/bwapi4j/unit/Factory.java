@@ -50,6 +50,16 @@ public class Factory extends Building implements Mechanical, FlyingBuilding, Tra
     }
 
     @Override
+    public boolean canTrain(UnitType type) {
+        return this.trainer.canTrain(type);
+    }
+
+    @Override
+    public boolean train(UnitType type) {
+        return this.trainer.train(type);
+    }
+
+    @Override
     public boolean cancelAddon() {
         
         return issueCommand(this.id, UnitCommandType.Cancel_Addon.ordinal(), -1, -1, -1, -1);
@@ -67,6 +77,11 @@ public class Factory extends Building implements Mechanical, FlyingBuilding, Tra
     public MachineShop getMachineShop() {
         
         return (MachineShop) this.getUnit(this.addonId);
+    }
+
+    @Override
+    public boolean build(UnitType addon) {
+        return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), -1, -1, -1, addon.getId());
     }
 
     @Override

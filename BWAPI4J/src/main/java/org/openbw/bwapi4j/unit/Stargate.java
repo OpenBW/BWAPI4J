@@ -41,6 +41,16 @@ public class Stargate extends Building implements Mechanical, TrainingFacility {
     }
 
     @Override
+    public boolean canTrain(UnitType type) {
+        return this.trainer.canTrain(type);
+    }
+
+    @Override
+    public boolean train(UnitType type) {
+        return this.trainer.train(type);
+    }
+
+    @Override
     public boolean isTraining() {
         
         return this.trainer.isTraining();

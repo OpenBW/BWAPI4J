@@ -1,10 +1,8 @@
 package org.openbw.bwapi4j;
 
-import org.openbw.bwapi4j.type.Color;
-import org.openbw.bwapi4j.type.PlayerType;
-import org.openbw.bwapi4j.type.Race;
-import org.openbw.bwapi4j.type.TechType;
-import org.openbw.bwapi4j.type.UpgradeType;
+import org.openbw.bwapi4j.type.*;
+
+import java.util.stream.Collectors;
 
 public class Player {
 
@@ -56,6 +54,7 @@ public class Player {
     // constant
     private int id;
     private String name;
+    private final BW bw;
     private Race race;
     private TilePosition startLocation;
     private Color color;
@@ -98,10 +97,11 @@ public class Player {
     int[] researchStatus;
     int[] upgradeStatus;
 
-    Player(int id, String name) {
+    Player(int id, String name, BW bw) {
 
         this.id = id;
         this.name = name;
+        this.bw = bw;
         this.supplyTotalRace = new int[3];
         this.supplyUsedRace = new int[3];
     }
@@ -771,6 +771,16 @@ public class Player {
     public boolean isObserver() {
         return this.isObserver;
     }
+
+    /**
+     * Returns true if the given player can train/build the given type immediately.
+     */
+    public boolean canMake(UnitType type) {
+        return minerals() >= type.mineralPrice() && gas() >= type.gasPrice() && hasResearched(type.requiredTech())
+                && bw.getUnits(this).stream().filter(u -> u.getPlayer().equals(this)).collect(Collectors.toSet())
+                .containsAll(type.requiredUnits());
+    }
+
 
     // /**
     // * Retrieves the maximum upgrades available specific to the player. This

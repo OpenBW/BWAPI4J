@@ -302,7 +302,7 @@ public class BW {
             if (player == null) {
 
                 logger.debug("creating player for id {} ...", playerId);
-                player = new Player(playerId, this.getPlayerName(playerId));
+                player = new Player(playerId, this.getPlayerName(playerId), this);
                 logger.trace("player name: {}", player.getName());
                 this.players.put(playerId, player);
                 logger.trace("initializing...");
