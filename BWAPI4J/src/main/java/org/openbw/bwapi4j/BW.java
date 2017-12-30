@@ -444,9 +444,14 @@ public class BW {
     private void onFrame() {
 
 //    	logger.debug("onFrame {}", this.frame);
-    	preFrame();
-    	this.frame++;
-        listener.onFrame();
+        try {
+            preFrame();
+            this.frame++;
+            listener.onFrame();
+        } catch (Exception e) {
+            logger.error("exception during onFrame", e);
+            throw e;
+        }
     }
 
     private void onSendText(String text) {
