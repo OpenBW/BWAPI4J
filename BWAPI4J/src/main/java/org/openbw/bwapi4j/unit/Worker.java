@@ -101,11 +101,6 @@ public abstract class Worker<R extends GasMiningFacility> extends MobileUnit {
                 shiftQueueCommand ? 1 : 0);
     }
 
-    public boolean build(Position p, UnitType type) {
-
-        return issueCommand(this.id, UnitCommandType.Build.ordinal(), -1, p.getX(), p.getY(), type.getId());
-    }
-
     public boolean build(TilePosition p, UnitType type) {
 
         return issueCommand(this.id, UnitCommandType.Build.ordinal(), -1, p.getX(), p.getY(), type.getId());
