@@ -779,7 +779,10 @@ public class Player {
      * Returns true if the given player can train/build the given type immediately.
      */
     public boolean canMake(UnitType type) {
-        return minerals() >= type.mineralPrice() && gas() >= type.gasPrice() && hasResearched(type.requiredTech())
+        return minerals() >= type.mineralPrice()
+                && gas() >= type.gasPrice()
+                && supplyUsed + type.supplyRequired() <= supplyTotal
+                && hasResearched(type.requiredTech())
                 && Unit.getMissingUnits(bw.getUnits(this), type.requiredUnits()).isEmpty();
     }
 
