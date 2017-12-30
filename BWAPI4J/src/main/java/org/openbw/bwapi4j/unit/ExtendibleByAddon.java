@@ -8,4 +8,5 @@ import org.openbw.bwapi4j.type.UnitType;
 public interface ExtendibleByAddon {
     boolean build(UnitType addon);
     boolean cancelAddon();
+    Addon getAddon();
 }

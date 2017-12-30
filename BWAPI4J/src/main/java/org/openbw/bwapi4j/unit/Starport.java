@@ -55,6 +55,11 @@ public class Starport extends Building implements Mechanical, FlyingBuilding, Tr
     }
 
     @Override
+    public Addon getAddon() {
+        return (Addon) getUnit(addonId);
+    }
+
+    @Override
     public boolean build(UnitType addon) {
         return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), -1, -1, -1, addon.getId());
     }

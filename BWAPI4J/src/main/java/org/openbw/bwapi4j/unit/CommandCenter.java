@@ -63,6 +63,11 @@ public class CommandCenter extends Building implements Mechanical, FlyingBuildin
     }
 
     @Override
+    public Addon getAddon() {
+        return (Addon) getUnit(addonId);
+    }
+
+    @Override
     public boolean cancelAddon() {
         
         return issueCommand(this.id, UnitCommandType.Cancel_Addon.ordinal(), -1, -1, -1, -1);

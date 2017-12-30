@@ -80,6 +80,11 @@ public class Factory extends Building implements Mechanical, FlyingBuilding, Tra
     }
 
     @Override
+    public Addon getAddon() {
+        return getMachineShop();
+    }
+
+    @Override
     public boolean build(UnitType addon) {
         return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), -1, -1, -1, addon.getId());
     }
