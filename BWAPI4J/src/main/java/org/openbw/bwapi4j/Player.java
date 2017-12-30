@@ -1,6 +1,7 @@
 package org.openbw.bwapi4j;
 
 import org.openbw.bwapi4j.type.*;
+import org.openbw.bwapi4j.unit.Unit;
 
 import java.util.stream.Collectors;
 
@@ -575,7 +576,9 @@ public class Player {
      * isResearching, UnitInterface::research, isResearchAvailable
      */
     public boolean hasResearched(TechType tech) {
-    	
+        if (TechType.None.equals(tech)) {
+            return true;
+        }
     	for (int i = 0; i < this.researchStatus.length; i += 3) {
     		
     		if (this.researchStatus[i] == tech.getId()) {
@@ -777,8 +780,7 @@ public class Player {
      */
     public boolean canMake(UnitType type) {
         return minerals() >= type.mineralPrice() && gas() >= type.gasPrice() && hasResearched(type.requiredTech())
-                && bw.getUnits(this).stream().filter(u -> u.getPlayer().equals(this)).collect(Collectors.toSet())
-                .containsAll(type.requiredUnits());
+                && Unit.getMissingUnits(bw.getUnits(this), type.requiredUnits()).isEmpty();
     }
 
 

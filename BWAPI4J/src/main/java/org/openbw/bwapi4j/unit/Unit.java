@@ -1,22 +1,19 @@
 package org.openbw.bwapi4j.unit;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.openbw.bwapi4j.*;
+import org.openbw.bwapi4j.type.*;
+
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.openbw.bwapi4j.BW;
-import org.openbw.bwapi4j.DamageEvaluator;
-import org.openbw.bwapi4j.Player;
-import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.TilePosition;
-import org.openbw.bwapi4j.type.*;
-
 public abstract class Unit implements Comparable<Unit> {
 
-	private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger();
 
     protected static int ID_INDEX = 0;
     protected static int REPLAY_ID_INDEX = 1;
@@ -183,7 +180,7 @@ public abstract class Unit implements Comparable<Unit> {
 
     public void initialize(int[] unitData, int index) {
 
-    	// TODO this is a workaround because initialTilePosition gives wrong results with OpenBW
+        // TODO this is a workaround because initialTilePosition gives wrong results with OpenBW
         this.initialPosition = new Position(unitData[index + Unit.POSITION_X_INDEX],
                 unitData[index + Unit.POSITION_Y_INDEX]);
         this.initialTilePosition = new TilePosition(unitData[index + Unit.TILEPOSITION_X_INDEX],
@@ -201,7 +198,7 @@ public abstract class Unit implements Comparable<Unit> {
         this.angle = unitData[index + Unit.ANGLE_INDEX] * Math.PI / 180.0;
         this.isVisible = unitData[index + Unit.IS_VISIBLE_INDEX] == 1;
         if (this.isVisible) {
-        	this.lastSpotted = frame;
+            this.lastSpotted = frame;
         }
         this.exists = unitData[index + Unit.EXISTS_INDEX] == 1;
         this.isSelected = unitData[index + Unit.IS_SELECTED_INDEX] == 1;
@@ -210,7 +207,7 @@ public abstract class Unit implements Comparable<Unit> {
 
     public int getLastSpotted() {
 
-    	return this.lastSpotted;
+        return this.lastSpotted;
     }
 
     protected Collection<Unit> getAllUnits() {
@@ -225,7 +222,7 @@ public abstract class Unit implements Comparable<Unit> {
 
     protected DamageEvaluator getDamageEvaluator() {
 
-    	return bw.getDamageEvaluator();
+        return bw.getDamageEvaluator();
     }
 
     protected Player getPlayer(int id) {
@@ -271,7 +268,7 @@ public abstract class Unit implements Comparable<Unit> {
 
     public double getAngle() {
 
-    	return this.angle;
+        return this.angle;
     }
 
     public <T extends Unit> T getClosest(Collection<T> group) {
@@ -283,6 +280,12 @@ public abstract class Unit implements Comparable<Unit> {
     public <T extends Unit> List<T> getUnitsInRadius(int radius, Collection<T> group) {
 
         return group.stream().filter(t -> this.getDistance(t) <= radius).collect(Collectors.toList());
+    }
+
+    public static Collection<UnitType> getMissingUnits(Collection<? extends Unit> group, Collection<UnitType> types) {
+        HashSet<UnitType> result = new HashSet<>(types);
+        group.stream().map(u -> u.type).forEach(result::remove);
+        return result;
     }
 
     public int getX() {
@@ -401,7 +404,7 @@ public abstract class Unit implements Comparable<Unit> {
 
     public void setExists(boolean exists) {
 
-    	this.exists = exists;
+        this.exists = exists;
     }
 
     public UnitType getInitialType() {
