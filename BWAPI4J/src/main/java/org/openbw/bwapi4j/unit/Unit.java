@@ -187,6 +187,11 @@ public abstract class Unit implements Comparable<Unit> {
                 unitData[index + Unit.TILEPOSITION_Y_INDEX]);
     }
 
+    public void preUpdate() {
+        this.isVisible = false;
+        this.exists = false;
+    }
+
     public void update(int[] unitData, int index, int frame) {
 
         this.type = UnitType.values()[unitData[index + Unit.TYPE_ID_INDEX]];
@@ -280,12 +285,6 @@ public abstract class Unit implements Comparable<Unit> {
     public <T extends Unit> List<T> getUnitsInRadius(int radius, Collection<T> group) {
 
         return group.stream().filter(t -> this.getDistance(t) <= radius).collect(Collectors.toList());
-    }
-
-    public static Collection<UnitType> getMissingUnits(Collection<? extends Unit> group, Collection<UnitType> types) {
-        HashSet<UnitType> result = new HashSet<>(types);
-        group.stream().map(u -> u.type).forEach(result::remove);
-        return result;
     }
 
     public int getX() {
@@ -400,11 +399,6 @@ public abstract class Unit implements Comparable<Unit> {
     public boolean exists() {
 
         return this.exists;
-    }
-
-    public void setExists(boolean exists) {
-
-        this.exists = exists;
     }
 
     public UnitType getInitialType() {

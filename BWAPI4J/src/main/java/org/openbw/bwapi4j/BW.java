@@ -251,7 +251,7 @@ public class BW {
     private void updateAllUnits(int frame) {
 
     	for (Unit unit : this.units.values()) {
-    		unit.setExists(false);
+    		unit.preUpdate();
     	}
         int[] unitData = this.getAllUnitsData();
 

@@ -2,6 +2,7 @@ package org.openbw.bwapi4j.unit;
 
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 
 import org.openbw.bwapi4j.Player;
@@ -103,6 +104,12 @@ public abstract class PlayerUnit extends Unit {
             this.lastKnownTilePosition = this.tilePosition;
             this.lastKnownHitPoints = this.hitPoints;
         }
+    }
+
+    public static Collection<UnitType> getMissingUnits(Collection<? extends PlayerUnit> group, Collection<UnitType> types) {
+        HashSet<UnitType> result = new HashSet<>(types);
+        group.stream().filter(u -> u.isCompleted).map(u -> u.type).forEach(result::remove);
+        return result;
     }
 
     protected Unit getTargetUnit() {

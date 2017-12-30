@@ -1,6 +1,7 @@
 package org.openbw.bwapi4j;
 
 import org.openbw.bwapi4j.type.*;
+import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.unit.Unit;
 
 import java.util.stream.Collectors;
@@ -783,7 +784,7 @@ public class Player {
                 && gas() >= type.gasPrice()
                 && supplyUsed + type.supplyRequired() <= supplyTotal
                 && hasResearched(type.requiredTech())
-                && Unit.getMissingUnits(bw.getUnits(this), type.requiredUnits()).isEmpty();
+                && PlayerUnit.getMissingUnits(bw.getUnits(this), type.requiredUnits()).isEmpty();
     }
 
 
