@@ -4,7 +4,7 @@ public enum BulletType {
 
 	Acid_Spore(163),
 	Anti_Matter_Missile(154),
-	Arclite_Shock_Cannon_Hit(150),
+	Arclite_Shock_Cannon_Hit(150), // 143 actually
 	ATS_ATA_Laser_Battery(148),
 	Burst_Lasers(149),
 	C_10_Canister_Rifle_Hit(143),

@@ -329,11 +329,6 @@ public abstract class Unit implements Comparable<Unit> {
     }
 
     public double getDistance(int x, int y) {
-
-        if (!this.exists) {
-
-            return Integer.MAX_VALUE;
-        }
         int xDist = getLeft() - (x + 1);
         if (xDist < 0) {
             xDist = x - (getRight() + 1);
@@ -353,11 +348,6 @@ public abstract class Unit implements Comparable<Unit> {
     }
 
     public int getDistance(Unit target) {
-
-        if (!this.exists || target == null || !target.exists()) {
-            return Integer.MAX_VALUE;
-        }
-
         if (this == target) {
             return 0;
         }
