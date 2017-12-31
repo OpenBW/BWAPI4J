@@ -13,6 +13,11 @@ public abstract class Building extends PlayerUnit {
 
 	private static final Logger logger = LogManager.getLogger();
 
+    public boolean cancelConstruction() {
+
+        return issueCommand(this.id, UnitCommandType.Cancel_Construction.ordinal(), -1, -1, -1, -1);
+    }
+
     protected class Researcher implements ResearchingFacility {
 
         private boolean isUpgrading;

@@ -45,9 +45,9 @@ public class SCV extends Worker<Refinery> implements Mechanical {
     	}
     }
 
-    public boolean cancelConstruction() {
+    public boolean haltConstruction() {
         
-        return issueCommand(this.id, UnitCommandType.Cancel_Construction.ordinal(), -1, -1, -1, -1);
+        return issueCommand(this.id, UnitCommandType.Halt_Construction.ordinal(), -1, -1, -1, -1);
     }
 
     public boolean resumeBuilding(Building building) {
