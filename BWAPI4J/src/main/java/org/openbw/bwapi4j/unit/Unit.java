@@ -143,6 +143,9 @@ public abstract class Unit implements Comparable<Unit> {
 
     public static int TOTAL_PROPERTIES = 125;
 
+    // user data
+    private Object userData;
+
     // static
     protected int id;
     protected UnitType initialType;
@@ -185,6 +188,17 @@ public abstract class Unit implements Comparable<Unit> {
                 unitData[index + Unit.POSITION_Y_INDEX]);
         this.initialTilePosition = new TilePosition(unitData[index + Unit.TILEPOSITION_X_INDEX],
                 unitData[index + Unit.TILEPOSITION_Y_INDEX]);
+    }
+
+    /**
+     * Can be used to store additional data, ie. "the current goal"
+     */
+    public void setUserData(Object userData) {
+        this.userData = userData;
+    }
+
+    public Object getUserData() {
+        return userData;
     }
 
     public void preUpdate() {
