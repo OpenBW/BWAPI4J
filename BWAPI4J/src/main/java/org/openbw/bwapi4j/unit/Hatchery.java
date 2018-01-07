@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
+import org.openbw.bwapi4j.type.UpgradeType;
 
 public class Hatchery extends Building implements Organic, ResearchingFacility, Base {
 
@@ -72,5 +73,25 @@ public class Hatchery extends Building implements Organic, ResearchingFacility, 
     public boolean morph() {
         
         return issueCommand(this.id, UnitCommandType.Morph.ordinal(), -1, -1, -1, UnitType.Zerg_Lair.getId());
+    }
+
+    @Override
+    public boolean canResearch(TechType techType) {
+        return this.researcher.canResearch(techType);
+    }
+
+    @Override
+    public boolean canUpgrade(UpgradeType upgradeType) {
+        return this.researcher.canUpgrade(upgradeType);
+    }
+
+    @Override
+    public boolean research(TechType techType) {
+        return this.researcher.research(techType);
+    }
+
+    @Override
+    public boolean upgrade(UpgradeType upgradeType) {
+        return this.researcher.upgrade(upgradeType);
     }
 }

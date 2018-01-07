@@ -69,4 +69,24 @@ public class Academy extends Building implements Mechanical, ResearchingFacility
         
         return this.researcher.cancelUpgrade();
     }
+
+    @Override
+    public boolean canResearch(TechType techType) {
+        return this.researcher.canResearch(techType);
+    }
+
+    @Override
+    public boolean canUpgrade(UpgradeType upgradeType) {
+        return this.researcher.canUpgrade(upgradeType);
+    }
+
+    @Override
+    public boolean research(TechType techType) {
+        return this.researcher.research(techType);
+    }
+
+    @Override
+    public boolean upgrade(UpgradeType upgradeType) {
+        return this.researcher.upgrade(upgradeType);
+    }
 }

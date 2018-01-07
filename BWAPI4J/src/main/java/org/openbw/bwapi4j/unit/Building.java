@@ -11,7 +11,7 @@ import org.openbw.bwapi4j.type.UpgradeType;
 
 public abstract class Building extends PlayerUnit {
 
-	private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger();
 
     public boolean cancelConstruction() {
 
@@ -63,11 +63,25 @@ public abstract class Building extends PlayerUnit {
             return issueCommand(id, UnitCommandType.Cancel_Upgrade.ordinal(), -1, -1, -1, -1);
         }
 
+        @Override
+        public boolean canResearch(TechType techType) {
+            return type.equals(techType.whatResearches())
+                    && getPlayer().canResearch(techType);
+        }
+
+        @Override
+        public boolean canUpgrade(UpgradeType upgradeType) {
+            return type.equals(upgradeType.whatUpgrades())
+                    && getPlayer().canUpgrade(upgradeType);
+        }
+
+        @Override
         public boolean research(TechType techType) {
 
             return issueCommand(id, UnitCommandType.Research.ordinal(), -1, -1, -1, techType.getId());
         }
 
+        @Override
         public boolean upgrade(UpgradeType upgrade) {
 
             return issueCommand(id, UnitCommandType.Upgrade.ordinal(), -1, -1, -1, upgrade.getId());
@@ -207,14 +221,14 @@ public abstract class Building extends PlayerUnit {
 
     public SCV getBuildUnit() {
 
-    	Unit unit = this.getUnit(builderId);
-    	if (unit instanceof SCV) {
-    		return (SCV) unit;
-    	} else {
+        Unit unit = this.getUnit(builderId);
+        if (unit instanceof SCV) {
+            return (SCV) unit;
+        } else {
 
-    		logger.error("build unit for {} should be SCV but is {}.", this, unit);
-    		return null;
-    	}
+            logger.error("build unit for {} should be SCV but is {}.", this, unit);
+            return null;
+        }
     }
 
     public int getBuildTime() {
@@ -245,6 +259,7 @@ public abstract class Building extends PlayerUnit {
 
     /**
      * Returns the distance to given position from where this unit was located when it last was visible.
+     *
      * @param position tile position to measure distance to
      * @return distance in tiles
      */
@@ -272,6 +287,7 @@ public abstract class Building extends PlayerUnit {
 
     /**
      * Returns the distance to given position from where this unit was located when it last was visible.
+     *
      * @param position position to measure distance to
      * @return distance in pixels
      */

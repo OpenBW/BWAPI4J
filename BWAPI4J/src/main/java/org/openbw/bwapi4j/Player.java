@@ -4,6 +4,9 @@ import org.openbw.bwapi4j.type.*;
 import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.unit.Unit;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class Player {
@@ -777,16 +780,50 @@ public class Player {
     }
 
     /**
-     * Returns true if the given player can train/build the given type immediately.
+     * Returns true if the this player can train/build the given type immediately.
      */
     public boolean canMake(UnitType type) {
-        return minerals() >= type.mineralPrice()
-                && gas() >= type.gasPrice()
+        return minerals >= type.mineralPrice()
+                && gas >= type.gasPrice()
                 && supplyUsed + type.supplyRequired() <= supplyTotal
                 && hasResearched(type.requiredTech())
                 && PlayerUnit.getMissingUnits(bw.getUnits(this), type.requiredUnits()).isEmpty();
     }
 
+    /**
+     * Returns true, if this player can research the given tech immediately.
+     */
+    public boolean canResearch(TechType type) {
+        if (hasResearched(type)) {
+            return false;
+        }
+        List<UnitType> requiredUnits = new ArrayList<>();
+        if (type.whatResearches() != UnitType.None) {
+            requiredUnits.add(type.whatResearches());
+        }
+        if (type.requiredUnit() != UnitType.None) {
+            requiredUnits.add(type.requiredUnit());
+        }
+        return minerals >= type.mineralPrice()
+                && gas >= type.gasPrice()
+                && PlayerUnit.getMissingUnits(bw.getUnits(this), requiredUnits).isEmpty();
+    }
+
+    public boolean canUpgrade(UpgradeType type) {
+        int upgradeLevel = getUpgradeLevel(type);
+        if (upgradeLevel >= type.maxRepeats()) {
+            return false;
+        }
+        List<UnitType> requiredUnits = new ArrayList<>();
+        UnitType whatsRequired = type.whatsRequired(upgradeLevel);
+        if (whatsRequired != UnitType.None) {
+            requiredUnits.add(whatsRequired);
+        }
+        requiredUnits.add(type.whatUpgrades());
+        return minerals >= type.mineralPrice(upgradeLevel)
+                && gas >= type.gasPrice(upgradeLevel)
+                && PlayerUnit.getMissingUnits(bw.getUnits(this), requiredUnits).isEmpty();
+    }
 
     // /**
     // * Retrieves the maximum upgrades available specific to the player. This

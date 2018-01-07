@@ -1,12 +1,23 @@
 package org.openbw.bwapi4j.unit;
 
+import org.openbw.bwapi4j.type.TechType;
+import org.openbw.bwapi4j.type.UpgradeType;
+
 public interface ResearchingFacility {
 
-    public boolean isUpgrading();
+    boolean isUpgrading();
 
-    public boolean isResearching();
+    boolean isResearching();
 
-    public boolean cancelResearch();
+    boolean cancelResearch();
 
-    public boolean cancelUpgrade();
+    boolean cancelUpgrade();
+
+    boolean canResearch(TechType techType);
+
+    boolean canUpgrade(UpgradeType upgradeType);
+
+    boolean research(TechType techType);
+
+    boolean upgrade(UpgradeType upgradeType);
 }
