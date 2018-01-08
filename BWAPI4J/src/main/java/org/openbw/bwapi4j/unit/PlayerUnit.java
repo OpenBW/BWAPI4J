@@ -235,6 +235,10 @@ public abstract class PlayerUnit extends Unit {
         return this.type.sightRange();
     }
 
+    public boolean isDetector() {
+        return type.isDetector();
+    }
+
     public boolean isDetected() {
         
         return this.isDetected;
