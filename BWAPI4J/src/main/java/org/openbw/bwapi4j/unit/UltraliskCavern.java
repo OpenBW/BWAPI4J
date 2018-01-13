@@ -74,4 +74,14 @@ public class UltraliskCavern extends Building implements Organic, ResearchingFac
     public boolean upgrade(UpgradeType upgradeType) {
         return this.researcher.upgrade(upgradeType);
     }
+
+    @Override
+    public UpgradeInProgress getUpgradeInProgress() {
+        return researcher.getUpgradeInProgress();
+    }
+
+    @Override
+    public ResearchInProgress getResearchInProgress() {
+        return researcher.getResearchInProgress();
+    }
 }

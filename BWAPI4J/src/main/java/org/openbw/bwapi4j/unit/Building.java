@@ -24,6 +24,8 @@ public abstract class Building extends PlayerUnit {
         private boolean isResearching;
         private int remainingResearchTime;
         private int remainingUpgradeTime;
+        private UpgradeType currentUpgrade;
+        private TechType currentResearch;
 
         public void update(int[] unitData, int index) {
 
@@ -31,16 +33,8 @@ public abstract class Building extends PlayerUnit {
             this.isResearching = unitData[index + Unit.IS_RESEARCHING_INDEX] == 1;
             this.remainingResearchTime = unitData[index + Unit.REMAINING_RESEARCH_TIME_INDEX];
             this.remainingUpgradeTime = unitData[index + Unit.REMAINING_UPGRADE_TIME_INDEX];
-        }
-
-        public int getRemainingResearchTime() {
-
-            return this.remainingResearchTime;
-        }
-
-        public int getRemainingUpgradeTime() {
-
-            return this.remainingUpgradeTime;
+            this.currentUpgrade = UpgradeType.withId(unitData[index + Unit.UPGRADE_ID_INDEX]);
+            this.currentResearch = TechType.withId(unitData[index + Unit.TECH_ID_INDEX]);
         }
 
         public boolean isUpgrading() {
@@ -85,6 +79,22 @@ public abstract class Building extends PlayerUnit {
         public boolean upgrade(UpgradeType upgrade) {
 
             return issueCommand(id, UnitCommandType.Upgrade.ordinal(), -1, -1, -1, upgrade.getId());
+        }
+
+        @Override
+        public UpgradeInProgress getUpgradeInProgress() {
+            if (currentUpgrade == UpgradeType.None) {
+                return UpgradeInProgress.NONE;
+            }
+            return new UpgradeInProgress(currentUpgrade, remainingUpgradeTime);
+        }
+
+        @Override
+        public ResearchInProgress getResearchInProgress() {
+            if (currentResearch == TechType.None) {
+                return ResearchInProgress.NONE;
+            }
+            return new ResearchInProgress(currentResearch, remainingResearchTime);
         }
     }
 

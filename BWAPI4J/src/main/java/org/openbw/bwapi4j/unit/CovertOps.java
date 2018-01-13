@@ -75,4 +75,14 @@ public class CovertOps extends Addon implements Mechanical, ResearchingFacility 
     public boolean upgrade(UpgradeType upgradeType) {
         return this.researcher.upgrade(upgradeType);
     }
+
+    @Override
+    public UpgradeInProgress getUpgradeInProgress() {
+        return researcher.getUpgradeInProgress();
+    }
+
+    @Override
+    public ResearchInProgress getResearchInProgress() {
+        return researcher.getResearchInProgress();
+    }
 }

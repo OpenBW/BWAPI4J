@@ -1,5 +1,7 @@
 package org.openbw.bwapi4j.type;
 
+import java.util.stream.Stream;
+
 public enum TechType {
 
     Stim_Packs,
@@ -38,7 +40,7 @@ public enum TechType {
     None,
     Nuclear_Strike,
     Unknown;
-    
+
     private int id;
     private Race race;
     private int mineralPrice;
@@ -51,11 +53,15 @@ public enum TechType {
     private boolean targetsPosition;
     private Order order;
     private UnitType requiredUnit;
-    
+
+    public static TechType withId(int id) {
+        return IdMapper.techTypesForId[id];
+    }
+
     public int getId() {
         return this.id;
     }
-    
+
     /**
      * Retrieves the race that is required to research or use the TechType. Note
      * There is an exception where Infested Kerrigan can use Psionic Storm. This
@@ -153,5 +159,17 @@ public enum TechType {
      */
     public UnitType requiredUnit() {
         return this.requiredUnit;
+    }
+
+    private static class IdMapper {
+        static final TechType[] techTypesForId;
+
+        static {
+            int maxTechTypeId = Stream.of(values()).mapToInt(TechType::getId).max().getAsInt();
+            techTypesForId = new TechType[maxTechTypeId + 1];
+            for (TechType type : TechType.values()) {
+                techTypesForId[type.getId()] = type;
+            }
+        }
     }
 }
