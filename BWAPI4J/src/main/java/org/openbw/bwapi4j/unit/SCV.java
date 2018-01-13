@@ -32,7 +32,15 @@ public class SCV extends Worker<Refinery> implements Mechanical {
         this.builderId = unitData[index + Unit.BUILD_UNIT_ID_INDEX];
         super.update(unitData, index, frame);
     }
-    
+
+    public boolean isRepairing() {
+        return isRepairing;
+    }
+
+    public boolean repair(Mechanical target) {
+        return issueCommand(id, UnitCommandType.Repair.ordinal(), ((Unit) target).id, -1, -1, -1);
+    }
+
     public Building getBuildUnit() {
     
     	Unit unit = this.getUnit(builderId);
@@ -52,6 +60,6 @@ public class SCV extends Worker<Refinery> implements Mechanical {
 
     public boolean resumeBuilding(Building building) {
         
-        return issueCommand(this.id, UnitCommandType.Right_Click_Unit.ordinal(), -1, -1, -1, building.getId());
+        return issueCommand(this.id, UnitCommandType.Right_Click_Unit.ordinal(), building.getId(), -1, -1, -1);
     }
 }
