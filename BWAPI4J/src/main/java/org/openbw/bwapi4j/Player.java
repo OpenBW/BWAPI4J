@@ -794,7 +794,7 @@ public class Player {
      * Returns true, if this player can research the given tech immediately.
      */
     public boolean canResearch(TechType type) {
-        if (hasResearched(type)) {
+        if (hasResearched(type) || isResearching(type)) {
             return false;
         }
         List<UnitType> requiredUnits = new ArrayList<>();
@@ -811,7 +811,7 @@ public class Player {
 
     public boolean canUpgrade(UpgradeType type) {
         int upgradeLevel = getUpgradeLevel(type);
-        if (upgradeLevel >= type.maxRepeats()) {
+        if (upgradeLevel >= type.maxRepeats() || isUpgrading(type)) {
             return false;
         }
         List<UnitType> requiredUnits = new ArrayList<>();
