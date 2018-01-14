@@ -9,6 +9,8 @@ public interface TrainingFacility {
 
     int getTrainingQueueSize();
 
+    int getRemainingTrainTime();
+
     boolean train(UnitType type);
 
     boolean canTrain(UnitType type);

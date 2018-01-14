@@ -25,7 +25,6 @@ public abstract class MobileUnit extends PlayerUnit implements Armed {
     private boolean isBraking;
     private boolean isDefenseMatrixed;
     private boolean isEnsnared;
-    private int remainingTrainTime;
 
     protected MobileUnit(int id, UnitType unitType) {
 
@@ -55,7 +54,6 @@ public abstract class MobileUnit extends PlayerUnit implements Armed {
         this.isBraking = unitData[index + Unit.IS_BRAKING_INDEX] == 1;
         this.isDefenseMatrixed = unitData[index + Unit.IS_DEFENSE_MATRIXED_INDEX] == 1;
         this.isEnsnared = unitData[index + Unit.IS_ENSNARED_INDEX] == 1;
-        remainingTrainTime = unitData[index + Unit.REMAINING_TRAIN_TIME_INDEX];
         super.update(unitData, index, frame);
     }
 
@@ -248,9 +246,5 @@ public abstract class MobileUnit extends PlayerUnit implements Armed {
     public boolean isEnsnared() {
 
         return this.isEnsnared;
-    }
-
-    public int getRemainingTrainTime() {
-        return remainingTrainTime;
     }
 }

@@ -76,4 +76,9 @@ public class Nexus extends Building implements Mechanical, TrainingFacility, Bas
         
         return this.trainer.setRallyPoint(target);
     }
+
+    @Override
+    public int getRemainingTrainTime() {
+        return trainer.getRemainingTrainingTime();
+    }
 }

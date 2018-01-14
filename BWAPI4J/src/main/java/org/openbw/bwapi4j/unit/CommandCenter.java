@@ -162,4 +162,9 @@ public class CommandCenter extends Building implements Mechanical, FlyingBuildin
         
         return this.trainer.setRallyPoint(target);
     }
+
+    @Override
+    public int getRemainingTrainTime() {
+        return trainer.getRemainingTrainingTime();
+    }
 }

@@ -80,4 +80,9 @@ public class RoboticsFacility extends Building implements Mechanical, TrainingFa
         
         return this.trainer.setRallyPoint(target);
     }
+
+    @Override
+    public int getRemainingTrainTime() {
+        return trainer.getRemainingTrainingTime();
+    }
 }

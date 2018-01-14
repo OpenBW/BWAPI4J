@@ -85,4 +85,9 @@ public class Gateway extends Building implements Mechanical, TrainingFacility {
         
         return this.trainer.setRallyPoint(target);
     }
+
+    @Override
+    public int getRemainingTrainTime() {
+        return trainer.getRemainingTrainingTime();
+    }
 }

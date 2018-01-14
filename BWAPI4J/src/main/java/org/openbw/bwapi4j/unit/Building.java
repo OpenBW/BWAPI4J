@@ -111,7 +111,7 @@ public abstract class Building extends PlayerUnit {
 
             this.isTraining = unitData[index + Unit.IS_TRAINING_INDEX] == 1;
             this.trainingQueueSize = unitData[index + Unit.TRAINING_QUEUE_SIZE_INDEX];
-            this.remainingTrainTime = unitData[index + Unit.TRAINING_QUEUE_SIZE_INDEX];
+            this.remainingTrainTime = unitData[index + Unit.REMAINING_TRAIN_TIME_INDEX];
             this.rallyUnitId = unitData[index + Unit.RALLY_UNIT_INDEX];
             this.rallyPositionX = unitData[index + Unit.RALLY_POSITION_X_INDEX];
             this.rallyPositionY = unitData[index + Unit.RALLY_POSITION_Y_INDEX];
@@ -253,7 +253,7 @@ public abstract class Building extends PlayerUnit {
 
     private int calculateProbableConstructionStart(int currentFrame) {
 
-        int time = currentFrame;
+        int time;
         if (this.isCompleted()) {
             time = currentFrame - this.type.buildTime();
         } else {

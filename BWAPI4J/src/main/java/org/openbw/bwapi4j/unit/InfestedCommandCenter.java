@@ -96,4 +96,9 @@ public class InfestedCommandCenter extends Building implements Organic, FlyingBu
         
         return this.trainer.setRallyPoint(target);
     }
+
+    @Override
+    public int getRemainingTrainTime() {
+        return trainer.getRemainingTrainingTime();
+    }
 }

@@ -158,4 +158,9 @@ public class Starport extends Building implements Mechanical, FlyingBuilding, Tr
         
         return this.trainer.setRallyPoint(target);
     }
+
+    @Override
+    public int getRemainingTrainTime() {
+        return trainer.getRemainingTrainingTime();
+    }
 }
