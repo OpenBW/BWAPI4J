@@ -40,6 +40,7 @@ extern jclass bwMapClass;
 extern jmethodID bwMapNew;
 
 extern jmethodID addRequiredUnit;
+extern jmethodID addUsingUnit;
 
 
 #endif /* SO_H_ */

@@ -78,6 +78,12 @@ void BridgeEnum::createUpgradeTypeEnum() {
 			globalEnv->SetObjectArrayElement(objectArray, i, whatsRequired[i]);
 		}
 
+		// read existing whatUses set and put UnitType entries
+		for (auto const& use : upgradeType.whatUses()) {
+
+			globalEnv->CallObjectMethod(CurrentUpgradeType, addUsingUnit, (jint)use.getID());
+		}
+
 		// set enum fields
 		jobject race = globalEnv->GetStaticObjectField(raceClass, globalEnv->GetStaticFieldID(raceClass, upgradeType.getRace().c_str(), "Lorg/openbw/bwapi4j/type/Race;"));
 		globalEnv->SetObjectField(CurrentUpgradeType, globalEnv->GetFieldID(upgradeTypeClass, "race", "Lorg/openbw/bwapi4j/type/Race;"), race);

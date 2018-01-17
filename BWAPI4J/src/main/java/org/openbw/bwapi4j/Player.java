@@ -1,13 +1,12 @@
 package org.openbw.bwapi4j;
 
 import org.openbw.bwapi4j.type.*;
+import org.openbw.bwapi4j.unit.ExtendibleByAddon;
 import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.unit.Unit;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Player {
 
@@ -113,8 +112,9 @@ public class Player {
 
     /**
      * Initializes a player with static information (constant through the course of a game).
+     *
      * @param playerData raw data array
-     * @param index current pointer
+     * @param index      current pointer
      */
     public void initialize(int[] playerData, int index) {
 
@@ -129,10 +129,11 @@ public class Player {
 
     /**
      * Updates dynamic player information. To be called once per frame.
-     * @param playerData raw data array
-     * @param index current pointer
+     *
+     * @param playerData     raw data array
+     * @param index          current pointer
      * @param researchStatus status for each possible research
-     * @param upgradeStatus status for each possible upgrade
+     * @param upgradeStatus  status for each possible upgrade
      */
     public void update(int[] playerData, int index, int[] researchStatus, int[] upgradeStatus) {
 
@@ -259,6 +260,7 @@ public class Player {
     // return isEnemy_native(pointer, player);
     // }
     //
+
     /**
      * Checks if this player is the neutral player. Return values true if this
      * player is the neutral player. false if this player is any other player.
@@ -563,13 +565,13 @@ public class Player {
      * UnitInterface::upgrade, getMaxUpgradeLevel
      */
     public int getUpgradeLevel(UpgradeType upgrade) {
-    	
-    	for (int i = 0; i < this.upgradeStatus.length; i += 3) {
-    		
-    		if (this.upgradeStatus[i] == upgrade.getId()) {
-    			return this.upgradeStatus[i + 1];
-    		}
-    	}
+
+        for (int i = 0; i < this.upgradeStatus.length; i += 3) {
+
+            if (this.upgradeStatus[i] == upgrade.getId()) {
+                return this.upgradeStatus[i + 1];
+            }
+        }
         return 0;
     }
 
@@ -583,12 +585,12 @@ public class Player {
         if (TechType.None.equals(tech)) {
             return true;
         }
-    	for (int i = 0; i < this.researchStatus.length; i += 3) {
-    		
-    		if (this.researchStatus[i] == tech.getId()) {
-    			return this.researchStatus[i + 1] == 1;
-    		}
-    	}
+        for (int i = 0; i < this.researchStatus.length; i += 3) {
+
+            if (this.researchStatus[i] == tech.getId()) {
+                return this.researchStatus[i + 1] == 1;
+            }
+        }
         return false;
     }
 
@@ -599,13 +601,13 @@ public class Player {
      * UnitInterface::research, hasResearched
      */
     public boolean isResearching(TechType tech) {
-        
-    	for (int i = 0; i < this.researchStatus.length; i += 3) {
-    		
-    		if (this.researchStatus[i] == tech.getId()) {
-    			return this.researchStatus[i + 2] == 1;
-    		}
-    	}
+
+        for (int i = 0; i < this.researchStatus.length; i += 3) {
+
+            if (this.researchStatus[i] == tech.getId()) {
+                return this.researchStatus[i + 2] == 1;
+            }
+        }
         return false;
     }
 
@@ -623,13 +625,13 @@ public class Player {
      * UnitInterface::upgrade
      */
     public boolean isUpgrading(UpgradeType upgrade) {
-    	
-    	for (int i = 0; i < this.upgradeStatus.length; i += 3) {
-    		
-    		if (this.upgradeStatus[i] == upgrade.getId()) {
-    			return this.upgradeStatus[i + 2] == 1;
-    		}
-    	}
+
+        for (int i = 0; i < this.upgradeStatus.length; i += 3) {
+
+            if (this.upgradeStatus[i] == upgrade.getId()) {
+                return this.upgradeStatus[i + 2] == 1;
+            }
+        }
         return false;
     }
 
@@ -729,6 +731,7 @@ public class Player {
     // return damage_native(pointer, wpn);
     // }
     //
+
     /**
      * Retrieves the total unit score, as seen in the end-game score screen.
      * Returns The player's unit score.
@@ -788,6 +791,20 @@ public class Player {
                 && supplyUsed + type.supplyRequired() <= supplyTotal
                 && hasResearched(type.requiredTech())
                 && PlayerUnit.getMissingUnits(bw.getUnits(this), type.requiredUnits()).isEmpty();
+    }
+
+    public boolean canMake(Unit builder, UnitType type) {
+        if (!canMake(type) || !builder.isA(type.whatBuilds().first)) {
+            return false;
+        }
+        return type.requiredUnits().stream().filter(UnitType::isAddon).findAny()
+                .map(requiredAddon -> {
+                    ExtendibleByAddon building = (ExtendibleByAddon) builder;
+                    if (building.getAddon() == null || !building.getAddon().isA(requiredAddon)) {
+                        return false;
+                    }
+                    return true;
+                }).orElse(true);
     }
 
     /**

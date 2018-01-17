@@ -1,5 +1,7 @@
 package org.openbw.bwapi4j.type;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -72,6 +74,7 @@ public enum UpgradeType {
     private int maxRepeats;
     private UnitType whatUpgrades;
     private UnitType[] whatsRequired;
+    private List<UnitType> whatUses = new ArrayList<>();
 
     public static UpgradeType withId(int id) {
         return IdMapper.upgradeTypesForId[id];
@@ -169,6 +172,11 @@ public enum UpgradeType {
     public UnitType whatsRequired(int level) {
         return this.whatsRequired[level];
     }
+
+    public void addUsingUnit(int typeId) {
+        whatUses.add(UnitType.values()[typeId]);
+    }
+
 
     private static class IdMapper {
         static UpgradeType[] upgradeTypesForId;
