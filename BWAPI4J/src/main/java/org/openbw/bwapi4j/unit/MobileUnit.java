@@ -4,7 +4,7 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
-public abstract class MobileUnit extends PlayerUnit implements Armed {
+public abstract class MobileUnit extends PlayerUnit {
 
     private boolean isFollowing;
     private boolean isHoldingPosition;
@@ -186,18 +186,6 @@ public abstract class MobileUnit extends PlayerUnit implements Armed {
     public Unit getTargetUnit() {
 
         return super.getTargetUnit();
-    }
-
-    @Override
-    public Weapon getGroundWeapon() {
-
-        return groundWeapon;
-    }
-
-    @Override
-    public Weapon getAirWeapon() {
-
-        return airWeapon;
     }
 
     public int getMaxGroundHits() {

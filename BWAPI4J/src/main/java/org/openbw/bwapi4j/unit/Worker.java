@@ -5,7 +5,7 @@ import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
-public abstract class Worker<R extends GasMiningFacility> extends MobileUnit {
+public abstract class Worker<R extends GasMiningFacility> extends MobileUnit implements Armed {
     private boolean isConstructing;
     private boolean isGatheringGas;
     private boolean isGatheringMinerals;
@@ -104,5 +104,15 @@ public abstract class Worker<R extends GasMiningFacility> extends MobileUnit {
     public boolean build(TilePosition p, UnitType type) {
 
         return issueCommand(this.id, UnitCommandType.Build.ordinal(), -1, p.getX(), p.getY(), type.getId());
+    }
+
+    @Override
+    public Weapon getGroundWeapon() {
+        return groundWeapon;
+    }
+
+    @Override
+    public Weapon getAirWeapon() {
+        return airWeapon;
     }
 }

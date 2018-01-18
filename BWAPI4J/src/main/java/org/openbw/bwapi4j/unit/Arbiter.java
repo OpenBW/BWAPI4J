@@ -5,7 +5,7 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
-public class Arbiter extends MobileUnit implements Mechanical, SpellCaster {
+public class Arbiter extends MobileUnit implements Mechanical, SpellCaster, Armed {
 
     private int energy;
 
@@ -52,5 +52,15 @@ public class Arbiter extends MobileUnit implements Mechanical, SpellCaster {
             return issueCommand(this.id, UnitCommandType.Use_Tech_Position.ordinal(), -1, 
                     position.getX(), position.getY(), TechType.Recall.getId());
         }
+    }
+
+    @Override
+    public Weapon getGroundWeapon() {
+        return groundWeapon;
+    }
+
+    @Override
+    public Weapon getAirWeapon() {
+        return airWeapon;
     }
 }

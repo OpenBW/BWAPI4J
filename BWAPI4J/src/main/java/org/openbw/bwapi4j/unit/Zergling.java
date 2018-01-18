@@ -3,7 +3,7 @@ package org.openbw.bwapi4j.unit;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
-public class Zergling extends MobileUnit implements Organic, Burrowable {
+public class Zergling extends MobileUnit implements Organic, Burrowable, Armed {
 
     private boolean burrowed;
     
@@ -42,5 +42,15 @@ public class Zergling extends MobileUnit implements Organic, Burrowable {
     public boolean isBurrowed() {
         
         return this.burrowed;
+    }
+
+    @Override
+    public Weapon getGroundWeapon() {
+        return groundWeapon;
+    }
+
+    @Override
+    public Weapon getAirWeapon() {
+        return airWeapon;
     }
 }
