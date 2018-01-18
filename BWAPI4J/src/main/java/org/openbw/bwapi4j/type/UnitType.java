@@ -371,8 +371,11 @@ public enum UnitType {
     public ArrayList<UnitType> requiredUnits() {
         return this.requiredUnits;
     }
-    
-    public void addRequiredUnit(int typeId, int amount) {
+
+    /**
+     * Called by native API
+     */
+    private void addRequiredUnit(int typeId, int amount) {
 //        System.out.print("unit type: ");
 //        System.out.println(UnitType.values()[typeId] + ":" + amount);
         this.requiredUnits.add(UnitType.values()[typeId]);

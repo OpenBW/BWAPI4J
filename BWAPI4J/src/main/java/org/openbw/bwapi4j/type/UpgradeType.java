@@ -173,7 +173,10 @@ public enum UpgradeType {
         return this.whatsRequired[level];
     }
 
-    public void addUsingUnit(int typeId) {
+    /**
+     * Called by native API
+     */
+    private void addUsingUnit(int typeId) {
         whatUses.add(UnitType.values()[typeId]);
     }
 
