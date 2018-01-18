@@ -1,6 +1,7 @@
 package org.openbw.bwapi4j.type;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -171,6 +172,10 @@ public enum UpgradeType {
      */
     public UnitType whatsRequired(int level) {
         return this.whatsRequired[level];
+    }
+
+    public List<UnitType> whatUses() {
+        return whatUses;
     }
 
     /**
