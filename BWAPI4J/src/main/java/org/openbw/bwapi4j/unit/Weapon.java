@@ -22,6 +22,14 @@ public class Weapon {
         return type;
     }
 
+    public int maxRange() {
+        return type.maxRange();
+    }
+
+    public int maxCooldown() {
+        return type.damageCooldown();
+    }
+
     void update(WeaponType type, int cooldown) {
         this.type = type;
         this.cooldown = cooldown;
