@@ -445,21 +445,6 @@ public class UnitFactory {
         // treat the following special units as the same class
         case Special_Cargo_Ship:
         case Special_Mercenary_Gunship:
-        case Special_Crashed_Norad_II:
-        case Special_Ion_Cannon:
-        case Special_Overmind_With_Shell:
-        case Special_Overmind:
-        case Special_Mature_Chrysalis:
-        case Special_Cerebrate:
-        case Special_Cerebrate_Daggoth:
-        case Special_Khaydarin_Crystal_Form:
-        case Special_Protoss_Temple:
-        case Special_XelNaga_Temple:
-        case Special_Independant_Starport:
-        case Special_Warp_Gate:
-        case Special_Psi_Disrupter:
-        case Special_Power_Generator:
-        case Special_Overmind_Cocoon:
         case Special_Floor_Missile_Trap:
         case Special_Floor_Hatch:
         case Special_Upper_Level_Door:
@@ -473,7 +458,26 @@ public class UnitFactory {
         case Special_Right_Wall_Flame_Trap:
         	unit = new SpecialUnit(unitId, unitType);
             break;
-        
+
+        case Special_Independant_Starport:
+        case Special_Ion_Cannon:
+        case Special_Crashed_Norad_II:
+        case Special_Psi_Disrupter:
+        case Special_Khaydarin_Crystal_Form:
+        case Special_Protoss_Temple:
+        case Special_XelNaga_Temple:
+        case Special_Power_Generator:
+        case Special_Warp_Gate:
+        case Special_Cerebrate:
+        case Special_Cerebrate_Daggoth:
+        case Special_Mature_Chrysalis:
+        case Special_Overmind:
+        case Special_Overmind_Cocoon:
+        case Special_Overmind_With_Shell:
+        case Special_Stasis_Cell_Prison:
+            unit = new SpecialBuilding(unitId, unitType, timeSpotted);
+            break;
+
         // ignore special pseudo units
         case Special_Start_Location:
         case Special_Zerg_Flag_Beacon:
@@ -482,7 +486,6 @@ public class UnitFactory {
         case Special_Zerg_Beacon:
         case Special_Terran_Beacon:
         case Special_Protoss_Beacon:
-        case Special_Stasis_Cell_Prison: // TODO might be required
         case Special_Map_Revealer:
             
         // ignore turrets (for now)
