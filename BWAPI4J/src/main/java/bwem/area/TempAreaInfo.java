@@ -1,6 +1,7 @@
 package bwem.area;
 
 import bwem.area.typedef.AreaId;
+import bwem.tile.MiniTileImpl;
 import bwem.typedef.Altitude;
 import bwem.tile.MiniTile;
 import org.openbw.bwapi4j.WalkPosition;
@@ -44,7 +45,7 @@ public class TempAreaInfo {
         m_id = id;
         m_top = pos;
         m_size = 0;
-        m_highestAltitude = pMiniTile.Altitude();
+        m_highestAltitude = pMiniTile.getAltitude();
 
         Add(pMiniTile);
 
@@ -96,7 +97,7 @@ public class TempAreaInfo {
             throw new IllegalStateException();
         }
         ++m_size;
-        pMiniTile.SetAreaId(m_id);
+        ((MiniTileImpl) pMiniTile).setAreaId(m_id);
     }
 
 	// Left to caller : m.SetAreaId(this->Id()) for each MiniTile m in Absorbed

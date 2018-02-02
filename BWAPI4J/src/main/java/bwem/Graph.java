@@ -1,6 +1,7 @@
 package bwem;
 
 import bwem.map.MapImpl;
+import bwem.tile.TileImpl;
 import bwem.typedef.CPPath;
 import bwem.typedef.Pred;
 import bwem.typedef.Altitude;
@@ -63,7 +64,7 @@ public final class Graph {
         return m_Areas.size();
     }
 
-    public Area GetArea(AreaId id) {
+    public Area GetArea(final AreaId id) {
 //        bwem_assert(Valid(id));
         if (!(Valid(id))) {
             throw new IllegalArgumentException();
@@ -71,35 +72,35 @@ public final class Graph {
         return m_Areas.get(id.intValue() - 1);
     }
 
-    public Area GetArea(WalkPosition w) {
-        AreaId id = GetMap().getData().getMiniTile(w).AreaId();
+    public Area GetArea(final WalkPosition walkPosition) {
+        final AreaId id = GetMap().getData().getMiniTile(walkPosition).getAreaId();
         return (id.intValue() > 0)
                 ? GetArea(id)
                 : null;
     }
 
-    public Area GetArea(TilePosition w) {
-        AreaId id = GetMap().getData().getTile(w).AreaId();
+    public Area GetArea(final TilePosition tilePosition) {
+        final AreaId id = GetMap().getData().getTile(tilePosition).getAreaId();
         return (id.intValue() > 0)
                 ? GetArea(id)
                 : null;
     }
 
-    public Area GetNearestArea(WalkPosition p) {
-        Area area = GetArea(p);
+    public Area GetNearestArea(final WalkPosition walkPosition) {
+        final Area area = GetArea(walkPosition);
         if (area != null) {
             return area;
         }
 
-        p = GetMap().BreadthFirstSearch(
-            p,
+        final WalkPosition p = GetMap().BreadthFirstSearch(
+            walkPosition,
             new Pred() { // findCond
                 @Override
                 public boolean isTrue(Object... args) {
-                    Object ttile = args[0];
+                    final Object ttile = args[0];
                     if (ttile instanceof MiniTile) {
-                        MiniTile miniTile = (MiniTile) ttile;
-                        return (miniTile.AreaId().intValue() > 0);
+                        final MiniTile miniTile = (MiniTile) ttile;
+                        return (miniTile.getAreaId().intValue() > 0);
                     } else {
                         throw new IllegalArgumentException();
                     }
@@ -116,21 +117,21 @@ public final class Graph {
         return GetArea(p);
     }
 
-    public Area GetNearestArea(TilePosition p) {
-        Area area = GetArea(p);
+    public Area GetNearestArea(final TilePosition tilePosition) {
+        final Area area = GetArea(tilePosition);
         if (area != null) {
             return area;
         }
 
-        p = GetMap().BreadthFirstSearch(
-            p,
+        final TilePosition p = GetMap().BreadthFirstSearch(
+            tilePosition,
             new Pred() { // findCond
                 @Override
                 public boolean isTrue(Object... args) {
                     Object ttile = args[0];
                     if (ttile instanceof Tile) {
                         Tile tile = (Tile) ttile;
-                        return (tile.AreaId().intValue() > 0);
+                        return (tile.getAreaId().intValue() > 0);
                     } else {
                         throw new IllegalArgumentException();
                     }
@@ -165,15 +166,15 @@ public final class Graph {
             throw new IllegalArgumentException();
         }
 
-        int a_id = a.intValue();
-        int b_id = b.intValue();
-        if (a.intValue() > b.intValue()) {
-            int a_id_tmp = a_id;
-            a_id = b_id;
-            b_id = a_id_tmp;
+        int a_val = a.intValue();
+        int b_val = b.intValue();
+        if (a_val > b_val) {
+            int a_val_tmp = a_val;
+            a_val = b_val;
+            b_val = a_val_tmp;
         }
 
-        return m_ChokePointsMatrix.get(b_id).get(a_id);
+        return m_ChokePointsMatrix.get(b_val).get(a_val);
     }
 
     // Returns the ChokePoints between two Areas.
@@ -191,9 +192,9 @@ public final class Graph {
         return m_PathsBetweenChokePoints.get(cpA.Index().intValue()).get(cpB.Index().intValue());
     }
 
-    public CPPath GetPath(Position a, Position b, MutableInt pLength) {
-        Area areaA = GetNearestArea(a.toWalkPosition());
-        Area areaB = GetNearestArea(b.toWalkPosition());
+    public CPPath GetPath(final Position a, final Position b, final MutableInt pLength) {
+        final Area areaA = GetNearestArea(a.toWalkPosition());
+        final Area areaB = GetNearestArea(b.toWalkPosition());
 
         if (areaA.equals(areaB)) {
             if (pLength != null) {
@@ -214,10 +215,10 @@ public final class Graph {
         ChokePoint pBestCpA = null;
         ChokePoint pBestCpB = null;
 
-        for (ChokePoint cpA : areaA.ChokePoints()) {
+        for (final ChokePoint cpA : areaA.ChokePoints()) {
             if (!cpA.Blocked()) {
                 final int dist_A_cpA = BwemExt.getApproxDistance(a, cpA.Center().toPosition());
-                for (ChokePoint cpB : areaB.ChokePoints()) {
+                for (final ChokePoint cpB : areaB.ChokePoints()) {
                     if (!cpB.Blocked()) {
                         final int dist_B_cpB = BwemExt.getApproxDistance(b, cpB.Center().toPosition());
                         final int dist_A_B = dist_A_cpA + dist_B_cpB + Distance(cpA, cpB);
@@ -236,7 +237,7 @@ public final class Graph {
             throw new IllegalStateException();
         }
 
-        CPPath path = GetPath(pBestCpA, pBestCpB);
+        final CPPath path = GetPath(pBestCpA, pBestCpB);
 
         if (pLength != null) {
 //            bwem_assert(Path.size() >= 1);
@@ -251,17 +252,17 @@ public final class Graph {
                 if (!((pBestCpA == null && pBestCpB == null) || pBestCpA.equals(pBestCpB))) {
                     throw new IllegalStateException();
                 }
-                ChokePoint cp = pBestCpA;
+                final ChokePoint cp = pBestCpA;
 
-                Position cpEnd1 = BwemExt.center(cp.Pos(ChokePoint.Node.end1));
-                Position cpEnd2 = BwemExt.center(cp.Pos(ChokePoint.Node.end2));
+                final Position cpEnd1 = BwemExt.center(cp.Pos(ChokePoint.Node.end1));
+                final Position cpEnd2 = BwemExt.center(cp.Pos(ChokePoint.Node.end2));
                 if (Utils.intersect(a.getX(), a.getY(), b.getX(), b.getY(), cpEnd1.getX(), cpEnd1.getY(), cpEnd2.getX(), cpEnd2.getY())) {
                     pLength.setValue(BwemExt.getApproxDistance(a, b));
                 } else {
-                    ChokePoint.Node[] nodes = {ChokePoint.Node.end1, ChokePoint.Node.end2};
-                    for (ChokePoint.Node node : nodes) {
-                        Position c = BwemExt.center(cp.Pos(node));
-                        int dist_A_B = BwemExt.getApproxDistance(a, c) + BwemExt.getApproxDistance(b, c);
+                    final ChokePoint.Node[] nodes = {ChokePoint.Node.end1, ChokePoint.Node.end2};
+                    for (final ChokePoint.Node node : nodes) {
+                        final Position c = BwemExt.center(cp.Pos(node));
+                        final int dist_A_B = BwemExt.getApproxDistance(a, c) + BwemExt.getApproxDistance(b, c);
                         if (dist_A_B < pLength.intValue()) {
                             pLength.setValue(dist_A_B);
                         }
@@ -284,8 +285,8 @@ public final class Graph {
 	// Creates a new Area for each pair (top, miniTiles) in AreasList (See Area::Top() and Area::MiniTiles())
     public void CreateAreas(final List<MutablePair<WalkPosition, Integer>> AreasList) {
         for (int id = 1; id <= AreasList.size(); ++id) {
-            final WalkPosition top = AreasList.get(id - 1).left;
-            final int miniTiles = AreasList.get(id - 1).right;
+            final WalkPosition top = AreasList.get(id - 1).getLeft();
+            final int miniTiles = AreasList.get(id - 1).getRight();
             m_Areas.add(new Area(this, new AreaId(id), top, miniTiles));
         }
     }
@@ -325,8 +326,8 @@ public final class Graph {
         final AbstractMap<MutablePair<AreaId, AreaId>, List<WalkPosition>> RawFrontierByAreaPair = new ConcurrentHashMap<>();
 
         for (final MutablePair<MutablePair<AreaId, AreaId>, WalkPosition> raw : RawFrontier) {
-            AreaId a = new AreaId(raw.left.left);
-            AreaId b = new AreaId(raw.left.right);
+            AreaId a = new AreaId(raw.getLeft().getLeft());
+            AreaId b = new AreaId(raw.getLeft().getRight());
             if (a.intValue() > b.intValue()) {
                 AreaId a_tmp = new AreaId(a);
                 a = new AreaId(b);
@@ -344,10 +345,10 @@ public final class Graph {
             final MutablePair<AreaId, AreaId> key = new MutablePair<>(a, b);
             if (!RawFrontierByAreaPair.containsKey(key)) {
                 final List<WalkPosition> list = new ArrayList<>();
-                list.add(raw.right);
+                list.add(raw.getRight());
                 RawFrontierByAreaPair.put(key, list);
             } else {
-                RawFrontierByAreaPair.get(key).add(raw.right);
+                RawFrontierByAreaPair.get(key).add(raw.getRight());
             }
         }
 
@@ -394,8 +395,8 @@ public final class Graph {
 
     	// 3) For each pair of Areas (A, B):
     	for (final MutablePair<AreaId, AreaId> rawleft : RawFrontierByAreaPair.keySet()) {
-            final AreaId a = new AreaId(rawleft.left);
-            final AreaId b = new AreaId(rawleft.right);
+            final AreaId a = new AreaId(rawleft.getLeft());
+            final AreaId b = new AreaId(rawleft.getRight());
 
     	    final List<WalkPosition> rawright = RawFrontierByAreaPair.get(rawleft);
 
@@ -407,7 +408,7 @@ public final class Graph {
     		{
     			final List<Altitude> Altitudes = new ArrayList<>();
     			for (final WalkPosition w : RawFrontierAB) {
-    				Altitudes.add(new Altitude(GetMap().getData().getMiniTile(w).Altitude()));
+    				Altitudes.add(new Altitude(GetMap().getData().getMiniTile(w).getAltitude()));
                 }
 
 //    			bwem_assert(is_sorted(Altitudes.rbegin(), Altitudes.rend()));
@@ -479,7 +480,7 @@ public final class Graph {
                                         throw new IllegalArgumentException();
                                     }
                                     MiniTile miniTile = (MiniTile) ttile;
-                                    return miniTile.Walkable();
+                                    return miniTile.isWalkable();
                                 }
                             },
                             new Pred() { // visitCond
@@ -570,31 +571,31 @@ public final class Graph {
     public void CollectInformation() {
         // 1) Process the whole Map:
 
-        for (Mineral m : GetMap().getNeutralData().getMinerals()) {
-            Area pArea = mainArea(GetMap(), m.TopLeft(), m.Size());
-            if (pArea != null) {
-                pArea.AddMineral(m);
+        for (final Mineral mineral : GetMap().getNeutralData().getMinerals()) {
+            final Area area = GetMap().getMainArea(mineral.TopLeft(), mineral.Size());
+            if (area != null) {
+                area.AddMineral(mineral);
             }
         }
 
-        for (Geyser g : GetMap().getNeutralData().getGeysers()) {
-            Area pArea = mainArea(GetMap(), g.TopLeft(), g.Size());
-            if (pArea != null) {
-                pArea.AddGeyser(g);
+        for (Geyser geyser : GetMap().getNeutralData().getGeysers()) {
+            final Area area = GetMap().getMainArea(geyser.TopLeft(), geyser.Size());
+            if (area != null) {
+                area.AddGeyser(geyser);
             }
         }
 
         for (int y = 0; y < GetMap().getData().getMapData().getTileSize().getY(); ++y)
         for (int x = 0; x < GetMap().getData().getMapData().getTileSize().getX(); ++x) {
-            Tile tile = GetMap().getData().getTile(new TilePosition(x, y));
-            if (tile.AreaId().intValue() > 0) {
-                GetArea(tile.AreaId()).AddTileInformation(new TilePosition(x, y), tile);
+            final Tile tile = GetMap().getData().getTile(new TilePosition(x, y));
+            if (tile.getAreaId().intValue() > 0) {
+                GetArea(tile.getAreaId()).AddTileInformation(new TilePosition(x, y), tile);
             }
         }
 
         // 2) Post-process each Area separately:
 
-        for (Area area : m_Areas) {
+        for (final Area area : m_Areas) {
             area.PostCollectInformation();
         }
     }
@@ -612,32 +613,32 @@ public final class Graph {
     // which effectively computes the distances from one starting ChokePoint, using Dijkstra's algorithm.
     // If Context == Area, Dijkstra's algorithm works on the Tiles inside one Area.
     // If Context == Graph, Dijkstra's algorithm works on the GetChokePoints between the AreaS.
-    private void ComputeChokePointDistances(Area pContext) {
-        for (ChokePoint pStart : pContext.ChokePoints()) {
-            List<ChokePoint> Targets = new ArrayList<>();
-            for (ChokePoint cp : pContext.ChokePoints()) {
+    private void ComputeChokePointDistances(final Area pContext) {
+        for (final ChokePoint pStart : pContext.ChokePoints()) {
+            final List<ChokePoint> Targets = new ArrayList<>();
+            for (final ChokePoint cp : pContext.ChokePoints()) {
                 if (cp.equals(pStart)) {
                     break; // breaks symmetry
                 }
                 Targets.add(cp);
             }
 
-            List<Integer> DistanceToTargets = pContext.ComputeDistances(pStart, Targets);
+            final List<Integer> DistanceToTargets = pContext.ComputeDistances(pStart, Targets);
 
             for (int i = 0; i < Targets.size(); ++i) {
-                int newDist = DistanceToTargets.get(i);
-                int existingDist = Distance(pStart, Targets.get(i));
+                final int newDist = DistanceToTargets.get(i);
+                final int existingDist = Distance(pStart, Targets.get(i));
 
                 if (newDist != 0 && ((existingDist == -1) || (newDist < existingDist))) {
                     SetDistance(pStart, Targets.get(i), newDist);
 
                     // Build the path from pStart to Targets[i]:
 
-                    CPPath Path = new CPPath();
-                    Path.add(pStart);
-                    Path.add(Targets.get(i));
+                    final CPPath path = new CPPath();
+                    path.add(pStart);
+                    path.add(Targets.get(i));
 
-                    SetPath(pStart, Targets.get(i), Path);
+                    SetPath(pStart, Targets.get(i), path);
                 }
             }
         }
@@ -648,40 +649,40 @@ public final class Graph {
     // which effectively computes the distances from one starting ChokePoint, using Dijkstra's algorithm.
     // If Context == Area, Dijkstra's algorithm works on the Tiles inside one Area.
     // If Context == Graph, Dijkstra's algorithm works on the GetChokePoints between the AreaS.
-    private void ComputeChokePointDistances(Graph pContext) {
-        for (ChokePoint pStart : pContext.ChokePoints()) {
-            List<ChokePoint> Targets = new ArrayList<>();
-            for (ChokePoint cp : pContext.ChokePoints()) {
+    private void ComputeChokePointDistances(final Graph pContext) {
+        for (final ChokePoint pStart : pContext.ChokePoints()) {
+            final List<ChokePoint> Targets = new ArrayList<>();
+            for (final ChokePoint cp : pContext.ChokePoints()) {
                 if (cp.equals(pStart)) {
                     break; // breaks symmetry
                 }
                 Targets.add(cp);
             }
 
-            List<Integer> DistanceToTargets = pContext.ComputeDistances(pStart, Targets);
+            final List<Integer> DistanceToTargets = pContext.ComputeDistances(pStart, Targets);
 
             for (int i = 0; i < Targets.size(); ++i) {
-                int newDist = DistanceToTargets.get(i);
-                int existingDist = Distance(pStart, Targets.get(i));
+                final int newDist = DistanceToTargets.get(i);
+                final int existingDist = Distance(pStart, Targets.get(i));
 
                 if (newDist != 0 && ((existingDist == -1) || (newDist < existingDist))) {
                     SetDistance(pStart, Targets.get(i), newDist);
 
                     // Build the path from pStart to Targets[i]:
 
-                    CPPath Path = new CPPath();
-                    Path.add(pStart);
-                    Path.add(Targets.get(i));
+                    final CPPath path = new CPPath();
+                    path.add(pStart);
+                    path.add(Targets.get(i));
 
 //                    // if (Context == Graph), there may be intermediate ChokePoints. They have been set by ComputeDistances,
 //                    // so we just have to collect them (in the reverse order) and insert them into Path:
 //                    if ((void *)(pContext) == (void *)(this))	// tests (Context == Graph) without warning about constant condition
                         //TODO: Verify this loop is correct.
                         for (ChokePoint pPrev = Targets.get(i).PathBackTrace(); !pPrev.equals(pStart); pPrev = pPrev.PathBackTrace()) {
-                            Path.add(1, pPrev);
+                            path.add(1, pPrev);
                         }
 
-                    SetPath(pStart, Targets.get(i), Path);
+                    SetPath(pStart, Targets.get(i), path);
                 }
             }
         }
@@ -693,31 +694,30 @@ public final class Graph {
     // For each reached target, the shortest path can be derived using
     // the backward trace set in cp->PathBackTrace() for each intermediate ChokePoint cp from the target.
     // Note: same algo than Area::ComputeDistances (derived from Dijkstra)
-    private List<Integer> ComputeDistances(ChokePoint start, List<ChokePoint> Targets) {
-        MapImpl pMap = GetMap();
-        List<Integer> Distances = new ArrayList<>(Targets.size());
+    private List<Integer> ComputeDistances(final ChokePoint start, final List<ChokePoint> Targets) {
+        final List<Integer> Distances = new ArrayList<>(Targets.size());
         for (int i = 0; i < Targets.size(); ++i) {
             Distances.add(0);
         }
 
-        Tile.UnmarkAll();
+        TileImpl.getStaticMarkable().unmarkAll();
 
-        MultiValuedMap<Integer, ChokePoint> ToVisit = new ArrayListValuedHashMap<>(); // a priority queue holding the GetChokePoints to visit ordered by their distance to start.
-                                                                                      //Using ArrayListValuedHashMap to substitute std::multimap since it sorts keys but not values.
+        final MultiValuedMap<Integer, ChokePoint> ToVisit = new ArrayListValuedHashMap<>(); // a priority queue holding the GetChokePoints to visit ordered by their distance to start.
+                                                                                            //Using ArrayListValuedHashMap to substitute std::multimap since it sorts keys but not values.
         ToVisit.put(0, start);
 
         int remainingTargets = Targets.size();
         while (!ToVisit.isEmpty()) {
-            int currentDist = ToVisit.keys().iterator().next();
-            ChokePoint current = ToVisit.get(currentDist).iterator().next();
-            Tile currentTile = pMap.getData().getTile(current.Center().toPosition().toTilePosition(), check_t.no_check);
+            final int currentDist = ToVisit.keys().iterator().next();
+            final ChokePoint current = ToVisit.get(currentDist).iterator().next();
+            final Tile currentTile = GetMap().getData().getTile(current.Center().toTilePosition(), check_t.no_check);
 //            bwem_assert(currentTile.InternalData() == currentDist);
-            if (!(currentTile.InternalData().intValue() == currentDist)) {
+            if (!(((TileImpl) currentTile).getInternalData().intValue() == currentDist)) {
                 throw new IllegalStateException();
             }
             ToVisit.removeMapping(currentDist, current);
-            currentTile.SetInternalData(new MutableInt(0)); // resets Tile::m_internalData for future usage
-            currentTile.SetMarked();
+            ((TileImpl) currentTile).getInternalData().setValue(0); // resets Tile::m_internalData for future usage
+            currentTile.getMarkable().setMarked();
 
             for (int i = 0; i < Targets.size(); ++i) {
                 if (current.equals(Targets.get(i))) {
@@ -733,27 +733,27 @@ public final class Graph {
                 continue;
             }
 
-            Area[] areas = {current.GetAreas().left, current.GetAreas().right};
-            for (Area pArea : areas) {
-                for (ChokePoint next : pArea.ChokePoints()) {
+            final Area[] areas = {current.GetAreas().getLeft(), current.GetAreas().getRight()};
+            for (final Area pArea : areas) {
+                for (final ChokePoint next : pArea.ChokePoints()) {
                     if (!next.equals(current)) {
                         final int newNextDist = currentDist + Distance(current, next);
-                        final Tile nextTile = pMap.getData().getTile(next.Center().toPosition().toTilePosition(), check_t.no_check);
-                        if (!nextTile.Marked()) {
-                            if (nextTile.InternalData().intValue() != 0) { // next already in ToVisit
-                                if (newNextDist < nextTile.InternalData().intValue()) { // nextNewDist < nextOldDist
-                                                                                        // To update next's distance, we need to remove-insert it from ToVisit:
+                        final Tile nextTile = GetMap().getData().getTile(next.Center().toTilePosition(), check_t.no_check);
+                        if (!nextTile.getMarkable().isMarked()) {
+                            if (((TileImpl) nextTile).getInternalData().intValue() != 0) { // next already in ToVisit
+                                if (newNextDist < ((TileImpl) nextTile).getInternalData().intValue()) { // nextNewDist < nextOldDist
+                                                                                           // To update next's distance, we need to remove-insert it from ToVisit:
 //                                    bwem_assert(iNext != range.second);
-                                    boolean removed = ToVisit.removeMapping(nextTile.InternalData().intValue(), next);
+                                    final boolean removed = ToVisit.removeMapping(((TileImpl) nextTile).getInternalData().intValue(), next);
                                     if (!removed) {
                                         throw new IllegalStateException();
                                     }
-                                    nextTile.SetInternalData(new MutableInt(newNextDist));
+                                    ((TileImpl) nextTile).getInternalData().setValue(newNextDist);
                                     next.SetPathBackTrace(current);
                                     ToVisit.put(newNextDist, next);
                                 }
                             } else {
-                                nextTile.SetInternalData(new MutableInt(newNextDist));
+                                ((TileImpl) nextTile).getInternalData().setValue(newNextDist);
                                 next.SetPathBackTrace(current);
                                 ToVisit.put(newNextDist, next);
                             }
@@ -769,81 +769,57 @@ public final class Graph {
 //        }
 
         // Reset Tile::m_internalData for future usage
-        for (Integer key : ToVisit.keySet()) {
-            Collection<ChokePoint> coll = ToVisit.get(key);
-            for (ChokePoint cp : coll) {
-                pMap.getData().getTile(cp.Center().toPosition().toTilePosition(), check_t.no_check).SetInternalData(new MutableInt(0));
+        for (final Integer key : ToVisit.keySet()) {
+            final Collection<ChokePoint> coll = ToVisit.get(key);
+            for (final ChokePoint cp : coll) {
+                ((TileImpl) GetMap().getData().getTile(cp.Center().toTilePosition(), check_t.no_check)).getInternalData().setValue(0);
             }
         }
 
         return Distances;
     }
 
-    private void SetDistance(ChokePoint cpA, ChokePoint cpB, int value) {
-        m_ChokePointDistanceMatrix.get(cpA.Index().intValue()).set(cpB.Index().intValue(), value);
-        m_ChokePointDistanceMatrix.get(cpB.Index().intValue()).set(cpA.Index().intValue(), value);
-    }
-
     private void UpdateGroupIds() {
-    	GroupId nextGroupId = new GroupId(1);
+    	int nextGroupId = 1;
 
-    	Area.UnmarkAll();
-    	for (Area start : Areas()) {
-    		if (!start.Marked()) {
-    			List<Area> ToVisit = new ArrayList<>();
+    	Area.getStaticMarkable().unmarkAll();
+    	for (final Area start : Areas()) {
+    		if (!start.getMarkable().isMarked()) {
+    			final List<Area> ToVisit = new ArrayList<>();
                 ToVisit.add(start);
     			while (!ToVisit.isEmpty()) {
-    				Area current = ToVisit.remove(ToVisit.size() - 1);
-    				current.SetGroupId(nextGroupId);
+    				final Area current = ToVisit.remove(ToVisit.size() - 1);
+    				current.SetGroupId(new GroupId(nextGroupId));
 
-    				for (Area next : current.AccessibleNeighbours()) {
-    					if (!next.Marked()) {
-    						next.SetMarked();
+    				for (final Area next : current.AccessibleNeighbors()) {
+    					if (!next.getMarkable().isMarked()) {
+    						next.getMarkable().setMarked();
     						ToVisit.add(next);
     					}
                     }
     			}
-                nextGroupId = nextGroupId.add(1);
+                ++nextGroupId;
     		}
         }
     }
 
-    private void SetPath(ChokePoint cpA, ChokePoint cpB, CPPath PathAB) {
+    private void SetDistance(final ChokePoint cpA, final ChokePoint cpB, final int value) {
+        m_ChokePointDistanceMatrix.get(cpA.Index().intValue()).set(cpB.Index().intValue(), value);
+        m_ChokePointDistanceMatrix.get(cpB.Index().intValue()).set(cpA.Index().intValue(), value);
+    }
+
+    private void SetPath(final ChokePoint cpA, final ChokePoint cpB, final CPPath PathAB) {
         m_PathsBetweenChokePoints.get(cpA.Index().intValue()).set(cpB.Index().intValue(), PathAB);
 
         m_PathsBetweenChokePoints.get(cpB.Index().intValue()).get(cpA.Index().intValue()).clear();
         for (int i = PathAB.size() - 1; i >= 0; --i) {
-            ChokePoint cp = PathAB.get(i);
+            final ChokePoint cp = PathAB.get(i);
             m_PathsBetweenChokePoints.get(cpB.Index().intValue()).get(cpA.Index().intValue()).add(cp);
         }
     }
 
     private boolean Valid(AreaId id) {
         return (1 <= id.intValue() && id.intValue() <= AreasCount());
-    }
-
-    public static Area mainArea(MapImpl pMap, TilePosition topLeft, TilePosition size) {
-        AbstractMap<Area, Integer> map_Area_freq = new ConcurrentHashMap<>();
-
-        for (int dy = 0; dy < size.getY(); ++dy)
-        for (int dx = 0; dx < size.getX(); ++dx) {
-            Area area = pMap.GetArea(topLeft.add(new TilePosition(dx, dy)));
-            if (area != null) {
-                Integer val = map_Area_freq.get(area);
-                if (val == null) {
-                    val = 0;
-                }
-                map_Area_freq.put(area, val + 1);
-            }
-        }
-
-        Area lastArea = null;
-        if (!map_Area_freq.isEmpty()) {
-            for (Area tmpArea : map_Area_freq.keySet()) {
-                lastArea = tmpArea;
-            }
-        }
-        return lastArea;
     }
 
 }

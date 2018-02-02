@@ -81,14 +81,6 @@ public interface Map {
 
     public abstract NeutralData getNeutralData();
 
-	// If a Mineral wrappers the given BWAPI unit, returns a pointer to it.
-	// Otherwise, returns nullptr.
-    public abstract Mineral GetMineral(Unit u);
-
-	// If a Geyser wrappers the given BWAPI unit, returns a pointer to it.
-	// Otherwise, returns nullptr.
-    public abstract Geyser GetGeyser(Unit g);
-
     /**
      * Alternative handler for destroyed unit tracking. Not present in BWEM 1.4.1 C++.
      */
@@ -125,6 +117,8 @@ public interface Map {
 	// Returns nullptr only if Areas().empty()
 	// Note: Uses a breadth first search.
     public abstract Area GetNearestArea(TilePosition t);
+
+    public abstract Area getMainArea(TilePosition topLeft, TilePosition size);
 
 	// Returns a list of ChokePoints, which is intended to be the shortest walking path from 'a' to 'b'.
 	// Furthermore, if pLength != nullptr, the pointed integer is set to the corresponding length in pixels.

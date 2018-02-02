@@ -9,6 +9,8 @@ import bwem.util.BwemExt;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import org.apache.commons.lang3.mutable.MutableInt;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.UnitType;
@@ -31,7 +33,6 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public final class Base {
 
-    private UserData m_UserData = new UserData();
 	private final Map m_pMap;
 	private final Area m_pArea;
 	private TilePosition m_location;
@@ -62,10 +63,6 @@ public final class Base {
                 m_Geysers.add(g);
             }
         }
-    }
-
-    public UserData UserData() {
-        return m_UserData;
     }
 
 	// Tells whether this Base's location is contained in Map::StartingLocations()
@@ -157,11 +154,9 @@ public final class Base {
     @Override
     public int hashCode() {
         return Objects.hash(
-                this.m_pArea.Id().intValue(),
-                this.m_location.getX(),
-                this.m_location.getY(),
-                this.m_center.getX(),
-                this.m_center.getY()
+                this.m_pArea,
+                this.m_location,
+                this.m_center
         );
     }
 

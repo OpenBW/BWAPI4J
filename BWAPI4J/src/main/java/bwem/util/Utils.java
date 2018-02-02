@@ -2,14 +2,15 @@ package bwem.util;
 
 import bwem.typedef.Pred;
 import org.apache.commons.lang3.mutable.MutableDouble;
+import org.openbw.bwapi4j.Position;
+import org.openbw.bwapi4j.TilePosition;
+import org.openbw.bwapi4j.WalkPosition;
 
 import java.util.List;
 
 public final class Utils {
 
-    private Utils() throws InstantiationException {
-        throw new InstantiationException();
-    }
+    private Utils() {}
 
     public static int queenWiseNorm(final int dx, final int dy) {
         return Math.max(Math.abs(dx), Math.abs(dy));
@@ -63,6 +64,23 @@ public final class Utils {
     // Returns whether the line segments [a, b] and [c, d] intersect.
     public static boolean intersect(int ax, int ay, int bx, int by, int cx, int cy, int dx, int dy) {
         return get_line_intersection(ax, ay, bx, by, cx, cy, dx, dy, null, null);
+    }
+
+    public static <T> void fast_erase(final List<T> list, final int index) {
+//        bwem_assert((0 <= i) && (i < (int)Vector.size()));
+        if (!((0 <= index) && (index < list.size()))) {
+            throw new IllegalArgumentException("index: " + index);
+        }
+
+        final boolean isBackElement = (index >= list.size() - 1);
+
+        list.remove(index);
+
+        if (list.size() > 1 && !isBackElement) {
+            /* Move the back element to where the ith element was. */
+            T backElement = list.remove(list.size() - 1);
+            list.add(index, backElement);
+        }
     }
 
     public static <T> void really_remove_if(final List<T> Container, final Pred pred) {

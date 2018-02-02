@@ -8,8 +8,8 @@ public final class PairGenericMiniTileAltitudeComparator<T> implements Comparato
 
     @Override
     public int compare(MutablePair<T, MiniTile> o1, MutablePair<T, MiniTile> o2) {
-        int a1 = o1.right.Altitude().intValue();
-        int a2 = o2.right.Altitude().intValue();
+        int a1 = o1.getRight().getAltitude().intValue();
+        int a2 = o2.getRight().getAltitude().intValue();
         return Integer.compare(a1, a2);
     }
 

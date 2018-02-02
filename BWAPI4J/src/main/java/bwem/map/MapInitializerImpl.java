@@ -4,8 +4,10 @@ import bwem.area.TempAreaInfo;
 import bwem.area.typedef.AreaId;
 import bwem.check_t;
 import bwem.tile.MiniTile;
+import bwem.tile.MiniTileImpl;
 import bwem.tile.TileData;
 import bwem.tile.TileDataImpl;
+import bwem.tile.TileImpl;
 import bwem.typedef.Altitude;
 import bwem.typedef.Pred;
 import bwem.unit.Mineral;
@@ -77,7 +79,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
 //    ///	bw << "Map::InitializeNeutrals: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         logger.info("Map::InitializeNeutrals: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
-        ComputeAltitude(super.advancedData);
+        computeAltitude(getData());
 //    ///	bw << "Map::ComputeAltitude: " << timer.ElapsedMilliseconds() << " ms" << endl; timer.Reset();
         logger.info("Map::ComputeAltitude: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
@@ -147,18 +149,23 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
     // Altitudes are computed using the straightforward Dijkstra's algorithm : the lower ones are computed first, starting from the seaside-miniTiles neighbours.
     // The point here is to precompute all possible altitudes for all possible tiles, and sort them.
     @Override
-    public void ComputeAltitude(final AdvancedData advancedData) {
+    public void computeAltitude(final AdvancedData advancedData) {
         final int altitude_scale = 8; // 8 provides a pixel definition for altitude_t, since altitudes are computed from miniTiles which are 8x8 pixels
 
-        final List<MutablePair<WalkPosition, Altitude>> DeltasByAscendingAltitude
+        final Timer timer = new Timer();
+
+        final List<MutablePair<WalkPosition, Altitude>> deltasByAscendingAltitude
                 = getSortedDeltasByAscendingAltitude(
                 advancedData.getMapData().getWalkSize().getX(),
                 advancedData.getMapData().getWalkSize().getY(),
                 altitude_scale);
+        logger.info("Map::ComputeAltitude:getSortedDeltasByAscendingAltitude: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
-        final List<MutablePair<WalkPosition, Altitude>> ActiveSeaSides = getActiveSeaSideList(advancedData.getMapData());
+        final List<MutablePair<WalkPosition, Altitude>> ActiveSeaSides = getActiveSeaSideList(advancedData);
+        logger.info("Map::ComputeAltitude:getActiveSeaSideList: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
 
-        setMaxAltitude(setAltitudesAndGetUpdatedMaxAltitude(MaxAltitude(), advancedData, DeltasByAscendingAltitude, ActiveSeaSides, altitude_scale));
+        setMaxAltitude(setAltitudesAndGetUpdatedMaxAltitude(MaxAltitude(), advancedData, deltasByAscendingAltitude, ActiveSeaSides, altitude_scale));
+        logger.info("Map::ComputeAltitude:setAltitudesAndGetUpdatedMaxAltitude: " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
     }
 
     /**
@@ -168,12 +175,12 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
     public List<MutablePair<WalkPosition, Altitude>> getSortedDeltasByAscendingAltitude(final int mapWalkTileWidth, final int mapWalkTileHeight, int altitude_scale) {
         final int range = Math.max(mapWalkTileWidth, mapWalkTileHeight) / 2 + 3; // should suffice for maps with no Sea.
 
-        final List<MutablePair<WalkPosition, Altitude>> DeltasByAscendingAltitude = new ArrayList<>();
+        final List<MutablePair<WalkPosition, Altitude>> deltasByAscendingAltitude = new ArrayList<>();
 
         for (int dy = 0; dy <= range; ++dy) {
             for (int dx = dy; dx <= range; ++dx) { // Only consider 1/8 of possible deltas. Other ones obtained by symmetry.
                 if (dx != 0 || dy != 0) {
-                    DeltasByAscendingAltitude.add(new MutablePair<>(
+                    deltasByAscendingAltitude.add(new MutablePair<>(
                             new WalkPosition(dx, dy),
                             new Altitude((int) (Double.valueOf("0.5") + (Utils.norm(dx, dy) * (double) altitude_scale)))
                     ));
@@ -181,9 +188,9 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
             }
         }
 
-        Collections.sort(DeltasByAscendingAltitude, new PairGenericAltitudeComparator<>());
+        Collections.sort(deltasByAscendingAltitude, new PairGenericAltitudeComparator<>());
 
-        return DeltasByAscendingAltitude;
+        return deltasByAscendingAltitude;
     }
 
     /**
@@ -191,19 +198,19 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
      *    It also includes extra border-miniTiles which are considered as seaside miniTiles too.
      */
     @Override
-    public List<MutablePair<WalkPosition, Altitude>> getActiveSeaSideList(final MapData mapData) {
-        final List<MutablePair<WalkPosition, Altitude>> ActiveSeaSideList = new ArrayList<>();
+    public List<MutablePair<WalkPosition, Altitude>> getActiveSeaSideList(final AdvancedData advancedData) {
+        final List<MutablePair<WalkPosition, Altitude>> activeSeaSideList = new ArrayList<>();
 
-        for (int y = -1; y <= mapData.getWalkSize().getY(); ++y) {
-            for (int x = -1; x <= mapData.getWalkSize().getX(); ++x) {
-                final WalkPosition w = new WalkPosition(x, y);
-                if (!mapData.isValid(w) || BwemExt.seaSide(w, getData())) {
-                    ActiveSeaSideList.add(new MutablePair<>(w, new Altitude(0)));
+        for (int y = -1; y <= advancedData.getMapData().getWalkSize().getY(); ++y) {
+            for (int x = -1; x <= advancedData.getMapData().getWalkSize().getX(); ++x) {
+                final WalkPosition walkPosition = new WalkPosition(x, y);
+                if (!advancedData.getMapData().isValid(walkPosition) || advancedData.isSeaWithNonSeaNeighbors(walkPosition)) {
+                    activeSeaSideList.add(new MutablePair<>(walkPosition, new Altitude(0)));
                 }
             }
         }
 
-        return ActiveSeaSideList;
+        return activeSeaSideList;
     }
 
     //----------------------------------------------------------------------
@@ -221,30 +228,29 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
         Altitude updatedMaxAltitude = (currentMaxAltitude != null) ? new Altitude(currentMaxAltitude) : null;
 
         for (final MutablePair<WalkPosition, Altitude> delta_altitude : DeltasByAscendingAltitude) {
-            final WalkPosition d = new WalkPosition(delta_altitude.left.getX(), delta_altitude.left.getY());
-            final Altitude altitude = new Altitude(delta_altitude.right);
+            final WalkPosition d = delta_altitude.getLeft();
+            final Altitude altitude = delta_altitude.getRight();
 
             for (int i = 0; i < ActiveSeaSideList.size(); ++i) {
                 final MutablePair<WalkPosition, Altitude> Current = ActiveSeaSideList.get(i);
-                if (altitude.intValue() - Current.right.intValue() >= 2 * altitude_scale) {
+                if (altitude.intValue() - Current.getRight().intValue() >= 2 * altitude_scale) {
                     // optimization : once a seaside miniTile verifies this condition,
                     // we can throw it away as it will not generate min altitudes anymore
-                    BwemExt.fast_erase(ActiveSeaSideList, i--);
+                    Utils.fast_erase(ActiveSeaSideList, i--);
                 } else {
                     final WalkPosition[] deltas = {new WalkPosition(d.getX(), d.getY()), new WalkPosition(-d.getX(), d.getY()), new WalkPosition(d.getX(), -d.getY()), new WalkPosition(-d.getX(), -d.getY()),
                                                    new WalkPosition(d.getY(), d.getX()), new WalkPosition(-d.getY(), d.getX()), new WalkPosition(d.getY(), -d.getX()), new WalkPosition(-d.getY(), -d.getX())};
                     for (final WalkPosition delta : deltas) {
-                        final WalkPosition w = Current.left.add(delta);
+                        final WalkPosition w = Current.getLeft().add(delta);
                         if (advancedData.getMapData().isValid(w)) {
                             final MiniTile miniTile = advancedData.getMiniTile_(w, check_t.no_check);
-                            if (miniTile.AltitudeMissing()) {
-                                //TODO: Determine whether to delete this check.
+                            if (((MiniTileImpl) miniTile).isAltitudeMissing()) {
                                 if (updatedMaxAltitude != null && updatedMaxAltitude.intValue() > altitude.intValue()) {
                                     throw new IllegalStateException();
                                 }
-                                updatedMaxAltitude = new Altitude(altitude);
-                                Current.right = new Altitude(altitude);
-                                miniTile.SetAltitude(altitude);
+                                updatedMaxAltitude = altitude;
+                                Current.setRight(altitude);
+                                ((MiniTileImpl) miniTile).setAltitude(altitude);
                             }
                         }
                     }
@@ -316,8 +322,8 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
             public boolean isTrue(Object... args) {
                 WalkPosition w = (WalkPosition) args[0];
                 return (!getData().getMapData().isValid(w)
-                        || !getData().getMiniTile(w, check_t.no_check).Walkable()
-                        || getData().getTile(w.toPosition().toTilePosition(), check_t.no_check).GetNeutral() != null);
+                        || !getData().getMiniTile(w, check_t.no_check).isWalkable()
+                        || getData().getTile(w.toTilePosition(), check_t.no_check).getNeutral() != null);
             }
         });
         return Border;
@@ -350,8 +356,8 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                 for (final WalkPosition delta : deltas) {
                     final WalkPosition next = current.add(delta);
                     if (getData().getMapData().isValid(next) && !Visited.contains(next)) {
-                        if (getData().getMiniTile(next, check_t.no_check).Walkable()) {
-                            if (getData().getTile((next.toPosition()).toTilePosition(), check_t.no_check).GetNeutral() == null) {
+                        if (getData().getMiniTile(next, check_t.no_check).isWalkable()) {
+                            if (getData().getTile((next.toPosition()).toTilePosition(), check_t.no_check).getNeutral() == null) {
                                 if (BwemExt.adjoins8SomeLakeOrNeutral(next, this)) {
                                     ToVisit.add(next);
                                     Visited.add(next);
@@ -397,8 +403,8 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                     for (final WalkPosition delta : deltas) {
                         final WalkPosition next = current.add(delta);
                         if (getData().getMapData().isValid(next) && !Visited.contains(next)) {
-                            if (getData().getMiniTile(next, check_t.no_check).Walkable()) {
-                                if (getData().getTile(next.toPosition().toTilePosition(), check_t.no_check).GetNeutral() == null) {
+                            if (getData().getMiniTile(next, check_t.no_check).isWalkable()) {
+                                if (getData().getTile(next.toTilePosition(), check_t.no_check).getNeutral() == null) {
                                     ToVisit.add(next);
                                     Visited.add(next);
                                 }
@@ -422,18 +428,18 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
     public void markBlockingStackedNeutrals(final Neutral pCandidate, final List<WalkPosition> TrueDoors) {
         if (TrueDoors.size() >= 2) {
             // Marks pCandidate (and any Neutral stacked with it) as blocking.
-            for (Neutral pNeutral = getData().getTile(pCandidate.TopLeft()).GetNeutral(); pNeutral != null; pNeutral = pNeutral.NextStacked()) {
+            for (Neutral pNeutral = getData().getTile(pCandidate.TopLeft()).getNeutral(); pNeutral != null; pNeutral = pNeutral.NextStacked()) {
                 pNeutral.SetBlocking(TrueDoors);
             }
 
             // Marks all the miniTiles of pCandidate as blocked.
             // This way, areas at TrueDoors won't merge together.
-            final WalkPosition pCandidateW = pCandidate.Size().toPosition().toWalkPosition();
+            final WalkPosition pCandidateW = pCandidate.Size().toWalkPosition();
             for (int dy = 0; dy < pCandidateW.getY(); ++dy) {
                 for (int dx = 0; dx < pCandidateW.getX(); ++dx) {
                     final MiniTile miniTile = getData().getMiniTile_(((pCandidate.TopLeft().toPosition()).toWalkPosition()).add(new WalkPosition(dx, dy)));
-                    if (miniTile.Walkable()) {
-                        miniTile.SetBlocked();
+                    if (miniTile.isWalkable()) {
+                        ((MiniTileImpl) miniTile).setBlocked();
                     }
                 }
             }
@@ -469,7 +475,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
             for (int x = 0; x < getData().getMapData().getWalkSize().getX(); ++x) {
                 final WalkPosition w = new WalkPosition(x, y);
                 final MiniTile miniTile = getData().getMiniTile_(w, check_t.no_check);
-                if (miniTile.AreaIdMissing()) {
+                if (((MiniTileImpl) miniTile).isAreaIdMissing()) {
                     MiniTilesByDescendingAltitude.add(new MutablePair<>(w, miniTile));
                 }
             }
@@ -487,17 +493,17 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
         TempAreaList.add(new TempAreaInfo()); // TempAreaList[0] left unused, as AreaIds are > 0
 
         for (final MutablePair<WalkPosition, MiniTile> Current : MiniTilesByDescendingAltitude) {
-            final WalkPosition pos = new WalkPosition(Current.left.getX(), Current.left.getY());
-            final MiniTile cur = Current.right;
+            final WalkPosition pos = new WalkPosition(Current.getLeft().getX(), Current.getLeft().getY());
+            final MiniTile cur = Current.getRight();
 
             final MutablePair<AreaId, AreaId> neighboringAreas = findNeighboringAreas(pos);
-            if (neighboringAreas.left == null) { // no neighboring area : creates of a new area
+            if (neighboringAreas.getLeft() == null) { // no neighboring area : creates of a new area
                 TempAreaList.add(new TempAreaInfo(new AreaId(TempAreaList.size()), cur, pos));
-            } else if (neighboringAreas.right == null) { // one neighboring area : adds cur to the existing area
-                TempAreaList.get(neighboringAreas.left.intValue()).Add(cur);
+            } else if (neighboringAreas.getRight() == null) { // one neighboring area : adds cur to the existing area
+                TempAreaList.get(neighboringAreas.getLeft().intValue()).Add(cur);
             } else { // two neighboring areas : adds cur to one of them  &  possible merging
-                AreaId smaller = new AreaId(neighboringAreas.left);
-                AreaId bigger = new AreaId(neighboringAreas.right);
+                AreaId smaller = new AreaId(neighboringAreas.getLeft());
+                AreaId bigger = new AreaId(neighboringAreas.getRight());
                 if (TempAreaList.get(smaller.intValue()).Size() > TempAreaList.get(bigger.intValue()).Size()) {
                     AreaId smaller_tmp = new AreaId(smaller);
                     smaller = new AreaId(bigger);
@@ -509,12 +515,12 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
 //                    { return dist(TilePosition(pos), startingLoc + TilePosition(2, 1)) <= 3;})
                 boolean cpp_algorithm_std_any_of = false;
                 for (final TilePosition startingLoc : getData().getMapData().getStartingLocations()) {
-                    if (Double.compare(BwemExt.dist(pos.toPosition().toTilePosition(), startingLoc.add(new TilePosition(2, 1))), Double.valueOf("3")) <= 0) {
+                    if (Double.compare(BwemExt.dist(pos.toTilePosition(), startingLoc.add(new TilePosition(2, 1))), Double.valueOf("3")) <= 0) {
                         cpp_algorithm_std_any_of = true;
                         break;
                     }
                 }
-                final int curAltitude = cur.Altitude().intValue();
+                final int curAltitude = cur.getAltitude().intValue();
                 final int biggerHighestAltitude = TempAreaList.get(bigger.intValue()).HighestAltitude().intValue();
                 final int smallerHighestAltitude = TempAreaList.get(smaller.intValue()).HighestAltitude().intValue();
                 if ((TempAreaList.get(smaller.intValue()).Size() < 80)
@@ -543,7 +549,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                 @SuppressWarnings("unchecked")
                 final MutablePair<MutablePair<AreaId, AreaId>, WalkPosition> f
                         = (MutablePair<MutablePair<AreaId, AreaId>, WalkPosition>) args[0];
-                return f.left.left.equals(f.left.right);
+                return f.getLeft().getLeft().equals(f.getLeft().getRight());
             }
         });
 
@@ -553,8 +559,8 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
     @Override
     public void ReplaceAreaIds(final WalkPosition p, final AreaId newAreaId) {
         final MiniTile Origin = getData().getMiniTile_(p, check_t.no_check);
-        final AreaId oldAreaId = Origin.AreaId();
-        Origin.ReplaceAreaId(newAreaId);
+        final AreaId oldAreaId = Origin.getAreaId();
+        ((MiniTileImpl) Origin).replaceAreaId(newAreaId);
 
         List<WalkPosition> ToSearch = new ArrayList<>();
         ToSearch.add(p);
@@ -566,9 +572,9 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                 final WalkPosition next = current.add(delta);
                 if (getData().getMapData().isValid(next)) {
                     final MiniTile Next = getData().getMiniTile_(next, check_t.no_check);
-                    if (Next.AreaId().equals(oldAreaId)) {
+                    if (Next.getAreaId().equals(oldAreaId)) {
                         ToSearch.add(next);
-                        Next.ReplaceAreaId(newAreaId);
+                        ((MiniTileImpl) Next).replaceAreaId(newAreaId);
                     }
                 }
             }
@@ -577,11 +583,11 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
         // also replaces references of oldAreaId by newAreaId in m_RawFrontier:
         if (newAreaId.intValue() > 0) {
             for (final MutablePair<MutablePair<AreaId, AreaId>, WalkPosition> f : super.m_RawFrontier) {
-                if (f.left.left.equals(oldAreaId)) {
-                    f.left.left = new AreaId(newAreaId);
+                if (f.getLeft().getLeft().equals(oldAreaId)) {
+                    f.getLeft().setLeft(newAreaId);
                 }
-                if (f.left.right.equals(oldAreaId)) {
-                    f.left.right = new AreaId(newAreaId);
+                if (f.getLeft().getRight().equals(oldAreaId)) {
+                    f.getLeft().setRight(newAreaId);
                 }
             }
         }
@@ -625,13 +631,13 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
 
         for (int dy = 0; dy < 4; ++dy)
             for (int dx = 0; dx < 4; ++dx) {
-                final Altitude altitude = new Altitude(getData().getMiniTile(((t.toPosition()).toWalkPosition()).add(new WalkPosition(dx, dy)), check_t.no_check).Altitude());
+                final Altitude altitude = new Altitude(getData().getMiniTile(((t.toPosition()).toWalkPosition()).add(new WalkPosition(dx, dy)), check_t.no_check).getAltitude());
                 if (altitude.intValue() < minAltitude.intValue()) {
                     minAltitude = new Altitude(altitude);
                 }
             }
 
-        getData().getTile_(t).SetMinAltitude(minAltitude);
+        ((TileImpl) getData().getTile_(t)).setMinAltitude(minAltitude);
     }
 
     // Renamed from "MapImpl::SetAreaIdInTiles"

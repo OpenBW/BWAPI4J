@@ -25,7 +25,6 @@ public final class Index implements IWrappedInteger<Index>, Comparable<Index> {
         return new Index(this.val + that.val);
     }
 
-
     @Override
     public Index add(int val) {
         return new Index(this.val + val);
@@ -48,9 +47,7 @@ public final class Index implements IWrappedInteger<Index>, Comparable<Index> {
 
     @Override
     public int compareTo(Index that) {
-        int lhs = this.val;
-        int rhs = that.val;
-        return (lhs < rhs) ? -1 : (lhs > rhs) ? 1 : 0;
+        return Integer.compare(this.val, that.val);
     }
 
     @Override
@@ -67,7 +64,7 @@ public final class Index implements IWrappedInteger<Index>, Comparable<Index> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.val);
+        return this.val;
     }
 
     @Override

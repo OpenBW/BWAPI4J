@@ -8,8 +8,8 @@ public final class PairGenericAltitudeComparator<T> implements Comparator<Mutabl
 
     @Override
     public int compare(MutablePair<T, Altitude> o1, MutablePair<T, Altitude> o2) {
-        int a1 = o1.right.intValue();
-        int a2 = o2.right.intValue();
+        int a1 = o1.getRight().intValue();
+        int a2 = o2.getRight().intValue();
         return Integer.compare(a1, a2);
     }
 }

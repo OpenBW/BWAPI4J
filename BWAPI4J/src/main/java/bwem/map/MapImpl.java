@@ -8,11 +8,12 @@ import bwem.area.Area;
 import bwem.area.typedef.AreaId;
 import bwem.check_t;
 import bwem.tile.MiniTile;
+import bwem.tile.MiniTileImpl;
 import bwem.tile.Tile;
+import bwem.tile.TileImpl;
 import bwem.typedef.Altitude;
 import bwem.typedef.CPPath;
 import bwem.typedef.Pred;
-import bwem.unit.Geyser;
 import bwem.unit.Mineral;
 import bwem.unit.Neutral;
 import bwem.unit.NeutralData;
@@ -169,26 +170,6 @@ public class MapImpl implements Map {
     }
 
     @Override
-    public Mineral GetMineral(Unit u) {
-        for (Mineral mineral : getNeutralData().getMinerals()) {
-            if (mineral.Unit().equals(u)) {
-                return mineral;
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public Geyser GetGeyser(Unit u) {
-        for (Geyser geyser : getNeutralData().getGeysers()) {
-            if (geyser.Unit().equals(u)) {
-                return geyser;
-            }
-        }
-        return null;
-    }
-
-    @Override
     public void OnUnitDestroyed(Unit u) {
         if (u instanceof MineralPatch) {
             OnMineralDestroyed(u);
@@ -256,25 +237,25 @@ public class MapImpl implements Map {
             cp.OnBlockingNeutralDestroyed(pBlocking);
         }
 
-        if (getData().getTile(pBlocking.TopLeft()).GetNeutral() != null) { // there remains some blocking Neutrals at the same location
+        if (getData().getTile(pBlocking.TopLeft()).getNeutral() != null) { // there remains some blocking Neutrals at the same location
             return;
         }
 
         // Unblock the miniTiles of pBlocking:
         AreaId newId = new AreaId(pBlocking.BlockedAreas().iterator().next().Id());
-        WalkPosition pBlockingW = pBlocking.Size().toPosition().toWalkPosition();
+        WalkPosition pBlockingW = pBlocking.Size().toWalkPosition();
         for (int dy = 0; dy < pBlockingW.getY(); ++dy)
         for (int dx = 0; dx < pBlockingW.getX(); ++dx) {
-            MiniTile miniTile = getData().getMiniTile_((pBlocking.TopLeft().toPosition().toWalkPosition()).add(new WalkPosition(dx, dy)));
-            if (miniTile.Walkable()) {
-                miniTile.ReplaceBlockedAreaId(newId);
+            MiniTile miniTile = getData().getMiniTile_(pBlocking.TopLeft().toWalkPosition().add(new WalkPosition(dx, dy)));
+            if (miniTile.isWalkable()) {
+                ((MiniTileImpl) miniTile).replaceBlockedAreaId(newId);
             }
         }
 
         // Unblock the Tiles of pBlocking:
         for (int dy = 0; dy < pBlocking.Size().getY(); ++dy)
         for (int dx = 0; dx < pBlocking.Size().getX(); ++dx) {
-            getData().getTile_(pBlocking.TopLeft().add(new TilePosition(dx, dy))).ResetAreaId();
+            ((TileImpl) getData().getTile_(pBlocking.TopLeft().add(new TilePosition(dx, dy)))).resetAreaId();
             SetAreaIdInTile(pBlocking.TopLeft().add(new TilePosition(dx, dy)));
         }
 
@@ -312,6 +293,58 @@ public class MapImpl implements Map {
     @Override
     public Area GetNearestArea(TilePosition t) {
         return m_Graph.GetNearestArea(t);
+    }
+
+    //graph.cpp:30:Area * mainArea(MapImpl * pMap, TilePosition topLeft, TilePosition size)
+    //Note: The original C++ code appears to return the last discovered area instead of the area with the highest frequency.
+    //TODO: Determine if we desire the last discovered area or the area with the highest frequency.
+    @Override
+    public Area getMainArea(final TilePosition topLeft, final TilePosition size) {
+//        //----------------------------------------------------------------------
+//        // Area with the highest frequency.
+//        //----------------------------------------------------------------------
+//        final AbstractMap<Area, Integer> areaFrequency = new HashMap<>();
+//        for (int dy = 0; dy < size.getY(); ++dy)
+//        for (int dx = 0; dx < size.getX(); ++dx) {
+//            final Area area = GetArea(topLeft.add(new TilePosition(dx, dy)));
+//            if (area != null) {
+//                Integer val = areaFrequency.get(area);
+//                if (val == null) {
+//                    val = 0;
+//                }
+//                areaFrequency.put(area, val + 1);
+//            }
+//        }
+//
+//        if (!areaFrequency.isEmpty()) {
+//            java.util.Map.Entry<Area, Integer> highestFreqEntry = null;
+//            for (final java.util.Map.Entry<Area, Integer> currentEntry : areaFrequency.entrySet()) {
+//                if (highestFreqEntry == null || (currentEntry.getValue() > highestFreqEntry.getValue())) {
+//                    highestFreqEntry = currentEntry;
+//                }
+//            }
+//            return highestFreqEntry.getKey();
+//        } else {
+//            return null;
+//        }
+//        //----------------------------------------------------------------------
+
+
+
+        //----------------------------------------------------------------------
+        // Last area.
+        //----------------------------------------------------------------------
+        final List<Area> areas = new ArrayList<>();
+        for (int dy = 0; dy < size.getY(); ++dy)
+        for (int dx = 0; dx < size.getX(); ++dx) {
+            final Area area = GetArea(topLeft.add(new TilePosition(dx, dy)));
+            if (area != null && !areas.contains(area)) {
+                areas.add(area);
+            }
+        }
+
+        return areas.isEmpty() ? null : areas.get(areas.size() - 1);
+        //----------------------------------------------------------------------
     }
 
     @Override
@@ -451,18 +484,18 @@ public class MapImpl implements Map {
     public void SetAreaIdInTile(final TilePosition t) {
         final Tile tile = getData().getTile_(t);
 //        bwem_assert(tile.AreaId() == 0);	// initialized to 0
-        if (!(tile.AreaId().intValue() == 0)) { // initialized to 0
+        if (!(tile.getAreaId().intValue() == 0)) { // initialized to 0
             throw new IllegalStateException();
         }
 
         for (int dy = 0; dy < 4; ++dy) {
             for (int dx = 0; dx < 4; ++dx) {
-                final AreaId id = getData().getMiniTile((t.toPosition().toWalkPosition()).add(new WalkPosition(dx, dy)), check_t.no_check).AreaId();
+                final AreaId id = getData().getMiniTile(t.toWalkPosition().add(new WalkPosition(dx, dy)), check_t.no_check).getAreaId();
                 if (id.intValue() != 0) {
-                    if (tile.AreaId().intValue() == 0) {
-                        tile.SetAreaId(id);
-                    } else if (!tile.AreaId().equals(id)) {
-                        tile.SetAreaId(new AreaId(-1));
+                    if (tile.getAreaId().intValue() == 0) {
+                        ((TileImpl) tile).setAreaId(id);
+                    } else if (!tile.getAreaId().equals(id)) {
+                        ((TileImpl) tile).setAreaId(new AreaId(-1));
                         return;
                     }
                 }
@@ -476,13 +509,13 @@ public class MapImpl implements Map {
         final WalkPosition[] deltas = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(+1, 0), new WalkPosition(0, +1)};
         for (final WalkPosition delta : deltas) {
             if (getData().getMapData().isValid(p.add(delta))) {
-                final AreaId areaId = getData().getMiniTile(p.add(delta), check_t.no_check).AreaId();
+                final AreaId areaId = getData().getMiniTile(p.add(delta), check_t.no_check).getAreaId();
                 if (areaId.intValue() > 0) {
-                    if (result.left == null) {
-                        result.left = new AreaId(areaId);
-                    } else if (!result.left.equals(areaId)) {
-                        if (result.right == null || ((areaId.intValue() < result.right.intValue()))) {
-                            result.right = new AreaId(areaId);
+                    if (result.getLeft() == null) {
+                        result.setLeft(areaId);
+                    } else if (!result.getLeft().equals(areaId)) {
+                        if (result.getRight() == null || ((areaId.intValue() < result.getRight().intValue()))) {
+                            result.setRight(areaId);
                         }
                     }
                 }

@@ -1,18 +1,16 @@
 package bwem.util;
 
-import bwem.map.AdvancedData;
-import bwem.typedef.Altitude;
 import bwem.check_t;
-import bwem.map.Map;
 import bwem.map.MapImpl;
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.openbw.bwapi4j.BW;
+import org.openbw.bwapi4j.MapDrawer;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.type.Color;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class BwemExt {
 
@@ -36,37 +34,57 @@ public final class BwemExt {
 
     private BwemExt() {}
 
-    public static boolean seaSide(final WalkPosition p, final AdvancedData data) {
-        if (!data.getMiniTile(p).Sea()) {
-            return false;
-        }
-
-        WalkPosition deltas[] = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(+1, 0), new WalkPosition(0, +1)};
-        for (final WalkPosition delta : deltas) {
-            if (data.getMapData().isValid(p.add(delta))) {
-                if (!data.getMiniTile(p.add(delta), check_t.no_check).Sea()) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    public static Position center(final TilePosition A) {
-        final Position ret = (A.toPosition()).add(BwemExt.TILE_POSITION_CENTER_IN_PIXELS);
+    public static Position center(final TilePosition tilePosition) {
+        final Position ret = tilePosition.toPosition().add(BwemExt.TILE_POSITION_CENTER_IN_PIXELS);
         return ret;
     }
 
-    public static Position center(final WalkPosition A) {
-        final Position ret = (A.toPosition()).add(BwemExt.WALK_POSITION_CENTER_IN_PIXELS);
+    public static Position center(final WalkPosition walkPosition) {
+        final Position ret = walkPosition.toPosition().add(BwemExt.WALK_POSITION_CENTER_IN_PIXELS);
         return ret;
     }
 
-    public static Position centerOfBuilding(final TilePosition tilePosition, final TilePosition tileSize) {
-        final Position pixelSize = tileSize.toPosition();
-        final Position pixelOffset = new Position(pixelSize.getX() / 2, pixelSize.getY() / 2);
-        return (tilePosition.toPosition()).add(pixelOffset);
+    public static Position centerOfBuilding(final TilePosition tilePosition, final TilePosition buildingSize) {
+        final Position pixelSize = buildingSize.toPosition();
+        final Position pixelOffset = pixelSize.divide(new Position(2, 2));
+        return tilePosition.toPosition().add(pixelOffset);
+    }
+
+    // Enlarges the bounding box [TopLeft, BottomRight] so that it includes A.
+    public static ImmutablePair<TilePosition, TilePosition> makeBoundingBoxIncludePoint(final TilePosition topLeft, final TilePosition bottomRight, final TilePosition point) {
+        int topLeft_x = topLeft.getX();
+        int topLeft_y = topLeft.getY();
+
+        int bottomRight_x = bottomRight.getX();
+        int bottomRight_y = bottomRight.getY();
+
+        if (point.getX() < topLeft_x) topLeft_x = point.getX();
+        if (point.getX() > bottomRight_x) bottomRight_x = point.getX();
+
+        if (point.getY() < topLeft_y) topLeft_y = point.getY();
+        if (point.getY() > bottomRight_y) bottomRight_y = point.getY();
+
+        return new ImmutablePair<>(new TilePosition(topLeft_x, topLeft_y), new TilePosition(bottomRight_x, bottomRight_y));
+    }
+
+    // Makes the smallest change to A so that it is included in the bounding box [TopLeft, BottomRight].
+    public static TilePosition makePointFitToBoundingBox(final TilePosition point, final TilePosition topLeft, final TilePosition bottomRight) {
+        int point_x = point.getX();
+        int point_y = point.getY();
+
+        if (point_x < topLeft.getX()) point_x = topLeft.getX();
+        else if (point_x > bottomRight.getX()) point_x = bottomRight.getX();
+
+        if (point_y < topLeft.getY()) point_y = topLeft.getY();
+        else if (point_y > bottomRight.getY()) point_y = bottomRight.getY();
+
+        return new TilePosition(point_x, point_y);
+    }
+
+    //bwapiExt.h:71:inBoundingBox
+    public static boolean isPointInBoundingBox(final TilePosition point, final TilePosition topLeft, final TilePosition bottomRight) {
+        return (point.getX() >= topLeft.getX()) && (point.getX() <= bottomRight.getX()) &&
+                (point.getY() >= topLeft.getY()) && (point.getY() <= bottomRight.getY());
     }
 
     public static int queenWiseDist(final TilePosition A, final TilePosition B) {
@@ -84,18 +102,18 @@ public final class BwemExt {
         return Utils.queenWiseNorm(ret.getX(), ret.getY());
     }
 
-    public static int squaredDist(TilePosition A, TilePosition B) {
-        TilePosition ret = A.subtract(B);
+    public static int squaredDist(final TilePosition A, final TilePosition B) {
+        final TilePosition ret = A.subtract(B);
         return Utils.squaredNorm(ret.getX(), ret.getY());
     }
 
-    public static int squaredDist(WalkPosition A, WalkPosition B) {
-        WalkPosition ret = A.subtract(B);
+    public static int squaredDist(final WalkPosition A, final WalkPosition B) {
+        final WalkPosition ret = A.subtract(B);
         return Utils.squaredNorm(ret.getX(), ret.getY());
     }
 
-    public static int squaredDist(Position A, Position B) {
-        Position ret = A.subtract(B);
+    public static int squaredDist(final Position A, final Position B) {
+        final Position ret = A.subtract(B);
         return Utils.squaredNorm(ret.getX(), ret.getY());
     }
 
@@ -114,167 +132,110 @@ public final class BwemExt {
         return Utils.norm(ret.getX(), ret.getY());
     }
 
-    public static int roundedDist(TilePosition A, TilePosition B) {
+    public static int roundedDist(final TilePosition A, final TilePosition B) {
         return ((int) (Double.valueOf("0.5") + dist(A, B)));
     }
 
-    public static int roundedDist(WalkPosition A, WalkPosition B) {
+    public static int roundedDist(final WalkPosition A, final WalkPosition B) {
         return ((int) (Double.valueOf("0.5") + dist(A, B)));
     }
 
-    public static int roundedDist(Position A, Position B) {
+    public static int roundedDist(final Position A, final Position B) {
         return ((int) (Double.valueOf("0.5") + dist(A, B)));
     }
 
-    public static int distToRectangle(Position a, TilePosition TopLeft, TilePosition Size) {
-    	Position topLeft = TopLeft.toPosition();
-        Position bottomRight = ((TopLeft.add(Size)).toPosition()).subtract(new Position(1, 1));
+    public static int distToRectangle(final Position a, final Position topLeft, final Position size) {
+        final Position bottomRight = topLeft.add(size).subtract(new Position(1, 1));
 
-    	if (a.getX() >= topLeft.getX()) {
-    		if (a.getX() <= bottomRight.getX()) {
-    			if (a.getY() > bottomRight.getY()) {
-                    return a.getY() - bottomRight.getY(); // S
-                } else if (a.getY() < topLeft.getY()) {
-                    return topLeft.getY() - a.getY(); // N
-                } else {
-                    return 0; // inside
-                }
-            } else {
-    			if (a.getY() > bottomRight.getY()) {
-                    return roundedDist(a, bottomRight); // SE
-                } else if (a.getY() < topLeft.getY()) {
-                    return roundedDist(a, new Position(bottomRight.getX(), topLeft.getY())); // NE
-                } else {
-                    return a.getX() - bottomRight.getX(); // E
-                }
-            }
-        } else {
-    		if (a.getY() > bottomRight.getY()){
-                return roundedDist(a, new Position(topLeft.getX(), bottomRight.getY())); // SW
-            } else if (a.getY() < topLeft.getY()) {
-                return roundedDist(a, topLeft); // NW
-            } else {
-                return topLeft.getX() - a.getX(); // W
-            }
-        }
+        if (a.getX() >= topLeft.getX())
+            if (a.getX() <= bottomRight.getX())
+                if (a.getY() > bottomRight.getY())  return a.getY() - bottomRight.getY();                                    // S
+                else if (a.getY() < topLeft.getY()) return topLeft.getY() - a.getY();                                        // N
+                else return 0;                                                                                               // inside
+            else
+                if (a.getY() > bottomRight.getY())  return roundedDist(a, bottomRight);                                      // SE
+                else if (a.getY() < topLeft.getY()) return roundedDist(a, new Position(bottomRight.getX(), topLeft.getY())); // NE
+                else return a.getX() - bottomRight.getX();                                                                   // E
+        else
+            if (a.getY() > bottomRight.getY())      return roundedDist(a, new Position(topLeft.getX(), bottomRight.getY())); // SW
+            else if (a.getY() < topLeft.getY())     return roundedDist(a, topLeft);                                          // NW
+            else                                    return topLeft.getX() - a.getX();                                        // W
     }
 
-    // Enlarges the bounding box [TopLeft, BottomRight] so that it includes A.
-    public static ImmutablePair<TilePosition, TilePosition> makeBoundingBoxIncludePoint(TilePosition TopLeft, TilePosition BottomRight, TilePosition point) {
-        int tl_x = TopLeft.getX();
-        int tl_y = TopLeft.getY();
+    private static List<ImmutablePair<Integer, Integer>> innerBorderDeltas(final int size_x, final int size_y, final boolean noCorner) {
+        final List<ImmutablePair<Integer, Integer>> border = new ArrayList<>();
 
-        int br_x = BottomRight.getX();
-        int br_y = BottomRight.getY();
-
-        if (point.getX() < tl_x) tl_x = point.getX();
-        if (point.getX() > br_x) br_x = point.getX();
-
-        if (point.getY() < tl_y) tl_y = point.getY();
-        if (point.getY() > br_y) br_y = point.getY();
-
-        return new ImmutablePair<>(new TilePosition(tl_x, tl_y), new TilePosition(br_x, br_y));
-    }
-
-    // Makes the smallest change to A so that it is included in the bounding box [TopLeft, BottomRight].
-    public static TilePosition makePointFitToBoundingBox(TilePosition point, TilePosition TopLeft, TilePosition BottomRight) {
-        int ret_x = point.getX();
-        int ret_y = point.getY();
-
-        if (ret_x < TopLeft.getX()) ret_x = TopLeft.getX();
-        else if (ret_x > BottomRight.getX()) ret_x = BottomRight.getX();
-
-        if (ret_y < TopLeft.getY()) ret_y = TopLeft.getY();
-        else if (ret_y > BottomRight.getY()) ret_y = BottomRight.getY();
-
-        return new TilePosition(ret_x, ret_y);
-    }
-
-    public static boolean inBoundingBox(TilePosition A, TilePosition topLeft, TilePosition bottomRight) {
-        return (A.getX() >= topLeft.getX()) && (A.getX() <= bottomRight.getX()) &&
-                (A.getY() >= topLeft.getY()) && (A.getY() <= bottomRight.getY());
-    }
-
-    public static List<TilePosition> innerBorder(TilePosition TopLeft, TilePosition Size, boolean noCorner) {
-        List<TilePosition> Border = new ArrayList<>();
-        for (int dy = 0; dy < Size.getY(); ++dy)
-        for (int dx = 0; dx < Size.getX(); ++dx) {
-            if ((dy == 0) || (dy == Size.getY() - 1) ||
-                (dx == 0) || (dx == Size.getX() - 1)) {
+        for (int dy = 0; dy < size_y; ++dy)
+        for (int dx = 0; dx < size_x; ++dx) {
+            if ((dy == 0) || (dy == size_y - 1) ||
+                (dx == 0) || (dx == size_x - 1)) {
                 if (!noCorner ||
-                    !(((dx == 0) && (dy == 0)) || ((dx == Size.getX() - 1) && (dy == Size.getY() - 1)) ||
-                      ((dx == 0) && (dy == Size.getY() - 1)) || ((dx == Size.getX() - 1) && (dy == 0)))) {
-                    Border.add(TopLeft.add(new TilePosition(dx, dy)));
+                    !(((dx == 0) && (dy == 0)) || ((dx == size_x - 1) && (dy == size_y - 1)) ||
+                      ((dx == 0) && (dy == size_y - 1)) || ((dx == size_x - 1) && (dy == 0)))) {
+                    border.add(new ImmutablePair<>(dx, dy));
                 }
             }
         }
 
-        return Border;
+        return border;
     }
 
-    public static List<TilePosition> innerBorder(TilePosition TopLeft, TilePosition Size) {
-        return innerBorder(TopLeft, Size, false);
-    }
-
-    public static List<WalkPosition> innerBorder(WalkPosition TopLeft, WalkPosition Size, boolean noCorner) {
-        List<WalkPosition> Border = new ArrayList<>();
-        for (int dy = 0; dy < Size.getY(); ++dy)
-        for (int dx = 0; dx < Size.getX(); ++dx) {
-            if ((dy == 0) || (dy == Size.getY() - 1) ||
-                (dx == 0) || (dx == Size.getX() - 1)) {
-                if (!noCorner ||
-                    !(((dx == 0) && (dy == 0)) || ((dx == Size.getX() - 1) && (dy == Size.getY() - 1)) ||
-                      ((dx == 0) && (dy == Size.getY() - 1)) || ((dx == Size.getX() - 1) && (dy == 0)))) {
-                    Border.add(TopLeft.add(new WalkPosition(dx, dy)));
-                }
-            }
+    public static List<TilePosition> innerBorder(final TilePosition topLeft, final TilePosition size, final boolean noCorner) {
+        final List<TilePosition> border = new ArrayList<>();
+        final List<ImmutablePair<Integer, Integer>> deltas = innerBorderDeltas(size.getX(), size.getY(), noCorner);
+        for (final ImmutablePair<Integer, Integer> delta : deltas) {
+            border.add(topLeft.add(new TilePosition(delta.getLeft(), delta.getRight())));
         }
-
-        return Border;
+        return border;
     }
 
-    public static List<WalkPosition> innerBorder(WalkPosition TopLeft, WalkPosition Size) {
-        return innerBorder(TopLeft, Size, false);
+    public static List<TilePosition> innerBorder(final TilePosition topLeft, final TilePosition size) {
+        return innerBorder(topLeft, size, false);
     }
 
-    public static List<TilePosition> outerBorder(TilePosition TopLeft, TilePosition Size, boolean noCorner) {
-        return innerBorder(TopLeft.subtract(new TilePosition(1, 1)), Size.add(new TilePosition(2, 2)), noCorner);
+    public static List<WalkPosition> innerBorder(final WalkPosition topLeft, final WalkPosition size, boolean noCorner) {
+        final List<WalkPosition> border = new ArrayList<>();
+        final List<ImmutablePair<Integer, Integer>> deltas = innerBorderDeltas(size.getX(), size.getY(), noCorner);
+        for (final ImmutablePair<Integer, Integer> delta : deltas) {
+            border.add(topLeft.add(new WalkPosition(delta.getLeft(), delta.getRight())));
+        }
+        return border;
     }
 
-    public static List<TilePosition> outerBorder(TilePosition TopLeft, TilePosition Size) {
-        return outerBorder(TopLeft, Size, false);
+    public static List<WalkPosition> innerBorder(final WalkPosition topLeft, final WalkPosition size) {
+        return innerBorder(topLeft, size, false);
     }
 
-    public static List<WalkPosition> outerBorder(WalkPosition TopLeft, WalkPosition Size, boolean noCorner) {
-        return innerBorder(TopLeft.subtract(new WalkPosition(1, 1)), Size.add(new WalkPosition(2, 2)), noCorner);
+    public static List<TilePosition> outerBorder(final TilePosition topLeft, final TilePosition size, final boolean noCorner) {
+        return innerBorder(topLeft.subtract(new TilePosition(1, 1)), size.add(new TilePosition(2, 2)), noCorner);
     }
 
-    public static List<WalkPosition> outerBorder(WalkPosition TopLeft, WalkPosition Size) {
-        return outerBorder(TopLeft, Size, false);
+    public static List<TilePosition> outerBorder(final TilePosition topLeft, final TilePosition size) {
+        return outerBorder(topLeft, size, false);
     }
 
-    public static List<WalkPosition> outerMiniTileBorder(TilePosition TopLeft, TilePosition Size, boolean noCorner) {
-        return outerBorder(TopLeft.toPosition().toWalkPosition(), Size.toPosition().toWalkPosition(), noCorner);
+    public static List<WalkPosition> outerBorder(final WalkPosition topLeft, final WalkPosition size, final boolean noCorner) {
+        return innerBorder(topLeft.subtract(new WalkPosition(1, 1)), size.add(new WalkPosition(2, 2)), noCorner);
     }
 
-    public static List<WalkPosition> outerMiniTileBorder(TilePosition TopLeft, TilePosition Size) {
-        return outerMiniTileBorder(TopLeft, Size, false);
+    public static List<WalkPosition> outerBorder(final WalkPosition topLeft, final WalkPosition size) {
+        return outerBorder(topLeft, size, false);
     }
 
-    public static List<WalkPosition> innerMiniTileBorder(TilePosition TopLeft, TilePosition Size, boolean noCorner) {
-        return innerBorder(TopLeft.toPosition().toWalkPosition(), Size.toPosition().toWalkPosition(), noCorner);
+    public static List<WalkPosition> outerMiniTileBorder(final TilePosition topLeft, final TilePosition size, final boolean noCorner) {
+        return outerBorder(topLeft.toWalkPosition(), size.toWalkPosition(), noCorner);
     }
 
-    public static List<WalkPosition> innerMiniTileBorder(TilePosition TopLeft, TilePosition Size) {
-        return innerMiniTileBorder(TopLeft, Size, false);
+    public static List<WalkPosition> outerMiniTileBorder(final TilePosition topLeft, final TilePosition size) {
+        return outerMiniTileBorder(topLeft, size, false);
     }
 
-    public static boolean disjoint(TilePosition TopLeft1, TilePosition Size1, TilePosition TopLeft2, TilePosition Size2) {
-        if (TopLeft2.getX() > TopLeft1.getX() + Size1.getX()) return true;
-        if (TopLeft2.getY() > TopLeft1.getY() + Size1.getY()) return true;
-        if (TopLeft1.getX() > TopLeft2.getX() + Size2.getX()) return true;
-        if (TopLeft1.getY() > TopLeft2.getY() + Size2.getY()) return true;
-        return false;
+    public static List<WalkPosition> innerMiniTileBorder(final TilePosition topLeft, final TilePosition size, final boolean noCorner) {
+        return innerBorder(topLeft.toWalkPosition(), size.toWalkPosition(), noCorner);
+    }
+
+    public static List<WalkPosition> innerMiniTileBorder(final TilePosition topLeft, TilePosition size) {
+        return innerMiniTileBorder(topLeft, size, false);
     }
 
     public static boolean adjoins8SomeLakeOrNeutral(final WalkPosition p, final MapImpl pMap) {
@@ -284,10 +245,10 @@ public final class BwemExt {
         for (final WalkPosition delta : deltas) {
             final WalkPosition next = p.add(delta);
             if (pMap.getData().getMapData().isValid(next)) {
-                if (pMap.getData().getTile(next.toPosition().toTilePosition(), check_t.no_check).GetNeutral() != null) {
+                if (pMap.getData().getTile(next.toTilePosition(), check_t.no_check).getNeutral() != null) {
                     return true;
                 }
-                if (pMap.getData().getMiniTile(next, check_t.no_check).Lake()) {
+                if (pMap.getData().getMiniTile(next, check_t.no_check).isLake()) {
                     return true;
                 }
             }
@@ -296,36 +257,73 @@ public final class BwemExt {
         return false;
     }
 
-//    template<typename T, int Scale = 1>
-//    inline bool overlap(const BWAPI::Point<T, Scale> & TopLeft1, const BWAPI::Point<T, Scale> & Size1, const BWAPI::Point<T, Scale> & TopLeft2, const BWAPI::Point<T, Scale> & Size2)
-//    {
-//        if (TopLeft2.x >= TopLeft1.x + Size1.x) return false;
-//        if (TopLeft2.y >= TopLeft1.y + Size1.y) return false;
-//        if (TopLeft1.x >= TopLeft2.x + Size2.x) return false;
-//        if (TopLeft1.y >= TopLeft2.y + Size2.y) return false;
-//        return true;
-//    }
-
-    public static void drawDiagonalCrossMap(BW bw, Position topLeft, Position bottomRight, Color col) {
-        bw.getMapDrawer().drawLineMap(topLeft, bottomRight, col);
-        bw.getMapDrawer().drawLineMap(new Position(bottomRight.getX(), topLeft.getY()), new Position(topLeft.getX(), bottomRight.getY()), col);
+    public static void drawDiagonalCrossMap(final MapDrawer mapDrawer, final Position topLeft, final Position bottomRight, final Color col) {
+        mapDrawer.drawLineMap(topLeft, bottomRight, col);
+        mapDrawer.drawLineMap(new Position(bottomRight.getX(), topLeft.getY()), new Position(topLeft.getX(), bottomRight.getY()), col);
     }
 
-    public static <T> void fast_erase(List<T> Vector, int i) {
-//        bwem_assert((0 <= i) && (i < (int)Vector.size()));
-        if (!((0 <= i) && (i < Vector.size()))) {
-            throw new IllegalArgumentException("" + i);
-        }
+    private static boolean overlap(
+            final int topLeft1_x, final int topLeft1_y, final int size1_x, final int size1_y,
+            final int topLeft2_x, final int topLeft2_y, final int size2_x, final int size2_y
+    ) {
+        if (topLeft2_x >= topLeft1_x + size1_x) return false;
+        if (topLeft2_y >= topLeft1_y + size1_y) return false;
+        if (topLeft1_x >= topLeft2_x + size2_x) return false;
+        if (topLeft1_y >= topLeft2_y + size2_y) return false;
+        return true;
+    }
 
-        final boolean isBackElement = (i >= Vector.size() - 1);
+    public static boolean overlap(final TilePosition topLeft1, final TilePosition size1, final TilePosition topLeft2, final TilePosition size2) {
+        return overlap(
+                topLeft1.getX(), topLeft1.getY(), size1.getX(), size1.getY(),
+                topLeft2.getX(), topLeft2.getY(), size2.getX(), size2.getY()
+        );
+    }
 
-        Vector.remove(i);
+    public static boolean overlap(final WalkPosition topLeft1, final WalkPosition size1, final WalkPosition topLeft2, final WalkPosition size2) {
+        return overlap(
+                topLeft1.getX(), topLeft1.getY(), size1.getX(), size1.getY(),
+                topLeft2.getX(), topLeft2.getY(), size2.getX(), size2.getY()
+        );
+    }
 
-        if (Vector.size() > 1 && !isBackElement) {
-            /* Move the back element to where the ith element was. */
-            T BackElement = Vector.remove(Vector.size() - 1);
-            Vector.add(i, BackElement);
-        }
+    public static boolean overlap(final Position topLeft1, final Position size1, final Position topLeft2, final Position size2) {
+        return overlap(
+                topLeft1.getX(), topLeft1.getY(), size1.getX(), size1.getY(),
+                topLeft2.getX(), topLeft2.getY(), size2.getX(), size2.getY()
+        );
+    }
+
+    private static boolean disjoint(
+            final int topLeft1_x, final int topLeft1_y, final int size1_x, final int size1_y,
+            final int topLeft2_x, final int topLeft2_y, final int size2_x, final int size2_y
+    ) {
+        if (topLeft2_x > topLeft1_x + size1_x) return true;
+        if (topLeft2_y > topLeft1_y + size1_y) return true;
+        if (topLeft1_x > topLeft2_x + size2_x) return true;
+        if (topLeft1_y > topLeft2_y + size2_y) return true;
+        return false;
+    }
+
+    public static boolean disjoint(final TilePosition topLeft1, final TilePosition size1, final TilePosition topLeft2, final TilePosition size2) {
+        return disjoint(
+                topLeft1.getX(), topLeft1.getY(), size1.getX(), size1.getY(),
+                topLeft2.getX(), topLeft2.getY(), size2.getX(), size2.getY()
+        );
+    }
+
+    public static boolean disjoint(final WalkPosition topLeft1, final WalkPosition size1, final WalkPosition topLeft2, final WalkPosition size2) {
+        return disjoint(
+                topLeft1.getX(), topLeft1.getY(), size1.getX(), size1.getY(),
+                topLeft2.getX(), topLeft2.getY(), size2.getX(), size2.getY()
+        );
+    }
+
+    public static boolean disjoint(final Position topLeft1, final Position size1, final Position topLeft2, final Position size2) {
+        return disjoint(
+                topLeft1.getX(), topLeft1.getY(), size1.getX(), size1.getY(),
+                topLeft2.getX(), topLeft2.getY(), size2.getX(), size2.getY()
+        );
     }
 
     //----------------------------------------------------------------------
@@ -357,37 +355,5 @@ public final class BwemExt {
         return getApproxDistance(source.getX(), source.getY(), target.getX(), target.getY());
     };
     //----------------------------------------------------------------------
-
-    public static Altitude getMinAltitudeTop(TilePosition t, Map map) {
-        WalkPosition w = t.toPosition().toWalkPosition();
-        return new Altitude(Math.min(
-                map.getData().getMiniTile(w.add(new WalkPosition(1, 0)), check_t.no_check).Altitude().intValue(),
-                map.getData().getMiniTile(w.add(new WalkPosition(2, 0)), check_t.no_check).Altitude().intValue()
-        ));
-    }
-
-    public static Altitude getMinAltitudeBottom(TilePosition t, Map map) {
-        WalkPosition w = t.toPosition().toWalkPosition();
-        return new Altitude(Math.min(
-                map.getData().getMiniTile(w.add(new WalkPosition(1, 3)), check_t.no_check).Altitude().intValue(),
-                map.getData().getMiniTile(w.add(new WalkPosition(2, 3)), check_t.no_check).Altitude().intValue()
-        ));
-    }
-
-    public static Altitude getMinAltitudeLeft(TilePosition t, Map map) {
-        WalkPosition w = t.toPosition().toWalkPosition();
-        return new Altitude(Math.min(
-                map.getData().getMiniTile(w.add(new WalkPosition(0, 1)), check_t.no_check).Altitude().intValue(),
-                map.getData().getMiniTile(w.add(new WalkPosition(0, 2)), check_t.no_check).Altitude().intValue()
-        ));
-    }
-
-    public static Altitude getMinAltitudeRight(TilePosition t, Map map) {
-        WalkPosition w = t.toPosition().toWalkPosition();
-        return new Altitude(Math.min(
-                map.getData().getMiniTile(w.add(new WalkPosition(3, 1)), check_t.no_check).Altitude().intValue(),
-                map.getData().getMiniTile(w.add(new WalkPosition(3, 2)), check_t.no_check).Altitude().intValue()
-        ));
-    }
 
 }
