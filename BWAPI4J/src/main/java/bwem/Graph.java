@@ -18,11 +18,7 @@ import bwem.unit.StaticBuilding;
 import bwem.util.BwemExt;
 import bwem.util.Utils;
 
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
@@ -31,6 +27,7 @@ import org.apache.commons.lang3.tuple.MutablePair;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
+import org.openbw.bwapi4j.util.Pair;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -702,25 +699,26 @@ public final class Graph {
 
         TileImpl.getStaticMarkable().unmarkAll();
 
-        final MultiValuedMap<Integer, ChokePoint> ToVisit = new ArrayListValuedHashMap<>(); // a priority queue holding the GetChokePoints to visit ordered by their distance to start.
+//        final MultiValuedMap<Integer, ChokePoint> ToVisit = new ArrayListValuedHashMap<>(); // a priority queue holding the GetChokePoints to visit ordered by their distance to start.
                                                                                             //Using ArrayListValuedHashMap to substitute std::multimap since it sorts keys but not values.
-        ToVisit.put(0, start);
+        Queue<Pair<Integer, ChokePoint>> ToVisit = new PriorityQueue<>(Comparator.comparingInt(a -> a.first));
+        ToVisit.offer(new Pair<>(0, start));
 
         int remainingTargets = Targets.size();
         while (!ToVisit.isEmpty()) {
-            final int currentDist = ToVisit.keys().iterator().next();
-            final ChokePoint current = ToVisit.get(currentDist).iterator().next();
+            Pair<Integer, ChokePoint> distanceAndChokePoint = ToVisit.poll();
+            final int currentDist = distanceAndChokePoint.first;
+            final ChokePoint current = distanceAndChokePoint.second;
             final Tile currentTile = GetMap().getData().getTile(current.Center().toTilePosition(), check_t.no_check);
 //            bwem_assert(currentTile.InternalData() == currentDist);
             if (!(((TileImpl) currentTile).getInternalData().intValue() == currentDist)) {
                 throw new IllegalStateException();
             }
-            ToVisit.removeMapping(currentDist, current);
             ((TileImpl) currentTile).getInternalData().setValue(0); // resets Tile::m_internalData for future usage
             currentTile.getMarkable().setMarked();
 
             for (int i = 0; i < Targets.size(); ++i) {
-                if (current.equals(Targets.get(i))) {
+                if (current == Targets.get(i)) {
                     Distances.set(i, currentDist);
                     --remainingTargets;
                 }
@@ -744,18 +742,18 @@ public final class Graph {
                                 if (newNextDist < ((TileImpl) nextTile).getInternalData().intValue()) { // nextNewDist < nextOldDist
                                                                                            // To update next's distance, we need to remove-insert it from ToVisit:
 //                                    bwem_assert(iNext != range.second);
-                                    final boolean removed = ToVisit.removeMapping(((TileImpl) nextTile).getInternalData().intValue(), next);
+                                    final boolean removed = ToVisit.remove(new Pair<>(((TileImpl) nextTile).getInternalData().intValue(), next));
                                     if (!removed) {
                                         throw new IllegalStateException();
                                     }
                                     ((TileImpl) nextTile).getInternalData().setValue(newNextDist);
                                     next.SetPathBackTrace(current);
-                                    ToVisit.put(newNextDist, next);
+                                    ToVisit.offer(new Pair<>(newNextDist, next));
                                 }
                             } else {
                                 ((TileImpl) nextTile).getInternalData().setValue(newNextDist);
                                 next.SetPathBackTrace(current);
-                                ToVisit.put(newNextDist, next);
+                                ToVisit.offer(new Pair<>(newNextDist, next));
                             }
                         }
                     }
@@ -769,11 +767,8 @@ public final class Graph {
 //        }
 
         // Reset Tile::m_internalData for future usage
-        for (final Integer key : ToVisit.keySet()) {
-            final Collection<ChokePoint> coll = ToVisit.get(key);
-            for (final ChokePoint cp : coll) {
-                ((TileImpl) GetMap().getData().getTile(cp.Center().toTilePosition(), check_t.no_check)).getInternalData().setValue(0);
-            }
+        for (Pair<Integer, ChokePoint> distanceToChokePoint : ToVisit) {
+            ((TileImpl) GetMap().getData().getTile(distanceToChokePoint.second.Center().toTilePosition(), check_t.no_check)).getInternalData().setValue(0);
         }
 
         return Distances;
