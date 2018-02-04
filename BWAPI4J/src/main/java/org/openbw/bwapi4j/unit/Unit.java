@@ -483,7 +483,6 @@ public abstract class Unit implements Comparable<Unit> {
 
     private boolean isMorphing;
     private boolean isTargetable;
-    private boolean isInterruptible;
     private boolean isInvincible;
     private boolean isInWeaponRange;
 }

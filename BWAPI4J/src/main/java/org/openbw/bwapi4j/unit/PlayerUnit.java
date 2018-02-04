@@ -42,7 +42,8 @@ public abstract class PlayerUnit extends Unit {
     private boolean isStartingAttack;
     private boolean isUnderAttack;
     private boolean isPowered;
-    
+    private boolean isInterruptible;
+
     protected int playerId;
 
     // other
@@ -59,8 +60,9 @@ public abstract class PlayerUnit extends Unit {
     public void initialize(int[] unitData, int index) {
 
         this.initialHitPoints = unitData[index + Unit.INITIAL_HITPOINTS_INDEX];
+        this.isInterruptible = unitData[index + Unit.IS_INTERRUPTIBLE_INDEX] == 1;
         super.initialize(unitData, index);
-        
+
         this.lastKnownPosition = this.initialPosition;
         this.lastKnownTilePosition = this.initialTilePosition;
         this.lastKnownHitPoints = this.initialHitPoints;
@@ -92,6 +94,7 @@ public abstract class PlayerUnit extends Unit {
         this.isUnderAttack = unitData[index + Unit.IS_UNDER_ATTACK_INDEX] == 1;
         this.isPowered = unitData[index + Unit.IS_POWERED_INDEX] == 1;
         this.targetId = unitData[index + Unit.TARGET_ID_INDEX];
+        this.isInterruptible = unitData[index + Unit.IS_INTERRUPTIBLE_INDEX] == 1;
 
         super.update(unitData, index, frame);
 
@@ -252,6 +255,10 @@ public abstract class PlayerUnit extends Unit {
     public boolean isFlyer() {
         
         return this.type.isFlyer();
+    }
+
+    public boolean isInterruptible() {
+        return isInterruptible;
     }
 
     public int tileWidth() {
