@@ -10,23 +10,16 @@ public class Mutalisk extends MobileUnit implements Organic, Armed {
         super(id, UnitType.Zerg_Mutalisk);
     }
 
-    public boolean morph(UnitType type) {
-        if (type == UnitType.Zerg_Guardian) {
-            return morphGuardian();
-        }
-        if (type == UnitType.Zerg_Defiler) {
-            return morphDefiler();
-        }
-        return false;
+    public boolean morph(final UnitType unitType) {
+        return issueCommand(this.id, UnitCommandType.Morph.ordinal(), -1, -1, -1, unitType.getId());
     }
 
     public boolean morphGuardian() {
-
-        return issueCommand(this.id, UnitCommandType.Morph.ordinal(), -1, -1, -1, UnitType.Zerg_Guardian.getId());
+        return morph(UnitType.Zerg_Guardian);
     }
 
-    public boolean morphDefiler() {
-        return issueCommand(this.id, UnitCommandType.Morph.ordinal(), -1, -1, -1, UnitType.Zerg_Defiler.getId());
+    public boolean morphDevourer() {
+        return morph(UnitType.Zerg_Devourer);
     }
 
     @Override
