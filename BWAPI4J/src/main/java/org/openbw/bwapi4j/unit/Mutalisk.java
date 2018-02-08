@@ -15,7 +15,7 @@ public class Mutalisk extends MobileUnit implements Organic, Armed {
             return morphGuardian();
         }
         if (type == UnitType.Zerg_Defiler) {
-            return morphDefiler();
+            return morphDevourer();
         }
         return false;
     }
@@ -25,8 +25,8 @@ public class Mutalisk extends MobileUnit implements Organic, Armed {
         return issueCommand(this.id, UnitCommandType.Morph.ordinal(), -1, -1, -1, UnitType.Zerg_Guardian.getId());
     }
 
-    public boolean morphDefiler() {
-        return issueCommand(this.id, UnitCommandType.Morph.ordinal(), -1, -1, -1, UnitType.Zerg_Defiler.getId());
+    public boolean morphDevourer() {
+        return issueCommand(this.id, UnitCommandType.Morph.ordinal(), -1, -1, -1, UnitType.Zerg_Devourer.getId());
     }
 
     @Override
