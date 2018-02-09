@@ -23,8 +23,7 @@ import bwem.util.BwemExt;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import org.apache.commons.collections4.MultiValuedMap;
-import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
+
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
@@ -306,17 +305,17 @@ public final class Area {
         }
     }
 
-    public List<Integer> ComputeDistances(final ChokePoint pStartCP, final List<ChokePoint> TargetCPs) {
+    public int[] ComputeDistances(final ChokePoint pStartCP, final List<ChokePoint> TargetCPs) {
 //        bwem_assert(!contains(TargetCPs, pStartCP));
         if (!(!TargetCPs.contains(pStartCP))) {
             throw new IllegalStateException();
         }
 
+        // findCond
+        // visitCond
         final TilePosition start = GetMap().BreadthFirstSearch(
             pStartCP.PosInArea(ChokePoint.Node.middle, this).toTilePosition(),
-            new Pred() { // findCond
-                @Override
-                public boolean isTrue(Object... args) {
+                args -> {
                     final Object ttile = args[0];
                     if (ttile instanceof Tile) {
                         final Tile tile = (Tile) ttile;
@@ -324,23 +323,17 @@ public final class Area {
                     } else {
                         throw new IllegalArgumentException();
                     }
-                }
-            },
-            new Pred() { // visitCond
-                @Override
-                public boolean isTrue(Object... args) {
-                    return true;
-                }
-            }
+                },
+                args -> true
         );
 
         final List<TilePosition> Targets = new ArrayList<>();
         for (final ChokePoint cp : TargetCPs) {
+            // findCond
+            // visitCond
             final TilePosition t = GetMap().BreadthFirstSearch(
                 cp.PosInArea(ChokePoint.Node.middle, this).toTilePosition(),
-                new Pred() { // findCond
-                    @Override
-                    public boolean isTrue(Object... args) {
+                    args -> {
                         final Object ttile = args[0];
                         if (ttile instanceof Tile) {
                             final Tile tile = (Tile) ttile;
@@ -348,14 +341,8 @@ public final class Area {
                         } else {
                             throw new IllegalArgumentException();
                         }
-                    }
-                },
-                new Pred() { // visitCond
-                    @Override
-                    public boolean isTrue(Object... args) {
-                        return true;
-                    }
-                }
+                    },
+                    args -> true
             );
             Targets.add(t);
         }
@@ -567,11 +554,8 @@ public final class Area {
 
     // Returns Distances such that Distances[i] == ground_distance(start, Targets[i]) in pixels
     // Note: same algorithm than Graph::ComputeDistances (derived from Dijkstra)
-    private List<Integer> ComputeDistances(final TilePosition start, final List<TilePosition> Targets) {
-        final List<Integer> Distances = new ArrayList<>(Targets.size());
-        for (int i = 0; i < Targets.size(); ++i) {
-            Distances.add(0);
-        }
+    private int[] ComputeDistances(final TilePosition start, final List<TilePosition> Targets) {
+        final int[] Distances = new int[Targets.size()];
 
         TileImpl.getStaticMarkable().unmarkAll();
 
@@ -594,7 +578,7 @@ public final class Area {
 
             for (int i = 0; i < Targets.size(); ++i) {
                 if (current.equals(Targets.get(i))) {
-                    Distances.set(i, (int) (0.5 + (((double) currentDist * 32.0) /10000.0)));
+                    Distances[i] = (int) (0.5 + (currentDist * 32.0 /10000.0));
                     --remainingTargets;
                 }
             }

@@ -20,8 +20,7 @@ import bwem.util.Utils;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import org.apache.commons.collections4.MultiValuedMap;
-import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
+
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.openbw.bwapi4j.Position;
@@ -620,10 +619,10 @@ public final class Graph {
                 Targets.add(cp);
             }
 
-            final List<Integer> DistanceToTargets = pContext.ComputeDistances(pStart, Targets);
+            final int[] DistanceToTargets = pContext.ComputeDistances(pStart, Targets);
 
             for (int i = 0; i < Targets.size(); ++i) {
-                final int newDist = DistanceToTargets.get(i);
+                final int newDist = DistanceToTargets[i];
                 final int existingDist = Distance(pStart, Targets.get(i));
 
                 if (newDist != 0 && ((existingDist == -1) || (newDist < existingDist))) {
@@ -656,30 +655,31 @@ public final class Graph {
                 Targets.add(cp);
             }
 
-            final List<Integer> DistanceToTargets = pContext.ComputeDistances(pStart, Targets);
+            final int[] DistanceToTargets = pContext.ComputeDistances(pStart, Targets);
 
             for (int i = 0; i < Targets.size(); ++i) {
-                final int newDist = DistanceToTargets.get(i);
-                final int existingDist = Distance(pStart, Targets.get(i));
+                final int newDist = DistanceToTargets[i];
+                ChokePoint target = Targets.get(i);
+                final int existingDist = Distance(pStart, target);
 
                 if (newDist != 0 && ((existingDist == -1) || (newDist < existingDist))) {
-                    SetDistance(pStart, Targets.get(i), newDist);
+                    SetDistance(pStart, target, newDist);
 
                     // Build the path from pStart to Targets[i]:
 
                     final CPPath path = new CPPath();
                     path.add(pStart);
-                    path.add(Targets.get(i));
+                    path.add(target);
 
 //                    // if (Context == Graph), there may be intermediate ChokePoints. They have been set by ComputeDistances,
 //                    // so we just have to collect them (in the reverse order) and insert them into Path:
 //                    if ((void *)(pContext) == (void *)(this))	// tests (Context == Graph) without warning about constant condition
                         //TODO: Verify this loop is correct.
-                        for (ChokePoint pPrev = Targets.get(i).PathBackTrace(); !pPrev.equals(pStart); pPrev = pPrev.PathBackTrace()) {
+                        for (ChokePoint pPrev = target.PathBackTrace(); !pPrev.equals(pStart); pPrev = pPrev.PathBackTrace()) {
                             path.add(1, pPrev);
                         }
 
-                    SetPath(pStart, Targets.get(i), path);
+                    SetPath(pStart, target, path);
                 }
             }
         }
@@ -691,11 +691,8 @@ public final class Graph {
     // For each reached target, the shortest path can be derived using
     // the backward trace set in cp->PathBackTrace() for each intermediate ChokePoint cp from the target.
     // Note: same algo than Area::ComputeDistances (derived from Dijkstra)
-    private List<Integer> ComputeDistances(final ChokePoint start, final List<ChokePoint> Targets) {
-        final List<Integer> Distances = new ArrayList<>(Targets.size());
-        for (int i = 0; i < Targets.size(); ++i) {
-            Distances.add(0);
-        }
+    private int[] ComputeDistances(final ChokePoint start, final List<ChokePoint> Targets) {
+        final int[] Distances = new int[Targets.size()];
 
         TileImpl.getStaticMarkable().unmarkAll();
 
@@ -719,7 +716,7 @@ public final class Graph {
 
             for (int i = 0; i < Targets.size(); ++i) {
                 if (current == Targets.get(i)) {
-                    Distances.set(i, currentDist);
+                    Distances[i] = currentDist;
                     --remainingTargets;
                 }
             }

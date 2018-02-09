@@ -6,6 +6,8 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public final class Utils {
@@ -72,21 +74,14 @@ public final class Utils {
             throw new IllegalArgumentException("index: " + index);
         }
 
-        final boolean isBackElement = (index >= list.size() - 1);
-
-        list.remove(index);
-
-        if (list.size() > 1 && !isBackElement) {
-            /* Move the back element to where the ith element was. */
-            T backElement = list.remove(list.size() - 1);
-            list.add(index, backElement);
-        }
+        Collections.swap(list, index, list.size() - 1);
+        list.remove(list.size() - 1);
     }
 
     public static <T> void really_remove_if(final List<T> Container, final Pred pred) {
         for (int i = 0; i < Container.size(); ++i) {
             if (pred.isTrue(Container.get(i))) {
-                Container.remove(i--);
+                fast_erase(Container, i--);
             }
         }
     }
