@@ -40,11 +40,12 @@ public final class DummyDataUtils {
         stream.forEach(l -> {
             for (final String s : l.split(regex)) {
                 array.add(Integer.valueOf(s.trim()));
+                index.increment();
             }
         });
         stream.close();
 
-        logger.debug("Read " + index + " values");
+        logger.debug("Read " + index.intValue() + " values");
 
         final int[] ret = new int[array.size()];
         for (int i = 0; i < array.size(); ++i) {
