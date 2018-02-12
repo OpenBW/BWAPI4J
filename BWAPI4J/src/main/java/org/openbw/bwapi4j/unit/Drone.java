@@ -3,7 +3,7 @@ package org.openbw.bwapi4j.unit;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
-public class Drone extends Worker<Extractor> implements Organic, Burrowable {
+public class Drone extends Worker implements Organic, Burrowable {
 
     private boolean burrowed;
 

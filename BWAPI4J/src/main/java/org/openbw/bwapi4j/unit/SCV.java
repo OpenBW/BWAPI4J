@@ -6,7 +6,7 @@ import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
-public class SCV extends Worker<Refinery> implements Mechanical {
+public class SCV extends Worker implements Mechanical {
 
 	private static final Logger logger = LogManager.getLogger();
 	
