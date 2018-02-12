@@ -46,10 +46,7 @@ class BWMapImpl implements BWMap {
     }
 
     public boolean isWalkable(int walkX, int walkY) {
-        return walkX >= 0 && walkY >= 0 &&
-                walkX < width * TilePosition.SIZE_IN_PIXELS / WalkPosition.SIZE_IN_PIXELS &&
-                walkY < height * TilePosition.SIZE_IN_PIXELS / WalkPosition.SIZE_IN_PIXELS &&
-                this.walkabilityInfo[walkX][walkY] == 1;
+        return this.walkabilityInfo[walkX][walkY] == 1;
     }
 
     @Override
