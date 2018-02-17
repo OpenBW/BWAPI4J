@@ -34,6 +34,7 @@ dependencies {
     compile group: 'org.json', name: 'json', version: '20171018'
 
     testCompile 'junit:junit:4.12'
+    testCompile 'org.apache.commons:commons-compress:1.16.1'
 }
 
 jar {

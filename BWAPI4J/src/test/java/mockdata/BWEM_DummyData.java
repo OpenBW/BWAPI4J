@@ -34,42 +34,27 @@ public abstract class BWEM_DummyData {
         /* Do nothing. */
     }
 
-    protected void populateArrays(final String mapName, final int mapTileWidth, final int mapTileHeight) throws IOException, URISyntaxException {
-        final int mapWalkWidth = mapTileWidth * 4;
-        final int mapWalkHeight = mapTileHeight * 4;
-
-        this.miniTileAltitudes = new int[mapWalkWidth * mapWalkHeight];
+    protected void populateArrays(final String mapName) throws IOException {
         this.deltasByAscendingAltitude = new ArrayList<>();
         this.miniTilesByDescendingAltitude = new ArrayList<>();
         this.tempAreaList = new ArrayList<>();
 
-        final String filenameSuffix = "_" + mapName + "_ORIGINAL.txt";
-        DummyDataUtils.populateIntegerArray("MiniTile_Altitudes" + filenameSuffix, this.miniTileAltitudes, " ");
+        final String filenameSuffix = "_" + mapName + "_ORIGINAL";
+        this.miniTileAltitudes = DummyDataUtils.populateIntegerArray("MiniTile_Altitudes" + filenameSuffix, " ");
 
         {
             final int valuesPerGroup = 3;
-            final String filename = "DeltasByAscendingAltitude_sorted" + filenameSuffix;
-            final String regex = " ";
-            final List<Integer> array = new ArrayList<>();
-            final MutableInt index = new MutableInt(0);
-            final URI fileURI = BWEM_DummyData.class.getResource(filename).toURI();
-            final Stream<String> stream = Files.lines(Paths.get(fileURI));
-            stream.forEach(l -> {
-                for (final String s : l.split(regex)) {
-                    array.add(index.getAndIncrement(), Integer.valueOf(s.trim()));
-                }
-            });
-            stream.close();
-            logger.debug("Added " + index + " values");
 
-            Assert.assertTrue("Dummy data file contains invalid number of integers: " + array.size(), (array.size() >= valuesPerGroup) && (array.size() % valuesPerGroup == 0));
+            final int[] array = DummyDataUtils.populateIntegerArray("DeltasByAscendingAltitude_sorted" + filenameSuffix, " ");
 
-            for (int i = 0; i < array.size(); i += valuesPerGroup) {
-                final int x = array.get(i);
-                final int y = array.get(i + 1);
+            Assert.assertTrue("Dummy data file contains invalid number of integers: " + array.length, (array.length >= valuesPerGroup) && (array.length % valuesPerGroup == 0));
+
+            for (int i = 0; i < array.length; i += valuesPerGroup) {
+                final int x = array[i];
+                final int y = array[i + 1];
                 final WalkPosition w = new WalkPosition(x, y);
 
-                final int altitude = array.get(i + 2);
+                final int altitude = array[i + 2];
 
                 this.deltasByAscendingAltitude.add(new MutablePair<>(w, new Altitude(altitude)));
             }
@@ -77,29 +62,17 @@ public abstract class BWEM_DummyData {
 
         {
             final int valuesPerGroup = 4;
-            final String filename = "MiniTilesByDescendingAltitude_sorted" + filenameSuffix;
-            final String regex = " ";
-            final List<Integer> array = new ArrayList<>();
-            final MutableInt index = new MutableInt(0);
-            final URI fileURI = BWEM_DummyData.class.getResource(filename).toURI();
-            final Stream<String> stream = Files.lines(Paths.get(fileURI));
-            stream.forEach(l -> {
-                for (final String s : l.split(regex)) {
-                    array.add(index.getAndIncrement(), Integer.valueOf(s.trim()));
-                }
-            });
-            stream.close();
-            logger.debug("Added " + index + " values");
+            final int[] array = DummyDataUtils.populateIntegerArray("MiniTilesByDescendingAltitude_sorted" + filenameSuffix, " ");
+            
+            Assert.assertTrue("Dummy data file contains invalid number of integers: " + array.length, (array.length >= valuesPerGroup) && (array.length % valuesPerGroup == 0));
 
-            Assert.assertTrue("Dummy data file contains invalid number of integers: " + array.size(), (array.size() >= valuesPerGroup) && (array.size() % valuesPerGroup == 0));
-
-            for (int i = 0; i < array.size(); i += valuesPerGroup) {
-                final int x = array.get(i);
-                final int y = array.get(i + 1);
+            for (int i = 0; i < array.length; i += valuesPerGroup) {
+                final int x = array[i];
+                final int y = array[i + 1];
                 final WalkPosition w = new WalkPosition(x, y);
 
-                final int areaId = array.get(i + 2);
-                final int altitude = array.get(i + 3);
+                final int areaId = array[i + 2];
+                final int altitude = array[i + 3];
                 final MiniTile miniTile = new MiniTileImpl();
                 if (areaId != -1) {
                     ((MiniTileImpl) miniTile).setAreaId(new AreaId(areaId));
@@ -114,29 +87,17 @@ public abstract class BWEM_DummyData {
 
         {
             final int valuesPerGroup = 6;
-            final String filename = "TempAreaList" + filenameSuffix;
-            final String regex = " ";
-            final List<Integer> array = new ArrayList<>();
-            final MutableInt index = new MutableInt(0);
-            final URI fileURI = BWEM_DummyData.class.getResource(filename).toURI();
-            final Stream<String> stream = Files.lines(Paths.get(fileURI));
-            stream.forEach(l -> {
-                for (final String s : l.split(regex)) {
-                    array.add(index.getAndIncrement(), Integer.valueOf(s.trim()));
-                }
-            });
-            stream.close();
-            logger.debug("Added " + index + " values");
+            final int[] array = DummyDataUtils.populateIntegerArray("TempAreaList" + filenameSuffix, " ");
 
-            Assert.assertTrue("Dummy data file contains invalid number of integers: " + array.size(), (array.size() >= valuesPerGroup) && (array.size() % valuesPerGroup == 0));
+            Assert.assertTrue("Dummy data file contains invalid number of integers: " + array.length, (array.length >= valuesPerGroup) && (array.length % valuesPerGroup == 0));
 
-            for (int i = 0; i < array.size(); i += valuesPerGroup) {
-                final boolean valid = (array.get(i) == 1);
-                final int id = array.get(i + 1);
-                final int x = array.get(i + 2);
-                final int y = array.get(i + 3);
-                final int highestAltitude = array.get(i + 4);
-                final int size = array.get(i + 5);
+            for (int i = 0; i < array.length; i += valuesPerGroup) {
+                final boolean valid = (array[i] == 1);
+                final int id = array[i + 1];
+                final int x = array[i + 2];
+                final int y = array[i + 3];
+                final int highestAltitude = array[i + 4];
+                final int size = array[i + 5];
                 final TempAreaInfo tempAreaInfo = new TempAreaInfo(valid, new AreaId(id), new WalkPosition(x, y), new Altitude(highestAltitude), size);
 
                 this.tempAreaList.add(tempAreaInfo);

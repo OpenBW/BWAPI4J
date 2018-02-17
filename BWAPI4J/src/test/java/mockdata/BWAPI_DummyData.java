@@ -24,17 +24,12 @@ public abstract class BWAPI_DummyData {
     }
 
     protected void populateArrays(final String mapName, final int mapTileWidth, final int mapTileHeight) throws IOException, URISyntaxException {
-        final int mapWalkWidth = mapTileWidth * 4;
-        final int mapWalkHeight = mapTileHeight * 4;
-
-        this.walkabilityInfo = new int[mapWalkWidth * mapWalkHeight];
-        this.groundInfo = new int[mapTileWidth * mapTileHeight];
         this.buildableInfo = new int[mapTileWidth * mapTileHeight];
 
-        final String filenameSuffix = "_" + mapName + "_ORIGINAL.txt";
-        DummyDataUtils.populateIntegerArray("walkabilityInfo" + filenameSuffix, this.walkabilityInfo, " ");
-        DummyDataUtils.populateIntegerArray("groundInfo" + filenameSuffix, this.groundInfo, " ");
-        DummyDataUtils.populateIntegerArray("buildableInfo" + filenameSuffix, this.buildableInfo, " ");
+        final String filenameSuffix = "_" + mapName + "_ORIGINAL";
+        this.walkabilityInfo = DummyDataUtils.populateIntegerArray("walkabilityInfo" + filenameSuffix, " ");
+        this.groundInfo = DummyDataUtils.populateIntegerArray("groundInfo" + filenameSuffix, " ");
+        this.buildableInfo = DummyDataUtils.populateIntegerArray("buildableInfo" + filenameSuffix, " ");
     }
 
     public String getMapFilename() {
