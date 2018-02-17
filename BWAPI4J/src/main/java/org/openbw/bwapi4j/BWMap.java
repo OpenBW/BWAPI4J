@@ -24,6 +24,8 @@ public interface BWMap {
 
     boolean isWalkable(WalkPosition walkPosition);
 
+    boolean isValidPosition(WalkPosition walkPosition);
+
     public int mapWidth();
 
     public int mapHeight();

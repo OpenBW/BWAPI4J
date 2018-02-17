@@ -15,13 +15,13 @@ class BWMapImpl implements BWMap {
 
     // Tile resolution
     private int[][] groundInfo;
-    private int width;
-    private int height;
+    int width;
+    int height;
     private ArrayList<TilePosition> startLocations;
 
     BWMapImpl() {
 
-        this.startLocations = new ArrayList<TilePosition>();
+        this.startLocations = new ArrayList<>();
     }
 
     public String mapHash() {
@@ -52,6 +52,11 @@ class BWMapImpl implements BWMap {
     @Override
     public boolean isWalkable(WalkPosition walkPosition) {
         return isWalkable(walkPosition.getX(), walkPosition.getY());
+    }
+
+    @Override
+    public boolean isValidPosition(WalkPosition walkPosition) {
+        return walkPosition.getX() >= 0 && walkPosition.getY() >= 0 && walkPosition.getX() < mapWidth() && walkPosition.getY() < mapHeight();
     }
 
     public int mapWidth() {

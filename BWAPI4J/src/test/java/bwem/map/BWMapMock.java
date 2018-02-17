@@ -93,6 +93,11 @@ public class BWMapMock implements BWMap {
 	}
 
 	@Override
+	public boolean isValidPosition(WalkPosition walkPosition) {
+		return walkPosition.getX() >= 0 && walkPosition.getY() >= 0 && walkPosition.getX() < mapWidth() && walkPosition.getY() < mapHeight();
+	}
+
+	@Override
     public int mapWidth() {
         return this.width;
     }
@@ -133,7 +138,7 @@ public class BWMapMock implements BWMap {
 
 		return true;
 	}
-	
+
 	@Override
 	public boolean isVisible(int tileX, int tileY) {
 		throw new UnsupportedOperationException("This mock method is disabled.");
