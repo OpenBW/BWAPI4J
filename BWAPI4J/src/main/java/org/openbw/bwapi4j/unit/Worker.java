@@ -1,11 +1,10 @@
 package org.openbw.bwapi4j.unit;
 
-import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
-public abstract class Worker<R extends GasMiningFacility> extends MobileUnit implements Armed {
+public abstract class Worker extends MobileUnit implements Armed {
     private boolean isConstructing;
     private boolean isGatheringGas;
     private boolean isGatheringMinerals;
@@ -79,12 +78,12 @@ public abstract class Worker<R extends GasMiningFacility> extends MobileUnit imp
         return issueCommand(this.id, UnitCommandType.Return_Cargo.ordinal(), -1, -1, -1, queued ? 1 : 0);
     }
 
-    public boolean gather(R gasMiningFacility) {
+    public boolean gather(GasMiningFacility gasMiningFacility) {
 
         return issueCommand(this.id, UnitCommandType.Gather.ordinal(), gasMiningFacility.getId(), -1, -1, 0);
     }
 
-    public boolean gather(R gasMiningFacility, boolean shiftQueueCommand) {
+    public boolean gather(GasMiningFacility gasMiningFacility, boolean shiftQueueCommand) {
 
         return issueCommand(this.id, UnitCommandType.Gather.ordinal(), gasMiningFacility.getId(), -1, -1,
                 shiftQueueCommand ? 1 : 0);
