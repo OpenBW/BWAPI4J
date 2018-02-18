@@ -15,18 +15,21 @@ import org.openbw.bwapi4j.util.Pair;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.io.UncheckedIOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class TestDataExporter implements BWEventListener {
-
-    private static final Logger logger = LogManager.getLogger();
+    private static final String TARGET_DIR = "BWAPI4J/out/";
+    private static final Class[] toExport = {UnitType.class, UpgradeType.class, TechType.class};
 
     private BW bw;
 
@@ -38,44 +41,63 @@ public class TestDataExporter implements BWEventListener {
 
     @Override
     public void onStart() {
-        try (PrintWriter out = new PrintWriter("BWAPI4J/out/KickStart.java")) {
-            out.println("package org.openbw.bwapi4j.test;");
-            out.println("import java.lang.reflect.*;");
-            out.println("import java.util.*;");
-            out.println("import java.util.stream.*;");
-            out.println("import org.openbw.bwapi4j.util.*;");
-            out.println("import org.openbw.bwapi4j.type.*;");
-            out.println();
-            out.println("public class KickStart {");
-            out.println("    public void injectValues() throws Exception {");
-            out.println("        initializeUnitType();");
-            out.println("        initializeWeaponType();");
-            out.println("        initializeUpgradeType();");
-            out.println("        initializeTechType();");
+        try (PrintWriter out = new PrintWriter(TARGET_DIR + "BWDataProvider.java")) {
+            addPackage(out);
+            out.println("public final class BWDataProvider {");
+            out.println("    private BWDataProvider() { }");
+            out.println("    public static void injectValues() throws Exception {");
+            for (Class c: toExport) {
+                String typeName = c.getSimpleName();
+                String cname = typeName + "s";
+                out.println("        " + cname + ".initialize" + typeName + "();");
+                createExportHelperClass(cname, o -> export(c, o));
+            }
             out.println("    }");
-            export(UnitType.class, out);
-            export(WeaponType.class, out);
-            export(UpgradeType.class, out);
-            export(TechType.class, out);
             out.println("}");
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            throw new UncheckedIOException(e);
         }
+
+    }
+
+    private void createExportHelperClass(String className, Consumer<PrintWriter> typeWriter) {
+        try (PrintWriter out = new PrintWriter(TARGET_DIR + className + ".java")) {
+            addImports(out);
+            out.println("class " + className + " {");
+            typeWriter.accept(out);
+            out.println("}");
+        } catch (FileNotFoundException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    private void addImports(PrintWriter out) {
+        addPackage(out);
+        out.println("import java.lang.reflect.*;");
+        out.println("import java.util.*;");
+        out.println("import java.util.stream.*;");
+        out.println("import org.openbw.bwapi4j.util.*;");
+        out.println("import org.openbw.bwapi4j.type.*;");
+        out.println();
+    }
+
+    private void addPackage(PrintWriter out) {
+        out.println("package org.openbw.bwapi4j.test;");
     }
 
     private <E extends Enum<E>> void export(Class<E> typeClass, PrintWriter out) {
         List<Field> fields = Stream.of(typeClass.getDeclaredFields()).filter(f -> (f.getModifiers() & Modifier.STATIC) == 0).collect(Collectors.toList());
         fields.forEach(f -> f.setAccessible(true));
-        out.println("    private void initialize" + typeClass.getSimpleName() + "() throws Exception {");
+        out.println("    static void initialize" + typeClass.getSimpleName() + "() throws Exception {");
         EnumSet.allOf(typeClass).stream()
                 .forEach(e -> out.println("        initialize" + typeClass.getSimpleName() + "_" + e + "();"));
         out.println("    }");
         out.println();
         EnumSet.allOf(typeClass).stream()
                 .forEach(e -> {
-                    out.println("    private void initialize" + typeClass.getSimpleName() + "_" + e + "() throws Exception {");
+                    out.println("    private static void initialize" + typeClass.getSimpleName() + "_" + e + "() throws Exception {");
                     out.println("        Class<?> c = " + typeClass.getSimpleName() + ".class;");
-                    out.println("                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {\n" +
+                    out.println("        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {\n" +
                             "            f.setAccessible(true);\n" +
                             "            return f;\n" +
                             "        })); ");
