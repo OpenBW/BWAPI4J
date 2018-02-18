@@ -30,7 +30,6 @@ dependencies {
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.7'
     compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.7'
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
-    compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.1'
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.apache.commons:commons-compress:1.16.1'
@@ -44,7 +43,6 @@ jar {
 
 shadowJar {
     relocate 'org.apache.commons', 'bwapi4j.org.apache.commons'
-	from sourceSets.main.allSource
 	classifier = null
 }
 
