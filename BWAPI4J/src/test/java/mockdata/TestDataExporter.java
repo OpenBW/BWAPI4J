@@ -29,7 +29,7 @@ import java.util.stream.Stream;
 
 public class TestDataExporter implements BWEventListener {
     private static final String TARGET_DIR = "BWAPI4J/out/";
-    private static final Class[] toExport = {UnitType.class, UpgradeType.class, TechType.class};
+    private static final Class[] toExport = {UnitType.class, UpgradeType.class, TechType.class, WeaponType.class};
 
     private BW bw;
 

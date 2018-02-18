@@ -81,4 +81,9 @@ public class Nexus extends Building implements Mechanical, TrainingFacility, Bas
     public int getRemainingTrainTime() {
         return trainer.getRemainingTrainingTime();
     }
+
+    @Override
+    public int supplyProvided() {
+        return type.supplyProvided();
+    }
 }

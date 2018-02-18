@@ -167,4 +167,9 @@ public class CommandCenter extends Building implements Mechanical, FlyingBuildin
     public int getRemainingTrainTime() {
         return trainer.getRemainingTrainingTime();
     }
+
+    @Override
+    public int supplyProvided() {
+        return type.supplyProvided();
+    }
 }

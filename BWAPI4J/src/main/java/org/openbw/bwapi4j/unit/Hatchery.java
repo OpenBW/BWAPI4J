@@ -104,4 +104,9 @@ public class Hatchery extends Building implements Organic, ResearchingFacility, 
     public ResearchInProgress getResearchInProgress() {
         return researcher.getResearchInProgress();
     }
+
+    @Override
+    public int supplyProvided() {
+        return type.supplyProvided();
+    }
 }
