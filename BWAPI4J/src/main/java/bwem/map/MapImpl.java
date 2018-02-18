@@ -473,9 +473,7 @@ public class MapImpl implements Map {
         final List<PlayerUnit> ret = new ArrayList<>();
         for (final Player player : players) {
             if (player.isNeutral()) {
-                for (final PlayerUnit u : filterPlayerUnits(units, player)) {
-                    ret.add(u);
-                }
+                ret.addAll(filterPlayerUnits(units, player));
             }
         }
         return ret;

@@ -504,9 +504,7 @@ public final class Graph {
     			GetArea(a).AddChokePoints(GetArea(b), GetChokePoints(a, b));
     			GetArea(b).AddChokePoints(GetArea(a), GetChokePoints(a, b));
 
-    			for (ChokePoint cp : GetChokePoints(a, b)) {
-    				m_ChokePointList.add(cp);
-                }
+                m_ChokePointList.addAll(GetChokePoints(a, b));
     		}
         }
     }

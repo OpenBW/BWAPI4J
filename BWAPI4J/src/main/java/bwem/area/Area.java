@@ -249,9 +249,7 @@ public final class Area {
 
         m_ChokePointsByArea.put(pArea, pChokePoints);
 
-        for (ChokePoint cp : pChokePoints) {
-            m_ChokePoints.add(cp);
-        }
+        m_ChokePoints.addAll(pChokePoints);
     }
 
 	public void AddMineral(Mineral pMineral) {

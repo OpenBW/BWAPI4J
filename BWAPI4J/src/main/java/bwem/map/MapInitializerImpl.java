@@ -297,12 +297,8 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
             final List<Mineral> minerals
     ) {
         final List<Neutral> Candidates = new ArrayList<>();
-        for (StaticBuilding s : staticBuildings) {
-            Candidates.add(s);
-        }
-        for (Mineral m : minerals) {
-            Candidates.add(m);
-        }
+        Candidates.addAll(staticBuildings);
+        Candidates.addAll(minerals);
         return Candidates;
     }
 
