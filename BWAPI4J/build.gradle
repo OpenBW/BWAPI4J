@@ -44,6 +44,7 @@ jar {
 }
 
 shadowJar {
+    relocate 'org.apache.commons', 'bwapi4j.org.apache.commons'
 	from sourceSets.main.allSource
 	classifier = null
 }
