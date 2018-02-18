@@ -5,14 +5,8 @@ import java.util.stream.*;
 import org.openbw.bwapi4j.util.*;
 import org.openbw.bwapi4j.type.*;
 
-public class KickStart {
-    public void injectValues() throws Exception {
-        initializeUnitType();
-        initializeWeaponType();
-        initializeUpgradeType();
-        initializeTechType();
-    }
-    private void initializeUnitType() throws Exception {
+class UnitTypes {
+    static void initializeUnitType() throws Exception {
         initializeUnitType_Terran_Marine();
         initializeUnitType_Terran_Ghost();
         initializeUnitType_Terran_Vulture();
@@ -249,9 +243,9 @@ public class KickStart {
         initializeUnitType_Unknown();
     }
 
-    private void initializeUnitType_Terran_Marine() throws Exception {
+    private static void initializeUnitType_Terran_Marine() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -335,9 +329,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Marine, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Terran_Marine, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Terran_Ghost() throws Exception {
+    private static void initializeUnitType_Terran_Ghost() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -421,9 +415,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Ghost, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Terran_Ghost, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Terran_Vulture() throws Exception {
+    private static void initializeUnitType_Terran_Vulture() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -507,9 +501,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Vulture, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Terran_Vulture, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Terran_Goliath() throws Exception {
+    private static void initializeUnitType_Terran_Goliath() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -593,9 +587,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Goliath, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Terran_Goliath, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Terran_Goliath_Turret() throws Exception {
+    private static void initializeUnitType_Terran_Goliath_Turret() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -679,9 +673,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Goliath_Turret, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Terran_Goliath_Turret, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Terran_Siege_Tank_Tank_Mode() throws Exception {
+    private static void initializeUnitType_Terran_Siege_Tank_Tank_Mode() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -765,9 +759,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Siege_Tank_Tank_Mode, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Terran_Siege_Tank_Tank_Mode, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Terran_Siege_Tank_Tank_Mode_Turret() throws Exception {
+    private static void initializeUnitType_Terran_Siege_Tank_Tank_Mode_Turret() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -851,9 +845,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Siege_Tank_Tank_Mode_Turret, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Terran_Siege_Tank_Tank_Mode_Turret, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Terran_SCV() throws Exception {
+    private static void initializeUnitType_Terran_SCV() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -937,9 +931,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_SCV, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Terran_SCV, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Terran_Wraith() throws Exception {
+    private static void initializeUnitType_Terran_Wraith() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -1023,9 +1017,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Wraith, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Terran_Wraith, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Terran_Science_Vessel() throws Exception {
+    private static void initializeUnitType_Terran_Science_Vessel() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -1109,9 +1103,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Science_Vessel, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Terran_Science_Vessel, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Gui_Montag() throws Exception {
+    private static void initializeUnitType_Hero_Gui_Montag() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -1195,9 +1189,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Gui_Montag, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Gui_Montag, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Terran_Dropship() throws Exception {
+    private static void initializeUnitType_Terran_Dropship() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -1281,9 +1275,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Dropship, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Terran_Dropship, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Terran_Battlecruiser() throws Exception {
+    private static void initializeUnitType_Terran_Battlecruiser() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -1367,9 +1361,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Battlecruiser, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Terran_Battlecruiser, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Terran_Vulture_Spider_Mine() throws Exception {
+    private static void initializeUnitType_Terran_Vulture_Spider_Mine() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -1453,9 +1447,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Vulture_Spider_Mine, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Terran_Vulture_Spider_Mine, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Terran_Nuclear_Missile() throws Exception {
+    private static void initializeUnitType_Terran_Nuclear_Missile() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -1539,9 +1533,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Nuclear_Missile, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Terran_Nuclear_Missile, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Terran_Civilian() throws Exception {
+    private static void initializeUnitType_Terran_Civilian() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -1625,9 +1619,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Civilian, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Terran_Civilian, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Sarah_Kerrigan() throws Exception {
+    private static void initializeUnitType_Hero_Sarah_Kerrigan() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -1711,9 +1705,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Sarah_Kerrigan, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Sarah_Kerrigan, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Alan_Schezar() throws Exception {
+    private static void initializeUnitType_Hero_Alan_Schezar() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -1797,9 +1791,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Alan_Schezar, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Alan_Schezar, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Alan_Schezar_Turret() throws Exception {
+    private static void initializeUnitType_Hero_Alan_Schezar_Turret() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -1883,9 +1877,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Alan_Schezar_Turret, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Alan_Schezar_Turret, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Jim_Raynor_Vulture() throws Exception {
+    private static void initializeUnitType_Hero_Jim_Raynor_Vulture() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -1969,9 +1963,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Jim_Raynor_Vulture, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Jim_Raynor_Vulture, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Jim_Raynor_Marine() throws Exception {
+    private static void initializeUnitType_Hero_Jim_Raynor_Marine() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -2055,9 +2049,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Jim_Raynor_Marine, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Jim_Raynor_Marine, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Tom_Kazansky() throws Exception {
+    private static void initializeUnitType_Hero_Tom_Kazansky() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -2141,9 +2135,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Tom_Kazansky, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Tom_Kazansky, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Magellan() throws Exception {
+    private static void initializeUnitType_Hero_Magellan() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -2227,9 +2221,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Magellan, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Magellan, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Edmund_Duke_Tank_Mode() throws Exception {
+    private static void initializeUnitType_Hero_Edmund_Duke_Tank_Mode() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -2313,9 +2307,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Edmund_Duke_Tank_Mode, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Edmund_Duke_Tank_Mode, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Edmund_Duke_Tank_Mode_Turret() throws Exception {
+    private static void initializeUnitType_Hero_Edmund_Duke_Tank_Mode_Turret() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -2399,9 +2393,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Edmund_Duke_Tank_Mode_Turret, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Edmund_Duke_Tank_Mode_Turret, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Edmund_Duke_Siege_Mode() throws Exception {
+    private static void initializeUnitType_Hero_Edmund_Duke_Siege_Mode() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -2485,9 +2479,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Edmund_Duke_Siege_Mode, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Edmund_Duke_Siege_Mode, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Edmund_Duke_Siege_Mode_Turret() throws Exception {
+    private static void initializeUnitType_Hero_Edmund_Duke_Siege_Mode_Turret() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -2571,9 +2565,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Edmund_Duke_Siege_Mode_Turret, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Edmund_Duke_Siege_Mode_Turret, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Arcturus_Mengsk() throws Exception {
+    private static void initializeUnitType_Hero_Arcturus_Mengsk() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -2657,9 +2651,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Arcturus_Mengsk, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Arcturus_Mengsk, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Hyperion() throws Exception {
+    private static void initializeUnitType_Hero_Hyperion() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -2743,9 +2737,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Hyperion, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Hyperion, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Norad_II() throws Exception {
+    private static void initializeUnitType_Hero_Norad_II() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -2829,9 +2823,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Norad_II, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Norad_II, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Terran_Siege_Tank_Siege_Mode() throws Exception {
+    private static void initializeUnitType_Terran_Siege_Tank_Siege_Mode() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -2915,9 +2909,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Siege_Tank_Siege_Mode, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Terran_Siege_Tank_Siege_Mode, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Terran_Siege_Tank_Siege_Mode_Turret() throws Exception {
+    private static void initializeUnitType_Terran_Siege_Tank_Siege_Mode_Turret() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -3001,9 +2995,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Siege_Tank_Siege_Mode_Turret, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Terran_Siege_Tank_Siege_Mode_Turret, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Terran_Firebat() throws Exception {
+    private static void initializeUnitType_Terran_Firebat() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -3087,9 +3081,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Firebat, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Terran_Firebat, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Spell_Scanner_Sweep() throws Exception {
+    private static void initializeUnitType_Spell_Scanner_Sweep() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -3173,9 +3167,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Spell_Scanner_Sweep, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Spell_Scanner_Sweep, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Terran_Medic() throws Exception {
+    private static void initializeUnitType_Terran_Medic() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -3259,9 +3253,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Medic, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Terran_Medic, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Zerg_Larva() throws Exception {
+    private static void initializeUnitType_Zerg_Larva() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -3345,9 +3339,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Larva, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Zerg_Larva, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Zerg_Egg() throws Exception {
+    private static void initializeUnitType_Zerg_Egg() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -3431,9 +3425,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Egg, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Zerg_Egg, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Zerg_Zergling() throws Exception {
+    private static void initializeUnitType_Zerg_Zergling() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -3517,9 +3511,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Zergling, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Zerg_Zergling, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Zerg_Hydralisk() throws Exception {
+    private static void initializeUnitType_Zerg_Hydralisk() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -3603,9 +3597,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Hydralisk, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Zerg_Hydralisk, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Zerg_Ultralisk() throws Exception {
+    private static void initializeUnitType_Zerg_Ultralisk() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -3689,9 +3683,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Ultralisk, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Zerg_Ultralisk, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Zerg_Broodling() throws Exception {
+    private static void initializeUnitType_Zerg_Broodling() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -3775,9 +3769,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Broodling, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Zerg_Broodling, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Zerg_Drone() throws Exception {
+    private static void initializeUnitType_Zerg_Drone() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -3861,9 +3855,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Drone, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Zerg_Drone, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Zerg_Overlord() throws Exception {
+    private static void initializeUnitType_Zerg_Overlord() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -3947,9 +3941,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Overlord, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Zerg_Overlord, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Zerg_Mutalisk() throws Exception {
+    private static void initializeUnitType_Zerg_Mutalisk() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -4033,9 +4027,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Mutalisk, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Zerg_Mutalisk, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Zerg_Guardian() throws Exception {
+    private static void initializeUnitType_Zerg_Guardian() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -4119,9 +4113,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Guardian, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Zerg_Guardian, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Zerg_Queen() throws Exception {
+    private static void initializeUnitType_Zerg_Queen() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -4205,9 +4199,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Queen, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Zerg_Queen, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Zerg_Defiler() throws Exception {
+    private static void initializeUnitType_Zerg_Defiler() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -4291,9 +4285,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Defiler, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Zerg_Defiler, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Zerg_Scourge() throws Exception {
+    private static void initializeUnitType_Zerg_Scourge() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -4377,9 +4371,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Scourge, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Zerg_Scourge, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Torrasque() throws Exception {
+    private static void initializeUnitType_Hero_Torrasque() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -4463,9 +4457,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Torrasque, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Torrasque, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Matriarch() throws Exception {
+    private static void initializeUnitType_Hero_Matriarch() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -4549,9 +4543,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Matriarch, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Matriarch, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Zerg_Infested_Terran() throws Exception {
+    private static void initializeUnitType_Zerg_Infested_Terran() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -4635,9 +4629,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Infested_Terran, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Zerg_Infested_Terran, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Infested_Kerrigan() throws Exception {
+    private static void initializeUnitType_Hero_Infested_Kerrigan() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -4721,9 +4715,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Infested_Kerrigan, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Infested_Kerrigan, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Unclean_One() throws Exception {
+    private static void initializeUnitType_Hero_Unclean_One() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -4807,9 +4801,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Unclean_One, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Unclean_One, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Hunter_Killer() throws Exception {
+    private static void initializeUnitType_Hero_Hunter_Killer() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -4893,9 +4887,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Hunter_Killer, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Hunter_Killer, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Devouring_One() throws Exception {
+    private static void initializeUnitType_Hero_Devouring_One() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -4979,9 +4973,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Devouring_One, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Devouring_One, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Kukulza_Mutalisk() throws Exception {
+    private static void initializeUnitType_Hero_Kukulza_Mutalisk() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -5065,9 +5059,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Kukulza_Mutalisk, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Kukulza_Mutalisk, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Kukulza_Guardian() throws Exception {
+    private static void initializeUnitType_Hero_Kukulza_Guardian() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -5151,9 +5145,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Kukulza_Guardian, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Kukulza_Guardian, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Yggdrasill() throws Exception {
+    private static void initializeUnitType_Hero_Yggdrasill() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -5237,9 +5231,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Yggdrasill, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Yggdrasill, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Terran_Valkyrie() throws Exception {
+    private static void initializeUnitType_Terran_Valkyrie() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -5323,9 +5317,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Valkyrie, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Terran_Valkyrie, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Zerg_Cocoon() throws Exception {
+    private static void initializeUnitType_Zerg_Cocoon() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -5409,9 +5403,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Cocoon, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Zerg_Cocoon, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Protoss_Corsair() throws Exception {
+    private static void initializeUnitType_Protoss_Corsair() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -5495,9 +5489,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Protoss_Corsair, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Protoss_Corsair, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Protoss_Dark_Templar() throws Exception {
+    private static void initializeUnitType_Protoss_Dark_Templar() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -5581,9 +5575,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Protoss_Dark_Templar, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Protoss_Dark_Templar, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Zerg_Devourer() throws Exception {
+    private static void initializeUnitType_Zerg_Devourer() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -5667,9 +5661,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Devourer, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Zerg_Devourer, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Protoss_Dark_Archon() throws Exception {
+    private static void initializeUnitType_Protoss_Dark_Archon() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -5753,9 +5747,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Protoss_Dark_Archon, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Protoss_Dark_Archon, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Protoss_Probe() throws Exception {
+    private static void initializeUnitType_Protoss_Probe() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -5839,9 +5833,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Protoss_Probe, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Protoss_Probe, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Protoss_Zealot() throws Exception {
+    private static void initializeUnitType_Protoss_Zealot() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -5925,9 +5919,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Protoss_Zealot, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Protoss_Zealot, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Protoss_Dragoon() throws Exception {
+    private static void initializeUnitType_Protoss_Dragoon() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -6011,9 +6005,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Protoss_Dragoon, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Protoss_Dragoon, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Protoss_High_Templar() throws Exception {
+    private static void initializeUnitType_Protoss_High_Templar() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -6097,9 +6091,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Protoss_High_Templar, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Protoss_High_Templar, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Protoss_Archon() throws Exception {
+    private static void initializeUnitType_Protoss_Archon() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -6183,9 +6177,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Protoss_Archon, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Protoss_Archon, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Protoss_Shuttle() throws Exception {
+    private static void initializeUnitType_Protoss_Shuttle() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -6269,9 +6263,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Protoss_Shuttle, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Protoss_Shuttle, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Protoss_Scout() throws Exception {
+    private static void initializeUnitType_Protoss_Scout() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -6355,9 +6349,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Protoss_Scout, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Protoss_Scout, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Protoss_Arbiter() throws Exception {
+    private static void initializeUnitType_Protoss_Arbiter() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -6441,9 +6435,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Protoss_Arbiter, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Protoss_Arbiter, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Protoss_Carrier() throws Exception {
+    private static void initializeUnitType_Protoss_Carrier() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -6527,9 +6521,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Protoss_Carrier, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Protoss_Carrier, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Protoss_Interceptor() throws Exception {
+    private static void initializeUnitType_Protoss_Interceptor() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -6613,9 +6607,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Protoss_Interceptor, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Protoss_Interceptor, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Dark_Templar() throws Exception {
+    private static void initializeUnitType_Hero_Dark_Templar() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -6699,9 +6693,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Dark_Templar, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Dark_Templar, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Zeratul() throws Exception {
+    private static void initializeUnitType_Hero_Zeratul() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -6785,9 +6779,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Zeratul, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Zeratul, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Tassadar_Zeratul_Archon() throws Exception {
+    private static void initializeUnitType_Hero_Tassadar_Zeratul_Archon() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -6871,9 +6865,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Tassadar_Zeratul_Archon, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Tassadar_Zeratul_Archon, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Fenix_Zealot() throws Exception {
+    private static void initializeUnitType_Hero_Fenix_Zealot() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -6957,9 +6951,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Fenix_Zealot, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Fenix_Zealot, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Fenix_Dragoon() throws Exception {
+    private static void initializeUnitType_Hero_Fenix_Dragoon() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -7043,9 +7037,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Fenix_Dragoon, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Fenix_Dragoon, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Tassadar() throws Exception {
+    private static void initializeUnitType_Hero_Tassadar() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -7129,9 +7123,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Tassadar, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Tassadar, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Mojo() throws Exception {
+    private static void initializeUnitType_Hero_Mojo() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -7215,9 +7209,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Mojo, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Mojo, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Warbringer() throws Exception {
+    private static void initializeUnitType_Hero_Warbringer() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -7301,9 +7295,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Warbringer, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Warbringer, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Gantrithor() throws Exception {
+    private static void initializeUnitType_Hero_Gantrithor() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -7387,9 +7381,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Gantrithor, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Gantrithor, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Protoss_Reaver() throws Exception {
+    private static void initializeUnitType_Protoss_Reaver() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -7473,9 +7467,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Protoss_Reaver, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Protoss_Reaver, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Protoss_Observer() throws Exception {
+    private static void initializeUnitType_Protoss_Observer() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -7559,9 +7553,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Protoss_Observer, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Protoss_Observer, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Protoss_Scarab() throws Exception {
+    private static void initializeUnitType_Protoss_Scarab() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -7645,9 +7639,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Protoss_Scarab, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Protoss_Scarab, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Danimoth() throws Exception {
+    private static void initializeUnitType_Hero_Danimoth() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -7731,9 +7725,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Danimoth, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Danimoth, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Aldaris() throws Exception {
+    private static void initializeUnitType_Hero_Aldaris() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -7817,9 +7811,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Aldaris, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Aldaris, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Artanis() throws Exception {
+    private static void initializeUnitType_Hero_Artanis() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -7903,9 +7897,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Artanis, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Artanis, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Critter_Rhynadon() throws Exception {
+    private static void initializeUnitType_Critter_Rhynadon() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -7989,9 +7983,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Critter_Rhynadon, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Critter_Rhynadon, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Critter_Bengalaas() throws Exception {
+    private static void initializeUnitType_Critter_Bengalaas() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -8075,9 +8069,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Critter_Bengalaas, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Critter_Bengalaas, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Cargo_Ship() throws Exception {
+    private static void initializeUnitType_Special_Cargo_Ship() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -8161,9 +8155,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Cargo_Ship, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Cargo_Ship, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Mercenary_Gunship() throws Exception {
+    private static void initializeUnitType_Special_Mercenary_Gunship() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -8247,9 +8241,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Mercenary_Gunship, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Mercenary_Gunship, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Critter_Scantid() throws Exception {
+    private static void initializeUnitType_Critter_Scantid() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -8333,9 +8327,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Critter_Scantid, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Critter_Scantid, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Critter_Kakaru() throws Exception {
+    private static void initializeUnitType_Critter_Kakaru() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -8419,9 +8413,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Critter_Kakaru, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Critter_Kakaru, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Critter_Ragnasaur() throws Exception {
+    private static void initializeUnitType_Critter_Ragnasaur() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -8505,9 +8499,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Critter_Ragnasaur, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Critter_Ragnasaur, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Critter_Ursadon() throws Exception {
+    private static void initializeUnitType_Critter_Ursadon() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -8591,9 +8585,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Critter_Ursadon, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Critter_Ursadon, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Zerg_Lurker_Egg() throws Exception {
+    private static void initializeUnitType_Zerg_Lurker_Egg() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -8677,9 +8671,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Lurker_Egg, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Zerg_Lurker_Egg, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Raszagal() throws Exception {
+    private static void initializeUnitType_Hero_Raszagal() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -8763,9 +8757,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Raszagal, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Raszagal, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Samir_Duran() throws Exception {
+    private static void initializeUnitType_Hero_Samir_Duran() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -8849,9 +8843,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Samir_Duran, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Samir_Duran, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Alexei_Stukov() throws Exception {
+    private static void initializeUnitType_Hero_Alexei_Stukov() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -8935,9 +8929,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Alexei_Stukov, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Alexei_Stukov, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Map_Revealer() throws Exception {
+    private static void initializeUnitType_Special_Map_Revealer() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -9021,9 +9015,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Map_Revealer, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Map_Revealer, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Gerard_DuGalle() throws Exception {
+    private static void initializeUnitType_Hero_Gerard_DuGalle() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -9107,9 +9101,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Gerard_DuGalle, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Gerard_DuGalle, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Zerg_Lurker() throws Exception {
+    private static void initializeUnitType_Zerg_Lurker() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -9193,9 +9187,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Lurker, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Zerg_Lurker, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Hero_Infested_Duran() throws Exception {
+    private static void initializeUnitType_Hero_Infested_Duran() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -9279,9 +9273,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Hero_Infested_Duran, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Hero_Infested_Duran, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Spell_Disruption_Web() throws Exception {
+    private static void initializeUnitType_Spell_Disruption_Web() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -9365,9 +9359,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Spell_Disruption_Web, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Spell_Disruption_Web, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Terran_Command_Center() throws Exception {
+    private static void initializeUnitType_Terran_Command_Center() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -9451,9 +9445,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Command_Center, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Terran_Command_Center, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Terran_Comsat_Station() throws Exception {
+    private static void initializeUnitType_Terran_Comsat_Station() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -9537,9 +9531,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Comsat_Station, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Terran_Comsat_Station, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Terran_Nuclear_Silo() throws Exception {
+    private static void initializeUnitType_Terran_Nuclear_Silo() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -9623,9 +9617,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Nuclear_Silo, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Terran_Nuclear_Silo, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Terran_Supply_Depot() throws Exception {
+    private static void initializeUnitType_Terran_Supply_Depot() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -9709,9 +9703,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Supply_Depot, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Terran_Supply_Depot, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Terran_Refinery() throws Exception {
+    private static void initializeUnitType_Terran_Refinery() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -9795,9 +9789,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Refinery, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Terran_Refinery, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Terran_Barracks() throws Exception {
+    private static void initializeUnitType_Terran_Barracks() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -9881,9 +9875,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Barracks, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Terran_Barracks, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Terran_Academy() throws Exception {
+    private static void initializeUnitType_Terran_Academy() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -9967,9 +9961,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Academy, new ArrayList(Arrays.asList(TechType.Restoration, TechType.Stim_Packs, TechType.Optical_Flare)));
         fields.get("upgradesWhat").set(UnitType.Terran_Academy, new ArrayList(Arrays.asList(UpgradeType.U_238_Shells, UpgradeType.Caduceus_Reactor)));
     }
-    private void initializeUnitType_Terran_Factory() throws Exception {
+    private static void initializeUnitType_Terran_Factory() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -10053,9 +10047,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Factory, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Terran_Factory, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Terran_Starport() throws Exception {
+    private static void initializeUnitType_Terran_Starport() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -10139,9 +10133,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Starport, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Terran_Starport, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Terran_Control_Tower() throws Exception {
+    private static void initializeUnitType_Terran_Control_Tower() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -10225,9 +10219,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Control_Tower, new ArrayList(Arrays.asList(TechType.Cloaking_Field)));
         fields.get("upgradesWhat").set(UnitType.Terran_Control_Tower, new ArrayList(Arrays.asList(UpgradeType.Apollo_Reactor)));
     }
-    private void initializeUnitType_Terran_Science_Facility() throws Exception {
+    private static void initializeUnitType_Terran_Science_Facility() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -10311,9 +10305,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Science_Facility, new ArrayList(Arrays.asList(TechType.EMP_Shockwave, TechType.Irradiate)));
         fields.get("upgradesWhat").set(UnitType.Terran_Science_Facility, new ArrayList(Arrays.asList(UpgradeType.Titan_Reactor)));
     }
-    private void initializeUnitType_Terran_Covert_Ops() throws Exception {
+    private static void initializeUnitType_Terran_Covert_Ops() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -10397,9 +10391,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Covert_Ops, new ArrayList(Arrays.asList(TechType.Personnel_Cloaking, TechType.Lockdown)));
         fields.get("upgradesWhat").set(UnitType.Terran_Covert_Ops, new ArrayList(Arrays.asList(UpgradeType.Ocular_Implants, UpgradeType.Moebius_Reactor)));
     }
-    private void initializeUnitType_Terran_Physics_Lab() throws Exception {
+    private static void initializeUnitType_Terran_Physics_Lab() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -10483,9 +10477,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Physics_Lab, new ArrayList(Arrays.asList(TechType.Yamato_Gun)));
         fields.get("upgradesWhat").set(UnitType.Terran_Physics_Lab, new ArrayList(Arrays.asList(UpgradeType.Colossus_Reactor)));
     }
-    private void initializeUnitType_Unused_Terran1() throws Exception {
+    private static void initializeUnitType_Unused_Terran1() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -10569,9 +10563,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Unused_Terran1, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Unused_Terran1, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Terran_Machine_Shop() throws Exception {
+    private static void initializeUnitType_Terran_Machine_Shop() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -10655,9 +10649,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Machine_Shop, new ArrayList(Arrays.asList(TechType.Tank_Siege_Mode, TechType.Spider_Mines)));
         fields.get("upgradesWhat").set(UnitType.Terran_Machine_Shop, new ArrayList(Arrays.asList(UpgradeType.Ion_Thrusters, UpgradeType.Charon_Boosters)));
     }
-    private void initializeUnitType_Unused_Terran2() throws Exception {
+    private static void initializeUnitType_Unused_Terran2() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -10741,9 +10735,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Unused_Terran2, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Unused_Terran2, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Terran_Engineering_Bay() throws Exception {
+    private static void initializeUnitType_Terran_Engineering_Bay() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -10827,9 +10821,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Engineering_Bay, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Terran_Engineering_Bay, new ArrayList(Arrays.asList(UpgradeType.Terran_Infantry_Armor, UpgradeType.Terran_Infantry_Weapons)));
     }
-    private void initializeUnitType_Terran_Armory() throws Exception {
+    private static void initializeUnitType_Terran_Armory() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -10913,9 +10907,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Armory, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Terran_Armory, new ArrayList(Arrays.asList(UpgradeType.Terran_Ship_Weapons, UpgradeType.Terran_Vehicle_Plating, UpgradeType.Terran_Vehicle_Weapons, UpgradeType.Terran_Ship_Plating)));
     }
-    private void initializeUnitType_Terran_Missile_Turret() throws Exception {
+    private static void initializeUnitType_Terran_Missile_Turret() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -10999,9 +10993,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Missile_Turret, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Terran_Missile_Turret, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Terran_Bunker() throws Exception {
+    private static void initializeUnitType_Terran_Bunker() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -11085,9 +11079,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Terran_Bunker, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Terran_Bunker, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Crashed_Norad_II() throws Exception {
+    private static void initializeUnitType_Special_Crashed_Norad_II() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -11171,9 +11165,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Crashed_Norad_II, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Crashed_Norad_II, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Ion_Cannon() throws Exception {
+    private static void initializeUnitType_Special_Ion_Cannon() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -11257,9 +11251,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Ion_Cannon, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Ion_Cannon, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Powerup_Uraj_Crystal() throws Exception {
+    private static void initializeUnitType_Powerup_Uraj_Crystal() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -11343,9 +11337,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Powerup_Uraj_Crystal, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Powerup_Uraj_Crystal, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Powerup_Khalis_Crystal() throws Exception {
+    private static void initializeUnitType_Powerup_Khalis_Crystal() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -11429,9 +11423,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Powerup_Khalis_Crystal, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Powerup_Khalis_Crystal, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Zerg_Infested_Command_Center() throws Exception {
+    private static void initializeUnitType_Zerg_Infested_Command_Center() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -11515,9 +11509,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Infested_Command_Center, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Zerg_Infested_Command_Center, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Zerg_Hatchery() throws Exception {
+    private static void initializeUnitType_Zerg_Hatchery() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -11601,9 +11595,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Hatchery, new ArrayList(Arrays.asList(TechType.Burrowing)));
         fields.get("upgradesWhat").set(UnitType.Zerg_Hatchery, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Zerg_Lair() throws Exception {
+    private static void initializeUnitType_Zerg_Lair() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -11687,9 +11681,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Lair, new ArrayList(Arrays.asList(TechType.Burrowing)));
         fields.get("upgradesWhat").set(UnitType.Zerg_Lair, new ArrayList(Arrays.asList(UpgradeType.Ventral_Sacs, UpgradeType.Antennae, UpgradeType.Pneumatized_Carapace)));
     }
-    private void initializeUnitType_Zerg_Hive() throws Exception {
+    private static void initializeUnitType_Zerg_Hive() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -11773,9 +11767,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Hive, new ArrayList(Arrays.asList(TechType.Burrowing)));
         fields.get("upgradesWhat").set(UnitType.Zerg_Hive, new ArrayList(Arrays.asList(UpgradeType.Ventral_Sacs, UpgradeType.Antennae, UpgradeType.Pneumatized_Carapace)));
     }
-    private void initializeUnitType_Zerg_Nydus_Canal() throws Exception {
+    private static void initializeUnitType_Zerg_Nydus_Canal() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -11859,9 +11853,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Nydus_Canal, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Zerg_Nydus_Canal, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Zerg_Hydralisk_Den() throws Exception {
+    private static void initializeUnitType_Zerg_Hydralisk_Den() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -11945,9 +11939,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Hydralisk_Den, new ArrayList(Arrays.asList(TechType.Lurker_Aspect)));
         fields.get("upgradesWhat").set(UnitType.Zerg_Hydralisk_Den, new ArrayList(Arrays.asList(UpgradeType.Muscular_Augments, UpgradeType.Grooved_Spines)));
     }
-    private void initializeUnitType_Zerg_Defiler_Mound() throws Exception {
+    private static void initializeUnitType_Zerg_Defiler_Mound() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -12031,9 +12025,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Defiler_Mound, new ArrayList(Arrays.asList(TechType.Consume, TechType.Plague)));
         fields.get("upgradesWhat").set(UnitType.Zerg_Defiler_Mound, new ArrayList(Arrays.asList(UpgradeType.Metasynaptic_Node)));
     }
-    private void initializeUnitType_Zerg_Greater_Spire() throws Exception {
+    private static void initializeUnitType_Zerg_Greater_Spire() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -12117,9 +12111,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Greater_Spire, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Zerg_Greater_Spire, new ArrayList(Arrays.asList(UpgradeType.Zerg_Flyer_Carapace, UpgradeType.Zerg_Flyer_Attacks)));
     }
-    private void initializeUnitType_Zerg_Queens_Nest() throws Exception {
+    private static void initializeUnitType_Zerg_Queens_Nest() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -12203,9 +12197,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Queens_Nest, new ArrayList(Arrays.asList(TechType.Ensnare, TechType.Spawn_Broodlings)));
         fields.get("upgradesWhat").set(UnitType.Zerg_Queens_Nest, new ArrayList(Arrays.asList(UpgradeType.Gamete_Meiosis)));
     }
-    private void initializeUnitType_Zerg_Evolution_Chamber() throws Exception {
+    private static void initializeUnitType_Zerg_Evolution_Chamber() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -12289,9 +12283,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Evolution_Chamber, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Zerg_Evolution_Chamber, new ArrayList(Arrays.asList(UpgradeType.Zerg_Melee_Attacks, UpgradeType.Zerg_Carapace, UpgradeType.Zerg_Missile_Attacks)));
     }
-    private void initializeUnitType_Zerg_Ultralisk_Cavern() throws Exception {
+    private static void initializeUnitType_Zerg_Ultralisk_Cavern() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -12375,9 +12369,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Ultralisk_Cavern, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Zerg_Ultralisk_Cavern, new ArrayList(Arrays.asList(UpgradeType.Anabolic_Synthesis, UpgradeType.Chitinous_Plating)));
     }
-    private void initializeUnitType_Zerg_Spire() throws Exception {
+    private static void initializeUnitType_Zerg_Spire() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -12461,9 +12455,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Spire, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Zerg_Spire, new ArrayList(Arrays.asList(UpgradeType.Zerg_Flyer_Carapace, UpgradeType.Zerg_Flyer_Attacks)));
     }
-    private void initializeUnitType_Zerg_Spawning_Pool() throws Exception {
+    private static void initializeUnitType_Zerg_Spawning_Pool() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -12547,9 +12541,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Spawning_Pool, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Zerg_Spawning_Pool, new ArrayList(Arrays.asList(UpgradeType.Metabolic_Boost, UpgradeType.Adrenal_Glands)));
     }
-    private void initializeUnitType_Zerg_Creep_Colony() throws Exception {
+    private static void initializeUnitType_Zerg_Creep_Colony() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -12633,9 +12627,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Creep_Colony, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Zerg_Creep_Colony, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Zerg_Spore_Colony() throws Exception {
+    private static void initializeUnitType_Zerg_Spore_Colony() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -12719,9 +12713,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Spore_Colony, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Zerg_Spore_Colony, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Unused_Zerg1() throws Exception {
+    private static void initializeUnitType_Unused_Zerg1() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -12805,9 +12799,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Unused_Zerg1, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Unused_Zerg1, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Zerg_Sunken_Colony() throws Exception {
+    private static void initializeUnitType_Zerg_Sunken_Colony() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -12891,9 +12885,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Sunken_Colony, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Zerg_Sunken_Colony, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Overmind_With_Shell() throws Exception {
+    private static void initializeUnitType_Special_Overmind_With_Shell() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -12977,9 +12971,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Overmind_With_Shell, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Overmind_With_Shell, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Overmind() throws Exception {
+    private static void initializeUnitType_Special_Overmind() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -13063,9 +13057,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Overmind, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Overmind, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Zerg_Extractor() throws Exception {
+    private static void initializeUnitType_Zerg_Extractor() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -13149,9 +13143,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Zerg_Extractor, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Zerg_Extractor, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Mature_Chrysalis() throws Exception {
+    private static void initializeUnitType_Special_Mature_Chrysalis() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -13235,9 +13229,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Mature_Chrysalis, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Mature_Chrysalis, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Cerebrate() throws Exception {
+    private static void initializeUnitType_Special_Cerebrate() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -13321,9 +13315,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Cerebrate, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Cerebrate, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Cerebrate_Daggoth() throws Exception {
+    private static void initializeUnitType_Special_Cerebrate_Daggoth() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -13407,9 +13401,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Cerebrate_Daggoth, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Cerebrate_Daggoth, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Unused_Zerg2() throws Exception {
+    private static void initializeUnitType_Unused_Zerg2() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -13493,9 +13487,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Unused_Zerg2, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Unused_Zerg2, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Protoss_Nexus() throws Exception {
+    private static void initializeUnitType_Protoss_Nexus() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -13579,9 +13573,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Protoss_Nexus, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Protoss_Nexus, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Protoss_Robotics_Facility() throws Exception {
+    private static void initializeUnitType_Protoss_Robotics_Facility() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -13665,9 +13659,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Protoss_Robotics_Facility, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Protoss_Robotics_Facility, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Protoss_Pylon() throws Exception {
+    private static void initializeUnitType_Protoss_Pylon() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -13751,9 +13745,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Protoss_Pylon, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Protoss_Pylon, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Protoss_Assimilator() throws Exception {
+    private static void initializeUnitType_Protoss_Assimilator() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -13837,9 +13831,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Protoss_Assimilator, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Protoss_Assimilator, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Unused_Protoss1() throws Exception {
+    private static void initializeUnitType_Unused_Protoss1() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -13923,9 +13917,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Unused_Protoss1, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Unused_Protoss1, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Protoss_Observatory() throws Exception {
+    private static void initializeUnitType_Protoss_Observatory() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -14009,9 +14003,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Protoss_Observatory, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Protoss_Observatory, new ArrayList(Arrays.asList(UpgradeType.Sensor_Array, UpgradeType.Gravitic_Boosters)));
     }
-    private void initializeUnitType_Protoss_Gateway() throws Exception {
+    private static void initializeUnitType_Protoss_Gateway() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -14095,9 +14089,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Protoss_Gateway, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Protoss_Gateway, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Unused_Protoss2() throws Exception {
+    private static void initializeUnitType_Unused_Protoss2() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -14181,9 +14175,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Unused_Protoss2, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Unused_Protoss2, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Protoss_Photon_Cannon() throws Exception {
+    private static void initializeUnitType_Protoss_Photon_Cannon() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -14267,9 +14261,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Protoss_Photon_Cannon, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Protoss_Photon_Cannon, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Protoss_Citadel_of_Adun() throws Exception {
+    private static void initializeUnitType_Protoss_Citadel_of_Adun() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -14353,9 +14347,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Protoss_Citadel_of_Adun, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Protoss_Citadel_of_Adun, new ArrayList(Arrays.asList(UpgradeType.Leg_Enhancements)));
     }
-    private void initializeUnitType_Protoss_Cybernetics_Core() throws Exception {
+    private static void initializeUnitType_Protoss_Cybernetics_Core() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -14439,9 +14433,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Protoss_Cybernetics_Core, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Protoss_Cybernetics_Core, new ArrayList(Arrays.asList(UpgradeType.Protoss_Air_Weapons, UpgradeType.Protoss_Air_Armor, UpgradeType.Singularity_Charge)));
     }
-    private void initializeUnitType_Protoss_Templar_Archives() throws Exception {
+    private static void initializeUnitType_Protoss_Templar_Archives() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -14525,9 +14519,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Protoss_Templar_Archives, new ArrayList(Arrays.asList(TechType.Mind_Control, TechType.Psionic_Storm, TechType.Hallucination, TechType.Maelstrom)));
         fields.get("upgradesWhat").set(UnitType.Protoss_Templar_Archives, new ArrayList(Arrays.asList(UpgradeType.Khaydarin_Amulet, UpgradeType.Argus_Talisman)));
     }
-    private void initializeUnitType_Protoss_Forge() throws Exception {
+    private static void initializeUnitType_Protoss_Forge() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -14611,9 +14605,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Protoss_Forge, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Protoss_Forge, new ArrayList(Arrays.asList(UpgradeType.Protoss_Ground_Weapons, UpgradeType.Protoss_Ground_Armor, UpgradeType.Protoss_Plasma_Shields)));
     }
-    private void initializeUnitType_Protoss_Stargate() throws Exception {
+    private static void initializeUnitType_Protoss_Stargate() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -14697,9 +14691,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Protoss_Stargate, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Protoss_Stargate, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Stasis_Cell_Prison() throws Exception {
+    private static void initializeUnitType_Special_Stasis_Cell_Prison() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -14783,9 +14777,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Stasis_Cell_Prison, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Stasis_Cell_Prison, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Protoss_Fleet_Beacon() throws Exception {
+    private static void initializeUnitType_Protoss_Fleet_Beacon() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -14869,9 +14863,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Protoss_Fleet_Beacon, new ArrayList(Arrays.asList(TechType.Disruption_Web)));
         fields.get("upgradesWhat").set(UnitType.Protoss_Fleet_Beacon, new ArrayList(Arrays.asList(UpgradeType.Carrier_Capacity, UpgradeType.Apial_Sensors, UpgradeType.Gravitic_Thrusters, UpgradeType.Argus_Jewel)));
     }
-    private void initializeUnitType_Protoss_Arbiter_Tribunal() throws Exception {
+    private static void initializeUnitType_Protoss_Arbiter_Tribunal() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -14955,9 +14949,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Protoss_Arbiter_Tribunal, new ArrayList(Arrays.asList(TechType.Stasis_Field, TechType.Recall)));
         fields.get("upgradesWhat").set(UnitType.Protoss_Arbiter_Tribunal, new ArrayList(Arrays.asList(UpgradeType.Khaydarin_Core)));
     }
-    private void initializeUnitType_Protoss_Robotics_Support_Bay() throws Exception {
+    private static void initializeUnitType_Protoss_Robotics_Support_Bay() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -15041,9 +15035,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Protoss_Robotics_Support_Bay, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Protoss_Robotics_Support_Bay, new ArrayList(Arrays.asList(UpgradeType.Scarab_Damage, UpgradeType.Reaver_Capacity, UpgradeType.Gravitic_Drive)));
     }
-    private void initializeUnitType_Protoss_Shield_Battery() throws Exception {
+    private static void initializeUnitType_Protoss_Shield_Battery() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -15127,9 +15121,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Protoss_Shield_Battery, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Protoss_Shield_Battery, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Khaydarin_Crystal_Form() throws Exception {
+    private static void initializeUnitType_Special_Khaydarin_Crystal_Form() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -15213,9 +15207,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Khaydarin_Crystal_Form, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Khaydarin_Crystal_Form, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Protoss_Temple() throws Exception {
+    private static void initializeUnitType_Special_Protoss_Temple() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -15299,9 +15293,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Protoss_Temple, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Protoss_Temple, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_XelNaga_Temple() throws Exception {
+    private static void initializeUnitType_Special_XelNaga_Temple() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -15385,9 +15379,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_XelNaga_Temple, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_XelNaga_Temple, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Resource_Mineral_Field() throws Exception {
+    private static void initializeUnitType_Resource_Mineral_Field() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -15471,9 +15465,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Resource_Mineral_Field, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Resource_Mineral_Field, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Resource_Mineral_Field_Type_2() throws Exception {
+    private static void initializeUnitType_Resource_Mineral_Field_Type_2() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -15557,9 +15551,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Resource_Mineral_Field_Type_2, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Resource_Mineral_Field_Type_2, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Resource_Mineral_Field_Type_3() throws Exception {
+    private static void initializeUnitType_Resource_Mineral_Field_Type_3() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -15643,9 +15637,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Resource_Mineral_Field_Type_3, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Resource_Mineral_Field_Type_3, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Unused_Cave() throws Exception {
+    private static void initializeUnitType_Unused_Cave() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -15729,9 +15723,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Unused_Cave, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Unused_Cave, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Unused_Cave_In() throws Exception {
+    private static void initializeUnitType_Unused_Cave_In() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -15815,9 +15809,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Unused_Cave_In, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Unused_Cave_In, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Unused_Cantina() throws Exception {
+    private static void initializeUnitType_Unused_Cantina() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -15901,9 +15895,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Unused_Cantina, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Unused_Cantina, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Unused_Mining_Platform() throws Exception {
+    private static void initializeUnitType_Unused_Mining_Platform() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -15987,9 +15981,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Unused_Mining_Platform, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Unused_Mining_Platform, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Unused_Independant_Command_Center() throws Exception {
+    private static void initializeUnitType_Unused_Independant_Command_Center() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -16073,9 +16067,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Unused_Independant_Command_Center, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Unused_Independant_Command_Center, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Independant_Starport() throws Exception {
+    private static void initializeUnitType_Special_Independant_Starport() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -16159,9 +16153,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Independant_Starport, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Independant_Starport, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Unused_Independant_Jump_Gate() throws Exception {
+    private static void initializeUnitType_Unused_Independant_Jump_Gate() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -16245,9 +16239,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Unused_Independant_Jump_Gate, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Unused_Independant_Jump_Gate, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Unused_Ruins() throws Exception {
+    private static void initializeUnitType_Unused_Ruins() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -16331,9 +16325,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Unused_Ruins, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Unused_Ruins, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Unused_Khaydarin_Crystal_Formation() throws Exception {
+    private static void initializeUnitType_Unused_Khaydarin_Crystal_Formation() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -16417,9 +16411,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Unused_Khaydarin_Crystal_Formation, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Unused_Khaydarin_Crystal_Formation, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Resource_Vespene_Geyser() throws Exception {
+    private static void initializeUnitType_Resource_Vespene_Geyser() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -16503,9 +16497,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Resource_Vespene_Geyser, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Resource_Vespene_Geyser, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Warp_Gate() throws Exception {
+    private static void initializeUnitType_Special_Warp_Gate() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -16589,9 +16583,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Warp_Gate, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Warp_Gate, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Psi_Disrupter() throws Exception {
+    private static void initializeUnitType_Special_Psi_Disrupter() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -16675,9 +16669,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Psi_Disrupter, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Psi_Disrupter, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Unused_Zerg_Marker() throws Exception {
+    private static void initializeUnitType_Unused_Zerg_Marker() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -16761,9 +16755,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Unused_Zerg_Marker, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Unused_Zerg_Marker, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Unused_Terran_Marker() throws Exception {
+    private static void initializeUnitType_Unused_Terran_Marker() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -16847,9 +16841,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Unused_Terran_Marker, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Unused_Terran_Marker, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Unused_Protoss_Marker() throws Exception {
+    private static void initializeUnitType_Unused_Protoss_Marker() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -16933,9 +16927,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Unused_Protoss_Marker, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Unused_Protoss_Marker, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Zerg_Beacon() throws Exception {
+    private static void initializeUnitType_Special_Zerg_Beacon() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -17019,9 +17013,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Zerg_Beacon, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Zerg_Beacon, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Terran_Beacon() throws Exception {
+    private static void initializeUnitType_Special_Terran_Beacon() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -17105,9 +17099,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Terran_Beacon, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Terran_Beacon, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Protoss_Beacon() throws Exception {
+    private static void initializeUnitType_Special_Protoss_Beacon() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -17191,9 +17185,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Protoss_Beacon, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Protoss_Beacon, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Zerg_Flag_Beacon() throws Exception {
+    private static void initializeUnitType_Special_Zerg_Flag_Beacon() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -17277,9 +17271,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Zerg_Flag_Beacon, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Zerg_Flag_Beacon, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Terran_Flag_Beacon() throws Exception {
+    private static void initializeUnitType_Special_Terran_Flag_Beacon() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -17363,9 +17357,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Terran_Flag_Beacon, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Terran_Flag_Beacon, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Protoss_Flag_Beacon() throws Exception {
+    private static void initializeUnitType_Special_Protoss_Flag_Beacon() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -17449,9 +17443,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Protoss_Flag_Beacon, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Protoss_Flag_Beacon, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Power_Generator() throws Exception {
+    private static void initializeUnitType_Special_Power_Generator() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -17535,9 +17529,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Power_Generator, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Power_Generator, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Overmind_Cocoon() throws Exception {
+    private static void initializeUnitType_Special_Overmind_Cocoon() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -17621,9 +17615,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Overmind_Cocoon, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Overmind_Cocoon, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Spell_Dark_Swarm() throws Exception {
+    private static void initializeUnitType_Spell_Dark_Swarm() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -17707,9 +17701,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Spell_Dark_Swarm, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Spell_Dark_Swarm, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Floor_Missile_Trap() throws Exception {
+    private static void initializeUnitType_Special_Floor_Missile_Trap() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -17793,9 +17787,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Floor_Missile_Trap, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Floor_Missile_Trap, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Floor_Hatch() throws Exception {
+    private static void initializeUnitType_Special_Floor_Hatch() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -17879,9 +17873,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Floor_Hatch, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Floor_Hatch, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Upper_Level_Door() throws Exception {
+    private static void initializeUnitType_Special_Upper_Level_Door() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -17965,9 +17959,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Upper_Level_Door, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Upper_Level_Door, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Right_Upper_Level_Door() throws Exception {
+    private static void initializeUnitType_Special_Right_Upper_Level_Door() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -18051,9 +18045,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Right_Upper_Level_Door, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Right_Upper_Level_Door, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Pit_Door() throws Exception {
+    private static void initializeUnitType_Special_Pit_Door() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -18137,9 +18131,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Pit_Door, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Pit_Door, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Right_Pit_Door() throws Exception {
+    private static void initializeUnitType_Special_Right_Pit_Door() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -18223,9 +18217,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Right_Pit_Door, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Right_Pit_Door, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Floor_Gun_Trap() throws Exception {
+    private static void initializeUnitType_Special_Floor_Gun_Trap() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -18309,9 +18303,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Floor_Gun_Trap, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Floor_Gun_Trap, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Wall_Missile_Trap() throws Exception {
+    private static void initializeUnitType_Special_Wall_Missile_Trap() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -18395,9 +18389,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Wall_Missile_Trap, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Wall_Missile_Trap, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Wall_Flame_Trap() throws Exception {
+    private static void initializeUnitType_Special_Wall_Flame_Trap() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -18481,9 +18475,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Wall_Flame_Trap, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Wall_Flame_Trap, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Right_Wall_Missile_Trap() throws Exception {
+    private static void initializeUnitType_Special_Right_Wall_Missile_Trap() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -18567,9 +18561,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Right_Wall_Missile_Trap, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Right_Wall_Missile_Trap, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Right_Wall_Flame_Trap() throws Exception {
+    private static void initializeUnitType_Special_Right_Wall_Flame_Trap() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -18653,9 +18647,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Right_Wall_Flame_Trap, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Right_Wall_Flame_Trap, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Special_Start_Location() throws Exception {
+    private static void initializeUnitType_Special_Start_Location() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -18739,9 +18733,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Special_Start_Location, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Special_Start_Location, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Powerup_Flag() throws Exception {
+    private static void initializeUnitType_Powerup_Flag() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -18825,9 +18819,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Powerup_Flag, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Powerup_Flag, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Powerup_Young_Chrysalis() throws Exception {
+    private static void initializeUnitType_Powerup_Young_Chrysalis() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -18911,9 +18905,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Powerup_Young_Chrysalis, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Powerup_Young_Chrysalis, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Powerup_Psi_Emitter() throws Exception {
+    private static void initializeUnitType_Powerup_Psi_Emitter() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -18997,9 +18991,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Powerup_Psi_Emitter, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Powerup_Psi_Emitter, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Powerup_Data_Disk() throws Exception {
+    private static void initializeUnitType_Powerup_Data_Disk() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -19083,9 +19077,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Powerup_Data_Disk, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Powerup_Data_Disk, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Powerup_Khaydarin_Crystal() throws Exception {
+    private static void initializeUnitType_Powerup_Khaydarin_Crystal() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -19169,9 +19163,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Powerup_Khaydarin_Crystal, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Powerup_Khaydarin_Crystal, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Powerup_Mineral_Cluster_Type_1() throws Exception {
+    private static void initializeUnitType_Powerup_Mineral_Cluster_Type_1() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -19255,9 +19249,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Powerup_Mineral_Cluster_Type_1, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Powerup_Mineral_Cluster_Type_1, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Powerup_Mineral_Cluster_Type_2() throws Exception {
+    private static void initializeUnitType_Powerup_Mineral_Cluster_Type_2() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -19341,9 +19335,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Powerup_Mineral_Cluster_Type_2, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Powerup_Mineral_Cluster_Type_2, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Powerup_Protoss_Gas_Orb_Type_1() throws Exception {
+    private static void initializeUnitType_Powerup_Protoss_Gas_Orb_Type_1() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -19427,9 +19421,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Powerup_Protoss_Gas_Orb_Type_1, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Powerup_Protoss_Gas_Orb_Type_1, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Powerup_Protoss_Gas_Orb_Type_2() throws Exception {
+    private static void initializeUnitType_Powerup_Protoss_Gas_Orb_Type_2() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -19513,9 +19507,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Powerup_Protoss_Gas_Orb_Type_2, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Powerup_Protoss_Gas_Orb_Type_2, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Powerup_Zerg_Gas_Sac_Type_1() throws Exception {
+    private static void initializeUnitType_Powerup_Zerg_Gas_Sac_Type_1() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -19599,9 +19593,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Powerup_Zerg_Gas_Sac_Type_1, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Powerup_Zerg_Gas_Sac_Type_1, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Powerup_Zerg_Gas_Sac_Type_2() throws Exception {
+    private static void initializeUnitType_Powerup_Zerg_Gas_Sac_Type_2() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -19685,9 +19679,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Powerup_Zerg_Gas_Sac_Type_2, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Powerup_Zerg_Gas_Sac_Type_2, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Powerup_Terran_Gas_Tank_Type_1() throws Exception {
+    private static void initializeUnitType_Powerup_Terran_Gas_Tank_Type_1() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -19771,9 +19765,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Powerup_Terran_Gas_Tank_Type_1, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Powerup_Terran_Gas_Tank_Type_1, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Powerup_Terran_Gas_Tank_Type_2() throws Exception {
+    private static void initializeUnitType_Powerup_Terran_Gas_Tank_Type_2() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -19857,9 +19851,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Powerup_Terran_Gas_Tank_Type_2, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Powerup_Terran_Gas_Tank_Type_2, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_None() throws Exception {
+    private static void initializeUnitType_None() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -19943,9 +19937,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.None, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.None, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_AllUnits() throws Exception {
+    private static void initializeUnitType_AllUnits() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -20029,9 +20023,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.AllUnits, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.AllUnits, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Men() throws Exception {
+    private static void initializeUnitType_Men() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -20115,9 +20109,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Men, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Men, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Buildings() throws Exception {
+    private static void initializeUnitType_Buildings() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -20201,9 +20195,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Buildings, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Buildings, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Factories() throws Exception {
+    private static void initializeUnitType_Factories() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -20287,9 +20281,9 @@ public class KickStart {
         fields.get("researchesWhat").set(UnitType.Factories, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Factories, new ArrayList(Arrays.asList()));
     }
-    private void initializeUnitType_Unknown() throws Exception {
+    private static void initializeUnitType_Unknown() throws Exception {
         Class<?> c = UnitType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
+        Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
             f.setAccessible(true);
             return f;
         })); 
@@ -20372,5037 +20366,5 @@ public class KickStart {
         fields.get("canBuildAddon").set(UnitType.Unknown, false);
         fields.get("researchesWhat").set(UnitType.Unknown, new ArrayList(Arrays.asList()));
         fields.get("upgradesWhat").set(UnitType.Unknown, new ArrayList(Arrays.asList()));
-    }
-    private void initializeWeaponType() throws Exception {
-        initializeWeaponType_Gauss_Rifle();
-        initializeWeaponType_Gauss_Rifle_Jim_Raynor();
-        initializeWeaponType_C_10_Canister_Rifle();
-        initializeWeaponType_C_10_Canister_Rifle_Sarah_Kerrigan();
-        initializeWeaponType_Fragmentation_Grenade();
-        initializeWeaponType_Fragmentation_Grenade_Jim_Raynor();
-        initializeWeaponType_Spider_Mines();
-        initializeWeaponType_Twin_Autocannons();
-        initializeWeaponType_Hellfire_Missile_Pack();
-        initializeWeaponType_Twin_Autocannons_Alan_Schezar();
-        initializeWeaponType_Hellfire_Missile_Pack_Alan_Schezar();
-        initializeWeaponType_Arclite_Cannon();
-        initializeWeaponType_Arclite_Cannon_Edmund_Duke();
-        initializeWeaponType_Fusion_Cutter();
-        initializeWeaponType_Gemini_Missiles();
-        initializeWeaponType_Burst_Lasers();
-        initializeWeaponType_Gemini_Missiles_Tom_Kazansky();
-        initializeWeaponType_Burst_Lasers_Tom_Kazansky();
-        initializeWeaponType_ATS_Laser_Battery();
-        initializeWeaponType_ATA_Laser_Battery();
-        initializeWeaponType_ATS_Laser_Battery_Hero();
-        initializeWeaponType_ATA_Laser_Battery_Hero();
-        initializeWeaponType_ATS_Laser_Battery_Hyperion();
-        initializeWeaponType_ATA_Laser_Battery_Hyperion();
-        initializeWeaponType_Flame_Thrower();
-        initializeWeaponType_Flame_Thrower_Gui_Montag();
-        initializeWeaponType_Arclite_Shock_Cannon();
-        initializeWeaponType_Arclite_Shock_Cannon_Edmund_Duke();
-        initializeWeaponType_Longbolt_Missile();
-        initializeWeaponType_Yamato_Gun();
-        initializeWeaponType_Nuclear_Strike();
-        initializeWeaponType_Lockdown();
-        initializeWeaponType_EMP_Shockwave();
-        initializeWeaponType_Irradiate();
-        initializeWeaponType_Claws();
-        initializeWeaponType_Claws_Devouring_One();
-        initializeWeaponType_Claws_Infested_Kerrigan();
-        initializeWeaponType_Needle_Spines();
-        initializeWeaponType_Needle_Spines_Hunter_Killer();
-        initializeWeaponType_Kaiser_Blades();
-        initializeWeaponType_Kaiser_Blades_Torrasque();
-        initializeWeaponType_Toxic_Spores();
-        initializeWeaponType_Spines();
-        initializeWeaponType_Acid_Spore();
-        initializeWeaponType_Acid_Spore_Kukulza();
-        initializeWeaponType_Glave_Wurm();
-        initializeWeaponType_Glave_Wurm_Kukulza();
-        initializeWeaponType_Seeker_Spores();
-        initializeWeaponType_Subterranean_Tentacle();
-        initializeWeaponType_Suicide_Infested_Terran();
-        initializeWeaponType_Suicide_Scourge();
-        initializeWeaponType_Parasite();
-        initializeWeaponType_Spawn_Broodlings();
-        initializeWeaponType_Ensnare();
-        initializeWeaponType_Dark_Swarm();
-        initializeWeaponType_Plague();
-        initializeWeaponType_Consume();
-        initializeWeaponType_Particle_Beam();
-        initializeWeaponType_Psi_Blades();
-        initializeWeaponType_Psi_Blades_Fenix();
-        initializeWeaponType_Phase_Disruptor();
-        initializeWeaponType_Phase_Disruptor_Fenix();
-        initializeWeaponType_Psi_Assault();
-        initializeWeaponType_Psionic_Shockwave();
-        initializeWeaponType_Psionic_Shockwave_TZ_Archon();
-        initializeWeaponType_Dual_Photon_Blasters();
-        initializeWeaponType_Anti_Matter_Missiles();
-        initializeWeaponType_Dual_Photon_Blasters_Mojo();
-        initializeWeaponType_Anti_Matter_Missiles_Mojo();
-        initializeWeaponType_Phase_Disruptor_Cannon();
-        initializeWeaponType_Phase_Disruptor_Cannon_Danimoth();
-        initializeWeaponType_Pulse_Cannon();
-        initializeWeaponType_STS_Photon_Cannon();
-        initializeWeaponType_STA_Photon_Cannon();
-        initializeWeaponType_Scarab();
-        initializeWeaponType_Stasis_Field();
-        initializeWeaponType_Psionic_Storm();
-        initializeWeaponType_Warp_Blades_Zeratul();
-        initializeWeaponType_Warp_Blades_Hero();
-        initializeWeaponType_Platform_Laser_Battery();
-        initializeWeaponType_Independant_Laser_Battery();
-        initializeWeaponType_Twin_Autocannons_Floor_Trap();
-        initializeWeaponType_Hellfire_Missile_Pack_Wall_Trap();
-        initializeWeaponType_Flame_Thrower_Wall_Trap();
-        initializeWeaponType_Hellfire_Missile_Pack_Floor_Trap();
-        initializeWeaponType_Neutron_Flare();
-        initializeWeaponType_Disruption_Web();
-        initializeWeaponType_Restoration();
-        initializeWeaponType_Halo_Rockets();
-        initializeWeaponType_Corrosive_Acid();
-        initializeWeaponType_Mind_Control();
-        initializeWeaponType_Feedback();
-        initializeWeaponType_Optical_Flare();
-        initializeWeaponType_Maelstrom();
-        initializeWeaponType_Subterranean_Spines();
-        initializeWeaponType_Warp_Blades();
-        initializeWeaponType_C_10_Canister_Rifle_Samir_Duran();
-        initializeWeaponType_C_10_Canister_Rifle_Infested_Duran();
-        initializeWeaponType_Dual_Photon_Blasters_Artanis();
-        initializeWeaponType_Anti_Matter_Missiles_Artanis();
-        initializeWeaponType_C_10_Canister_Rifle_Alexei_Stukov();
-        initializeWeaponType_None();
-        initializeWeaponType_Unknown();
-    }
-
-    private void initializeWeaponType_Gauss_Rifle() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Gauss_Rifle, 0);
-        fields.get("tech").set(WeaponType.Gauss_Rifle, TechType.None);
-        fields.get("whatUses").set(WeaponType.Gauss_Rifle, UnitType.Terran_Marine);
-        fields.get("damageAmount").set(WeaponType.Gauss_Rifle, 6);
-        fields.get("damageBonus").set(WeaponType.Gauss_Rifle, 1);
-        fields.get("damageCooldown").set(WeaponType.Gauss_Rifle, 15);
-        fields.get("damageFactor").set(WeaponType.Gauss_Rifle, 1);
-        fields.get("upgradeType").set(WeaponType.Gauss_Rifle, UpgradeType.Terran_Infantry_Weapons);
-        fields.get("damageType").set(WeaponType.Gauss_Rifle, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Gauss_Rifle, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Gauss_Rifle, 0);
-        fields.get("maxRange").set(WeaponType.Gauss_Rifle, 128);
-        fields.get("innerSplashRadius").set(WeaponType.Gauss_Rifle, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Gauss_Rifle, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Gauss_Rifle, 0);
-        fields.get("targetsAir").set(WeaponType.Gauss_Rifle, true);
-        fields.get("targetsGround").set(WeaponType.Gauss_Rifle, true);
-        fields.get("targetsMechanical").set(WeaponType.Gauss_Rifle, false);
-        fields.get("targetsOrganic").set(WeaponType.Gauss_Rifle, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Gauss_Rifle, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Gauss_Rifle, false);
-        fields.get("targetsTerrain").set(WeaponType.Gauss_Rifle, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Gauss_Rifle, false);
-        fields.get("targetsOwn").set(WeaponType.Gauss_Rifle, false);
-    }
-    private void initializeWeaponType_Gauss_Rifle_Jim_Raynor() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Gauss_Rifle_Jim_Raynor, 1);
-        fields.get("tech").set(WeaponType.Gauss_Rifle_Jim_Raynor, TechType.None);
-        fields.get("whatUses").set(WeaponType.Gauss_Rifle_Jim_Raynor, UnitType.Hero_Jim_Raynor_Marine);
-        fields.get("damageAmount").set(WeaponType.Gauss_Rifle_Jim_Raynor, 18);
-        fields.get("damageBonus").set(WeaponType.Gauss_Rifle_Jim_Raynor, 1);
-        fields.get("damageCooldown").set(WeaponType.Gauss_Rifle_Jim_Raynor, 15);
-        fields.get("damageFactor").set(WeaponType.Gauss_Rifle_Jim_Raynor, 1);
-        fields.get("upgradeType").set(WeaponType.Gauss_Rifle_Jim_Raynor, UpgradeType.Terran_Infantry_Weapons);
-        fields.get("damageType").set(WeaponType.Gauss_Rifle_Jim_Raynor, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Gauss_Rifle_Jim_Raynor, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Gauss_Rifle_Jim_Raynor, 0);
-        fields.get("maxRange").set(WeaponType.Gauss_Rifle_Jim_Raynor, 160);
-        fields.get("innerSplashRadius").set(WeaponType.Gauss_Rifle_Jim_Raynor, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Gauss_Rifle_Jim_Raynor, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Gauss_Rifle_Jim_Raynor, 0);
-        fields.get("targetsAir").set(WeaponType.Gauss_Rifle_Jim_Raynor, true);
-        fields.get("targetsGround").set(WeaponType.Gauss_Rifle_Jim_Raynor, true);
-        fields.get("targetsMechanical").set(WeaponType.Gauss_Rifle_Jim_Raynor, false);
-        fields.get("targetsOrganic").set(WeaponType.Gauss_Rifle_Jim_Raynor, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Gauss_Rifle_Jim_Raynor, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Gauss_Rifle_Jim_Raynor, false);
-        fields.get("targetsTerrain").set(WeaponType.Gauss_Rifle_Jim_Raynor, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Gauss_Rifle_Jim_Raynor, false);
-        fields.get("targetsOwn").set(WeaponType.Gauss_Rifle_Jim_Raynor, false);
-    }
-    private void initializeWeaponType_C_10_Canister_Rifle() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.C_10_Canister_Rifle, 2);
-        fields.get("tech").set(WeaponType.C_10_Canister_Rifle, TechType.None);
-        fields.get("whatUses").set(WeaponType.C_10_Canister_Rifle, UnitType.Terran_Ghost);
-        fields.get("damageAmount").set(WeaponType.C_10_Canister_Rifle, 10);
-        fields.get("damageBonus").set(WeaponType.C_10_Canister_Rifle, 1);
-        fields.get("damageCooldown").set(WeaponType.C_10_Canister_Rifle, 22);
-        fields.get("damageFactor").set(WeaponType.C_10_Canister_Rifle, 1);
-        fields.get("upgradeType").set(WeaponType.C_10_Canister_Rifle, UpgradeType.Terran_Infantry_Weapons);
-        fields.get("damageType").set(WeaponType.C_10_Canister_Rifle, DamageType.Concussive);
-        fields.get("explosionType").set(WeaponType.C_10_Canister_Rifle, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.C_10_Canister_Rifle, 0);
-        fields.get("maxRange").set(WeaponType.C_10_Canister_Rifle, 224);
-        fields.get("innerSplashRadius").set(WeaponType.C_10_Canister_Rifle, 0);
-        fields.get("medianSplashRadius").set(WeaponType.C_10_Canister_Rifle, 0);
-        fields.get("outerSplashRadius").set(WeaponType.C_10_Canister_Rifle, 0);
-        fields.get("targetsAir").set(WeaponType.C_10_Canister_Rifle, true);
-        fields.get("targetsGround").set(WeaponType.C_10_Canister_Rifle, true);
-        fields.get("targetsMechanical").set(WeaponType.C_10_Canister_Rifle, false);
-        fields.get("targetsOrganic").set(WeaponType.C_10_Canister_Rifle, false);
-        fields.get("targetsNonBuilding").set(WeaponType.C_10_Canister_Rifle, false);
-        fields.get("targetsNonRobotic").set(WeaponType.C_10_Canister_Rifle, false);
-        fields.get("targetsTerrain").set(WeaponType.C_10_Canister_Rifle, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.C_10_Canister_Rifle, false);
-        fields.get("targetsOwn").set(WeaponType.C_10_Canister_Rifle, false);
-    }
-    private void initializeWeaponType_C_10_Canister_Rifle_Sarah_Kerrigan() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, 3);
-        fields.get("tech").set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, TechType.None);
-        fields.get("whatUses").set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, UnitType.Hero_Sarah_Kerrigan);
-        fields.get("damageAmount").set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, 30);
-        fields.get("damageBonus").set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, 1);
-        fields.get("damageCooldown").set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, 22);
-        fields.get("damageFactor").set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, 1);
-        fields.get("upgradeType").set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, UpgradeType.Terran_Infantry_Weapons);
-        fields.get("damageType").set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, DamageType.Concussive);
-        fields.get("explosionType").set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, 0);
-        fields.get("maxRange").set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, 192);
-        fields.get("innerSplashRadius").set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, 0);
-        fields.get("medianSplashRadius").set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, 0);
-        fields.get("outerSplashRadius").set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, 0);
-        fields.get("targetsAir").set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, true);
-        fields.get("targetsGround").set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, true);
-        fields.get("targetsMechanical").set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, false);
-        fields.get("targetsOrganic").set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, false);
-        fields.get("targetsNonBuilding").set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, false);
-        fields.get("targetsNonRobotic").set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, false);
-        fields.get("targetsTerrain").set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, false);
-        fields.get("targetsOwn").set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, false);
-    }
-    private void initializeWeaponType_Fragmentation_Grenade() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Fragmentation_Grenade, 4);
-        fields.get("tech").set(WeaponType.Fragmentation_Grenade, TechType.None);
-        fields.get("whatUses").set(WeaponType.Fragmentation_Grenade, UnitType.Terran_Vulture);
-        fields.get("damageAmount").set(WeaponType.Fragmentation_Grenade, 20);
-        fields.get("damageBonus").set(WeaponType.Fragmentation_Grenade, 2);
-        fields.get("damageCooldown").set(WeaponType.Fragmentation_Grenade, 30);
-        fields.get("damageFactor").set(WeaponType.Fragmentation_Grenade, 1);
-        fields.get("upgradeType").set(WeaponType.Fragmentation_Grenade, UpgradeType.Terran_Vehicle_Weapons);
-        fields.get("damageType").set(WeaponType.Fragmentation_Grenade, DamageType.Concussive);
-        fields.get("explosionType").set(WeaponType.Fragmentation_Grenade, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Fragmentation_Grenade, 0);
-        fields.get("maxRange").set(WeaponType.Fragmentation_Grenade, 160);
-        fields.get("innerSplashRadius").set(WeaponType.Fragmentation_Grenade, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Fragmentation_Grenade, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Fragmentation_Grenade, 0);
-        fields.get("targetsAir").set(WeaponType.Fragmentation_Grenade, false);
-        fields.get("targetsGround").set(WeaponType.Fragmentation_Grenade, true);
-        fields.get("targetsMechanical").set(WeaponType.Fragmentation_Grenade, false);
-        fields.get("targetsOrganic").set(WeaponType.Fragmentation_Grenade, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Fragmentation_Grenade, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Fragmentation_Grenade, false);
-        fields.get("targetsTerrain").set(WeaponType.Fragmentation_Grenade, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Fragmentation_Grenade, false);
-        fields.get("targetsOwn").set(WeaponType.Fragmentation_Grenade, false);
-    }
-    private void initializeWeaponType_Fragmentation_Grenade_Jim_Raynor() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Fragmentation_Grenade_Jim_Raynor, 5);
-        fields.get("tech").set(WeaponType.Fragmentation_Grenade_Jim_Raynor, TechType.None);
-        fields.get("whatUses").set(WeaponType.Fragmentation_Grenade_Jim_Raynor, UnitType.Hero_Jim_Raynor_Vulture);
-        fields.get("damageAmount").set(WeaponType.Fragmentation_Grenade_Jim_Raynor, 30);
-        fields.get("damageBonus").set(WeaponType.Fragmentation_Grenade_Jim_Raynor, 2);
-        fields.get("damageCooldown").set(WeaponType.Fragmentation_Grenade_Jim_Raynor, 22);
-        fields.get("damageFactor").set(WeaponType.Fragmentation_Grenade_Jim_Raynor, 1);
-        fields.get("upgradeType").set(WeaponType.Fragmentation_Grenade_Jim_Raynor, UpgradeType.Terran_Vehicle_Weapons);
-        fields.get("damageType").set(WeaponType.Fragmentation_Grenade_Jim_Raynor, DamageType.Concussive);
-        fields.get("explosionType").set(WeaponType.Fragmentation_Grenade_Jim_Raynor, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Fragmentation_Grenade_Jim_Raynor, 0);
-        fields.get("maxRange").set(WeaponType.Fragmentation_Grenade_Jim_Raynor, 160);
-        fields.get("innerSplashRadius").set(WeaponType.Fragmentation_Grenade_Jim_Raynor, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Fragmentation_Grenade_Jim_Raynor, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Fragmentation_Grenade_Jim_Raynor, 0);
-        fields.get("targetsAir").set(WeaponType.Fragmentation_Grenade_Jim_Raynor, false);
-        fields.get("targetsGround").set(WeaponType.Fragmentation_Grenade_Jim_Raynor, true);
-        fields.get("targetsMechanical").set(WeaponType.Fragmentation_Grenade_Jim_Raynor, false);
-        fields.get("targetsOrganic").set(WeaponType.Fragmentation_Grenade_Jim_Raynor, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Fragmentation_Grenade_Jim_Raynor, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Fragmentation_Grenade_Jim_Raynor, false);
-        fields.get("targetsTerrain").set(WeaponType.Fragmentation_Grenade_Jim_Raynor, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Fragmentation_Grenade_Jim_Raynor, false);
-        fields.get("targetsOwn").set(WeaponType.Fragmentation_Grenade_Jim_Raynor, false);
-    }
-    private void initializeWeaponType_Spider_Mines() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Spider_Mines, 6);
-        fields.get("tech").set(WeaponType.Spider_Mines, TechType.Spider_Mines);
-        fields.get("whatUses").set(WeaponType.Spider_Mines, UnitType.Terran_Vulture_Spider_Mine);
-        fields.get("damageAmount").set(WeaponType.Spider_Mines, 125);
-        fields.get("damageBonus").set(WeaponType.Spider_Mines, 0);
-        fields.get("damageCooldown").set(WeaponType.Spider_Mines, 22);
-        fields.get("damageFactor").set(WeaponType.Spider_Mines, 1);
-        fields.get("upgradeType").set(WeaponType.Spider_Mines, UpgradeType.Upgrade_60);
-        fields.get("damageType").set(WeaponType.Spider_Mines, DamageType.Explosive);
-        fields.get("explosionType").set(WeaponType.Spider_Mines, ExplosionType.Radial_Splash);
-        fields.get("minRange").set(WeaponType.Spider_Mines, 0);
-        fields.get("maxRange").set(WeaponType.Spider_Mines, 10);
-        fields.get("innerSplashRadius").set(WeaponType.Spider_Mines, 50);
-        fields.get("medianSplashRadius").set(WeaponType.Spider_Mines, 75);
-        fields.get("outerSplashRadius").set(WeaponType.Spider_Mines, 100);
-        fields.get("targetsAir").set(WeaponType.Spider_Mines, false);
-        fields.get("targetsGround").set(WeaponType.Spider_Mines, true);
-        fields.get("targetsMechanical").set(WeaponType.Spider_Mines, false);
-        fields.get("targetsOrganic").set(WeaponType.Spider_Mines, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Spider_Mines, true);
-        fields.get("targetsNonRobotic").set(WeaponType.Spider_Mines, false);
-        fields.get("targetsTerrain").set(WeaponType.Spider_Mines, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Spider_Mines, false);
-        fields.get("targetsOwn").set(WeaponType.Spider_Mines, false);
-    }
-    private void initializeWeaponType_Twin_Autocannons() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Twin_Autocannons, 7);
-        fields.get("tech").set(WeaponType.Twin_Autocannons, TechType.None);
-        fields.get("whatUses").set(WeaponType.Twin_Autocannons, UnitType.Terran_Goliath);
-        fields.get("damageAmount").set(WeaponType.Twin_Autocannons, 12);
-        fields.get("damageBonus").set(WeaponType.Twin_Autocannons, 1);
-        fields.get("damageCooldown").set(WeaponType.Twin_Autocannons, 22);
-        fields.get("damageFactor").set(WeaponType.Twin_Autocannons, 1);
-        fields.get("upgradeType").set(WeaponType.Twin_Autocannons, UpgradeType.Terran_Vehicle_Weapons);
-        fields.get("damageType").set(WeaponType.Twin_Autocannons, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Twin_Autocannons, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Twin_Autocannons, 0);
-        fields.get("maxRange").set(WeaponType.Twin_Autocannons, 192);
-        fields.get("innerSplashRadius").set(WeaponType.Twin_Autocannons, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Twin_Autocannons, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Twin_Autocannons, 0);
-        fields.get("targetsAir").set(WeaponType.Twin_Autocannons, false);
-        fields.get("targetsGround").set(WeaponType.Twin_Autocannons, true);
-        fields.get("targetsMechanical").set(WeaponType.Twin_Autocannons, false);
-        fields.get("targetsOrganic").set(WeaponType.Twin_Autocannons, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Twin_Autocannons, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Twin_Autocannons, false);
-        fields.get("targetsTerrain").set(WeaponType.Twin_Autocannons, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Twin_Autocannons, false);
-        fields.get("targetsOwn").set(WeaponType.Twin_Autocannons, false);
-    }
-    private void initializeWeaponType_Hellfire_Missile_Pack() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Hellfire_Missile_Pack, 8);
-        fields.get("tech").set(WeaponType.Hellfire_Missile_Pack, TechType.None);
-        fields.get("whatUses").set(WeaponType.Hellfire_Missile_Pack, UnitType.Terran_Goliath);
-        fields.get("damageAmount").set(WeaponType.Hellfire_Missile_Pack, 10);
-        fields.get("damageBonus").set(WeaponType.Hellfire_Missile_Pack, 2);
-        fields.get("damageCooldown").set(WeaponType.Hellfire_Missile_Pack, 22);
-        fields.get("damageFactor").set(WeaponType.Hellfire_Missile_Pack, 2);
-        fields.get("upgradeType").set(WeaponType.Hellfire_Missile_Pack, UpgradeType.Terran_Vehicle_Weapons);
-        fields.get("damageType").set(WeaponType.Hellfire_Missile_Pack, DamageType.Explosive);
-        fields.get("explosionType").set(WeaponType.Hellfire_Missile_Pack, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Hellfire_Missile_Pack, 0);
-        fields.get("maxRange").set(WeaponType.Hellfire_Missile_Pack, 160);
-        fields.get("innerSplashRadius").set(WeaponType.Hellfire_Missile_Pack, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Hellfire_Missile_Pack, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Hellfire_Missile_Pack, 0);
-        fields.get("targetsAir").set(WeaponType.Hellfire_Missile_Pack, true);
-        fields.get("targetsGround").set(WeaponType.Hellfire_Missile_Pack, false);
-        fields.get("targetsMechanical").set(WeaponType.Hellfire_Missile_Pack, false);
-        fields.get("targetsOrganic").set(WeaponType.Hellfire_Missile_Pack, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Hellfire_Missile_Pack, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Hellfire_Missile_Pack, false);
-        fields.get("targetsTerrain").set(WeaponType.Hellfire_Missile_Pack, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Hellfire_Missile_Pack, false);
-        fields.get("targetsOwn").set(WeaponType.Hellfire_Missile_Pack, false);
-    }
-    private void initializeWeaponType_Twin_Autocannons_Alan_Schezar() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Twin_Autocannons_Alan_Schezar, 9);
-        fields.get("tech").set(WeaponType.Twin_Autocannons_Alan_Schezar, TechType.None);
-        fields.get("whatUses").set(WeaponType.Twin_Autocannons_Alan_Schezar, UnitType.Hero_Alan_Schezar);
-        fields.get("damageAmount").set(WeaponType.Twin_Autocannons_Alan_Schezar, 24);
-        fields.get("damageBonus").set(WeaponType.Twin_Autocannons_Alan_Schezar, 1);
-        fields.get("damageCooldown").set(WeaponType.Twin_Autocannons_Alan_Schezar, 22);
-        fields.get("damageFactor").set(WeaponType.Twin_Autocannons_Alan_Schezar, 1);
-        fields.get("upgradeType").set(WeaponType.Twin_Autocannons_Alan_Schezar, UpgradeType.Terran_Vehicle_Weapons);
-        fields.get("damageType").set(WeaponType.Twin_Autocannons_Alan_Schezar, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Twin_Autocannons_Alan_Schezar, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Twin_Autocannons_Alan_Schezar, 0);
-        fields.get("maxRange").set(WeaponType.Twin_Autocannons_Alan_Schezar, 160);
-        fields.get("innerSplashRadius").set(WeaponType.Twin_Autocannons_Alan_Schezar, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Twin_Autocannons_Alan_Schezar, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Twin_Autocannons_Alan_Schezar, 0);
-        fields.get("targetsAir").set(WeaponType.Twin_Autocannons_Alan_Schezar, false);
-        fields.get("targetsGround").set(WeaponType.Twin_Autocannons_Alan_Schezar, true);
-        fields.get("targetsMechanical").set(WeaponType.Twin_Autocannons_Alan_Schezar, false);
-        fields.get("targetsOrganic").set(WeaponType.Twin_Autocannons_Alan_Schezar, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Twin_Autocannons_Alan_Schezar, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Twin_Autocannons_Alan_Schezar, false);
-        fields.get("targetsTerrain").set(WeaponType.Twin_Autocannons_Alan_Schezar, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Twin_Autocannons_Alan_Schezar, false);
-        fields.get("targetsOwn").set(WeaponType.Twin_Autocannons_Alan_Schezar, false);
-    }
-    private void initializeWeaponType_Hellfire_Missile_Pack_Alan_Schezar() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, 10);
-        fields.get("tech").set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, TechType.None);
-        fields.get("whatUses").set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, UnitType.Hero_Alan_Schezar);
-        fields.get("damageAmount").set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, 20);
-        fields.get("damageBonus").set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, 1);
-        fields.get("damageCooldown").set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, 22);
-        fields.get("damageFactor").set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, 2);
-        fields.get("upgradeType").set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, UpgradeType.Terran_Vehicle_Weapons);
-        fields.get("damageType").set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, DamageType.Explosive);
-        fields.get("explosionType").set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, 0);
-        fields.get("maxRange").set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, 160);
-        fields.get("innerSplashRadius").set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, 0);
-        fields.get("targetsAir").set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, true);
-        fields.get("targetsGround").set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, false);
-        fields.get("targetsMechanical").set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, false);
-        fields.get("targetsOrganic").set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, false);
-        fields.get("targetsTerrain").set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, false);
-        fields.get("targetsOwn").set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, false);
-    }
-    private void initializeWeaponType_Arclite_Cannon() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Arclite_Cannon, 11);
-        fields.get("tech").set(WeaponType.Arclite_Cannon, TechType.None);
-        fields.get("whatUses").set(WeaponType.Arclite_Cannon, UnitType.Terran_Siege_Tank_Tank_Mode);
-        fields.get("damageAmount").set(WeaponType.Arclite_Cannon, 30);
-        fields.get("damageBonus").set(WeaponType.Arclite_Cannon, 3);
-        fields.get("damageCooldown").set(WeaponType.Arclite_Cannon, 37);
-        fields.get("damageFactor").set(WeaponType.Arclite_Cannon, 1);
-        fields.get("upgradeType").set(WeaponType.Arclite_Cannon, UpgradeType.Terran_Vehicle_Weapons);
-        fields.get("damageType").set(WeaponType.Arclite_Cannon, DamageType.Explosive);
-        fields.get("explosionType").set(WeaponType.Arclite_Cannon, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Arclite_Cannon, 0);
-        fields.get("maxRange").set(WeaponType.Arclite_Cannon, 224);
-        fields.get("innerSplashRadius").set(WeaponType.Arclite_Cannon, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Arclite_Cannon, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Arclite_Cannon, 0);
-        fields.get("targetsAir").set(WeaponType.Arclite_Cannon, false);
-        fields.get("targetsGround").set(WeaponType.Arclite_Cannon, true);
-        fields.get("targetsMechanical").set(WeaponType.Arclite_Cannon, false);
-        fields.get("targetsOrganic").set(WeaponType.Arclite_Cannon, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Arclite_Cannon, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Arclite_Cannon, false);
-        fields.get("targetsTerrain").set(WeaponType.Arclite_Cannon, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Arclite_Cannon, false);
-        fields.get("targetsOwn").set(WeaponType.Arclite_Cannon, false);
-    }
-    private void initializeWeaponType_Arclite_Cannon_Edmund_Duke() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Arclite_Cannon_Edmund_Duke, 12);
-        fields.get("tech").set(WeaponType.Arclite_Cannon_Edmund_Duke, TechType.None);
-        fields.get("whatUses").set(WeaponType.Arclite_Cannon_Edmund_Duke, UnitType.Hero_Edmund_Duke_Tank_Mode);
-        fields.get("damageAmount").set(WeaponType.Arclite_Cannon_Edmund_Duke, 70);
-        fields.get("damageBonus").set(WeaponType.Arclite_Cannon_Edmund_Duke, 3);
-        fields.get("damageCooldown").set(WeaponType.Arclite_Cannon_Edmund_Duke, 37);
-        fields.get("damageFactor").set(WeaponType.Arclite_Cannon_Edmund_Duke, 1);
-        fields.get("upgradeType").set(WeaponType.Arclite_Cannon_Edmund_Duke, UpgradeType.Terran_Vehicle_Weapons);
-        fields.get("damageType").set(WeaponType.Arclite_Cannon_Edmund_Duke, DamageType.Explosive);
-        fields.get("explosionType").set(WeaponType.Arclite_Cannon_Edmund_Duke, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Arclite_Cannon_Edmund_Duke, 0);
-        fields.get("maxRange").set(WeaponType.Arclite_Cannon_Edmund_Duke, 224);
-        fields.get("innerSplashRadius").set(WeaponType.Arclite_Cannon_Edmund_Duke, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Arclite_Cannon_Edmund_Duke, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Arclite_Cannon_Edmund_Duke, 0);
-        fields.get("targetsAir").set(WeaponType.Arclite_Cannon_Edmund_Duke, false);
-        fields.get("targetsGround").set(WeaponType.Arclite_Cannon_Edmund_Duke, true);
-        fields.get("targetsMechanical").set(WeaponType.Arclite_Cannon_Edmund_Duke, false);
-        fields.get("targetsOrganic").set(WeaponType.Arclite_Cannon_Edmund_Duke, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Arclite_Cannon_Edmund_Duke, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Arclite_Cannon_Edmund_Duke, false);
-        fields.get("targetsTerrain").set(WeaponType.Arclite_Cannon_Edmund_Duke, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Arclite_Cannon_Edmund_Duke, false);
-        fields.get("targetsOwn").set(WeaponType.Arclite_Cannon_Edmund_Duke, false);
-    }
-    private void initializeWeaponType_Fusion_Cutter() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Fusion_Cutter, 13);
-        fields.get("tech").set(WeaponType.Fusion_Cutter, TechType.None);
-        fields.get("whatUses").set(WeaponType.Fusion_Cutter, UnitType.Terran_SCV);
-        fields.get("damageAmount").set(WeaponType.Fusion_Cutter, 5);
-        fields.get("damageBonus").set(WeaponType.Fusion_Cutter, 1);
-        fields.get("damageCooldown").set(WeaponType.Fusion_Cutter, 15);
-        fields.get("damageFactor").set(WeaponType.Fusion_Cutter, 1);
-        fields.get("upgradeType").set(WeaponType.Fusion_Cutter, UpgradeType.Upgrade_60);
-        fields.get("damageType").set(WeaponType.Fusion_Cutter, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Fusion_Cutter, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Fusion_Cutter, 0);
-        fields.get("maxRange").set(WeaponType.Fusion_Cutter, 10);
-        fields.get("innerSplashRadius").set(WeaponType.Fusion_Cutter, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Fusion_Cutter, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Fusion_Cutter, 0);
-        fields.get("targetsAir").set(WeaponType.Fusion_Cutter, false);
-        fields.get("targetsGround").set(WeaponType.Fusion_Cutter, true);
-        fields.get("targetsMechanical").set(WeaponType.Fusion_Cutter, false);
-        fields.get("targetsOrganic").set(WeaponType.Fusion_Cutter, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Fusion_Cutter, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Fusion_Cutter, false);
-        fields.get("targetsTerrain").set(WeaponType.Fusion_Cutter, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Fusion_Cutter, false);
-        fields.get("targetsOwn").set(WeaponType.Fusion_Cutter, false);
-    }
-    private void initializeWeaponType_Gemini_Missiles() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Gemini_Missiles, 15);
-        fields.get("tech").set(WeaponType.Gemini_Missiles, TechType.None);
-        fields.get("whatUses").set(WeaponType.Gemini_Missiles, UnitType.Terran_Wraith);
-        fields.get("damageAmount").set(WeaponType.Gemini_Missiles, 20);
-        fields.get("damageBonus").set(WeaponType.Gemini_Missiles, 2);
-        fields.get("damageCooldown").set(WeaponType.Gemini_Missiles, 22);
-        fields.get("damageFactor").set(WeaponType.Gemini_Missiles, 1);
-        fields.get("upgradeType").set(WeaponType.Gemini_Missiles, UpgradeType.Terran_Ship_Weapons);
-        fields.get("damageType").set(WeaponType.Gemini_Missiles, DamageType.Explosive);
-        fields.get("explosionType").set(WeaponType.Gemini_Missiles, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Gemini_Missiles, 0);
-        fields.get("maxRange").set(WeaponType.Gemini_Missiles, 160);
-        fields.get("innerSplashRadius").set(WeaponType.Gemini_Missiles, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Gemini_Missiles, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Gemini_Missiles, 0);
-        fields.get("targetsAir").set(WeaponType.Gemini_Missiles, true);
-        fields.get("targetsGround").set(WeaponType.Gemini_Missiles, false);
-        fields.get("targetsMechanical").set(WeaponType.Gemini_Missiles, false);
-        fields.get("targetsOrganic").set(WeaponType.Gemini_Missiles, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Gemini_Missiles, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Gemini_Missiles, false);
-        fields.get("targetsTerrain").set(WeaponType.Gemini_Missiles, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Gemini_Missiles, false);
-        fields.get("targetsOwn").set(WeaponType.Gemini_Missiles, false);
-    }
-    private void initializeWeaponType_Burst_Lasers() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Burst_Lasers, 16);
-        fields.get("tech").set(WeaponType.Burst_Lasers, TechType.None);
-        fields.get("whatUses").set(WeaponType.Burst_Lasers, UnitType.Terran_Wraith);
-        fields.get("damageAmount").set(WeaponType.Burst_Lasers, 8);
-        fields.get("damageBonus").set(WeaponType.Burst_Lasers, 1);
-        fields.get("damageCooldown").set(WeaponType.Burst_Lasers, 30);
-        fields.get("damageFactor").set(WeaponType.Burst_Lasers, 1);
-        fields.get("upgradeType").set(WeaponType.Burst_Lasers, UpgradeType.Terran_Ship_Weapons);
-        fields.get("damageType").set(WeaponType.Burst_Lasers, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Burst_Lasers, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Burst_Lasers, 0);
-        fields.get("maxRange").set(WeaponType.Burst_Lasers, 160);
-        fields.get("innerSplashRadius").set(WeaponType.Burst_Lasers, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Burst_Lasers, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Burst_Lasers, 0);
-        fields.get("targetsAir").set(WeaponType.Burst_Lasers, false);
-        fields.get("targetsGround").set(WeaponType.Burst_Lasers, true);
-        fields.get("targetsMechanical").set(WeaponType.Burst_Lasers, false);
-        fields.get("targetsOrganic").set(WeaponType.Burst_Lasers, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Burst_Lasers, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Burst_Lasers, false);
-        fields.get("targetsTerrain").set(WeaponType.Burst_Lasers, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Burst_Lasers, false);
-        fields.get("targetsOwn").set(WeaponType.Burst_Lasers, false);
-    }
-    private void initializeWeaponType_Gemini_Missiles_Tom_Kazansky() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Gemini_Missiles_Tom_Kazansky, 17);
-        fields.get("tech").set(WeaponType.Gemini_Missiles_Tom_Kazansky, TechType.None);
-        fields.get("whatUses").set(WeaponType.Gemini_Missiles_Tom_Kazansky, UnitType.Hero_Tom_Kazansky);
-        fields.get("damageAmount").set(WeaponType.Gemini_Missiles_Tom_Kazansky, 40);
-        fields.get("damageBonus").set(WeaponType.Gemini_Missiles_Tom_Kazansky, 2);
-        fields.get("damageCooldown").set(WeaponType.Gemini_Missiles_Tom_Kazansky, 22);
-        fields.get("damageFactor").set(WeaponType.Gemini_Missiles_Tom_Kazansky, 1);
-        fields.get("upgradeType").set(WeaponType.Gemini_Missiles_Tom_Kazansky, UpgradeType.Terran_Ship_Weapons);
-        fields.get("damageType").set(WeaponType.Gemini_Missiles_Tom_Kazansky, DamageType.Explosive);
-        fields.get("explosionType").set(WeaponType.Gemini_Missiles_Tom_Kazansky, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Gemini_Missiles_Tom_Kazansky, 0);
-        fields.get("maxRange").set(WeaponType.Gemini_Missiles_Tom_Kazansky, 160);
-        fields.get("innerSplashRadius").set(WeaponType.Gemini_Missiles_Tom_Kazansky, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Gemini_Missiles_Tom_Kazansky, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Gemini_Missiles_Tom_Kazansky, 0);
-        fields.get("targetsAir").set(WeaponType.Gemini_Missiles_Tom_Kazansky, true);
-        fields.get("targetsGround").set(WeaponType.Gemini_Missiles_Tom_Kazansky, false);
-        fields.get("targetsMechanical").set(WeaponType.Gemini_Missiles_Tom_Kazansky, false);
-        fields.get("targetsOrganic").set(WeaponType.Gemini_Missiles_Tom_Kazansky, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Gemini_Missiles_Tom_Kazansky, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Gemini_Missiles_Tom_Kazansky, false);
-        fields.get("targetsTerrain").set(WeaponType.Gemini_Missiles_Tom_Kazansky, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Gemini_Missiles_Tom_Kazansky, false);
-        fields.get("targetsOwn").set(WeaponType.Gemini_Missiles_Tom_Kazansky, false);
-    }
-    private void initializeWeaponType_Burst_Lasers_Tom_Kazansky() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Burst_Lasers_Tom_Kazansky, 18);
-        fields.get("tech").set(WeaponType.Burst_Lasers_Tom_Kazansky, TechType.None);
-        fields.get("whatUses").set(WeaponType.Burst_Lasers_Tom_Kazansky, UnitType.Hero_Tom_Kazansky);
-        fields.get("damageAmount").set(WeaponType.Burst_Lasers_Tom_Kazansky, 16);
-        fields.get("damageBonus").set(WeaponType.Burst_Lasers_Tom_Kazansky, 1);
-        fields.get("damageCooldown").set(WeaponType.Burst_Lasers_Tom_Kazansky, 30);
-        fields.get("damageFactor").set(WeaponType.Burst_Lasers_Tom_Kazansky, 1);
-        fields.get("upgradeType").set(WeaponType.Burst_Lasers_Tom_Kazansky, UpgradeType.Terran_Ship_Weapons);
-        fields.get("damageType").set(WeaponType.Burst_Lasers_Tom_Kazansky, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Burst_Lasers_Tom_Kazansky, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Burst_Lasers_Tom_Kazansky, 0);
-        fields.get("maxRange").set(WeaponType.Burst_Lasers_Tom_Kazansky, 160);
-        fields.get("innerSplashRadius").set(WeaponType.Burst_Lasers_Tom_Kazansky, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Burst_Lasers_Tom_Kazansky, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Burst_Lasers_Tom_Kazansky, 0);
-        fields.get("targetsAir").set(WeaponType.Burst_Lasers_Tom_Kazansky, false);
-        fields.get("targetsGround").set(WeaponType.Burst_Lasers_Tom_Kazansky, true);
-        fields.get("targetsMechanical").set(WeaponType.Burst_Lasers_Tom_Kazansky, false);
-        fields.get("targetsOrganic").set(WeaponType.Burst_Lasers_Tom_Kazansky, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Burst_Lasers_Tom_Kazansky, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Burst_Lasers_Tom_Kazansky, false);
-        fields.get("targetsTerrain").set(WeaponType.Burst_Lasers_Tom_Kazansky, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Burst_Lasers_Tom_Kazansky, false);
-        fields.get("targetsOwn").set(WeaponType.Burst_Lasers_Tom_Kazansky, false);
-    }
-    private void initializeWeaponType_ATS_Laser_Battery() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.ATS_Laser_Battery, 19);
-        fields.get("tech").set(WeaponType.ATS_Laser_Battery, TechType.None);
-        fields.get("whatUses").set(WeaponType.ATS_Laser_Battery, UnitType.Terran_Battlecruiser);
-        fields.get("damageAmount").set(WeaponType.ATS_Laser_Battery, 25);
-        fields.get("damageBonus").set(WeaponType.ATS_Laser_Battery, 3);
-        fields.get("damageCooldown").set(WeaponType.ATS_Laser_Battery, 30);
-        fields.get("damageFactor").set(WeaponType.ATS_Laser_Battery, 1);
-        fields.get("upgradeType").set(WeaponType.ATS_Laser_Battery, UpgradeType.Terran_Ship_Weapons);
-        fields.get("damageType").set(WeaponType.ATS_Laser_Battery, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.ATS_Laser_Battery, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.ATS_Laser_Battery, 0);
-        fields.get("maxRange").set(WeaponType.ATS_Laser_Battery, 192);
-        fields.get("innerSplashRadius").set(WeaponType.ATS_Laser_Battery, 0);
-        fields.get("medianSplashRadius").set(WeaponType.ATS_Laser_Battery, 0);
-        fields.get("outerSplashRadius").set(WeaponType.ATS_Laser_Battery, 0);
-        fields.get("targetsAir").set(WeaponType.ATS_Laser_Battery, false);
-        fields.get("targetsGround").set(WeaponType.ATS_Laser_Battery, true);
-        fields.get("targetsMechanical").set(WeaponType.ATS_Laser_Battery, false);
-        fields.get("targetsOrganic").set(WeaponType.ATS_Laser_Battery, false);
-        fields.get("targetsNonBuilding").set(WeaponType.ATS_Laser_Battery, false);
-        fields.get("targetsNonRobotic").set(WeaponType.ATS_Laser_Battery, false);
-        fields.get("targetsTerrain").set(WeaponType.ATS_Laser_Battery, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.ATS_Laser_Battery, false);
-        fields.get("targetsOwn").set(WeaponType.ATS_Laser_Battery, false);
-    }
-    private void initializeWeaponType_ATA_Laser_Battery() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.ATA_Laser_Battery, 20);
-        fields.get("tech").set(WeaponType.ATA_Laser_Battery, TechType.None);
-        fields.get("whatUses").set(WeaponType.ATA_Laser_Battery, UnitType.Terran_Battlecruiser);
-        fields.get("damageAmount").set(WeaponType.ATA_Laser_Battery, 25);
-        fields.get("damageBonus").set(WeaponType.ATA_Laser_Battery, 3);
-        fields.get("damageCooldown").set(WeaponType.ATA_Laser_Battery, 30);
-        fields.get("damageFactor").set(WeaponType.ATA_Laser_Battery, 1);
-        fields.get("upgradeType").set(WeaponType.ATA_Laser_Battery, UpgradeType.Terran_Ship_Weapons);
-        fields.get("damageType").set(WeaponType.ATA_Laser_Battery, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.ATA_Laser_Battery, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.ATA_Laser_Battery, 0);
-        fields.get("maxRange").set(WeaponType.ATA_Laser_Battery, 192);
-        fields.get("innerSplashRadius").set(WeaponType.ATA_Laser_Battery, 0);
-        fields.get("medianSplashRadius").set(WeaponType.ATA_Laser_Battery, 0);
-        fields.get("outerSplashRadius").set(WeaponType.ATA_Laser_Battery, 0);
-        fields.get("targetsAir").set(WeaponType.ATA_Laser_Battery, true);
-        fields.get("targetsGround").set(WeaponType.ATA_Laser_Battery, false);
-        fields.get("targetsMechanical").set(WeaponType.ATA_Laser_Battery, false);
-        fields.get("targetsOrganic").set(WeaponType.ATA_Laser_Battery, false);
-        fields.get("targetsNonBuilding").set(WeaponType.ATA_Laser_Battery, false);
-        fields.get("targetsNonRobotic").set(WeaponType.ATA_Laser_Battery, false);
-        fields.get("targetsTerrain").set(WeaponType.ATA_Laser_Battery, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.ATA_Laser_Battery, false);
-        fields.get("targetsOwn").set(WeaponType.ATA_Laser_Battery, false);
-    }
-    private void initializeWeaponType_ATS_Laser_Battery_Hero() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.ATS_Laser_Battery_Hero, 21);
-        fields.get("tech").set(WeaponType.ATS_Laser_Battery_Hero, TechType.None);
-        fields.get("whatUses").set(WeaponType.ATS_Laser_Battery_Hero, UnitType.Hero_Norad_II);
-        fields.get("damageAmount").set(WeaponType.ATS_Laser_Battery_Hero, 50);
-        fields.get("damageBonus").set(WeaponType.ATS_Laser_Battery_Hero, 3);
-        fields.get("damageCooldown").set(WeaponType.ATS_Laser_Battery_Hero, 30);
-        fields.get("damageFactor").set(WeaponType.ATS_Laser_Battery_Hero, 1);
-        fields.get("upgradeType").set(WeaponType.ATS_Laser_Battery_Hero, UpgradeType.Terran_Ship_Weapons);
-        fields.get("damageType").set(WeaponType.ATS_Laser_Battery_Hero, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.ATS_Laser_Battery_Hero, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.ATS_Laser_Battery_Hero, 0);
-        fields.get("maxRange").set(WeaponType.ATS_Laser_Battery_Hero, 192);
-        fields.get("innerSplashRadius").set(WeaponType.ATS_Laser_Battery_Hero, 0);
-        fields.get("medianSplashRadius").set(WeaponType.ATS_Laser_Battery_Hero, 0);
-        fields.get("outerSplashRadius").set(WeaponType.ATS_Laser_Battery_Hero, 0);
-        fields.get("targetsAir").set(WeaponType.ATS_Laser_Battery_Hero, false);
-        fields.get("targetsGround").set(WeaponType.ATS_Laser_Battery_Hero, true);
-        fields.get("targetsMechanical").set(WeaponType.ATS_Laser_Battery_Hero, false);
-        fields.get("targetsOrganic").set(WeaponType.ATS_Laser_Battery_Hero, false);
-        fields.get("targetsNonBuilding").set(WeaponType.ATS_Laser_Battery_Hero, false);
-        fields.get("targetsNonRobotic").set(WeaponType.ATS_Laser_Battery_Hero, false);
-        fields.get("targetsTerrain").set(WeaponType.ATS_Laser_Battery_Hero, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.ATS_Laser_Battery_Hero, false);
-        fields.get("targetsOwn").set(WeaponType.ATS_Laser_Battery_Hero, false);
-    }
-    private void initializeWeaponType_ATA_Laser_Battery_Hero() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.ATA_Laser_Battery_Hero, 22);
-        fields.get("tech").set(WeaponType.ATA_Laser_Battery_Hero, TechType.None);
-        fields.get("whatUses").set(WeaponType.ATA_Laser_Battery_Hero, UnitType.Hero_Norad_II);
-        fields.get("damageAmount").set(WeaponType.ATA_Laser_Battery_Hero, 50);
-        fields.get("damageBonus").set(WeaponType.ATA_Laser_Battery_Hero, 3);
-        fields.get("damageCooldown").set(WeaponType.ATA_Laser_Battery_Hero, 30);
-        fields.get("damageFactor").set(WeaponType.ATA_Laser_Battery_Hero, 1);
-        fields.get("upgradeType").set(WeaponType.ATA_Laser_Battery_Hero, UpgradeType.Terran_Ship_Weapons);
-        fields.get("damageType").set(WeaponType.ATA_Laser_Battery_Hero, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.ATA_Laser_Battery_Hero, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.ATA_Laser_Battery_Hero, 0);
-        fields.get("maxRange").set(WeaponType.ATA_Laser_Battery_Hero, 192);
-        fields.get("innerSplashRadius").set(WeaponType.ATA_Laser_Battery_Hero, 0);
-        fields.get("medianSplashRadius").set(WeaponType.ATA_Laser_Battery_Hero, 0);
-        fields.get("outerSplashRadius").set(WeaponType.ATA_Laser_Battery_Hero, 0);
-        fields.get("targetsAir").set(WeaponType.ATA_Laser_Battery_Hero, true);
-        fields.get("targetsGround").set(WeaponType.ATA_Laser_Battery_Hero, false);
-        fields.get("targetsMechanical").set(WeaponType.ATA_Laser_Battery_Hero, false);
-        fields.get("targetsOrganic").set(WeaponType.ATA_Laser_Battery_Hero, false);
-        fields.get("targetsNonBuilding").set(WeaponType.ATA_Laser_Battery_Hero, false);
-        fields.get("targetsNonRobotic").set(WeaponType.ATA_Laser_Battery_Hero, false);
-        fields.get("targetsTerrain").set(WeaponType.ATA_Laser_Battery_Hero, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.ATA_Laser_Battery_Hero, false);
-        fields.get("targetsOwn").set(WeaponType.ATA_Laser_Battery_Hero, false);
-    }
-    private void initializeWeaponType_ATS_Laser_Battery_Hyperion() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.ATS_Laser_Battery_Hyperion, 23);
-        fields.get("tech").set(WeaponType.ATS_Laser_Battery_Hyperion, TechType.None);
-        fields.get("whatUses").set(WeaponType.ATS_Laser_Battery_Hyperion, UnitType.Hero_Hyperion);
-        fields.get("damageAmount").set(WeaponType.ATS_Laser_Battery_Hyperion, 30);
-        fields.get("damageBonus").set(WeaponType.ATS_Laser_Battery_Hyperion, 3);
-        fields.get("damageCooldown").set(WeaponType.ATS_Laser_Battery_Hyperion, 22);
-        fields.get("damageFactor").set(WeaponType.ATS_Laser_Battery_Hyperion, 1);
-        fields.get("upgradeType").set(WeaponType.ATS_Laser_Battery_Hyperion, UpgradeType.Terran_Ship_Weapons);
-        fields.get("damageType").set(WeaponType.ATS_Laser_Battery_Hyperion, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.ATS_Laser_Battery_Hyperion, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.ATS_Laser_Battery_Hyperion, 0);
-        fields.get("maxRange").set(WeaponType.ATS_Laser_Battery_Hyperion, 192);
-        fields.get("innerSplashRadius").set(WeaponType.ATS_Laser_Battery_Hyperion, 0);
-        fields.get("medianSplashRadius").set(WeaponType.ATS_Laser_Battery_Hyperion, 0);
-        fields.get("outerSplashRadius").set(WeaponType.ATS_Laser_Battery_Hyperion, 0);
-        fields.get("targetsAir").set(WeaponType.ATS_Laser_Battery_Hyperion, false);
-        fields.get("targetsGround").set(WeaponType.ATS_Laser_Battery_Hyperion, true);
-        fields.get("targetsMechanical").set(WeaponType.ATS_Laser_Battery_Hyperion, false);
-        fields.get("targetsOrganic").set(WeaponType.ATS_Laser_Battery_Hyperion, false);
-        fields.get("targetsNonBuilding").set(WeaponType.ATS_Laser_Battery_Hyperion, false);
-        fields.get("targetsNonRobotic").set(WeaponType.ATS_Laser_Battery_Hyperion, false);
-        fields.get("targetsTerrain").set(WeaponType.ATS_Laser_Battery_Hyperion, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.ATS_Laser_Battery_Hyperion, false);
-        fields.get("targetsOwn").set(WeaponType.ATS_Laser_Battery_Hyperion, false);
-    }
-    private void initializeWeaponType_ATA_Laser_Battery_Hyperion() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.ATA_Laser_Battery_Hyperion, 24);
-        fields.get("tech").set(WeaponType.ATA_Laser_Battery_Hyperion, TechType.None);
-        fields.get("whatUses").set(WeaponType.ATA_Laser_Battery_Hyperion, UnitType.Hero_Hyperion);
-        fields.get("damageAmount").set(WeaponType.ATA_Laser_Battery_Hyperion, 30);
-        fields.get("damageBonus").set(WeaponType.ATA_Laser_Battery_Hyperion, 3);
-        fields.get("damageCooldown").set(WeaponType.ATA_Laser_Battery_Hyperion, 22);
-        fields.get("damageFactor").set(WeaponType.ATA_Laser_Battery_Hyperion, 1);
-        fields.get("upgradeType").set(WeaponType.ATA_Laser_Battery_Hyperion, UpgradeType.Terran_Ship_Weapons);
-        fields.get("damageType").set(WeaponType.ATA_Laser_Battery_Hyperion, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.ATA_Laser_Battery_Hyperion, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.ATA_Laser_Battery_Hyperion, 0);
-        fields.get("maxRange").set(WeaponType.ATA_Laser_Battery_Hyperion, 192);
-        fields.get("innerSplashRadius").set(WeaponType.ATA_Laser_Battery_Hyperion, 0);
-        fields.get("medianSplashRadius").set(WeaponType.ATA_Laser_Battery_Hyperion, 0);
-        fields.get("outerSplashRadius").set(WeaponType.ATA_Laser_Battery_Hyperion, 0);
-        fields.get("targetsAir").set(WeaponType.ATA_Laser_Battery_Hyperion, true);
-        fields.get("targetsGround").set(WeaponType.ATA_Laser_Battery_Hyperion, false);
-        fields.get("targetsMechanical").set(WeaponType.ATA_Laser_Battery_Hyperion, false);
-        fields.get("targetsOrganic").set(WeaponType.ATA_Laser_Battery_Hyperion, false);
-        fields.get("targetsNonBuilding").set(WeaponType.ATA_Laser_Battery_Hyperion, false);
-        fields.get("targetsNonRobotic").set(WeaponType.ATA_Laser_Battery_Hyperion, false);
-        fields.get("targetsTerrain").set(WeaponType.ATA_Laser_Battery_Hyperion, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.ATA_Laser_Battery_Hyperion, false);
-        fields.get("targetsOwn").set(WeaponType.ATA_Laser_Battery_Hyperion, false);
-    }
-    private void initializeWeaponType_Flame_Thrower() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Flame_Thrower, 25);
-        fields.get("tech").set(WeaponType.Flame_Thrower, TechType.None);
-        fields.get("whatUses").set(WeaponType.Flame_Thrower, UnitType.Terran_Firebat);
-        fields.get("damageAmount").set(WeaponType.Flame_Thrower, 8);
-        fields.get("damageBonus").set(WeaponType.Flame_Thrower, 1);
-        fields.get("damageCooldown").set(WeaponType.Flame_Thrower, 22);
-        fields.get("damageFactor").set(WeaponType.Flame_Thrower, 1);
-        fields.get("upgradeType").set(WeaponType.Flame_Thrower, UpgradeType.Terran_Infantry_Weapons);
-        fields.get("damageType").set(WeaponType.Flame_Thrower, DamageType.Concussive);
-        fields.get("explosionType").set(WeaponType.Flame_Thrower, ExplosionType.Enemy_Splash);
-        fields.get("minRange").set(WeaponType.Flame_Thrower, 0);
-        fields.get("maxRange").set(WeaponType.Flame_Thrower, 32);
-        fields.get("innerSplashRadius").set(WeaponType.Flame_Thrower, 15);
-        fields.get("medianSplashRadius").set(WeaponType.Flame_Thrower, 20);
-        fields.get("outerSplashRadius").set(WeaponType.Flame_Thrower, 25);
-        fields.get("targetsAir").set(WeaponType.Flame_Thrower, false);
-        fields.get("targetsGround").set(WeaponType.Flame_Thrower, true);
-        fields.get("targetsMechanical").set(WeaponType.Flame_Thrower, false);
-        fields.get("targetsOrganic").set(WeaponType.Flame_Thrower, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Flame_Thrower, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Flame_Thrower, false);
-        fields.get("targetsTerrain").set(WeaponType.Flame_Thrower, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Flame_Thrower, false);
-        fields.get("targetsOwn").set(WeaponType.Flame_Thrower, false);
-    }
-    private void initializeWeaponType_Flame_Thrower_Gui_Montag() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Flame_Thrower_Gui_Montag, 26);
-        fields.get("tech").set(WeaponType.Flame_Thrower_Gui_Montag, TechType.None);
-        fields.get("whatUses").set(WeaponType.Flame_Thrower_Gui_Montag, UnitType.Hero_Gui_Montag);
-        fields.get("damageAmount").set(WeaponType.Flame_Thrower_Gui_Montag, 16);
-        fields.get("damageBonus").set(WeaponType.Flame_Thrower_Gui_Montag, 1);
-        fields.get("damageCooldown").set(WeaponType.Flame_Thrower_Gui_Montag, 22);
-        fields.get("damageFactor").set(WeaponType.Flame_Thrower_Gui_Montag, 1);
-        fields.get("upgradeType").set(WeaponType.Flame_Thrower_Gui_Montag, UpgradeType.Terran_Infantry_Weapons);
-        fields.get("damageType").set(WeaponType.Flame_Thrower_Gui_Montag, DamageType.Concussive);
-        fields.get("explosionType").set(WeaponType.Flame_Thrower_Gui_Montag, ExplosionType.Enemy_Splash);
-        fields.get("minRange").set(WeaponType.Flame_Thrower_Gui_Montag, 0);
-        fields.get("maxRange").set(WeaponType.Flame_Thrower_Gui_Montag, 32);
-        fields.get("innerSplashRadius").set(WeaponType.Flame_Thrower_Gui_Montag, 15);
-        fields.get("medianSplashRadius").set(WeaponType.Flame_Thrower_Gui_Montag, 20);
-        fields.get("outerSplashRadius").set(WeaponType.Flame_Thrower_Gui_Montag, 25);
-        fields.get("targetsAir").set(WeaponType.Flame_Thrower_Gui_Montag, false);
-        fields.get("targetsGround").set(WeaponType.Flame_Thrower_Gui_Montag, true);
-        fields.get("targetsMechanical").set(WeaponType.Flame_Thrower_Gui_Montag, false);
-        fields.get("targetsOrganic").set(WeaponType.Flame_Thrower_Gui_Montag, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Flame_Thrower_Gui_Montag, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Flame_Thrower_Gui_Montag, false);
-        fields.get("targetsTerrain").set(WeaponType.Flame_Thrower_Gui_Montag, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Flame_Thrower_Gui_Montag, false);
-        fields.get("targetsOwn").set(WeaponType.Flame_Thrower_Gui_Montag, false);
-    }
-    private void initializeWeaponType_Arclite_Shock_Cannon() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Arclite_Shock_Cannon, 27);
-        fields.get("tech").set(WeaponType.Arclite_Shock_Cannon, TechType.None);
-        fields.get("whatUses").set(WeaponType.Arclite_Shock_Cannon, UnitType.Terran_Siege_Tank_Siege_Mode);
-        fields.get("damageAmount").set(WeaponType.Arclite_Shock_Cannon, 70);
-        fields.get("damageBonus").set(WeaponType.Arclite_Shock_Cannon, 5);
-        fields.get("damageCooldown").set(WeaponType.Arclite_Shock_Cannon, 75);
-        fields.get("damageFactor").set(WeaponType.Arclite_Shock_Cannon, 1);
-        fields.get("upgradeType").set(WeaponType.Arclite_Shock_Cannon, UpgradeType.Terran_Vehicle_Weapons);
-        fields.get("damageType").set(WeaponType.Arclite_Shock_Cannon, DamageType.Explosive);
-        fields.get("explosionType").set(WeaponType.Arclite_Shock_Cannon, ExplosionType.Radial_Splash);
-        fields.get("minRange").set(WeaponType.Arclite_Shock_Cannon, 64);
-        fields.get("maxRange").set(WeaponType.Arclite_Shock_Cannon, 384);
-        fields.get("innerSplashRadius").set(WeaponType.Arclite_Shock_Cannon, 10);
-        fields.get("medianSplashRadius").set(WeaponType.Arclite_Shock_Cannon, 25);
-        fields.get("outerSplashRadius").set(WeaponType.Arclite_Shock_Cannon, 40);
-        fields.get("targetsAir").set(WeaponType.Arclite_Shock_Cannon, false);
-        fields.get("targetsGround").set(WeaponType.Arclite_Shock_Cannon, true);
-        fields.get("targetsMechanical").set(WeaponType.Arclite_Shock_Cannon, false);
-        fields.get("targetsOrganic").set(WeaponType.Arclite_Shock_Cannon, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Arclite_Shock_Cannon, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Arclite_Shock_Cannon, false);
-        fields.get("targetsTerrain").set(WeaponType.Arclite_Shock_Cannon, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Arclite_Shock_Cannon, false);
-        fields.get("targetsOwn").set(WeaponType.Arclite_Shock_Cannon, false);
-    }
-    private void initializeWeaponType_Arclite_Shock_Cannon_Edmund_Duke() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, 28);
-        fields.get("tech").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, TechType.None);
-        fields.get("whatUses").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, UnitType.Hero_Edmund_Duke_Siege_Mode);
-        fields.get("damageAmount").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, 150);
-        fields.get("damageBonus").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, 5);
-        fields.get("damageCooldown").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, 75);
-        fields.get("damageFactor").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, 1);
-        fields.get("upgradeType").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, UpgradeType.Terran_Vehicle_Weapons);
-        fields.get("damageType").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, DamageType.Explosive);
-        fields.get("explosionType").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, ExplosionType.Radial_Splash);
-        fields.get("minRange").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, 64);
-        fields.get("maxRange").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, 384);
-        fields.get("innerSplashRadius").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, 10);
-        fields.get("medianSplashRadius").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, 25);
-        fields.get("outerSplashRadius").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, 40);
-        fields.get("targetsAir").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, false);
-        fields.get("targetsGround").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, true);
-        fields.get("targetsMechanical").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, false);
-        fields.get("targetsOrganic").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, false);
-        fields.get("targetsTerrain").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, false);
-        fields.get("targetsOwn").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, false);
-    }
-    private void initializeWeaponType_Longbolt_Missile() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Longbolt_Missile, 29);
-        fields.get("tech").set(WeaponType.Longbolt_Missile, TechType.None);
-        fields.get("whatUses").set(WeaponType.Longbolt_Missile, UnitType.Terran_Missile_Turret);
-        fields.get("damageAmount").set(WeaponType.Longbolt_Missile, 20);
-        fields.get("damageBonus").set(WeaponType.Longbolt_Missile, 0);
-        fields.get("damageCooldown").set(WeaponType.Longbolt_Missile, 15);
-        fields.get("damageFactor").set(WeaponType.Longbolt_Missile, 1);
-        fields.get("upgradeType").set(WeaponType.Longbolt_Missile, UpgradeType.Upgrade_60);
-        fields.get("damageType").set(WeaponType.Longbolt_Missile, DamageType.Explosive);
-        fields.get("explosionType").set(WeaponType.Longbolt_Missile, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Longbolt_Missile, 0);
-        fields.get("maxRange").set(WeaponType.Longbolt_Missile, 224);
-        fields.get("innerSplashRadius").set(WeaponType.Longbolt_Missile, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Longbolt_Missile, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Longbolt_Missile, 0);
-        fields.get("targetsAir").set(WeaponType.Longbolt_Missile, true);
-        fields.get("targetsGround").set(WeaponType.Longbolt_Missile, false);
-        fields.get("targetsMechanical").set(WeaponType.Longbolt_Missile, false);
-        fields.get("targetsOrganic").set(WeaponType.Longbolt_Missile, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Longbolt_Missile, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Longbolt_Missile, false);
-        fields.get("targetsTerrain").set(WeaponType.Longbolt_Missile, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Longbolt_Missile, false);
-        fields.get("targetsOwn").set(WeaponType.Longbolt_Missile, false);
-    }
-    private void initializeWeaponType_Yamato_Gun() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Yamato_Gun, 30);
-        fields.get("tech").set(WeaponType.Yamato_Gun, TechType.Yamato_Gun);
-        fields.get("whatUses").set(WeaponType.Yamato_Gun, UnitType.Terran_Battlecruiser);
-        fields.get("damageAmount").set(WeaponType.Yamato_Gun, 260);
-        fields.get("damageBonus").set(WeaponType.Yamato_Gun, 0);
-        fields.get("damageCooldown").set(WeaponType.Yamato_Gun, 15);
-        fields.get("damageFactor").set(WeaponType.Yamato_Gun, 1);
-        fields.get("upgradeType").set(WeaponType.Yamato_Gun, UpgradeType.Upgrade_60);
-        fields.get("damageType").set(WeaponType.Yamato_Gun, DamageType.Explosive);
-        fields.get("explosionType").set(WeaponType.Yamato_Gun, ExplosionType.Yamato_Gun);
-        fields.get("minRange").set(WeaponType.Yamato_Gun, 0);
-        fields.get("maxRange").set(WeaponType.Yamato_Gun, 320);
-        fields.get("innerSplashRadius").set(WeaponType.Yamato_Gun, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Yamato_Gun, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Yamato_Gun, 0);
-        fields.get("targetsAir").set(WeaponType.Yamato_Gun, true);
-        fields.get("targetsGround").set(WeaponType.Yamato_Gun, true);
-        fields.get("targetsMechanical").set(WeaponType.Yamato_Gun, false);
-        fields.get("targetsOrganic").set(WeaponType.Yamato_Gun, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Yamato_Gun, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Yamato_Gun, false);
-        fields.get("targetsTerrain").set(WeaponType.Yamato_Gun, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Yamato_Gun, false);
-        fields.get("targetsOwn").set(WeaponType.Yamato_Gun, false);
-    }
-    private void initializeWeaponType_Nuclear_Strike() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Nuclear_Strike, 31);
-        fields.get("tech").set(WeaponType.Nuclear_Strike, TechType.Nuclear_Strike);
-        fields.get("whatUses").set(WeaponType.Nuclear_Strike, UnitType.Terran_Ghost);
-        fields.get("damageAmount").set(WeaponType.Nuclear_Strike, 600);
-        fields.get("damageBonus").set(WeaponType.Nuclear_Strike, 0);
-        fields.get("damageCooldown").set(WeaponType.Nuclear_Strike, 1);
-        fields.get("damageFactor").set(WeaponType.Nuclear_Strike, 1);
-        fields.get("upgradeType").set(WeaponType.Nuclear_Strike, UpgradeType.Upgrade_60);
-        fields.get("damageType").set(WeaponType.Nuclear_Strike, DamageType.Explosive);
-        fields.get("explosionType").set(WeaponType.Nuclear_Strike, ExplosionType.Nuclear_Missile);
-        fields.get("minRange").set(WeaponType.Nuclear_Strike, 0);
-        fields.get("maxRange").set(WeaponType.Nuclear_Strike, 3);
-        fields.get("innerSplashRadius").set(WeaponType.Nuclear_Strike, 128);
-        fields.get("medianSplashRadius").set(WeaponType.Nuclear_Strike, 192);
-        fields.get("outerSplashRadius").set(WeaponType.Nuclear_Strike, 256);
-        fields.get("targetsAir").set(WeaponType.Nuclear_Strike, true);
-        fields.get("targetsGround").set(WeaponType.Nuclear_Strike, true);
-        fields.get("targetsMechanical").set(WeaponType.Nuclear_Strike, false);
-        fields.get("targetsOrganic").set(WeaponType.Nuclear_Strike, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Nuclear_Strike, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Nuclear_Strike, false);
-        fields.get("targetsTerrain").set(WeaponType.Nuclear_Strike, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Nuclear_Strike, false);
-        fields.get("targetsOwn").set(WeaponType.Nuclear_Strike, false);
-    }
-    private void initializeWeaponType_Lockdown() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Lockdown, 32);
-        fields.get("tech").set(WeaponType.Lockdown, TechType.Lockdown);
-        fields.get("whatUses").set(WeaponType.Lockdown, UnitType.Terran_Ghost);
-        fields.get("damageAmount").set(WeaponType.Lockdown, 0);
-        fields.get("damageBonus").set(WeaponType.Lockdown, 0);
-        fields.get("damageCooldown").set(WeaponType.Lockdown, 1);
-        fields.get("damageFactor").set(WeaponType.Lockdown, 1);
-        fields.get("upgradeType").set(WeaponType.Lockdown, UpgradeType.Upgrade_60);
-        fields.get("damageType").set(WeaponType.Lockdown, DamageType.Concussive);
-        fields.get("explosionType").set(WeaponType.Lockdown, ExplosionType.Lockdown);
-        fields.get("minRange").set(WeaponType.Lockdown, 0);
-        fields.get("maxRange").set(WeaponType.Lockdown, 256);
-        fields.get("innerSplashRadius").set(WeaponType.Lockdown, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Lockdown, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Lockdown, 0);
-        fields.get("targetsAir").set(WeaponType.Lockdown, true);
-        fields.get("targetsGround").set(WeaponType.Lockdown, true);
-        fields.get("targetsMechanical").set(WeaponType.Lockdown, true);
-        fields.get("targetsOrganic").set(WeaponType.Lockdown, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Lockdown, true);
-        fields.get("targetsNonRobotic").set(WeaponType.Lockdown, false);
-        fields.get("targetsTerrain").set(WeaponType.Lockdown, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Lockdown, false);
-        fields.get("targetsOwn").set(WeaponType.Lockdown, false);
-    }
-    private void initializeWeaponType_EMP_Shockwave() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.EMP_Shockwave, 33);
-        fields.get("tech").set(WeaponType.EMP_Shockwave, TechType.EMP_Shockwave);
-        fields.get("whatUses").set(WeaponType.EMP_Shockwave, UnitType.Terran_Science_Vessel);
-        fields.get("damageAmount").set(WeaponType.EMP_Shockwave, 0);
-        fields.get("damageBonus").set(WeaponType.EMP_Shockwave, 0);
-        fields.get("damageCooldown").set(WeaponType.EMP_Shockwave, 1);
-        fields.get("damageFactor").set(WeaponType.EMP_Shockwave, 1);
-        fields.get("upgradeType").set(WeaponType.EMP_Shockwave, UpgradeType.Upgrade_60);
-        fields.get("damageType").set(WeaponType.EMP_Shockwave, DamageType.Concussive);
-        fields.get("explosionType").set(WeaponType.EMP_Shockwave, ExplosionType.EMP_Shockwave);
-        fields.get("minRange").set(WeaponType.EMP_Shockwave, 0);
-        fields.get("maxRange").set(WeaponType.EMP_Shockwave, 256);
-        fields.get("innerSplashRadius").set(WeaponType.EMP_Shockwave, 64);
-        fields.get("medianSplashRadius").set(WeaponType.EMP_Shockwave, 64);
-        fields.get("outerSplashRadius").set(WeaponType.EMP_Shockwave, 64);
-        fields.get("targetsAir").set(WeaponType.EMP_Shockwave, true);
-        fields.get("targetsGround").set(WeaponType.EMP_Shockwave, true);
-        fields.get("targetsMechanical").set(WeaponType.EMP_Shockwave, false);
-        fields.get("targetsOrganic").set(WeaponType.EMP_Shockwave, false);
-        fields.get("targetsNonBuilding").set(WeaponType.EMP_Shockwave, false);
-        fields.get("targetsNonRobotic").set(WeaponType.EMP_Shockwave, false);
-        fields.get("targetsTerrain").set(WeaponType.EMP_Shockwave, true);
-        fields.get("targetsOrgOrMech").set(WeaponType.EMP_Shockwave, false);
-        fields.get("targetsOwn").set(WeaponType.EMP_Shockwave, false);
-    }
-    private void initializeWeaponType_Irradiate() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Irradiate, 34);
-        fields.get("tech").set(WeaponType.Irradiate, TechType.Irradiate);
-        fields.get("whatUses").set(WeaponType.Irradiate, UnitType.Terran_Science_Vessel);
-        fields.get("damageAmount").set(WeaponType.Irradiate, 250);
-        fields.get("damageBonus").set(WeaponType.Irradiate, 0);
-        fields.get("damageCooldown").set(WeaponType.Irradiate, 75);
-        fields.get("damageFactor").set(WeaponType.Irradiate, 1);
-        fields.get("upgradeType").set(WeaponType.Irradiate, UpgradeType.Upgrade_60);
-        fields.get("damageType").set(WeaponType.Irradiate, DamageType.Ignore_Armor);
-        fields.get("explosionType").set(WeaponType.Irradiate, ExplosionType.Irradiate);
-        fields.get("minRange").set(WeaponType.Irradiate, 0);
-        fields.get("maxRange").set(WeaponType.Irradiate, 288);
-        fields.get("innerSplashRadius").set(WeaponType.Irradiate, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Irradiate, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Irradiate, 0);
-        fields.get("targetsAir").set(WeaponType.Irradiate, true);
-        fields.get("targetsGround").set(WeaponType.Irradiate, true);
-        fields.get("targetsMechanical").set(WeaponType.Irradiate, false);
-        fields.get("targetsOrganic").set(WeaponType.Irradiate, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Irradiate, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Irradiate, false);
-        fields.get("targetsTerrain").set(WeaponType.Irradiate, true);
-        fields.get("targetsOrgOrMech").set(WeaponType.Irradiate, false);
-        fields.get("targetsOwn").set(WeaponType.Irradiate, false);
-    }
-    private void initializeWeaponType_Claws() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Claws, 35);
-        fields.get("tech").set(WeaponType.Claws, TechType.None);
-        fields.get("whatUses").set(WeaponType.Claws, UnitType.Zerg_Zergling);
-        fields.get("damageAmount").set(WeaponType.Claws, 5);
-        fields.get("damageBonus").set(WeaponType.Claws, 1);
-        fields.get("damageCooldown").set(WeaponType.Claws, 8);
-        fields.get("damageFactor").set(WeaponType.Claws, 1);
-        fields.get("upgradeType").set(WeaponType.Claws, UpgradeType.Zerg_Melee_Attacks);
-        fields.get("damageType").set(WeaponType.Claws, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Claws, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Claws, 0);
-        fields.get("maxRange").set(WeaponType.Claws, 15);
-        fields.get("innerSplashRadius").set(WeaponType.Claws, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Claws, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Claws, 0);
-        fields.get("targetsAir").set(WeaponType.Claws, false);
-        fields.get("targetsGround").set(WeaponType.Claws, true);
-        fields.get("targetsMechanical").set(WeaponType.Claws, false);
-        fields.get("targetsOrganic").set(WeaponType.Claws, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Claws, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Claws, false);
-        fields.get("targetsTerrain").set(WeaponType.Claws, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Claws, false);
-        fields.get("targetsOwn").set(WeaponType.Claws, false);
-    }
-    private void initializeWeaponType_Claws_Devouring_One() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Claws_Devouring_One, 36);
-        fields.get("tech").set(WeaponType.Claws_Devouring_One, TechType.None);
-        fields.get("whatUses").set(WeaponType.Claws_Devouring_One, UnitType.Hero_Devouring_One);
-        fields.get("damageAmount").set(WeaponType.Claws_Devouring_One, 10);
-        fields.get("damageBonus").set(WeaponType.Claws_Devouring_One, 1);
-        fields.get("damageCooldown").set(WeaponType.Claws_Devouring_One, 8);
-        fields.get("damageFactor").set(WeaponType.Claws_Devouring_One, 1);
-        fields.get("upgradeType").set(WeaponType.Claws_Devouring_One, UpgradeType.Zerg_Melee_Attacks);
-        fields.get("damageType").set(WeaponType.Claws_Devouring_One, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Claws_Devouring_One, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Claws_Devouring_One, 0);
-        fields.get("maxRange").set(WeaponType.Claws_Devouring_One, 15);
-        fields.get("innerSplashRadius").set(WeaponType.Claws_Devouring_One, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Claws_Devouring_One, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Claws_Devouring_One, 0);
-        fields.get("targetsAir").set(WeaponType.Claws_Devouring_One, false);
-        fields.get("targetsGround").set(WeaponType.Claws_Devouring_One, true);
-        fields.get("targetsMechanical").set(WeaponType.Claws_Devouring_One, false);
-        fields.get("targetsOrganic").set(WeaponType.Claws_Devouring_One, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Claws_Devouring_One, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Claws_Devouring_One, false);
-        fields.get("targetsTerrain").set(WeaponType.Claws_Devouring_One, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Claws_Devouring_One, false);
-        fields.get("targetsOwn").set(WeaponType.Claws_Devouring_One, false);
-    }
-    private void initializeWeaponType_Claws_Infested_Kerrigan() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Claws_Infested_Kerrigan, 37);
-        fields.get("tech").set(WeaponType.Claws_Infested_Kerrigan, TechType.None);
-        fields.get("whatUses").set(WeaponType.Claws_Infested_Kerrigan, UnitType.Hero_Infested_Kerrigan);
-        fields.get("damageAmount").set(WeaponType.Claws_Infested_Kerrigan, 50);
-        fields.get("damageBonus").set(WeaponType.Claws_Infested_Kerrigan, 1);
-        fields.get("damageCooldown").set(WeaponType.Claws_Infested_Kerrigan, 15);
-        fields.get("damageFactor").set(WeaponType.Claws_Infested_Kerrigan, 1);
-        fields.get("upgradeType").set(WeaponType.Claws_Infested_Kerrigan, UpgradeType.Zerg_Melee_Attacks);
-        fields.get("damageType").set(WeaponType.Claws_Infested_Kerrigan, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Claws_Infested_Kerrigan, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Claws_Infested_Kerrigan, 0);
-        fields.get("maxRange").set(WeaponType.Claws_Infested_Kerrigan, 15);
-        fields.get("innerSplashRadius").set(WeaponType.Claws_Infested_Kerrigan, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Claws_Infested_Kerrigan, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Claws_Infested_Kerrigan, 0);
-        fields.get("targetsAir").set(WeaponType.Claws_Infested_Kerrigan, false);
-        fields.get("targetsGround").set(WeaponType.Claws_Infested_Kerrigan, true);
-        fields.get("targetsMechanical").set(WeaponType.Claws_Infested_Kerrigan, false);
-        fields.get("targetsOrganic").set(WeaponType.Claws_Infested_Kerrigan, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Claws_Infested_Kerrigan, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Claws_Infested_Kerrigan, false);
-        fields.get("targetsTerrain").set(WeaponType.Claws_Infested_Kerrigan, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Claws_Infested_Kerrigan, false);
-        fields.get("targetsOwn").set(WeaponType.Claws_Infested_Kerrigan, false);
-    }
-    private void initializeWeaponType_Needle_Spines() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Needle_Spines, 38);
-        fields.get("tech").set(WeaponType.Needle_Spines, TechType.None);
-        fields.get("whatUses").set(WeaponType.Needle_Spines, UnitType.Zerg_Hydralisk);
-        fields.get("damageAmount").set(WeaponType.Needle_Spines, 10);
-        fields.get("damageBonus").set(WeaponType.Needle_Spines, 1);
-        fields.get("damageCooldown").set(WeaponType.Needle_Spines, 15);
-        fields.get("damageFactor").set(WeaponType.Needle_Spines, 1);
-        fields.get("upgradeType").set(WeaponType.Needle_Spines, UpgradeType.Zerg_Missile_Attacks);
-        fields.get("damageType").set(WeaponType.Needle_Spines, DamageType.Explosive);
-        fields.get("explosionType").set(WeaponType.Needle_Spines, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Needle_Spines, 0);
-        fields.get("maxRange").set(WeaponType.Needle_Spines, 128);
-        fields.get("innerSplashRadius").set(WeaponType.Needle_Spines, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Needle_Spines, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Needle_Spines, 0);
-        fields.get("targetsAir").set(WeaponType.Needle_Spines, true);
-        fields.get("targetsGround").set(WeaponType.Needle_Spines, true);
-        fields.get("targetsMechanical").set(WeaponType.Needle_Spines, false);
-        fields.get("targetsOrganic").set(WeaponType.Needle_Spines, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Needle_Spines, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Needle_Spines, false);
-        fields.get("targetsTerrain").set(WeaponType.Needle_Spines, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Needle_Spines, false);
-        fields.get("targetsOwn").set(WeaponType.Needle_Spines, false);
-    }
-    private void initializeWeaponType_Needle_Spines_Hunter_Killer() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Needle_Spines_Hunter_Killer, 39);
-        fields.get("tech").set(WeaponType.Needle_Spines_Hunter_Killer, TechType.None);
-        fields.get("whatUses").set(WeaponType.Needle_Spines_Hunter_Killer, UnitType.Hero_Hunter_Killer);
-        fields.get("damageAmount").set(WeaponType.Needle_Spines_Hunter_Killer, 20);
-        fields.get("damageBonus").set(WeaponType.Needle_Spines_Hunter_Killer, 1);
-        fields.get("damageCooldown").set(WeaponType.Needle_Spines_Hunter_Killer, 15);
-        fields.get("damageFactor").set(WeaponType.Needle_Spines_Hunter_Killer, 1);
-        fields.get("upgradeType").set(WeaponType.Needle_Spines_Hunter_Killer, UpgradeType.Zerg_Missile_Attacks);
-        fields.get("damageType").set(WeaponType.Needle_Spines_Hunter_Killer, DamageType.Explosive);
-        fields.get("explosionType").set(WeaponType.Needle_Spines_Hunter_Killer, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Needle_Spines_Hunter_Killer, 0);
-        fields.get("maxRange").set(WeaponType.Needle_Spines_Hunter_Killer, 160);
-        fields.get("innerSplashRadius").set(WeaponType.Needle_Spines_Hunter_Killer, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Needle_Spines_Hunter_Killer, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Needle_Spines_Hunter_Killer, 0);
-        fields.get("targetsAir").set(WeaponType.Needle_Spines_Hunter_Killer, true);
-        fields.get("targetsGround").set(WeaponType.Needle_Spines_Hunter_Killer, true);
-        fields.get("targetsMechanical").set(WeaponType.Needle_Spines_Hunter_Killer, false);
-        fields.get("targetsOrganic").set(WeaponType.Needle_Spines_Hunter_Killer, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Needle_Spines_Hunter_Killer, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Needle_Spines_Hunter_Killer, false);
-        fields.get("targetsTerrain").set(WeaponType.Needle_Spines_Hunter_Killer, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Needle_Spines_Hunter_Killer, false);
-        fields.get("targetsOwn").set(WeaponType.Needle_Spines_Hunter_Killer, false);
-    }
-    private void initializeWeaponType_Kaiser_Blades() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Kaiser_Blades, 40);
-        fields.get("tech").set(WeaponType.Kaiser_Blades, TechType.None);
-        fields.get("whatUses").set(WeaponType.Kaiser_Blades, UnitType.Zerg_Ultralisk);
-        fields.get("damageAmount").set(WeaponType.Kaiser_Blades, 20);
-        fields.get("damageBonus").set(WeaponType.Kaiser_Blades, 3);
-        fields.get("damageCooldown").set(WeaponType.Kaiser_Blades, 15);
-        fields.get("damageFactor").set(WeaponType.Kaiser_Blades, 1);
-        fields.get("upgradeType").set(WeaponType.Kaiser_Blades, UpgradeType.Zerg_Melee_Attacks);
-        fields.get("damageType").set(WeaponType.Kaiser_Blades, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Kaiser_Blades, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Kaiser_Blades, 0);
-        fields.get("maxRange").set(WeaponType.Kaiser_Blades, 25);
-        fields.get("innerSplashRadius").set(WeaponType.Kaiser_Blades, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Kaiser_Blades, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Kaiser_Blades, 0);
-        fields.get("targetsAir").set(WeaponType.Kaiser_Blades, false);
-        fields.get("targetsGround").set(WeaponType.Kaiser_Blades, true);
-        fields.get("targetsMechanical").set(WeaponType.Kaiser_Blades, false);
-        fields.get("targetsOrganic").set(WeaponType.Kaiser_Blades, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Kaiser_Blades, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Kaiser_Blades, false);
-        fields.get("targetsTerrain").set(WeaponType.Kaiser_Blades, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Kaiser_Blades, false);
-        fields.get("targetsOwn").set(WeaponType.Kaiser_Blades, false);
-    }
-    private void initializeWeaponType_Kaiser_Blades_Torrasque() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Kaiser_Blades_Torrasque, 41);
-        fields.get("tech").set(WeaponType.Kaiser_Blades_Torrasque, TechType.None);
-        fields.get("whatUses").set(WeaponType.Kaiser_Blades_Torrasque, UnitType.Hero_Torrasque);
-        fields.get("damageAmount").set(WeaponType.Kaiser_Blades_Torrasque, 50);
-        fields.get("damageBonus").set(WeaponType.Kaiser_Blades_Torrasque, 3);
-        fields.get("damageCooldown").set(WeaponType.Kaiser_Blades_Torrasque, 15);
-        fields.get("damageFactor").set(WeaponType.Kaiser_Blades_Torrasque, 1);
-        fields.get("upgradeType").set(WeaponType.Kaiser_Blades_Torrasque, UpgradeType.Zerg_Melee_Attacks);
-        fields.get("damageType").set(WeaponType.Kaiser_Blades_Torrasque, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Kaiser_Blades_Torrasque, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Kaiser_Blades_Torrasque, 0);
-        fields.get("maxRange").set(WeaponType.Kaiser_Blades_Torrasque, 25);
-        fields.get("innerSplashRadius").set(WeaponType.Kaiser_Blades_Torrasque, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Kaiser_Blades_Torrasque, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Kaiser_Blades_Torrasque, 0);
-        fields.get("targetsAir").set(WeaponType.Kaiser_Blades_Torrasque, false);
-        fields.get("targetsGround").set(WeaponType.Kaiser_Blades_Torrasque, true);
-        fields.get("targetsMechanical").set(WeaponType.Kaiser_Blades_Torrasque, false);
-        fields.get("targetsOrganic").set(WeaponType.Kaiser_Blades_Torrasque, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Kaiser_Blades_Torrasque, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Kaiser_Blades_Torrasque, false);
-        fields.get("targetsTerrain").set(WeaponType.Kaiser_Blades_Torrasque, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Kaiser_Blades_Torrasque, false);
-        fields.get("targetsOwn").set(WeaponType.Kaiser_Blades_Torrasque, false);
-    }
-    private void initializeWeaponType_Toxic_Spores() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Toxic_Spores, 42);
-        fields.get("tech").set(WeaponType.Toxic_Spores, TechType.None);
-        fields.get("whatUses").set(WeaponType.Toxic_Spores, UnitType.Zerg_Broodling);
-        fields.get("damageAmount").set(WeaponType.Toxic_Spores, 4);
-        fields.get("damageBonus").set(WeaponType.Toxic_Spores, 1);
-        fields.get("damageCooldown").set(WeaponType.Toxic_Spores, 15);
-        fields.get("damageFactor").set(WeaponType.Toxic_Spores, 1);
-        fields.get("upgradeType").set(WeaponType.Toxic_Spores, UpgradeType.Zerg_Melee_Attacks);
-        fields.get("damageType").set(WeaponType.Toxic_Spores, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Toxic_Spores, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Toxic_Spores, 0);
-        fields.get("maxRange").set(WeaponType.Toxic_Spores, 2);
-        fields.get("innerSplashRadius").set(WeaponType.Toxic_Spores, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Toxic_Spores, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Toxic_Spores, 0);
-        fields.get("targetsAir").set(WeaponType.Toxic_Spores, false);
-        fields.get("targetsGround").set(WeaponType.Toxic_Spores, true);
-        fields.get("targetsMechanical").set(WeaponType.Toxic_Spores, false);
-        fields.get("targetsOrganic").set(WeaponType.Toxic_Spores, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Toxic_Spores, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Toxic_Spores, false);
-        fields.get("targetsTerrain").set(WeaponType.Toxic_Spores, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Toxic_Spores, false);
-        fields.get("targetsOwn").set(WeaponType.Toxic_Spores, false);
-    }
-    private void initializeWeaponType_Spines() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Spines, 43);
-        fields.get("tech").set(WeaponType.Spines, TechType.None);
-        fields.get("whatUses").set(WeaponType.Spines, UnitType.Zerg_Drone);
-        fields.get("damageAmount").set(WeaponType.Spines, 5);
-        fields.get("damageBonus").set(WeaponType.Spines, 0);
-        fields.get("damageCooldown").set(WeaponType.Spines, 22);
-        fields.get("damageFactor").set(WeaponType.Spines, 1);
-        fields.get("upgradeType").set(WeaponType.Spines, UpgradeType.Upgrade_60);
-        fields.get("damageType").set(WeaponType.Spines, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Spines, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Spines, 0);
-        fields.get("maxRange").set(WeaponType.Spines, 32);
-        fields.get("innerSplashRadius").set(WeaponType.Spines, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Spines, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Spines, 0);
-        fields.get("targetsAir").set(WeaponType.Spines, false);
-        fields.get("targetsGround").set(WeaponType.Spines, true);
-        fields.get("targetsMechanical").set(WeaponType.Spines, false);
-        fields.get("targetsOrganic").set(WeaponType.Spines, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Spines, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Spines, false);
-        fields.get("targetsTerrain").set(WeaponType.Spines, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Spines, false);
-        fields.get("targetsOwn").set(WeaponType.Spines, false);
-    }
-    private void initializeWeaponType_Acid_Spore() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Acid_Spore, 46);
-        fields.get("tech").set(WeaponType.Acid_Spore, TechType.None);
-        fields.get("whatUses").set(WeaponType.Acid_Spore, UnitType.Zerg_Guardian);
-        fields.get("damageAmount").set(WeaponType.Acid_Spore, 20);
-        fields.get("damageBonus").set(WeaponType.Acid_Spore, 2);
-        fields.get("damageCooldown").set(WeaponType.Acid_Spore, 30);
-        fields.get("damageFactor").set(WeaponType.Acid_Spore, 1);
-        fields.get("upgradeType").set(WeaponType.Acid_Spore, UpgradeType.Zerg_Flyer_Attacks);
-        fields.get("damageType").set(WeaponType.Acid_Spore, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Acid_Spore, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Acid_Spore, 0);
-        fields.get("maxRange").set(WeaponType.Acid_Spore, 256);
-        fields.get("innerSplashRadius").set(WeaponType.Acid_Spore, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Acid_Spore, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Acid_Spore, 0);
-        fields.get("targetsAir").set(WeaponType.Acid_Spore, false);
-        fields.get("targetsGround").set(WeaponType.Acid_Spore, true);
-        fields.get("targetsMechanical").set(WeaponType.Acid_Spore, false);
-        fields.get("targetsOrganic").set(WeaponType.Acid_Spore, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Acid_Spore, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Acid_Spore, false);
-        fields.get("targetsTerrain").set(WeaponType.Acid_Spore, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Acid_Spore, false);
-        fields.get("targetsOwn").set(WeaponType.Acid_Spore, false);
-    }
-    private void initializeWeaponType_Acid_Spore_Kukulza() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Acid_Spore_Kukulza, 47);
-        fields.get("tech").set(WeaponType.Acid_Spore_Kukulza, TechType.None);
-        fields.get("whatUses").set(WeaponType.Acid_Spore_Kukulza, UnitType.Hero_Kukulza_Guardian);
-        fields.get("damageAmount").set(WeaponType.Acid_Spore_Kukulza, 40);
-        fields.get("damageBonus").set(WeaponType.Acid_Spore_Kukulza, 2);
-        fields.get("damageCooldown").set(WeaponType.Acid_Spore_Kukulza, 30);
-        fields.get("damageFactor").set(WeaponType.Acid_Spore_Kukulza, 1);
-        fields.get("upgradeType").set(WeaponType.Acid_Spore_Kukulza, UpgradeType.Zerg_Flyer_Attacks);
-        fields.get("damageType").set(WeaponType.Acid_Spore_Kukulza, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Acid_Spore_Kukulza, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Acid_Spore_Kukulza, 0);
-        fields.get("maxRange").set(WeaponType.Acid_Spore_Kukulza, 256);
-        fields.get("innerSplashRadius").set(WeaponType.Acid_Spore_Kukulza, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Acid_Spore_Kukulza, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Acid_Spore_Kukulza, 0);
-        fields.get("targetsAir").set(WeaponType.Acid_Spore_Kukulza, false);
-        fields.get("targetsGround").set(WeaponType.Acid_Spore_Kukulza, true);
-        fields.get("targetsMechanical").set(WeaponType.Acid_Spore_Kukulza, false);
-        fields.get("targetsOrganic").set(WeaponType.Acid_Spore_Kukulza, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Acid_Spore_Kukulza, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Acid_Spore_Kukulza, false);
-        fields.get("targetsTerrain").set(WeaponType.Acid_Spore_Kukulza, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Acid_Spore_Kukulza, false);
-        fields.get("targetsOwn").set(WeaponType.Acid_Spore_Kukulza, false);
-    }
-    private void initializeWeaponType_Glave_Wurm() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Glave_Wurm, 48);
-        fields.get("tech").set(WeaponType.Glave_Wurm, TechType.None);
-        fields.get("whatUses").set(WeaponType.Glave_Wurm, UnitType.Zerg_Mutalisk);
-        fields.get("damageAmount").set(WeaponType.Glave_Wurm, 9);
-        fields.get("damageBonus").set(WeaponType.Glave_Wurm, 1);
-        fields.get("damageCooldown").set(WeaponType.Glave_Wurm, 30);
-        fields.get("damageFactor").set(WeaponType.Glave_Wurm, 1);
-        fields.get("upgradeType").set(WeaponType.Glave_Wurm, UpgradeType.Zerg_Flyer_Attacks);
-        fields.get("damageType").set(WeaponType.Glave_Wurm, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Glave_Wurm, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Glave_Wurm, 0);
-        fields.get("maxRange").set(WeaponType.Glave_Wurm, 96);
-        fields.get("innerSplashRadius").set(WeaponType.Glave_Wurm, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Glave_Wurm, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Glave_Wurm, 0);
-        fields.get("targetsAir").set(WeaponType.Glave_Wurm, true);
-        fields.get("targetsGround").set(WeaponType.Glave_Wurm, true);
-        fields.get("targetsMechanical").set(WeaponType.Glave_Wurm, false);
-        fields.get("targetsOrganic").set(WeaponType.Glave_Wurm, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Glave_Wurm, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Glave_Wurm, false);
-        fields.get("targetsTerrain").set(WeaponType.Glave_Wurm, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Glave_Wurm, false);
-        fields.get("targetsOwn").set(WeaponType.Glave_Wurm, false);
-    }
-    private void initializeWeaponType_Glave_Wurm_Kukulza() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Glave_Wurm_Kukulza, 49);
-        fields.get("tech").set(WeaponType.Glave_Wurm_Kukulza, TechType.None);
-        fields.get("whatUses").set(WeaponType.Glave_Wurm_Kukulza, UnitType.Hero_Kukulza_Mutalisk);
-        fields.get("damageAmount").set(WeaponType.Glave_Wurm_Kukulza, 18);
-        fields.get("damageBonus").set(WeaponType.Glave_Wurm_Kukulza, 1);
-        fields.get("damageCooldown").set(WeaponType.Glave_Wurm_Kukulza, 30);
-        fields.get("damageFactor").set(WeaponType.Glave_Wurm_Kukulza, 1);
-        fields.get("upgradeType").set(WeaponType.Glave_Wurm_Kukulza, UpgradeType.Zerg_Flyer_Attacks);
-        fields.get("damageType").set(WeaponType.Glave_Wurm_Kukulza, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Glave_Wurm_Kukulza, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Glave_Wurm_Kukulza, 0);
-        fields.get("maxRange").set(WeaponType.Glave_Wurm_Kukulza, 96);
-        fields.get("innerSplashRadius").set(WeaponType.Glave_Wurm_Kukulza, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Glave_Wurm_Kukulza, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Glave_Wurm_Kukulza, 0);
-        fields.get("targetsAir").set(WeaponType.Glave_Wurm_Kukulza, true);
-        fields.get("targetsGround").set(WeaponType.Glave_Wurm_Kukulza, true);
-        fields.get("targetsMechanical").set(WeaponType.Glave_Wurm_Kukulza, false);
-        fields.get("targetsOrganic").set(WeaponType.Glave_Wurm_Kukulza, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Glave_Wurm_Kukulza, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Glave_Wurm_Kukulza, false);
-        fields.get("targetsTerrain").set(WeaponType.Glave_Wurm_Kukulza, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Glave_Wurm_Kukulza, false);
-        fields.get("targetsOwn").set(WeaponType.Glave_Wurm_Kukulza, false);
-    }
-    private void initializeWeaponType_Seeker_Spores() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Seeker_Spores, 52);
-        fields.get("tech").set(WeaponType.Seeker_Spores, TechType.None);
-        fields.get("whatUses").set(WeaponType.Seeker_Spores, UnitType.Zerg_Spore_Colony);
-        fields.get("damageAmount").set(WeaponType.Seeker_Spores, 15);
-        fields.get("damageBonus").set(WeaponType.Seeker_Spores, 0);
-        fields.get("damageCooldown").set(WeaponType.Seeker_Spores, 15);
-        fields.get("damageFactor").set(WeaponType.Seeker_Spores, 1);
-        fields.get("upgradeType").set(WeaponType.Seeker_Spores, UpgradeType.Upgrade_60);
-        fields.get("damageType").set(WeaponType.Seeker_Spores, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Seeker_Spores, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Seeker_Spores, 0);
-        fields.get("maxRange").set(WeaponType.Seeker_Spores, 224);
-        fields.get("innerSplashRadius").set(WeaponType.Seeker_Spores, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Seeker_Spores, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Seeker_Spores, 0);
-        fields.get("targetsAir").set(WeaponType.Seeker_Spores, true);
-        fields.get("targetsGround").set(WeaponType.Seeker_Spores, false);
-        fields.get("targetsMechanical").set(WeaponType.Seeker_Spores, false);
-        fields.get("targetsOrganic").set(WeaponType.Seeker_Spores, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Seeker_Spores, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Seeker_Spores, false);
-        fields.get("targetsTerrain").set(WeaponType.Seeker_Spores, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Seeker_Spores, false);
-        fields.get("targetsOwn").set(WeaponType.Seeker_Spores, false);
-    }
-    private void initializeWeaponType_Subterranean_Tentacle() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Subterranean_Tentacle, 53);
-        fields.get("tech").set(WeaponType.Subterranean_Tentacle, TechType.None);
-        fields.get("whatUses").set(WeaponType.Subterranean_Tentacle, UnitType.Zerg_Sunken_Colony);
-        fields.get("damageAmount").set(WeaponType.Subterranean_Tentacle, 40);
-        fields.get("damageBonus").set(WeaponType.Subterranean_Tentacle, 0);
-        fields.get("damageCooldown").set(WeaponType.Subterranean_Tentacle, 32);
-        fields.get("damageFactor").set(WeaponType.Subterranean_Tentacle, 1);
-        fields.get("upgradeType").set(WeaponType.Subterranean_Tentacle, UpgradeType.Upgrade_60);
-        fields.get("damageType").set(WeaponType.Subterranean_Tentacle, DamageType.Explosive);
-        fields.get("explosionType").set(WeaponType.Subterranean_Tentacle, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Subterranean_Tentacle, 0);
-        fields.get("maxRange").set(WeaponType.Subterranean_Tentacle, 224);
-        fields.get("innerSplashRadius").set(WeaponType.Subterranean_Tentacle, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Subterranean_Tentacle, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Subterranean_Tentacle, 0);
-        fields.get("targetsAir").set(WeaponType.Subterranean_Tentacle, false);
-        fields.get("targetsGround").set(WeaponType.Subterranean_Tentacle, true);
-        fields.get("targetsMechanical").set(WeaponType.Subterranean_Tentacle, false);
-        fields.get("targetsOrganic").set(WeaponType.Subterranean_Tentacle, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Subterranean_Tentacle, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Subterranean_Tentacle, false);
-        fields.get("targetsTerrain").set(WeaponType.Subterranean_Tentacle, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Subterranean_Tentacle, false);
-        fields.get("targetsOwn").set(WeaponType.Subterranean_Tentacle, false);
-    }
-    private void initializeWeaponType_Suicide_Infested_Terran() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Suicide_Infested_Terran, 54);
-        fields.get("tech").set(WeaponType.Suicide_Infested_Terran, TechType.None);
-        fields.get("whatUses").set(WeaponType.Suicide_Infested_Terran, UnitType.Zerg_Infested_Terran);
-        fields.get("damageAmount").set(WeaponType.Suicide_Infested_Terran, 500);
-        fields.get("damageBonus").set(WeaponType.Suicide_Infested_Terran, 0);
-        fields.get("damageCooldown").set(WeaponType.Suicide_Infested_Terran, 1);
-        fields.get("damageFactor").set(WeaponType.Suicide_Infested_Terran, 1);
-        fields.get("upgradeType").set(WeaponType.Suicide_Infested_Terran, UpgradeType.Upgrade_60);
-        fields.get("damageType").set(WeaponType.Suicide_Infested_Terran, DamageType.Explosive);
-        fields.get("explosionType").set(WeaponType.Suicide_Infested_Terran, ExplosionType.Radial_Splash);
-        fields.get("minRange").set(WeaponType.Suicide_Infested_Terran, 0);
-        fields.get("maxRange").set(WeaponType.Suicide_Infested_Terran, 3);
-        fields.get("innerSplashRadius").set(WeaponType.Suicide_Infested_Terran, 20);
-        fields.get("medianSplashRadius").set(WeaponType.Suicide_Infested_Terran, 40);
-        fields.get("outerSplashRadius").set(WeaponType.Suicide_Infested_Terran, 60);
-        fields.get("targetsAir").set(WeaponType.Suicide_Infested_Terran, false);
-        fields.get("targetsGround").set(WeaponType.Suicide_Infested_Terran, true);
-        fields.get("targetsMechanical").set(WeaponType.Suicide_Infested_Terran, false);
-        fields.get("targetsOrganic").set(WeaponType.Suicide_Infested_Terran, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Suicide_Infested_Terran, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Suicide_Infested_Terran, false);
-        fields.get("targetsTerrain").set(WeaponType.Suicide_Infested_Terran, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Suicide_Infested_Terran, false);
-        fields.get("targetsOwn").set(WeaponType.Suicide_Infested_Terran, false);
-    }
-    private void initializeWeaponType_Suicide_Scourge() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Suicide_Scourge, 55);
-        fields.get("tech").set(WeaponType.Suicide_Scourge, TechType.None);
-        fields.get("whatUses").set(WeaponType.Suicide_Scourge, UnitType.Zerg_Scourge);
-        fields.get("damageAmount").set(WeaponType.Suicide_Scourge, 110);
-        fields.get("damageBonus").set(WeaponType.Suicide_Scourge, 0);
-        fields.get("damageCooldown").set(WeaponType.Suicide_Scourge, 1);
-        fields.get("damageFactor").set(WeaponType.Suicide_Scourge, 1);
-        fields.get("upgradeType").set(WeaponType.Suicide_Scourge, UpgradeType.Upgrade_60);
-        fields.get("damageType").set(WeaponType.Suicide_Scourge, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Suicide_Scourge, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Suicide_Scourge, 0);
-        fields.get("maxRange").set(WeaponType.Suicide_Scourge, 3);
-        fields.get("innerSplashRadius").set(WeaponType.Suicide_Scourge, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Suicide_Scourge, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Suicide_Scourge, 0);
-        fields.get("targetsAir").set(WeaponType.Suicide_Scourge, true);
-        fields.get("targetsGround").set(WeaponType.Suicide_Scourge, false);
-        fields.get("targetsMechanical").set(WeaponType.Suicide_Scourge, false);
-        fields.get("targetsOrganic").set(WeaponType.Suicide_Scourge, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Suicide_Scourge, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Suicide_Scourge, false);
-        fields.get("targetsTerrain").set(WeaponType.Suicide_Scourge, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Suicide_Scourge, false);
-        fields.get("targetsOwn").set(WeaponType.Suicide_Scourge, false);
-    }
-    private void initializeWeaponType_Parasite() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Parasite, 56);
-        fields.get("tech").set(WeaponType.Parasite, TechType.Parasite);
-        fields.get("whatUses").set(WeaponType.Parasite, UnitType.Zerg_Queen);
-        fields.get("damageAmount").set(WeaponType.Parasite, 0);
-        fields.get("damageBonus").set(WeaponType.Parasite, 0);
-        fields.get("damageCooldown").set(WeaponType.Parasite, 1);
-        fields.get("damageFactor").set(WeaponType.Parasite, 1);
-        fields.get("upgradeType").set(WeaponType.Parasite, UpgradeType.Upgrade_60);
-        fields.get("damageType").set(WeaponType.Parasite, DamageType.Independent);
-        fields.get("explosionType").set(WeaponType.Parasite, ExplosionType.Parasite);
-        fields.get("minRange").set(WeaponType.Parasite, 0);
-        fields.get("maxRange").set(WeaponType.Parasite, 384);
-        fields.get("innerSplashRadius").set(WeaponType.Parasite, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Parasite, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Parasite, 0);
-        fields.get("targetsAir").set(WeaponType.Parasite, true);
-        fields.get("targetsGround").set(WeaponType.Parasite, true);
-        fields.get("targetsMechanical").set(WeaponType.Parasite, false);
-        fields.get("targetsOrganic").set(WeaponType.Parasite, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Parasite, true);
-        fields.get("targetsNonRobotic").set(WeaponType.Parasite, false);
-        fields.get("targetsTerrain").set(WeaponType.Parasite, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Parasite, false);
-        fields.get("targetsOwn").set(WeaponType.Parasite, false);
-    }
-    private void initializeWeaponType_Spawn_Broodlings() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Spawn_Broodlings, 57);
-        fields.get("tech").set(WeaponType.Spawn_Broodlings, TechType.Spawn_Broodlings);
-        fields.get("whatUses").set(WeaponType.Spawn_Broodlings, UnitType.Zerg_Queen);
-        fields.get("damageAmount").set(WeaponType.Spawn_Broodlings, 0);
-        fields.get("damageBonus").set(WeaponType.Spawn_Broodlings, 0);
-        fields.get("damageCooldown").set(WeaponType.Spawn_Broodlings, 1);
-        fields.get("damageFactor").set(WeaponType.Spawn_Broodlings, 1);
-        fields.get("upgradeType").set(WeaponType.Spawn_Broodlings, UpgradeType.Upgrade_60);
-        fields.get("damageType").set(WeaponType.Spawn_Broodlings, DamageType.Independent);
-        fields.get("explosionType").set(WeaponType.Spawn_Broodlings, ExplosionType.Broodlings);
-        fields.get("minRange").set(WeaponType.Spawn_Broodlings, 0);
-        fields.get("maxRange").set(WeaponType.Spawn_Broodlings, 288);
-        fields.get("innerSplashRadius").set(WeaponType.Spawn_Broodlings, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Spawn_Broodlings, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Spawn_Broodlings, 0);
-        fields.get("targetsAir").set(WeaponType.Spawn_Broodlings, false);
-        fields.get("targetsGround").set(WeaponType.Spawn_Broodlings, true);
-        fields.get("targetsMechanical").set(WeaponType.Spawn_Broodlings, false);
-        fields.get("targetsOrganic").set(WeaponType.Spawn_Broodlings, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Spawn_Broodlings, true);
-        fields.get("targetsNonRobotic").set(WeaponType.Spawn_Broodlings, true);
-        fields.get("targetsTerrain").set(WeaponType.Spawn_Broodlings, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Spawn_Broodlings, true);
-        fields.get("targetsOwn").set(WeaponType.Spawn_Broodlings, false);
-    }
-    private void initializeWeaponType_Ensnare() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Ensnare, 58);
-        fields.get("tech").set(WeaponType.Ensnare, TechType.Ensnare);
-        fields.get("whatUses").set(WeaponType.Ensnare, UnitType.Zerg_Queen);
-        fields.get("damageAmount").set(WeaponType.Ensnare, 0);
-        fields.get("damageBonus").set(WeaponType.Ensnare, 0);
-        fields.get("damageCooldown").set(WeaponType.Ensnare, 1);
-        fields.get("damageFactor").set(WeaponType.Ensnare, 1);
-        fields.get("upgradeType").set(WeaponType.Ensnare, UpgradeType.Upgrade_60);
-        fields.get("damageType").set(WeaponType.Ensnare, DamageType.Independent);
-        fields.get("explosionType").set(WeaponType.Ensnare, ExplosionType.Ensnare);
-        fields.get("minRange").set(WeaponType.Ensnare, 0);
-        fields.get("maxRange").set(WeaponType.Ensnare, 288);
-        fields.get("innerSplashRadius").set(WeaponType.Ensnare, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Ensnare, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Ensnare, 0);
-        fields.get("targetsAir").set(WeaponType.Ensnare, true);
-        fields.get("targetsGround").set(WeaponType.Ensnare, true);
-        fields.get("targetsMechanical").set(WeaponType.Ensnare, false);
-        fields.get("targetsOrganic").set(WeaponType.Ensnare, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Ensnare, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Ensnare, false);
-        fields.get("targetsTerrain").set(WeaponType.Ensnare, true);
-        fields.get("targetsOrgOrMech").set(WeaponType.Ensnare, false);
-        fields.get("targetsOwn").set(WeaponType.Ensnare, false);
-    }
-    private void initializeWeaponType_Dark_Swarm() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Dark_Swarm, 59);
-        fields.get("tech").set(WeaponType.Dark_Swarm, TechType.Dark_Swarm);
-        fields.get("whatUses").set(WeaponType.Dark_Swarm, UnitType.Zerg_Defiler);
-        fields.get("damageAmount").set(WeaponType.Dark_Swarm, 0);
-        fields.get("damageBonus").set(WeaponType.Dark_Swarm, 0);
-        fields.get("damageCooldown").set(WeaponType.Dark_Swarm, 1);
-        fields.get("damageFactor").set(WeaponType.Dark_Swarm, 1);
-        fields.get("upgradeType").set(WeaponType.Dark_Swarm, UpgradeType.Upgrade_60);
-        fields.get("damageType").set(WeaponType.Dark_Swarm, DamageType.Independent);
-        fields.get("explosionType").set(WeaponType.Dark_Swarm, ExplosionType.Dark_Swarm);
-        fields.get("minRange").set(WeaponType.Dark_Swarm, 0);
-        fields.get("maxRange").set(WeaponType.Dark_Swarm, 288);
-        fields.get("innerSplashRadius").set(WeaponType.Dark_Swarm, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Dark_Swarm, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Dark_Swarm, 0);
-        fields.get("targetsAir").set(WeaponType.Dark_Swarm, true);
-        fields.get("targetsGround").set(WeaponType.Dark_Swarm, true);
-        fields.get("targetsMechanical").set(WeaponType.Dark_Swarm, false);
-        fields.get("targetsOrganic").set(WeaponType.Dark_Swarm, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Dark_Swarm, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Dark_Swarm, false);
-        fields.get("targetsTerrain").set(WeaponType.Dark_Swarm, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Dark_Swarm, false);
-        fields.get("targetsOwn").set(WeaponType.Dark_Swarm, false);
-    }
-    private void initializeWeaponType_Plague() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Plague, 60);
-        fields.get("tech").set(WeaponType.Plague, TechType.Plague);
-        fields.get("whatUses").set(WeaponType.Plague, UnitType.Zerg_Defiler);
-        fields.get("damageAmount").set(WeaponType.Plague, 300);
-        fields.get("damageBonus").set(WeaponType.Plague, 0);
-        fields.get("damageCooldown").set(WeaponType.Plague, 1);
-        fields.get("damageFactor").set(WeaponType.Plague, 1);
-        fields.get("upgradeType").set(WeaponType.Plague, UpgradeType.Upgrade_60);
-        fields.get("damageType").set(WeaponType.Plague, DamageType.Independent);
-        fields.get("explosionType").set(WeaponType.Plague, ExplosionType.Plague);
-        fields.get("minRange").set(WeaponType.Plague, 0);
-        fields.get("maxRange").set(WeaponType.Plague, 288);
-        fields.get("innerSplashRadius").set(WeaponType.Plague, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Plague, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Plague, 0);
-        fields.get("targetsAir").set(WeaponType.Plague, true);
-        fields.get("targetsGround").set(WeaponType.Plague, true);
-        fields.get("targetsMechanical").set(WeaponType.Plague, false);
-        fields.get("targetsOrganic").set(WeaponType.Plague, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Plague, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Plague, false);
-        fields.get("targetsTerrain").set(WeaponType.Plague, true);
-        fields.get("targetsOrgOrMech").set(WeaponType.Plague, false);
-        fields.get("targetsOwn").set(WeaponType.Plague, false);
-    }
-    private void initializeWeaponType_Consume() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Consume, 61);
-        fields.get("tech").set(WeaponType.Consume, TechType.Consume);
-        fields.get("whatUses").set(WeaponType.Consume, UnitType.Zerg_Defiler);
-        fields.get("damageAmount").set(WeaponType.Consume, 0);
-        fields.get("damageBonus").set(WeaponType.Consume, 0);
-        fields.get("damageCooldown").set(WeaponType.Consume, 1);
-        fields.get("damageFactor").set(WeaponType.Consume, 1);
-        fields.get("upgradeType").set(WeaponType.Consume, UpgradeType.Upgrade_60);
-        fields.get("damageType").set(WeaponType.Consume, DamageType.Independent);
-        fields.get("explosionType").set(WeaponType.Consume, ExplosionType.Consume);
-        fields.get("minRange").set(WeaponType.Consume, 0);
-        fields.get("maxRange").set(WeaponType.Consume, 16);
-        fields.get("innerSplashRadius").set(WeaponType.Consume, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Consume, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Consume, 0);
-        fields.get("targetsAir").set(WeaponType.Consume, true);
-        fields.get("targetsGround").set(WeaponType.Consume, true);
-        fields.get("targetsMechanical").set(WeaponType.Consume, false);
-        fields.get("targetsOrganic").set(WeaponType.Consume, true);
-        fields.get("targetsNonBuilding").set(WeaponType.Consume, true);
-        fields.get("targetsNonRobotic").set(WeaponType.Consume, false);
-        fields.get("targetsTerrain").set(WeaponType.Consume, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Consume, false);
-        fields.get("targetsOwn").set(WeaponType.Consume, true);
-    }
-    private void initializeWeaponType_Particle_Beam() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Particle_Beam, 62);
-        fields.get("tech").set(WeaponType.Particle_Beam, TechType.None);
-        fields.get("whatUses").set(WeaponType.Particle_Beam, UnitType.Protoss_Probe);
-        fields.get("damageAmount").set(WeaponType.Particle_Beam, 5);
-        fields.get("damageBonus").set(WeaponType.Particle_Beam, 0);
-        fields.get("damageCooldown").set(WeaponType.Particle_Beam, 22);
-        fields.get("damageFactor").set(WeaponType.Particle_Beam, 1);
-        fields.get("upgradeType").set(WeaponType.Particle_Beam, UpgradeType.Upgrade_60);
-        fields.get("damageType").set(WeaponType.Particle_Beam, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Particle_Beam, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Particle_Beam, 0);
-        fields.get("maxRange").set(WeaponType.Particle_Beam, 32);
-        fields.get("innerSplashRadius").set(WeaponType.Particle_Beam, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Particle_Beam, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Particle_Beam, 0);
-        fields.get("targetsAir").set(WeaponType.Particle_Beam, false);
-        fields.get("targetsGround").set(WeaponType.Particle_Beam, true);
-        fields.get("targetsMechanical").set(WeaponType.Particle_Beam, false);
-        fields.get("targetsOrganic").set(WeaponType.Particle_Beam, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Particle_Beam, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Particle_Beam, false);
-        fields.get("targetsTerrain").set(WeaponType.Particle_Beam, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Particle_Beam, false);
-        fields.get("targetsOwn").set(WeaponType.Particle_Beam, false);
-    }
-    private void initializeWeaponType_Psi_Blades() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Psi_Blades, 64);
-        fields.get("tech").set(WeaponType.Psi_Blades, TechType.None);
-        fields.get("whatUses").set(WeaponType.Psi_Blades, UnitType.Protoss_Zealot);
-        fields.get("damageAmount").set(WeaponType.Psi_Blades, 8);
-        fields.get("damageBonus").set(WeaponType.Psi_Blades, 1);
-        fields.get("damageCooldown").set(WeaponType.Psi_Blades, 22);
-        fields.get("damageFactor").set(WeaponType.Psi_Blades, 1);
-        fields.get("upgradeType").set(WeaponType.Psi_Blades, UpgradeType.Protoss_Ground_Weapons);
-        fields.get("damageType").set(WeaponType.Psi_Blades, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Psi_Blades, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Psi_Blades, 0);
-        fields.get("maxRange").set(WeaponType.Psi_Blades, 15);
-        fields.get("innerSplashRadius").set(WeaponType.Psi_Blades, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Psi_Blades, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Psi_Blades, 0);
-        fields.get("targetsAir").set(WeaponType.Psi_Blades, false);
-        fields.get("targetsGround").set(WeaponType.Psi_Blades, true);
-        fields.get("targetsMechanical").set(WeaponType.Psi_Blades, false);
-        fields.get("targetsOrganic").set(WeaponType.Psi_Blades, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Psi_Blades, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Psi_Blades, false);
-        fields.get("targetsTerrain").set(WeaponType.Psi_Blades, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Psi_Blades, false);
-        fields.get("targetsOwn").set(WeaponType.Psi_Blades, false);
-    }
-    private void initializeWeaponType_Psi_Blades_Fenix() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Psi_Blades_Fenix, 65);
-        fields.get("tech").set(WeaponType.Psi_Blades_Fenix, TechType.None);
-        fields.get("whatUses").set(WeaponType.Psi_Blades_Fenix, UnitType.Hero_Fenix_Zealot);
-        fields.get("damageAmount").set(WeaponType.Psi_Blades_Fenix, 20);
-        fields.get("damageBonus").set(WeaponType.Psi_Blades_Fenix, 1);
-        fields.get("damageCooldown").set(WeaponType.Psi_Blades_Fenix, 22);
-        fields.get("damageFactor").set(WeaponType.Psi_Blades_Fenix, 1);
-        fields.get("upgradeType").set(WeaponType.Psi_Blades_Fenix, UpgradeType.Protoss_Ground_Weapons);
-        fields.get("damageType").set(WeaponType.Psi_Blades_Fenix, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Psi_Blades_Fenix, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Psi_Blades_Fenix, 0);
-        fields.get("maxRange").set(WeaponType.Psi_Blades_Fenix, 15);
-        fields.get("innerSplashRadius").set(WeaponType.Psi_Blades_Fenix, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Psi_Blades_Fenix, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Psi_Blades_Fenix, 0);
-        fields.get("targetsAir").set(WeaponType.Psi_Blades_Fenix, false);
-        fields.get("targetsGround").set(WeaponType.Psi_Blades_Fenix, true);
-        fields.get("targetsMechanical").set(WeaponType.Psi_Blades_Fenix, false);
-        fields.get("targetsOrganic").set(WeaponType.Psi_Blades_Fenix, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Psi_Blades_Fenix, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Psi_Blades_Fenix, false);
-        fields.get("targetsTerrain").set(WeaponType.Psi_Blades_Fenix, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Psi_Blades_Fenix, false);
-        fields.get("targetsOwn").set(WeaponType.Psi_Blades_Fenix, false);
-    }
-    private void initializeWeaponType_Phase_Disruptor() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Phase_Disruptor, 66);
-        fields.get("tech").set(WeaponType.Phase_Disruptor, TechType.None);
-        fields.get("whatUses").set(WeaponType.Phase_Disruptor, UnitType.Protoss_Dragoon);
-        fields.get("damageAmount").set(WeaponType.Phase_Disruptor, 20);
-        fields.get("damageBonus").set(WeaponType.Phase_Disruptor, 2);
-        fields.get("damageCooldown").set(WeaponType.Phase_Disruptor, 30);
-        fields.get("damageFactor").set(WeaponType.Phase_Disruptor, 1);
-        fields.get("upgradeType").set(WeaponType.Phase_Disruptor, UpgradeType.Protoss_Ground_Weapons);
-        fields.get("damageType").set(WeaponType.Phase_Disruptor, DamageType.Explosive);
-        fields.get("explosionType").set(WeaponType.Phase_Disruptor, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Phase_Disruptor, 0);
-        fields.get("maxRange").set(WeaponType.Phase_Disruptor, 128);
-        fields.get("innerSplashRadius").set(WeaponType.Phase_Disruptor, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Phase_Disruptor, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Phase_Disruptor, 0);
-        fields.get("targetsAir").set(WeaponType.Phase_Disruptor, true);
-        fields.get("targetsGround").set(WeaponType.Phase_Disruptor, true);
-        fields.get("targetsMechanical").set(WeaponType.Phase_Disruptor, false);
-        fields.get("targetsOrganic").set(WeaponType.Phase_Disruptor, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Phase_Disruptor, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Phase_Disruptor, false);
-        fields.get("targetsTerrain").set(WeaponType.Phase_Disruptor, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Phase_Disruptor, false);
-        fields.get("targetsOwn").set(WeaponType.Phase_Disruptor, false);
-    }
-    private void initializeWeaponType_Phase_Disruptor_Fenix() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Phase_Disruptor_Fenix, 67);
-        fields.get("tech").set(WeaponType.Phase_Disruptor_Fenix, TechType.None);
-        fields.get("whatUses").set(WeaponType.Phase_Disruptor_Fenix, UnitType.Hero_Fenix_Dragoon);
-        fields.get("damageAmount").set(WeaponType.Phase_Disruptor_Fenix, 45);
-        fields.get("damageBonus").set(WeaponType.Phase_Disruptor_Fenix, 2);
-        fields.get("damageCooldown").set(WeaponType.Phase_Disruptor_Fenix, 22);
-        fields.get("damageFactor").set(WeaponType.Phase_Disruptor_Fenix, 1);
-        fields.get("upgradeType").set(WeaponType.Phase_Disruptor_Fenix, UpgradeType.Protoss_Ground_Weapons);
-        fields.get("damageType").set(WeaponType.Phase_Disruptor_Fenix, DamageType.Explosive);
-        fields.get("explosionType").set(WeaponType.Phase_Disruptor_Fenix, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Phase_Disruptor_Fenix, 0);
-        fields.get("maxRange").set(WeaponType.Phase_Disruptor_Fenix, 128);
-        fields.get("innerSplashRadius").set(WeaponType.Phase_Disruptor_Fenix, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Phase_Disruptor_Fenix, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Phase_Disruptor_Fenix, 0);
-        fields.get("targetsAir").set(WeaponType.Phase_Disruptor_Fenix, true);
-        fields.get("targetsGround").set(WeaponType.Phase_Disruptor_Fenix, true);
-        fields.get("targetsMechanical").set(WeaponType.Phase_Disruptor_Fenix, false);
-        fields.get("targetsOrganic").set(WeaponType.Phase_Disruptor_Fenix, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Phase_Disruptor_Fenix, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Phase_Disruptor_Fenix, false);
-        fields.get("targetsTerrain").set(WeaponType.Phase_Disruptor_Fenix, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Phase_Disruptor_Fenix, false);
-        fields.get("targetsOwn").set(WeaponType.Phase_Disruptor_Fenix, false);
-    }
-    private void initializeWeaponType_Psi_Assault() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Psi_Assault, 69);
-        fields.get("tech").set(WeaponType.Psi_Assault, TechType.None);
-        fields.get("whatUses").set(WeaponType.Psi_Assault, UnitType.Hero_Tassadar);
-        fields.get("damageAmount").set(WeaponType.Psi_Assault, 20);
-        fields.get("damageBonus").set(WeaponType.Psi_Assault, 1);
-        fields.get("damageCooldown").set(WeaponType.Psi_Assault, 22);
-        fields.get("damageFactor").set(WeaponType.Psi_Assault, 1);
-        fields.get("upgradeType").set(WeaponType.Psi_Assault, UpgradeType.Protoss_Ground_Weapons);
-        fields.get("damageType").set(WeaponType.Psi_Assault, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Psi_Assault, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Psi_Assault, 0);
-        fields.get("maxRange").set(WeaponType.Psi_Assault, 96);
-        fields.get("innerSplashRadius").set(WeaponType.Psi_Assault, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Psi_Assault, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Psi_Assault, 0);
-        fields.get("targetsAir").set(WeaponType.Psi_Assault, false);
-        fields.get("targetsGround").set(WeaponType.Psi_Assault, true);
-        fields.get("targetsMechanical").set(WeaponType.Psi_Assault, false);
-        fields.get("targetsOrganic").set(WeaponType.Psi_Assault, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Psi_Assault, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Psi_Assault, false);
-        fields.get("targetsTerrain").set(WeaponType.Psi_Assault, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Psi_Assault, false);
-        fields.get("targetsOwn").set(WeaponType.Psi_Assault, false);
-    }
-    private void initializeWeaponType_Psionic_Shockwave() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Psionic_Shockwave, 70);
-        fields.get("tech").set(WeaponType.Psionic_Shockwave, TechType.None);
-        fields.get("whatUses").set(WeaponType.Psionic_Shockwave, UnitType.Protoss_Archon);
-        fields.get("damageAmount").set(WeaponType.Psionic_Shockwave, 30);
-        fields.get("damageBonus").set(WeaponType.Psionic_Shockwave, 3);
-        fields.get("damageCooldown").set(WeaponType.Psionic_Shockwave, 20);
-        fields.get("damageFactor").set(WeaponType.Psionic_Shockwave, 1);
-        fields.get("upgradeType").set(WeaponType.Psionic_Shockwave, UpgradeType.Protoss_Ground_Weapons);
-        fields.get("damageType").set(WeaponType.Psionic_Shockwave, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Psionic_Shockwave, ExplosionType.Enemy_Splash);
-        fields.get("minRange").set(WeaponType.Psionic_Shockwave, 0);
-        fields.get("maxRange").set(WeaponType.Psionic_Shockwave, 64);
-        fields.get("innerSplashRadius").set(WeaponType.Psionic_Shockwave, 3);
-        fields.get("medianSplashRadius").set(WeaponType.Psionic_Shockwave, 15);
-        fields.get("outerSplashRadius").set(WeaponType.Psionic_Shockwave, 30);
-        fields.get("targetsAir").set(WeaponType.Psionic_Shockwave, true);
-        fields.get("targetsGround").set(WeaponType.Psionic_Shockwave, true);
-        fields.get("targetsMechanical").set(WeaponType.Psionic_Shockwave, false);
-        fields.get("targetsOrganic").set(WeaponType.Psionic_Shockwave, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Psionic_Shockwave, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Psionic_Shockwave, false);
-        fields.get("targetsTerrain").set(WeaponType.Psionic_Shockwave, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Psionic_Shockwave, false);
-        fields.get("targetsOwn").set(WeaponType.Psionic_Shockwave, false);
-    }
-    private void initializeWeaponType_Psionic_Shockwave_TZ_Archon() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Psionic_Shockwave_TZ_Archon, 71);
-        fields.get("tech").set(WeaponType.Psionic_Shockwave_TZ_Archon, TechType.None);
-        fields.get("whatUses").set(WeaponType.Psionic_Shockwave_TZ_Archon, UnitType.Hero_Tassadar_Zeratul_Archon);
-        fields.get("damageAmount").set(WeaponType.Psionic_Shockwave_TZ_Archon, 60);
-        fields.get("damageBonus").set(WeaponType.Psionic_Shockwave_TZ_Archon, 3);
-        fields.get("damageCooldown").set(WeaponType.Psionic_Shockwave_TZ_Archon, 20);
-        fields.get("damageFactor").set(WeaponType.Psionic_Shockwave_TZ_Archon, 1);
-        fields.get("upgradeType").set(WeaponType.Psionic_Shockwave_TZ_Archon, UpgradeType.Protoss_Ground_Weapons);
-        fields.get("damageType").set(WeaponType.Psionic_Shockwave_TZ_Archon, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Psionic_Shockwave_TZ_Archon, ExplosionType.Enemy_Splash);
-        fields.get("minRange").set(WeaponType.Psionic_Shockwave_TZ_Archon, 0);
-        fields.get("maxRange").set(WeaponType.Psionic_Shockwave_TZ_Archon, 64);
-        fields.get("innerSplashRadius").set(WeaponType.Psionic_Shockwave_TZ_Archon, 3);
-        fields.get("medianSplashRadius").set(WeaponType.Psionic_Shockwave_TZ_Archon, 15);
-        fields.get("outerSplashRadius").set(WeaponType.Psionic_Shockwave_TZ_Archon, 30);
-        fields.get("targetsAir").set(WeaponType.Psionic_Shockwave_TZ_Archon, true);
-        fields.get("targetsGround").set(WeaponType.Psionic_Shockwave_TZ_Archon, true);
-        fields.get("targetsMechanical").set(WeaponType.Psionic_Shockwave_TZ_Archon, false);
-        fields.get("targetsOrganic").set(WeaponType.Psionic_Shockwave_TZ_Archon, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Psionic_Shockwave_TZ_Archon, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Psionic_Shockwave_TZ_Archon, false);
-        fields.get("targetsTerrain").set(WeaponType.Psionic_Shockwave_TZ_Archon, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Psionic_Shockwave_TZ_Archon, false);
-        fields.get("targetsOwn").set(WeaponType.Psionic_Shockwave_TZ_Archon, false);
-    }
-    private void initializeWeaponType_Dual_Photon_Blasters() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Dual_Photon_Blasters, 73);
-        fields.get("tech").set(WeaponType.Dual_Photon_Blasters, TechType.None);
-        fields.get("whatUses").set(WeaponType.Dual_Photon_Blasters, UnitType.Protoss_Scout);
-        fields.get("damageAmount").set(WeaponType.Dual_Photon_Blasters, 8);
-        fields.get("damageBonus").set(WeaponType.Dual_Photon_Blasters, 1);
-        fields.get("damageCooldown").set(WeaponType.Dual_Photon_Blasters, 30);
-        fields.get("damageFactor").set(WeaponType.Dual_Photon_Blasters, 1);
-        fields.get("upgradeType").set(WeaponType.Dual_Photon_Blasters, UpgradeType.Protoss_Air_Weapons);
-        fields.get("damageType").set(WeaponType.Dual_Photon_Blasters, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Dual_Photon_Blasters, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Dual_Photon_Blasters, 0);
-        fields.get("maxRange").set(WeaponType.Dual_Photon_Blasters, 128);
-        fields.get("innerSplashRadius").set(WeaponType.Dual_Photon_Blasters, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Dual_Photon_Blasters, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Dual_Photon_Blasters, 0);
-        fields.get("targetsAir").set(WeaponType.Dual_Photon_Blasters, false);
-        fields.get("targetsGround").set(WeaponType.Dual_Photon_Blasters, true);
-        fields.get("targetsMechanical").set(WeaponType.Dual_Photon_Blasters, false);
-        fields.get("targetsOrganic").set(WeaponType.Dual_Photon_Blasters, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Dual_Photon_Blasters, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Dual_Photon_Blasters, false);
-        fields.get("targetsTerrain").set(WeaponType.Dual_Photon_Blasters, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Dual_Photon_Blasters, false);
-        fields.get("targetsOwn").set(WeaponType.Dual_Photon_Blasters, false);
-    }
-    private void initializeWeaponType_Anti_Matter_Missiles() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Anti_Matter_Missiles, 74);
-        fields.get("tech").set(WeaponType.Anti_Matter_Missiles, TechType.None);
-        fields.get("whatUses").set(WeaponType.Anti_Matter_Missiles, UnitType.Protoss_Scout);
-        fields.get("damageAmount").set(WeaponType.Anti_Matter_Missiles, 14);
-        fields.get("damageBonus").set(WeaponType.Anti_Matter_Missiles, 1);
-        fields.get("damageCooldown").set(WeaponType.Anti_Matter_Missiles, 22);
-        fields.get("damageFactor").set(WeaponType.Anti_Matter_Missiles, 2);
-        fields.get("upgradeType").set(WeaponType.Anti_Matter_Missiles, UpgradeType.Protoss_Air_Weapons);
-        fields.get("damageType").set(WeaponType.Anti_Matter_Missiles, DamageType.Explosive);
-        fields.get("explosionType").set(WeaponType.Anti_Matter_Missiles, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Anti_Matter_Missiles, 0);
-        fields.get("maxRange").set(WeaponType.Anti_Matter_Missiles, 128);
-        fields.get("innerSplashRadius").set(WeaponType.Anti_Matter_Missiles, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Anti_Matter_Missiles, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Anti_Matter_Missiles, 0);
-        fields.get("targetsAir").set(WeaponType.Anti_Matter_Missiles, true);
-        fields.get("targetsGround").set(WeaponType.Anti_Matter_Missiles, false);
-        fields.get("targetsMechanical").set(WeaponType.Anti_Matter_Missiles, false);
-        fields.get("targetsOrganic").set(WeaponType.Anti_Matter_Missiles, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Anti_Matter_Missiles, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Anti_Matter_Missiles, false);
-        fields.get("targetsTerrain").set(WeaponType.Anti_Matter_Missiles, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Anti_Matter_Missiles, false);
-        fields.get("targetsOwn").set(WeaponType.Anti_Matter_Missiles, false);
-    }
-    private void initializeWeaponType_Dual_Photon_Blasters_Mojo() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Dual_Photon_Blasters_Mojo, 75);
-        fields.get("tech").set(WeaponType.Dual_Photon_Blasters_Mojo, TechType.None);
-        fields.get("whatUses").set(WeaponType.Dual_Photon_Blasters_Mojo, UnitType.Hero_Mojo);
-        fields.get("damageAmount").set(WeaponType.Dual_Photon_Blasters_Mojo, 20);
-        fields.get("damageBonus").set(WeaponType.Dual_Photon_Blasters_Mojo, 1);
-        fields.get("damageCooldown").set(WeaponType.Dual_Photon_Blasters_Mojo, 30);
-        fields.get("damageFactor").set(WeaponType.Dual_Photon_Blasters_Mojo, 1);
-        fields.get("upgradeType").set(WeaponType.Dual_Photon_Blasters_Mojo, UpgradeType.Protoss_Air_Weapons);
-        fields.get("damageType").set(WeaponType.Dual_Photon_Blasters_Mojo, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Dual_Photon_Blasters_Mojo, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Dual_Photon_Blasters_Mojo, 0);
-        fields.get("maxRange").set(WeaponType.Dual_Photon_Blasters_Mojo, 128);
-        fields.get("innerSplashRadius").set(WeaponType.Dual_Photon_Blasters_Mojo, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Dual_Photon_Blasters_Mojo, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Dual_Photon_Blasters_Mojo, 0);
-        fields.get("targetsAir").set(WeaponType.Dual_Photon_Blasters_Mojo, false);
-        fields.get("targetsGround").set(WeaponType.Dual_Photon_Blasters_Mojo, true);
-        fields.get("targetsMechanical").set(WeaponType.Dual_Photon_Blasters_Mojo, false);
-        fields.get("targetsOrganic").set(WeaponType.Dual_Photon_Blasters_Mojo, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Dual_Photon_Blasters_Mojo, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Dual_Photon_Blasters_Mojo, false);
-        fields.get("targetsTerrain").set(WeaponType.Dual_Photon_Blasters_Mojo, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Dual_Photon_Blasters_Mojo, false);
-        fields.get("targetsOwn").set(WeaponType.Dual_Photon_Blasters_Mojo, false);
-    }
-    private void initializeWeaponType_Anti_Matter_Missiles_Mojo() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Anti_Matter_Missiles_Mojo, 76);
-        fields.get("tech").set(WeaponType.Anti_Matter_Missiles_Mojo, TechType.None);
-        fields.get("whatUses").set(WeaponType.Anti_Matter_Missiles_Mojo, UnitType.Hero_Mojo);
-        fields.get("damageAmount").set(WeaponType.Anti_Matter_Missiles_Mojo, 28);
-        fields.get("damageBonus").set(WeaponType.Anti_Matter_Missiles_Mojo, 1);
-        fields.get("damageCooldown").set(WeaponType.Anti_Matter_Missiles_Mojo, 22);
-        fields.get("damageFactor").set(WeaponType.Anti_Matter_Missiles_Mojo, 2);
-        fields.get("upgradeType").set(WeaponType.Anti_Matter_Missiles_Mojo, UpgradeType.Protoss_Air_Weapons);
-        fields.get("damageType").set(WeaponType.Anti_Matter_Missiles_Mojo, DamageType.Explosive);
-        fields.get("explosionType").set(WeaponType.Anti_Matter_Missiles_Mojo, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Anti_Matter_Missiles_Mojo, 0);
-        fields.get("maxRange").set(WeaponType.Anti_Matter_Missiles_Mojo, 128);
-        fields.get("innerSplashRadius").set(WeaponType.Anti_Matter_Missiles_Mojo, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Anti_Matter_Missiles_Mojo, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Anti_Matter_Missiles_Mojo, 0);
-        fields.get("targetsAir").set(WeaponType.Anti_Matter_Missiles_Mojo, true);
-        fields.get("targetsGround").set(WeaponType.Anti_Matter_Missiles_Mojo, false);
-        fields.get("targetsMechanical").set(WeaponType.Anti_Matter_Missiles_Mojo, false);
-        fields.get("targetsOrganic").set(WeaponType.Anti_Matter_Missiles_Mojo, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Anti_Matter_Missiles_Mojo, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Anti_Matter_Missiles_Mojo, false);
-        fields.get("targetsTerrain").set(WeaponType.Anti_Matter_Missiles_Mojo, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Anti_Matter_Missiles_Mojo, false);
-        fields.get("targetsOwn").set(WeaponType.Anti_Matter_Missiles_Mojo, false);
-    }
-    private void initializeWeaponType_Phase_Disruptor_Cannon() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Phase_Disruptor_Cannon, 77);
-        fields.get("tech").set(WeaponType.Phase_Disruptor_Cannon, TechType.None);
-        fields.get("whatUses").set(WeaponType.Phase_Disruptor_Cannon, UnitType.Protoss_Arbiter);
-        fields.get("damageAmount").set(WeaponType.Phase_Disruptor_Cannon, 10);
-        fields.get("damageBonus").set(WeaponType.Phase_Disruptor_Cannon, 1);
-        fields.get("damageCooldown").set(WeaponType.Phase_Disruptor_Cannon, 45);
-        fields.get("damageFactor").set(WeaponType.Phase_Disruptor_Cannon, 1);
-        fields.get("upgradeType").set(WeaponType.Phase_Disruptor_Cannon, UpgradeType.Protoss_Air_Weapons);
-        fields.get("damageType").set(WeaponType.Phase_Disruptor_Cannon, DamageType.Explosive);
-        fields.get("explosionType").set(WeaponType.Phase_Disruptor_Cannon, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Phase_Disruptor_Cannon, 0);
-        fields.get("maxRange").set(WeaponType.Phase_Disruptor_Cannon, 160);
-        fields.get("innerSplashRadius").set(WeaponType.Phase_Disruptor_Cannon, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Phase_Disruptor_Cannon, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Phase_Disruptor_Cannon, 0);
-        fields.get("targetsAir").set(WeaponType.Phase_Disruptor_Cannon, true);
-        fields.get("targetsGround").set(WeaponType.Phase_Disruptor_Cannon, true);
-        fields.get("targetsMechanical").set(WeaponType.Phase_Disruptor_Cannon, false);
-        fields.get("targetsOrganic").set(WeaponType.Phase_Disruptor_Cannon, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Phase_Disruptor_Cannon, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Phase_Disruptor_Cannon, false);
-        fields.get("targetsTerrain").set(WeaponType.Phase_Disruptor_Cannon, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Phase_Disruptor_Cannon, false);
-        fields.get("targetsOwn").set(WeaponType.Phase_Disruptor_Cannon, false);
-    }
-    private void initializeWeaponType_Phase_Disruptor_Cannon_Danimoth() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, 78);
-        fields.get("tech").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, TechType.None);
-        fields.get("whatUses").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, UnitType.Hero_Danimoth);
-        fields.get("damageAmount").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, 20);
-        fields.get("damageBonus").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, 1);
-        fields.get("damageCooldown").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, 45);
-        fields.get("damageFactor").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, 1);
-        fields.get("upgradeType").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, UpgradeType.Protoss_Air_Weapons);
-        fields.get("damageType").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, DamageType.Explosive);
-        fields.get("explosionType").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, 0);
-        fields.get("maxRange").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, 160);
-        fields.get("innerSplashRadius").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, 0);
-        fields.get("targetsAir").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, true);
-        fields.get("targetsGround").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, true);
-        fields.get("targetsMechanical").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, false);
-        fields.get("targetsOrganic").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, false);
-        fields.get("targetsTerrain").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, false);
-        fields.get("targetsOwn").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, false);
-    }
-    private void initializeWeaponType_Pulse_Cannon() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Pulse_Cannon, 79);
-        fields.get("tech").set(WeaponType.Pulse_Cannon, TechType.None);
-        fields.get("whatUses").set(WeaponType.Pulse_Cannon, UnitType.Protoss_Interceptor);
-        fields.get("damageAmount").set(WeaponType.Pulse_Cannon, 6);
-        fields.get("damageBonus").set(WeaponType.Pulse_Cannon, 1);
-        fields.get("damageCooldown").set(WeaponType.Pulse_Cannon, 1);
-        fields.get("damageFactor").set(WeaponType.Pulse_Cannon, 1);
-        fields.get("upgradeType").set(WeaponType.Pulse_Cannon, UpgradeType.Protoss_Air_Weapons);
-        fields.get("damageType").set(WeaponType.Pulse_Cannon, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Pulse_Cannon, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Pulse_Cannon, 0);
-        fields.get("maxRange").set(WeaponType.Pulse_Cannon, 128);
-        fields.get("innerSplashRadius").set(WeaponType.Pulse_Cannon, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Pulse_Cannon, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Pulse_Cannon, 0);
-        fields.get("targetsAir").set(WeaponType.Pulse_Cannon, true);
-        fields.get("targetsGround").set(WeaponType.Pulse_Cannon, true);
-        fields.get("targetsMechanical").set(WeaponType.Pulse_Cannon, false);
-        fields.get("targetsOrganic").set(WeaponType.Pulse_Cannon, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Pulse_Cannon, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Pulse_Cannon, false);
-        fields.get("targetsTerrain").set(WeaponType.Pulse_Cannon, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Pulse_Cannon, false);
-        fields.get("targetsOwn").set(WeaponType.Pulse_Cannon, false);
-    }
-    private void initializeWeaponType_STS_Photon_Cannon() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.STS_Photon_Cannon, 80);
-        fields.get("tech").set(WeaponType.STS_Photon_Cannon, TechType.None);
-        fields.get("whatUses").set(WeaponType.STS_Photon_Cannon, UnitType.Protoss_Photon_Cannon);
-        fields.get("damageAmount").set(WeaponType.STS_Photon_Cannon, 20);
-        fields.get("damageBonus").set(WeaponType.STS_Photon_Cannon, 0);
-        fields.get("damageCooldown").set(WeaponType.STS_Photon_Cannon, 22);
-        fields.get("damageFactor").set(WeaponType.STS_Photon_Cannon, 1);
-        fields.get("upgradeType").set(WeaponType.STS_Photon_Cannon, UpgradeType.Upgrade_60);
-        fields.get("damageType").set(WeaponType.STS_Photon_Cannon, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.STS_Photon_Cannon, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.STS_Photon_Cannon, 0);
-        fields.get("maxRange").set(WeaponType.STS_Photon_Cannon, 224);
-        fields.get("innerSplashRadius").set(WeaponType.STS_Photon_Cannon, 0);
-        fields.get("medianSplashRadius").set(WeaponType.STS_Photon_Cannon, 0);
-        fields.get("outerSplashRadius").set(WeaponType.STS_Photon_Cannon, 0);
-        fields.get("targetsAir").set(WeaponType.STS_Photon_Cannon, false);
-        fields.get("targetsGround").set(WeaponType.STS_Photon_Cannon, true);
-        fields.get("targetsMechanical").set(WeaponType.STS_Photon_Cannon, false);
-        fields.get("targetsOrganic").set(WeaponType.STS_Photon_Cannon, false);
-        fields.get("targetsNonBuilding").set(WeaponType.STS_Photon_Cannon, false);
-        fields.get("targetsNonRobotic").set(WeaponType.STS_Photon_Cannon, false);
-        fields.get("targetsTerrain").set(WeaponType.STS_Photon_Cannon, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.STS_Photon_Cannon, false);
-        fields.get("targetsOwn").set(WeaponType.STS_Photon_Cannon, false);
-    }
-    private void initializeWeaponType_STA_Photon_Cannon() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.STA_Photon_Cannon, 81);
-        fields.get("tech").set(WeaponType.STA_Photon_Cannon, TechType.None);
-        fields.get("whatUses").set(WeaponType.STA_Photon_Cannon, UnitType.Protoss_Photon_Cannon);
-        fields.get("damageAmount").set(WeaponType.STA_Photon_Cannon, 20);
-        fields.get("damageBonus").set(WeaponType.STA_Photon_Cannon, 0);
-        fields.get("damageCooldown").set(WeaponType.STA_Photon_Cannon, 22);
-        fields.get("damageFactor").set(WeaponType.STA_Photon_Cannon, 1);
-        fields.get("upgradeType").set(WeaponType.STA_Photon_Cannon, UpgradeType.Upgrade_60);
-        fields.get("damageType").set(WeaponType.STA_Photon_Cannon, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.STA_Photon_Cannon, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.STA_Photon_Cannon, 0);
-        fields.get("maxRange").set(WeaponType.STA_Photon_Cannon, 224);
-        fields.get("innerSplashRadius").set(WeaponType.STA_Photon_Cannon, 0);
-        fields.get("medianSplashRadius").set(WeaponType.STA_Photon_Cannon, 0);
-        fields.get("outerSplashRadius").set(WeaponType.STA_Photon_Cannon, 0);
-        fields.get("targetsAir").set(WeaponType.STA_Photon_Cannon, true);
-        fields.get("targetsGround").set(WeaponType.STA_Photon_Cannon, false);
-        fields.get("targetsMechanical").set(WeaponType.STA_Photon_Cannon, false);
-        fields.get("targetsOrganic").set(WeaponType.STA_Photon_Cannon, false);
-        fields.get("targetsNonBuilding").set(WeaponType.STA_Photon_Cannon, false);
-        fields.get("targetsNonRobotic").set(WeaponType.STA_Photon_Cannon, false);
-        fields.get("targetsTerrain").set(WeaponType.STA_Photon_Cannon, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.STA_Photon_Cannon, false);
-        fields.get("targetsOwn").set(WeaponType.STA_Photon_Cannon, false);
-    }
-    private void initializeWeaponType_Scarab() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Scarab, 82);
-        fields.get("tech").set(WeaponType.Scarab, TechType.None);
-        fields.get("whatUses").set(WeaponType.Scarab, UnitType.Protoss_Scarab);
-        fields.get("damageAmount").set(WeaponType.Scarab, 100);
-        fields.get("damageBonus").set(WeaponType.Scarab, 25);
-        fields.get("damageCooldown").set(WeaponType.Scarab, 1);
-        fields.get("damageFactor").set(WeaponType.Scarab, 1);
-        fields.get("upgradeType").set(WeaponType.Scarab, UpgradeType.Scarab_Damage);
-        fields.get("damageType").set(WeaponType.Scarab, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Scarab, ExplosionType.Enemy_Splash);
-        fields.get("minRange").set(WeaponType.Scarab, 0);
-        fields.get("maxRange").set(WeaponType.Scarab, 128);
-        fields.get("innerSplashRadius").set(WeaponType.Scarab, 20);
-        fields.get("medianSplashRadius").set(WeaponType.Scarab, 40);
-        fields.get("outerSplashRadius").set(WeaponType.Scarab, 60);
-        fields.get("targetsAir").set(WeaponType.Scarab, false);
-        fields.get("targetsGround").set(WeaponType.Scarab, true);
-        fields.get("targetsMechanical").set(WeaponType.Scarab, false);
-        fields.get("targetsOrganic").set(WeaponType.Scarab, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Scarab, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Scarab, false);
-        fields.get("targetsTerrain").set(WeaponType.Scarab, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Scarab, false);
-        fields.get("targetsOwn").set(WeaponType.Scarab, false);
-    }
-    private void initializeWeaponType_Stasis_Field() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Stasis_Field, 83);
-        fields.get("tech").set(WeaponType.Stasis_Field, TechType.Stasis_Field);
-        fields.get("whatUses").set(WeaponType.Stasis_Field, UnitType.Protoss_Arbiter);
-        fields.get("damageAmount").set(WeaponType.Stasis_Field, 0);
-        fields.get("damageBonus").set(WeaponType.Stasis_Field, 1);
-        fields.get("damageCooldown").set(WeaponType.Stasis_Field, 1);
-        fields.get("damageFactor").set(WeaponType.Stasis_Field, 1);
-        fields.get("upgradeType").set(WeaponType.Stasis_Field, UpgradeType.Upgrade_60);
-        fields.get("damageType").set(WeaponType.Stasis_Field, DamageType.Independent);
-        fields.get("explosionType").set(WeaponType.Stasis_Field, ExplosionType.Stasis_Field);
-        fields.get("minRange").set(WeaponType.Stasis_Field, 0);
-        fields.get("maxRange").set(WeaponType.Stasis_Field, 288);
-        fields.get("innerSplashRadius").set(WeaponType.Stasis_Field, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Stasis_Field, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Stasis_Field, 0);
-        fields.get("targetsAir").set(WeaponType.Stasis_Field, true);
-        fields.get("targetsGround").set(WeaponType.Stasis_Field, true);
-        fields.get("targetsMechanical").set(WeaponType.Stasis_Field, false);
-        fields.get("targetsOrganic").set(WeaponType.Stasis_Field, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Stasis_Field, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Stasis_Field, false);
-        fields.get("targetsTerrain").set(WeaponType.Stasis_Field, true);
-        fields.get("targetsOrgOrMech").set(WeaponType.Stasis_Field, false);
-        fields.get("targetsOwn").set(WeaponType.Stasis_Field, false);
-    }
-    private void initializeWeaponType_Psionic_Storm() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Psionic_Storm, 84);
-        fields.get("tech").set(WeaponType.Psionic_Storm, TechType.Psionic_Storm);
-        fields.get("whatUses").set(WeaponType.Psionic_Storm, UnitType.Protoss_High_Templar);
-        fields.get("damageAmount").set(WeaponType.Psionic_Storm, 14);
-        fields.get("damageBonus").set(WeaponType.Psionic_Storm, 1);
-        fields.get("damageCooldown").set(WeaponType.Psionic_Storm, 45);
-        fields.get("damageFactor").set(WeaponType.Psionic_Storm, 1);
-        fields.get("upgradeType").set(WeaponType.Psionic_Storm, UpgradeType.Upgrade_60);
-        fields.get("damageType").set(WeaponType.Psionic_Storm, DamageType.Ignore_Armor);
-        fields.get("explosionType").set(WeaponType.Psionic_Storm, ExplosionType.Radial_Splash);
-        fields.get("minRange").set(WeaponType.Psionic_Storm, 0);
-        fields.get("maxRange").set(WeaponType.Psionic_Storm, 288);
-        fields.get("innerSplashRadius").set(WeaponType.Psionic_Storm, 48);
-        fields.get("medianSplashRadius").set(WeaponType.Psionic_Storm, 48);
-        fields.get("outerSplashRadius").set(WeaponType.Psionic_Storm, 48);
-        fields.get("targetsAir").set(WeaponType.Psionic_Storm, true);
-        fields.get("targetsGround").set(WeaponType.Psionic_Storm, true);
-        fields.get("targetsMechanical").set(WeaponType.Psionic_Storm, false);
-        fields.get("targetsOrganic").set(WeaponType.Psionic_Storm, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Psionic_Storm, true);
-        fields.get("targetsNonRobotic").set(WeaponType.Psionic_Storm, false);
-        fields.get("targetsTerrain").set(WeaponType.Psionic_Storm, true);
-        fields.get("targetsOrgOrMech").set(WeaponType.Psionic_Storm, false);
-        fields.get("targetsOwn").set(WeaponType.Psionic_Storm, false);
-    }
-    private void initializeWeaponType_Warp_Blades_Zeratul() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Warp_Blades_Zeratul, 85);
-        fields.get("tech").set(WeaponType.Warp_Blades_Zeratul, TechType.None);
-        fields.get("whatUses").set(WeaponType.Warp_Blades_Zeratul, UnitType.Hero_Zeratul);
-        fields.get("damageAmount").set(WeaponType.Warp_Blades_Zeratul, 100);
-        fields.get("damageBonus").set(WeaponType.Warp_Blades_Zeratul, 1);
-        fields.get("damageCooldown").set(WeaponType.Warp_Blades_Zeratul, 22);
-        fields.get("damageFactor").set(WeaponType.Warp_Blades_Zeratul, 1);
-        fields.get("upgradeType").set(WeaponType.Warp_Blades_Zeratul, UpgradeType.Protoss_Ground_Weapons);
-        fields.get("damageType").set(WeaponType.Warp_Blades_Zeratul, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Warp_Blades_Zeratul, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Warp_Blades_Zeratul, 0);
-        fields.get("maxRange").set(WeaponType.Warp_Blades_Zeratul, 15);
-        fields.get("innerSplashRadius").set(WeaponType.Warp_Blades_Zeratul, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Warp_Blades_Zeratul, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Warp_Blades_Zeratul, 0);
-        fields.get("targetsAir").set(WeaponType.Warp_Blades_Zeratul, false);
-        fields.get("targetsGround").set(WeaponType.Warp_Blades_Zeratul, true);
-        fields.get("targetsMechanical").set(WeaponType.Warp_Blades_Zeratul, false);
-        fields.get("targetsOrganic").set(WeaponType.Warp_Blades_Zeratul, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Warp_Blades_Zeratul, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Warp_Blades_Zeratul, false);
-        fields.get("targetsTerrain").set(WeaponType.Warp_Blades_Zeratul, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Warp_Blades_Zeratul, false);
-        fields.get("targetsOwn").set(WeaponType.Warp_Blades_Zeratul, false);
-    }
-    private void initializeWeaponType_Warp_Blades_Hero() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Warp_Blades_Hero, 86);
-        fields.get("tech").set(WeaponType.Warp_Blades_Hero, TechType.None);
-        fields.get("whatUses").set(WeaponType.Warp_Blades_Hero, UnitType.Hero_Dark_Templar);
-        fields.get("damageAmount").set(WeaponType.Warp_Blades_Hero, 45);
-        fields.get("damageBonus").set(WeaponType.Warp_Blades_Hero, 1);
-        fields.get("damageCooldown").set(WeaponType.Warp_Blades_Hero, 30);
-        fields.get("damageFactor").set(WeaponType.Warp_Blades_Hero, 1);
-        fields.get("upgradeType").set(WeaponType.Warp_Blades_Hero, UpgradeType.Protoss_Ground_Weapons);
-        fields.get("damageType").set(WeaponType.Warp_Blades_Hero, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Warp_Blades_Hero, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Warp_Blades_Hero, 0);
-        fields.get("maxRange").set(WeaponType.Warp_Blades_Hero, 15);
-        fields.get("innerSplashRadius").set(WeaponType.Warp_Blades_Hero, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Warp_Blades_Hero, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Warp_Blades_Hero, 0);
-        fields.get("targetsAir").set(WeaponType.Warp_Blades_Hero, false);
-        fields.get("targetsGround").set(WeaponType.Warp_Blades_Hero, true);
-        fields.get("targetsMechanical").set(WeaponType.Warp_Blades_Hero, false);
-        fields.get("targetsOrganic").set(WeaponType.Warp_Blades_Hero, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Warp_Blades_Hero, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Warp_Blades_Hero, false);
-        fields.get("targetsTerrain").set(WeaponType.Warp_Blades_Hero, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Warp_Blades_Hero, false);
-        fields.get("targetsOwn").set(WeaponType.Warp_Blades_Hero, false);
-    }
-    private void initializeWeaponType_Platform_Laser_Battery() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Platform_Laser_Battery, 0);
-        fields.get("tech").set(WeaponType.Platform_Laser_Battery, null);
-        fields.get("whatUses").set(WeaponType.Platform_Laser_Battery, null);
-        fields.get("damageAmount").set(WeaponType.Platform_Laser_Battery, 0);
-        fields.get("damageBonus").set(WeaponType.Platform_Laser_Battery, 0);
-        fields.get("damageCooldown").set(WeaponType.Platform_Laser_Battery, 0);
-        fields.get("damageFactor").set(WeaponType.Platform_Laser_Battery, 0);
-        fields.get("upgradeType").set(WeaponType.Platform_Laser_Battery, null);
-        fields.get("damageType").set(WeaponType.Platform_Laser_Battery, null);
-        fields.get("explosionType").set(WeaponType.Platform_Laser_Battery, null);
-        fields.get("minRange").set(WeaponType.Platform_Laser_Battery, 0);
-        fields.get("maxRange").set(WeaponType.Platform_Laser_Battery, 0);
-        fields.get("innerSplashRadius").set(WeaponType.Platform_Laser_Battery, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Platform_Laser_Battery, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Platform_Laser_Battery, 0);
-        fields.get("targetsAir").set(WeaponType.Platform_Laser_Battery, false);
-        fields.get("targetsGround").set(WeaponType.Platform_Laser_Battery, false);
-        fields.get("targetsMechanical").set(WeaponType.Platform_Laser_Battery, false);
-        fields.get("targetsOrganic").set(WeaponType.Platform_Laser_Battery, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Platform_Laser_Battery, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Platform_Laser_Battery, false);
-        fields.get("targetsTerrain").set(WeaponType.Platform_Laser_Battery, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Platform_Laser_Battery, false);
-        fields.get("targetsOwn").set(WeaponType.Platform_Laser_Battery, false);
-    }
-    private void initializeWeaponType_Independant_Laser_Battery() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Independant_Laser_Battery, 93);
-        fields.get("tech").set(WeaponType.Independant_Laser_Battery, TechType.None);
-        fields.get("whatUses").set(WeaponType.Independant_Laser_Battery, UnitType.Special_Independant_Starport);
-        fields.get("damageAmount").set(WeaponType.Independant_Laser_Battery, 7);
-        fields.get("damageBonus").set(WeaponType.Independant_Laser_Battery, 1);
-        fields.get("damageCooldown").set(WeaponType.Independant_Laser_Battery, 22);
-        fields.get("damageFactor").set(WeaponType.Independant_Laser_Battery, 1);
-        fields.get("upgradeType").set(WeaponType.Independant_Laser_Battery, UpgradeType.Upgrade_60);
-        fields.get("damageType").set(WeaponType.Independant_Laser_Battery, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Independant_Laser_Battery, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Independant_Laser_Battery, 0);
-        fields.get("maxRange").set(WeaponType.Independant_Laser_Battery, 128);
-        fields.get("innerSplashRadius").set(WeaponType.Independant_Laser_Battery, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Independant_Laser_Battery, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Independant_Laser_Battery, 0);
-        fields.get("targetsAir").set(WeaponType.Independant_Laser_Battery, true);
-        fields.get("targetsGround").set(WeaponType.Independant_Laser_Battery, false);
-        fields.get("targetsMechanical").set(WeaponType.Independant_Laser_Battery, false);
-        fields.get("targetsOrganic").set(WeaponType.Independant_Laser_Battery, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Independant_Laser_Battery, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Independant_Laser_Battery, false);
-        fields.get("targetsTerrain").set(WeaponType.Independant_Laser_Battery, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Independant_Laser_Battery, false);
-        fields.get("targetsOwn").set(WeaponType.Independant_Laser_Battery, false);
-    }
-    private void initializeWeaponType_Twin_Autocannons_Floor_Trap() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Twin_Autocannons_Floor_Trap, 96);
-        fields.get("tech").set(WeaponType.Twin_Autocannons_Floor_Trap, TechType.None);
-        fields.get("whatUses").set(WeaponType.Twin_Autocannons_Floor_Trap, UnitType.Special_Floor_Gun_Trap);
-        fields.get("damageAmount").set(WeaponType.Twin_Autocannons_Floor_Trap, 10);
-        fields.get("damageBonus").set(WeaponType.Twin_Autocannons_Floor_Trap, 1);
-        fields.get("damageCooldown").set(WeaponType.Twin_Autocannons_Floor_Trap, 22);
-        fields.get("damageFactor").set(WeaponType.Twin_Autocannons_Floor_Trap, 1);
-        fields.get("upgradeType").set(WeaponType.Twin_Autocannons_Floor_Trap, UpgradeType.Terran_Vehicle_Weapons);
-        fields.get("damageType").set(WeaponType.Twin_Autocannons_Floor_Trap, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Twin_Autocannons_Floor_Trap, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Twin_Autocannons_Floor_Trap, 0);
-        fields.get("maxRange").set(WeaponType.Twin_Autocannons_Floor_Trap, 160);
-        fields.get("innerSplashRadius").set(WeaponType.Twin_Autocannons_Floor_Trap, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Twin_Autocannons_Floor_Trap, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Twin_Autocannons_Floor_Trap, 0);
-        fields.get("targetsAir").set(WeaponType.Twin_Autocannons_Floor_Trap, false);
-        fields.get("targetsGround").set(WeaponType.Twin_Autocannons_Floor_Trap, true);
-        fields.get("targetsMechanical").set(WeaponType.Twin_Autocannons_Floor_Trap, false);
-        fields.get("targetsOrganic").set(WeaponType.Twin_Autocannons_Floor_Trap, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Twin_Autocannons_Floor_Trap, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Twin_Autocannons_Floor_Trap, false);
-        fields.get("targetsTerrain").set(WeaponType.Twin_Autocannons_Floor_Trap, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Twin_Autocannons_Floor_Trap, false);
-        fields.get("targetsOwn").set(WeaponType.Twin_Autocannons_Floor_Trap, false);
-    }
-    private void initializeWeaponType_Hellfire_Missile_Pack_Wall_Trap() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, 97);
-        fields.get("tech").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, TechType.None);
-        fields.get("whatUses").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, UnitType.Special_Wall_Missile_Trap);
-        fields.get("damageAmount").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, 10);
-        fields.get("damageBonus").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, 1);
-        fields.get("damageCooldown").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, 22);
-        fields.get("damageFactor").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, 2);
-        fields.get("upgradeType").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, UpgradeType.Terran_Vehicle_Weapons);
-        fields.get("damageType").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, DamageType.Explosive);
-        fields.get("explosionType").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, 0);
-        fields.get("maxRange").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, 160);
-        fields.get("innerSplashRadius").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, 0);
-        fields.get("targetsAir").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, false);
-        fields.get("targetsGround").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, true);
-        fields.get("targetsMechanical").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, false);
-        fields.get("targetsOrganic").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, false);
-        fields.get("targetsTerrain").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, false);
-        fields.get("targetsOwn").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, false);
-    }
-    private void initializeWeaponType_Flame_Thrower_Wall_Trap() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Flame_Thrower_Wall_Trap, 98);
-        fields.get("tech").set(WeaponType.Flame_Thrower_Wall_Trap, TechType.None);
-        fields.get("whatUses").set(WeaponType.Flame_Thrower_Wall_Trap, UnitType.Special_Wall_Flame_Trap);
-        fields.get("damageAmount").set(WeaponType.Flame_Thrower_Wall_Trap, 8);
-        fields.get("damageBonus").set(WeaponType.Flame_Thrower_Wall_Trap, 1);
-        fields.get("damageCooldown").set(WeaponType.Flame_Thrower_Wall_Trap, 22);
-        fields.get("damageFactor").set(WeaponType.Flame_Thrower_Wall_Trap, 1);
-        fields.get("upgradeType").set(WeaponType.Flame_Thrower_Wall_Trap, UpgradeType.Terran_Infantry_Weapons);
-        fields.get("damageType").set(WeaponType.Flame_Thrower_Wall_Trap, DamageType.Concussive);
-        fields.get("explosionType").set(WeaponType.Flame_Thrower_Wall_Trap, ExplosionType.Enemy_Splash);
-        fields.get("minRange").set(WeaponType.Flame_Thrower_Wall_Trap, 0);
-        fields.get("maxRange").set(WeaponType.Flame_Thrower_Wall_Trap, 64);
-        fields.get("innerSplashRadius").set(WeaponType.Flame_Thrower_Wall_Trap, 15);
-        fields.get("medianSplashRadius").set(WeaponType.Flame_Thrower_Wall_Trap, 20);
-        fields.get("outerSplashRadius").set(WeaponType.Flame_Thrower_Wall_Trap, 25);
-        fields.get("targetsAir").set(WeaponType.Flame_Thrower_Wall_Trap, false);
-        fields.get("targetsGround").set(WeaponType.Flame_Thrower_Wall_Trap, true);
-        fields.get("targetsMechanical").set(WeaponType.Flame_Thrower_Wall_Trap, false);
-        fields.get("targetsOrganic").set(WeaponType.Flame_Thrower_Wall_Trap, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Flame_Thrower_Wall_Trap, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Flame_Thrower_Wall_Trap, false);
-        fields.get("targetsTerrain").set(WeaponType.Flame_Thrower_Wall_Trap, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Flame_Thrower_Wall_Trap, false);
-        fields.get("targetsOwn").set(WeaponType.Flame_Thrower_Wall_Trap, false);
-    }
-    private void initializeWeaponType_Hellfire_Missile_Pack_Floor_Trap() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, 99);
-        fields.get("tech").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, TechType.None);
-        fields.get("whatUses").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, UnitType.Special_Floor_Missile_Trap);
-        fields.get("damageAmount").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, 10);
-        fields.get("damageBonus").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, 1);
-        fields.get("damageCooldown").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, 22);
-        fields.get("damageFactor").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, 2);
-        fields.get("upgradeType").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, UpgradeType.Terran_Vehicle_Weapons);
-        fields.get("damageType").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, DamageType.Explosive);
-        fields.get("explosionType").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, 0);
-        fields.get("maxRange").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, 160);
-        fields.get("innerSplashRadius").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, 0);
-        fields.get("targetsAir").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, false);
-        fields.get("targetsGround").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, true);
-        fields.get("targetsMechanical").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, false);
-        fields.get("targetsOrganic").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, false);
-        fields.get("targetsTerrain").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, false);
-        fields.get("targetsOwn").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, false);
-    }
-    private void initializeWeaponType_Neutron_Flare() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Neutron_Flare, 100);
-        fields.get("tech").set(WeaponType.Neutron_Flare, TechType.None);
-        fields.get("whatUses").set(WeaponType.Neutron_Flare, UnitType.Protoss_Corsair);
-        fields.get("damageAmount").set(WeaponType.Neutron_Flare, 5);
-        fields.get("damageBonus").set(WeaponType.Neutron_Flare, 1);
-        fields.get("damageCooldown").set(WeaponType.Neutron_Flare, 8);
-        fields.get("damageFactor").set(WeaponType.Neutron_Flare, 1);
-        fields.get("upgradeType").set(WeaponType.Neutron_Flare, UpgradeType.Protoss_Air_Weapons);
-        fields.get("damageType").set(WeaponType.Neutron_Flare, DamageType.Explosive);
-        fields.get("explosionType").set(WeaponType.Neutron_Flare, ExplosionType.Air_Splash);
-        fields.get("minRange").set(WeaponType.Neutron_Flare, 0);
-        fields.get("maxRange").set(WeaponType.Neutron_Flare, 160);
-        fields.get("innerSplashRadius").set(WeaponType.Neutron_Flare, 5);
-        fields.get("medianSplashRadius").set(WeaponType.Neutron_Flare, 50);
-        fields.get("outerSplashRadius").set(WeaponType.Neutron_Flare, 100);
-        fields.get("targetsAir").set(WeaponType.Neutron_Flare, true);
-        fields.get("targetsGround").set(WeaponType.Neutron_Flare, false);
-        fields.get("targetsMechanical").set(WeaponType.Neutron_Flare, false);
-        fields.get("targetsOrganic").set(WeaponType.Neutron_Flare, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Neutron_Flare, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Neutron_Flare, false);
-        fields.get("targetsTerrain").set(WeaponType.Neutron_Flare, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Neutron_Flare, false);
-        fields.get("targetsOwn").set(WeaponType.Neutron_Flare, false);
-    }
-    private void initializeWeaponType_Disruption_Web() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Disruption_Web, 101);
-        fields.get("tech").set(WeaponType.Disruption_Web, TechType.Disruption_Web);
-        fields.get("whatUses").set(WeaponType.Disruption_Web, UnitType.Protoss_Corsair);
-        fields.get("damageAmount").set(WeaponType.Disruption_Web, 0);
-        fields.get("damageBonus").set(WeaponType.Disruption_Web, 0);
-        fields.get("damageCooldown").set(WeaponType.Disruption_Web, 22);
-        fields.get("damageFactor").set(WeaponType.Disruption_Web, 1);
-        fields.get("upgradeType").set(WeaponType.Disruption_Web, UpgradeType.Upgrade_60);
-        fields.get("damageType").set(WeaponType.Disruption_Web, DamageType.Ignore_Armor);
-        fields.get("explosionType").set(WeaponType.Disruption_Web, ExplosionType.Disruption_Web);
-        fields.get("minRange").set(WeaponType.Disruption_Web, 0);
-        fields.get("maxRange").set(WeaponType.Disruption_Web, 288);
-        fields.get("innerSplashRadius").set(WeaponType.Disruption_Web, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Disruption_Web, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Disruption_Web, 0);
-        fields.get("targetsAir").set(WeaponType.Disruption_Web, false);
-        fields.get("targetsGround").set(WeaponType.Disruption_Web, true);
-        fields.get("targetsMechanical").set(WeaponType.Disruption_Web, false);
-        fields.get("targetsOrganic").set(WeaponType.Disruption_Web, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Disruption_Web, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Disruption_Web, false);
-        fields.get("targetsTerrain").set(WeaponType.Disruption_Web, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Disruption_Web, false);
-        fields.get("targetsOwn").set(WeaponType.Disruption_Web, false);
-    }
-    private void initializeWeaponType_Restoration() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Restoration, 102);
-        fields.get("tech").set(WeaponType.Restoration, TechType.Restoration);
-        fields.get("whatUses").set(WeaponType.Restoration, UnitType.Terran_Medic);
-        fields.get("damageAmount").set(WeaponType.Restoration, 20);
-        fields.get("damageBonus").set(WeaponType.Restoration, 0);
-        fields.get("damageCooldown").set(WeaponType.Restoration, 22);
-        fields.get("damageFactor").set(WeaponType.Restoration, 1);
-        fields.get("upgradeType").set(WeaponType.Restoration, UpgradeType.Upgrade_60);
-        fields.get("damageType").set(WeaponType.Restoration, DamageType.Ignore_Armor);
-        fields.get("explosionType").set(WeaponType.Restoration, ExplosionType.Restoration);
-        fields.get("minRange").set(WeaponType.Restoration, 0);
-        fields.get("maxRange").set(WeaponType.Restoration, 192);
-        fields.get("innerSplashRadius").set(WeaponType.Restoration, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Restoration, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Restoration, 0);
-        fields.get("targetsAir").set(WeaponType.Restoration, true);
-        fields.get("targetsGround").set(WeaponType.Restoration, true);
-        fields.get("targetsMechanical").set(WeaponType.Restoration, false);
-        fields.get("targetsOrganic").set(WeaponType.Restoration, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Restoration, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Restoration, false);
-        fields.get("targetsTerrain").set(WeaponType.Restoration, true);
-        fields.get("targetsOrgOrMech").set(WeaponType.Restoration, false);
-        fields.get("targetsOwn").set(WeaponType.Restoration, false);
-    }
-    private void initializeWeaponType_Halo_Rockets() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Halo_Rockets, 103);
-        fields.get("tech").set(WeaponType.Halo_Rockets, TechType.None);
-        fields.get("whatUses").set(WeaponType.Halo_Rockets, UnitType.Terran_Valkyrie);
-        fields.get("damageAmount").set(WeaponType.Halo_Rockets, 6);
-        fields.get("damageBonus").set(WeaponType.Halo_Rockets, 1);
-        fields.get("damageCooldown").set(WeaponType.Halo_Rockets, 64);
-        fields.get("damageFactor").set(WeaponType.Halo_Rockets, 2);
-        fields.get("upgradeType").set(WeaponType.Halo_Rockets, UpgradeType.Terran_Ship_Weapons);
-        fields.get("damageType").set(WeaponType.Halo_Rockets, DamageType.Explosive);
-        fields.get("explosionType").set(WeaponType.Halo_Rockets, ExplosionType.Air_Splash);
-        fields.get("minRange").set(WeaponType.Halo_Rockets, 0);
-        fields.get("maxRange").set(WeaponType.Halo_Rockets, 192);
-        fields.get("innerSplashRadius").set(WeaponType.Halo_Rockets, 5);
-        fields.get("medianSplashRadius").set(WeaponType.Halo_Rockets, 50);
-        fields.get("outerSplashRadius").set(WeaponType.Halo_Rockets, 100);
-        fields.get("targetsAir").set(WeaponType.Halo_Rockets, true);
-        fields.get("targetsGround").set(WeaponType.Halo_Rockets, false);
-        fields.get("targetsMechanical").set(WeaponType.Halo_Rockets, false);
-        fields.get("targetsOrganic").set(WeaponType.Halo_Rockets, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Halo_Rockets, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Halo_Rockets, false);
-        fields.get("targetsTerrain").set(WeaponType.Halo_Rockets, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Halo_Rockets, false);
-        fields.get("targetsOwn").set(WeaponType.Halo_Rockets, false);
-    }
-    private void initializeWeaponType_Corrosive_Acid() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Corrosive_Acid, 104);
-        fields.get("tech").set(WeaponType.Corrosive_Acid, TechType.None);
-        fields.get("whatUses").set(WeaponType.Corrosive_Acid, UnitType.Zerg_Devourer);
-        fields.get("damageAmount").set(WeaponType.Corrosive_Acid, 25);
-        fields.get("damageBonus").set(WeaponType.Corrosive_Acid, 2);
-        fields.get("damageCooldown").set(WeaponType.Corrosive_Acid, 100);
-        fields.get("damageFactor").set(WeaponType.Corrosive_Acid, 1);
-        fields.get("upgradeType").set(WeaponType.Corrosive_Acid, UpgradeType.Zerg_Flyer_Attacks);
-        fields.get("damageType").set(WeaponType.Corrosive_Acid, DamageType.Explosive);
-        fields.get("explosionType").set(WeaponType.Corrosive_Acid, ExplosionType.Corrosive_Acid);
-        fields.get("minRange").set(WeaponType.Corrosive_Acid, 0);
-        fields.get("maxRange").set(WeaponType.Corrosive_Acid, 192);
-        fields.get("innerSplashRadius").set(WeaponType.Corrosive_Acid, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Corrosive_Acid, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Corrosive_Acid, 0);
-        fields.get("targetsAir").set(WeaponType.Corrosive_Acid, true);
-        fields.get("targetsGround").set(WeaponType.Corrosive_Acid, false);
-        fields.get("targetsMechanical").set(WeaponType.Corrosive_Acid, false);
-        fields.get("targetsOrganic").set(WeaponType.Corrosive_Acid, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Corrosive_Acid, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Corrosive_Acid, false);
-        fields.get("targetsTerrain").set(WeaponType.Corrosive_Acid, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Corrosive_Acid, false);
-        fields.get("targetsOwn").set(WeaponType.Corrosive_Acid, false);
-    }
-    private void initializeWeaponType_Mind_Control() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Mind_Control, 105);
-        fields.get("tech").set(WeaponType.Mind_Control, TechType.Mind_Control);
-        fields.get("whatUses").set(WeaponType.Mind_Control, UnitType.Protoss_Dark_Archon);
-        fields.get("damageAmount").set(WeaponType.Mind_Control, 8);
-        fields.get("damageBonus").set(WeaponType.Mind_Control, 1);
-        fields.get("damageCooldown").set(WeaponType.Mind_Control, 22);
-        fields.get("damageFactor").set(WeaponType.Mind_Control, 1);
-        fields.get("upgradeType").set(WeaponType.Mind_Control, UpgradeType.Upgrade_60);
-        fields.get("damageType").set(WeaponType.Mind_Control, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Mind_Control, ExplosionType.Mind_Control);
-        fields.get("minRange").set(WeaponType.Mind_Control, 0);
-        fields.get("maxRange").set(WeaponType.Mind_Control, 256);
-        fields.get("innerSplashRadius").set(WeaponType.Mind_Control, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Mind_Control, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Mind_Control, 0);
-        fields.get("targetsAir").set(WeaponType.Mind_Control, true);
-        fields.get("targetsGround").set(WeaponType.Mind_Control, true);
-        fields.get("targetsMechanical").set(WeaponType.Mind_Control, false);
-        fields.get("targetsOrganic").set(WeaponType.Mind_Control, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Mind_Control, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Mind_Control, false);
-        fields.get("targetsTerrain").set(WeaponType.Mind_Control, true);
-        fields.get("targetsOrgOrMech").set(WeaponType.Mind_Control, false);
-        fields.get("targetsOwn").set(WeaponType.Mind_Control, false);
-    }
-    private void initializeWeaponType_Feedback() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Feedback, 106);
-        fields.get("tech").set(WeaponType.Feedback, TechType.Feedback);
-        fields.get("whatUses").set(WeaponType.Feedback, UnitType.Protoss_Dark_Archon);
-        fields.get("damageAmount").set(WeaponType.Feedback, 8);
-        fields.get("damageBonus").set(WeaponType.Feedback, 1);
-        fields.get("damageCooldown").set(WeaponType.Feedback, 22);
-        fields.get("damageFactor").set(WeaponType.Feedback, 1);
-        fields.get("upgradeType").set(WeaponType.Feedback, UpgradeType.Upgrade_60);
-        fields.get("damageType").set(WeaponType.Feedback, DamageType.Ignore_Armor);
-        fields.get("explosionType").set(WeaponType.Feedback, ExplosionType.Feedback);
-        fields.get("minRange").set(WeaponType.Feedback, 0);
-        fields.get("maxRange").set(WeaponType.Feedback, 320);
-        fields.get("innerSplashRadius").set(WeaponType.Feedback, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Feedback, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Feedback, 0);
-        fields.get("targetsAir").set(WeaponType.Feedback, true);
-        fields.get("targetsGround").set(WeaponType.Feedback, true);
-        fields.get("targetsMechanical").set(WeaponType.Feedback, false);
-        fields.get("targetsOrganic").set(WeaponType.Feedback, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Feedback, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Feedback, false);
-        fields.get("targetsTerrain").set(WeaponType.Feedback, true);
-        fields.get("targetsOrgOrMech").set(WeaponType.Feedback, false);
-        fields.get("targetsOwn").set(WeaponType.Feedback, false);
-    }
-    private void initializeWeaponType_Optical_Flare() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Optical_Flare, 107);
-        fields.get("tech").set(WeaponType.Optical_Flare, TechType.Optical_Flare);
-        fields.get("whatUses").set(WeaponType.Optical_Flare, UnitType.Terran_Medic);
-        fields.get("damageAmount").set(WeaponType.Optical_Flare, 8);
-        fields.get("damageBonus").set(WeaponType.Optical_Flare, 1);
-        fields.get("damageCooldown").set(WeaponType.Optical_Flare, 22);
-        fields.get("damageFactor").set(WeaponType.Optical_Flare, 1);
-        fields.get("upgradeType").set(WeaponType.Optical_Flare, UpgradeType.Upgrade_60);
-        fields.get("damageType").set(WeaponType.Optical_Flare, DamageType.Independent);
-        fields.get("explosionType").set(WeaponType.Optical_Flare, ExplosionType.Optical_Flare);
-        fields.get("minRange").set(WeaponType.Optical_Flare, 0);
-        fields.get("maxRange").set(WeaponType.Optical_Flare, 288);
-        fields.get("innerSplashRadius").set(WeaponType.Optical_Flare, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Optical_Flare, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Optical_Flare, 0);
-        fields.get("targetsAir").set(WeaponType.Optical_Flare, false);
-        fields.get("targetsGround").set(WeaponType.Optical_Flare, true);
-        fields.get("targetsMechanical").set(WeaponType.Optical_Flare, false);
-        fields.get("targetsOrganic").set(WeaponType.Optical_Flare, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Optical_Flare, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Optical_Flare, false);
-        fields.get("targetsTerrain").set(WeaponType.Optical_Flare, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Optical_Flare, false);
-        fields.get("targetsOwn").set(WeaponType.Optical_Flare, false);
-    }
-    private void initializeWeaponType_Maelstrom() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Maelstrom, 108);
-        fields.get("tech").set(WeaponType.Maelstrom, TechType.Maelstrom);
-        fields.get("whatUses").set(WeaponType.Maelstrom, UnitType.Protoss_Dark_Archon);
-        fields.get("damageAmount").set(WeaponType.Maelstrom, 0);
-        fields.get("damageBonus").set(WeaponType.Maelstrom, 1);
-        fields.get("damageCooldown").set(WeaponType.Maelstrom, 1);
-        fields.get("damageFactor").set(WeaponType.Maelstrom, 1);
-        fields.get("upgradeType").set(WeaponType.Maelstrom, UpgradeType.Upgrade_60);
-        fields.get("damageType").set(WeaponType.Maelstrom, DamageType.Independent);
-        fields.get("explosionType").set(WeaponType.Maelstrom, ExplosionType.Maelstrom);
-        fields.get("minRange").set(WeaponType.Maelstrom, 0);
-        fields.get("maxRange").set(WeaponType.Maelstrom, 320);
-        fields.get("innerSplashRadius").set(WeaponType.Maelstrom, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Maelstrom, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Maelstrom, 0);
-        fields.get("targetsAir").set(WeaponType.Maelstrom, true);
-        fields.get("targetsGround").set(WeaponType.Maelstrom, true);
-        fields.get("targetsMechanical").set(WeaponType.Maelstrom, false);
-        fields.get("targetsOrganic").set(WeaponType.Maelstrom, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Maelstrom, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Maelstrom, false);
-        fields.get("targetsTerrain").set(WeaponType.Maelstrom, true);
-        fields.get("targetsOrgOrMech").set(WeaponType.Maelstrom, false);
-        fields.get("targetsOwn").set(WeaponType.Maelstrom, false);
-    }
-    private void initializeWeaponType_Subterranean_Spines() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Subterranean_Spines, 109);
-        fields.get("tech").set(WeaponType.Subterranean_Spines, TechType.None);
-        fields.get("whatUses").set(WeaponType.Subterranean_Spines, UnitType.Zerg_Lurker);
-        fields.get("damageAmount").set(WeaponType.Subterranean_Spines, 20);
-        fields.get("damageBonus").set(WeaponType.Subterranean_Spines, 2);
-        fields.get("damageCooldown").set(WeaponType.Subterranean_Spines, 37);
-        fields.get("damageFactor").set(WeaponType.Subterranean_Spines, 1);
-        fields.get("upgradeType").set(WeaponType.Subterranean_Spines, UpgradeType.Zerg_Missile_Attacks);
-        fields.get("damageType").set(WeaponType.Subterranean_Spines, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Subterranean_Spines, ExplosionType.Enemy_Splash);
-        fields.get("minRange").set(WeaponType.Subterranean_Spines, 0);
-        fields.get("maxRange").set(WeaponType.Subterranean_Spines, 192);
-        fields.get("innerSplashRadius").set(WeaponType.Subterranean_Spines, 20);
-        fields.get("medianSplashRadius").set(WeaponType.Subterranean_Spines, 20);
-        fields.get("outerSplashRadius").set(WeaponType.Subterranean_Spines, 20);
-        fields.get("targetsAir").set(WeaponType.Subterranean_Spines, false);
-        fields.get("targetsGround").set(WeaponType.Subterranean_Spines, true);
-        fields.get("targetsMechanical").set(WeaponType.Subterranean_Spines, false);
-        fields.get("targetsOrganic").set(WeaponType.Subterranean_Spines, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Subterranean_Spines, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Subterranean_Spines, false);
-        fields.get("targetsTerrain").set(WeaponType.Subterranean_Spines, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Subterranean_Spines, false);
-        fields.get("targetsOwn").set(WeaponType.Subterranean_Spines, false);
-    }
-    private void initializeWeaponType_Warp_Blades() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Warp_Blades, 111);
-        fields.get("tech").set(WeaponType.Warp_Blades, TechType.None);
-        fields.get("whatUses").set(WeaponType.Warp_Blades, UnitType.Protoss_Dark_Templar);
-        fields.get("damageAmount").set(WeaponType.Warp_Blades, 40);
-        fields.get("damageBonus").set(WeaponType.Warp_Blades, 3);
-        fields.get("damageCooldown").set(WeaponType.Warp_Blades, 30);
-        fields.get("damageFactor").set(WeaponType.Warp_Blades, 1);
-        fields.get("upgradeType").set(WeaponType.Warp_Blades, UpgradeType.Protoss_Ground_Weapons);
-        fields.get("damageType").set(WeaponType.Warp_Blades, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Warp_Blades, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Warp_Blades, 0);
-        fields.get("maxRange").set(WeaponType.Warp_Blades, 15);
-        fields.get("innerSplashRadius").set(WeaponType.Warp_Blades, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Warp_Blades, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Warp_Blades, 0);
-        fields.get("targetsAir").set(WeaponType.Warp_Blades, false);
-        fields.get("targetsGround").set(WeaponType.Warp_Blades, true);
-        fields.get("targetsMechanical").set(WeaponType.Warp_Blades, false);
-        fields.get("targetsOrganic").set(WeaponType.Warp_Blades, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Warp_Blades, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Warp_Blades, false);
-        fields.get("targetsTerrain").set(WeaponType.Warp_Blades, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Warp_Blades, false);
-        fields.get("targetsOwn").set(WeaponType.Warp_Blades, false);
-    }
-    private void initializeWeaponType_C_10_Canister_Rifle_Samir_Duran() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, 112);
-        fields.get("tech").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, TechType.None);
-        fields.get("whatUses").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, UnitType.Hero_Samir_Duran);
-        fields.get("damageAmount").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, 25);
-        fields.get("damageBonus").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, 1);
-        fields.get("damageCooldown").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, 22);
-        fields.get("damageFactor").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, 1);
-        fields.get("upgradeType").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, UpgradeType.Terran_Infantry_Weapons);
-        fields.get("damageType").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, DamageType.Concussive);
-        fields.get("explosionType").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, 0);
-        fields.get("maxRange").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, 192);
-        fields.get("innerSplashRadius").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, 0);
-        fields.get("medianSplashRadius").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, 0);
-        fields.get("outerSplashRadius").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, 0);
-        fields.get("targetsAir").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, true);
-        fields.get("targetsGround").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, true);
-        fields.get("targetsMechanical").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, false);
-        fields.get("targetsOrganic").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, false);
-        fields.get("targetsNonBuilding").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, false);
-        fields.get("targetsNonRobotic").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, false);
-        fields.get("targetsTerrain").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, false);
-        fields.get("targetsOwn").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, false);
-    }
-    private void initializeWeaponType_C_10_Canister_Rifle_Infested_Duran() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.C_10_Canister_Rifle_Infested_Duran, 113);
-        fields.get("tech").set(WeaponType.C_10_Canister_Rifle_Infested_Duran, TechType.None);
-        fields.get("whatUses").set(WeaponType.C_10_Canister_Rifle_Infested_Duran, UnitType.Hero_Infested_Duran);
-        fields.get("damageAmount").set(WeaponType.C_10_Canister_Rifle_Infested_Duran, 25);
-        fields.get("damageBonus").set(WeaponType.C_10_Canister_Rifle_Infested_Duran, 1);
-        fields.get("damageCooldown").set(WeaponType.C_10_Canister_Rifle_Infested_Duran, 22);
-        fields.get("damageFactor").set(WeaponType.C_10_Canister_Rifle_Infested_Duran, 1);
-        fields.get("upgradeType").set(WeaponType.C_10_Canister_Rifle_Infested_Duran, UpgradeType.Terran_Infantry_Weapons);
-        fields.get("damageType").set(WeaponType.C_10_Canister_Rifle_Infested_Duran, DamageType.Concussive);
-        fields.get("explosionType").set(WeaponType.C_10_Canister_Rifle_Infested_Duran, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.C_10_Canister_Rifle_Infested_Duran, 0);
-        fields.get("maxRange").set(WeaponType.C_10_Canister_Rifle_Infested_Duran, 192);
-        fields.get("innerSplashRadius").set(WeaponType.C_10_Canister_Rifle_Infested_Duran, 0);
-        fields.get("medianSplashRadius").set(WeaponType.C_10_Canister_Rifle_Infested_Duran, 0);
-        fields.get("outerSplashRadius").set(WeaponType.C_10_Canister_Rifle_Infested_Duran, 0);
-        fields.get("targetsAir").set(WeaponType.C_10_Canister_Rifle_Infested_Duran, true);
-        fields.get("targetsGround").set(WeaponType.C_10_Canister_Rifle_Infested_Duran, true);
-        fields.get("targetsMechanical").set(WeaponType.C_10_Canister_Rifle_Infested_Duran, false);
-        fields.get("targetsOrganic").set(WeaponType.C_10_Canister_Rifle_Infested_Duran, false);
-        fields.get("targetsNonBuilding").set(WeaponType.C_10_Canister_Rifle_Infested_Duran, false);
-        fields.get("targetsNonRobotic").set(WeaponType.C_10_Canister_Rifle_Infested_Duran, false);
-        fields.get("targetsTerrain").set(WeaponType.C_10_Canister_Rifle_Infested_Duran, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.C_10_Canister_Rifle_Infested_Duran, false);
-        fields.get("targetsOwn").set(WeaponType.C_10_Canister_Rifle_Infested_Duran, false);
-    }
-    private void initializeWeaponType_Dual_Photon_Blasters_Artanis() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Dual_Photon_Blasters_Artanis, 114);
-        fields.get("tech").set(WeaponType.Dual_Photon_Blasters_Artanis, TechType.None);
-        fields.get("whatUses").set(WeaponType.Dual_Photon_Blasters_Artanis, UnitType.Hero_Artanis);
-        fields.get("damageAmount").set(WeaponType.Dual_Photon_Blasters_Artanis, 20);
-        fields.get("damageBonus").set(WeaponType.Dual_Photon_Blasters_Artanis, 1);
-        fields.get("damageCooldown").set(WeaponType.Dual_Photon_Blasters_Artanis, 30);
-        fields.get("damageFactor").set(WeaponType.Dual_Photon_Blasters_Artanis, 1);
-        fields.get("upgradeType").set(WeaponType.Dual_Photon_Blasters_Artanis, UpgradeType.Protoss_Air_Weapons);
-        fields.get("damageType").set(WeaponType.Dual_Photon_Blasters_Artanis, DamageType.Normal);
-        fields.get("explosionType").set(WeaponType.Dual_Photon_Blasters_Artanis, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Dual_Photon_Blasters_Artanis, 0);
-        fields.get("maxRange").set(WeaponType.Dual_Photon_Blasters_Artanis, 128);
-        fields.get("innerSplashRadius").set(WeaponType.Dual_Photon_Blasters_Artanis, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Dual_Photon_Blasters_Artanis, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Dual_Photon_Blasters_Artanis, 0);
-        fields.get("targetsAir").set(WeaponType.Dual_Photon_Blasters_Artanis, false);
-        fields.get("targetsGround").set(WeaponType.Dual_Photon_Blasters_Artanis, true);
-        fields.get("targetsMechanical").set(WeaponType.Dual_Photon_Blasters_Artanis, false);
-        fields.get("targetsOrganic").set(WeaponType.Dual_Photon_Blasters_Artanis, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Dual_Photon_Blasters_Artanis, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Dual_Photon_Blasters_Artanis, false);
-        fields.get("targetsTerrain").set(WeaponType.Dual_Photon_Blasters_Artanis, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Dual_Photon_Blasters_Artanis, false);
-        fields.get("targetsOwn").set(WeaponType.Dual_Photon_Blasters_Artanis, false);
-    }
-    private void initializeWeaponType_Anti_Matter_Missiles_Artanis() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Anti_Matter_Missiles_Artanis, 115);
-        fields.get("tech").set(WeaponType.Anti_Matter_Missiles_Artanis, TechType.None);
-        fields.get("whatUses").set(WeaponType.Anti_Matter_Missiles_Artanis, UnitType.Hero_Artanis);
-        fields.get("damageAmount").set(WeaponType.Anti_Matter_Missiles_Artanis, 28);
-        fields.get("damageBonus").set(WeaponType.Anti_Matter_Missiles_Artanis, 1);
-        fields.get("damageCooldown").set(WeaponType.Anti_Matter_Missiles_Artanis, 22);
-        fields.get("damageFactor").set(WeaponType.Anti_Matter_Missiles_Artanis, 2);
-        fields.get("upgradeType").set(WeaponType.Anti_Matter_Missiles_Artanis, UpgradeType.Protoss_Air_Weapons);
-        fields.get("damageType").set(WeaponType.Anti_Matter_Missiles_Artanis, DamageType.Explosive);
-        fields.get("explosionType").set(WeaponType.Anti_Matter_Missiles_Artanis, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.Anti_Matter_Missiles_Artanis, 0);
-        fields.get("maxRange").set(WeaponType.Anti_Matter_Missiles_Artanis, 128);
-        fields.get("innerSplashRadius").set(WeaponType.Anti_Matter_Missiles_Artanis, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Anti_Matter_Missiles_Artanis, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Anti_Matter_Missiles_Artanis, 0);
-        fields.get("targetsAir").set(WeaponType.Anti_Matter_Missiles_Artanis, true);
-        fields.get("targetsGround").set(WeaponType.Anti_Matter_Missiles_Artanis, false);
-        fields.get("targetsMechanical").set(WeaponType.Anti_Matter_Missiles_Artanis, false);
-        fields.get("targetsOrganic").set(WeaponType.Anti_Matter_Missiles_Artanis, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Anti_Matter_Missiles_Artanis, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Anti_Matter_Missiles_Artanis, false);
-        fields.get("targetsTerrain").set(WeaponType.Anti_Matter_Missiles_Artanis, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Anti_Matter_Missiles_Artanis, false);
-        fields.get("targetsOwn").set(WeaponType.Anti_Matter_Missiles_Artanis, false);
-    }
-    private void initializeWeaponType_C_10_Canister_Rifle_Alexei_Stukov() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, 116);
-        fields.get("tech").set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, TechType.None);
-        fields.get("whatUses").set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, UnitType.Hero_Alexei_Stukov);
-        fields.get("damageAmount").set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, 30);
-        fields.get("damageBonus").set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, 1);
-        fields.get("damageCooldown").set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, 22);
-        fields.get("damageFactor").set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, 1);
-        fields.get("upgradeType").set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, UpgradeType.Terran_Infantry_Weapons);
-        fields.get("damageType").set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, DamageType.Concussive);
-        fields.get("explosionType").set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, ExplosionType.Normal);
-        fields.get("minRange").set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, 0);
-        fields.get("maxRange").set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, 192);
-        fields.get("innerSplashRadius").set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, 0);
-        fields.get("medianSplashRadius").set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, 0);
-        fields.get("outerSplashRadius").set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, 0);
-        fields.get("targetsAir").set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, true);
-        fields.get("targetsGround").set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, true);
-        fields.get("targetsMechanical").set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, false);
-        fields.get("targetsOrganic").set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, false);
-        fields.get("targetsNonBuilding").set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, false);
-        fields.get("targetsNonRobotic").set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, false);
-        fields.get("targetsTerrain").set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, false);
-        fields.get("targetsOwn").set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, false);
-    }
-    private void initializeWeaponType_None() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.None, 130);
-        fields.get("tech").set(WeaponType.None, TechType.None);
-        fields.get("whatUses").set(WeaponType.None, UnitType.None);
-        fields.get("damageAmount").set(WeaponType.None, 0);
-        fields.get("damageBonus").set(WeaponType.None, 0);
-        fields.get("damageCooldown").set(WeaponType.None, 0);
-        fields.get("damageFactor").set(WeaponType.None, 0);
-        fields.get("upgradeType").set(WeaponType.None, UpgradeType.None);
-        fields.get("damageType").set(WeaponType.None, DamageType.None);
-        fields.get("explosionType").set(WeaponType.None, ExplosionType.None);
-        fields.get("minRange").set(WeaponType.None, 0);
-        fields.get("maxRange").set(WeaponType.None, 0);
-        fields.get("innerSplashRadius").set(WeaponType.None, 0);
-        fields.get("medianSplashRadius").set(WeaponType.None, 0);
-        fields.get("outerSplashRadius").set(WeaponType.None, 0);
-        fields.get("targetsAir").set(WeaponType.None, false);
-        fields.get("targetsGround").set(WeaponType.None, false);
-        fields.get("targetsMechanical").set(WeaponType.None, false);
-        fields.get("targetsOrganic").set(WeaponType.None, false);
-        fields.get("targetsNonBuilding").set(WeaponType.None, false);
-        fields.get("targetsNonRobotic").set(WeaponType.None, false);
-        fields.get("targetsTerrain").set(WeaponType.None, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.None, false);
-        fields.get("targetsOwn").set(WeaponType.None, false);
-    }
-    private void initializeWeaponType_Unknown() throws Exception {
-        Class<?> c = WeaponType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(WeaponType.Unknown, 131);
-        fields.get("tech").set(WeaponType.Unknown, TechType.None);
-        fields.get("whatUses").set(WeaponType.Unknown, UnitType.Unknown);
-        fields.get("damageAmount").set(WeaponType.Unknown, 0);
-        fields.get("damageBonus").set(WeaponType.Unknown, 0);
-        fields.get("damageCooldown").set(WeaponType.Unknown, 0);
-        fields.get("damageFactor").set(WeaponType.Unknown, 0);
-        fields.get("upgradeType").set(WeaponType.Unknown, UpgradeType.Unknown);
-        fields.get("damageType").set(WeaponType.Unknown, DamageType.Unknown);
-        fields.get("explosionType").set(WeaponType.Unknown, ExplosionType.Unknown);
-        fields.get("minRange").set(WeaponType.Unknown, 0);
-        fields.get("maxRange").set(WeaponType.Unknown, 0);
-        fields.get("innerSplashRadius").set(WeaponType.Unknown, 0);
-        fields.get("medianSplashRadius").set(WeaponType.Unknown, 0);
-        fields.get("outerSplashRadius").set(WeaponType.Unknown, 0);
-        fields.get("targetsAir").set(WeaponType.Unknown, false);
-        fields.get("targetsGround").set(WeaponType.Unknown, false);
-        fields.get("targetsMechanical").set(WeaponType.Unknown, false);
-        fields.get("targetsOrganic").set(WeaponType.Unknown, false);
-        fields.get("targetsNonBuilding").set(WeaponType.Unknown, false);
-        fields.get("targetsNonRobotic").set(WeaponType.Unknown, false);
-        fields.get("targetsTerrain").set(WeaponType.Unknown, false);
-        fields.get("targetsOrgOrMech").set(WeaponType.Unknown, false);
-        fields.get("targetsOwn").set(WeaponType.Unknown, false);
-    }
-    private void initializeUpgradeType() throws Exception {
-        initializeUpgradeType_Terran_Infantry_Armor();
-        initializeUpgradeType_Terran_Vehicle_Plating();
-        initializeUpgradeType_Terran_Ship_Plating();
-        initializeUpgradeType_Zerg_Carapace();
-        initializeUpgradeType_Zerg_Flyer_Carapace();
-        initializeUpgradeType_Protoss_Ground_Armor();
-        initializeUpgradeType_Protoss_Air_Armor();
-        initializeUpgradeType_Terran_Infantry_Weapons();
-        initializeUpgradeType_Terran_Vehicle_Weapons();
-        initializeUpgradeType_Terran_Ship_Weapons();
-        initializeUpgradeType_Zerg_Melee_Attacks();
-        initializeUpgradeType_Zerg_Missile_Attacks();
-        initializeUpgradeType_Zerg_Flyer_Attacks();
-        initializeUpgradeType_Protoss_Ground_Weapons();
-        initializeUpgradeType_Protoss_Air_Weapons();
-        initializeUpgradeType_Protoss_Plasma_Shields();
-        initializeUpgradeType_U_238_Shells();
-        initializeUpgradeType_Ion_Thrusters();
-        initializeUpgradeType_Titan_Reactor();
-        initializeUpgradeType_Ocular_Implants();
-        initializeUpgradeType_Moebius_Reactor();
-        initializeUpgradeType_Apollo_Reactor();
-        initializeUpgradeType_Colossus_Reactor();
-        initializeUpgradeType_Ventral_Sacs();
-        initializeUpgradeType_Antennae();
-        initializeUpgradeType_Pneumatized_Carapace();
-        initializeUpgradeType_Metabolic_Boost();
-        initializeUpgradeType_Adrenal_Glands();
-        initializeUpgradeType_Muscular_Augments();
-        initializeUpgradeType_Grooved_Spines();
-        initializeUpgradeType_Gamete_Meiosis();
-        initializeUpgradeType_Metasynaptic_Node();
-        initializeUpgradeType_Singularity_Charge();
-        initializeUpgradeType_Leg_Enhancements();
-        initializeUpgradeType_Scarab_Damage();
-        initializeUpgradeType_Reaver_Capacity();
-        initializeUpgradeType_Gravitic_Drive();
-        initializeUpgradeType_Sensor_Array();
-        initializeUpgradeType_Gravitic_Boosters();
-        initializeUpgradeType_Khaydarin_Amulet();
-        initializeUpgradeType_Apial_Sensors();
-        initializeUpgradeType_Gravitic_Thrusters();
-        initializeUpgradeType_Carrier_Capacity();
-        initializeUpgradeType_Khaydarin_Core();
-        initializeUpgradeType_Argus_Jewel();
-        initializeUpgradeType_Argus_Talisman();
-        initializeUpgradeType_Caduceus_Reactor();
-        initializeUpgradeType_Chitinous_Plating();
-        initializeUpgradeType_Anabolic_Synthesis();
-        initializeUpgradeType_Charon_Boosters();
-        initializeUpgradeType_Upgrade_60();
-        initializeUpgradeType_None();
-        initializeUpgradeType_Unknown();
-    }
-
-    private void initializeUpgradeType_Terran_Infantry_Armor() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Terran_Infantry_Armor, 0);
-        fields.get("race").set(UpgradeType.Terran_Infantry_Armor, Race.Terran);
-        fields.get("mineralPrices").set(UpgradeType.Terran_Infantry_Armor, new int[] {100, 175, 250});
-        fields.get("mineralPriceFactor").set(UpgradeType.Terran_Infantry_Armor, 75);
-        fields.get("gasPrices").set(UpgradeType.Terran_Infantry_Armor, new int[] {100, 175, 250});
-        fields.get("gasPriceFactor").set(UpgradeType.Terran_Infantry_Armor, 75);
-        fields.get("upgradeTimes").set(UpgradeType.Terran_Infantry_Armor, new int[] {4000, 4480, 4960});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Terran_Infantry_Armor, 480);
-        fields.get("maxRepeats").set(UpgradeType.Terran_Infantry_Armor, 3);
-        fields.get("whatUpgrades").set(UpgradeType.Terran_Infantry_Armor, UnitType.Terran_Engineering_Bay);
-        fields.get("whatsRequired").set(UpgradeType.Terran_Infantry_Armor, new UnitType [] {UnitType.None, UnitType.Terran_Science_Facility, UnitType.Terran_Science_Facility});
-    }
-    private void initializeUpgradeType_Terran_Vehicle_Plating() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Terran_Vehicle_Plating, 1);
-        fields.get("race").set(UpgradeType.Terran_Vehicle_Plating, Race.Terran);
-        fields.get("mineralPrices").set(UpgradeType.Terran_Vehicle_Plating, new int[] {100, 175, 250});
-        fields.get("mineralPriceFactor").set(UpgradeType.Terran_Vehicle_Plating, 75);
-        fields.get("gasPrices").set(UpgradeType.Terran_Vehicle_Plating, new int[] {100, 175, 250});
-        fields.get("gasPriceFactor").set(UpgradeType.Terran_Vehicle_Plating, 75);
-        fields.get("upgradeTimes").set(UpgradeType.Terran_Vehicle_Plating, new int[] {4000, 4480, 4960});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Terran_Vehicle_Plating, 480);
-        fields.get("maxRepeats").set(UpgradeType.Terran_Vehicle_Plating, 3);
-        fields.get("whatUpgrades").set(UpgradeType.Terran_Vehicle_Plating, UnitType.Terran_Armory);
-        fields.get("whatsRequired").set(UpgradeType.Terran_Vehicle_Plating, new UnitType [] {UnitType.None, UnitType.Terran_Science_Facility, UnitType.Terran_Science_Facility});
-    }
-    private void initializeUpgradeType_Terran_Ship_Plating() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Terran_Ship_Plating, 2);
-        fields.get("race").set(UpgradeType.Terran_Ship_Plating, Race.Terran);
-        fields.get("mineralPrices").set(UpgradeType.Terran_Ship_Plating, new int[] {150, 225, 300});
-        fields.get("mineralPriceFactor").set(UpgradeType.Terran_Ship_Plating, 75);
-        fields.get("gasPrices").set(UpgradeType.Terran_Ship_Plating, new int[] {150, 225, 300});
-        fields.get("gasPriceFactor").set(UpgradeType.Terran_Ship_Plating, 75);
-        fields.get("upgradeTimes").set(UpgradeType.Terran_Ship_Plating, new int[] {4000, 4480, 4960});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Terran_Ship_Plating, 480);
-        fields.get("maxRepeats").set(UpgradeType.Terran_Ship_Plating, 3);
-        fields.get("whatUpgrades").set(UpgradeType.Terran_Ship_Plating, UnitType.Terran_Armory);
-        fields.get("whatsRequired").set(UpgradeType.Terran_Ship_Plating, new UnitType [] {UnitType.None, UnitType.Terran_Science_Facility, UnitType.Terran_Science_Facility});
-    }
-    private void initializeUpgradeType_Zerg_Carapace() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Zerg_Carapace, 3);
-        fields.get("race").set(UpgradeType.Zerg_Carapace, Race.Zerg);
-        fields.get("mineralPrices").set(UpgradeType.Zerg_Carapace, new int[] {150, 225, 300});
-        fields.get("mineralPriceFactor").set(UpgradeType.Zerg_Carapace, 75);
-        fields.get("gasPrices").set(UpgradeType.Zerg_Carapace, new int[] {150, 225, 300});
-        fields.get("gasPriceFactor").set(UpgradeType.Zerg_Carapace, 75);
-        fields.get("upgradeTimes").set(UpgradeType.Zerg_Carapace, new int[] {4000, 4480, 4960});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Zerg_Carapace, 480);
-        fields.get("maxRepeats").set(UpgradeType.Zerg_Carapace, 3);
-        fields.get("whatUpgrades").set(UpgradeType.Zerg_Carapace, UnitType.Zerg_Evolution_Chamber);
-        fields.get("whatsRequired").set(UpgradeType.Zerg_Carapace, new UnitType [] {UnitType.None, UnitType.Zerg_Lair, UnitType.Zerg_Hive});
-    }
-    private void initializeUpgradeType_Zerg_Flyer_Carapace() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Zerg_Flyer_Carapace, 4);
-        fields.get("race").set(UpgradeType.Zerg_Flyer_Carapace, Race.Zerg);
-        fields.get("mineralPrices").set(UpgradeType.Zerg_Flyer_Carapace, new int[] {150, 225, 300});
-        fields.get("mineralPriceFactor").set(UpgradeType.Zerg_Flyer_Carapace, 75);
-        fields.get("gasPrices").set(UpgradeType.Zerg_Flyer_Carapace, new int[] {150, 225, 300});
-        fields.get("gasPriceFactor").set(UpgradeType.Zerg_Flyer_Carapace, 75);
-        fields.get("upgradeTimes").set(UpgradeType.Zerg_Flyer_Carapace, new int[] {4000, 4480, 4960});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Zerg_Flyer_Carapace, 480);
-        fields.get("maxRepeats").set(UpgradeType.Zerg_Flyer_Carapace, 3);
-        fields.get("whatUpgrades").set(UpgradeType.Zerg_Flyer_Carapace, UnitType.Zerg_Spire);
-        fields.get("whatsRequired").set(UpgradeType.Zerg_Flyer_Carapace, new UnitType [] {UnitType.None, UnitType.Zerg_Lair, UnitType.Zerg_Hive});
-    }
-    private void initializeUpgradeType_Protoss_Ground_Armor() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Protoss_Ground_Armor, 5);
-        fields.get("race").set(UpgradeType.Protoss_Ground_Armor, Race.Protoss);
-        fields.get("mineralPrices").set(UpgradeType.Protoss_Ground_Armor, new int[] {100, 175, 250});
-        fields.get("mineralPriceFactor").set(UpgradeType.Protoss_Ground_Armor, 75);
-        fields.get("gasPrices").set(UpgradeType.Protoss_Ground_Armor, new int[] {100, 175, 250});
-        fields.get("gasPriceFactor").set(UpgradeType.Protoss_Ground_Armor, 75);
-        fields.get("upgradeTimes").set(UpgradeType.Protoss_Ground_Armor, new int[] {4000, 4480, 4960});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Protoss_Ground_Armor, 480);
-        fields.get("maxRepeats").set(UpgradeType.Protoss_Ground_Armor, 3);
-        fields.get("whatUpgrades").set(UpgradeType.Protoss_Ground_Armor, UnitType.Protoss_Forge);
-        fields.get("whatsRequired").set(UpgradeType.Protoss_Ground_Armor, new UnitType [] {UnitType.None, UnitType.Protoss_Templar_Archives, UnitType.Protoss_Templar_Archives});
-    }
-    private void initializeUpgradeType_Protoss_Air_Armor() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Protoss_Air_Armor, 6);
-        fields.get("race").set(UpgradeType.Protoss_Air_Armor, Race.Protoss);
-        fields.get("mineralPrices").set(UpgradeType.Protoss_Air_Armor, new int[] {150, 225, 300});
-        fields.get("mineralPriceFactor").set(UpgradeType.Protoss_Air_Armor, 75);
-        fields.get("gasPrices").set(UpgradeType.Protoss_Air_Armor, new int[] {150, 225, 300});
-        fields.get("gasPriceFactor").set(UpgradeType.Protoss_Air_Armor, 75);
-        fields.get("upgradeTimes").set(UpgradeType.Protoss_Air_Armor, new int[] {4000, 4480, 4960});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Protoss_Air_Armor, 480);
-        fields.get("maxRepeats").set(UpgradeType.Protoss_Air_Armor, 3);
-        fields.get("whatUpgrades").set(UpgradeType.Protoss_Air_Armor, UnitType.Protoss_Cybernetics_Core);
-        fields.get("whatsRequired").set(UpgradeType.Protoss_Air_Armor, new UnitType [] {UnitType.None, UnitType.Protoss_Fleet_Beacon, UnitType.Protoss_Fleet_Beacon});
-    }
-    private void initializeUpgradeType_Terran_Infantry_Weapons() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Terran_Infantry_Weapons, 7);
-        fields.get("race").set(UpgradeType.Terran_Infantry_Weapons, Race.Terran);
-        fields.get("mineralPrices").set(UpgradeType.Terran_Infantry_Weapons, new int[] {100, 175, 250});
-        fields.get("mineralPriceFactor").set(UpgradeType.Terran_Infantry_Weapons, 75);
-        fields.get("gasPrices").set(UpgradeType.Terran_Infantry_Weapons, new int[] {100, 175, 250});
-        fields.get("gasPriceFactor").set(UpgradeType.Terran_Infantry_Weapons, 75);
-        fields.get("upgradeTimes").set(UpgradeType.Terran_Infantry_Weapons, new int[] {4000, 4480, 4960});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Terran_Infantry_Weapons, 480);
-        fields.get("maxRepeats").set(UpgradeType.Terran_Infantry_Weapons, 3);
-        fields.get("whatUpgrades").set(UpgradeType.Terran_Infantry_Weapons, UnitType.Terran_Engineering_Bay);
-        fields.get("whatsRequired").set(UpgradeType.Terran_Infantry_Weapons, new UnitType [] {UnitType.None, UnitType.Terran_Science_Facility, UnitType.Terran_Science_Facility});
-    }
-    private void initializeUpgradeType_Terran_Vehicle_Weapons() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Terran_Vehicle_Weapons, 8);
-        fields.get("race").set(UpgradeType.Terran_Vehicle_Weapons, Race.Terran);
-        fields.get("mineralPrices").set(UpgradeType.Terran_Vehicle_Weapons, new int[] {100, 175, 250});
-        fields.get("mineralPriceFactor").set(UpgradeType.Terran_Vehicle_Weapons, 75);
-        fields.get("gasPrices").set(UpgradeType.Terran_Vehicle_Weapons, new int[] {100, 175, 250});
-        fields.get("gasPriceFactor").set(UpgradeType.Terran_Vehicle_Weapons, 75);
-        fields.get("upgradeTimes").set(UpgradeType.Terran_Vehicle_Weapons, new int[] {4000, 4480, 4960});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Terran_Vehicle_Weapons, 480);
-        fields.get("maxRepeats").set(UpgradeType.Terran_Vehicle_Weapons, 3);
-        fields.get("whatUpgrades").set(UpgradeType.Terran_Vehicle_Weapons, UnitType.Terran_Armory);
-        fields.get("whatsRequired").set(UpgradeType.Terran_Vehicle_Weapons, new UnitType [] {UnitType.None, UnitType.Terran_Science_Facility, UnitType.Terran_Science_Facility});
-    }
-    private void initializeUpgradeType_Terran_Ship_Weapons() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Terran_Ship_Weapons, 9);
-        fields.get("race").set(UpgradeType.Terran_Ship_Weapons, Race.Terran);
-        fields.get("mineralPrices").set(UpgradeType.Terran_Ship_Weapons, new int[] {100, 150, 200});
-        fields.get("mineralPriceFactor").set(UpgradeType.Terran_Ship_Weapons, 50);
-        fields.get("gasPrices").set(UpgradeType.Terran_Ship_Weapons, new int[] {100, 150, 200});
-        fields.get("gasPriceFactor").set(UpgradeType.Terran_Ship_Weapons, 50);
-        fields.get("upgradeTimes").set(UpgradeType.Terran_Ship_Weapons, new int[] {4000, 4480, 4960});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Terran_Ship_Weapons, 480);
-        fields.get("maxRepeats").set(UpgradeType.Terran_Ship_Weapons, 3);
-        fields.get("whatUpgrades").set(UpgradeType.Terran_Ship_Weapons, UnitType.Terran_Armory);
-        fields.get("whatsRequired").set(UpgradeType.Terran_Ship_Weapons, new UnitType [] {UnitType.None, UnitType.Terran_Science_Facility, UnitType.Terran_Science_Facility});
-    }
-    private void initializeUpgradeType_Zerg_Melee_Attacks() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Zerg_Melee_Attacks, 10);
-        fields.get("race").set(UpgradeType.Zerg_Melee_Attacks, Race.Zerg);
-        fields.get("mineralPrices").set(UpgradeType.Zerg_Melee_Attacks, new int[] {100, 150, 200});
-        fields.get("mineralPriceFactor").set(UpgradeType.Zerg_Melee_Attacks, 50);
-        fields.get("gasPrices").set(UpgradeType.Zerg_Melee_Attacks, new int[] {100, 150, 200});
-        fields.get("gasPriceFactor").set(UpgradeType.Zerg_Melee_Attacks, 50);
-        fields.get("upgradeTimes").set(UpgradeType.Zerg_Melee_Attacks, new int[] {4000, 4480, 4960});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Zerg_Melee_Attacks, 480);
-        fields.get("maxRepeats").set(UpgradeType.Zerg_Melee_Attacks, 3);
-        fields.get("whatUpgrades").set(UpgradeType.Zerg_Melee_Attacks, UnitType.Zerg_Evolution_Chamber);
-        fields.get("whatsRequired").set(UpgradeType.Zerg_Melee_Attacks, new UnitType [] {UnitType.None, UnitType.Zerg_Lair, UnitType.Zerg_Hive});
-    }
-    private void initializeUpgradeType_Zerg_Missile_Attacks() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Zerg_Missile_Attacks, 11);
-        fields.get("race").set(UpgradeType.Zerg_Missile_Attacks, Race.Zerg);
-        fields.get("mineralPrices").set(UpgradeType.Zerg_Missile_Attacks, new int[] {100, 150, 200});
-        fields.get("mineralPriceFactor").set(UpgradeType.Zerg_Missile_Attacks, 50);
-        fields.get("gasPrices").set(UpgradeType.Zerg_Missile_Attacks, new int[] {100, 150, 200});
-        fields.get("gasPriceFactor").set(UpgradeType.Zerg_Missile_Attacks, 50);
-        fields.get("upgradeTimes").set(UpgradeType.Zerg_Missile_Attacks, new int[] {4000, 4480, 4960});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Zerg_Missile_Attacks, 480);
-        fields.get("maxRepeats").set(UpgradeType.Zerg_Missile_Attacks, 3);
-        fields.get("whatUpgrades").set(UpgradeType.Zerg_Missile_Attacks, UnitType.Zerg_Evolution_Chamber);
-        fields.get("whatsRequired").set(UpgradeType.Zerg_Missile_Attacks, new UnitType [] {UnitType.None, UnitType.Zerg_Lair, UnitType.Zerg_Hive});
-    }
-    private void initializeUpgradeType_Zerg_Flyer_Attacks() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Zerg_Flyer_Attacks, 12);
-        fields.get("race").set(UpgradeType.Zerg_Flyer_Attacks, Race.Zerg);
-        fields.get("mineralPrices").set(UpgradeType.Zerg_Flyer_Attacks, new int[] {100, 175, 250});
-        fields.get("mineralPriceFactor").set(UpgradeType.Zerg_Flyer_Attacks, 75);
-        fields.get("gasPrices").set(UpgradeType.Zerg_Flyer_Attacks, new int[] {100, 175, 250});
-        fields.get("gasPriceFactor").set(UpgradeType.Zerg_Flyer_Attacks, 75);
-        fields.get("upgradeTimes").set(UpgradeType.Zerg_Flyer_Attacks, new int[] {4000, 4480, 4960});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Zerg_Flyer_Attacks, 480);
-        fields.get("maxRepeats").set(UpgradeType.Zerg_Flyer_Attacks, 3);
-        fields.get("whatUpgrades").set(UpgradeType.Zerg_Flyer_Attacks, UnitType.Zerg_Spire);
-        fields.get("whatsRequired").set(UpgradeType.Zerg_Flyer_Attacks, new UnitType [] {UnitType.None, UnitType.Zerg_Lair, UnitType.Zerg_Hive});
-    }
-    private void initializeUpgradeType_Protoss_Ground_Weapons() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Protoss_Ground_Weapons, 13);
-        fields.get("race").set(UpgradeType.Protoss_Ground_Weapons, Race.Protoss);
-        fields.get("mineralPrices").set(UpgradeType.Protoss_Ground_Weapons, new int[] {100, 150, 200});
-        fields.get("mineralPriceFactor").set(UpgradeType.Protoss_Ground_Weapons, 50);
-        fields.get("gasPrices").set(UpgradeType.Protoss_Ground_Weapons, new int[] {100, 150, 200});
-        fields.get("gasPriceFactor").set(UpgradeType.Protoss_Ground_Weapons, 50);
-        fields.get("upgradeTimes").set(UpgradeType.Protoss_Ground_Weapons, new int[] {4000, 4480, 4960});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Protoss_Ground_Weapons, 480);
-        fields.get("maxRepeats").set(UpgradeType.Protoss_Ground_Weapons, 3);
-        fields.get("whatUpgrades").set(UpgradeType.Protoss_Ground_Weapons, UnitType.Protoss_Forge);
-        fields.get("whatsRequired").set(UpgradeType.Protoss_Ground_Weapons, new UnitType [] {UnitType.None, UnitType.Protoss_Templar_Archives, UnitType.Protoss_Templar_Archives});
-    }
-    private void initializeUpgradeType_Protoss_Air_Weapons() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Protoss_Air_Weapons, 14);
-        fields.get("race").set(UpgradeType.Protoss_Air_Weapons, Race.Protoss);
-        fields.get("mineralPrices").set(UpgradeType.Protoss_Air_Weapons, new int[] {100, 175, 250});
-        fields.get("mineralPriceFactor").set(UpgradeType.Protoss_Air_Weapons, 75);
-        fields.get("gasPrices").set(UpgradeType.Protoss_Air_Weapons, new int[] {100, 175, 250});
-        fields.get("gasPriceFactor").set(UpgradeType.Protoss_Air_Weapons, 75);
-        fields.get("upgradeTimes").set(UpgradeType.Protoss_Air_Weapons, new int[] {4000, 4480, 4960});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Protoss_Air_Weapons, 480);
-        fields.get("maxRepeats").set(UpgradeType.Protoss_Air_Weapons, 3);
-        fields.get("whatUpgrades").set(UpgradeType.Protoss_Air_Weapons, UnitType.Protoss_Cybernetics_Core);
-        fields.get("whatsRequired").set(UpgradeType.Protoss_Air_Weapons, new UnitType [] {UnitType.None, UnitType.Protoss_Fleet_Beacon, UnitType.Protoss_Fleet_Beacon});
-    }
-    private void initializeUpgradeType_Protoss_Plasma_Shields() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Protoss_Plasma_Shields, 15);
-        fields.get("race").set(UpgradeType.Protoss_Plasma_Shields, Race.Protoss);
-        fields.get("mineralPrices").set(UpgradeType.Protoss_Plasma_Shields, new int[] {200, 300, 400});
-        fields.get("mineralPriceFactor").set(UpgradeType.Protoss_Plasma_Shields, 100);
-        fields.get("gasPrices").set(UpgradeType.Protoss_Plasma_Shields, new int[] {200, 300, 400});
-        fields.get("gasPriceFactor").set(UpgradeType.Protoss_Plasma_Shields, 100);
-        fields.get("upgradeTimes").set(UpgradeType.Protoss_Plasma_Shields, new int[] {4000, 4480, 4960});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Protoss_Plasma_Shields, 480);
-        fields.get("maxRepeats").set(UpgradeType.Protoss_Plasma_Shields, 3);
-        fields.get("whatUpgrades").set(UpgradeType.Protoss_Plasma_Shields, UnitType.Protoss_Forge);
-        fields.get("whatsRequired").set(UpgradeType.Protoss_Plasma_Shields, new UnitType [] {UnitType.None, UnitType.Protoss_Cybernetics_Core, UnitType.Protoss_Cybernetics_Core});
-    }
-    private void initializeUpgradeType_U_238_Shells() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.U_238_Shells, 16);
-        fields.get("race").set(UpgradeType.U_238_Shells, Race.Terran);
-        fields.get("mineralPrices").set(UpgradeType.U_238_Shells, new int[] {150});
-        fields.get("mineralPriceFactor").set(UpgradeType.U_238_Shells, 0);
-        fields.get("gasPrices").set(UpgradeType.U_238_Shells, new int[] {150});
-        fields.get("gasPriceFactor").set(UpgradeType.U_238_Shells, 0);
-        fields.get("upgradeTimes").set(UpgradeType.U_238_Shells, new int[] {1500});
-        fields.get("upgradeTimeFactor").set(UpgradeType.U_238_Shells, 0);
-        fields.get("maxRepeats").set(UpgradeType.U_238_Shells, 1);
-        fields.get("whatUpgrades").set(UpgradeType.U_238_Shells, UnitType.Terran_Academy);
-        fields.get("whatsRequired").set(UpgradeType.U_238_Shells, new UnitType [] {UnitType.None});
-    }
-    private void initializeUpgradeType_Ion_Thrusters() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Ion_Thrusters, 17);
-        fields.get("race").set(UpgradeType.Ion_Thrusters, Race.Terran);
-        fields.get("mineralPrices").set(UpgradeType.Ion_Thrusters, new int[] {100});
-        fields.get("mineralPriceFactor").set(UpgradeType.Ion_Thrusters, 0);
-        fields.get("gasPrices").set(UpgradeType.Ion_Thrusters, new int[] {100});
-        fields.get("gasPriceFactor").set(UpgradeType.Ion_Thrusters, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Ion_Thrusters, new int[] {1500});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Ion_Thrusters, 0);
-        fields.get("maxRepeats").set(UpgradeType.Ion_Thrusters, 1);
-        fields.get("whatUpgrades").set(UpgradeType.Ion_Thrusters, UnitType.Terran_Machine_Shop);
-        fields.get("whatsRequired").set(UpgradeType.Ion_Thrusters, new UnitType [] {UnitType.None});
-    }
-    private void initializeUpgradeType_Titan_Reactor() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Titan_Reactor, 19);
-        fields.get("race").set(UpgradeType.Titan_Reactor, Race.Terran);
-        fields.get("mineralPrices").set(UpgradeType.Titan_Reactor, new int[] {150});
-        fields.get("mineralPriceFactor").set(UpgradeType.Titan_Reactor, 0);
-        fields.get("gasPrices").set(UpgradeType.Titan_Reactor, new int[] {150});
-        fields.get("gasPriceFactor").set(UpgradeType.Titan_Reactor, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Titan_Reactor, new int[] {2500});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Titan_Reactor, 0);
-        fields.get("maxRepeats").set(UpgradeType.Titan_Reactor, 1);
-        fields.get("whatUpgrades").set(UpgradeType.Titan_Reactor, UnitType.Terran_Science_Facility);
-        fields.get("whatsRequired").set(UpgradeType.Titan_Reactor, new UnitType [] {UnitType.None});
-    }
-    private void initializeUpgradeType_Ocular_Implants() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Ocular_Implants, 20);
-        fields.get("race").set(UpgradeType.Ocular_Implants, Race.Terran);
-        fields.get("mineralPrices").set(UpgradeType.Ocular_Implants, new int[] {100});
-        fields.get("mineralPriceFactor").set(UpgradeType.Ocular_Implants, 0);
-        fields.get("gasPrices").set(UpgradeType.Ocular_Implants, new int[] {100});
-        fields.get("gasPriceFactor").set(UpgradeType.Ocular_Implants, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Ocular_Implants, new int[] {2500});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Ocular_Implants, 0);
-        fields.get("maxRepeats").set(UpgradeType.Ocular_Implants, 1);
-        fields.get("whatUpgrades").set(UpgradeType.Ocular_Implants, UnitType.Terran_Covert_Ops);
-        fields.get("whatsRequired").set(UpgradeType.Ocular_Implants, new UnitType [] {UnitType.None});
-    }
-    private void initializeUpgradeType_Moebius_Reactor() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Moebius_Reactor, 21);
-        fields.get("race").set(UpgradeType.Moebius_Reactor, Race.Terran);
-        fields.get("mineralPrices").set(UpgradeType.Moebius_Reactor, new int[] {150});
-        fields.get("mineralPriceFactor").set(UpgradeType.Moebius_Reactor, 0);
-        fields.get("gasPrices").set(UpgradeType.Moebius_Reactor, new int[] {150});
-        fields.get("gasPriceFactor").set(UpgradeType.Moebius_Reactor, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Moebius_Reactor, new int[] {2500});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Moebius_Reactor, 0);
-        fields.get("maxRepeats").set(UpgradeType.Moebius_Reactor, 1);
-        fields.get("whatUpgrades").set(UpgradeType.Moebius_Reactor, UnitType.Terran_Covert_Ops);
-        fields.get("whatsRequired").set(UpgradeType.Moebius_Reactor, new UnitType [] {UnitType.None});
-    }
-    private void initializeUpgradeType_Apollo_Reactor() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Apollo_Reactor, 22);
-        fields.get("race").set(UpgradeType.Apollo_Reactor, Race.Terran);
-        fields.get("mineralPrices").set(UpgradeType.Apollo_Reactor, new int[] {200});
-        fields.get("mineralPriceFactor").set(UpgradeType.Apollo_Reactor, 0);
-        fields.get("gasPrices").set(UpgradeType.Apollo_Reactor, new int[] {200});
-        fields.get("gasPriceFactor").set(UpgradeType.Apollo_Reactor, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Apollo_Reactor, new int[] {2500});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Apollo_Reactor, 0);
-        fields.get("maxRepeats").set(UpgradeType.Apollo_Reactor, 1);
-        fields.get("whatUpgrades").set(UpgradeType.Apollo_Reactor, UnitType.Terran_Control_Tower);
-        fields.get("whatsRequired").set(UpgradeType.Apollo_Reactor, new UnitType [] {UnitType.None});
-    }
-    private void initializeUpgradeType_Colossus_Reactor() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Colossus_Reactor, 23);
-        fields.get("race").set(UpgradeType.Colossus_Reactor, Race.Terran);
-        fields.get("mineralPrices").set(UpgradeType.Colossus_Reactor, new int[] {150});
-        fields.get("mineralPriceFactor").set(UpgradeType.Colossus_Reactor, 0);
-        fields.get("gasPrices").set(UpgradeType.Colossus_Reactor, new int[] {150});
-        fields.get("gasPriceFactor").set(UpgradeType.Colossus_Reactor, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Colossus_Reactor, new int[] {2500});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Colossus_Reactor, 0);
-        fields.get("maxRepeats").set(UpgradeType.Colossus_Reactor, 1);
-        fields.get("whatUpgrades").set(UpgradeType.Colossus_Reactor, UnitType.Terran_Physics_Lab);
-        fields.get("whatsRequired").set(UpgradeType.Colossus_Reactor, new UnitType [] {UnitType.None});
-    }
-    private void initializeUpgradeType_Ventral_Sacs() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Ventral_Sacs, 24);
-        fields.get("race").set(UpgradeType.Ventral_Sacs, Race.Zerg);
-        fields.get("mineralPrices").set(UpgradeType.Ventral_Sacs, new int[] {200});
-        fields.get("mineralPriceFactor").set(UpgradeType.Ventral_Sacs, 0);
-        fields.get("gasPrices").set(UpgradeType.Ventral_Sacs, new int[] {200});
-        fields.get("gasPriceFactor").set(UpgradeType.Ventral_Sacs, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Ventral_Sacs, new int[] {2400});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Ventral_Sacs, 0);
-        fields.get("maxRepeats").set(UpgradeType.Ventral_Sacs, 1);
-        fields.get("whatUpgrades").set(UpgradeType.Ventral_Sacs, UnitType.Zerg_Lair);
-        fields.get("whatsRequired").set(UpgradeType.Ventral_Sacs, new UnitType [] {UnitType.None});
-    }
-    private void initializeUpgradeType_Antennae() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Antennae, 25);
-        fields.get("race").set(UpgradeType.Antennae, Race.Zerg);
-        fields.get("mineralPrices").set(UpgradeType.Antennae, new int[] {150});
-        fields.get("mineralPriceFactor").set(UpgradeType.Antennae, 0);
-        fields.get("gasPrices").set(UpgradeType.Antennae, new int[] {150});
-        fields.get("gasPriceFactor").set(UpgradeType.Antennae, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Antennae, new int[] {2000});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Antennae, 0);
-        fields.get("maxRepeats").set(UpgradeType.Antennae, 1);
-        fields.get("whatUpgrades").set(UpgradeType.Antennae, UnitType.Zerg_Lair);
-        fields.get("whatsRequired").set(UpgradeType.Antennae, new UnitType [] {UnitType.None});
-    }
-    private void initializeUpgradeType_Pneumatized_Carapace() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Pneumatized_Carapace, 26);
-        fields.get("race").set(UpgradeType.Pneumatized_Carapace, Race.Zerg);
-        fields.get("mineralPrices").set(UpgradeType.Pneumatized_Carapace, new int[] {150});
-        fields.get("mineralPriceFactor").set(UpgradeType.Pneumatized_Carapace, 0);
-        fields.get("gasPrices").set(UpgradeType.Pneumatized_Carapace, new int[] {150});
-        fields.get("gasPriceFactor").set(UpgradeType.Pneumatized_Carapace, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Pneumatized_Carapace, new int[] {2000});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Pneumatized_Carapace, 0);
-        fields.get("maxRepeats").set(UpgradeType.Pneumatized_Carapace, 1);
-        fields.get("whatUpgrades").set(UpgradeType.Pneumatized_Carapace, UnitType.Zerg_Lair);
-        fields.get("whatsRequired").set(UpgradeType.Pneumatized_Carapace, new UnitType [] {UnitType.None});
-    }
-    private void initializeUpgradeType_Metabolic_Boost() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Metabolic_Boost, 27);
-        fields.get("race").set(UpgradeType.Metabolic_Boost, Race.Zerg);
-        fields.get("mineralPrices").set(UpgradeType.Metabolic_Boost, new int[] {100});
-        fields.get("mineralPriceFactor").set(UpgradeType.Metabolic_Boost, 0);
-        fields.get("gasPrices").set(UpgradeType.Metabolic_Boost, new int[] {100});
-        fields.get("gasPriceFactor").set(UpgradeType.Metabolic_Boost, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Metabolic_Boost, new int[] {1500});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Metabolic_Boost, 0);
-        fields.get("maxRepeats").set(UpgradeType.Metabolic_Boost, 1);
-        fields.get("whatUpgrades").set(UpgradeType.Metabolic_Boost, UnitType.Zerg_Spawning_Pool);
-        fields.get("whatsRequired").set(UpgradeType.Metabolic_Boost, new UnitType [] {UnitType.None});
-    }
-    private void initializeUpgradeType_Adrenal_Glands() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Adrenal_Glands, 28);
-        fields.get("race").set(UpgradeType.Adrenal_Glands, Race.Zerg);
-        fields.get("mineralPrices").set(UpgradeType.Adrenal_Glands, new int[] {200});
-        fields.get("mineralPriceFactor").set(UpgradeType.Adrenal_Glands, 0);
-        fields.get("gasPrices").set(UpgradeType.Adrenal_Glands, new int[] {200});
-        fields.get("gasPriceFactor").set(UpgradeType.Adrenal_Glands, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Adrenal_Glands, new int[] {1500});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Adrenal_Glands, 0);
-        fields.get("maxRepeats").set(UpgradeType.Adrenal_Glands, 1);
-        fields.get("whatUpgrades").set(UpgradeType.Adrenal_Glands, UnitType.Zerg_Spawning_Pool);
-        fields.get("whatsRequired").set(UpgradeType.Adrenal_Glands, new UnitType [] {UnitType.Zerg_Hive});
-    }
-    private void initializeUpgradeType_Muscular_Augments() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Muscular_Augments, 29);
-        fields.get("race").set(UpgradeType.Muscular_Augments, Race.Zerg);
-        fields.get("mineralPrices").set(UpgradeType.Muscular_Augments, new int[] {150});
-        fields.get("mineralPriceFactor").set(UpgradeType.Muscular_Augments, 0);
-        fields.get("gasPrices").set(UpgradeType.Muscular_Augments, new int[] {150});
-        fields.get("gasPriceFactor").set(UpgradeType.Muscular_Augments, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Muscular_Augments, new int[] {1500});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Muscular_Augments, 0);
-        fields.get("maxRepeats").set(UpgradeType.Muscular_Augments, 1);
-        fields.get("whatUpgrades").set(UpgradeType.Muscular_Augments, UnitType.Zerg_Hydralisk_Den);
-        fields.get("whatsRequired").set(UpgradeType.Muscular_Augments, new UnitType [] {UnitType.None});
-    }
-    private void initializeUpgradeType_Grooved_Spines() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Grooved_Spines, 30);
-        fields.get("race").set(UpgradeType.Grooved_Spines, Race.Zerg);
-        fields.get("mineralPrices").set(UpgradeType.Grooved_Spines, new int[] {150});
-        fields.get("mineralPriceFactor").set(UpgradeType.Grooved_Spines, 0);
-        fields.get("gasPrices").set(UpgradeType.Grooved_Spines, new int[] {150});
-        fields.get("gasPriceFactor").set(UpgradeType.Grooved_Spines, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Grooved_Spines, new int[] {1500});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Grooved_Spines, 0);
-        fields.get("maxRepeats").set(UpgradeType.Grooved_Spines, 1);
-        fields.get("whatUpgrades").set(UpgradeType.Grooved_Spines, UnitType.Zerg_Hydralisk_Den);
-        fields.get("whatsRequired").set(UpgradeType.Grooved_Spines, new UnitType [] {UnitType.None});
-    }
-    private void initializeUpgradeType_Gamete_Meiosis() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Gamete_Meiosis, 31);
-        fields.get("race").set(UpgradeType.Gamete_Meiosis, Race.Zerg);
-        fields.get("mineralPrices").set(UpgradeType.Gamete_Meiosis, new int[] {150});
-        fields.get("mineralPriceFactor").set(UpgradeType.Gamete_Meiosis, 0);
-        fields.get("gasPrices").set(UpgradeType.Gamete_Meiosis, new int[] {150});
-        fields.get("gasPriceFactor").set(UpgradeType.Gamete_Meiosis, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Gamete_Meiosis, new int[] {2500});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Gamete_Meiosis, 0);
-        fields.get("maxRepeats").set(UpgradeType.Gamete_Meiosis, 1);
-        fields.get("whatUpgrades").set(UpgradeType.Gamete_Meiosis, UnitType.Zerg_Queens_Nest);
-        fields.get("whatsRequired").set(UpgradeType.Gamete_Meiosis, new UnitType [] {UnitType.None});
-    }
-    private void initializeUpgradeType_Metasynaptic_Node() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Metasynaptic_Node, 32);
-        fields.get("race").set(UpgradeType.Metasynaptic_Node, Race.Zerg);
-        fields.get("mineralPrices").set(UpgradeType.Metasynaptic_Node, new int[] {150});
-        fields.get("mineralPriceFactor").set(UpgradeType.Metasynaptic_Node, 0);
-        fields.get("gasPrices").set(UpgradeType.Metasynaptic_Node, new int[] {150});
-        fields.get("gasPriceFactor").set(UpgradeType.Metasynaptic_Node, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Metasynaptic_Node, new int[] {2500});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Metasynaptic_Node, 0);
-        fields.get("maxRepeats").set(UpgradeType.Metasynaptic_Node, 1);
-        fields.get("whatUpgrades").set(UpgradeType.Metasynaptic_Node, UnitType.Zerg_Defiler_Mound);
-        fields.get("whatsRequired").set(UpgradeType.Metasynaptic_Node, new UnitType [] {UnitType.None});
-    }
-    private void initializeUpgradeType_Singularity_Charge() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Singularity_Charge, 33);
-        fields.get("race").set(UpgradeType.Singularity_Charge, Race.Protoss);
-        fields.get("mineralPrices").set(UpgradeType.Singularity_Charge, new int[] {150});
-        fields.get("mineralPriceFactor").set(UpgradeType.Singularity_Charge, 0);
-        fields.get("gasPrices").set(UpgradeType.Singularity_Charge, new int[] {150});
-        fields.get("gasPriceFactor").set(UpgradeType.Singularity_Charge, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Singularity_Charge, new int[] {2500});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Singularity_Charge, 0);
-        fields.get("maxRepeats").set(UpgradeType.Singularity_Charge, 1);
-        fields.get("whatUpgrades").set(UpgradeType.Singularity_Charge, UnitType.Protoss_Cybernetics_Core);
-        fields.get("whatsRequired").set(UpgradeType.Singularity_Charge, new UnitType [] {UnitType.None});
-    }
-    private void initializeUpgradeType_Leg_Enhancements() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Leg_Enhancements, 34);
-        fields.get("race").set(UpgradeType.Leg_Enhancements, Race.Protoss);
-        fields.get("mineralPrices").set(UpgradeType.Leg_Enhancements, new int[] {150});
-        fields.get("mineralPriceFactor").set(UpgradeType.Leg_Enhancements, 0);
-        fields.get("gasPrices").set(UpgradeType.Leg_Enhancements, new int[] {150});
-        fields.get("gasPriceFactor").set(UpgradeType.Leg_Enhancements, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Leg_Enhancements, new int[] {2000});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Leg_Enhancements, 0);
-        fields.get("maxRepeats").set(UpgradeType.Leg_Enhancements, 1);
-        fields.get("whatUpgrades").set(UpgradeType.Leg_Enhancements, UnitType.Protoss_Citadel_of_Adun);
-        fields.get("whatsRequired").set(UpgradeType.Leg_Enhancements, new UnitType [] {UnitType.None});
-    }
-    private void initializeUpgradeType_Scarab_Damage() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Scarab_Damage, 35);
-        fields.get("race").set(UpgradeType.Scarab_Damage, Race.Protoss);
-        fields.get("mineralPrices").set(UpgradeType.Scarab_Damage, new int[] {200});
-        fields.get("mineralPriceFactor").set(UpgradeType.Scarab_Damage, 0);
-        fields.get("gasPrices").set(UpgradeType.Scarab_Damage, new int[] {200});
-        fields.get("gasPriceFactor").set(UpgradeType.Scarab_Damage, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Scarab_Damage, new int[] {2500});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Scarab_Damage, 0);
-        fields.get("maxRepeats").set(UpgradeType.Scarab_Damage, 1);
-        fields.get("whatUpgrades").set(UpgradeType.Scarab_Damage, UnitType.Protoss_Robotics_Support_Bay);
-        fields.get("whatsRequired").set(UpgradeType.Scarab_Damage, new UnitType [] {UnitType.None});
-    }
-    private void initializeUpgradeType_Reaver_Capacity() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Reaver_Capacity, 36);
-        fields.get("race").set(UpgradeType.Reaver_Capacity, Race.Protoss);
-        fields.get("mineralPrices").set(UpgradeType.Reaver_Capacity, new int[] {200});
-        fields.get("mineralPriceFactor").set(UpgradeType.Reaver_Capacity, 0);
-        fields.get("gasPrices").set(UpgradeType.Reaver_Capacity, new int[] {200});
-        fields.get("gasPriceFactor").set(UpgradeType.Reaver_Capacity, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Reaver_Capacity, new int[] {2500});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Reaver_Capacity, 0);
-        fields.get("maxRepeats").set(UpgradeType.Reaver_Capacity, 1);
-        fields.get("whatUpgrades").set(UpgradeType.Reaver_Capacity, UnitType.Protoss_Robotics_Support_Bay);
-        fields.get("whatsRequired").set(UpgradeType.Reaver_Capacity, new UnitType [] {UnitType.None});
-    }
-    private void initializeUpgradeType_Gravitic_Drive() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Gravitic_Drive, 37);
-        fields.get("race").set(UpgradeType.Gravitic_Drive, Race.Protoss);
-        fields.get("mineralPrices").set(UpgradeType.Gravitic_Drive, new int[] {200});
-        fields.get("mineralPriceFactor").set(UpgradeType.Gravitic_Drive, 0);
-        fields.get("gasPrices").set(UpgradeType.Gravitic_Drive, new int[] {200});
-        fields.get("gasPriceFactor").set(UpgradeType.Gravitic_Drive, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Gravitic_Drive, new int[] {2500});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Gravitic_Drive, 0);
-        fields.get("maxRepeats").set(UpgradeType.Gravitic_Drive, 1);
-        fields.get("whatUpgrades").set(UpgradeType.Gravitic_Drive, UnitType.Protoss_Robotics_Support_Bay);
-        fields.get("whatsRequired").set(UpgradeType.Gravitic_Drive, new UnitType [] {UnitType.None});
-    }
-    private void initializeUpgradeType_Sensor_Array() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Sensor_Array, 38);
-        fields.get("race").set(UpgradeType.Sensor_Array, Race.Protoss);
-        fields.get("mineralPrices").set(UpgradeType.Sensor_Array, new int[] {150});
-        fields.get("mineralPriceFactor").set(UpgradeType.Sensor_Array, 0);
-        fields.get("gasPrices").set(UpgradeType.Sensor_Array, new int[] {150});
-        fields.get("gasPriceFactor").set(UpgradeType.Sensor_Array, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Sensor_Array, new int[] {2000});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Sensor_Array, 0);
-        fields.get("maxRepeats").set(UpgradeType.Sensor_Array, 1);
-        fields.get("whatUpgrades").set(UpgradeType.Sensor_Array, UnitType.Protoss_Observatory);
-        fields.get("whatsRequired").set(UpgradeType.Sensor_Array, new UnitType [] {UnitType.None});
-    }
-    private void initializeUpgradeType_Gravitic_Boosters() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Gravitic_Boosters, 39);
-        fields.get("race").set(UpgradeType.Gravitic_Boosters, Race.Protoss);
-        fields.get("mineralPrices").set(UpgradeType.Gravitic_Boosters, new int[] {150});
-        fields.get("mineralPriceFactor").set(UpgradeType.Gravitic_Boosters, 0);
-        fields.get("gasPrices").set(UpgradeType.Gravitic_Boosters, new int[] {150});
-        fields.get("gasPriceFactor").set(UpgradeType.Gravitic_Boosters, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Gravitic_Boosters, new int[] {2000});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Gravitic_Boosters, 0);
-        fields.get("maxRepeats").set(UpgradeType.Gravitic_Boosters, 1);
-        fields.get("whatUpgrades").set(UpgradeType.Gravitic_Boosters, UnitType.Protoss_Observatory);
-        fields.get("whatsRequired").set(UpgradeType.Gravitic_Boosters, new UnitType [] {UnitType.None});
-    }
-    private void initializeUpgradeType_Khaydarin_Amulet() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Khaydarin_Amulet, 40);
-        fields.get("race").set(UpgradeType.Khaydarin_Amulet, Race.Protoss);
-        fields.get("mineralPrices").set(UpgradeType.Khaydarin_Amulet, new int[] {150});
-        fields.get("mineralPriceFactor").set(UpgradeType.Khaydarin_Amulet, 0);
-        fields.get("gasPrices").set(UpgradeType.Khaydarin_Amulet, new int[] {150});
-        fields.get("gasPriceFactor").set(UpgradeType.Khaydarin_Amulet, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Khaydarin_Amulet, new int[] {2500});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Khaydarin_Amulet, 0);
-        fields.get("maxRepeats").set(UpgradeType.Khaydarin_Amulet, 1);
-        fields.get("whatUpgrades").set(UpgradeType.Khaydarin_Amulet, UnitType.Protoss_Templar_Archives);
-        fields.get("whatsRequired").set(UpgradeType.Khaydarin_Amulet, new UnitType [] {UnitType.None});
-    }
-    private void initializeUpgradeType_Apial_Sensors() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Apial_Sensors, 41);
-        fields.get("race").set(UpgradeType.Apial_Sensors, Race.Protoss);
-        fields.get("mineralPrices").set(UpgradeType.Apial_Sensors, new int[] {100});
-        fields.get("mineralPriceFactor").set(UpgradeType.Apial_Sensors, 0);
-        fields.get("gasPrices").set(UpgradeType.Apial_Sensors, new int[] {100});
-        fields.get("gasPriceFactor").set(UpgradeType.Apial_Sensors, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Apial_Sensors, new int[] {2500});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Apial_Sensors, 0);
-        fields.get("maxRepeats").set(UpgradeType.Apial_Sensors, 1);
-        fields.get("whatUpgrades").set(UpgradeType.Apial_Sensors, UnitType.Protoss_Fleet_Beacon);
-        fields.get("whatsRequired").set(UpgradeType.Apial_Sensors, new UnitType [] {UnitType.None});
-    }
-    private void initializeUpgradeType_Gravitic_Thrusters() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Gravitic_Thrusters, 42);
-        fields.get("race").set(UpgradeType.Gravitic_Thrusters, Race.Protoss);
-        fields.get("mineralPrices").set(UpgradeType.Gravitic_Thrusters, new int[] {200});
-        fields.get("mineralPriceFactor").set(UpgradeType.Gravitic_Thrusters, 0);
-        fields.get("gasPrices").set(UpgradeType.Gravitic_Thrusters, new int[] {200});
-        fields.get("gasPriceFactor").set(UpgradeType.Gravitic_Thrusters, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Gravitic_Thrusters, new int[] {2500});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Gravitic_Thrusters, 0);
-        fields.get("maxRepeats").set(UpgradeType.Gravitic_Thrusters, 1);
-        fields.get("whatUpgrades").set(UpgradeType.Gravitic_Thrusters, UnitType.Protoss_Fleet_Beacon);
-        fields.get("whatsRequired").set(UpgradeType.Gravitic_Thrusters, new UnitType [] {UnitType.None});
-    }
-    private void initializeUpgradeType_Carrier_Capacity() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Carrier_Capacity, 43);
-        fields.get("race").set(UpgradeType.Carrier_Capacity, Race.Protoss);
-        fields.get("mineralPrices").set(UpgradeType.Carrier_Capacity, new int[] {100});
-        fields.get("mineralPriceFactor").set(UpgradeType.Carrier_Capacity, 0);
-        fields.get("gasPrices").set(UpgradeType.Carrier_Capacity, new int[] {100});
-        fields.get("gasPriceFactor").set(UpgradeType.Carrier_Capacity, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Carrier_Capacity, new int[] {1500});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Carrier_Capacity, 0);
-        fields.get("maxRepeats").set(UpgradeType.Carrier_Capacity, 1);
-        fields.get("whatUpgrades").set(UpgradeType.Carrier_Capacity, UnitType.Protoss_Fleet_Beacon);
-        fields.get("whatsRequired").set(UpgradeType.Carrier_Capacity, new UnitType [] {UnitType.None});
-    }
-    private void initializeUpgradeType_Khaydarin_Core() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Khaydarin_Core, 44);
-        fields.get("race").set(UpgradeType.Khaydarin_Core, Race.Protoss);
-        fields.get("mineralPrices").set(UpgradeType.Khaydarin_Core, new int[] {150});
-        fields.get("mineralPriceFactor").set(UpgradeType.Khaydarin_Core, 0);
-        fields.get("gasPrices").set(UpgradeType.Khaydarin_Core, new int[] {150});
-        fields.get("gasPriceFactor").set(UpgradeType.Khaydarin_Core, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Khaydarin_Core, new int[] {2500});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Khaydarin_Core, 0);
-        fields.get("maxRepeats").set(UpgradeType.Khaydarin_Core, 1);
-        fields.get("whatUpgrades").set(UpgradeType.Khaydarin_Core, UnitType.Protoss_Arbiter_Tribunal);
-        fields.get("whatsRequired").set(UpgradeType.Khaydarin_Core, new UnitType [] {UnitType.None});
-    }
-    private void initializeUpgradeType_Argus_Jewel() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Argus_Jewel, 47);
-        fields.get("race").set(UpgradeType.Argus_Jewel, Race.Protoss);
-        fields.get("mineralPrices").set(UpgradeType.Argus_Jewel, new int[] {100});
-        fields.get("mineralPriceFactor").set(UpgradeType.Argus_Jewel, 0);
-        fields.get("gasPrices").set(UpgradeType.Argus_Jewel, new int[] {100});
-        fields.get("gasPriceFactor").set(UpgradeType.Argus_Jewel, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Argus_Jewel, new int[] {2500});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Argus_Jewel, 0);
-        fields.get("maxRepeats").set(UpgradeType.Argus_Jewel, 1);
-        fields.get("whatUpgrades").set(UpgradeType.Argus_Jewel, UnitType.Protoss_Fleet_Beacon);
-        fields.get("whatsRequired").set(UpgradeType.Argus_Jewel, new UnitType [] {UnitType.None});
-    }
-    private void initializeUpgradeType_Argus_Talisman() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Argus_Talisman, 49);
-        fields.get("race").set(UpgradeType.Argus_Talisman, Race.Protoss);
-        fields.get("mineralPrices").set(UpgradeType.Argus_Talisman, new int[] {150});
-        fields.get("mineralPriceFactor").set(UpgradeType.Argus_Talisman, 0);
-        fields.get("gasPrices").set(UpgradeType.Argus_Talisman, new int[] {150});
-        fields.get("gasPriceFactor").set(UpgradeType.Argus_Talisman, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Argus_Talisman, new int[] {2500});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Argus_Talisman, 0);
-        fields.get("maxRepeats").set(UpgradeType.Argus_Talisman, 1);
-        fields.get("whatUpgrades").set(UpgradeType.Argus_Talisman, UnitType.Protoss_Templar_Archives);
-        fields.get("whatsRequired").set(UpgradeType.Argus_Talisman, new UnitType [] {UnitType.None});
-    }
-    private void initializeUpgradeType_Caduceus_Reactor() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Caduceus_Reactor, 51);
-        fields.get("race").set(UpgradeType.Caduceus_Reactor, Race.Terran);
-        fields.get("mineralPrices").set(UpgradeType.Caduceus_Reactor, new int[] {150});
-        fields.get("mineralPriceFactor").set(UpgradeType.Caduceus_Reactor, 0);
-        fields.get("gasPrices").set(UpgradeType.Caduceus_Reactor, new int[] {150});
-        fields.get("gasPriceFactor").set(UpgradeType.Caduceus_Reactor, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Caduceus_Reactor, new int[] {2500});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Caduceus_Reactor, 0);
-        fields.get("maxRepeats").set(UpgradeType.Caduceus_Reactor, 1);
-        fields.get("whatUpgrades").set(UpgradeType.Caduceus_Reactor, UnitType.Terran_Academy);
-        fields.get("whatsRequired").set(UpgradeType.Caduceus_Reactor, new UnitType [] {UnitType.None});
-    }
-    private void initializeUpgradeType_Chitinous_Plating() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Chitinous_Plating, 52);
-        fields.get("race").set(UpgradeType.Chitinous_Plating, Race.Zerg);
-        fields.get("mineralPrices").set(UpgradeType.Chitinous_Plating, new int[] {150});
-        fields.get("mineralPriceFactor").set(UpgradeType.Chitinous_Plating, 0);
-        fields.get("gasPrices").set(UpgradeType.Chitinous_Plating, new int[] {150});
-        fields.get("gasPriceFactor").set(UpgradeType.Chitinous_Plating, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Chitinous_Plating, new int[] {2000});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Chitinous_Plating, 0);
-        fields.get("maxRepeats").set(UpgradeType.Chitinous_Plating, 1);
-        fields.get("whatUpgrades").set(UpgradeType.Chitinous_Plating, UnitType.Zerg_Ultralisk_Cavern);
-        fields.get("whatsRequired").set(UpgradeType.Chitinous_Plating, new UnitType [] {UnitType.None});
-    }
-    private void initializeUpgradeType_Anabolic_Synthesis() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Anabolic_Synthesis, 53);
-        fields.get("race").set(UpgradeType.Anabolic_Synthesis, Race.Zerg);
-        fields.get("mineralPrices").set(UpgradeType.Anabolic_Synthesis, new int[] {200});
-        fields.get("mineralPriceFactor").set(UpgradeType.Anabolic_Synthesis, 0);
-        fields.get("gasPrices").set(UpgradeType.Anabolic_Synthesis, new int[] {200});
-        fields.get("gasPriceFactor").set(UpgradeType.Anabolic_Synthesis, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Anabolic_Synthesis, new int[] {2000});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Anabolic_Synthesis, 0);
-        fields.get("maxRepeats").set(UpgradeType.Anabolic_Synthesis, 1);
-        fields.get("whatUpgrades").set(UpgradeType.Anabolic_Synthesis, UnitType.Zerg_Ultralisk_Cavern);
-        fields.get("whatsRequired").set(UpgradeType.Anabolic_Synthesis, new UnitType [] {UnitType.None});
-    }
-    private void initializeUpgradeType_Charon_Boosters() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Charon_Boosters, 54);
-        fields.get("race").set(UpgradeType.Charon_Boosters, Race.Terran);
-        fields.get("mineralPrices").set(UpgradeType.Charon_Boosters, new int[] {100});
-        fields.get("mineralPriceFactor").set(UpgradeType.Charon_Boosters, 0);
-        fields.get("gasPrices").set(UpgradeType.Charon_Boosters, new int[] {100});
-        fields.get("gasPriceFactor").set(UpgradeType.Charon_Boosters, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Charon_Boosters, new int[] {2000});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Charon_Boosters, 0);
-        fields.get("maxRepeats").set(UpgradeType.Charon_Boosters, 1);
-        fields.get("whatUpgrades").set(UpgradeType.Charon_Boosters, UnitType.Terran_Machine_Shop);
-        fields.get("whatsRequired").set(UpgradeType.Charon_Boosters, new UnitType [] {UnitType.Terran_Armory});
-    }
-    private void initializeUpgradeType_Upgrade_60() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Upgrade_60, 0);
-        fields.get("race").set(UpgradeType.Upgrade_60, null);
-        fields.get("mineralPrices").set(UpgradeType.Upgrade_60, null);
-        fields.get("mineralPriceFactor").set(UpgradeType.Upgrade_60, 0);
-        fields.get("gasPrices").set(UpgradeType.Upgrade_60, null);
-        fields.get("gasPriceFactor").set(UpgradeType.Upgrade_60, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Upgrade_60, null);
-        fields.get("upgradeTimeFactor").set(UpgradeType.Upgrade_60, 0);
-        fields.get("maxRepeats").set(UpgradeType.Upgrade_60, 0);
-        fields.get("whatUpgrades").set(UpgradeType.Upgrade_60, null);
-        fields.get("whatsRequired").set(UpgradeType.Upgrade_60, null);
-    }
-    private void initializeUpgradeType_None() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.None, 61);
-        fields.get("race").set(UpgradeType.None, Race.None);
-        fields.get("mineralPrices").set(UpgradeType.None, new int[] {});
-        fields.get("mineralPriceFactor").set(UpgradeType.None, 0);
-        fields.get("gasPrices").set(UpgradeType.None, new int[] {});
-        fields.get("gasPriceFactor").set(UpgradeType.None, 0);
-        fields.get("upgradeTimes").set(UpgradeType.None, new int[] {});
-        fields.get("upgradeTimeFactor").set(UpgradeType.None, 0);
-        fields.get("maxRepeats").set(UpgradeType.None, 0);
-        fields.get("whatUpgrades").set(UpgradeType.None, UnitType.None);
-        fields.get("whatsRequired").set(UpgradeType.None, new UnitType [] {});
-    }
-    private void initializeUpgradeType_Unknown() throws Exception {
-        Class<?> c = UpgradeType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(UpgradeType.Unknown, 62);
-        fields.get("race").set(UpgradeType.Unknown, Race.Unknown);
-        fields.get("mineralPrices").set(UpgradeType.Unknown, new int[] {});
-        fields.get("mineralPriceFactor").set(UpgradeType.Unknown, 0);
-        fields.get("gasPrices").set(UpgradeType.Unknown, new int[] {});
-        fields.get("gasPriceFactor").set(UpgradeType.Unknown, 0);
-        fields.get("upgradeTimes").set(UpgradeType.Unknown, new int[] {});
-        fields.get("upgradeTimeFactor").set(UpgradeType.Unknown, 0);
-        fields.get("maxRepeats").set(UpgradeType.Unknown, 0);
-        fields.get("whatUpgrades").set(UpgradeType.Unknown, UnitType.None);
-        fields.get("whatsRequired").set(UpgradeType.Unknown, new UnitType [] {});
-    }
-    private void initializeTechType() throws Exception {
-        initializeTechType_Stim_Packs();
-        initializeTechType_Lockdown();
-        initializeTechType_EMP_Shockwave();
-        initializeTechType_Spider_Mines();
-        initializeTechType_Scanner_Sweep();
-        initializeTechType_Tank_Siege_Mode();
-        initializeTechType_Defensive_Matrix();
-        initializeTechType_Irradiate();
-        initializeTechType_Yamato_Gun();
-        initializeTechType_Cloaking_Field();
-        initializeTechType_Personnel_Cloaking();
-        initializeTechType_Burrowing();
-        initializeTechType_Infestation();
-        initializeTechType_Spawn_Broodlings();
-        initializeTechType_Dark_Swarm();
-        initializeTechType_Plague();
-        initializeTechType_Consume();
-        initializeTechType_Ensnare();
-        initializeTechType_Parasite();
-        initializeTechType_Psionic_Storm();
-        initializeTechType_Hallucination();
-        initializeTechType_Recall();
-        initializeTechType_Stasis_Field();
-        initializeTechType_Archon_Warp();
-        initializeTechType_Restoration();
-        initializeTechType_Disruption_Web();
-        initializeTechType_Mind_Control();
-        initializeTechType_Dark_Archon_Meld();
-        initializeTechType_Feedback();
-        initializeTechType_Optical_Flare();
-        initializeTechType_Maelstrom();
-        initializeTechType_Lurker_Aspect();
-        initializeTechType_Healing();
-        initializeTechType_None();
-        initializeTechType_Nuclear_Strike();
-        initializeTechType_Unknown();
-    }
-
-    private void initializeTechType_Stim_Packs() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Stim_Packs, 0);
-        fields.get("race").set(TechType.Stim_Packs, Race.Terran);
-        fields.get("mineralPrice").set(TechType.Stim_Packs, 100);
-        fields.get("gasPrice").set(TechType.Stim_Packs, 100);
-        fields.get("researchTime").set(TechType.Stim_Packs, 1200);
-        fields.get("energyCost").set(TechType.Stim_Packs, 0);
-        fields.get("whatResearches").set(TechType.Stim_Packs, UnitType.Terran_Academy);
-        fields.get("weaponType").set(TechType.Stim_Packs, WeaponType.None);
-        fields.get("targetsUnit").set(TechType.Stim_Packs, false);
-        fields.get("targetsPosition").set(TechType.Stim_Packs, false);
-        fields.get("order").set(TechType.Stim_Packs, Order.None);
-        fields.get("requiredUnit").set(TechType.Stim_Packs, UnitType.None);
-    }
-    private void initializeTechType_Lockdown() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Lockdown, 1);
-        fields.get("race").set(TechType.Lockdown, Race.Terran);
-        fields.get("mineralPrice").set(TechType.Lockdown, 200);
-        fields.get("gasPrice").set(TechType.Lockdown, 200);
-        fields.get("researchTime").set(TechType.Lockdown, 1500);
-        fields.get("energyCost").set(TechType.Lockdown, 100);
-        fields.get("whatResearches").set(TechType.Lockdown, UnitType.Terran_Covert_Ops);
-        fields.get("weaponType").set(TechType.Lockdown, WeaponType.Lockdown);
-        fields.get("targetsUnit").set(TechType.Lockdown, true);
-        fields.get("targetsPosition").set(TechType.Lockdown, false);
-        fields.get("order").set(TechType.Lockdown, Order.CastLockdown);
-        fields.get("requiredUnit").set(TechType.Lockdown, UnitType.None);
-    }
-    private void initializeTechType_EMP_Shockwave() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.EMP_Shockwave, 2);
-        fields.get("race").set(TechType.EMP_Shockwave, Race.Terran);
-        fields.get("mineralPrice").set(TechType.EMP_Shockwave, 200);
-        fields.get("gasPrice").set(TechType.EMP_Shockwave, 200);
-        fields.get("researchTime").set(TechType.EMP_Shockwave, 1800);
-        fields.get("energyCost").set(TechType.EMP_Shockwave, 100);
-        fields.get("whatResearches").set(TechType.EMP_Shockwave, UnitType.Terran_Science_Facility);
-        fields.get("weaponType").set(TechType.EMP_Shockwave, WeaponType.EMP_Shockwave);
-        fields.get("targetsUnit").set(TechType.EMP_Shockwave, true);
-        fields.get("targetsPosition").set(TechType.EMP_Shockwave, true);
-        fields.get("order").set(TechType.EMP_Shockwave, Order.CastEMPShockwave);
-        fields.get("requiredUnit").set(TechType.EMP_Shockwave, UnitType.None);
-    }
-    private void initializeTechType_Spider_Mines() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Spider_Mines, 3);
-        fields.get("race").set(TechType.Spider_Mines, Race.Terran);
-        fields.get("mineralPrice").set(TechType.Spider_Mines, 100);
-        fields.get("gasPrice").set(TechType.Spider_Mines, 100);
-        fields.get("researchTime").set(TechType.Spider_Mines, 1200);
-        fields.get("energyCost").set(TechType.Spider_Mines, 0);
-        fields.get("whatResearches").set(TechType.Spider_Mines, UnitType.Terran_Machine_Shop);
-        fields.get("weaponType").set(TechType.Spider_Mines, WeaponType.Spider_Mines);
-        fields.get("targetsUnit").set(TechType.Spider_Mines, false);
-        fields.get("targetsPosition").set(TechType.Spider_Mines, true);
-        fields.get("order").set(TechType.Spider_Mines, Order.PlaceMine);
-        fields.get("requiredUnit").set(TechType.Spider_Mines, UnitType.None);
-    }
-    private void initializeTechType_Scanner_Sweep() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Scanner_Sweep, 4);
-        fields.get("race").set(TechType.Scanner_Sweep, Race.Terran);
-        fields.get("mineralPrice").set(TechType.Scanner_Sweep, 0);
-        fields.get("gasPrice").set(TechType.Scanner_Sweep, 0);
-        fields.get("researchTime").set(TechType.Scanner_Sweep, 0);
-        fields.get("energyCost").set(TechType.Scanner_Sweep, 50);
-        fields.get("whatResearches").set(TechType.Scanner_Sweep, UnitType.None);
-        fields.get("weaponType").set(TechType.Scanner_Sweep, WeaponType.None);
-        fields.get("targetsUnit").set(TechType.Scanner_Sweep, true);
-        fields.get("targetsPosition").set(TechType.Scanner_Sweep, true);
-        fields.get("order").set(TechType.Scanner_Sweep, Order.CastScannerSweep);
-        fields.get("requiredUnit").set(TechType.Scanner_Sweep, UnitType.None);
-    }
-    private void initializeTechType_Tank_Siege_Mode() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Tank_Siege_Mode, 5);
-        fields.get("race").set(TechType.Tank_Siege_Mode, Race.Terran);
-        fields.get("mineralPrice").set(TechType.Tank_Siege_Mode, 150);
-        fields.get("gasPrice").set(TechType.Tank_Siege_Mode, 150);
-        fields.get("researchTime").set(TechType.Tank_Siege_Mode, 1200);
-        fields.get("energyCost").set(TechType.Tank_Siege_Mode, 0);
-        fields.get("whatResearches").set(TechType.Tank_Siege_Mode, UnitType.Terran_Machine_Shop);
-        fields.get("weaponType").set(TechType.Tank_Siege_Mode, WeaponType.None);
-        fields.get("targetsUnit").set(TechType.Tank_Siege_Mode, false);
-        fields.get("targetsPosition").set(TechType.Tank_Siege_Mode, false);
-        fields.get("order").set(TechType.Tank_Siege_Mode, Order.None);
-        fields.get("requiredUnit").set(TechType.Tank_Siege_Mode, UnitType.None);
-    }
-    private void initializeTechType_Defensive_Matrix() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Defensive_Matrix, 6);
-        fields.get("race").set(TechType.Defensive_Matrix, Race.Terran);
-        fields.get("mineralPrice").set(TechType.Defensive_Matrix, 0);
-        fields.get("gasPrice").set(TechType.Defensive_Matrix, 0);
-        fields.get("researchTime").set(TechType.Defensive_Matrix, 0);
-        fields.get("energyCost").set(TechType.Defensive_Matrix, 100);
-        fields.get("whatResearches").set(TechType.Defensive_Matrix, UnitType.None);
-        fields.get("weaponType").set(TechType.Defensive_Matrix, WeaponType.None);
-        fields.get("targetsUnit").set(TechType.Defensive_Matrix, true);
-        fields.get("targetsPosition").set(TechType.Defensive_Matrix, false);
-        fields.get("order").set(TechType.Defensive_Matrix, Order.CastDefensiveMatrix);
-        fields.get("requiredUnit").set(TechType.Defensive_Matrix, UnitType.None);
-    }
-    private void initializeTechType_Irradiate() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Irradiate, 7);
-        fields.get("race").set(TechType.Irradiate, Race.Terran);
-        fields.get("mineralPrice").set(TechType.Irradiate, 200);
-        fields.get("gasPrice").set(TechType.Irradiate, 200);
-        fields.get("researchTime").set(TechType.Irradiate, 1200);
-        fields.get("energyCost").set(TechType.Irradiate, 75);
-        fields.get("whatResearches").set(TechType.Irradiate, UnitType.Terran_Science_Facility);
-        fields.get("weaponType").set(TechType.Irradiate, WeaponType.Irradiate);
-        fields.get("targetsUnit").set(TechType.Irradiate, true);
-        fields.get("targetsPosition").set(TechType.Irradiate, false);
-        fields.get("order").set(TechType.Irradiate, Order.CastIrradiate);
-        fields.get("requiredUnit").set(TechType.Irradiate, UnitType.None);
-    }
-    private void initializeTechType_Yamato_Gun() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Yamato_Gun, 8);
-        fields.get("race").set(TechType.Yamato_Gun, Race.Terran);
-        fields.get("mineralPrice").set(TechType.Yamato_Gun, 100);
-        fields.get("gasPrice").set(TechType.Yamato_Gun, 100);
-        fields.get("researchTime").set(TechType.Yamato_Gun, 1800);
-        fields.get("energyCost").set(TechType.Yamato_Gun, 150);
-        fields.get("whatResearches").set(TechType.Yamato_Gun, UnitType.Terran_Physics_Lab);
-        fields.get("weaponType").set(TechType.Yamato_Gun, WeaponType.Yamato_Gun);
-        fields.get("targetsUnit").set(TechType.Yamato_Gun, true);
-        fields.get("targetsPosition").set(TechType.Yamato_Gun, false);
-        fields.get("order").set(TechType.Yamato_Gun, Order.FireYamatoGun);
-        fields.get("requiredUnit").set(TechType.Yamato_Gun, UnitType.None);
-    }
-    private void initializeTechType_Cloaking_Field() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Cloaking_Field, 9);
-        fields.get("race").set(TechType.Cloaking_Field, Race.Terran);
-        fields.get("mineralPrice").set(TechType.Cloaking_Field, 150);
-        fields.get("gasPrice").set(TechType.Cloaking_Field, 150);
-        fields.get("researchTime").set(TechType.Cloaking_Field, 1500);
-        fields.get("energyCost").set(TechType.Cloaking_Field, 25);
-        fields.get("whatResearches").set(TechType.Cloaking_Field, UnitType.Terran_Control_Tower);
-        fields.get("weaponType").set(TechType.Cloaking_Field, WeaponType.None);
-        fields.get("targetsUnit").set(TechType.Cloaking_Field, false);
-        fields.get("targetsPosition").set(TechType.Cloaking_Field, false);
-        fields.get("order").set(TechType.Cloaking_Field, Order.None);
-        fields.get("requiredUnit").set(TechType.Cloaking_Field, UnitType.None);
-    }
-    private void initializeTechType_Personnel_Cloaking() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Personnel_Cloaking, 10);
-        fields.get("race").set(TechType.Personnel_Cloaking, Race.Terran);
-        fields.get("mineralPrice").set(TechType.Personnel_Cloaking, 100);
-        fields.get("gasPrice").set(TechType.Personnel_Cloaking, 100);
-        fields.get("researchTime").set(TechType.Personnel_Cloaking, 1200);
-        fields.get("energyCost").set(TechType.Personnel_Cloaking, 25);
-        fields.get("whatResearches").set(TechType.Personnel_Cloaking, UnitType.Terran_Covert_Ops);
-        fields.get("weaponType").set(TechType.Personnel_Cloaking, WeaponType.None);
-        fields.get("targetsUnit").set(TechType.Personnel_Cloaking, false);
-        fields.get("targetsPosition").set(TechType.Personnel_Cloaking, false);
-        fields.get("order").set(TechType.Personnel_Cloaking, Order.None);
-        fields.get("requiredUnit").set(TechType.Personnel_Cloaking, UnitType.None);
-    }
-    private void initializeTechType_Burrowing() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Burrowing, 11);
-        fields.get("race").set(TechType.Burrowing, Race.Zerg);
-        fields.get("mineralPrice").set(TechType.Burrowing, 100);
-        fields.get("gasPrice").set(TechType.Burrowing, 100);
-        fields.get("researchTime").set(TechType.Burrowing, 1200);
-        fields.get("energyCost").set(TechType.Burrowing, 0);
-        fields.get("whatResearches").set(TechType.Burrowing, UnitType.Zerg_Hatchery);
-        fields.get("weaponType").set(TechType.Burrowing, WeaponType.None);
-        fields.get("targetsUnit").set(TechType.Burrowing, false);
-        fields.get("targetsPosition").set(TechType.Burrowing, false);
-        fields.get("order").set(TechType.Burrowing, Order.None);
-        fields.get("requiredUnit").set(TechType.Burrowing, UnitType.None);
-    }
-    private void initializeTechType_Infestation() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Infestation, 12);
-        fields.get("race").set(TechType.Infestation, Race.Zerg);
-        fields.get("mineralPrice").set(TechType.Infestation, 0);
-        fields.get("gasPrice").set(TechType.Infestation, 0);
-        fields.get("researchTime").set(TechType.Infestation, 0);
-        fields.get("energyCost").set(TechType.Infestation, 0);
-        fields.get("whatResearches").set(TechType.Infestation, UnitType.None);
-        fields.get("weaponType").set(TechType.Infestation, WeaponType.None);
-        fields.get("targetsUnit").set(TechType.Infestation, true);
-        fields.get("targetsPosition").set(TechType.Infestation, false);
-        fields.get("order").set(TechType.Infestation, Order.CastInfestation);
-        fields.get("requiredUnit").set(TechType.Infestation, UnitType.None);
-    }
-    private void initializeTechType_Spawn_Broodlings() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Spawn_Broodlings, 13);
-        fields.get("race").set(TechType.Spawn_Broodlings, Race.Zerg);
-        fields.get("mineralPrice").set(TechType.Spawn_Broodlings, 100);
-        fields.get("gasPrice").set(TechType.Spawn_Broodlings, 100);
-        fields.get("researchTime").set(TechType.Spawn_Broodlings, 1200);
-        fields.get("energyCost").set(TechType.Spawn_Broodlings, 150);
-        fields.get("whatResearches").set(TechType.Spawn_Broodlings, UnitType.Zerg_Queens_Nest);
-        fields.get("weaponType").set(TechType.Spawn_Broodlings, WeaponType.Spawn_Broodlings);
-        fields.get("targetsUnit").set(TechType.Spawn_Broodlings, true);
-        fields.get("targetsPosition").set(TechType.Spawn_Broodlings, false);
-        fields.get("order").set(TechType.Spawn_Broodlings, Order.CastSpawnBroodlings);
-        fields.get("requiredUnit").set(TechType.Spawn_Broodlings, UnitType.None);
-    }
-    private void initializeTechType_Dark_Swarm() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Dark_Swarm, 14);
-        fields.get("race").set(TechType.Dark_Swarm, Race.Zerg);
-        fields.get("mineralPrice").set(TechType.Dark_Swarm, 0);
-        fields.get("gasPrice").set(TechType.Dark_Swarm, 0);
-        fields.get("researchTime").set(TechType.Dark_Swarm, 0);
-        fields.get("energyCost").set(TechType.Dark_Swarm, 100);
-        fields.get("whatResearches").set(TechType.Dark_Swarm, UnitType.None);
-        fields.get("weaponType").set(TechType.Dark_Swarm, WeaponType.Dark_Swarm);
-        fields.get("targetsUnit").set(TechType.Dark_Swarm, true);
-        fields.get("targetsPosition").set(TechType.Dark_Swarm, true);
-        fields.get("order").set(TechType.Dark_Swarm, Order.CastDarkSwarm);
-        fields.get("requiredUnit").set(TechType.Dark_Swarm, UnitType.None);
-    }
-    private void initializeTechType_Plague() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Plague, 15);
-        fields.get("race").set(TechType.Plague, Race.Zerg);
-        fields.get("mineralPrice").set(TechType.Plague, 200);
-        fields.get("gasPrice").set(TechType.Plague, 200);
-        fields.get("researchTime").set(TechType.Plague, 1500);
-        fields.get("energyCost").set(TechType.Plague, 150);
-        fields.get("whatResearches").set(TechType.Plague, UnitType.Zerg_Defiler_Mound);
-        fields.get("weaponType").set(TechType.Plague, WeaponType.Plague);
-        fields.get("targetsUnit").set(TechType.Plague, true);
-        fields.get("targetsPosition").set(TechType.Plague, true);
-        fields.get("order").set(TechType.Plague, Order.CastPlague);
-        fields.get("requiredUnit").set(TechType.Plague, UnitType.None);
-    }
-    private void initializeTechType_Consume() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Consume, 16);
-        fields.get("race").set(TechType.Consume, Race.Zerg);
-        fields.get("mineralPrice").set(TechType.Consume, 100);
-        fields.get("gasPrice").set(TechType.Consume, 100);
-        fields.get("researchTime").set(TechType.Consume, 1500);
-        fields.get("energyCost").set(TechType.Consume, 0);
-        fields.get("whatResearches").set(TechType.Consume, UnitType.Zerg_Defiler_Mound);
-        fields.get("weaponType").set(TechType.Consume, WeaponType.Consume);
-        fields.get("targetsUnit").set(TechType.Consume, true);
-        fields.get("targetsPosition").set(TechType.Consume, false);
-        fields.get("order").set(TechType.Consume, Order.CastConsume);
-        fields.get("requiredUnit").set(TechType.Consume, UnitType.None);
-    }
-    private void initializeTechType_Ensnare() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Ensnare, 17);
-        fields.get("race").set(TechType.Ensnare, Race.Zerg);
-        fields.get("mineralPrice").set(TechType.Ensnare, 100);
-        fields.get("gasPrice").set(TechType.Ensnare, 100);
-        fields.get("researchTime").set(TechType.Ensnare, 1200);
-        fields.get("energyCost").set(TechType.Ensnare, 75);
-        fields.get("whatResearches").set(TechType.Ensnare, UnitType.Zerg_Queens_Nest);
-        fields.get("weaponType").set(TechType.Ensnare, WeaponType.Ensnare);
-        fields.get("targetsUnit").set(TechType.Ensnare, true);
-        fields.get("targetsPosition").set(TechType.Ensnare, true);
-        fields.get("order").set(TechType.Ensnare, Order.CastEnsnare);
-        fields.get("requiredUnit").set(TechType.Ensnare, UnitType.None);
-    }
-    private void initializeTechType_Parasite() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Parasite, 18);
-        fields.get("race").set(TechType.Parasite, Race.Zerg);
-        fields.get("mineralPrice").set(TechType.Parasite, 0);
-        fields.get("gasPrice").set(TechType.Parasite, 0);
-        fields.get("researchTime").set(TechType.Parasite, 0);
-        fields.get("energyCost").set(TechType.Parasite, 75);
-        fields.get("whatResearches").set(TechType.Parasite, UnitType.None);
-        fields.get("weaponType").set(TechType.Parasite, WeaponType.Parasite);
-        fields.get("targetsUnit").set(TechType.Parasite, true);
-        fields.get("targetsPosition").set(TechType.Parasite, false);
-        fields.get("order").set(TechType.Parasite, Order.CastParasite);
-        fields.get("requiredUnit").set(TechType.Parasite, UnitType.None);
-    }
-    private void initializeTechType_Psionic_Storm() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Psionic_Storm, 19);
-        fields.get("race").set(TechType.Psionic_Storm, Race.Protoss);
-        fields.get("mineralPrice").set(TechType.Psionic_Storm, 200);
-        fields.get("gasPrice").set(TechType.Psionic_Storm, 200);
-        fields.get("researchTime").set(TechType.Psionic_Storm, 1800);
-        fields.get("energyCost").set(TechType.Psionic_Storm, 75);
-        fields.get("whatResearches").set(TechType.Psionic_Storm, UnitType.Protoss_Templar_Archives);
-        fields.get("weaponType").set(TechType.Psionic_Storm, WeaponType.Psionic_Storm);
-        fields.get("targetsUnit").set(TechType.Psionic_Storm, true);
-        fields.get("targetsPosition").set(TechType.Psionic_Storm, true);
-        fields.get("order").set(TechType.Psionic_Storm, Order.CastPsionicStorm);
-        fields.get("requiredUnit").set(TechType.Psionic_Storm, UnitType.None);
-    }
-    private void initializeTechType_Hallucination() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Hallucination, 20);
-        fields.get("race").set(TechType.Hallucination, Race.Protoss);
-        fields.get("mineralPrice").set(TechType.Hallucination, 150);
-        fields.get("gasPrice").set(TechType.Hallucination, 150);
-        fields.get("researchTime").set(TechType.Hallucination, 1200);
-        fields.get("energyCost").set(TechType.Hallucination, 100);
-        fields.get("whatResearches").set(TechType.Hallucination, UnitType.Protoss_Templar_Archives);
-        fields.get("weaponType").set(TechType.Hallucination, WeaponType.None);
-        fields.get("targetsUnit").set(TechType.Hallucination, true);
-        fields.get("targetsPosition").set(TechType.Hallucination, false);
-        fields.get("order").set(TechType.Hallucination, Order.CastHallucination);
-        fields.get("requiredUnit").set(TechType.Hallucination, UnitType.None);
-    }
-    private void initializeTechType_Recall() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Recall, 21);
-        fields.get("race").set(TechType.Recall, Race.Protoss);
-        fields.get("mineralPrice").set(TechType.Recall, 150);
-        fields.get("gasPrice").set(TechType.Recall, 150);
-        fields.get("researchTime").set(TechType.Recall, 1800);
-        fields.get("energyCost").set(TechType.Recall, 150);
-        fields.get("whatResearches").set(TechType.Recall, UnitType.Protoss_Arbiter_Tribunal);
-        fields.get("weaponType").set(TechType.Recall, WeaponType.None);
-        fields.get("targetsUnit").set(TechType.Recall, true);
-        fields.get("targetsPosition").set(TechType.Recall, true);
-        fields.get("order").set(TechType.Recall, Order.CastRecall);
-        fields.get("requiredUnit").set(TechType.Recall, UnitType.None);
-    }
-    private void initializeTechType_Stasis_Field() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Stasis_Field, 22);
-        fields.get("race").set(TechType.Stasis_Field, Race.Protoss);
-        fields.get("mineralPrice").set(TechType.Stasis_Field, 150);
-        fields.get("gasPrice").set(TechType.Stasis_Field, 150);
-        fields.get("researchTime").set(TechType.Stasis_Field, 1500);
-        fields.get("energyCost").set(TechType.Stasis_Field, 100);
-        fields.get("whatResearches").set(TechType.Stasis_Field, UnitType.Protoss_Arbiter_Tribunal);
-        fields.get("weaponType").set(TechType.Stasis_Field, WeaponType.Stasis_Field);
-        fields.get("targetsUnit").set(TechType.Stasis_Field, true);
-        fields.get("targetsPosition").set(TechType.Stasis_Field, true);
-        fields.get("order").set(TechType.Stasis_Field, Order.CastStasisField);
-        fields.get("requiredUnit").set(TechType.Stasis_Field, UnitType.None);
-    }
-    private void initializeTechType_Archon_Warp() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Archon_Warp, 23);
-        fields.get("race").set(TechType.Archon_Warp, Race.Protoss);
-        fields.get("mineralPrice").set(TechType.Archon_Warp, 0);
-        fields.get("gasPrice").set(TechType.Archon_Warp, 0);
-        fields.get("researchTime").set(TechType.Archon_Warp, 0);
-        fields.get("energyCost").set(TechType.Archon_Warp, 0);
-        fields.get("whatResearches").set(TechType.Archon_Warp, UnitType.None);
-        fields.get("weaponType").set(TechType.Archon_Warp, WeaponType.None);
-        fields.get("targetsUnit").set(TechType.Archon_Warp, true);
-        fields.get("targetsPosition").set(TechType.Archon_Warp, false);
-        fields.get("order").set(TechType.Archon_Warp, Order.None);
-        fields.get("requiredUnit").set(TechType.Archon_Warp, UnitType.None);
-    }
-    private void initializeTechType_Restoration() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Restoration, 24);
-        fields.get("race").set(TechType.Restoration, Race.Terran);
-        fields.get("mineralPrice").set(TechType.Restoration, 100);
-        fields.get("gasPrice").set(TechType.Restoration, 100);
-        fields.get("researchTime").set(TechType.Restoration, 1200);
-        fields.get("energyCost").set(TechType.Restoration, 50);
-        fields.get("whatResearches").set(TechType.Restoration, UnitType.Terran_Academy);
-        fields.get("weaponType").set(TechType.Restoration, WeaponType.Restoration);
-        fields.get("targetsUnit").set(TechType.Restoration, true);
-        fields.get("targetsPosition").set(TechType.Restoration, false);
-        fields.get("order").set(TechType.Restoration, Order.CastRestoration);
-        fields.get("requiredUnit").set(TechType.Restoration, UnitType.None);
-    }
-    private void initializeTechType_Disruption_Web() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Disruption_Web, 25);
-        fields.get("race").set(TechType.Disruption_Web, Race.Protoss);
-        fields.get("mineralPrice").set(TechType.Disruption_Web, 200);
-        fields.get("gasPrice").set(TechType.Disruption_Web, 200);
-        fields.get("researchTime").set(TechType.Disruption_Web, 1200);
-        fields.get("energyCost").set(TechType.Disruption_Web, 125);
-        fields.get("whatResearches").set(TechType.Disruption_Web, UnitType.Protoss_Fleet_Beacon);
-        fields.get("weaponType").set(TechType.Disruption_Web, WeaponType.Disruption_Web);
-        fields.get("targetsUnit").set(TechType.Disruption_Web, true);
-        fields.get("targetsPosition").set(TechType.Disruption_Web, true);
-        fields.get("order").set(TechType.Disruption_Web, Order.CastDisruptionWeb);
-        fields.get("requiredUnit").set(TechType.Disruption_Web, UnitType.None);
-    }
-    private void initializeTechType_Mind_Control() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Mind_Control, 27);
-        fields.get("race").set(TechType.Mind_Control, Race.Protoss);
-        fields.get("mineralPrice").set(TechType.Mind_Control, 200);
-        fields.get("gasPrice").set(TechType.Mind_Control, 200);
-        fields.get("researchTime").set(TechType.Mind_Control, 1800);
-        fields.get("energyCost").set(TechType.Mind_Control, 150);
-        fields.get("whatResearches").set(TechType.Mind_Control, UnitType.Protoss_Templar_Archives);
-        fields.get("weaponType").set(TechType.Mind_Control, WeaponType.Mind_Control);
-        fields.get("targetsUnit").set(TechType.Mind_Control, true);
-        fields.get("targetsPosition").set(TechType.Mind_Control, false);
-        fields.get("order").set(TechType.Mind_Control, Order.CastMindControl);
-        fields.get("requiredUnit").set(TechType.Mind_Control, UnitType.None);
-    }
-    private void initializeTechType_Dark_Archon_Meld() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Dark_Archon_Meld, 28);
-        fields.get("race").set(TechType.Dark_Archon_Meld, Race.Protoss);
-        fields.get("mineralPrice").set(TechType.Dark_Archon_Meld, 0);
-        fields.get("gasPrice").set(TechType.Dark_Archon_Meld, 0);
-        fields.get("researchTime").set(TechType.Dark_Archon_Meld, 0);
-        fields.get("energyCost").set(TechType.Dark_Archon_Meld, 0);
-        fields.get("whatResearches").set(TechType.Dark_Archon_Meld, UnitType.None);
-        fields.get("weaponType").set(TechType.Dark_Archon_Meld, WeaponType.None);
-        fields.get("targetsUnit").set(TechType.Dark_Archon_Meld, true);
-        fields.get("targetsPosition").set(TechType.Dark_Archon_Meld, false);
-        fields.get("order").set(TechType.Dark_Archon_Meld, Order.None);
-        fields.get("requiredUnit").set(TechType.Dark_Archon_Meld, UnitType.None);
-    }
-    private void initializeTechType_Feedback() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Feedback, 29);
-        fields.get("race").set(TechType.Feedback, Race.Protoss);
-        fields.get("mineralPrice").set(TechType.Feedback, 100);
-        fields.get("gasPrice").set(TechType.Feedback, 100);
-        fields.get("researchTime").set(TechType.Feedback, 1800);
-        fields.get("energyCost").set(TechType.Feedback, 50);
-        fields.get("whatResearches").set(TechType.Feedback, UnitType.None);
-        fields.get("weaponType").set(TechType.Feedback, WeaponType.Feedback);
-        fields.get("targetsUnit").set(TechType.Feedback, true);
-        fields.get("targetsPosition").set(TechType.Feedback, false);
-        fields.get("order").set(TechType.Feedback, Order.CastFeedback);
-        fields.get("requiredUnit").set(TechType.Feedback, UnitType.None);
-    }
-    private void initializeTechType_Optical_Flare() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Optical_Flare, 30);
-        fields.get("race").set(TechType.Optical_Flare, Race.Terran);
-        fields.get("mineralPrice").set(TechType.Optical_Flare, 100);
-        fields.get("gasPrice").set(TechType.Optical_Flare, 100);
-        fields.get("researchTime").set(TechType.Optical_Flare, 1800);
-        fields.get("energyCost").set(TechType.Optical_Flare, 75);
-        fields.get("whatResearches").set(TechType.Optical_Flare, UnitType.Terran_Academy);
-        fields.get("weaponType").set(TechType.Optical_Flare, WeaponType.Optical_Flare);
-        fields.get("targetsUnit").set(TechType.Optical_Flare, true);
-        fields.get("targetsPosition").set(TechType.Optical_Flare, false);
-        fields.get("order").set(TechType.Optical_Flare, Order.CastOpticalFlare);
-        fields.get("requiredUnit").set(TechType.Optical_Flare, UnitType.None);
-    }
-    private void initializeTechType_Maelstrom() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Maelstrom, 31);
-        fields.get("race").set(TechType.Maelstrom, Race.Protoss);
-        fields.get("mineralPrice").set(TechType.Maelstrom, 100);
-        fields.get("gasPrice").set(TechType.Maelstrom, 100);
-        fields.get("researchTime").set(TechType.Maelstrom, 1500);
-        fields.get("energyCost").set(TechType.Maelstrom, 100);
-        fields.get("whatResearches").set(TechType.Maelstrom, UnitType.Protoss_Templar_Archives);
-        fields.get("weaponType").set(TechType.Maelstrom, WeaponType.Maelstrom);
-        fields.get("targetsUnit").set(TechType.Maelstrom, true);
-        fields.get("targetsPosition").set(TechType.Maelstrom, true);
-        fields.get("order").set(TechType.Maelstrom, Order.CastMaelstrom);
-        fields.get("requiredUnit").set(TechType.Maelstrom, UnitType.None);
-    }
-    private void initializeTechType_Lurker_Aspect() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Lurker_Aspect, 32);
-        fields.get("race").set(TechType.Lurker_Aspect, Race.Zerg);
-        fields.get("mineralPrice").set(TechType.Lurker_Aspect, 200);
-        fields.get("gasPrice").set(TechType.Lurker_Aspect, 200);
-        fields.get("researchTime").set(TechType.Lurker_Aspect, 1800);
-        fields.get("energyCost").set(TechType.Lurker_Aspect, 0);
-        fields.get("whatResearches").set(TechType.Lurker_Aspect, UnitType.Zerg_Hydralisk_Den);
-        fields.get("weaponType").set(TechType.Lurker_Aspect, WeaponType.None);
-        fields.get("targetsUnit").set(TechType.Lurker_Aspect, false);
-        fields.get("targetsPosition").set(TechType.Lurker_Aspect, false);
-        fields.get("order").set(TechType.Lurker_Aspect, Order.None);
-        fields.get("requiredUnit").set(TechType.Lurker_Aspect, UnitType.Zerg_Lair);
-    }
-    private void initializeTechType_Healing() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Healing, 34);
-        fields.get("race").set(TechType.Healing, Race.Terran);
-        fields.get("mineralPrice").set(TechType.Healing, 0);
-        fields.get("gasPrice").set(TechType.Healing, 0);
-        fields.get("researchTime").set(TechType.Healing, 0);
-        fields.get("energyCost").set(TechType.Healing, 1);
-        fields.get("whatResearches").set(TechType.Healing, UnitType.None);
-        fields.get("weaponType").set(TechType.Healing, WeaponType.None);
-        fields.get("targetsUnit").set(TechType.Healing, true);
-        fields.get("targetsPosition").set(TechType.Healing, true);
-        fields.get("order").set(TechType.Healing, Order.MedicHeal);
-        fields.get("requiredUnit").set(TechType.Healing, UnitType.None);
-    }
-    private void initializeTechType_None() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.None, 44);
-        fields.get("race").set(TechType.None, Race.None);
-        fields.get("mineralPrice").set(TechType.None, 0);
-        fields.get("gasPrice").set(TechType.None, 0);
-        fields.get("researchTime").set(TechType.None, 0);
-        fields.get("energyCost").set(TechType.None, 0);
-        fields.get("whatResearches").set(TechType.None, UnitType.None);
-        fields.get("weaponType").set(TechType.None, WeaponType.None);
-        fields.get("targetsUnit").set(TechType.None, false);
-        fields.get("targetsPosition").set(TechType.None, false);
-        fields.get("order").set(TechType.None, Order.None);
-        fields.get("requiredUnit").set(TechType.None, UnitType.None);
-    }
-    private void initializeTechType_Nuclear_Strike() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Nuclear_Strike, 45);
-        fields.get("race").set(TechType.Nuclear_Strike, Race.Terran);
-        fields.get("mineralPrice").set(TechType.Nuclear_Strike, 0);
-        fields.get("gasPrice").set(TechType.Nuclear_Strike, 0);
-        fields.get("researchTime").set(TechType.Nuclear_Strike, 0);
-        fields.get("energyCost").set(TechType.Nuclear_Strike, 0);
-        fields.get("whatResearches").set(TechType.Nuclear_Strike, UnitType.None);
-        fields.get("weaponType").set(TechType.Nuclear_Strike, WeaponType.Nuclear_Strike);
-        fields.get("targetsUnit").set(TechType.Nuclear_Strike, true);
-        fields.get("targetsPosition").set(TechType.Nuclear_Strike, true);
-        fields.get("order").set(TechType.Nuclear_Strike, Order.NukePaint);
-        fields.get("requiredUnit").set(TechType.Nuclear_Strike, UnitType.None);
-    }
-    private void initializeTechType_Unknown() throws Exception {
-        Class<?> c = TechType.class;
-                Map<String, Field> fields = Stream.of(c.getDeclaredFields()).collect(Collectors.toMap(f -> f.getName(), f -> {
-            f.setAccessible(true);
-            return f;
-        })); 
-        fields.get("id").set(TechType.Unknown, 46);
-        fields.get("race").set(TechType.Unknown, Race.Unknown);
-        fields.get("mineralPrice").set(TechType.Unknown, 0);
-        fields.get("gasPrice").set(TechType.Unknown, 0);
-        fields.get("researchTime").set(TechType.Unknown, 0);
-        fields.get("energyCost").set(TechType.Unknown, 0);
-        fields.get("whatResearches").set(TechType.Unknown, UnitType.Unknown);
-        fields.get("weaponType").set(TechType.Unknown, WeaponType.Unknown);
-        fields.get("targetsUnit").set(TechType.Unknown, false);
-        fields.get("targetsPosition").set(TechType.Unknown, false);
-        fields.get("order").set(TechType.Unknown, Order.Unknown);
-        fields.get("requiredUnit").set(TechType.Unknown, UnitType.None);
     }
 }
