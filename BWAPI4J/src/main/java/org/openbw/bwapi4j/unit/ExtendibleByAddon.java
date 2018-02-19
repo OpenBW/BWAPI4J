@@ -9,4 +9,7 @@ public interface ExtendibleByAddon {
     boolean build(UnitType addon);
     boolean cancelAddon();
     Addon getAddon();
+    default boolean isBuildingAddon() {
+        return getAddon() != null && !getAddon().isCompleted;
+    }
 }
