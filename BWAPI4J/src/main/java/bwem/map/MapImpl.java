@@ -1,12 +1,9 @@
 package bwem.map;
 
-import bwem.Base;
-import bwem.ChokePoint;
-import bwem.Graph;
-import bwem.MapPrinter;
+import bwem.*;
 import bwem.area.Area;
 import bwem.area.typedef.AreaId;
-import bwem.check_t;
+import bwem.Check;
 import bwem.tile.MiniTile;
 import bwem.tile.MiniTileImpl;
 import bwem.tile.Tile;
@@ -44,14 +41,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class MapImpl implements Map {
 
-    private final MapPrinter pMapPrinter;
+    private final MapPrinter mapPrinter;
 
     protected AdvancedData advancedData = null;
     protected NeutralData neutralData = null;
 
     protected Altitude maxAltitude;
     private final MutableBoolean automaticPathUpdate = new MutableBoolean(false);
-    private final Graph Graph;
+    private final Graph graph;
 
     protected final List<MutablePair<MutablePair<AreaId, AreaId>, WalkPosition>> RawFrontier = new ArrayList<>();
 
@@ -70,14 +67,14 @@ public class MapImpl implements Map {
             List<VespeneGeyser> vespeneGeysers,
             Collection<Unit> units
     ) {
-        pMapPrinter = new MapPrinter();
+        mapPrinter = new MapPrinter();
     	this.mapDrawer = mapDrawer;
     	this.bwMap = bwMap;
     	this.players = players;
     	this.mineralPatches = mineralPatches;
     	this.vespeneGeysers = vespeneGeysers;
     	this.units = units;
-        Graph = new Graph(this);
+        graph = new Graph(this);
     }
 
 //    MapImpl::~MapImpl()
@@ -96,20 +93,20 @@ public class MapImpl implements Map {
 
     @Override
     public MapPrinter getMapPrinter() {
-        return pMapPrinter;
+        return mapPrinter;
     }
 
     @Override
-    public boolean initialized() {
+    public boolean isInitialized() {
         return (this.advancedData != null);
     }
 
     public Graph getGraph() {
-        return Graph;
+        return graph;
     }
 
     @Override
-    public List<MutablePair<MutablePair<AreaId, AreaId>, WalkPosition>> rawFrontier() {
+    public List<MutablePair<MutablePair<AreaId, AreaId>, WalkPosition>> getRawFrontier() {
         return RawFrontier;
     }
 
@@ -128,11 +125,11 @@ public class MapImpl implements Map {
         boolean atLeastOneFailed = false;
         for (TilePosition location : getData().getMapData().getStartingLocations()) {
             boolean found = false;
-            for (Area area : getGraph().areas()) {
+            for (Area area : getGraph().getAreas()) {
                 if (!found) {
-                    for (Base base : area.bases()) {
+                    for (Base base : area.getBases()) {
                         if (!found) {
-                            if (BwemExt.queenWiseDist(base.location(), location) <= BwemExt.max_tiles_between_StartingLocation_and_its_AssignedBase) {
+                            if (BwemExt.queenWiseDist(base.getLocation(), location) <= BwemExt.max_tiles_between_StartingLocation_and_its_AssignedBase) {
                                 base.setStartingLocation(location);
                                 found = true;
                             }
@@ -150,18 +147,18 @@ public class MapImpl implements Map {
     }
 
     @Override
-    public Altitude maxAltitude() {
+    public Altitude getMaxAltitude() {
         return maxAltitude;
     }
 
     @Override
-    public int baseCount() {
-        return getGraph().baseCount();
+    public int getBaseCount() {
+        return getGraph().getBaseCount();
     }
 
     @Override
-    public int chokePointCount() {
-        return getGraph().chokePoints().size();
+    public int getChokePointCount() {
+        return getGraph().getChokePoints().size();
     }
 
     @Override
@@ -191,7 +188,7 @@ public class MapImpl implements Map {
     public void onMineralDestroyed(Unit u) {
         for (int i = 0; i < getNeutralData().getMinerals().size(); ++i) {
             Mineral mineral = getNeutralData().getMinerals().get(i);
-            if (mineral.unit().equals(u)) {
+            if (mineral.getUnit().equals(u)) {
                 onMineralDestroyed(mineral);
                 mineral.simulateCPPObjectDestructor(); /* IMPORTANT! These actions are performed in the "~Neutral" dtor in BWEM 1.4.1 C++. */
                 getNeutralData().getMinerals().remove(i--);
@@ -207,7 +204,7 @@ public class MapImpl implements Map {
      * This remains as a separate method for portability consistency.
      */
     private void onMineralDestroyed(Mineral pMineral) {
-        for (Area area : getGraph().areas()) {
+        for (Area area : getGraph().getAreas()) {
             area.onMineralDestroyed(pMineral);
         }
     }
@@ -216,7 +213,7 @@ public class MapImpl implements Map {
     public void onStaticBuildingDestroyed(Unit u) {
         for (int i = 0; i < getNeutralData().getStaticBuildings().size(); ++i) {
             StaticBuilding building = getNeutralData().getStaticBuildings().get(i);
-            if (building.unit().equals(u)) {
+            if (building.getUnit().equals(u)) {
                 building.simulateCPPObjectDestructor(); /* IMPORTANT! These actions are performed in the "~Neutral" dtor in BWEM 1.4.1 C++. */
                 getNeutralData().getStaticBuildings().remove(i--);
                 return;
@@ -228,35 +225,35 @@ public class MapImpl implements Map {
 
     public void onBlockingNeutralDestroyed(Neutral pBlocking) {
 //        bwem_assert(pBlocking && pBlocking->blocking());
-        if (!(pBlocking != null && pBlocking.blocking())) {
+        if (!(pBlocking != null && pBlocking.isBlocking())) {
             throw new IllegalArgumentException();
         }
 
-        for (Area pArea : pBlocking.blockedAreas())
-        for (ChokePoint cp : pArea.chokePoints()) {
+        for (Area pArea : pBlocking.getBlockedAreas())
+        for (ChokePoint cp : pArea.getChokePoints()) {
             cp.onBlockingNeutralDestroyed(pBlocking);
         }
 
-        if (getData().getTile(pBlocking.topLeft()).getNeutral() != null) { // there remains some blocking Neutrals at the same location
+        if (getData().getTile(pBlocking.getTopLeft()).getNeutral() != null) { // there remains some blocking Neutrals at the same location
             return;
         }
 
         // Unblock the miniTiles of pBlocking:
-        AreaId newId = new AreaId(pBlocking.blockedAreas().iterator().next().id());
-        WalkPosition pBlockingW = pBlocking.size().toWalkPosition();
+        AreaId newId = new AreaId(pBlocking.getBlockedAreas().iterator().next().getId());
+        WalkPosition pBlockingW = pBlocking.getSize().toWalkPosition();
         for (int dy = 0; dy < pBlockingW.getY(); ++dy)
         for (int dx = 0; dx < pBlockingW.getX(); ++dx) {
-            MiniTile miniTile = getData().getMiniTile_(pBlocking.topLeft().toWalkPosition().add(new WalkPosition(dx, dy)));
+            MiniTile miniTile = getData().getMiniTile_(pBlocking.getTopLeft().toWalkPosition().add(new WalkPosition(dx, dy)));
             if (miniTile.isWalkable()) {
                 ((MiniTileImpl) miniTile).replaceBlockedAreaId(newId);
             }
         }
 
         // Unblock the Tiles of pBlocking:
-        for (int dy = 0; dy < pBlocking.size().getY(); ++dy)
-        for (int dx = 0; dx < pBlocking.size().getX(); ++dx) {
-            ((TileImpl) getData().getTile_(pBlocking.topLeft().add(new TilePosition(dx, dy)))).resetAreaId();
-            setAreaIdInTile(pBlocking.topLeft().add(new TilePosition(dx, dy)));
+        for (int dy = 0; dy < pBlocking.getSize().getY(); ++dy)
+        for (int dx = 0; dx < pBlocking.getSize().getX(); ++dx) {
+            ((TileImpl) getData().getTile_(pBlocking.getTopLeft().add(new TilePosition(dx, dy)))).resetAreaId();
+            setAreaIdInTile(pBlocking.getTopLeft().add(new TilePosition(dx, dy)));
         }
 
         if (automaticPathUpdate().booleanValue()) {
@@ -265,34 +262,34 @@ public class MapImpl implements Map {
     }
 
     @Override
-    public List<Area> areas() {
-        return getGraph().areas();
+    public List<Area> getAreas() {
+        return getGraph().getAreas();
     }
 
     // Returns an Area given its id. Range = 1..size()
     @Override
     public Area getArea(AreaId id) {
-        return Graph.getArea(id);
+        return graph.getArea(id);
     }
 
     @Override
     public Area getArea(WalkPosition w) {
-        return Graph.getArea(w);
+        return graph.getArea(w);
     }
 
     @Override
     public Area getArea(TilePosition t) {
-        return Graph.getArea(t);
+        return graph.getArea(t);
     }
 
     @Override
     public Area getNearestArea(WalkPosition w) {
-        return Graph.getNearestArea(w);
+        return graph.getNearestArea(w);
     }
 
     @Override
     public Area getNearestArea(TilePosition t) {
-        return Graph.getNearestArea(t);
+        return graph.getNearestArea(t);
     }
 
     //graph.cpp:30:Area * mainArea(MapImpl * pMap, TilePosition topLeft, TilePosition size)
@@ -349,7 +346,7 @@ public class MapImpl implements Map {
 
     @Override
     public CPPath getPath(Position a, Position b, MutableInt pLength) {
-        return Graph.getPath(a, b, pLength);
+        return graph.getPath(a, b, pLength);
     }
 
     @Override
@@ -381,7 +378,7 @@ public class MapImpl implements Map {
             for (TilePosition delta : directions) {
                 TilePosition next = current.add(delta);
                 if (getData().getMapData().isValid(next)) {
-                    Tile nextTile = getData().getTile(next, check_t.no_check);
+                    Tile nextTile = getData().getTile(next, Check.NO_CHECK);
                     if (findCond.isTrue(nextTile, next, this)) {
                         return next;
                     }
@@ -427,7 +424,7 @@ public class MapImpl implements Map {
             for (final WalkPosition delta : directions) {
                 final WalkPosition next = current.add(delta);
                 if (getData().getMapData().isValid(next)) {
-                    final MiniTile miniTile = getData().getMiniTile(next, check_t.no_check);
+                    final MiniTile miniTile = getData().getMiniTile(next, Check.NO_CHECK);
                     if (findCond.isTrue(miniTile, next, this)) {
                         return next;
                     }
@@ -488,7 +485,7 @@ public class MapImpl implements Map {
 
         for (int dy = 0; dy < 4; ++dy) {
             for (int dx = 0; dx < 4; ++dx) {
-                final AreaId id = getData().getMiniTile(t.toWalkPosition().add(new WalkPosition(dx, dy)), check_t.no_check).getAreaId();
+                final AreaId id = getData().getMiniTile(t.toWalkPosition().add(new WalkPosition(dx, dy)), Check.NO_CHECK).getAreaId();
                 if (id.intValue() != 0) {
                     if (tile.getAreaId().intValue() == 0) {
                         ((TileImpl) tile).setAreaId(id);
@@ -507,7 +504,7 @@ public class MapImpl implements Map {
         final WalkPosition[] deltas = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(+1, 0), new WalkPosition(0, +1)};
         for (final WalkPosition delta : deltas) {
             if (getData().getMapData().isValid(p.add(delta))) {
-                final AreaId areaId = getData().getMiniTile(p.add(delta), check_t.no_check).getAreaId();
+                final AreaId areaId = getData().getMiniTile(p.add(delta), Check.NO_CHECK).getAreaId();
                 if (areaId.intValue() > 0) {
                     if (result.getLeft() == null) {
                         result.setLeft(areaId);

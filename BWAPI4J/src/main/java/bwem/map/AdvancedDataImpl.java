@@ -1,6 +1,6 @@
 package bwem.map;
 
-import bwem.check_t;
+import bwem.Check;
 import bwem.tile.MiniTile;
 import bwem.tile.Tile;
 import bwem.tile.TileData;
@@ -28,9 +28,9 @@ public class AdvancedDataImpl implements AdvancedData {
     }
 
     @Override
-    public Tile getTile(final TilePosition tilePosition, final check_t checkMode) {
-//        bwem_assert((checkMode == utils::check_t::no_check) || valid(p)); utils::unused(checkMode);
-        if (!((checkMode == check_t.no_check) || getMapData().isValid(tilePosition))) {
+    public Tile getTile(final TilePosition tilePosition, final Check checkMode) {
+//        bwem_assert((checkMode == utils::Check::no_check) || Valid(p)); utils::unused(checkMode);
+        if (!((checkMode == Check.NO_CHECK) || getMapData().isValid(tilePosition))) {
             throw new IllegalArgumentException();
         }
         return this.tileData.getTiles().get(getMapData().getTileSize().getX() * tilePosition.getY() + tilePosition.getX());
@@ -38,23 +38,23 @@ public class AdvancedDataImpl implements AdvancedData {
 
     @Override
     public Tile getTile(final TilePosition tilePosition) {
-        return getTile(tilePosition, check_t.check);
+        return getTile(tilePosition, Check.CHECK);
     }
 
     @Override
-    public Tile getTile_(final TilePosition tilePosition, final check_t checkMode) {
+    public Tile getTile_(final TilePosition tilePosition, final Check checkMode) {
         return getTile(tilePosition, checkMode);
     }
 
     @Override
     public Tile getTile_(final TilePosition p) {
-        return getTile_(p, check_t.check);
+        return getTile_(p, Check.CHECK);
     }
 
     @Override
-    public MiniTile getMiniTile(final WalkPosition walkPosition, final check_t checkMode) {
-//        bwem_assert((checkMode == utils::check_t::no_check) || valid(p));
-        if (!((checkMode == check_t.no_check) || getMapData().isValid(walkPosition))) {
+    public MiniTile getMiniTile(final WalkPosition walkPosition, final Check checkMode) {
+//        bwem_assert((checkMode == utils::Check::no_check) || Valid(p));
+        if (!((checkMode == Check.NO_CHECK) || getMapData().isValid(walkPosition))) {
             throw new IllegalArgumentException();
         }
         return this.tileData.getMiniTiles().get(getMapData().getWalkSize().getX() * walkPosition.getY() + walkPosition.getX());
@@ -62,17 +62,17 @@ public class AdvancedDataImpl implements AdvancedData {
 
     @Override
     public MiniTile getMiniTile(final WalkPosition walkPosition) {
-        return getMiniTile(walkPosition, check_t.check);
+        return getMiniTile(walkPosition, Check.CHECK);
     }
 
     @Override
-    public MiniTile getMiniTile_(final WalkPosition walkPosition, final check_t checkMode) {
+    public MiniTile getMiniTile_(final WalkPosition walkPosition, final Check checkMode) {
         return getMiniTile(walkPosition, checkMode);
     }
 
     @Override
     public MiniTile getMiniTile_(final WalkPosition walkPosition) {
-        return getMiniTile_(walkPosition, check_t.check);
+        return getMiniTile_(walkPosition, Check.CHECK);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class AdvancedDataImpl implements AdvancedData {
         for (final WalkPosition delta : deltas) {
             final WalkPosition walkPositionDelta = walkPosition.add(delta);
             if (getMapData().isValid(walkPositionDelta)) {
-                if (!getMiniTile(walkPositionDelta, check_t.no_check).isSea()) {
+                if (!getMiniTile(walkPositionDelta, Check.NO_CHECK).isSea()) {
                     return true;
                 }
             }

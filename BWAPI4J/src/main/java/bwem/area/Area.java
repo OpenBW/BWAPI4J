@@ -1,15 +1,11 @@
 package bwem.area;
 
-import bwem.StaticMarkable;
+import bwem.*;
 import bwem.area.typedef.AreaId;
 import bwem.area.typedef.GroupId;
 import bwem.tile.TileImpl;
 import bwem.typedef.Altitude;
-import bwem.Base;
-import bwem.check_t;
-import bwem.ChokePoint;
-import bwem.Graph;
-import bwem.Markable;
+import bwem.Check;
 import bwem.map.Map;
 import bwem.tile.MiniTile;
 import bwem.tile.Tile;
@@ -35,17 +31,17 @@ import org.openbw.bwapi4j.util.Pair;
 //                                                                                          //
 //////////////////////////////////////////////////////////////////////////////////////////////
 //
-// areas are regions that BWEM automatically computes from Brood War's maps
-// areas aim at capturing relevant regions that can be walked, though they may contain small inner non walkable regions called lakes.
+// Areas are regions that BWEM automatically computes from Brood War's maps
+// Areas aim at capturing relevant regions that can be walked, though they may contain small inner non walkable regions called lakes.
 // More formally:
-//  - An area consists in a set of 4-connected miniTiles, which are either Terrain-miniTiles or Lake-miniTiles.
-//  - An Area is delimited by the side of the Map, by Water-miniTiles, or by other areas. In the latter case
-//    the adjoining areas are called neighbouring areas, and each pair of such areas defines at least one ChokePoint.
-// Like chokePoints and bases, the number and the addresses of Area instances remain unchanged.
-// To access areas one can use their ids or their addresses with equivalent efficiency.
+//  - An area consists in a set of 4-connected MiniTiles, which are either Terrain-MiniTiles or Lake-MiniTiles.
+//  - An Area is delimited by the side of the Map, by Water-MiniTiles, or by other Areas. In the latter case
+//    the adjoining Areas are called neighbouring Areas, and each pair of such Areas defines at least one ChokePoint.
+// Like ChokePoints and Bases, the number and the addresses of Area instances remain unchanged.
+// To access Areas one can use their ids or their addresses with equivalent efficiency.
 //
-// areas inherit utils::Markable, which provides marking ability
-// areas inherit utils::UserData, which provides free-to-use data.
+// Areas inherit utils::Markable, which provides marking ability
+// Areas inherit utils::UserData, which provides free-to-use data.
 //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -54,7 +50,7 @@ public final class Area {
     private static final StaticMarkable staticMarkable = new StaticMarkable();
     private final Markable markable;
 
-    private final Graph pGraph;
+    private final Graph graph;
     private final AreaId id;
     private GroupId groupId = new GroupId(0);
     private final WalkPosition top;
@@ -73,10 +69,10 @@ public final class Area {
     private final List<Geyser> geysers = new ArrayList<>();
 	private final List<Base> Bases = new ArrayList<>();
 
-    public Area(Graph pGraph, AreaId areaId, WalkPosition top, int miniTiles) {
+    public Area(Graph graph, AreaId areaId, WalkPosition top, int miniTiles) {
         this.markable = new Markable(Area.staticMarkable);
 
-        this.pGraph = pGraph;
+        this.graph = graph;
         id = areaId;
         this.top = top;
         this.miniTiles = miniTiles;
@@ -107,21 +103,21 @@ public final class Area {
      * Returns the internal Graph object. Not used in BWEM 1.4.1. Remains for portability consistency.
      */
     private Graph getGraph() {
-        return pGraph;
+        return graph;
     }
 
 	// Unique id > 0 of this Area. Range = 1 .. Map::areas().size()
 	// this == Map::getArea(id())
 	// id() == Map::GetMiniTile(w).AreaId() for each walkable MiniTile w in this Area.
 	// Area::ids are guaranteed to remain unchanged.
-    public AreaId id() {
+    public AreaId getId() {
         return id;
     }
 
 	// Unique id > 0 of the group of areas which are accessible from this Area.
 	// For each pair (a, b) of areas: a->groupId() == b->groupId()  <==>  a->accessibleFrom(b)
-	// A groupId uniquely identifies a maximum set of mutually accessible areas, that is, in the absence of blocking chokePoints, a continent.
-    public GroupId groupId() {
+	// A groupId uniquely identifies a maximum set of mutually accessible areas, that is, in the absence of blocking getChokePoints, a continent.
+    public GroupId getGroupId() {
         return groupId;
     }
 
@@ -133,25 +129,25 @@ public final class Area {
         groupId = gid;
     }
 
-    public TilePosition topLeft() {
+    public TilePosition getTopLeft() {
         return topLeft;
     }
 
-    public TilePosition bottomRight() {
+    public TilePosition getBottomRight() {
         return bottomRight;
     }
 
-    public TilePosition boundingBoxSize() {
+    public TilePosition getBoundingBoxSize() {
         return bottomRight.subtract (topLeft).add(new TilePosition(1, 1));
     }
 
     // Position of the MiniTile with the highest Altitude() value.
-    public WalkPosition top() {
+    public WalkPosition getTop() {
         return top;
     }
 
 	// Returns Map::GetMiniTile(top()).Altitude().
-    public Altitude maxAltitude() {
+    public Altitude getMaxAltitude() {
         return maxAltitude;
     }
 
@@ -162,49 +158,49 @@ public final class Area {
     }
 
 	// Returns the percentage of low ground Tiles in this Area.
-    public int lowGroundPercentage() {
+    public int getLowGroundPercentage() {
         return (( (tiles - highGroundTiles - veryHighGroundTiles) * 100) / tiles);
     }
 
 	// Returns the percentage of high ground Tiles in this Area.
-    public int highGroundPercentage() {
+    public int getHighGroundPercentage() {
         return ( (highGroundTiles * 100) / tiles);
     }
 
 	// Returns the percentage of very high ground Tiles in this Area.
-    public int veryHighGroundPercentage() {
+    public int getVeryHighGroundPercentage() {
         return ( (veryHighGroundTiles * 100) / tiles);
     }
 
-	// Returns the chokePoints between this Area and the neighbouring ones.
+	// Returns the getChokePoints between this Area and the neighbouring ones.
 	// Note: if there are no neighbouring areas, then an empty set is returned.
-	// Note there may be more chokePoints returned than the number of neighbouring areas, as there may be several chokePoints between two areas (Cf. chokePoints(const Area * pArea)).
-    public List<ChokePoint> chokePoints() {
+	// Note there may be more getChokePoints returned than the number of neighbouring areas, as there may be several getChokePoints between two areas (Cf. getChokePoints(const Area * pArea)).
+    public List<ChokePoint> getChokePoints() {
         return chokePoints;
     }
 
-	// Returns the chokePoints between this Area and pArea.
-	// Assumes pArea is a neighbour of this Area, i.e. chokePointsByArea().find(pArea) != chokePointsByArea().end()
+	// Returns the getChokePoints between this Area and pArea.
+	// Assumes pArea is a neighbour of this Area, i.e. getChokePointsByArea().find(pArea) != getChokePointsByArea().end()
 	// Note: there is always at least one ChokePoint between two neighbouring areas.
-    public List<ChokePoint> chokePoints(Area pArea) {
+    public List<ChokePoint> getChokePoints(Area pArea) {
         List<ChokePoint> ret = chokePointsByArea.get(pArea);
-//        bwem_assert(it != chokePointsByArea.end());
+//        bwem_assert(it != getChokePointsByArea.end());
         if (ret == null) {
             throw new IllegalArgumentException();
         }
         return ret;
     }
 
-	// Returns the chokePoints of this Area grouped by neighbouring areas
+	// Returns the getChokePoints of this Area grouped by neighbouring areas
 	// Note: if there are no neighbouring areas, than an empty set is returned.
-	public AbstractMap<Area, List<ChokePoint>> chokePointsByArea() {
+	public AbstractMap<Area, List<ChokePoint>> getChokePointsByArea() {
         return chokePointsByArea;
     }
 
 	// Returns the accessible neighbouring areas.
-	// The accessible neighbouring areas are a subset of the neighbouring areas (the neighbouring areas can be iterated using chokePointsByArea()).
-	// Two neighbouring areas are accessible from each over if at least one the chokePoints they share is not blocked (Cf. ChokePoint::blocked).
-	public List<Area> accessibleNeighbors() {
+	// The accessible neighbouring areas are a subset of the neighbouring areas (the neighbouring areas can be iterated using getChokePointsByArea()).
+	// Two neighbouring areas are accessible from each over if at least one the getChokePoints they share is not blocked (Cf. ChokePoint::blocked).
+	public List<Area> getAccessibleNeighbors() {
         return accessibleNeighbors;
     }
 
@@ -215,33 +211,33 @@ public final class Area {
 	//       and not:     contains(a->AccessibleNeighbours(), b)
 	// See also groupId()
 	public boolean accessibleFrom(Area pArea) {
-        return groupId().equals(pArea.groupId());
+        return getGroupId().equals(pArea.getGroupId());
     }
 
 	// Returns the minerals contained in this Area.
 	// Note: only a call to Map::onMineralDestroyed(BWAPI::unit u) may change the result (by removing eventually one element).
-	public List<Mineral> minerals() {
+	public List<Mineral> getMinerals() {
         return minerals;
     }
 
 	// Returns the geysers contained in this Area.
 	// Note: the result will remain unchanged.
-	public List<Geyser> geysers() {
+	public List<Geyser> getGeysers() {
         return geysers;
     }
 
 	// Returns the bases contained in this Area.
 	// Note: the result will remain unchanged.
-	public List<Base> bases() {
+	public List<Base> getBases() {
         return Bases;
     }
 
     public Map getMap() {
-        return pGraph.getMap();
+        return graph.getMap();
     }
 
     public void addChokePoints(Area pArea, List<ChokePoint> pChokePoints) {
-//        bwem_assert(!chokePointsByArea[pArea] && pChokePoints);
+//        bwem_assert(!getChokePointsByArea[pArea] && pChokePoints);
         if (! (chokePointsByArea.get(pArea) == null && pChokePoints != null)) {
             throw new IllegalArgumentException();
         }
@@ -287,36 +283,36 @@ public final class Area {
         /* Do nothing. This function is blank in BWEM 1.4.1 */
     }
 
-    public void onMineralDestroyed(Mineral pMineral) {
-//        bwem_assert(pMineral);
-        if (pMineral == null) {
+    public void onMineralDestroyed(Mineral mineral) {
+//        bwem_assert(mineral);
+        if (mineral == null) {
             throw new IllegalArgumentException();
         }
 
-        minerals.remove(pMineral);
+        minerals.remove(mineral);
 
-        // let's examine the bases even if pMineral was not found in this Area,
+        // let's examine the bases even if mineral was not found in this Area,
         // which could arise if minerals were allowed to be assigned to neighbouring areas.
-        for (Base base : bases()) {
-            base.onMineralDestroyed(pMineral);
+        for (Base base : getBases()) {
+            base.onMineralDestroyed(mineral);
         }
     }
 
-    public int[] computeDistances(final ChokePoint pStartCP, final List<ChokePoint> targetCPs) {
-//        bwem_assert(!contains(targetCPs, pStartCP));
-        if (targetCPs.contains(pStartCP)) {
+    public int[] computeDistances(final ChokePoint startCP, final List<ChokePoint> targetCPs) {
+//        bwem_assert(!contains(targetCPs, startCP));
+        if (targetCPs.contains(startCP)) {
             throw new IllegalStateException();
         }
 
         // findCond
         // visitCond
         final TilePosition start = getMap().breadthFirstSearch(
-            pStartCP.posInArea(ChokePoint.Node.middle, this).toTilePosition(),
+            startCP.positionOfNodeInArea(ChokePoint.Node.MIDDLE, this).toTilePosition(),
                 args -> {
                     final Object ttile = args[0];
                     if (ttile instanceof Tile) {
                         final Tile tile = (Tile) ttile;
-                        return tile.getAreaId().equals(id());
+                        return tile.getAreaId().equals(getId());
                     } else {
                         throw new IllegalArgumentException();
                     }
@@ -329,12 +325,12 @@ public final class Area {
             // findCond
             // visitCond
             final TilePosition t = getMap().breadthFirstSearch(
-                cp.posInArea(ChokePoint.Node.middle, this).toTilePosition(),
+                cp.positionOfNodeInArea(ChokePoint.Node.MIDDLE, this).toTilePosition(),
                     args -> {
                         final Object ttile = args[0];
                         if (ttile instanceof Tile) {
                             final Tile tile = (Tile) ttile;
-                            return (tile.getAreaId().equals(id()));
+                            return (tile.getAreaId().equals(getId()));
                         } else {
                             throw new IllegalArgumentException();
                         }
@@ -349,9 +345,9 @@ public final class Area {
 
     public void updateAccessibleNeighbors() {
         accessibleNeighbors.clear();
-        for (final Area area : chokePointsByArea().keySet()) {
-            for (final ChokePoint cp : chokePointsByArea().get(area)) {
-                if (!cp.blocked()) {
+        for (final Area area : getChokePointsByArea().keySet()) {
+            for (final ChokePoint cp : getChokePointsByArea().get(area)) {
+                if (!cp.isBlocked()) {
                     accessibleNeighbors.add(area);
                     break;
                 }
@@ -370,13 +366,13 @@ public final class Area {
 
         // initialize the RemainingRessources with all the minerals and geysers in this Area satisfying some conditions:
         List<Resource> remainingResources = new ArrayList<>();
-        for (Mineral m : minerals()) {
-            if ((m.initialAmount() >= 40) && !m.blocking()) {
+        for (Mineral m : getMinerals()) {
+            if ((m.getInitialAmount() >= 40) && !m.isBlocking()) {
                 remainingResources.add(m);
             }
         }
-        for (Geyser g : geysers()) {
-            if ((g.initialAmount() >= 300) && !g.blocking()) {
+        for (Geyser g : getGeysers()) {
+            if ((g.getInitialAmount() >= 300) && !g.isBlocking()) {
                 remainingResources.add(g);
             }
         }
@@ -387,32 +383,32 @@ public final class Area {
             TilePosition topLeftResources = new TilePosition(Integer.MAX_VALUE, Integer.MAX_VALUE);
             TilePosition bottomRightResources = new TilePosition(Integer.MIN_VALUE, Integer.MIN_VALUE);
             for (Resource r : remainingResources) {
-                ImmutablePair<TilePosition, TilePosition> pair1 = BwemExt.makeBoundingBoxIncludePoint(topLeftResources, bottomRightResources, r.topLeft());
+                ImmutablePair<TilePosition, TilePosition> pair1 = BwemExt.makeBoundingBoxIncludePoint(topLeftResources, bottomRightResources, r.getTopLeft());
                 topLeftResources = pair1.getLeft();
                 bottomRightResources = pair1.getRight();
-                ImmutablePair<TilePosition, TilePosition> pair2 = BwemExt.makeBoundingBoxIncludePoint(topLeftResources, bottomRightResources, r.bottomRight());
+                ImmutablePair<TilePosition, TilePosition> pair2 = BwemExt.makeBoundingBoxIncludePoint(topLeftResources, bottomRightResources, r.getBottomRight());
                 topLeftResources = pair2.getLeft();
                 bottomRightResources = pair2.getRight();
             }
 
             TilePosition topLeftSearchBoundingBox = topLeftResources.subtract(dimCC).subtract(new TilePosition(BwemExt.max_tiles_between_CommandCenter_and_resources, BwemExt.max_tiles_between_CommandCenter_and_resources));
             TilePosition bottomRightSearchBoundingBox = bottomRightResources.add(new TilePosition(1, 1)).add(new TilePosition(BwemExt.max_tiles_between_CommandCenter_and_resources, BwemExt.max_tiles_between_CommandCenter_and_resources));
-            topLeftSearchBoundingBox = BwemExt.makePointFitToBoundingBox(topLeftSearchBoundingBox, topLeft(), bottomRight().subtract(dimCC).add(new TilePosition(1, 1)));
-            bottomRightSearchBoundingBox = BwemExt.makePointFitToBoundingBox(bottomRightSearchBoundingBox, topLeft(), bottomRight().subtract(dimCC).add(new TilePosition(1, 1)));
+            topLeftSearchBoundingBox = BwemExt.makePointFitToBoundingBox(topLeftSearchBoundingBox, getTopLeft(), getBottomRight().subtract(dimCC).add(new TilePosition(1, 1)));
+            bottomRightSearchBoundingBox = BwemExt.makePointFitToBoundingBox(bottomRightSearchBoundingBox, getTopLeft(), getBottomRight().subtract(dimCC).add(new TilePosition(1, 1)));
 
             // 2) Mark the Tiles with their distances from each remaining Ressource (Potential Fields >= 0)
             for (Resource r : remainingResources)
-            for (int dy = -dimCC.getY() - BwemExt.max_tiles_between_CommandCenter_and_resources; dy < r.size().getY() + dimCC.getY() + BwemExt.max_tiles_between_CommandCenter_and_resources; ++dy)
-            for (int dx = -dimCC.getX() - BwemExt.max_tiles_between_CommandCenter_and_resources; dx < r.size().getX() + dimCC.getX() + BwemExt.max_tiles_between_CommandCenter_and_resources; ++dx) {
-                TilePosition t = r.topLeft().add(new TilePosition(dx, dy));
+            for (int dy = -dimCC.getY() - BwemExt.max_tiles_between_CommandCenter_and_resources; dy < r.getSize().getY() + dimCC.getY() + BwemExt.max_tiles_between_CommandCenter_and_resources; ++dy)
+            for (int dx = -dimCC.getX() - BwemExt.max_tiles_between_CommandCenter_and_resources; dx < r.getSize().getX() + dimCC.getX() + BwemExt.max_tiles_between_CommandCenter_and_resources; ++dx) {
+                TilePosition t = r.getTopLeft().add(new TilePosition(dx, dy));
                 if (pMap.getData().getMapData().isValid(t)) {
-                    Tile tile = pMap.getData().getTile(t, check_t.no_check);
-                    int dist = (BwemExt.distToRectangle(BwemExt.center(t), r.topLeft().toPosition(), r.size().toPosition()) + 16) / 32; //TODO: Replace 16 and 32 with TilePosition.SIZE_IN_PIXELS constant?
+                    Tile tile = pMap.getData().getTile(t, Check.NO_CHECK);
+                    int dist = (BwemExt.distToRectangle(BwemExt.center(t), r.getTopLeft().toPosition(), r.getSize().toPosition()) + 16) / 32; //TODO: Replace 16 and 32 with TilePosition.SIZE_IN_PIXELS constant?
                     int score = Math.max(BwemExt.max_tiles_between_CommandCenter_and_resources + 3 - dist, 0);
                     if (r instanceof Geyser) { // somewhat compensates for Geyser alone vs the several minerals
                         score *= 3;
                     }
-                    if (tile.getAreaId().equals(id())) { // note the additive effect (assume tile.InternalData() is 0 at the begining)
+                    if (tile.getAreaId().equals(getId())) { // note the additive effect (assume tile.InternalData() is 0 at the begining)
                         ((TileImpl) tile).getInternalData().setValue(((TileImpl) tile).getInternalData().intValue() + score);
                     }
                 }
@@ -420,11 +416,11 @@ public final class Area {
 
             // 3) Invalidate the 7 x 7 Tiles around each remaining Ressource (Starcraft rule)
             for (Resource r : remainingResources)
-            for (int dy = -3; dy < r.size().getY() + 3; ++dy)
-            for (int dx = -3; dx < r.size().getX() + 3; ++dx) {
-                TilePosition t = r.topLeft().add(new TilePosition(dx, dy));
+            for (int dy = -3; dy < r.getSize().getY() + 3; ++dy)
+            for (int dx = -3; dx < r.getSize().getX() + 3; ++dx) {
+                TilePosition t = r.getTopLeft().add(new TilePosition(dx, dy));
                 if (pMap.getData().getMapData().isValid(t)) {
-                    ((TileImpl) pMap.getData().getTile(t, check_t.no_check)).getInternalData().setValue(-1);
+                    ((TileImpl) pMap.getData().getTile(t, Check.NO_CHECK)).getInternalData().setValue(-1);
                 }
             }
 
@@ -447,11 +443,11 @@ public final class Area {
 
             // 5) Clear Tile::m_internalData (required due to our use of Potential Fields: see comments in 2))
             for (Resource r : remainingResources) {
-                for (int dy = -dimCC.getY() - BwemExt.max_tiles_between_CommandCenter_and_resources; dy < r.size().getY() + dimCC.getY() + BwemExt.max_tiles_between_CommandCenter_and_resources; ++dy)
-                for (int dx = -dimCC.getX() - BwemExt.max_tiles_between_CommandCenter_and_resources; dx < r.size().getX() + dimCC.getX() + BwemExt.max_tiles_between_CommandCenter_and_resources; ++dx) {
-                    TilePosition t = r.topLeft().add(new TilePosition(dx, dy));
+                for (int dy = -dimCC.getY() - BwemExt.max_tiles_between_CommandCenter_and_resources; dy < r.getSize().getY() + dimCC.getY() + BwemExt.max_tiles_between_CommandCenter_and_resources; ++dy)
+                for (int dx = -dimCC.getX() - BwemExt.max_tiles_between_CommandCenter_and_resources; dx < r.getSize().getX() + dimCC.getX() + BwemExt.max_tiles_between_CommandCenter_and_resources; ++dx) {
+                    TilePosition t = r.getTopLeft().add(new TilePosition(dx, dy));
                     if (pMap.getData().getMapData().isValid(t)) {
-                        ((TileImpl) pMap.getData().getTile(t, check_t.no_check)).getInternalData().setValue(0);
+                        ((TileImpl) pMap.getData().getTile(t, Check.NO_CHECK)).getInternalData().setValue(0);
                     }
                 }
             }
@@ -463,7 +459,7 @@ public final class Area {
             // 6) Create a new Base at bestLocation, assign to it the relevant ressources and remove them from RemainingRessources:
             List<Resource> assignedResources = new ArrayList<>();
             for (Resource r : remainingResources) {
-                if (BwemExt.distToRectangle(r.pos(), bestLocation.toPosition(), dimCC.toPosition()) + 2 <= BwemExt.max_tiles_between_CommandCenter_and_resources * TilePosition.SIZE_IN_PIXELS) {
+                if (BwemExt.distToRectangle(r.getCenter(), bestLocation.toPosition(), dimCC.toPosition()) + 2 <= BwemExt.max_tiles_between_CommandCenter_and_resources * TilePosition.SIZE_IN_PIXELS) {
                     assignedResources.add(r);
                 }
             }
@@ -494,11 +490,11 @@ public final class Area {
         int sumScore = 0;
         for (int dy = 0; dy < dimCC.getY(); ++dy)
         for (int dx = 0; dx < dimCC.getX(); ++dx) {
-            final Tile tile = getMap().getData().getTile(location.add(new TilePosition(dx, dy)), check_t.no_check);
+            final Tile tile = getMap().getData().getTile(location.add(new TilePosition(dx, dy)), Check.NO_CHECK);
             if (!tile.isBuildable()) return -1;
             if (((TileImpl) tile).getInternalData().intValue() == -1) return -1; // The special value InternalData() == -1 means there is some ressource at maximum 3 tiles, which Starcraft rules forbid.
                                                                     // Unfortunately, this is guaranteed only for the ressources in this Area, which is the very reason of validateBaseLocation
-            if (!tile.getAreaId().equals(id())) return -1;
+            if (!tile.getAreaId().equals(getId())) return -1;
             if (tile.getNeutral() != null && (tile.getNeutral() instanceof StaticBuilding)) return -1;
 
             sumScore += ((TileImpl) tile).getInternalData().intValue();
@@ -522,14 +518,14 @@ public final class Area {
         for (int dx = -3; dx < dimCC.getX() + 3; ++dx) {
             TilePosition t = location.add(new TilePosition(dx, dy));
             if (pMap.getData().getMapData().isValid(t)) {
-                Tile tile = pMap.getData().getTile(t, check_t.no_check);
+                Tile tile = pMap.getData().getTile(t, Check.NO_CHECK);
                 Neutral n = tile.getNeutral();
                 if (n != null) {
                     if (n instanceof Geyser) {
                         return false;
                     } else if (n instanceof Mineral) {
                         Mineral m = (Mineral) n;
-                        if (m.initialAmount() <= 8) {
+                        if (m.getInitialAmount() <= 8) {
                             blockingMinerals.add(m);
                         } else {
                             return false;
@@ -540,8 +536,8 @@ public final class Area {
         }
 
         // checks the distance to the bases already created:
-        for (Base base : bases()) {
-            if (BwemExt.roundedDist(base.location(), location) < BwemExt.min_tiles_between_Bases) {
+        for (Base base : getBases()) {
+            if (BwemExt.roundedDist(base.getLocation(), location) < BwemExt.min_tiles_between_Bases) {
                 return false;
             }
         }
@@ -565,7 +561,7 @@ public final class Area {
             Pair<Integer, TilePosition> distanceAndTilePosition = toVisit.poll();
             final int currentDist = distanceAndTilePosition.first;
             final TilePosition current = distanceAndTilePosition.second;
-            final Tile currentTile = getMap().getData().getTile(current, check_t.no_check);
+            final Tile currentTile = getMap().getData().getTile(current, Check.NO_CHECK);
 //            bwem_assert(currentTile.InternalData() == currentDist);
             if (!(((TileImpl) currentTile).getInternalData().intValue() == currentDist)) {
                 throw new IllegalStateException("currentTile.InternalData().intValue()=" + ((TileImpl) currentTile).getInternalData().intValue() + ", currentDist=" + currentDist);
@@ -594,7 +590,7 @@ public final class Area {
 
                 final TilePosition next = current.add(delta);
                 if (getMap().getData().getMapData().isValid(next)) {
-                    final Tile nextTile = getMap().getData().getTile(next, check_t.no_check);
+                    final Tile nextTile = getMap().getData().getTile(next, Check.NO_CHECK);
                     if (!nextTile.getMarkable().isMarked()) {
                         if (((TileImpl) nextTile).getInternalData().intValue() != 0) { // next already in toVisit
                             if (newNextDist < ((TileImpl) nextTile).getInternalData().intValue()) { // nextNewDist < nextOldDist
@@ -607,7 +603,7 @@ public final class Area {
                                 ((TileImpl) nextTile).getInternalData().setValue(newNextDist);
                                 toVisit.offer(new Pair<>(newNextDist, next));
                             }
-                        } else if ((nextTile.getAreaId().equals(id())) || (nextTile.getAreaId().equals(new AreaId(-1)))) {
+                        } else if ((nextTile.getAreaId().equals(getId())) || (nextTile.getAreaId().equals(new AreaId(-1)))) {
                             ((TileImpl) nextTile).getInternalData().setValue(newNextDist);
                             toVisit.offer(new Pair<>(newNextDist, next));
                         }
@@ -622,7 +618,7 @@ public final class Area {
         }
 
         for (Pair<Integer, TilePosition> distanceAndTilePosition : toVisit) {
-            ((TileImpl) getMap().getData().getTile(distanceAndTilePosition.second, check_t.no_check)).getInternalData().setValue(0);
+            ((TileImpl) getMap().getData().getTile(distanceAndTilePosition.second, Check.NO_CHECK)).getInternalData().setValue(0);
         }
 
         return distances;

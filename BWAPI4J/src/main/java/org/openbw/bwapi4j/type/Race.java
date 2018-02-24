@@ -64,7 +64,7 @@ public enum Race {
 
     /**
      * Retrieves the default structure UnitType for this Race that is used to
-     * harvest gas from Vespene geysers. Note In Starcraft, you must first
+     * harvest gas from Vespene Geysers. Note In Starcraft, you must first
      * construct a structure over a Vespene Geyser in order to begin harvesting
      * Vespene Gas. Returns UnitType of the structure used to harvest gas.
      */

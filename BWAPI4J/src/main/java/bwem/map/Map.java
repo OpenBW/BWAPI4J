@@ -47,7 +47,7 @@ public interface Map {
     MapPrinter getMapPrinter();
 
     // Will return true once initialize() has been called.
-    boolean initialized();
+    boolean isInitialized();
 
 	// Returns the status of the automatic path update (off (false) by default).
 	// When on, each time a blocking Neutral (either Mineral or StaticBuilding) is destroyed,
@@ -71,13 +71,13 @@ public interface Map {
     boolean findBasesForStartingLocations();
 
     // Returns the maximum altitude in the whole Map (Cf. MiniTile::Altitude()).
-    Altitude maxAltitude();
+    Altitude getMaxAltitude();
 
     // Returns the number of bases.
-    int baseCount();
+    int getBaseCount();
 
-    // Returns the number of chokePoints.
-    int chokePointCount();
+    // Returns the number of getChokePoints.
+    int getChokePointCount();
 
     NeutralData getNeutralData();
 
@@ -93,7 +93,7 @@ public interface Map {
     void onStaticBuildingDestroyed(Unit u);
 
     // Should be called for each destroyed BWAPI unit u having u->getType().isSpecialBuilding() == true
-    List<Area> areas();
+    List<Area> getAreas();
 
     // Returns a reference to the areas.
     Area getArea(AreaId id);
@@ -120,17 +120,17 @@ public interface Map {
 
     Area getMainArea(TilePosition topLeft, TilePosition size);
 
-	// Returns a list of chokePoints, which is intended to be the shortest walking path from 'a' to 'b'.
+	// Returns a list of ChokePoints, which is intended to be the shortest walking path from 'a' to 'b'.
 	// Furthermore, if pLength != nullptr, the pointed integer is set to the corresponding length in pixels.
 	// If 'a' is not accessible from 'b', the empty Path is returned, and -1 is put in *pLength (if pLength != nullptr).
 	// If 'a' and 'b' are in the same Area, the empty Path is returned, and a.getApproxDistance(b) is put in *pLength (if pLength != nullptr).
-	// Otherwise, the function relies on ChokePoint::getPathTo.
-	// Cf. ChokePoint::getPathTo for more information.
-	// Note: in order to retrieve the areas of 'a' and 'b', the function starts by calling
-	//       getNearestArea(TilePosition(a)) and getNearestArea(TilePosition(b)).
+	// Otherwise, the function relies on ChokePoint::GetPathTo.
+	// Cf. ChokePoint::GetPathTo for more information.
+	// Note: in order to retrieve the Areas of 'a' and 'b', the function starts by calling
+	//       GetNearestArea(TilePosition(a)) and GetNearestArea(TilePosition(b)).
 	//       While this brings robustness, this could yield surprising results in the case where 'a' and/or 'b' are in the Water.
 	//       To avoid this and the potential performance penalty, just make sure getArea(a) != nullptr and getArea(b) != nullptr.
-	//       Then getPath should perform very quick.
+	//       Then GetPath should perform very quick.
     CPPath getPath(Position a, Position b, MutableInt pLength);
 
     CPPath getPath(Position a, Position b);
@@ -145,8 +145,8 @@ public interface Map {
 
     WalkPosition breadthFirstSearch(WalkPosition start, Pred findCond, Pred visitCond);
 
-    // Returns the union of the geometry of all the chokePoints. Cf. ChokePoint::geometry()
-    List<MutablePair<MutablePair<AreaId, AreaId>, WalkPosition>> rawFrontier();
+    // Returns the union of the geometry of all the ChokePoints. Cf. ChokePoint::Geometry()
+    List<MutablePair<MutablePair<AreaId, AreaId>, WalkPosition>> getRawFrontier();
 
     void drawDiagonalCrossMap(Position topLeft, Position bottomRight, Color col);
 

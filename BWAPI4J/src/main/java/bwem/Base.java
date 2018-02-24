@@ -20,20 +20,20 @@ import org.openbw.bwapi4j.type.UnitType;
 //                                                                                          //
 //////////////////////////////////////////////////////////////////////////////////////////////
 //
-// After areas and chokePoints, bases are the third kind of object BWEM automatically computes from Brood War's maps.
-// A Base is essentially a suggested location (intended to be optimal) to put a Command center, Nexus, or Hatchery.
+// After Areas and ChokePoints, Bases are the third kind of object BWEM automatically computes from Brood War's maps.
+// A Base is essentially a suggested location (intended to be optimal) to put a Command Center, Nexus, or Hatchery.
 // It also provides information on the ressources available, and some statistics.
-// A Base alway belongs to some Area. An Area may contain zero, one or several bases.
-// Like areas and chokePoints, the number and the addresses of Base instances remain unchanged.
+// A Base alway belongs to some Area. An Area may contain zero, one or several Bases.
+// Like Areas and ChokePoints, the number and the addresses of Base instances remain unchanged.
 //
-// bases inherit utils::UserData, which provides free-to-use data.
+// Bases inherit utils::UserData, which provides free-to-use data.
 //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 public final class Base {
 
-	private final Map pMap;
-	private final Area pArea;
+	private final Map map;
+	private final Area area;
 	private TilePosition location;
 	private Position center;
 	private final List<Mineral> Minerals = new ArrayList<>();
@@ -41,9 +41,9 @@ public final class Base {
 	private final List<Mineral> BlockingMinerals;
 	private boolean starting = false;
 
-    public Base(Area pArea, TilePosition location, List<Resource> assignedResources, List<Mineral> blockingMinerals) {
-        this.pArea = pArea;
-        pMap = pArea.getMap();
+    public Base(Area area, TilePosition location, List<Resource> assignedResources, List<Mineral> blockingMinerals) {
+        this.area = area;
+        map = area.getMap();
         this.location = location;
         center = BwemExt.centerOfBuilding(location, UnitType.Terran_Command_Center.tileSize());
         this.BlockingMinerals = blockingMinerals;
@@ -67,37 +67,37 @@ public final class Base {
 	// Tells whether this Base's location is contained in Map::StartingLocations()
 	// Note: all players start at locations taken from Map::StartingLocations(),
 	//       which doesn't mean all the locations in Map::StartingLocations() are actually used.
-	public boolean starting() {
+	public boolean isStarting() {
         return starting;
     }
 
 	// Returns the Area this Base belongs to.
 	public Area getArea() {
-        return pArea;
+        return area;
     }
 
 	// Returns the location of this Base (top left Tile position).
 	// If starting() == true, it is guaranteed that the loction corresponds exactly to one of Map::StartingLocations().
-	public TilePosition location() {
+	public TilePosition getLocation() {
         return location;
     }
 
 	// Returns the location of this Base (center in pixels).
-	public Position center() {
+	public Position getCenter() {
         return center;
     }
 
 	// Returns the available minerals.
 	// These minerals are assigned to this Base (it is guaranteed that no other Base provides them).
 	// Note: The size of the returned list may decrease, as some of the minerals may get destroyed.
-	public List<Mineral> minerals() {
+	public List<Mineral> getMinerals() {
         return Minerals;
     }
 
 	// Returns the available geysers.
 	// These geysers are assigned to this Base (it is guaranteed that no other Base provides them).
 	// Note: The size of the returned list may NOT decrease, as geysers never get destroyed.
-	public List<Geyser> geysers() {
+	public List<Geyser> getGeysers() {
         return Geysers;
     }
 
@@ -110,7 +110,7 @@ public final class Base {
 	// Note: if starting() == true, an empty list is returned.
 	// Note Base::blockingMinerals() should not be confused with ChokePoint::blockingNeutral() and Neutral::blocking():
 	//      the last two refer to a Neutral blocking a ChokePoint, not a Base.
-	public List<Mineral> blockingMinerals() {
+	public List<Mineral> getBlockingMinerals() {
         return BlockingMinerals;
     }
 
@@ -133,7 +133,7 @@ public final class Base {
      * Returns the internal Map object. Not used in BWEM 1.4.1. Remains for portability consistency.
      */
     private Map getMap() {
-        return pMap;
+        return map;
     }
 
     @Override
@@ -144,7 +144,7 @@ public final class Base {
             return false;
         } else {
             Base that = (Base) object;
-            return (this .pArea.equals(that .pArea)
+            return (this .area.equals(that .area)
                     && this .location.equals(that .location)
                     && this .center.equals(that .center));
         }
@@ -153,7 +153,7 @@ public final class Base {
     @Override
     public int hashCode() {
         return Objects.hash(
-                this .pArea,
+                this .area,
                 this .location,
                 this .center
         );

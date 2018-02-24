@@ -1,6 +1,6 @@
 package bwem.util;
 
-import bwem.check_t;
+import bwem.Check;
 import bwem.map.MapImpl;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.openbw.bwapi4j.MapDrawer;
@@ -24,7 +24,7 @@ public final class BwemExt {
     public static final int lake_max_miniTiles = 300;
     public static final int lake_max_width_in_miniTiles = 8 * 4;
 
-    // At least area_min_miniTiles connected miniTiles are necessary for an Area to be created.
+    // At least area_min_miniTiles connected MiniTiles are necessary for an Area to be created.
     public static final int area_min_miniTiles = 64;
 
     public static final int max_tiles_between_CommandCenter_and_resources = 10;
@@ -244,10 +244,10 @@ public final class BwemExt {
         for (final WalkPosition delta : deltas) {
             final WalkPosition next = p.add(delta);
             if (pMap.getData().getMapData().isValid(next)) {
-                if (pMap.getData().getTile(next.toTilePosition(), check_t.no_check).getNeutral() != null) {
+                if (pMap.getData().getTile(next.toTilePosition(), Check.NO_CHECK).getNeutral() != null) {
                     return true;
                 }
-                if (pMap.getData().getMiniTile(next, check_t.no_check).isLake()) {
+                if (pMap.getData().getMiniTile(next, Check.NO_CHECK).isLake()) {
                     return true;
                 }
             }
@@ -326,7 +326,7 @@ public final class BwemExt {
     }
 
     //----------------------------------------------------------------------
-    //TODO: add these functions to main BWAPI4J target type source files?
+    //TODO: Add these functions to main BWAPI4J target type source files?
     //----------------------------------------------------------------------
     private static int getApproxDistance(int x0, int y0, int x1, int y1) {
         int min = Math.abs(x0 - x1);

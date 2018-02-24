@@ -118,7 +118,7 @@ public enum TechType {
     /**
      * Retrieves the Weapon that is attached to this tech type. A technology's
      * WeaponType is used to indicate the range and behaviour of the ability
-     * when used by a unit. Returns WeaponType containing information about the
+     * when used by a Unit. Returns WeaponType containing information about the
      * ability's behavior. Return values WeaponTypes::None If there is no
      * corresponding WeaponType.
      */
@@ -143,8 +143,8 @@ public enum TechType {
     }
 
     /**
-     * Retrieves the Order that a unit uses when using this ability. Returns
-     * Order representing the action a unit uses to perform this ability
+     * Retrieves the Order that a Unit uses when using this ability. Returns
+     * Order representing the action a Unit uses to perform this ability
      */
     public Order getOrder() {
         return this.order;

@@ -1,6 +1,6 @@
 package bwem.map;
 
-import bwem.check_t;
+import bwem.Check;
 import bwem.tile.MiniTile;
 import bwem.tile.MiniTileImpl;
 import bwem.tile.TileData;
@@ -34,7 +34,7 @@ public class AdvancedDataInitializerImpl extends AdvancedDataImpl implements Adv
                 for (int dx = -1; dx <= 1; ++dx) {
                     final WalkPosition walkPosition = new WalkPosition(x + dx, y + dy);
                     if (getMapData().isValid(walkPosition)) {
-                        ((MiniTileImpl) getMiniTile_(walkPosition, check_t.no_check)).setWalkable(false);
+                        ((MiniTileImpl) getMiniTile_(walkPosition, Check.NO_CHECK)).setWalkable(false);
                     }
                 }
             }
@@ -56,11 +56,11 @@ public class AdvancedDataInitializerImpl extends AdvancedDataImpl implements Adv
                 // Ensures buildable ==> walkable.
                 for (int dy = 0; dy < 4; ++dy)
                 for (int dx = 0; dx < 4; ++dx) {
-                    ((MiniTileImpl) getMiniTile_(walkPosition.add(new WalkPosition(dx, dy)), check_t.no_check)).setWalkable(true);
+                    ((MiniTileImpl) getMiniTile_(walkPosition.add(new WalkPosition(dx, dy)), Check.NO_CHECK)).setWalkable(true);
                 }
             }
 
-            // add ground height and doodad information.
+            // Add ground height and doodad information.
             final int bwapiGroundHeight = bwMap.getGroundHeight(tilePosition);
             tile.setGroundHeight(bwapiGroundHeight / 2);
             if (bwapiGroundHeight % 2 != 0) {
@@ -82,7 +82,7 @@ public class AdvancedDataInitializerImpl extends AdvancedDataImpl implements Adv
         for (int y = 0; y < getMapData().getWalkSize().getY(); ++y)
         for (int x = 0; x < getMapData().getWalkSize().getX(); ++x) {
             final WalkPosition originWalkPosition = new WalkPosition(x, y);
-            final MiniTile originMiniTile = getMiniTile_(originWalkPosition, check_t.no_check);
+            final MiniTile originMiniTile = getMiniTile_(originWalkPosition, Check.NO_CHECK);
 
             if (((MiniTileImpl) originMiniTile).isSeaOrLake()) {
                 final List<WalkPosition> toSearch = new ArrayList<>();
@@ -108,7 +108,7 @@ public class AdvancedDataInitializerImpl extends AdvancedDataImpl implements Adv
                     for (final WalkPosition delta : deltas) {
                         final WalkPosition nextWalkPosition = current.add(delta);
                         if (getMapData().isValid(nextWalkPosition)) {
-                            final MiniTile nextMiniTile = getMiniTile_(nextWalkPosition, check_t.no_check);
+                            final MiniTile nextMiniTile = getMiniTile_(nextWalkPosition, Check.NO_CHECK);
                             if (((MiniTileImpl) nextMiniTile).isSeaOrLake()) {
                                 toSearch.add(nextWalkPosition);
                                 if (seaExtent.size() <= lakeMaxMiniTiles) {

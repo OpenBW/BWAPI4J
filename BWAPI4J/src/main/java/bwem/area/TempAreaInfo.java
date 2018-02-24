@@ -27,7 +27,7 @@ public class TempAreaInfo {
         highestAltitude = new Altitude(0);
 
 //        bwem_assert(!valid());
-        if (valid()) {
+        if (isValid()) {
             throw new IllegalStateException();
         }
     }
@@ -50,42 +50,42 @@ public class TempAreaInfo {
         add(pMiniTile);
 
 //        { bwem_assert(valid()); }
-        if (!valid()) {
+        if (!isValid()) {
             throw new IllegalStateException();
         }
     }
 
-    public boolean valid() {
+    public boolean isValid() {
         return valid;
     }
 
-	public AreaId id() {
+	public AreaId getId() {
 //        bwem_assert(valid());
-        if (!valid()) {
+        if (!isValid()) {
             throw new IllegalStateException();
         }
         return id;
     }
 
-    public WalkPosition top() {
+    public WalkPosition getTop() {
 //        { bwem_assert(valid());
-        if (!valid()) {
+        if (!isValid()) {
             throw new IllegalStateException();
         }
         return top;
     }
 
-    public int size() {
+    public int getSize() {
 //        bwem_assert(valid());
-        if (!valid()) {
+        if (!isValid()) {
             throw new IllegalStateException();
         }
         return size;
     }
 
-	public Altitude highestAltitude() {
+	public Altitude getHighestAltitude() {
 //        bwem_assert(valid());
-        if (!valid()) {
+        if (!isValid()) {
             throw new IllegalStateException();
         }
         return highestAltitude;
@@ -93,7 +93,7 @@ public class TempAreaInfo {
 
     public void add(MiniTile pMiniTile) {
 //        bwem_assert(valid());
-        if (!valid()) {
+        if (!isValid()) {
             throw new IllegalStateException();
         }
         ++size;
@@ -102,7 +102,7 @@ public class TempAreaInfo {
 
 	// Left to caller : m.SetAreaId(this->id()) for each MiniTile m in absorbed
 	public void merge(TempAreaInfo absorbed) {
-        if (!(valid() && absorbed.valid())) {
+        if (!(isValid() && absorbed.isValid())) {
 //            bwem_assert(valid() && absorbed.valid());
             throw new IllegalStateException();
         } else if (! (size >= absorbed .size)) {

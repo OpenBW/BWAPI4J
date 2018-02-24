@@ -66,7 +66,7 @@ public class MapDrawer {
 
     }
 
-    private final BW pBW;
+    private final BW bw;
     private final MutableBoolean showSeas = new MutableBoolean(true);
     private final MutableBoolean showLakes = new MutableBoolean(true);
     private final MutableBoolean showUnbuildable = new MutableBoolean(true);
@@ -79,8 +79,8 @@ public class MapDrawer {
     private final MutableBoolean showFrontier = new MutableBoolean(true);
     private final MutableBoolean showCP = new MutableBoolean(true);
 
-    public MapDrawer(BW pBW) {
-        this.pBW = pBW;
+    public MapDrawer(BW bw) {
+        this.bw = bw;
     }
 
     public boolean processCommand(String command) {

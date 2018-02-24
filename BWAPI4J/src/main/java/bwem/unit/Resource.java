@@ -15,15 +15,15 @@ import org.openbw.bwapi4j.unit.Unit;
 
 public abstract class Resource extends Neutral {
 
-    protected Resource(Unit u, Map pMap) {
-        super(u, pMap);
+    protected Resource(Unit u, Map map) {
+        super(u, map);
     }
 
     // Returns the initial amount of ressources for this Ressource (same as unit()->getInitialResources).
-    public abstract int initialAmount();
+    public abstract int getInitialAmount();
 
     // Returns the current amount of ressources for this Ressource (same as unit()->getResources).
-    public abstract int amount();
+    public abstract int getAmount();
 
     @Override
     public boolean equals(Object object) {
@@ -33,13 +33,13 @@ public abstract class Resource extends Neutral {
             return false;
         } else {
             Resource that = (Resource) object;
-            return (this.unit().getId() == that.unit().getId());
+            return (this.getUnit().getId() == that.getUnit().getId());
         }
     }
 
     @Override
     public int hashCode() {
-        return unit().hashCode();
+        return getUnit().hashCode();
     }
 
 }

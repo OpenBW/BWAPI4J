@@ -31,13 +31,13 @@ public class Neutral {
     private final Position pos;
     private final TilePosition topLeft;
     private final TilePosition size;
-    private final Map pMap;
-    private Neutral pNextStacked = null;
+    private final Map map;
+    private Neutral nextStacked = null;
     private List<WalkPosition> blockedAreas = new ArrayList<>();
 
-    protected Neutral(Unit u, Map pMap) {
+    protected Neutral(Unit u, Map map) {
         bwapiUnit = u;
-        this.pMap = pMap;
+        this.map = map;
         pos = u.getInitialPosition();
         topLeft = u.getInitialTilePosition();
         size = u.getInitialType().tileSize();
@@ -66,7 +66,7 @@ public class Neutral {
     public void simulateCPPObjectDestructor() {
         removeFromTiles();
 
-        if (blocking()) {
+        if (isBlocking()) {
             Map map = getMap();
             if (map instanceof MapImpl) {
                 MapImpl mapImpl = (MapImpl) map;
@@ -78,27 +78,27 @@ public class Neutral {
     }
 
     // Returns the BWAPI::unit this Neutral is wrapping around.
-    public Unit unit() {
+    public Unit getUnit() {
         return bwapiUnit;
     }
 
     // Returns the center of this Neutral, in pixels (same as unit()->getInitialPosition()).
-    public Position pos() {
+    public Position getCenter() {
         return pos;
     }
 
     // Returns the top left Tile position of this Neutral (same as unit()->getInitialTilePosition()).
-    public TilePosition topLeft() {
+    public TilePosition getTopLeft() {
         return topLeft;
     }
 
     // Returns the bottom right Tile position of this Neutral
-    public TilePosition bottomRight() {
+    public TilePosition getBottomRight() {
         return topLeft.add (size).subtract(new TilePosition(1, 1));
     }
 
     // Returns the size of this Neutral, in Tiles (same as Type()->tileSize())
-    public TilePosition size() {
+    public TilePosition getSize() {
         return size;
     }
 
@@ -106,14 +106,14 @@ public class Neutral {
 	// This applies to minerals and StaticBuildings only.
 	// For each blocking Neutral, a pseudo ChokePoint (which is blocked()) is created on top of it,
 	// with the exception of stacked blocking Neutrals for which only one pseudo ChokePoint is created.
-	// Cf. definition of pseudo chokePoints in class ChokePoint comment.
+	// Cf. definition of pseudo getChokePoints in class ChokePoint comment.
 	// Cf. ChokePoint::blockingNeutral and ChokePoint::blocked.
-    public boolean blocking() {
+    public boolean isBlocking() {
         return !blockedAreas.isEmpty();
     }
 
 	// If blocking() == true, returns the set of areas blocked by this Neutral.
-    public List<Area> blockedAreas() {
+    public List<Area> getBlockedAreas() {
         List<Area> result = new ArrayList<>();
         for (WalkPosition w : blockedAreas) {
             result.add(getMap().getArea(w));
@@ -125,15 +125,15 @@ public class Neutral {
 	// Returns the next Neutral stacked over this Neutral, if ever.
 	// To iterate through the whole stack, one can use the following:
 	// for (const Neutral * n = Map::GetTile(topLeft()).GetNeutral() ; n ; n = n->nextStacked())
-    public Neutral nextStacked() {
-        return pNextStacked;
+    public Neutral getNextStacked() {
+        return nextStacked;
     }
 
 	// Returns the last Neutral stacked over this Neutral, if ever.
-	public Neutral lastStacked() {
+	public Neutral getLastStacked() {
         Neutral pTop = this;
-        while (pTop .pNextStacked != null) {
-            pTop = pTop .pNextStacked;
+        while (pTop .nextStacked != null) {
+            pTop = pTop .nextStacked;
         }
         return pTop;
     }
@@ -148,22 +148,22 @@ public class Neutral {
     }
 
     public boolean isSameUnitTypeAs(Neutral neutral) {
-        return this.unit().getClass().getName().equals(neutral.unit().getClass().getName());
+        return this.getUnit().getClass().getName().equals(neutral.getUnit().getClass().getName());
     }
 
     private void putOnTiles() {
 //        bwem_assert(!pNextStacked);
-        if (! (pNextStacked == null)) {
+        if (! (nextStacked == null)) {
             throw new IllegalStateException();
         }
 
-        for (int dy = 0; dy < size().getY(); ++dy)
-        for (int dx = 0; dx < size().getX(); ++dx) {
-            Tile tile = getMap().getData().getTile_(topLeft().add(new TilePosition(dx, dy)));
+        for (int dy = 0; dy < getSize().getY(); ++dy)
+        for (int dx = 0; dx < getSize().getX(); ++dx) {
+            Tile tile = getMap().getData().getTile_(getTopLeft().add(new TilePosition(dx, dy)));
             if (tile.getNeutral() == null) {
                 ((TileImpl) tile).addNeutral(this);
             } else {
-                Neutral pTop = tile.getNeutral().lastStacked();
+                Neutral pTop = tile.getNeutral().getLastStacked();
                 if (this.equals(tile.getNeutral())) {
 //                    bwem_assert(this != tile.GetNeutral());
                     throw new IllegalStateException();
@@ -176,14 +176,14 @@ public class Neutral {
                 } else if (!pTop.isSameUnitTypeAs(this)) {
 //                    bwem_assert_plus(pTop->Type() == Type(), "stacked neutrals have different types: " + pTop->Type().getName() + " / " + Type().getName());
                     throw new IllegalStateException("Stacked Neutral objects have different types: top=" + pTop.getClass().getName() + ", this=" + this.getClass().getName());
-                } else if (!(pTop.topLeft().equals(topLeft()))) {
+                } else if (!(pTop.getTopLeft().equals(getTopLeft()))) {
 //                    bwem_assert_plus(pTop->topLeft() == topLeft(), "stacked neutrals not aligned: " + my_to_string(pTop->topLeft()) + " / " + my_to_string(topLeft()));
-                    throw new IllegalStateException("Stacked Neutral objects not aligned: top=" + pTop.toString() + ", this=" + topLeft().toString());
+                    throw new IllegalStateException("Stacked Neutral objects not aligned: top=" + pTop.toString() + ", this=" + getTopLeft().toString());
                 } else if (!(dx == 0 && dy == 0)) {
 //                    bwem_assert((dx == 0) && (dy == 0));
                     throw new IllegalStateException();
                 }
-                pTop .pNextStacked = this;
+                pTop .nextStacked = this;
                 return;
             }
         }
@@ -195,9 +195,9 @@ public class Neutral {
      * "~Neutral" destructor in C++.
      */
     public void removeFromTiles() {
-        for (int dy = 0; dy < size().getY(); ++dy)
-        for (int dx = 0; dx < size().getX(); ++dx) {
-            Tile tile = getMap().getData().getTile_(topLeft().add(new TilePosition(dx, dy)));
+        for (int dy = 0; dy < getSize().getY(); ++dy)
+        for (int dx = 0; dx < getSize().getX(); ++dx) {
+            Tile tile = getMap().getData().getTile_(getTopLeft().add(new TilePosition(dx, dy)));
 //            bwem_assert(tile.GetNeutral());
             if (tile.getNeutral() == null) {
                 throw new IllegalStateException();
@@ -205,18 +205,18 @@ public class Neutral {
 
             if (tile.getNeutral().equals(this)) {
                 ((TileImpl) tile).removeNeutral(this);
-                if  (pNextStacked != null) {
-                    ((TileImpl) tile).addNeutral (pNextStacked);
+                if  (nextStacked != null) {
+                    ((TileImpl) tile).addNeutral (nextStacked);
                 }
             } else {
                 Neutral pPrevStacked = tile.getNeutral();
-                while (!pPrevStacked.nextStacked().equals(this)) {
-                    pPrevStacked = pPrevStacked.nextStacked();
+                while (!pPrevStacked.getNextStacked().equals(this)) {
+                    pPrevStacked = pPrevStacked.getNextStacked();
                 }
                 if (!(pPrevStacked.isSameUnitTypeAs(this))) {
 //                    bwem_assert(pPrevStacked->Type() == Type());
                     throw new IllegalStateException();
-                } else if (!(pPrevStacked.topLeft().equals(topLeft()))) {
+                } else if (!(pPrevStacked.getTopLeft().equals(getTopLeft()))) {
 //                    bwem_assert(pPrevStacked->topLeft() == topLeft());
                     throw new IllegalStateException();
                 } else if (!(dx == 0 && dy == 0)) {
@@ -224,17 +224,17 @@ public class Neutral {
                     throw new IllegalStateException();
                 }
 
-                pPrevStacked .pNextStacked = pNextStacked;
-                pNextStacked = null;
+                pPrevStacked .nextStacked = nextStacked;
+                nextStacked = null;
                 return;
             }
         }
 
-        pNextStacked = null;
+        nextStacked = null;
     }
 
     protected Map getMap() {
-        return pMap;
+        return map;
     }
 
     @Override
@@ -245,13 +245,13 @@ public class Neutral {
             return false;
         } else {
             Neutral that = (Neutral) object;
-            return (this.unit().getId() == that.unit().getId());
+            return (this.getUnit().getId() == that.getUnit().getId());
         }
     }
 
     @Override
     public int hashCode() {
-        return unit().hashCode();
+        return getUnit().hashCode();
     }
 
 }

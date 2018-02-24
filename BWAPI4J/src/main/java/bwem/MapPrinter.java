@@ -52,9 +52,9 @@ public class MapPrinter {
     public enum dashed_t { not_dashed, dashed }
     public enum fill_t { do_not_fill, fill }
 
-    private Map pMap;
-    private BufferedImage pImage;
-    private Graphics2D pBMP;
+    private Map map;
+    private BufferedImage image;
+    private Graphics2D BMP;
     public final boolean showAltitude = true;				// renders the Altitude() value for each MiniTile
     public final boolean showAreas = true;					// renders areas with distinct colors
     public final boolean showContinents = !showAreas;				// renders continents with distinct colors, unless showAreas == true
@@ -62,7 +62,7 @@ public class MapPrinter {
     public final boolean showSeaSide = true;				// highlights Sea-miniTiles next to Terrain-miniTiles
     public final boolean showUnbuildable = false;			// renders Tiles that are not Buildable()
     public final boolean showGroundHeight = true;			// renders Tiles for which GroundHeight() > 0
-    public final boolean showChokePoints = true;			// renders the chokePoints suggested by BWEM
+    public final boolean showChokePoints = true;			// renders the getChokePoints suggested by BWEM
     public final boolean showResources = true;
     public final boolean showMinerals = showResources;				// prints the minerals, unless showResources == false
     public final boolean showGeysers = showResources;				// prints the geysers, unless showResources == false
@@ -80,11 +80,11 @@ public class MapPrinter {
 
     //MapPrinter::~MapPrinter()
     //{
-    //	if (canWrite (fileName)) pBMP->WriteToFile (fileName.c_str());
+    //	if (canWrite(m_fileName)) m_pBMP->WriteToFile(m_fileName.c_str());
     //
     ////	Uncomment the 2 lines below to write one more copy of the bitmap, in the folder of the map used, with the same name.
     ////	string twinFileName = bw->mapPathName().substr(0, bw->mapPathName().size()-3) + "bmp";
-    ////	if (canWrite(twinFileName)) pBMP->WriteToFile(twinFileName.c_str());
+    ////	if (canWrite(twinFileName)) m_pBMP->WriteToFile(twinFileName.c_str());
     //}
 
     public static Color color() {
@@ -92,30 +92,30 @@ public class MapPrinter {
     }
 
     public void initialize(BW pBW, Map pMap) {
-//        bwem_assert_throw(pMap->initialized());
-        if (!(pMap.initialized())) {
+//        bwem_assert_throw(pMap->Initialized());
+        if (!(pMap.isInitialized())) {
             throw new IllegalStateException();
         }
         //TODO:
-//        bwem_assert_throw_plus(canWrite (fileName), "MapPrinter could not create the file " + fileName);
+//        bwem_assert_throw_plus(canWrite(m_fileName), "MapPrinter could not create the file " + m_fileName);
 
-        this.pMap = pMap;
-        pImage = new BufferedImage(pBW.getBWMap().mapWidth() * 4, pBW.getBWMap().mapHeight() * 4, BufferedImage.TYPE_INT_RGB);
-        pBMP = pImage.createGraphics();
+        this.map = pMap;
+        image = new BufferedImage(pBW.getBWMap().mapWidth() * 4, pBW.getBWMap().mapHeight() * 4, BufferedImage.TYPE_INT_RGB);
+        BMP = image.createGraphics();
     }
 
     public void point(int x, int y, Color col) {
 //    	bwem_assert((0 <= x) && (x < pBMP->TellWidth()));
-        if (!((0 <= x) && (x < pImage.getWidth()))) {
+        if (!((0 <= x) && (x < image.getWidth()))) {
             throw new IllegalArgumentException();
         }
 //    	bwem_assert((0 <= y) && (y < pBMP->TellHeight()));
-        if (!((0 <= y) && (y < pImage.getHeight()))) {
+        if (!((0 <= y) && (y < image.getHeight()))) {
             throw new IllegalArgumentException();
         }
 
-        pBMP.setColor(col);
-    	pBMP.drawLine(x, y, x, y);
+        BMP.setColor(col);
+    	BMP.drawLine(x, y, x, y);
     }
 
     public void point(WalkPosition p, Color col) {
@@ -159,7 +159,7 @@ public class MapPrinter {
     	for (int y = center.getY() - radius; y <= center.getY() + radius; ++y)
     	for (int x = center.getX() - radius; x <= center.getX() + radius; ++x)
     		if ((fillMode == fill_t.fill) || (y == center.getY() - radius) || (y == center.getY() + radius) || (x == center.getX() - radius) || (x == center.getX() + radius))
-    			if  (pMap.getData().getMapData().isValid(new WalkPosition(x, y)))
+    			if  (map.getData().getMapData().isValid(new WalkPosition(x, y)))
     				point(x, y, col);
     }
 
@@ -174,7 +174,7 @@ public class MapPrinter {
             WalkPosition w = new WalkPosition(x, y);
             if (BwemExt.dist(w, center) <= radius)
             if ((fillMode == fill_t.fill) || (BwemExt.dist(w, center) >= radius - 1))
-                if  (pMap.getData().getMapData().isValid(w))
+                if  (map.getData().getMapData().isValid(w))
                     point(x, y, col);
         }
     }
@@ -184,7 +184,7 @@ public class MapPrinter {
     }
 
     public void writeImageToFile(Path file) throws IOException {
-        ImageIO.write (pImage, "bmp", file.toFile());
+        ImageIO.write (image, "bmp", file.toFile());
     }
 
 }

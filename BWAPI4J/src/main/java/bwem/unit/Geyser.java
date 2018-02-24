@@ -10,7 +10,7 @@ import org.openbw.bwapi4j.unit.VespeneGeyser;
 //                                                                                          //
 //////////////////////////////////////////////////////////////////////////////////////////////
 //
-// geysers Correspond to the units in BWAPI::getStaticNeutralUnits() for which getType() == Resource_Vespene_Geyser
+// Geysers Correspond to the units in BWAPI::getStaticNeutralUnits() for which getType() == Resource_Vespene_Geyser
 //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -21,19 +21,19 @@ public final class Geyser extends Resource {
 
 //        bwem_assert(Type() == Resource_Vespene_Geyser);
         if (!(u instanceof VespeneGeyser)) {
-            throw new IllegalArgumentException("unit is not a VespeneGeyser: " + u.getClass().getName());
+            throw new IllegalArgumentException("Unit is not a VespeneGeyser: " + u.getClass().getName());
         }
     }
 
     @Override
-    public int initialAmount() {
-        VespeneGeyser ret = (VespeneGeyser) super.unit();
+    public int getInitialAmount() {
+        VespeneGeyser ret = (VespeneGeyser) super.getUnit();
         return ret.getInitialResources();
     }
 
     @Override
-    public int amount() {
-        VespeneGeyser ret = (VespeneGeyser) super.unit();
+    public int getAmount() {
+        VespeneGeyser ret = (VespeneGeyser) super.getUnit();
         return ret.getResources();
     }
 
@@ -45,13 +45,13 @@ public final class Geyser extends Resource {
             return false;
         } else {
             Geyser that = (Geyser) object;
-            return (this.unit().getId() == that.unit().getId());
+            return (this.getUnit().getId() == that.getUnit().getId());
         }
     }
 
     @Override
     public int hashCode() {
-        return unit().hashCode();
+        return getUnit().hashCode();
     }
 
 }

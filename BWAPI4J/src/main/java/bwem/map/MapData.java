@@ -11,7 +11,7 @@ public interface MapData {
     // Returns the size of the Map in Tiles.
     TilePosition getTileSize();
 
-    // Returns the size of the Map in miniTiles.
+    // Returns the size of the Map in MiniTiles.
     WalkPosition getWalkSize();
 
     // Returns the size of the Map in pixels.

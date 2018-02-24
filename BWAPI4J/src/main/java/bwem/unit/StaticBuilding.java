@@ -33,13 +33,13 @@ public class StaticBuilding extends Neutral {
             return false;
         } else {
             StaticBuilding that = (StaticBuilding) object;
-            return (this.unit().getId() == that.unit().getId());
+            return (this.getUnit().getId() == that.getUnit().getId());
         }
     }
 
     @Override
     public int hashCode() {
-        return unit().hashCode();
+        return getUnit().hashCode();
     }
 
 }

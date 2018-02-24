@@ -110,7 +110,7 @@ public class MapInitializerTest implements BWEventListener {
 
         final List<MutablePair<WalkPosition, Altitude>> ActiveSeaSides = mapInitializer.getActiveSeaSideList(advancedData);
 
-        mapInitializer.setMaxAltitude(mapInitializer.setAltitudesAndGetUpdatedMaxAltitude(this.map.maxAltitude(), advancedData, DeltasByAscendingAltitude, ActiveSeaSides, altitude_scale));
+        mapInitializer.setMaxAltitude(mapInitializer.setAltitudesAndGetUpdatedMaxAltitude(this.map.getMaxAltitude(), advancedData, DeltasByAscendingAltitude, ActiveSeaSides, altitude_scale));
 
         //////////////////////////////////////////////////////////////////////
 
@@ -132,7 +132,7 @@ public class MapInitializerTest implements BWEventListener {
 
         //////////////////////////////////////////////////////////////////////
 
-        graph.createChokePoints(this.map.getNeutralData().getStaticBuildings(), this.map.getNeutralData().getMinerals(), this.map.rawFrontier());
+        graph.createChokePoints(this.map.getNeutralData().getStaticBuildings(), this.map.getNeutralData().getMinerals(), this.map.getRawFrontier());
 
         graph.computeChokePointDistanceMatrix();
 
