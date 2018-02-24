@@ -2,7 +2,10 @@ package bwem.map;
 
 import bwem.BWEM;
 import bwem.ChokePoint;
+import bwem.typedef.CPPath;
+import mockdata.BWEM_CPPathSamples;
 import mockdata.DummyDataUtils;
+import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
@@ -15,8 +18,14 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.unit.Unit;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,6 +93,42 @@ public class ChokePointTest implements BWEventListener {
                 Assert.assertEquals("Did not find original chokepoint even with a tolerance value. list=" + chokepointCenters.toString(), true, foundTolerant);
             }
         }
+    }
+
+    @Ignore
+    @Test
+    public void cppathTest_Real() throws IOException, URISyntaxException {
+        this.bw = new BW(this);
+        this.bw.startGame();
+
+        int pathErrorsCount = 0;
+        int pathsCount = 0;
+
+        final BWEM_CPPathSamples cppathSamples = new BWEM_CPPathSamples(this.bw.getBWMap().mapHash());
+        for (final BWEM_CPPathSamples.CPPSample sample : cppathSamples.samples) {
+            final Position sampleStartPosition = sample.startAndEnd.getLeft();
+            final Position sampleEndPosition = sample.startAndEnd.getRight();
+            final int samplePathLength = sample.pathLength;
+
+            logger.debug("Testing: startPosition=" + sampleStartPosition.toString() + ", endPosition=" + sampleEndPosition.toString() + ", pathLength=" + samplePathLength);
+
+            ++pathsCount;
+            try {
+                final MutableInt pathLength = new MutableInt();
+                final CPPath path = this.map.GetPath(sampleStartPosition, sampleEndPosition, pathLength);
+
+                final int difference = pathLength.intValue() - samplePathLength;
+                if (difference != 0) {
+                    logger.warn("Path lengths do not match: difference=" + difference);
+                }
+            } catch (final Exception e) {
+                logger.warn("Path error: startPosition=" + sampleStartPosition.toString() + ", endPosition=" + sampleEndPosition.toString() + ", pathLength=" + samplePathLength);
+                ++pathErrorsCount;
+                e.printStackTrace();
+            }
+        }
+
+        logger.info("Total # of Paths: " + pathsCount + ", # of Path errors: " + pathErrorsCount);
     }
 
     @Override
