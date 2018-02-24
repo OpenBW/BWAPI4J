@@ -18,14 +18,8 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.unit.Unit;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
