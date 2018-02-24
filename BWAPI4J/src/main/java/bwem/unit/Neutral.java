@@ -140,8 +140,7 @@ public class Neutral {
 
     public void setBlocking(List<WalkPosition> blockedAreas) {
 //        bwem_assert (blockedAreas.empty() && !blockedAreas.empty());
-        // FIXME This is bug, it always evaluates to false. Check original C++ code.
-        if (! (blockedAreas.isEmpty() && !blockedAreas.isEmpty())) {
+        if (! (this.blockedAreas.isEmpty() && !blockedAreas.isEmpty())) {
             throw new IllegalStateException();
         }
         this.blockedAreas = blockedAreas;
