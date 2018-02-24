@@ -62,7 +62,7 @@ public class NeutralDataImpl implements NeutralData {
     @Override
     public Mineral getMineral(final Unit unit) {
         for (final Mineral mineral : getMinerals()) {
-            if (mineral.Unit().equals(unit)) {
+            if (mineral.unit().equals(unit)) {
                 return mineral;
             }
         }
@@ -77,7 +77,7 @@ public class NeutralDataImpl implements NeutralData {
     @Override
     public Geyser getGeyser(final Unit unit) {
         for (final Geyser geyser : getGeysers()) {
-            if (geyser.Unit().equals(unit)) {
+            if (geyser.unit().equals(unit)) {
                 return geyser;
             }
         }

@@ -24,7 +24,7 @@ public final class BwemExt {
     public static final int lake_max_miniTiles = 300;
     public static final int lake_max_width_in_miniTiles = 8 * 4;
 
-    // At least area_min_miniTiles connected MiniTiles are necessary for an Area to be created.
+    // At least area_min_miniTiles connected miniTiles are necessary for an Area to be created.
     public static final int area_min_miniTiles = 64;
 
     public static final int max_tiles_between_CommandCenter_and_resources = 10;
@@ -35,8 +35,7 @@ public final class BwemExt {
     private BwemExt() {}
 
     public static Position center(final TilePosition tilePosition) {
-        final Position ret = tilePosition.toPosition().add(BwemExt.TILE_POSITION_CENTER_IN_PIXELS);
-        return ret;
+        return tilePosition.toPosition().add(BwemExt.TILE_POSITION_CENTER_IN_PIXELS);
     }
 
     public static Position center(final WalkPosition walkPosition) {
@@ -50,35 +49,35 @@ public final class BwemExt {
         return tilePosition.toPosition().add(pixelOffset);
     }
 
-    // Enlarges the bounding box [TopLeft, BottomRight] so that it includes A.
+    // Enlarges the bounding box [topLeft, bottomRight] so that it includes A.
     public static ImmutablePair<TilePosition, TilePosition> makeBoundingBoxIncludePoint(final TilePosition topLeft, final TilePosition bottomRight, final TilePosition point) {
-        int topLeft_x = topLeft.getX();
-        int topLeft_y = topLeft.getY();
+        int topLeftX = topLeft.getX();
+        int topLeftY = topLeft.getY();
 
-        int bottomRight_x = bottomRight.getX();
-        int bottomRight_y = bottomRight.getY();
+        int bottomRightX = bottomRight.getX();
+        int bottomRightY = bottomRight.getY();
 
-        if (point.getX() < topLeft_x) topLeft_x = point.getX();
-        if (point.getX() > bottomRight_x) bottomRight_x = point.getX();
+        if (point.getX() < topLeftX) topLeftX = point.getX();
+        if (point.getX() > bottomRightX) bottomRightX = point.getX();
 
-        if (point.getY() < topLeft_y) topLeft_y = point.getY();
-        if (point.getY() > bottomRight_y) bottomRight_y = point.getY();
+        if (point.getY() < topLeftY) topLeftY = point.getY();
+        if (point.getY() > bottomRightY) bottomRightY = point.getY();
 
-        return new ImmutablePair<>(new TilePosition(topLeft_x, topLeft_y), new TilePosition(bottomRight_x, bottomRight_y));
+        return new ImmutablePair<>(new TilePosition(topLeftX, topLeftY), new TilePosition(bottomRightX, bottomRightY));
     }
 
-    // Makes the smallest change to A so that it is included in the bounding box [TopLeft, BottomRight].
+    // Makes the smallest change to A so that it is included in the bounding box [topLeft, bottomRight].
     public static TilePosition makePointFitToBoundingBox(final TilePosition point, final TilePosition topLeft, final TilePosition bottomRight) {
-        int point_x = point.getX();
-        int point_y = point.getY();
+        int pointX = point.getX();
+        int pointY = point.getY();
 
-        if (point_x < topLeft.getX()) point_x = topLeft.getX();
-        else if (point_x > bottomRight.getX()) point_x = bottomRight.getX();
+        if (pointX < topLeft.getX()) pointX = topLeft.getX();
+        else if (pointX > bottomRight.getX()) pointX = bottomRight.getX();
 
-        if (point_y < topLeft.getY()) point_y = topLeft.getY();
-        else if (point_y > bottomRight.getY()) point_y = bottomRight.getY();
+        if (pointY < topLeft.getY()) pointY = topLeft.getY();
+        else if (pointY > bottomRight.getY()) pointY = bottomRight.getY();
 
-        return new TilePosition(point_x, point_y);
+        return new TilePosition(pointX, pointY);
     }
 
     //bwapiExt.h:71:inBoundingBox
@@ -87,61 +86,61 @@ public final class BwemExt {
                 (point.getY() >= topLeft.getY()) && (point.getY() <= bottomRight.getY());
     }
 
-    public static int queenWiseDist(final TilePosition A, final TilePosition B) {
-        final TilePosition ret = A.subtract(B);
+    public static int queenWiseDist(final TilePosition a, final TilePosition b) {
+        final TilePosition ret = a.subtract(b);
         return Utils.queenWiseNorm(ret.getX(), ret.getY());
     }
 
-    public static int queenWiseDist(final WalkPosition A, final WalkPosition B) {
-        final WalkPosition ret = A.subtract(B);
+    public static int queenWiseDist(final WalkPosition a, final WalkPosition b) {
+        final WalkPosition ret = a.subtract(b);
         return Utils.queenWiseNorm(ret.getX(), ret.getY());
     }
 
-    public static int queenWiseDist(final Position A, final Position B) {
-        final Position ret = A.subtract(B);
+    public static int queenWiseDist(final Position a, final Position b) {
+        final Position ret = a.subtract(b);
         return Utils.queenWiseNorm(ret.getX(), ret.getY());
     }
 
-    public static int squaredDist(final TilePosition A, final TilePosition B) {
-        final TilePosition ret = A.subtract(B);
+    public static int squaredDist(final TilePosition a, final TilePosition b) {
+        final TilePosition ret = a.subtract(b);
         return Utils.squaredNorm(ret.getX(), ret.getY());
     }
 
-    public static int squaredDist(final WalkPosition A, final WalkPosition B) {
-        final WalkPosition ret = A.subtract(B);
+    public static int squaredDist(final WalkPosition a, final WalkPosition b) {
+        final WalkPosition ret = a.subtract(b);
         return Utils.squaredNorm(ret.getX(), ret.getY());
     }
 
-    public static int squaredDist(final Position A, final Position B) {
-        final Position ret = A.subtract(B);
+    public static int squaredDist(final Position a, final Position b) {
+        final Position ret = a.subtract(b);
         return Utils.squaredNorm(ret.getX(), ret.getY());
     }
 
-    public static double dist(final TilePosition A, final TilePosition B) {
-        final TilePosition ret = A.subtract(B);
+    public static double dist(final TilePosition a, final TilePosition b) {
+        final TilePosition ret = a.subtract(b);
         return Utils.norm(ret.getX(), ret.getY());
     }
 
-    public static double dist(final WalkPosition A, final WalkPosition B) {
-        final WalkPosition ret = A.subtract(B);
+    public static double dist(final WalkPosition a, final WalkPosition b) {
+        final WalkPosition ret = a.subtract(b);
         return Utils.norm(ret.getX(), ret.getY());
     }
 
-    public static double dist(final Position A, final Position B) {
-        final Position ret = A.subtract(B);
+    public static double dist(final Position a, final Position b) {
+        final Position ret = a.subtract(b);
         return Utils.norm(ret.getX(), ret.getY());
     }
 
-    public static int roundedDist(final TilePosition A, final TilePosition B) {
-        return ((int) (Double.valueOf("0.5") + dist(A, B)));
+    public static int roundedDist(final TilePosition a, final TilePosition b) {
+        return ((int) (Double.valueOf("0.5") + dist(a, b)));
     }
 
-    public static int roundedDist(final WalkPosition A, final WalkPosition B) {
-        return ((int) (Double.valueOf("0.5") + dist(A, B)));
+    public static int roundedDist(final WalkPosition a, final WalkPosition b) {
+        return ((int) (Double.valueOf("0.5") + dist(a, b)));
     }
 
-    public static int roundedDist(final Position A, final Position B) {
-        return ((int) (Double.valueOf("0.5") + dist(A, B)));
+    public static int roundedDist(final Position a, final Position b) {
+        return ((int) (Double.valueOf("0.5") + dist(a, b)));
     }
 
     public static int distToRectangle(final Position a, final Position topLeft, final Position size) {
@@ -162,16 +161,16 @@ public final class BwemExt {
             else                                    return topLeft.getX() - a.getX();                                        // W
     }
 
-    private static List<ImmutablePair<Integer, Integer>> innerBorderDeltas(final int size_x, final int size_y, final boolean noCorner) {
+    private static List<ImmutablePair<Integer, Integer>> innerBorderDeltas(final int sizeX, final int sizeY, final boolean noCorner) {
         final List<ImmutablePair<Integer, Integer>> border = new ArrayList<>();
 
-        for (int dy = 0; dy < size_y; ++dy)
-        for (int dx = 0; dx < size_x; ++dx) {
-            if ((dy == 0) || (dy == size_y - 1) ||
-                (dx == 0) || (dx == size_x - 1)) {
+        for (int dy = 0; dy < sizeY; ++dy)
+        for (int dx = 0; dx < sizeX; ++dx) {
+            if ((dy == 0) || (dy == sizeY - 1) ||
+                (dx == 0) || (dx == sizeX - 1)) {
                 if (!noCorner ||
-                    !(((dx == 0) && (dy == 0)) || ((dx == size_x - 1) && (dy == size_y - 1)) ||
-                      ((dx == 0) && (dy == size_y - 1)) || ((dx == size_x - 1) && (dy == 0)))) {
+                    !(((dx == 0) && (dy == 0)) || ((dx == sizeX - 1) && (dy == sizeY - 1)) ||
+                      ((dx == 0) && (dy == sizeY - 1)) || ((dx == sizeX - 1) && (dy == 0)))) {
                     border.add(new ImmutablePair<>(dx, dy));
                 }
             }
@@ -263,13 +262,13 @@ public final class BwemExt {
     }
 
     private static boolean overlap(
-            final int topLeft1_x, final int topLeft1_y, final int size1_x, final int size1_y,
-            final int topLeft2_x, final int topLeft2_y, final int size2_x, final int size2_y
+            final int topLeft1X, final int topLeft1Y, final int size1X, final int size1Y,
+            final int topLeft2X, final int topLeft2Y, final int size2X, final int size2Y
     ) {
-        if (topLeft2_x >= topLeft1_x + size1_x) return false;
-        if (topLeft2_y >= topLeft1_y + size1_y) return false;
-        if (topLeft1_x >= topLeft2_x + size2_x) return false;
-        if (topLeft1_y >= topLeft2_y + size2_y) return false;
+        if (topLeft2X >= topLeft1X + size1X) return false;
+        if (topLeft2Y >= topLeft1Y + size1Y) return false;
+        if (topLeft1X >= topLeft2X + size2X) return false;
+        if (topLeft1Y >= topLeft2Y + size2Y) return false;
         return true;
     }
 
@@ -295,13 +294,13 @@ public final class BwemExt {
     }
 
     private static boolean disjoint(
-            final int topLeft1_x, final int topLeft1_y, final int size1_x, final int size1_y,
-            final int topLeft2_x, final int topLeft2_y, final int size2_x, final int size2_y
+            final int topLeft1X, final int topLeft1Y, final int size1X, final int size1Y,
+            final int topLeft2X, final int topLeft2Y, final int size2X, final int size2Y
     ) {
-        if (topLeft2_x > topLeft1_x + size1_x) return true;
-        if (topLeft2_y > topLeft1_y + size1_y) return true;
-        if (topLeft1_x > topLeft2_x + size2_x) return true;
-        if (topLeft1_y > topLeft2_y + size2_y) return true;
+        if (topLeft2X > topLeft1X + size1X) return true;
+        if (topLeft2Y > topLeft1Y + size1Y) return true;
+        if (topLeft1X > topLeft2X + size2X) return true;
+        if (topLeft1Y > topLeft2Y + size2Y) return true;
         return false;
     }
 
@@ -327,15 +326,15 @@ public final class BwemExt {
     }
 
     //----------------------------------------------------------------------
-    //TODO: Add these functions to main BWAPI4J target type source files?
+    //TODO: add these functions to main BWAPI4J target type source files?
     //----------------------------------------------------------------------
     private static int getApproxDistance(int x0, int y0, int x1, int y1) {
         int min = Math.abs(x0 - x1);
         int max = Math.abs(y0 - y1);
         if (max < min) {
-            int min_tmp = min;
+            int minTmp = min;
             min = max;
-            max = min_tmp;
+            max = minTmp;
         }
 
         if (min < (max >> 2)) {
@@ -347,13 +346,13 @@ public final class BwemExt {
     }
     public static int getApproxDistance(TilePosition source, TilePosition target) {
         return getApproxDistance(source.getX(), source.getY(), target.getX(), target.getY());
-    };
+    }
     public static int getApproxDistance(WalkPosition source, WalkPosition target) {
         return getApproxDistance(source.getX(), source.getY(), target.getX(), target.getY());
-    };
+    }
     public static int getApproxDistance(Position source, Position target) {
         return getApproxDistance(source.getX(), source.getY(), target.getX(), target.getY());
-    };
+    }
     //----------------------------------------------------------------------
 
 }

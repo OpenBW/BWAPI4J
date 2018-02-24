@@ -14,7 +14,7 @@ import java.util.NoSuchElementException;
  */
 public class CPPath implements Iterable<ChokePoint> {
 
-    private List<ChokePoint> chokepoints;
+    private final List<ChokePoint> chokepoints;
 
     public CPPath() {
         this.chokepoints = new ArrayList<>();

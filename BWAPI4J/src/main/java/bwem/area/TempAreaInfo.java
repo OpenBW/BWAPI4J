@@ -14,103 +14,103 @@ import org.openbw.bwapi4j.WalkPosition;
 
 public class TempAreaInfo {
 
-    private boolean m_valid;
-    private final AreaId m_id;
-    private final WalkPosition m_top;
-    private final Altitude m_highestAltitude;
-    private int m_size;
+    private boolean valid;
+    private final AreaId id;
+    private final WalkPosition top;
+    private final Altitude highestAltitude;
+    private int size;
 
     public TempAreaInfo() {
-        m_valid = false;
-        m_id = new AreaId(0);
-        m_top = new WalkPosition(0, 0);
-        m_highestAltitude = new Altitude(0);
+        valid = false;
+        id = new AreaId(0);
+        top = new WalkPosition(0, 0);
+        highestAltitude = new Altitude(0);
 
-//        bwem_assert(!Valid());
-        if (Valid()) {
+//        bwem_assert(!valid());
+        if (valid()) {
             throw new IllegalStateException();
         }
     }
 
     public TempAreaInfo(final boolean valid, final AreaId areaId, final WalkPosition top, final Altitude highestAltitude, final int size) {
-        this.m_valid = valid;
-        this.m_id = new AreaId(areaId);
-        this.m_top = top;
-        this.m_highestAltitude = new Altitude(highestAltitude);
-        this.m_size = size;
+        this.valid = valid;
+        this.id = new AreaId(areaId);
+        this.top = top;
+        this.highestAltitude = new Altitude(highestAltitude);
+        this.size = size;
     }
 
     public TempAreaInfo(AreaId id, MiniTile pMiniTile, WalkPosition pos) {
-        m_valid = true;
-        m_id = id;
-        m_top = pos;
-        m_size = 0;
-        m_highestAltitude = pMiniTile.getAltitude();
+        valid = true;
+        this.id = id;
+        top = pos;
+        size = 0;
+        highestAltitude = pMiniTile.getAltitude();
 
-        Add(pMiniTile);
+        add(pMiniTile);
 
-//        { bwem_assert(Valid()); }
-        if (!Valid()) {
+//        { bwem_assert(valid()); }
+        if (!valid()) {
             throw new IllegalStateException();
         }
     }
 
-    public boolean Valid() {
-        return m_valid;
+    public boolean valid() {
+        return valid;
     }
 
-	public AreaId Id() {
-//        bwem_assert(Valid());
-        if (!Valid()) {
+	public AreaId id() {
+//        bwem_assert(valid());
+        if (!valid()) {
             throw new IllegalStateException();
         }
-        return m_id;
+        return id;
     }
 
-    public WalkPosition Top() {
-//        { bwem_assert(Valid());
-        if (!Valid()) {
+    public WalkPosition top() {
+//        { bwem_assert(valid());
+        if (!valid()) {
             throw new IllegalStateException();
         }
-        return m_top;
+        return top;
     }
 
-    public int Size() {
-//        bwem_assert(Valid());
-        if (!Valid()) {
+    public int size() {
+//        bwem_assert(valid());
+        if (!valid()) {
             throw new IllegalStateException();
         }
-        return m_size;
+        return size;
     }
 
-	public Altitude HighestAltitude() {
-//        bwem_assert(Valid());
-        if (!Valid()) {
+	public Altitude highestAltitude() {
+//        bwem_assert(valid());
+        if (!valid()) {
             throw new IllegalStateException();
         }
-        return m_highestAltitude;
+        return highestAltitude;
     }
 
-    public void Add(MiniTile pMiniTile) {
-//        bwem_assert(Valid());
-        if (!Valid()) {
+    public void add(MiniTile pMiniTile) {
+//        bwem_assert(valid());
+        if (!valid()) {
             throw new IllegalStateException();
         }
-        ++m_size;
-        ((MiniTileImpl) pMiniTile).setAreaId(m_id);
+        ++size;
+        ((MiniTileImpl) pMiniTile).setAreaId (id);
     }
 
-	// Left to caller : m.SetAreaId(this->Id()) for each MiniTile m in Absorbed
-	public void Merge(TempAreaInfo Absorbed) {
-        if (!(Valid() && Absorbed.Valid())) {
-//            bwem_assert(Valid() && Absorbed.Valid());
+	// Left to caller : m.SetAreaId(this->id()) for each MiniTile m in absorbed
+	public void merge(TempAreaInfo absorbed) {
+        if (!(valid() && absorbed.valid())) {
+//            bwem_assert(valid() && absorbed.valid());
             throw new IllegalStateException();
-        } else if (!(m_size >= Absorbed.m_size)) {
-//            bwem_assert(m_size >= Absorbed.m_size);
+        } else if (! (size >= absorbed .size)) {
+//            bwem_assert (size >= absorbed .size);
             throw new IllegalStateException();
         }
-        m_size += Absorbed.m_size;
-        Absorbed.m_valid = false;
+        size += absorbed .size;
+        absorbed .valid = false;
     }
 
 }

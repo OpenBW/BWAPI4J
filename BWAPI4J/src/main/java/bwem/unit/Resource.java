@@ -1,7 +1,6 @@
 package bwem.unit;
 
 import bwem.map.Map;
-import java.util.Objects;
 import org.openbw.bwapi4j.unit.Unit;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -20,11 +19,11 @@ public abstract class Resource extends Neutral {
         super(u, pMap);
     }
 
-    // Returns the initial amount of ressources for this Ressource (same as Unit()->getInitialResources).
-    public abstract int InitialAmount();
+    // Returns the initial amount of ressources for this Ressource (same as unit()->getInitialResources).
+    public abstract int initialAmount();
 
-    // Returns the current amount of ressources for this Ressource (same as Unit()->getResources).
-    public abstract int Amount();
+    // Returns the current amount of ressources for this Ressource (same as unit()->getResources).
+    public abstract int amount();
 
     @Override
     public boolean equals(Object object) {
@@ -34,13 +33,13 @@ public abstract class Resource extends Neutral {
             return false;
         } else {
             Resource that = (Resource) object;
-            return (this.Unit().getId() == that.Unit().getId());
+            return (this.unit().getId() == that.unit().getId());
         }
     }
 
     @Override
     public int hashCode() {
-        return Unit().hashCode();
+        return unit().hashCode();
     }
 
 }

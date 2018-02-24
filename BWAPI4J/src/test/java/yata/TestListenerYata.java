@@ -45,7 +45,7 @@ public class TestListenerYata implements BWEventListener {
 
             Timer timer = new Timer();
             final List<TilePosition> tilePath = this.yata.getPath(sourceTilePosition, targetTilePosition);
-            System.out.println("getPath(): " + timer.ElapsedMilliseconds() + " ms"); timer.Reset();
+            System.out.println("getPath(): " + timer.elapsedMilliseconds() + " ms"); timer.reset();
 
             for (final TilePosition tilePosition : tilePath) {
                 mapPrinter.Point(tilePosition.toWalkPosition(), Color.WHITE);

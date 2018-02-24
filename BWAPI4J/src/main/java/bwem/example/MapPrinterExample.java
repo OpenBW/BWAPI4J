@@ -37,10 +37,10 @@ public class MapPrinterExample {
         this.mapPrinter = mapPrinter;
     }
 
-    private boolean getZoneColor_cpp_algorithm_any_of(AbstractMap<Area, List<ChokePoint>> ChokePointsByArea, AbstractMap<Integer, Color> map_Zone_Color, Color color) {
-        for (Area neighbor: ChokePointsByArea.keySet()) {
-            int neighborId = neighbor.Id().intValue();
-            Color neighboringColor = map_Zone_Color.get(neighborId);
+    private boolean getZoneColorCppAlgorithmAnyOf(AbstractMap<Area, List<ChokePoint>> chokePointsByArea, AbstractMap<Integer, Color> mapZoneColor, Color color) {
+        for (Area neighbor: chokePointsByArea.keySet()) {
+            int neighborId = neighbor.id().intValue();
+            Color neighboringColor = mapZoneColor.get(neighborId);
             if (neighboringColor != null
                     && (Math.abs(color.getRed() - neighboringColor.getRed()) +
                     Math.abs(color.getGreen() - neighboringColor.getGreen()) < 150)) {
@@ -50,10 +50,10 @@ public class MapPrinterExample {
         return false;
     }
 
-    private Color getZoneColor(Area area, AbstractMap<Integer, Color> map_Zone_Color) {
+    private Color getZoneColor(Area area, AbstractMap<Integer, Color> mapZoneColor) {
         final Random rand = new Random();
-        final int zoneId = mapPrinter.showAreas ? area.Id().intValue() : area.GroupId().intValue();
-        Color color = map_Zone_Color.get(zoneId);
+        final int zoneId = mapPrinter.showAreas ? area.id().intValue() : area.groupId().intValue();
+        Color color = mapZoneColor.get(zoneId);
         if (color == null) { // zoneId was not find --> insertion did occur --> we have do define the new color:
             int tries = 0;
             do {
@@ -63,40 +63,40 @@ public class MapPrinterExample {
                     // 1) color should not be too dark
                     (color.getRed() + color.getGreen() < 150) ||
 
-                    // 2) color should differ enough from the colors of the neighbouring Areas
-                    (mapPrinter.showAreas && getZoneColor_cpp_algorithm_any_of(area.ChokePointsByArea(), map_Zone_Color, color))
+                    // 2) color should differ enough from the colors of the neighbouring areas
+                    (mapPrinter.showAreas && getZoneColorCppAlgorithmAnyOf(area.chokePointsByArea(), mapZoneColor, color))
             );
-            map_Zone_Color.put(zoneId, color);
+            mapZoneColor.put(zoneId, color);
         }
 
         return color;
     }
 
     private void printNeutral(Map theMap, Neutral n, Color col) {
-        final WalkPosition delta = new WalkPosition(n.Pos().getX() < theMap.getData().getMapData().getCenter().getX() ? +1 : -1, n.Pos().getY() < theMap.getData().getMapData().getCenter().getY() ? +1 : -1);
-        final int stackSize = mapPrinter.showStackedNeutrals ? theMap.getData().getTile(n.TopLeft()).getStackedNeutralCount() : 1;
+        final WalkPosition delta = new WalkPosition(n.pos().getX() < theMap.getData().getMapData().getCenter().getX() ? +1 : -1, n.pos().getY() < theMap.getData().getMapData().getCenter().getY() ? +1 : -1);
+        final int stackSize = mapPrinter.showStackedNeutrals ? theMap.getData().getTile(n.topLeft()).getStackedNeutralCount() : 1;
 
         for (int i = 0 ; i < stackSize ; ++i) {
-            WalkPosition origin = n.TopLeft().toWalkPosition().add(delta.multiply(new WalkPosition(i, i)));
-            WalkPosition size = n.Size().toWalkPosition();
+            WalkPosition origin = n.topLeft().toWalkPosition().add(delta.multiply(new WalkPosition(i, i)));
+            WalkPosition size = n.size().toWalkPosition();
             if (!theMap.getData().getMapData().isValid(origin) || !theMap.getData().getMapData().isValid(origin.add(size).subtract(new WalkPosition(1, 1)))) break;
 
-            mapPrinter.Rectangle(origin, origin.add(size).subtract(new WalkPosition(1, 1)), col, MapPrinter.fill_t.fill);
+            mapPrinter.rectangle(origin, origin.add(size).subtract(new WalkPosition(1, 1)), col, MapPrinter.fill_t.fill);
 
-            if (mapPrinter.showBlockingBuildings && n.Blocking())
+            if (mapPrinter.showBlockingBuildings && n.blocking())
                 if (i < stackSize - 1) {
-                    mapPrinter.Point(origin, MapPrinter.CustomColor.BLOCKING_NEUTRALS.color());
-                    mapPrinter.Point(origin.add(size).subtract(new WalkPosition(1, 1)), MapPrinter.CustomColor.BLOCKING_NEUTRALS.color());
-                    mapPrinter.Point(new WalkPosition(origin.getX(), (origin.add(size).subtract(new WalkPosition(1, 1))).getY()), MapPrinter.CustomColor.BLOCKING_NEUTRALS.color());
-                    mapPrinter.Point(new WalkPosition((origin.add(size).subtract(new WalkPosition(1, 1))).getX(), origin.getY()), MapPrinter.CustomColor.BLOCKING_NEUTRALS.color());
+                    mapPrinter.point(origin, MapPrinter.CustomColor.BLOCKING_NEUTRALS.color());
+                    mapPrinter.point(origin.add(size).subtract(new WalkPosition(1, 1)), MapPrinter.CustomColor.BLOCKING_NEUTRALS.color());
+                    mapPrinter.point(new WalkPosition(origin.getX(), (origin.add(size).subtract(new WalkPosition(1, 1))).getY()), MapPrinter.CustomColor.BLOCKING_NEUTRALS.color());
+                    mapPrinter.point(new WalkPosition((origin.add(size).subtract(new WalkPosition(1, 1))).getX(), origin.getY()), MapPrinter.CustomColor.BLOCKING_NEUTRALS.color());
                 } else {
-                    mapPrinter.Rectangle(origin, origin.add(size).subtract(new WalkPosition(1, 1)), MapPrinter.CustomColor.BLOCKING_NEUTRALS.color());
+                    mapPrinter.rectangle(origin, origin.add(size).subtract(new WalkPosition(1, 1)), MapPrinter.CustomColor.BLOCKING_NEUTRALS.color());
                 }
         }
     }
 
     public void printMap(Map theMap) {
-        AbstractMap<Integer, Color> map_Zone_Color = new ConcurrentHashMap<>();
+        AbstractMap<Integer, Color> mapZoneColor = new ConcurrentHashMap<>();
 
         for (int y = 0; y < theMap.getData().getMapData().getWalkSize().getY(); ++y)
         for (int x = 0; x < theMap.getData().getMapData().getWalkSize().getX(); ++x) {
@@ -112,7 +112,7 @@ public class MapPrinterExample {
                     col = MapPrinter.CustomColor.LAKE.color();
                 } else {
                     if (mapPrinter.showAltitude) {
-                        int c = 255 - ((miniTile.getAltitude().intValue() * 255) / theMap.MaxAltitude().intValue());
+                        int c = 255 - ((miniTile.getAltitude().intValue() * 255) / theMap.maxAltitude().intValue());
                         col = new Color(c, c, c);
                     } else {
                         col = MapPrinter.CustomColor.TERRAIN.color();
@@ -120,8 +120,8 @@ public class MapPrinterExample {
 
                     if (mapPrinter.showAreas || mapPrinter.showContinents)
                         if (miniTile.getAreaId().intValue() > 0) {
-                            Area area = theMap.GetArea(miniTile.getAreaId());
-                            Color zoneColor = getZoneColor(area, map_Zone_Color);
+                            Area area = theMap.getArea(miniTile.getAreaId());
+                            Color zoneColor = getZoneColor(area, mapZoneColor);
                             int red = zoneColor.getRed() * col.getRed() / 255;
                             int green = zoneColor.getGreen() * col.getGreen() / 255;
                             col = new Color(red, green, 0);
@@ -131,7 +131,7 @@ public class MapPrinterExample {
                 }
             }
 
-            mapPrinter.Point(p, col);
+            mapPrinter.point(p, col);
         }
 
         if (mapPrinter.showData)
@@ -141,7 +141,7 @@ public class MapPrinterExample {
                 int c = (((data / 1) * 1) % 256);
                 Color col = new Color(c, c, c);
                 WalkPosition origin = (new TilePosition(x, y)).toWalkPosition();
-                mapPrinter.Rectangle(origin, origin.add(new WalkPosition(3, 3)), col, MapPrinter.fill_t.fill);
+                mapPrinter.rectangle(origin, origin.add(new WalkPosition(3, 3)), col, MapPrinter.fill_t.fill);
             }
 
         if (mapPrinter.showUnbuildable)
@@ -149,7 +149,7 @@ public class MapPrinterExample {
             for (int x = 0; x < theMap.getData().getMapData().getTileSize().getX(); ++x)
                 if (!theMap.getData().getTile(new TilePosition(x, y)).isBuildable()) {
                     WalkPosition origin = (new TilePosition(x, y)).toWalkPosition();
-                    mapPrinter.Rectangle(origin.add(new WalkPosition(1, 1)), origin.add(new WalkPosition(2, 2)), MapPrinter.CustomColor.UNBUILDABLE.color());
+                    mapPrinter.rectangle(origin.add(new WalkPosition(1, 1)), origin.add(new WalkPosition(2, 2)), MapPrinter.CustomColor.UNBUILDABLE.color());
                 }
 
         if (mapPrinter.showGroundHeight)
@@ -162,17 +162,17 @@ public class MapPrinterExample {
                         WalkPosition p = (new TilePosition(x, y).toWalkPosition()).add(new WalkPosition(dx, dy));
                         if (theMap.getData().getMiniTile(p, check_t.no_check).isWalkable()) // groundHeight is usefull only for walkable miniTiles
                             if (((dx + dy) & (groundHeight == Tile.GroundHeight.HIGH_GROUND ? 1 : 3)) != 0)
-                                mapPrinter.Point(p, MapPrinter.CustomColor.HIGHER_GROUND.color());
+                                mapPrinter.point(p, MapPrinter.CustomColor.HIGHER_GROUND.color());
                     }
             }
 
         if (mapPrinter.showAssignedRessources)
-            for (Area area : theMap.Areas())
-                for (Base base : area.Bases()) {
-                    for (Mineral m : base.Minerals())
-                        mapPrinter.Line(base.Center().toWalkPosition(), m.Pos().toWalkPosition(), MapPrinter.CustomColor.BASES.color());
-                    for (Geyser g : base.Geysers())
-                        mapPrinter.Line(base.Center().toWalkPosition(), g.Pos().toWalkPosition(), MapPrinter.CustomColor.BASES.color());
+            for (Area area : theMap.areas())
+                for (Base base : area.bases()) {
+                    for (Mineral m : base.minerals())
+                        mapPrinter.line(base.center().toWalkPosition(), m.pos().toWalkPosition(), MapPrinter.CustomColor.BASES.color());
+                    for (Geyser g : base.geysers())
+                        mapPrinter.line(base.center().toWalkPosition(), g.pos().toWalkPosition(), MapPrinter.CustomColor.BASES.color());
                 }
 
         if (mapPrinter.showGeysers)
@@ -191,29 +191,29 @@ public class MapPrinterExample {
             for (TilePosition t : theMap.getData().getMapData().getStartingLocations()) {
                 WalkPosition origin = t.toWalkPosition();
                 WalkPosition size = UnitType.Terran_Command_Center.tileSize().toWalkPosition(); // same size for other races
-                mapPrinter.Rectangle(origin, origin.add(size).subtract(new WalkPosition(1, 1)), MapPrinter.CustomColor.STARTING_LOCATIONS.color(), MapPrinter.fill_t.fill);
+                mapPrinter.rectangle(origin, origin.add(size).subtract(new WalkPosition(1, 1)), MapPrinter.CustomColor.STARTING_LOCATIONS.color(), MapPrinter.fill_t.fill);
             }
 
         if (mapPrinter.showBases)
-            for (Area area : theMap.Areas()) {
-                for (Base base : area.Bases()) {
-                    WalkPosition origin = base.Location().toWalkPosition();
+            for (Area area : theMap.areas()) {
+                for (Base base : area.bases()) {
+                    WalkPosition origin = base.location().toWalkPosition();
                     WalkPosition size = UnitType.Terran_Command_Center.tileSize().toWalkPosition(); // same size for other races
-                    MapPrinter.dashed_t dashMode = base.BlockingMinerals().isEmpty() ? MapPrinter.dashed_t.not_dashed : MapPrinter.dashed_t.dashed;
-                    mapPrinter.Rectangle(origin, origin.add(size).subtract(new WalkPosition(1, 1)), MapPrinter.CustomColor.BASES.color(), MapPrinter.fill_t.do_not_fill, dashMode);
+                    MapPrinter.dashed_t dashMode = base.blockingMinerals().isEmpty() ? MapPrinter.dashed_t.not_dashed : MapPrinter.dashed_t.dashed;
+                    mapPrinter.rectangle(origin, origin.add(size).subtract(new WalkPosition(1, 1)), MapPrinter.CustomColor.BASES.color(), MapPrinter.fill_t.do_not_fill, dashMode);
                 }
             }
 
         if (mapPrinter.showChokePoints) {
-            for (MutablePair<MutablePair<AreaId, AreaId>, WalkPosition> f : theMap.RawFrontier())
-                mapPrinter.Point(f.getRight(), mapPrinter.showAreas ? MapPrinter.CustomColor.CHOKE_POINTS_SHOW_AREAS.color() : MapPrinter.CustomColor.CHOKE_POINTS_SHOW_CONTINENTS.color());
+            for (MutablePair<MutablePair<AreaId, AreaId>, WalkPosition> f : theMap.rawFrontier())
+                mapPrinter.point(f.getRight(), mapPrinter.showAreas ? MapPrinter.CustomColor.CHOKE_POINTS_SHOW_AREAS.color() : MapPrinter.CustomColor.CHOKE_POINTS_SHOW_CONTINENTS.color());
 
-            for (Area area : theMap.Areas())
-                for (ChokePoint cp : area.ChokePoints()) {
+            for (Area area : theMap.areas())
+                for (ChokePoint cp : area.chokePoints()) {
                     ChokePoint.Node[] nodes = {ChokePoint.Node.end1, ChokePoint.Node.end2};
                     for (ChokePoint.Node n : nodes)
-                        mapPrinter.Square(cp.Pos(n), 1, new Color(255, 0, 255), MapPrinter.fill_t.fill);
-                    mapPrinter.Square(cp.Center(), 1, new Color(0, 0, 255), MapPrinter.fill_t.fill);
+                        mapPrinter.square(cp.pos(n), 1, new Color(255, 0, 255), MapPrinter.fill_t.fill);
+                    mapPrinter.square(cp.center(), 1, new Color(0, 0, 255), MapPrinter.fill_t.fill);
                 }
         }
 
@@ -242,42 +242,42 @@ public class MapPrinterExample {
     //	a = WalkPosition(theMap.RandomPosition());
     //	b = WalkPosition(theMap.RandomPosition());
 
-    	mapPrinter.Circle(a, 6, col, MapPrinter.fill_t.fill);
-    	mapPrinter.Circle(b, 6, col, MapPrinter.fill_t.fill);
+    	mapPrinter.circle(a, 6, col, MapPrinter.fill_t.fill);
+    	mapPrinter.circle(b, 6, col, MapPrinter.fill_t.fill);
 
     	MutableInt length = new MutableInt(0);
-    	CPPath Path = theMap.GetPath(a.toPosition(), b.toPosition(), length);
+    	CPPath path = theMap.getPath(a.toPosition(), b.toPosition(), length);
 
     	if (length.intValue() < 0) return;		// cannot reach b from a
 
-    	if (Path.isEmpty()) { // no ChokePoint between a and b:
+    	if (path.isEmpty()) { // no ChokePoint between a and b:
     		// let's verify that a and b are in the same Area:
-//    		bwem_assert(theMap.GetNearestArea(a) == theMap.GetNearestArea(b));
-            if (!(theMap.GetNearestArea(a).equals(theMap.GetNearestArea(b)))) {
+//    		bwem_assert(theMap.getNearestArea(a) == theMap.getNearestArea(b));
+            if (!(theMap.getNearestArea(a).equals(theMap.getNearestArea(b)))) {
                 throw new IllegalStateException();
             }
 
     		// just draw a single line between them:
-    		mapPrinter.Line(a, b, col, MapPrinter.dashed_t.dashed);
+    		mapPrinter.line(a, b, col, MapPrinter.dashed_t.dashed);
     	} else { // at least one ChokePoint between a and b:
     		// let's verify that a and b are not in the same Area:
-//    		bwem_assert(theMap.GetNearestArea(a) != theMap.GetNearestArea(b));
-            if (!(!theMap.GetNearestArea(a).equals(theMap.GetNearestArea(b)))) {
+//    		bwem_assert(theMap.getNearestArea(a) != theMap.getNearestArea(b));
+            if (theMap.getNearestArea(a).equals(theMap.getNearestArea(b))) {
                 throw new IllegalStateException();
             }
 
-    		// draw a line between each ChokePoint in Path:
+    		// draw a line between each ChokePoint in path:
     		ChokePoint cpPrevious = null;
-    		for (ChokePoint cp : Path) {
+    		for (ChokePoint cp : path) {
     			if (cpPrevious != null) {
-                    mapPrinter.Line(cpPrevious.Center(), cp.Center(), col, MapPrinter.dashed_t.dashed);
+                    mapPrinter.line(cpPrevious.center(), cp.center(), col, MapPrinter.dashed_t.dashed);
                 }
-    			mapPrinter.Circle(cp.Center(), 6, col);
+    			mapPrinter.circle(cp.center(), 6, col);
     			cpPrevious = cp;
     		}
 
-    		mapPrinter.Line(a, Path.get(0).Center(), col, MapPrinter.dashed_t.dashed);
-    		mapPrinter.Line(b, Path.get(Path.size() - 1).Center(), col, MapPrinter.dashed_t.dashed);
+    		mapPrinter.line(a, path.get(0).center(), col, MapPrinter.dashed_t.dashed);
+    		mapPrinter.line(b, path.get(path.size() - 1).center(), col, MapPrinter.dashed_t.dashed);
     	}
 
         //TODO: Handle exception.

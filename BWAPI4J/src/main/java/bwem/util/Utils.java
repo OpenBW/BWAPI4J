@@ -2,11 +2,7 @@ package bwem.util;
 
 import bwem.typedef.Pred;
 import org.apache.commons.lang3.mutable.MutableDouble;
-import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.TilePosition;
-import org.openbw.bwapi4j.WalkPosition;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,37 +22,37 @@ public final class Utils {
         return Math.sqrt(squaredNorm(dx, dy));
     }
 
-    public static int scalar_product(int ax, int ay, int bx, int by) {
+    public static int scalarProduct(int ax, int ay, int bx, int by) {
         return ((ax * bx) + (ay * by));
     }
 
     /**
      * Returns true if the lines intersect, otherwise false. In addition, if the lines
-     * intersect the intersection point may be stored in i_x and i_y.
+     * intersect the intersection point may be stored in iX and iY.
      *
      * From http://stackoverflow.com/questions/563198/how-do-you-detect-where-two-line-segments-intersect
      */
-    public static boolean get_line_intersection(
-            double p0_x, double p0_y,
-            double p1_x, double p1_y,
-            double p2_x, double p2_y,
-            double p3_x, double p3_y,
-            MutableDouble i_x,
-            MutableDouble i_y) {
-        double s1_x, s1_y;
-        double s2_x, s2_y;
-        s1_x = p1_x - p0_x; s1_y = p1_y - p0_y;
-        s2_x = p3_x - p2_x; s2_y = p3_y - p2_y;
+    public static boolean getLineIntersection(
+            double p0X, double p0Y,
+            double p1X, double p1Y,
+            double p2X, double p2Y,
+            double p3X, double p3Y,
+            MutableDouble iX,
+            MutableDouble iY) {
+        double s1X, s1Y;
+        double s2X, s2Y;
+        s1X = p1X - p0X; s1Y = p1Y - p0Y;
+        s2X = p3X - p2X; s2Y = p3Y - p2Y;
 
         double s, t;
-        s = (-s1_y * (p0_x - p2_x) + s1_x * (p0_y - p2_y)) / (-s2_x * s1_y + s1_x * s2_y);
-        t = ( s2_x * (p0_y - p2_y) - s2_y * (p0_x - p2_x)) / (-s2_x * s1_y + s1_x * s2_y);
+        s = (-s1Y * (p0X - p2X) + s1X * (p0Y - p2Y)) / (-s2X * s1Y + s1X * s2Y);
+        t = ( s2X * (p0Y - p2Y) - s2Y * (p0X - p2X)) / (-s2X * s1Y + s1X * s2Y);
 
         if (Double.compare(s, 0) >= 0 && Double.compare(s, 1) <= 0
                 && Double.compare(t, 0) >= 0 && Double.compare(t, 1) <= 0) {
             // Collision detected
-            if (i_x != null) i_x.setValue(p0_x + (t * s1_x));
-            if (i_y != null) i_y.setValue(p0_y + (t * s1_y));
+            if (iX != null) iX.setValue(p0X + (t * s1X));
+            if (iY != null) iY.setValue(p0Y + (t * s1Y));
             return true;
         }
 
@@ -65,10 +61,10 @@ public final class Utils {
 
     // Returns whether the line segments [a, b] and [c, d] intersect.
     public static boolean intersect(int ax, int ay, int bx, int by, int cx, int cy, int dx, int dy) {
-        return get_line_intersection(ax, ay, bx, by, cx, cy, dx, dy, null, null);
+        return getLineIntersection(ax, ay, bx, by, cx, cy, dx, dy, null, null);
     }
 
-    public static <T> void fast_erase(final List<T> list, final int index) {
+    public static <T> void fastErase(final List<T> list, final int index) {
 //        bwem_assert((0 <= i) && (i < (int)Vector.size()));
         if (!((0 <= index) && (index < list.size()))) {
             throw new IllegalArgumentException("index: " + index);
@@ -78,10 +74,10 @@ public final class Utils {
         list.remove(list.size() - 1);
     }
 
-    public static <T> void really_remove_if(final List<T> Container, final Pred pred) {
-        for (int i = 0; i < Container.size(); ++i) {
-            if (pred.isTrue(Container.get(i))) {
-                fast_erase(Container, i--);
+    public static <T> void reallyRemoveIf(final List<T> container, final Pred pred) {
+        for (int i = 0; i < container.size(); ++i) {
+            if (pred.isTrue(container.get(i))) {
+                fastErase(container, i--);
             }
         }
     }

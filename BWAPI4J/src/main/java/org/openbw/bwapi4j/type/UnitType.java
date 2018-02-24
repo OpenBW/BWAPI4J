@@ -526,7 +526,7 @@ public enum UnitType {
 
     /**
      * Retrieves the amount of space required by this unit type to fit inside a
-     * Bunker or Transport(Dropship, Shuttle, Overlord ). Returns Amount of
+     * Bunker or Transport(Dropship, Shuttle, Overlord ). Returns amount of
      * space required by this unit type for transport. return values 255 If this
      * unit type can not be transported. See also spaceProvided
      */
@@ -600,7 +600,7 @@ public enum UnitType {
 
     /**
      * Retrieves the distance from the center of the unit type to its left edge.
-     * Returns Distance to this unit type's left edge from its center, in
+     * Returns distance to this unit type's left edge from its center, in
      * pixels.
      */
     public int dimensionLeft() {
@@ -609,7 +609,7 @@ public enum UnitType {
 
     /**
      * Retrieves the distance from the center of the unit type to its top edge.
-     * Returns Distance to this unit type's top edge from its center, in pixels.
+     * Returns distance to this unit type's top edge from its center, in pixels.
      */
     public int dimensionUp() {
         return this.dimensionUp;
@@ -617,7 +617,7 @@ public enum UnitType {
 
     /**
      * Retrieves the distance from the center of the unit type to its right
-     * edge. Returns Distance to this unit type's right edge from its center, in
+     * edge. Returns distance to this unit type's right edge from its center, in
      * pixels.
      */
     public int dimensionRight() {
@@ -626,7 +626,7 @@ public enum UnitType {
 
     /**
      * Retrieves the distance from the center of the unit type to its bottom
-     * edge. Returns Distance to this unit type's bottom edge from its center,
+     * edge. Returns distance to this unit type's bottom edge from its center,
      * in pixels.
      */
     public int dimensionDown() {
@@ -653,7 +653,7 @@ public enum UnitType {
 
     /**
      * Retrieves the range at which this unit type will start targeting enemy
-     * units. Returns Distance at which this unit type begins to seek out enemy
+     * units. Returns distance at which this unit type begins to seek out enemy
      * units, in pixels.
      */
     public int seekRange() {
@@ -952,7 +952,7 @@ public enum UnitType {
 
     /**
      * Checks if this unit is a structure. This includes Mineral Fields and
-     * Vespene Geysers. Returns true if this unit is a building, and false
+     * Vespene geysers. Returns true if this unit is a building, and false
      * otherwise.
      */
     public boolean isBuilding() {
@@ -960,7 +960,7 @@ public enum UnitType {
     }
 
     /**
-     * Checks if this unit is an add-on. Add-ons are attachments used by some
+     * Checks if this unit is an add-on. add-ons are attachments used by some
      * Terran structures such as the Comsat Station. Returns true if this unit
      * is an add-on, and false otherwise. Note If this function returns a
      * successful state, then the following function calls will also return a
@@ -1100,7 +1100,7 @@ public enum UnitType {
      * BWAPI::Broodwar->getUnitsInRadius(myBasePosition, 1024,
      * !BWAPI::Filter::IsOwned && !BWAPI::Filter::IsParasited); for ( auto u :
      * unitsAroundTheBase ) { if ( u->getType().isCritter() &&
-     * !u->isInvincible() ) { BWAPI::Unit myQueen =
+     * !u->isInvincible() ) { BWAPI::unit myQueen =
      * u->getClosestUnit(BWAPI::Filter::GetType == BWAPI::UnitTypes::Zerg_Queen
      * && BWAPI::Filter::IsOwned); if ( myQueen )
      * myQueen->useTech(BWAPI::TechTypes::Parasite, u); } }
@@ -1112,7 +1112,7 @@ public enum UnitType {
     /**
      * Checks if this unit type is capable of constructing an add-on. An add-on
      * is an extension or attachment for Terran structures, specifically the
-     * Command Center, Factory, Starport, and Science Facility. Returns true if
+     * Command center, Factory, Starport, and Science Facility. Returns true if
      * this unit type can construct an add-on, and false if it can not. See also
      * isAddon
      */

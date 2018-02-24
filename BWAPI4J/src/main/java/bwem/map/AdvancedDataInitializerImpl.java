@@ -60,7 +60,7 @@ public class AdvancedDataInitializerImpl extends AdvancedDataImpl implements Adv
                 }
             }
 
-            // Add ground height and doodad information.
+            // add ground height and doodad information.
             final int bwapiGroundHeight = bwMap.getGroundHeight(tilePosition);
             tile.setGroundHeight(bwapiGroundHeight / 2);
             if (bwapiGroundHeight % 2 != 0) {
@@ -78,7 +78,7 @@ public class AdvancedDataInitializerImpl extends AdvancedDataImpl implements Adv
     ////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void decideSeasOrLakes(final int lake_max_miniTiles, final int lake_max_width_in_miniTiles) {
+    public void decideSeasOrLakes(final int lakeMaxMiniTiles, final int lakeMaxWidthInMiniTiles) {
         for (int y = 0; y < getMapData().getWalkSize().getY(); ++y)
         for (int x = 0; x < getMapData().getWalkSize().getX(); ++x) {
             final WalkPosition originWalkPosition = new WalkPosition(x, y);
@@ -92,17 +92,17 @@ public class AdvancedDataInitializerImpl extends AdvancedDataImpl implements Adv
                 ((MiniTileImpl) originMiniTile).setSea();
                 seaExtent.add(originMiniTile);
 
-                int topLeft_x = originWalkPosition.getX();
-                int topLeft_y = originWalkPosition.getY();
-                int bottomRight_x = originWalkPosition.getX();
-                int bottomRight_y = originWalkPosition.getY();
+                int topLeftX = originWalkPosition.getX();
+                int topLeftY = originWalkPosition.getY();
+                int bottomRightX = originWalkPosition.getX();
+                int bottomRightY = originWalkPosition.getY();
 
                 while (!toSearch.isEmpty()) {
                     final WalkPosition current = toSearch.remove(toSearch.size() - 1);
-                    if (current.getX() < topLeft_x) topLeft_x = current.getX();
-                    if (current.getY() < topLeft_y) topLeft_y = current.getY();
-                    if (current.getX() > bottomRight_x) bottomRight_x = current.getX();
-                    if (current.getY() > bottomRight_y) bottomRight_y = current.getY();
+                    if (current.getX() < topLeftX) topLeftX = current.getX();
+                    if (current.getY() < topLeftY) topLeftY = current.getY();
+                    if (current.getX() > bottomRightX) bottomRightX = current.getX();
+                    if (current.getY() > bottomRightY) bottomRightY = current.getY();
 
                     final WalkPosition deltas[] = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(1, 0), new WalkPosition(0, 1)};
                     for (final WalkPosition delta : deltas) {
@@ -111,7 +111,7 @@ public class AdvancedDataInitializerImpl extends AdvancedDataImpl implements Adv
                             final MiniTile nextMiniTile = getMiniTile_(nextWalkPosition, check_t.no_check);
                             if (((MiniTileImpl) nextMiniTile).isSeaOrLake()) {
                                 toSearch.add(nextWalkPosition);
-                                if (seaExtent.size() <= lake_max_miniTiles) {
+                                if (seaExtent.size() <= lakeMaxMiniTiles) {
                                     seaExtent.add(nextMiniTile);
                                 }
                                 ((MiniTileImpl) nextMiniTile).setSea();
@@ -120,10 +120,10 @@ public class AdvancedDataInitializerImpl extends AdvancedDataImpl implements Adv
                     }
                 }
 
-                if ((seaExtent.size() <= lake_max_miniTiles) &&
-                        (bottomRight_x - topLeft_x <= lake_max_width_in_miniTiles) &&
-                        (bottomRight_y - topLeft_y <= lake_max_width_in_miniTiles) &&
-                        (topLeft_x >= 2) && (topLeft_y >= 2) && (bottomRight_x < getMapData().getWalkSize().getX() - 2) && (bottomRight_y < getMapData().getWalkSize().getY() - 2)) {
+                if ((seaExtent.size() <= lakeMaxMiniTiles) &&
+                        (bottomRightX - topLeftX <= lakeMaxWidthInMiniTiles) &&
+                        (bottomRightY - topLeftY <= lakeMaxWidthInMiniTiles) &&
+                        (topLeftX >= 2) && (topLeftY >= 2) && (bottomRightX < getMapData().getWalkSize().getX() - 2) && (bottomRightY < getMapData().getWalkSize().getY() - 2)) {
                     for (final MiniTile miniTile : seaExtent) {
                         ((MiniTileImpl) miniTile).setLake();
                     }

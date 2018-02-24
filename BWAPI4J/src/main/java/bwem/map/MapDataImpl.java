@@ -69,19 +69,17 @@ public class MapDataImpl implements MapData {
                 && (0 <= position.getY()) && (position.getY() < getPixelSize().getY()));
     }
 
-    private int[] crop(final int x, final int y, final int max_x, final int max_y) {
-        int ret_x = x;
-        int ret_y = y;
+    private int[] crop(final int x, final int y, final int maxX, final int maxY) {
+        int retX = x;
+        int retY = y;
 
-        if (ret_x < 0) ret_x = 0;
-        else if (ret_x >= max_x) ret_x = max_x - 1;
+        if (retX < 0) retX = 0;
+        else if (retX >= maxX) retX = maxX - 1;
 
-        if (ret_y < 0) ret_y = 0;
-        else if (ret_y >= max_y) ret_y = max_y - 1;
+        if (retY < 0) retY = 0;
+        else if (retY >= maxY) retY = maxY - 1;
 
-        final int[] ret = {ret_x, ret_y};
-
-        return ret;
+        return new int[]{retX, retY};
     }
 
     @Override

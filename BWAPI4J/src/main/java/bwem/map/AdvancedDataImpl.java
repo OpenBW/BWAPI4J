@@ -29,7 +29,7 @@ public class AdvancedDataImpl implements AdvancedData {
 
     @Override
     public Tile getTile(final TilePosition tilePosition, final check_t checkMode) {
-//        bwem_assert((checkMode == utils::check_t::no_check) || Valid(p)); utils::unused(checkMode);
+//        bwem_assert((checkMode == utils::check_t::no_check) || valid(p)); utils::unused(checkMode);
         if (!((checkMode == check_t.no_check) || getMapData().isValid(tilePosition))) {
             throw new IllegalArgumentException();
         }
@@ -53,7 +53,7 @@ public class AdvancedDataImpl implements AdvancedData {
 
     @Override
     public MiniTile getMiniTile(final WalkPosition walkPosition, final check_t checkMode) {
-//        bwem_assert((checkMode == utils::check_t::no_check) || Valid(p));
+//        bwem_assert((checkMode == utils::check_t::no_check) || valid(p));
         if (!((checkMode == check_t.no_check) || getMapData().isValid(walkPosition))) {
             throw new IllegalArgumentException();
         }

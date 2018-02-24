@@ -636,7 +636,7 @@ public class Player {
     }
 
     /**
-     * Retrieves the color value of the current player. Returns Color object
+     * Retrieves the color value of the current player. Returns color object
      * that represents the color of the current player.
      */
     public Color getColor() {
@@ -667,7 +667,7 @@ public class Player {
     // * Retrieves the top speed of a unit type, taking the player's speed
     // * upgrades into consideration. Parameters unit The UnitType to retrieve
     // the
-    // * top speed for. Returns Top speed of the provided unit type for this
+    // * top speed for. Returns top speed of the provided unit type for this
     // * player.
     // */
     // public double topSpeed(UnitType unit) {

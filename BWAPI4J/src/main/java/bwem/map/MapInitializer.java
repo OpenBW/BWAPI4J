@@ -4,12 +4,10 @@ import bwem.area.TempAreaInfo;
 import bwem.area.typedef.AreaId;
 import bwem.tile.MiniTile;
 import bwem.typedef.Altitude;
-import bwem.unit.Geyser;
 import bwem.unit.Mineral;
 import bwem.unit.Neutral;
 import bwem.unit.StaticBuilding;
 import org.apache.commons.lang3.tuple.MutablePair;
-import org.openbw.bwapi4j.BWMap;
 import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
@@ -25,44 +23,44 @@ public interface MapInitializer {
 
     // This has to be called before any other function is called.
     // A good place to do this is in ExampleAIModule::onStart()
-    public abstract void Initialize();
+    void initialize();
 
-    public abstract void initializeAdvancedData(int mapTileWidth, int mapTileHeight, List<TilePosition> startingLocations);
+    void initializeAdvancedData(int mapTileWidth, int mapTileHeight, List<TilePosition> startingLocations);
 
-    public abstract void initializeNeutralData(
+    void initializeNeutralData(
             List<MineralPatch> mineralPatches,
             List<VespeneGeyser> vespeneGeysers,
             List<PlayerUnit> neutralUnits
     );
 
-    public abstract void computeAltitude(AdvancedData advancedData);
-    public abstract List<MutablePair<WalkPosition, Altitude>> getSortedDeltasByAscendingAltitude(int mapWalkTileWidth, int mapWalkTileHeight, int altitude_scale);
-    public abstract List<MutablePair<WalkPosition, Altitude>> getActiveSeaSideList(AdvancedData advancedData);
-    public abstract Altitude setAltitudesAndGetUpdatedMaxAltitude(
+    void computeAltitude(AdvancedData advancedData);
+    List<MutablePair<WalkPosition, Altitude>> getSortedDeltasByAscendingAltitude(int mapWalkTileWidth, int mapWalkTileHeight, int altitudeScale);
+    List<MutablePair<WalkPosition, Altitude>> getActiveSeaSideList(AdvancedData advancedData);
+    Altitude setAltitudesAndGetUpdatedMaxAltitude(
             Altitude currentMaxAltitude,
             AdvancedData advancedData,
-            List<MutablePair<WalkPosition, Altitude>> DeltasByAscendingAltitude,
-            List<MutablePair<WalkPosition, Altitude>> ActiveSeaSideList,
-            int altitude_scale
+            List<MutablePair<WalkPosition, Altitude>> deltasByAscendingAltitude,
+            List<MutablePair<WalkPosition, Altitude>> activeSeaSideList,
+            int altitudeScale
     );
-    public abstract void setMaxAltitude(Altitude altitude);
+    void setMaxAltitude(Altitude altitude);
 
-    public abstract void ProcessBlockingNeutrals(List<Neutral> Candidates);
-    public abstract List<Neutral> getCandidates(List<StaticBuilding> staticBuildings, List<Mineral> minerals);
-    public abstract List<WalkPosition> getOuterMiniTileBorderOfNeutral(Neutral pCandidate);
-    public abstract List<WalkPosition> trimOuterMiniTileBorder(List<WalkPosition> Border);
-    public abstract List<WalkPosition> getDoors(List<WalkPosition> Border);
-    public abstract List<WalkPosition> getTrueDoors(List<WalkPosition> Doors, Neutral pCandidate);
-    public abstract void markBlockingStackedNeutrals(Neutral pCandidate, List<WalkPosition> TrueDoors);
+    void processBlockingNeutrals(List<Neutral> candidates);
+    List<Neutral> getCandidates(List<StaticBuilding> staticBuildings, List<Mineral> minerals);
+    List<WalkPosition> getOuterMiniTileBorderOfNeutral(Neutral pCandidate);
+    List<WalkPosition> trimOuterMiniTileBorder(List<WalkPosition> border);
+    List<WalkPosition> getDoors(List<WalkPosition> border);
+    List<WalkPosition> getTrueDoors(List<WalkPosition> doors, Neutral pCandidate);
+    void markBlockingStackedNeutrals(Neutral pCandidate, List<WalkPosition> trueDoors);
 
-    public abstract void ComputeAreas(List<TempAreaInfo> TempAreaList, int area_min_miniTiles);
-    public abstract List<MutablePair<WalkPosition, MiniTile>> getSortedMiniTilesByDescendingAltitude();
-    public abstract List<TempAreaInfo> ComputeTempAreas(List<MutablePair<WalkPosition, MiniTile>> MiniTilesByDescendingAltitude);
-    public abstract void ReplaceAreaIds(WalkPosition p, AreaId newAreaId);
-    public abstract void CreateAreas(List<TempAreaInfo> TempAreaList, int area_min_miniTiles);
-    public abstract void SetMinAltitudeInTile(TilePosition t);
+    void computeAreas(List<TempAreaInfo> tempAreaList, int areaMinMiniTiles);
+    List<MutablePair<WalkPosition, MiniTile>> getSortedMiniTilesByDescendingAltitude();
+    List<TempAreaInfo> computeTempAreas(List<MutablePair<WalkPosition, MiniTile>> miniTilesByDescendingAltitude);
+    void replaceAreaIds(WalkPosition p, AreaId newAreaId);
+    void createAreas(List<TempAreaInfo> tempAreaList, int areaMinMiniTiles);
+    void setMinAltitudeInTile(TilePosition t);
 
-    public abstract List<PlayerUnit> filterPlayerUnits(Collection<Unit> units, Player player);
-    public abstract List<PlayerUnit> filterNeutralPlayerUnits(Collection<Unit> units, Collection<Player> players);
+    List<PlayerUnit> filterPlayerUnits(Collection<Unit> units, Player player);
+    List<PlayerUnit> filterNeutralPlayerUnits(Collection<Unit> units, Collection<Player> players);
 
 }

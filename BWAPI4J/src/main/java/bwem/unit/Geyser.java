@@ -1,7 +1,6 @@
 package bwem.unit;
 
 import bwem.map.Map;
-import java.util.Objects;
 import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.unit.VespeneGeyser;
 
@@ -11,7 +10,7 @@ import org.openbw.bwapi4j.unit.VespeneGeyser;
 //                                                                                          //
 //////////////////////////////////////////////////////////////////////////////////////////////
 //
-// Geysers Correspond to the units in BWAPI::getStaticNeutralUnits() for which getType() == Resource_Vespene_Geyser
+// geysers Correspond to the units in BWAPI::getStaticNeutralUnits() for which getType() == Resource_Vespene_Geyser
 //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -22,19 +21,19 @@ public final class Geyser extends Resource {
 
 //        bwem_assert(Type() == Resource_Vespene_Geyser);
         if (!(u instanceof VespeneGeyser)) {
-            throw new IllegalArgumentException("Unit is not a VespeneGeyser: " + u.getClass().getName());
+            throw new IllegalArgumentException("unit is not a VespeneGeyser: " + u.getClass().getName());
         }
     }
 
     @Override
-    public int InitialAmount() {
-        VespeneGeyser ret = (VespeneGeyser) super.Unit();
+    public int initialAmount() {
+        VespeneGeyser ret = (VespeneGeyser) super.unit();
         return ret.getInitialResources();
     }
 
     @Override
-    public int Amount() {
-        VespeneGeyser ret = (VespeneGeyser) super.Unit();
+    public int amount() {
+        VespeneGeyser ret = (VespeneGeyser) super.unit();
         return ret.getResources();
     }
 
@@ -46,13 +45,13 @@ public final class Geyser extends Resource {
             return false;
         } else {
             Geyser that = (Geyser) object;
-            return (this.Unit().getId() == that.Unit().getId());
+            return (this.unit().getId() == that.unit().getId());
         }
     }
 
     @Override
     public int hashCode() {
-        return Unit().hashCode();
+        return unit().hashCode();
     }
 
 }

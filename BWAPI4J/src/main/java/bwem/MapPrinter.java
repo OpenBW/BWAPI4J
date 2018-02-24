@@ -39,7 +39,7 @@ public class MapPrinter {
 
         private final Color color;
 
-        private CustomColor(Color color) {
+        CustomColor(Color color) {
             this.color = color;
         }
 
@@ -49,30 +49,29 @@ public class MapPrinter {
 
     }
 
-    public enum dashed_t { not_dashed, dashed };
-    public enum fill_t { do_not_fill, fill };
+    public enum dashed_t { not_dashed, dashed }
+    public enum fill_t { do_not_fill, fill }
 
-    private BW m_pBW;
-    private Map m_pMap;
-    private BufferedImage m_pImage;
-    private Graphics2D m_pBMP;
+    private Map pMap;
+    private BufferedImage pImage;
+    private Graphics2D pBMP;
     public final boolean showAltitude = true;				// renders the Altitude() value for each MiniTile
-    public final boolean showAreas = true;					// renders Areas with distinct colors
-    public final boolean showContinents = !showAreas && true;				// renders continents with distinct colors, unless showAreas == true
-    public final boolean showLakes = true;					// prints unwalkable MiniTiles in Areas
-    public final boolean showSeaSide = true;				// highlights Sea-MiniTiles next to Terrain-MiniTiles
+    public final boolean showAreas = true;					// renders areas with distinct colors
+    public final boolean showContinents = !showAreas;				// renders continents with distinct colors, unless showAreas == true
+    public final boolean showLakes = true;					// prints unwalkable miniTiles in areas
+    public final boolean showSeaSide = true;				// highlights Sea-miniTiles next to Terrain-miniTiles
     public final boolean showUnbuildable = false;			// renders Tiles that are not Buildable()
     public final boolean showGroundHeight = true;			// renders Tiles for which GroundHeight() > 0
-    public final boolean showChokePoints = true;			// renders the ChokePoints suggested by BWEM
+    public final boolean showChokePoints = true;			// renders the chokePoints suggested by BWEM
     public final boolean showResources = true;
-    public final boolean showMinerals = showResources && true;				// prints the Minerals, unless showResources == false
-    public final boolean showGeysers = showResources && true;				// prints the Geysers, unless showResources == false
+    public final boolean showMinerals = showResources;				// prints the minerals, unless showResources == false
+    public final boolean showGeysers = showResources;				// prints the geysers, unless showResources == false
     public final boolean showStaticBuildings = true;		// prints the StaticBuildings
-    public final boolean showBlockingBuildings = true;		// renders the StaticBuildings and the Minerals that are blocking some ChokePoint
-    public final boolean showStackedNeutrals = true;		// renders the StaticBuildings and the Minerals that are stacked
-    public final boolean showStartingLocations = true;		// renders the Bases that are at starting locations
-    public final boolean showBases = true;					// prints the Bases suggested by BWEM
-    public final boolean showAssignedRessources = showBases && true;		// renders the Ressources assigned to each Base, unless showBases == false
+    public final boolean showBlockingBuildings = true;		// renders the StaticBuildings and the minerals that are blocking some ChokePoint
+    public final boolean showStackedNeutrals = true;		// renders the StaticBuildings and the minerals that are stacked
+    public final boolean showStartingLocations = true;		// renders the bases that are at starting locations
+    public final boolean showBases = true;					// prints the bases suggested by BWEM
+    public final boolean showAssignedRessources = showBases;		// renders the Ressources assigned to each Base, unless showBases == false
     public final boolean showData = false;					// renders the Data() value for each MiniTile
 
     public MapPrinter() {
@@ -81,112 +80,111 @@ public class MapPrinter {
 
     //MapPrinter::~MapPrinter()
     //{
-    //	if (canWrite(m_fileName)) m_pBMP->WriteToFile(m_fileName.c_str());
+    //	if (canWrite (fileName)) pBMP->WriteToFile (fileName.c_str());
     //
     ////	Uncomment the 2 lines below to write one more copy of the bitmap, in the folder of the map used, with the same name.
     ////	string twinFileName = bw->mapPathName().substr(0, bw->mapPathName().size()-3) + "bmp";
-    ////	if (canWrite(twinFileName)) m_pBMP->WriteToFile(twinFileName.c_str());
+    ////	if (canWrite(twinFileName)) pBMP->WriteToFile(twinFileName.c_str());
     //}
 
-    public static Color Color() {
+    public static Color color() {
         return new Color(0, 0, 0);
     }
 
-    public void Initialize(BW pBW, Map pMap) {
-//        bwem_assert_throw(pMap->Initialized());
-        if (!(pMap.Initialized())) {
+    public void initialize(BW pBW, Map pMap) {
+//        bwem_assert_throw(pMap->initialized());
+        if (!(pMap.initialized())) {
             throw new IllegalStateException();
         }
         //TODO:
-//        bwem_assert_throw_plus(canWrite(m_fileName), "MapPrinter could not create the file " + m_fileName);
+//        bwem_assert_throw_plus(canWrite (fileName), "MapPrinter could not create the file " + fileName);
 
-        m_pBW = pBW;
-        m_pMap = pMap;
-        m_pImage = new BufferedImage(pBW.getBWMap().mapWidth() * 4, pBW.getBWMap().mapHeight() * 4, BufferedImage.TYPE_INT_RGB);
-        m_pBMP = m_pImage.createGraphics();
+        this.pMap = pMap;
+        pImage = new BufferedImage(pBW.getBWMap().mapWidth() * 4, pBW.getBWMap().mapHeight() * 4, BufferedImage.TYPE_INT_RGB);
+        pBMP = pImage.createGraphics();
     }
 
-    public void Point(int x, int y, Color col) {
-//    	bwem_assert((0 <= x) && (x < m_pBMP->TellWidth()));
-        if (!((0 <= x) && (x < m_pImage.getWidth()))) {
+    public void point(int x, int y, Color col) {
+//    	bwem_assert((0 <= x) && (x < pBMP->TellWidth()));
+        if (!((0 <= x) && (x < pImage.getWidth()))) {
             throw new IllegalArgumentException();
         }
-//    	bwem_assert((0 <= y) && (y < m_pBMP->TellHeight()));
-        if (!((0 <= y) && (y < m_pImage.getHeight()))) {
+//    	bwem_assert((0 <= y) && (y < pBMP->TellHeight()));
+        if (!((0 <= y) && (y < pImage.getHeight()))) {
             throw new IllegalArgumentException();
         }
 
-        m_pBMP.setColor(col);
-    	m_pBMP.drawLine(x, y, x, y);
+        pBMP.setColor(col);
+    	pBMP.drawLine(x, y, x, y);
     }
 
-    public void Point(WalkPosition p, Color col) {
-        Point(p.getX(), p.getY(), col);
+    public void point(WalkPosition p, Color col) {
+        point(p.getX(), p.getY(), col);
     }
 
-    public void Line(WalkPosition A, WalkPosition B, Color col, dashed_t dashedMode) {
-    	int N = Math.max(1, BwemExt.roundedDist(A, B));
-    	if ((dashedMode == dashed_t.dashed) && (N >= 4)) N /= 2;
+    public void line(WalkPosition a, WalkPosition b, Color col, dashed_t dashedMode) {
+    	int n = Math.max(1, BwemExt.roundedDist(a, b));
+    	if ((dashedMode == dashed_t.dashed) && (n >= 4)) n /= 2;
 
-    	for (int i = 0 ; i <= N ; ++i) {
-            int x = (A.getX() * i + B.getX() * (N - i)) / N;
-            int y = (A.getY() * i + B.getY() * (N - i)) / N;
-    		Point(new WalkPosition(x, y), col);
+    	for (int i = 0; i <= n; ++i) {
+            int x = (a.getX() * i + b.getX() * (n - i)) / n;
+            int y = (a.getY() * i + b.getY() * (n - i)) / n;
+    		point(new WalkPosition(x, y), col);
         }
     }
 
-    public void Line(WalkPosition A, WalkPosition B, Color col) {
-        Line(A, B, col, dashed_t.not_dashed);
+    public void line(WalkPosition a, WalkPosition b, Color col) {
+        line(a, b, col, dashed_t.not_dashed);
     }
 
-    public void Rectangle(WalkPosition TopLeft, WalkPosition BottomRight, Color col, fill_t fillMode, dashed_t dashedMode) {
-    	for (int y = TopLeft.getY() ; y <= BottomRight.getY() ; ++y)
-    	for (int x = TopLeft.getX() ; x <= BottomRight.getX() ; ++x)
-    		if ((fillMode == fill_t.fill) || (y == TopLeft.getY()) || (y == BottomRight.getY()) || (x == TopLeft.getX()) || (x == BottomRight.getX()))
+    public void rectangle(WalkPosition topLeft, WalkPosition bottomRight, Color col, fill_t fillMode, dashed_t dashedMode) {
+    	for (int y = topLeft.getY(); y <= bottomRight.getY() ; ++y)
+    	for (int x = topLeft.getX(); x <= bottomRight.getX() ; ++x)
+    		if ((fillMode == fill_t.fill) || (y == topLeft.getY()) || (y == bottomRight.getY()) || (x == topLeft.getX()) || (x == bottomRight.getX()))
     			if ((dashedMode == dashed_t.not_dashed) || ((x + y) & 1) != 0)
-    				Point(x, y, col);
+    				point(x, y, col);
     }
 
-    public void Rectangle(WalkPosition TopLeft, WalkPosition BottomRight, Color col, fill_t fillMode) {
-        Rectangle(TopLeft, BottomRight, col, fillMode, dashed_t.not_dashed);
+    public void rectangle(WalkPosition topLeft, WalkPosition bottomRight, Color col, fill_t fillMode) {
+        rectangle(topLeft, bottomRight, col, fillMode, dashed_t.not_dashed);
     }
 
-    public void Rectangle(WalkPosition TopLeft, WalkPosition BottomRight, Color col) {
-        Rectangle(TopLeft, BottomRight, col, fill_t.do_not_fill);
+    public void rectangle(WalkPosition topLeft, WalkPosition bottomRight, Color col) {
+        rectangle(topLeft, bottomRight, col, fill_t.do_not_fill);
     }
 
 
 	// This function will automatically crop the square so that it fits in the Map.
-    public void Square(WalkPosition Center, int radius, Color col, fill_t fillMode) {
-    	for (int y = Center.getY() - radius; y <= Center.getY() + radius; ++y)
-    	for (int x = Center.getX() - radius; x <= Center.getX() + radius; ++x)
-    		if ((fillMode == fill_t.fill) || (y == Center.getY() - radius) || (y == Center.getY() + radius) || (x == Center.getX() - radius) || (x == Center.getX() + radius))
-    			if (m_pMap.getData().getMapData().isValid(new WalkPosition(x, y)))
-    				Point(x, y, col);
+    public void square(WalkPosition center, int radius, Color col, fill_t fillMode) {
+    	for (int y = center.getY() - radius; y <= center.getY() + radius; ++y)
+    	for (int x = center.getX() - radius; x <= center.getX() + radius; ++x)
+    		if ((fillMode == fill_t.fill) || (y == center.getY() - radius) || (y == center.getY() + radius) || (x == center.getX() - radius) || (x == center.getX() + radius))
+    			if  (pMap.getData().getMapData().isValid(new WalkPosition(x, y)))
+    				point(x, y, col);
     }
 
-    public void Square(WalkPosition Center, int radius, Color col) {
-        Square(Center, radius, col, fill_t.do_not_fill);
+    public void square(WalkPosition center, int radius, Color col) {
+        square(center, radius, col, fill_t.do_not_fill);
     }
 
 	// This function will automatically crop the circle so that it fits in the Map.
-    public void Circle(WalkPosition Center, int radius, Color col, fill_t fillMode) {
-        for (int y = Center.getY() - radius; y <= Center.getY() + radius; ++y)
-        for (int x = Center.getX() - radius; x <= Center.getX() + radius; ++x) {
+    public void circle(WalkPosition center, int radius, Color col, fill_t fillMode) {
+        for (int y = center.getY() - radius; y <= center.getY() + radius; ++y)
+        for (int x = center.getX() - radius; x <= center.getX() + radius; ++x) {
             WalkPosition w = new WalkPosition(x, y);
-            if (BwemExt.dist(w, Center) <= radius)
-            if ((fillMode == fill_t.fill) || (BwemExt.dist(w, Center) >= radius - 1))
-                if (m_pMap.getData().getMapData().isValid(w))
-                    Point(x, y, col);
+            if (BwemExt.dist(w, center) <= radius)
+            if ((fillMode == fill_t.fill) || (BwemExt.dist(w, center) >= radius - 1))
+                if  (pMap.getData().getMapData().isValid(w))
+                    point(x, y, col);
         }
     }
 
-    public void Circle(WalkPosition Center, int radius, Color col) {
-        Circle(Center, radius, col, fill_t.do_not_fill);
+    public void circle(WalkPosition center, int radius, Color col) {
+        circle(center, radius, col, fill_t.do_not_fill);
     }
 
     public void writeImageToFile(Path file) throws IOException {
-        ImageIO.write(m_pImage, "bmp", file.toFile());
+        ImageIO.write (pImage, "bmp", file.toFile());
     }
 
 }
