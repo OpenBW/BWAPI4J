@@ -48,10 +48,10 @@ public class ChokePointTest implements BWEventListener {
             chokepointCenters_ORIGINAL.add(chokepoint);
         }
 
-        final List<ChokePoint> chokepoints = ((MapImpl)this.map).GetGraph().ChokePoints();
+        final List<ChokePoint> chokepoints = ((MapImpl)this.map).getGraph().getChokePoints();
         final List<WalkPosition> chokepointCenters = new ArrayList<>();
         for (final ChokePoint chokepoint : chokepoints) {
-            final WalkPosition center = chokepoint.Center();
+            final WalkPosition center = chokepoint.getCenter();
             chokepointCenters.add(center);
         }
 
@@ -109,7 +109,7 @@ public class ChokePointTest implements BWEventListener {
             ++pathsCount;
             try {
                 final MutableInt pathLength = new MutableInt();
-                final CPPath path = this.map.GetPath(sampleStartPosition, sampleEndPosition, pathLength);
+                final CPPath path = this.map.getPath(sampleStartPosition, sampleEndPosition, pathLength);
 
                 final int difference = pathLength.intValue() - samplePathLength;
                 if (difference != 0) {
@@ -127,8 +127,8 @@ public class ChokePointTest implements BWEventListener {
 
     @Override
     public void onStart() {
-        this.map = new BWEM(this.bw).GetMap();
-        ((MapInitializer) this.map).Initialize();
+        this.map = new BWEM(this.bw).getMap();
+        ((MapInitializer) this.map).initialize();
 
 //    	BWMap map1 = this.bw.getBWMap();
 //    	BWMap map2 = new BWMapMock();
