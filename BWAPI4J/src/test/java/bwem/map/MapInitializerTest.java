@@ -67,7 +67,7 @@ public class MapInitializerTest implements BWEventListener {
 
     private void test_MapImpl_Initialize(final boolean useOriginalValues) {
         final BWMap bwMap = this.bw.getBWMap();
-        final Graph graph = ((MapImpl) this.map).GetGraph();
+        final Graph graph = ((MapImpl) this.map).getGraph();
 
         final MapInitializer mapInitializer = (MapInitializer) this.map;
 
@@ -110,14 +110,14 @@ public class MapInitializerTest implements BWEventListener {
 
         final List<MutablePair<WalkPosition, Altitude>> ActiveSeaSides = mapInitializer.getActiveSeaSideList(advancedData);
 
-        mapInitializer.setMaxAltitude(mapInitializer.setAltitudesAndGetUpdatedMaxAltitude(this.map.MaxAltitude(), advancedData, DeltasByAscendingAltitude, ActiveSeaSides, altitude_scale));
+        mapInitializer.setMaxAltitude(mapInitializer.setAltitudesAndGetUpdatedMaxAltitude(this.map.getMaxAltitude(), advancedData, DeltasByAscendingAltitude, ActiveSeaSides, altitude_scale));
 
         //////////////////////////////////////////////////////////////////////
 
-        mapInitializer.ProcessBlockingNeutrals(mapInitializer.getCandidates(this.map.getNeutralData().getStaticBuildings(), this.map.getNeutralData().getMinerals()));
+        mapInitializer.processBlockingNeutrals(mapInitializer.getCandidates(this.map.getNeutralData().getStaticBuildings(), this.map.getNeutralData().getMinerals()));
 
         //////////////////////////////////////////////////////////////////////
-        // ComputeAreas
+        // computeAreas
         //////////////////////////////////////////////////////////////////////
 
         final boolean useOriginalMiniTilesByDescendingAltitude = useOriginalValues && true;
@@ -127,23 +127,23 @@ public class MapInitializerTest implements BWEventListener {
         final boolean useOriginalTempAreaList = useOriginalValues && false;
         final List<TempAreaInfo> TempAreaList = useOriginalTempAreaList
                 ? this.bwemData.tempAreaList
-                : mapInitializer.ComputeTempAreas(MiniTilesByDescendingAltitude);
-        mapInitializer.ComputeAreas(TempAreaList, BwemExt.area_min_miniTiles);
+                : mapInitializer.computeTempAreas(MiniTilesByDescendingAltitude);
+        mapInitializer.computeAreas(TempAreaList, BwemExt.area_min_miniTiles);
 
         //////////////////////////////////////////////////////////////////////
 
-        graph.CreateChokePoints(this.map.getNeutralData().getStaticBuildings(), this.map.getNeutralData().getMinerals(), this.map.RawFrontier());
+        graph.createChokePoints(this.map.getNeutralData().getStaticBuildings(), this.map.getNeutralData().getMinerals(), this.map.getRawFrontier());
 
-        graph.ComputeChokePointDistanceMatrix();
+        graph.computeChokePointDistanceMatrix();
 
-        graph.CollectInformation();
+        graph.collectInformation();
 
-        graph.CreateBases();
+        graph.createBases();
     }
 
     private void runMapPrinterExample() {
-        this.map.EnableAutomaticPathAnalysis();
-        this.map.getMapPrinter().Initialize(this.bw, this.map);
+        this.map.enableAutomaticPathAnalysis();
+        this.map.getMapPrinter().initialize(this.bw, this.map);
         final MapPrinterExample example = new MapPrinterExample(this.map.getMapPrinter());
         example.printMap(this.map);
         example.pathExample(this.map);
@@ -151,7 +151,7 @@ public class MapInitializerTest implements BWEventListener {
 
     @Override
     public void onStart() {
-        this.map = new BWEM(this.bw).GetMap();
+        this.map = new BWEM(this.bw).getMap();
 
         test_MapImpl_Initialize(true);
 

@@ -83,7 +83,7 @@ public class TileImpl implements Tile {
     @Override
     public int getStackedNeutralCount() {
         int stackSize = 0;
-        for (Neutral pStacked = getNeutral(); pStacked != null; pStacked = pStacked.NextStacked()) {
+        for (Neutral pStacked = getNeutral(); pStacked != null; pStacked = pStacked.getNextStacked()) {
             ++stackSize;
         }
         return stackSize;
@@ -94,7 +94,7 @@ public class TileImpl implements Tile {
     }
 
     public void setGroundHeight(final int groundHeight) {
-//        { bwem_assert((0 <= h) && (h <= 2)); m_bits.groundHeight = h; }
+//        { bwem_assert((0 <= h) && (h <= 2)); bits.groundHeight = h; }
 //        if (!((0 <= h) && (h <= 2))) {
 //            throw new IllegalArgumentException();
 //        }
@@ -106,7 +106,7 @@ public class TileImpl implements Tile {
     }
 
     public void addNeutral(final Neutral neutral) {
-//        { bwem_assert(!m_pNeutral && pNeutral); neutral = pNeutral; }
+//        { bwem_assert(!pNeutral && pNeutral); neutral = pNeutral; }
         if (!(getNeutral() == null && neutral != null)) {
             throw new IllegalStateException();
         }
@@ -114,7 +114,7 @@ public class TileImpl implements Tile {
     }
 
     public void setAreaId(final AreaId areaId) {
-//        { bwem_assert((id == -1) || !m_areaId && id); areaId = id; }
+//        { bwem_assert((id == -1) || !areaId && id); areaId = id; }
         if (!(areaId.intValue() == -1 || getAreaId().intValue() == 0 && areaId.intValue() != 0)) {
             throw new IllegalStateException();
         }
@@ -126,16 +126,16 @@ public class TileImpl implements Tile {
     }
 
     public void setMinAltitude(final Altitude minAltitude) {
-//        { bwem_assert(a >= 0); this.m_minAltitude = a; }
+//        { bwem_assert(a >= 0); this .minAltitude = a; }
         if (!(minAltitude.intValue() >= 0)) {
             throw new IllegalArgumentException();
         }
         this.minAltitude = minAltitude;
     }
 
-    public void RemoveNeutral(final Neutral neutral) {
-//        { bwem_assert(pNeutral && (m_pNeutral == pNeutral));
-//          utils::unused(pNeutral); m_pNeutral = nullptr; }
+    public void removeNeutral(final Neutral neutral) {
+//        { bwem_assert(pNeutral &&  (pNeutral == pNeutral));
+//          utils::unused(pNeutral); pNeutral = nullptr; }
         if (!(neutral != null && getNeutral().equals(neutral))) {
             throw new IllegalStateException();
         }

@@ -2,13 +2,13 @@ package org.openbw.bwapi4j.unit;
 
 import org.openbw.bwapi4j.Position;
 
-interface FlyingBuilding {
+public interface FlyingBuilding {
 
-    public boolean lift();
+    boolean lift();
 
-    public boolean land(Position p);
+    boolean land(Position p);
 
-    public boolean move(Position p);
+    boolean move(Position p);
 
-    public boolean isLifted();
+    boolean isLifted();
 }

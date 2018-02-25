@@ -3,7 +3,7 @@ package org.openbw.bwapi4j.unit;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitType;
 
-public class Nexus extends Building implements Mechanical, TrainingFacility {
+public class Nexus extends Building implements Mechanical, TrainingFacility, Base {
 
     private Trainer trainer;
 
@@ -29,6 +29,16 @@ public class Nexus extends Building implements Mechanical, TrainingFacility {
     public boolean trainWorker() {
         
         return this.trainer.train(UnitType.Protoss_Probe);
+    }
+
+    @Override
+    public boolean train(UnitType type) {
+        return trainer.train(type);
+    }
+
+    @Override
+    public boolean canTrain(UnitType type) {
+        return trainer.canTrain(type);
     }
 
     @Override
@@ -65,5 +75,15 @@ public class Nexus extends Building implements Mechanical, TrainingFacility {
     public boolean setRallyPoint(Unit target) {
         
         return this.trainer.setRallyPoint(target);
+    }
+
+    @Override
+    public int getRemainingTrainTime() {
+        return trainer.getRemainingTrainingTime();
+    }
+
+    @Override
+    public int supplyProvided() {
+        return type.supplyProvided();
     }
 }

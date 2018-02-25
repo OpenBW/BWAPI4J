@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import org.apache.commons.lang3.mutable.MutableInt;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.UnitType;
@@ -33,34 +32,34 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public final class Base {
 
-	private final Map m_pMap;
-	private final Area m_pArea;
-	private TilePosition m_location;
-	private Position m_center;
-	private List<Mineral> m_Minerals = new ArrayList<>();
-	private List<Geyser> m_Geysers = new ArrayList<>();
-	private List<Mineral> m_BlockingMinerals;
-	private boolean m_starting = false;
+	private final Map map;
+	private final Area area;
+	private TilePosition location;
+	private Position center;
+	private final List<Mineral> Minerals = new ArrayList<>();
+	private final List<Geyser> Geysers = new ArrayList<>();
+	private final List<Mineral> BlockingMinerals;
+	private boolean starting = false;
 
-    public Base(Area pArea, TilePosition location, List<Resource> AssignedResources, List<Mineral> BlockingMinerals) {
-        m_pArea = pArea;
-        m_pMap = pArea.GetMap();
-        m_location = location;
-        m_center = BwemExt.centerOfBuilding(location, UnitType.Terran_Command_Center.tileSize());
-        m_BlockingMinerals = BlockingMinerals;
+    public Base(Area area, TilePosition location, List<Resource> assignedResources, List<Mineral> blockingMinerals) {
+        this.area = area;
+        map = area.getMap();
+        this.location = location;
+        center = BwemExt.centerOfBuilding(location, UnitType.Terran_Command_Center.tileSize());
+        this.BlockingMinerals = blockingMinerals;
 
 //        bwem_assert(!AssignedRessources.empty());
-        if (!(!AssignedResources.isEmpty())) {
+        if (assignedResources.isEmpty()) {
             throw new IllegalArgumentException();
         }
 
-        for (Resource r : AssignedResources) {
+        for (Resource r : assignedResources) {
             if (r instanceof Mineral) {
                 Mineral m = (Mineral) r;
-                m_Minerals.add(m);
+                Minerals.add(m);
             } else if (r instanceof Geyser) {
                 Geyser g = (Geyser) r;
-                m_Geysers.add(g);
+                Geysers.add(g);
             }
         }
     }
@@ -68,73 +67,73 @@ public final class Base {
 	// Tells whether this Base's location is contained in Map::StartingLocations()
 	// Note: all players start at locations taken from Map::StartingLocations(),
 	//       which doesn't mean all the locations in Map::StartingLocations() are actually used.
-	public boolean Starting() {
-        return m_starting;
+	public boolean isStarting() {
+        return starting;
     }
 
 	// Returns the Area this Base belongs to.
-	public Area GetArea() {
-        return m_pArea;
+	public Area getArea() {
+        return area;
     }
 
 	// Returns the location of this Base (top left Tile position).
-	// If Starting() == true, it is guaranteed that the loction corresponds exactly to one of Map::StartingLocations().
-	public TilePosition Location() {
-        return m_location;
+	// If starting() == true, it is guaranteed that the loction corresponds exactly to one of Map::StartingLocations().
+	public TilePosition getLocation() {
+        return location;
     }
 
 	// Returns the location of this Base (center in pixels).
-	public Position Center() {
-        return m_center;
+	public Position getCenter() {
+        return center;
     }
 
-	// Returns the available Minerals.
-	// These Minerals are assigned to this Base (it is guaranteed that no other Base provides them).
-	// Note: The size of the returned list may decrease, as some of the Minerals may get destroyed.
-	public List<Mineral> Minerals() {
-        return m_Minerals;
+	// Returns the available minerals.
+	// These minerals are assigned to this Base (it is guaranteed that no other Base provides them).
+	// Note: The size of the returned list may decrease, as some of the minerals may get destroyed.
+	public List<Mineral> getMinerals() {
+        return Minerals;
     }
 
-	// Returns the available Geysers.
-	// These Geysers are assigned to this Base (it is guaranteed that no other Base provides them).
-	// Note: The size of the returned list may NOT decrease, as Geysers never get destroyed.
-	public List<Geyser> Geysers() {
-        return m_Geysers;
+	// Returns the available geysers.
+	// These geysers are assigned to this Base (it is guaranteed that no other Base provides them).
+	// Note: The size of the returned list may NOT decrease, as geysers never get destroyed.
+	public List<Geyser> getGeysers() {
+        return Geysers;
     }
 
-	// Returns the blocking Minerals.
-	// These Minerals are special ones: they are placed at the exact location of this Base (or very close),
-	// thus blocking the building of a Command Center, Nexus, or Hatchery.
-	// So before trying to build this Base, one have to finish gathering these Minerals first.
-	// Fortunately, these are guaranteed to have their InitialAmount() <= 8.
-	// As an example of blocking Minerals, see the two islands in Andromeda.scx.
-	// Note: if Starting() == true, an empty list is returned.
-	// Note Base::BlockingMinerals() should not be confused with ChokePoint::BlockingNeutral() and Neutral::Blocking():
+	// Returns the blocking minerals.
+	// These minerals are special ones: they are placed at the exact location of this Base (or very close),
+	// thus blocking the building of a Command center, Nexus, or Hatchery.
+	// So before trying to build this Base, one have to finish gathering these minerals first.
+	// Fortunately, these are guaranteed to have their initialAmount() <= 8.
+	// As an example of blocking minerals, see the two islands in Andromeda.scx.
+	// Note: if starting() == true, an empty list is returned.
+	// Note Base::blockingMinerals() should not be confused with ChokePoint::blockingNeutral() and Neutral::blocking():
 	//      the last two refer to a Neutral blocking a ChokePoint, not a Base.
-	public List<Mineral> BlockingMinerals() {
-        return m_BlockingMinerals;
+	public List<Mineral> getBlockingMinerals() {
+        return BlockingMinerals;
     }
 
-    public void SetStartingLocation(TilePosition actualLocation) {
-        m_starting = true;
-        m_location = actualLocation;
-        m_center = BwemExt.centerOfBuilding(actualLocation, UnitType.Terran_Command_Center.tileSize());
+    public void setStartingLocation(TilePosition actualLocation) {
+        starting = true;
+        location = actualLocation;
+        center = BwemExt.centerOfBuilding(actualLocation, UnitType.Terran_Command_Center.tileSize());
     }
 
-    public void OnMineralDestroyed(Mineral pMineral) {
+    public void onMineralDestroyed(Mineral pMineral) {
 //    	bwem_assert(pMineral);
-        if (!(pMineral != null)) {
+        if (pMineral == null) {
             throw new IllegalArgumentException();
         }
-        m_Minerals.remove(pMineral);
-        m_BlockingMinerals.remove(pMineral);
+        Minerals.remove(pMineral);
+        BlockingMinerals.remove(pMineral);
     }
 
     /**
      * Returns the internal Map object. Not used in BWEM 1.4.1. Remains for portability consistency.
      */
-    private Map GetMap() {
-        return m_pMap;
+    private Map getMap() {
+        return map;
     }
 
     @Override
@@ -145,18 +144,18 @@ public final class Base {
             return false;
         } else {
             Base that = (Base) object;
-            return (this.m_pArea.equals(that.m_pArea)
-                    && this.m_location.equals(that.m_location)
-                    && this.m_center.equals(that.m_center));
+            return (this .area.equals(that .area)
+                    && this .location.equals(that .location)
+                    && this .center.equals(that .center));
         }
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(
-                this.m_pArea,
-                this.m_location,
-                this.m_center
+                this .area,
+                this .location,
+                this .center
         );
     }
 

@@ -29,18 +29,18 @@ public class TestListenerBwem implements BWEventListener {
 
             System.out.println("BWEM initialization started.");
             this.bwem = new BWEM(this.bw);
-//            this.bwem.GetMap().Initialize();
+//            this.bwem.getMap().initialize();
             this.bwem.initialize();
-            this.bwem.GetMap().EnableAutomaticPathAnalysis();
-            final boolean startLocationsOK = this.bwem.GetMap().FindBasesForStartingLocations();
+            this.bwem.getMap().enableAutomaticPathAnalysis();
+            final boolean startLocationsOK = this.bwem.getMap().findBasesForStartingLocations();
             if (!startLocationsOK) {
                 System.out.println("startLocationsOK: FAIL");
                 System.exit(0);
             }
-            this.bwem.GetMap().getMapPrinter().Initialize(this.bw, this.bwem.GetMap());
-            MapPrinterExample example = new MapPrinterExample(this.bwem.GetMap().getMapPrinter());
-            example.printMap(this.bwem.GetMap());
-            example.pathExample(this.bwem.GetMap());
+            this.bwem.getMap().getMapPrinter().initialize(this.bw, this.bwem.getMap());
+            MapPrinterExample example = new MapPrinterExample(this.bwem.getMap().getMapPrinter());
+            example.printMap(this.bwem.getMap());
+            example.pathExample(this.bwem.getMap());
             System.out.println("BWEM initialization completed.");
 
 //            this.frame = 0;
@@ -143,7 +143,7 @@ public class TestListenerBwem implements BWEventListener {
 
         /* BWEM's unit tracking. */
         try {
-            this.bwem.GetMap().OnUnitDestroyed(unit);
+            this.bwem.getMap().onUnitDestroyed(unit);
         } catch (Exception ex) {
             ex.printStackTrace();
         }

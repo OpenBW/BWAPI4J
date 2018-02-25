@@ -1,7 +1,6 @@
 package bwem.unit;
 
 import bwem.map.Map;
-import java.util.Objects;
 import org.openbw.bwapi4j.unit.Unit;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -34,13 +33,13 @@ public class StaticBuilding extends Neutral {
             return false;
         } else {
             StaticBuilding that = (StaticBuilding) object;
-            return (this.Unit().getId() == that.Unit().getId());
+            return (this.getUnit().getId() == that.getUnit().getId());
         }
     }
 
     @Override
     public int hashCode() {
-        return Unit().hashCode();
+        return getUnit().hashCode();
     }
 
 }

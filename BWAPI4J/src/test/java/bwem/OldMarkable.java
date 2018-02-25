@@ -2,27 +2,27 @@ package bwem;
 
 public class OldMarkable<Derived> {
 
-    private int m_lastMark;
-    private static int m_currentMark = 0;
+    private int lastMark;
+    private static int currentMark = 0;
 
     public OldMarkable() {
-        m_lastMark = 0;
+        lastMark = 0;
     }
 
     public boolean Marked() {
-        return (m_lastMark == m_currentMark);
+        return  (lastMark == currentMark);
     }
 
     public void SetMarked() {
-        m_lastMark = m_currentMark;
+        lastMark = currentMark;
     }
 
     public void SetUnmarked() {
-        m_lastMark = m_currentMark - 1;
+        lastMark = currentMark - 1;
     }
 
     public static void UnmarkAll() {
-        ++m_currentMark;
+        ++currentMark;
     }
 
 }

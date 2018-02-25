@@ -11,14 +11,21 @@ import org.openbw.bwapi4j.type.UpgradeType;
 
 public abstract class Building extends PlayerUnit {
 
-	private static final Logger logger = LogManager.getLogger();
-	
+    private static final Logger logger = LogManager.getLogger();
+
+    public boolean cancelConstruction() {
+
+        return issueCommand(this.id, UnitCommandType.Cancel_Construction.ordinal(), -1, -1, -1, -1);
+    }
+
     protected class Researcher implements ResearchingFacility {
 
         private boolean isUpgrading;
         private boolean isResearching;
         private int remainingResearchTime;
         private int remainingUpgradeTime;
+        private UpgradeType currentUpgrade;
+        private TechType currentResearch;
 
         public void update(int[] unitData, int index) {
 
@@ -26,46 +33,68 @@ public abstract class Building extends PlayerUnit {
             this.isResearching = unitData[index + Unit.IS_RESEARCHING_INDEX] == 1;
             this.remainingResearchTime = unitData[index + Unit.REMAINING_RESEARCH_TIME_INDEX];
             this.remainingUpgradeTime = unitData[index + Unit.REMAINING_UPGRADE_TIME_INDEX];
+            this.currentUpgrade = UpgradeType.withId(unitData[index + Unit.UPGRADE_ID_INDEX]);
+            this.currentResearch = TechType.withId(unitData[index + Unit.TECH_ID_INDEX]);
         }
 
-        public int getRemainingResearchTime() {
-            
-            return this.remainingResearchTime;
-        }
-        
-        public int getRemainingUpgradeTime() {
-            
-            return this.remainingUpgradeTime;
-        }
-        
         public boolean isUpgrading() {
-            
+
             return this.isUpgrading;
         }
 
         public boolean isResearching() {
-            
+
             return this.isResearching;
         }
 
         public boolean cancelResearch() {
-            
+
             return issueCommand(id, UnitCommandType.Cancel_Research.ordinal(), -1, -1, -1, -1);
         }
 
         public boolean cancelUpgrade() {
-            
+
             return issueCommand(id, UnitCommandType.Cancel_Upgrade.ordinal(), -1, -1, -1, -1);
         }
 
+        @Override
+        public boolean canResearch(TechType techType) {
+            return type.equals(techType.whatResearches())
+                    && getPlayer().canResearch(techType);
+        }
+
+        @Override
+        public boolean canUpgrade(UpgradeType upgradeType) {
+            return type.equals(upgradeType.whatUpgrades())
+                    && getPlayer().canUpgrade(upgradeType);
+        }
+
+        @Override
         public boolean research(TechType techType) {
-            
+
             return issueCommand(id, UnitCommandType.Research.ordinal(), -1, -1, -1, techType.getId());
         }
 
+        @Override
         public boolean upgrade(UpgradeType upgrade) {
-            
+
             return issueCommand(id, UnitCommandType.Upgrade.ordinal(), -1, -1, -1, upgrade.getId());
+        }
+
+        @Override
+        public UpgradeInProgress getUpgradeInProgress() {
+            if (currentUpgrade == UpgradeType.None) {
+                return UpgradeInProgress.NONE;
+            }
+            return new UpgradeInProgress(currentUpgrade, remainingUpgradeTime);
+        }
+
+        @Override
+        public ResearchInProgress getResearchInProgress() {
+            if (currentResearch == TechType.None) {
+                return ResearchInProgress.NONE;
+            }
+            return new ResearchInProgress(currentResearch, remainingResearchTime);
         }
     }
 
@@ -79,62 +108,70 @@ public abstract class Building extends PlayerUnit {
         private int rallyUnitId;
 
         public void update(int[] unitData, int index) {
-            
+
             this.isTraining = unitData[index + Unit.IS_TRAINING_INDEX] == 1;
             this.trainingQueueSize = unitData[index + Unit.TRAINING_QUEUE_SIZE_INDEX];
-            this.remainingTrainTime = unitData[index + Unit.TRAINING_QUEUE_SIZE_INDEX];
+            this.remainingTrainTime = unitData[index + Unit.REMAINING_TRAIN_TIME_INDEX];
             this.rallyUnitId = unitData[index + Unit.RALLY_UNIT_INDEX];
             this.rallyPositionX = unitData[index + Unit.RALLY_POSITION_X_INDEX];
             this.rallyPositionY = unitData[index + Unit.RALLY_POSITION_Y_INDEX];
         }
 
         public Position getRallyPosition() {
-            
+
             return new Position(rallyPositionX, rallyPositionY);
         }
-        
+
         public int getRemainingTrainingTime() {
-            
+
             return this.remainingTrainTime;
         }
-        
+
         public Unit getRallyUnit() {
-            
+
             return getUnit(this.rallyUnitId);
         }
-        
+
         public boolean isTraining() {
-            
+
             return this.isTraining;
         }
 
         public int getTrainingQueueSize() {
-            
+
             return this.trainingQueueSize;
         }
 
+        public boolean canTrain(UnitType type) {
+            Addon addon = (Building.this instanceof ExtendibleByAddon) ? ((ExtendibleByAddon) Building.this).getAddon() : null;
+            return Building.this.type.equals(type.whatBuilds().first)
+                    && getPlayer().canMake(type)
+                    && type.requiredUnits().stream().noneMatch(ut ->
+                    ut.isAddon() && (addon == null || !addon.isA(ut)));
+        }
+
         public boolean train(UnitType type) {
-            
+
             return issueCommand(id, UnitCommandType.Train.ordinal(), -1, -1, -1, type.getId());
         }
 
         public boolean cancelTrain(int slot) {
-            
+
             return issueCommand(id, UnitCommandType.Cancel_Train_Slot.ordinal(), -1, -1, -1, slot);
         }
 
         public boolean cancelTrain() {
-            
+
             return issueCommand(id, UnitCommandType.Cancel_Train.ordinal(), -1, -1, -1, -1);
         }
 
         public boolean setRallyPoint(Position p) {
-            
+
             return issueCommand(id, UnitCommandType.Set_Rally_Position.ordinal(), -1, p.getX(), p.getY(), -1);
         }
 
         public boolean setRallyPoint(Unit target) {
-            
+
             return issueCommand(id, UnitCommandType.Set_Rally_Unit.ordinal(), target.getId(), -1, -1, -1);
         }
     }
@@ -144,31 +181,31 @@ public abstract class Building extends PlayerUnit {
         private boolean isLifted;
 
         public void update(int[] unitData, int index) {
-            
+
             this.isLifted = unitData[index + Unit.IS_LIFTED_INDEX] == 1;
         }
 
         @Override
         public boolean lift() {
-            
+
             return issueCommand(id, UnitCommandType.Lift.ordinal(), -1, -1, -1, -1);
         }
 
         @Override
         public boolean land(Position p) {
-            
+
             return issueCommand(id, UnitCommandType.Land.ordinal(), -1, p.getX(), p.getY(), -1);
         }
 
         @Override
         public boolean move(Position p) {
-            
+
             return issueCommand(id, UnitCommandType.Move.ordinal(), -1, p.getX(), p.getY(), -1);
         }
 
         @Override
         public boolean isLifted() {
-            
+
             return isLifted;
         }
     }
@@ -178,7 +215,7 @@ public abstract class Building extends PlayerUnit {
     protected int builderId;
 
     protected Building(int id, UnitType type, int timeSpotted) {
-        
+
         super(id, type);
         this.probableConstructionStart = calculateProbableConstructionStart(timeSpotted);
     }
@@ -193,30 +230,30 @@ public abstract class Building extends PlayerUnit {
     }
 
     public SCV getBuildUnit() {
-        
-    	Unit unit = this.getUnit(builderId);
-    	if (unit instanceof SCV) {
-    		return (SCV) unit;
-    	} else {
-    		
-    		logger.error("build unit for {} should be SCV but is {}.", this, unit);
-    		return null;
-    	}
+
+        Unit unit = this.getUnit(builderId);
+        if (unit instanceof SCV) {
+            return (SCV) unit;
+        } else {
+
+            logger.error("build unit for {} should be SCV but is {}.", this, unit);
+            return null;
+        }
     }
 
     public int getBuildTime() {
-        
+
         return this.type.buildTime();
     }
 
     public int getRemainingBuildTime() {
-        
+
         return this.remainingBuildTime;
     }
 
     private int calculateProbableConstructionStart(int currentFrame) {
 
-        int time = currentFrame;
+        int time;
         if (this.isCompleted()) {
             time = currentFrame - this.type.buildTime();
         } else {
@@ -226,12 +263,13 @@ public abstract class Building extends PlayerUnit {
     }
 
     public int getProbableConstructionStart() {
-        
+
         return this.probableConstructionStart;
     }
 
     /**
      * Returns the distance to given position from where this unit was located when it last was visible.
+     *
      * @param position tile position to measure distance to
      * @return distance in tiles
      */
@@ -259,6 +297,7 @@ public abstract class Building extends PlayerUnit {
 
     /**
      * Returns the distance to given position from where this unit was located when it last was visible.
+     *
      * @param position position to measure distance to
      * @return distance in pixels
      */
@@ -288,9 +327,9 @@ public abstract class Building extends PlayerUnit {
         }
         return (int) Math.sqrt(distX * distX + distY * distY);
     }
-    
+
     public double getLasKnownDistance(Unit target) {
-    	
+
         if (this == target) {
             return 0;
         }
@@ -310,7 +349,7 @@ public abstract class Building extends PlayerUnit {
             }
         }
         logger.trace("dx, dy: {}, {}.", xDist, yDist);
-        
+
         return new Position(0, 0).getDistance(new Position(xDist, yDist));
     }
 }

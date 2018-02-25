@@ -8,18 +8,18 @@ package bwem.util;
 
 public class Timer {
 
-    private long m_start;
+    private long start;
 
     public Timer() {
-        Reset();
+        reset();
     }
 
-    public void Reset() {
-        m_start = System.currentTimeMillis();
+    public void reset() {
+        start = System.currentTimeMillis();
     }
 
-    public long ElapsedMilliseconds() {
-        return (System.currentTimeMillis() - m_start);
+    public long elapsedMilliseconds() {
+        return (System.currentTimeMillis() - start);
     }
 
 }

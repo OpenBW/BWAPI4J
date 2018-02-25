@@ -1,7 +1,6 @@
 package bwem.unit;
 
 import bwem.map.Map;
-import java.util.Objects;
 import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.unit.VespeneGeyser;
 
@@ -27,14 +26,14 @@ public final class Geyser extends Resource {
     }
 
     @Override
-    public int InitialAmount() {
-        VespeneGeyser ret = (VespeneGeyser) super.Unit();
+    public int getInitialAmount() {
+        VespeneGeyser ret = (VespeneGeyser) super.getUnit();
         return ret.getInitialResources();
     }
 
     @Override
-    public int Amount() {
-        VespeneGeyser ret = (VespeneGeyser) super.Unit();
+    public int getAmount() {
+        VespeneGeyser ret = (VespeneGeyser) super.getUnit();
         return ret.getResources();
     }
 
@@ -46,13 +45,13 @@ public final class Geyser extends Resource {
             return false;
         } else {
             Geyser that = (Geyser) object;
-            return (this.Unit().getId() == that.Unit().getId());
+            return (this.getUnit().getId() == that.getUnit().getId());
         }
     }
 
     @Override
     public int hashCode() {
-        return Unit().hashCode();
+        return getUnit().hashCode();
     }
 
 }

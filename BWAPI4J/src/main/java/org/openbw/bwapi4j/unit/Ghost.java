@@ -7,7 +7,7 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
-public class Ghost extends MobileUnit implements SpellCaster, Organic {
+public class Ghost extends MobileUnit implements SpellCaster, Organic, Armed {
 
     private static final Logger logger = LogManager.getLogger();
 
@@ -64,5 +64,15 @@ public class Ghost extends MobileUnit implements SpellCaster, Organic {
         
         return issueCommand(this.id, UnitCommandType.Use_Tech_Position.ordinal(), -1, p.getX(), p.getY(),
                 TechType.Nuclear_Strike.getId());
+    }
+
+    @Override
+    public Weapon getGroundWeapon() {
+        return groundWeapon;
+    }
+
+    @Override
+    public Weapon getAirWeapon() {
+        return airWeapon;
     }
 }

@@ -1,5 +1,13 @@
 package org.openbw.bwapi4j.type;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 public enum UpgradeType {
 
     Terran_Infantry_Armor,
@@ -55,7 +63,7 @@ public enum UpgradeType {
     Upgrade_60,
     None,
     Unknown;
-    
+
     private int id;
     private Race race;
     private int[] mineralPrices;
@@ -67,6 +75,11 @@ public enum UpgradeType {
     private int maxRepeats;
     private UnitType whatUpgrades;
     private UnitType[] whatsRequired;
+    private List<UnitType> whatUses = new ArrayList<>();
+
+    public static UpgradeType withId(int id) {
+        return IdMapper.upgradeTypesForId[id];
+    }
 
     public int getId() {
         return this.id;
@@ -159,5 +172,29 @@ public enum UpgradeType {
      */
     public UnitType whatsRequired(int level) {
         return this.whatsRequired[level];
+    }
+
+    public List<UnitType> whatUses() {
+        return whatUses;
+    }
+
+    /**
+     * Called by native API
+     */
+    private void addUsingUnit(int typeId) {
+        whatUses.add(UnitType.values()[typeId]);
+    }
+
+
+    private static class IdMapper {
+        static UpgradeType[] upgradeTypesForId;
+
+        static {
+            int maxUpgradeTypeId = Stream.of(values()).mapToInt(UpgradeType::getId).max().getAsInt();
+            upgradeTypesForId = new UpgradeType[maxUpgradeTypeId + 1];
+            for (UpgradeType type: UpgradeType.values()) {
+                upgradeTypesForId[type.getId()] = type;
+            }
+        }
     }
 }

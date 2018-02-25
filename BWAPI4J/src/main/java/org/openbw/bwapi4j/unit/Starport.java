@@ -4,7 +4,7 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
-public class Starport extends Building implements Mechanical, FlyingBuilding, TrainingFacility {
+public class Starport extends Building implements Mechanical, FlyingBuilding, TrainingFacility, ExtendibleByAddon {
 
     private int addonId;
     
@@ -34,6 +34,7 @@ public class Starport extends Building implements Mechanical, FlyingBuilding, Tr
         super.update(unitData, index, frame);
     }
 
+    @Override
     public boolean cancelAddon() {
         
         return issueCommand(this.id, UnitCommandType.Cancel_Addon.ordinal(), -1, -1, -1, -1);
@@ -52,7 +53,17 @@ public class Starport extends Building implements Mechanical, FlyingBuilding, Tr
         
         return (ControlTower) this.getUnit(this.addonId);
     }
-    
+
+    @Override
+    public Addon getAddon() {
+        return (Addon) getUnit(addonId);
+    }
+
+    @Override
+    public boolean build(UnitType addon) {
+        return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), -1, -1, -1, addon.getId());
+    }
+
     public boolean trainWraith() {
         
         return this.trainer.train(UnitType.Terran_Wraith);
@@ -76,6 +87,16 @@ public class Starport extends Building implements Mechanical, FlyingBuilding, Tr
     public boolean trainBattlecruiser() {
         
         return this.trainer.train(UnitType.Terran_Battlecruiser);
+    }
+
+    @Override
+    public boolean canTrain(UnitType type) {
+        return this.trainer.canTrain(type);
+    }
+
+    @Override
+    public boolean train(UnitType type) {
+        return this.trainer.train(type);
     }
 
     @Override
@@ -136,5 +157,10 @@ public class Starport extends Building implements Mechanical, FlyingBuilding, Tr
     public boolean setRallyPoint(Unit target) {
         
         return this.trainer.setRallyPoint(target);
+    }
+
+    @Override
+    public int getRemainingTrainTime() {
+        return trainer.getRemainingTrainingTime();
     }
 }

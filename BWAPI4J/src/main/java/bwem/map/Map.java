@@ -42,83 +42,83 @@ import java.util.List;
 
 public interface Map {
 
-    public abstract AdvancedData getData();
+    AdvancedData getData();
 
-    public abstract MapPrinter getMapPrinter();
+    MapPrinter getMapPrinter();
 
-    // Will return true once Initialize() has been called.
-    public abstract boolean Initialized();
+    // Will return true once initialize() has been called.
+    boolean isInitialized();
 
 	// Returns the status of the automatic path update (off (false) by default).
 	// When on, each time a blocking Neutral (either Mineral or StaticBuilding) is destroyed,
-	// any information relative to the paths through the Areas is updated accordingly.
+	// any information relative to the paths through the areas is updated accordingly.
 	// For this to function, the Map still needs to be informed of such destructions
-	// (by calling OnMineralDestroyed and OnStaticBuildingDestroyed).
-    public abstract MutableBoolean AutomaticPathUpdate();
+	// (by calling onMineralDestroyed and onStaticBuildingDestroyed).
+    MutableBoolean automaticPathUpdate();
 
-	// Enables the automatic path update (Cf. AutomaticPathUpdate()).
-	// One might NOT want to call this function, in order to make the accessibility between Areas remain the same throughout the game.
-	// Even in this case, one should keep calling OnMineralDestroyed and OnStaticBuildingDestroyed.
-    public abstract void EnableAutomaticPathAnalysis();
+	// Enables the automatic path update (Cf. automaticPathUpdate()).
+	// One might NOT want to call this function, in order to make the accessibility between areas remain the same throughout the game.
+	// Even in this case, one should keep calling onMineralDestroyed and onStaticBuildingDestroyed.
+    void enableAutomaticPathAnalysis();
 
-	// Tries to assign one Base for each starting Location in StartingLocations().
-	// Only nearby Bases can be assigned (Cf. detail::max_tiles_between_StartingLocation_and_its_AssignedBase).
-	// Each such assigned Base then has Starting() == true, and its Location() is updated.
+	// Tries to assign one Base for each starting location in StartingLocations().
+	// Only nearby bases can be assigned (Cf. detail::max_tiles_between_StartingLocation_and_its_AssignedBase).
+	// Each such assigned Base then has starting() == true, and its location() is updated.
 	// Returns whether the function succeeded (a fail may indicate a failure in BWEM's Base placement analysis
 	// or a suboptimal placement in one of the starting Locations).
 	// You normally should call this function, unless you want to compare the StartingLocations() with
-	// BWEM's suggested locations for the Bases.
-    public abstract boolean FindBasesForStartingLocations();
+	// BWEM's suggested locations for the bases.
+    boolean findBasesForStartingLocations();
 
     // Returns the maximum altitude in the whole Map (Cf. MiniTile::Altitude()).
-    public abstract Altitude MaxAltitude();
+    Altitude getMaxAltitude();
 
-    // Returns the number of Bases.
-    public abstract int BaseCount();
+    // Returns the number of bases.
+    int getBaseCount();
 
-    // Returns the number of ChokePoints.
-    public abstract int ChokePointCount();
+    // Returns the number of getChokePoints.
+    int getChokePointCount();
 
-    public abstract NeutralData getNeutralData();
+    NeutralData getNeutralData();
 
     /**
      * Alternative handler for destroyed unit tracking. Not present in BWEM 1.4.1 C++.
      */
-    public abstract void OnUnitDestroyed(Unit u);
+    void onUnitDestroyed(Unit u);
 
     // Should be called for each destroyed BWAPI unit u having u->getType().isMineralField() == true
-    public abstract void OnMineralDestroyed(Unit u);
+    void onMineralDestroyed(Unit u);
 
     // Should be called for each destroyed BWAPI unit u having u->getType().isSpecialBuilding() == true
-    public abstract void OnStaticBuildingDestroyed(Unit u);
+    void onStaticBuildingDestroyed(Unit u);
 
     // Should be called for each destroyed BWAPI unit u having u->getType().isSpecialBuilding() == true
-    public abstract List<Area> Areas();
+    List<Area> getAreas();
 
-    // Returns a reference to the Areas.
-    public abstract Area GetArea(AreaId id);
+    // Returns a reference to the areas.
+    Area getArea(AreaId id);
 
 	// If the MiniTile at w is walkable and is part of an Area, returns that Area.
 	// Otherwise, returns nullptr;
-	// Note: because of the lakes, GetNearestArea should be prefered over GetArea.
-    public abstract Area GetArea(WalkPosition w);
+	// Note: because of the lakes, getNearestArea should be prefered over getArea.
+    Area getArea(WalkPosition w);
 
-	// If the Tile at t contains walkable sub-MiniTiles which are all part of the same Area, returns that Area.
+	// If the Tile at t contains walkable sub-miniTiles which are all part of the same Area, returns that Area.
 	// Otherwise, returns nullptr;
-	// Note: because of the lakes, GetNearestArea should be prefered over GetArea.
-    public abstract Area GetArea(TilePosition t);
+	// Note: because of the lakes, getNearestArea should be prefered over getArea.
+    Area getArea(TilePosition t);
 
 	// Returns the nearest Area from w.
-	// Returns nullptr only if Areas().empty()
+	// Returns nullptr only if areas().empty()
 	// Note: Uses a breadth first search.
-    public abstract Area GetNearestArea(WalkPosition w);
+    Area getNearestArea(WalkPosition w);
 
 	// Returns the nearest Area from t.
-	// Returns nullptr only if Areas().empty()
+	// Returns nullptr only if areas().empty()
 	// Note: Uses a breadth first search.
-    public abstract Area GetNearestArea(TilePosition t);
+    Area getNearestArea(TilePosition t);
 
-    public abstract Area getMainArea(TilePosition topLeft, TilePosition size);
+    Area getMainArea(TilePosition topLeft, TilePosition size);
 
 	// Returns a list of ChokePoints, which is intended to be the shortest walking path from 'a' to 'b'.
 	// Furthermore, if pLength != nullptr, the pointed integer is set to the corresponding length in pixels.
@@ -129,25 +129,25 @@ public interface Map {
 	// Note: in order to retrieve the Areas of 'a' and 'b', the function starts by calling
 	//       GetNearestArea(TilePosition(a)) and GetNearestArea(TilePosition(b)).
 	//       While this brings robustness, this could yield surprising results in the case where 'a' and/or 'b' are in the Water.
-	//       To avoid this and the potential performance penalty, just make sure GetArea(a) != nullptr and GetArea(b) != nullptr.
+	//       To avoid this and the potential performance penalty, just make sure getArea(a) != nullptr and getArea(b) != nullptr.
 	//       Then GetPath should perform very quick.
-    public abstract CPPath GetPath(Position a, Position b, MutableInt pLength);
+    CPPath getPath(Position a, Position b, MutableInt pLength);
 
-    public abstract CPPath GetPath(Position a, Position b);
+    CPPath getPath(Position a, Position b);
 
 	// Generic algorithm for breadth first search in the Map.
 	// See the several use cases in BWEM source files.
-    public abstract TilePosition BreadthFirstSearch(TilePosition start, Pred findCond, Pred visitCond, boolean connect8);
+    TilePosition breadthFirstSearch(TilePosition start, Pred findCond, Pred visitCond, boolean connect8);
 
-    public abstract TilePosition BreadthFirstSearch(TilePosition start, Pred findCond, Pred visitCond);
+    TilePosition breadthFirstSearch(TilePosition start, Pred findCond, Pred visitCond);
 
-    public abstract WalkPosition BreadthFirstSearch(WalkPosition start, Pred findCond, Pred visitCond, boolean connect8);
+    WalkPosition breadthFirstSearch(WalkPosition start, Pred findCond, Pred visitCond, boolean connect8);
 
-    public abstract WalkPosition BreadthFirstSearch(WalkPosition start, Pred findCond, Pred visitCond);
+    WalkPosition breadthFirstSearch(WalkPosition start, Pred findCond, Pred visitCond);
 
     // Returns the union of the geometry of all the ChokePoints. Cf. ChokePoint::Geometry()
-    public abstract List<MutablePair<MutablePair<AreaId, AreaId>, WalkPosition>> RawFrontier();
+    List<MutablePair<MutablePair<AreaId, AreaId>, WalkPosition>> getRawFrontier();
 
-    public abstract void drawDiagonalCrossMap(Position topLeft, Position bottomRight, Color col);
+    void drawDiagonalCrossMap(Position topLeft, Position bottomRight, Color col);
 
 }

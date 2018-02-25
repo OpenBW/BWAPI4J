@@ -78,6 +78,12 @@ void BridgeEnum::createUpgradeTypeEnum() {
 			globalEnv->SetObjectArrayElement(objectArray, i, whatsRequired[i]);
 		}
 
+		// read existing whatUses set and put UnitType entries
+		for (auto const& use : upgradeType.whatUses()) {
+
+			globalEnv->CallObjectMethod(CurrentUpgradeType, addUsingUnit, (jint)use.getID());
+		}
+
 		// set enum fields
 		jobject race = globalEnv->GetStaticObjectField(raceClass, globalEnv->GetStaticFieldID(raceClass, upgradeType.getRace().c_str(), "Lorg/openbw/bwapi4j/type/Race;"));
 		globalEnv->SetObjectField(CurrentUpgradeType, globalEnv->GetFieldID(upgradeTypeClass, "race", "Lorg/openbw/bwapi4j/type/Race;"), race);
@@ -172,13 +178,13 @@ void BridgeEnum::createWeaponTypeEnum() {
 		globalEnv->SetObjectField(CurrentWeaponType, globalEnv->GetFieldID(weaponTypeClass, "whatUses", "Lorg/openbw/bwapi4j/type/UnitType;"), whatUses);
 
 		jobject upgradeType = globalEnv->GetStaticObjectField(upgradeTypeClass, globalEnv->GetStaticFieldID(upgradeTypeClass, weaponType.upgradeType().getName().c_str(), "Lorg/openbw/bwapi4j/type/UpgradeType;"));
-		globalEnv->SetObjectField(CurrentWeaponType, globalEnv->GetFieldID(weaponTypeClass, "upgradeType", "Lorg/openbw/bwapi4j/type/UpgradeType;"), whatUses);
+		globalEnv->SetObjectField(CurrentWeaponType, globalEnv->GetFieldID(weaponTypeClass, "upgradeType", "Lorg/openbw/bwapi4j/type/UpgradeType;"), upgradeType);
 
 		jobject damageType = globalEnv->GetStaticObjectField(damageTypeClass, globalEnv->GetStaticFieldID(damageTypeClass, weaponType.damageType().getName().c_str(), "Lorg/openbw/bwapi4j/type/DamageType;"));
-		globalEnv->SetObjectField(CurrentWeaponType, globalEnv->GetFieldID(weaponTypeClass, "damageType", "Lorg/openbw/bwapi4j/type/DamageType;"), whatUses);
+		globalEnv->SetObjectField(CurrentWeaponType, globalEnv->GetFieldID(weaponTypeClass, "damageType", "Lorg/openbw/bwapi4j/type/DamageType;"), damageType);
 
 		jobject explosionType = globalEnv->GetStaticObjectField(explosionTypeClass, globalEnv->GetStaticFieldID(explosionTypeClass, weaponType.explosionType().getName().c_str(), "Lorg/openbw/bwapi4j/type/ExplosionType;"));
-		globalEnv->SetObjectField(CurrentWeaponType, globalEnv->GetFieldID(weaponTypeClass, "explosionType", "Lorg/openbw/bwapi4j/type/ExplosionType;"), whatUses);
+		globalEnv->SetObjectField(CurrentWeaponType, globalEnv->GetFieldID(weaponTypeClass, "explosionType", "Lorg/openbw/bwapi4j/type/ExplosionType;"), explosionType);
 	}
 	std::cout << "done." << std::endl;
 }

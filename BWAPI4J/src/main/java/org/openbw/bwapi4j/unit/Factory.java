@@ -4,7 +4,7 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
-public class Factory extends Building implements Mechanical, FlyingBuilding, TrainingFacility {
+public class Factory extends Building implements Mechanical, FlyingBuilding, TrainingFacility, ExtendibleByAddon {
 
     private int addonId;
     
@@ -49,6 +49,17 @@ public class Factory extends Building implements Mechanical, FlyingBuilding, Tra
         return this.trainer.train(UnitType.Terran_Goliath);
     }
 
+    @Override
+    public boolean canTrain(UnitType type) {
+        return this.trainer.canTrain(type);
+    }
+
+    @Override
+    public boolean train(UnitType type) {
+        return this.trainer.train(type);
+    }
+
+    @Override
     public boolean cancelAddon() {
         
         return issueCommand(this.id, UnitCommandType.Cancel_Addon.ordinal(), -1, -1, -1, -1);
@@ -66,6 +77,16 @@ public class Factory extends Building implements Mechanical, FlyingBuilding, Tra
     public MachineShop getMachineShop() {
         
         return (MachineShop) this.getUnit(this.addonId);
+    }
+
+    @Override
+    public Addon getAddon() {
+        return getMachineShop();
+    }
+
+    @Override
+    public boolean build(UnitType addon) {
+        return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), -1, -1, -1, addon.getId());
     }
 
     @Override
@@ -126,5 +147,10 @@ public class Factory extends Building implements Mechanical, FlyingBuilding, Tra
     public boolean setRallyPoint(Unit target) {
         
         return this.trainer.setRallyPoint(target);
+    }
+
+    @Override
+    public int getRemainingTrainTime() {
+        return trainer.getRemainingTrainingTime();
     }
 }

@@ -8,7 +8,7 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
-public class Defiler extends MobileUnit implements Organic, SpellCaster, Burrowable {
+public class Defiler extends MobileUnit implements Organic, SpellCaster, Burrowable, Armed {
 
     private static final Logger logger = LogManager.getLogger();
 
@@ -96,5 +96,15 @@ public class Defiler extends MobileUnit implements Organic, SpellCaster, Burrowa
     @Override
     public boolean isBurrowed() {
         return this.burrowed;
+    }
+
+    @Override
+    public Weapon getGroundWeapon() {
+        return groundWeapon;
+    }
+
+    @Override
+    public Weapon getAirWeapon() {
+        return airWeapon;
     }
 }

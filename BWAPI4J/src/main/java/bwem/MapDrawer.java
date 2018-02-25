@@ -28,7 +28,7 @@ public class MapDrawer {
 
         private final String command;
 
-        private Command(String command) {
+        Command(String command) {
             this.command = command;
         }
 
@@ -56,7 +56,7 @@ public class MapDrawer {
 
         private final Color color;
 
-        private SpecialColor(Color color) {
+        SpecialColor(Color color) {
             this.color = color;
         }
 
@@ -66,54 +66,54 @@ public class MapDrawer {
 
     }
 
-    private final BW m_pBW;
-    private MutableBoolean showSeas = new MutableBoolean(true);
-    private MutableBoolean showLakes = new MutableBoolean(true);
-    private MutableBoolean showUnbuildable = new MutableBoolean(true);
-    private MutableBoolean showGroundHeight = new MutableBoolean(true);
-    private MutableBoolean showMinerals = new MutableBoolean(true);
-    private MutableBoolean showGeysers = new MutableBoolean(true);
-    private MutableBoolean showStaticBuildings = new MutableBoolean(true);
-    private MutableBoolean showBases = new MutableBoolean(true);
-    private MutableBoolean showAssignedRessources = new MutableBoolean(true);
-    private MutableBoolean showFrontier = new MutableBoolean(true);
-    private MutableBoolean showCP = new MutableBoolean(true);
+    private final BW bw;
+    private final MutableBoolean showSeas = new MutableBoolean(true);
+    private final MutableBoolean showLakes = new MutableBoolean(true);
+    private final MutableBoolean showUnbuildable = new MutableBoolean(true);
+    private final MutableBoolean showGroundHeight = new MutableBoolean(true);
+    private final MutableBoolean showMinerals = new MutableBoolean(true);
+    private final MutableBoolean showGeysers = new MutableBoolean(true);
+    private final MutableBoolean showStaticBuildings = new MutableBoolean(true);
+    private final MutableBoolean showBases = new MutableBoolean(true);
+    private final MutableBoolean showAssignedRessources = new MutableBoolean(true);
+    private final MutableBoolean showFrontier = new MutableBoolean(true);
+    private final MutableBoolean showCP = new MutableBoolean(true);
 
-    public MapDrawer(BW pBW) {
-        m_pBW = pBW;
+    public MapDrawer(BW bw) {
+        this.bw = bw;
     }
 
-    public boolean ProcessCommand(String command) {
-        if (ProcessCommandVariants(command, Command.SHOW_SEAS.toString(), showSeas)) return true;
-        if (ProcessCommandVariants(command, Command.SHOW_LAKES.toString(), showLakes)) return true;
-        if (ProcessCommandVariants(command, Command.SHOW_UNBUILDABLE.toString(), showUnbuildable)) return true;
-        if (ProcessCommandVariants(command, Command.SHOW_GROUND_HEIGHT.toString(), showGroundHeight)) return true;
-        if (ProcessCommandVariants(command, Command.SHOW_MINERALS.toString(), showMinerals)) return true;
-        if (ProcessCommandVariants(command, Command.SHOW_GEYSERS.toString(), showGeysers)) return true;
-        if (ProcessCommandVariants(command, Command.SHOW_STATIC_BUILDINGS.toString(), showStaticBuildings)) return true;
-        if (ProcessCommandVariants(command, Command.SHOW_BASES.toString(), showBases)) return true;
-        if (ProcessCommandVariants(command, Command.SHOW_ASSIGNED_RESOURCES.toString(), showAssignedRessources)) return true;
-        if (ProcessCommandVariants(command, Command.SHOW_FRONTIER.toString(), showFrontier)) return true;
-        if (ProcessCommandVariants(command, Command.SHOW_CP.toString(), showCP)) return true;
+    public boolean processCommand(String command) {
+        if (processCommandVariants(command, Command.SHOW_SEAS.toString(), showSeas)) return true;
+        if (processCommandVariants(command, Command.SHOW_LAKES.toString(), showLakes)) return true;
+        if (processCommandVariants(command, Command.SHOW_UNBUILDABLE.toString(), showUnbuildable)) return true;
+        if (processCommandVariants(command, Command.SHOW_GROUND_HEIGHT.toString(), showGroundHeight)) return true;
+        if (processCommandVariants(command, Command.SHOW_MINERALS.toString(), showMinerals)) return true;
+        if (processCommandVariants(command, Command.SHOW_GEYSERS.toString(), showGeysers)) return true;
+        if (processCommandVariants(command, Command.SHOW_STATIC_BUILDINGS.toString(), showStaticBuildings)) return true;
+        if (processCommandVariants(command, Command.SHOW_BASES.toString(), showBases)) return true;
+        if (processCommandVariants(command, Command.SHOW_ASSIGNED_RESOURCES.toString(), showAssignedRessources)) return true;
+        if (processCommandVariants(command, Command.SHOW_FRONTIER.toString(), showFrontier)) return true;
+        if (processCommandVariants(command, Command.SHOW_CP.toString(), showCP)) return true;
 
-        if (ProcessCommandVariants(command, "all", showSeas))
-        if (ProcessCommandVariants(command, "all", showLakes))
-        if (ProcessCommandVariants(command, "all", showUnbuildable))
-        if (ProcessCommandVariants(command, "all", showGroundHeight))
-        if (ProcessCommandVariants(command, "all", showMinerals))
-        if (ProcessCommandVariants(command, "all", showGeysers))
-        if (ProcessCommandVariants(command, "all", showStaticBuildings))
-        if (ProcessCommandVariants(command, "all", showBases))
-        if (ProcessCommandVariants(command, "all", showAssignedRessources))
-        if (ProcessCommandVariants(command, "all", showFrontier))
-        if (ProcessCommandVariants(command, "all", showCP))
+        if (processCommandVariants(command, "all", showSeas))
+        if (processCommandVariants(command, "all", showLakes))
+        if (processCommandVariants(command, "all", showUnbuildable))
+        if (processCommandVariants(command, "all", showGroundHeight))
+        if (processCommandVariants(command, "all", showMinerals))
+        if (processCommandVariants(command, "all", showGeysers))
+        if (processCommandVariants(command, "all", showStaticBuildings))
+        if (processCommandVariants(command, "all", showBases))
+        if (processCommandVariants(command, "all", showAssignedRessources))
+        if (processCommandVariants(command, "all", showFrontier))
+        if (processCommandVariants(command, "all", showCP))
             return true;
 
         return false;
     }
 
 
-	private boolean ProcessCommandVariants(String command, String attributName, MutableBoolean attribut) {
+	private boolean processCommandVariants(String command, String attributName, MutableBoolean attribut) {
         if (command.equals("show " + attributName)) { attribut.setTrue(); return true; }
         if (command.equals("hide " + attributName)) { attribut.setFalse(); return true; }
         if (command.equals(attributName)) { attribut.setValue(!attribut.booleanValue()); return true; }

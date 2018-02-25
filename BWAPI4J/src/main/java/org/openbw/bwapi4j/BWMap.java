@@ -16,7 +16,15 @@ public interface BWMap {
 
     public List<TilePosition> getStartPositions();
 
-    public boolean isWalkable(int walkX, int walkY);
+    /**
+     * Return true, if the given "walk position" is walkable.
+     * Coordinates must be within the map grid, otherwise an {@link IndexOutOfBoundsException} will be thrown.
+     */
+    boolean isWalkable(int walkX, int walkY);
+
+    boolean isWalkable(WalkPosition walkPosition);
+
+    boolean isValidPosition(WalkPosition walkPosition);
 
     public int mapWidth();
 

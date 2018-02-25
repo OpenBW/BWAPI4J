@@ -4,7 +4,7 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
-public class Marine extends MobileUnit implements Organic {
+public class Marine extends MobileUnit implements Organic, Armed {
 
     private boolean isStimmed;
 
@@ -28,5 +28,15 @@ public class Marine extends MobileUnit implements Organic {
     public boolean stimPack() {
         
         return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), -1, -1, -1, TechType.Stim_Packs.getId());
+    }
+
+    @Override
+    public Weapon getGroundWeapon() {
+        return groundWeapon;
+    }
+
+    @Override
+    public Weapon getAirWeapon() {
+        return airWeapon;
     }
 }

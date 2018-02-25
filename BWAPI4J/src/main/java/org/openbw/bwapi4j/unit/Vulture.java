@@ -5,7 +5,7 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
-public class Vulture extends MobileUnit implements Mechanical {
+public class Vulture extends MobileUnit implements Mechanical, Armed {
 
     private int spiderMineCount;
     
@@ -42,5 +42,15 @@ public class Vulture extends MobileUnit implements Mechanical {
         
         return issueCommand(this.id, UnitCommandType.Use_Tech_Position.ordinal(), -1, 
                 position.getX(), position.getY(), TechType.Spider_Mines.getId());
+    }
+
+    @Override
+    public Weapon getGroundWeapon() {
+        return groundWeapon;
+    }
+
+    @Override
+    public Weapon getAirWeapon() {
+        return airWeapon;
     }
 }

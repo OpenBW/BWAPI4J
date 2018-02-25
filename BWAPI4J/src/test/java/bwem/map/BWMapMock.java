@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.openbw.bwapi4j.BWMap;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
+import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class BWMapMock implements BWMap {
@@ -87,6 +88,16 @@ public class BWMapMock implements BWMap {
     }
 
 	@Override
+	public boolean isWalkable(WalkPosition walkPosition) {
+		return isWalkable(walkPosition.getX(), walkPosition.getY());
+	}
+
+	@Override
+	public boolean isValidPosition(WalkPosition walkPosition) {
+		return walkPosition.getX() >= 0 && walkPosition.getY() >= 0 && walkPosition.getX() < mapWidth() && walkPosition.getY() < mapHeight();
+	}
+
+	@Override
     public int mapWidth() {
         return this.width;
     }
@@ -127,7 +138,7 @@ public class BWMapMock implements BWMap {
 
 		return true;
 	}
-	
+
 	@Override
 	public boolean isVisible(int tileX, int tileY) {
 		throw new UnsupportedOperationException("This mock method is disabled.");

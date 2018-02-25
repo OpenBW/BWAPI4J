@@ -251,7 +251,7 @@ public class BW {
     private void updateAllUnits(int frame) {
 
     	for (Unit unit : this.units.values()) {
-    		unit.setExists(false);
+    		unit.preUpdate();
     	}
         int[] unitData = this.getAllUnitsData();
 
@@ -302,7 +302,7 @@ public class BW {
             if (player == null) {
 
                 logger.debug("creating player for id {} ...", playerId);
-                player = new Player(playerId, this.getPlayerName(playerId));
+                player = new Player(playerId, this.getPlayerName(playerId), this);
                 logger.trace("player name: {}", player.getName());
                 this.players.put(playerId, player);
                 logger.trace("initializing...");
@@ -444,9 +444,14 @@ public class BW {
     private void onFrame() {
 
 //    	logger.debug("onFrame {}", this.frame);
-    	preFrame();
-    	this.frame++;
-        listener.onFrame();
+        try {
+            preFrame();
+            this.frame++;
+            listener.onFrame();
+        } catch (Exception e) {
+            logger.error("exception during onFrame", e);
+            throw e;
+        }
     }
 
     private void onSendText(String text) {
@@ -523,6 +528,7 @@ public class BW {
             logger.error("onUnitDestroy: no unit found for ID {}.", unitId);
         }
         listener.onUnitDestroy(unit);
+        this.units.remove(unitId);
     }
 
     private void onUnitMorph(int unitId) {

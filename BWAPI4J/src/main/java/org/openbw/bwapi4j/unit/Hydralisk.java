@@ -3,7 +3,7 @@ package org.openbw.bwapi4j.unit;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
-public class Hydralisk extends MobileUnit implements Organic, Burrowable {
+public class Hydralisk extends MobileUnit implements Organic, Burrowable, Armed {
 
     private boolean burrowed;
     
@@ -46,5 +46,15 @@ public class Hydralisk extends MobileUnit implements Organic, Burrowable {
     public boolean morph() {
         
         return issueCommand(this.id, UnitCommandType.Morph.ordinal(), -1, -1, -1, UnitType.Zerg_Lurker.getId());
+    }
+
+    @Override
+    public Weapon getGroundWeapon() {
+        return groundWeapon;
+    }
+
+    @Override
+    public Weapon getAirWeapon() {
+        return airWeapon;
     }
 }

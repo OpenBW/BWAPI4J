@@ -1,7 +1,6 @@
 package bwem.unit;
 
 import bwem.map.Map;
-import java.util.Objects;
 import org.openbw.bwapi4j.unit.MineralPatch;
 import org.openbw.bwapi4j.unit.Unit;
 
@@ -17,8 +16,8 @@ import org.openbw.bwapi4j.unit.Unit;
 
 public final class Mineral extends Resource {
 
-    public Mineral(Unit u, Map pMap) {
-        super(u, pMap);
+    public Mineral(Unit u, Map map) {
+        super(u, map);
 
 //        bwem_assert(Type().isMineralField());
         if (!(u instanceof MineralPatch)) {
@@ -27,14 +26,14 @@ public final class Mineral extends Resource {
     }
 
     @Override
-    public int InitialAmount() {
-        MineralPatch ret = (MineralPatch) super.Unit();
+    public int getInitialAmount() {
+        MineralPatch ret = (MineralPatch) super.getUnit();
         return ret.getInitialResources();
     }
 
     @Override
-    public int Amount() {
-        MineralPatch ret = (MineralPatch) super.Unit();
+    public int getAmount() {
+        MineralPatch ret = (MineralPatch) super.getUnit();
         return ret.getResources();
     }
 
@@ -46,13 +45,13 @@ public final class Mineral extends Resource {
             return false;
         } else {
             Mineral that = (Mineral) object;
-            return (this.Unit().getId() == that.Unit().getId());
+            return (this.getUnit().getId() == that.getUnit().getId());
         }
     }
 
     @Override
     public int hashCode() {
-        return Unit().hashCode();
+        return getUnit().hashCode();
     }
 
 }

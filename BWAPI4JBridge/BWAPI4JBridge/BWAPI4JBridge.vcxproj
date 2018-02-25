@@ -23,7 +23,7 @@
     <ProjectGuid>{28A9E44A-8028-4197-AD9E-C6E50E8137AD}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>BWAPI4JBridge</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

@@ -55,7 +55,7 @@ public class MiniTileImpl implements MiniTile {
     }
 
     public void setSea() {
-//        { bwem_assert(!Walkable() && SeaOrLake()); this.m_altitude = 0; }
+//        { bwem_assert(!Walkable() && SeaOrLake()); this .altitude = 0; }
         if (!(!isWalkable() && isSeaOrLake())) {
             throw new IllegalStateException();
         }
@@ -63,7 +63,7 @@ public class MiniTileImpl implements MiniTile {
     }
 
     public void setLake() {
-//        { bwem_assert(!Walkable() && Sea()); this.m_altitude = -1; }
+//        { bwem_assert(!Walkable() && Sea()); this .altitude = -1; }
         if (!(!isWalkable() && isSea())) {
             throw new IllegalStateException();
         }
@@ -75,7 +75,7 @@ public class MiniTileImpl implements MiniTile {
     }
 
     public void setAltitude(final Altitude altitude) {
-//        { bwem_assert_debug_only(AltitudeMissing() && (a > 0)); this.m_altitude = a; }
+//        { bwem_assert_debug_only(AltitudeMissing() && (a > 0)); this .altitude = a; }
         if (!(isAltitudeMissing() && altitude.intValue() > 0)) {
             throw new IllegalStateException();
         }
@@ -87,7 +87,7 @@ public class MiniTileImpl implements MiniTile {
     }
 
     public void setAreaId(final AreaId areaId) {
-//        { bwem_assert(AreaIdMissing() && (id >= 1)); this.m_areaId = id; }
+//        { bwem_assert(AreaIdMissing() && (id >= 1)); this .areaId = id; }
         if (!(isAreaIdMissing() && areaId.intValue() >= 1)) {
             throw new IllegalStateException();
         }
@@ -95,21 +95,21 @@ public class MiniTileImpl implements MiniTile {
     }
 
     public void replaceAreaId(final AreaId areaId) {
-//        { bwem_assert((m_areaId > 0) && ((id >= 1) || (id <= -2)) && (id != this.areaId)); this.areaId = id; }
-//        if (!((m_areaId.intValue() > 0) && ((id.intValue() >= 1) || (id.intValue() <= -2)) && (!id.equals(areaId)))) {
+//        { bwem_assert( (areaId > 0) && ((id >= 1) || (id <= -2)) && (id != this.areaId)); this.areaId = id; }
+//        if (!( (areaId.intValue() > 0) && ((id.intValue() >= 1) || (id.intValue() <= -2)) && (!id.equals(areaId)))) {
         if (!(this.areaId.intValue() > 0)) {
-            throw new IllegalStateException("Failed assert: this.m_areaId.intValue() > 0: " + this.areaId.intValue());
+            throw new IllegalStateException("Failed assert: this.areaId.intValue() > 0: " + this.areaId.intValue());
         } else if (!((areaId.intValue() >= 1) || (areaId.intValue() <= -2))) {
             throw new IllegalArgumentException("Failed assert: (id.intValue() >= 1) || (id.intValue() <= -2): " + areaId.intValue());
-        } else if (!(!areaId.equals(this.areaId))) {
-            throw new IllegalArgumentException("Failed assert: !id.equals(m_areaId): not expected: " + this.areaId.intValue() + ", actual: " + areaId.intValue());
+        } else if (areaId.equals(this.areaId)) {
+            throw new IllegalArgumentException("Failed assert: !id.equals (areaId): not expected: " + this.areaId.intValue() + ", actual: " + areaId.intValue());
         } else {
             this.areaId = areaId;
         }
     }
 
     public void setBlocked() {
-//        { bwem_assert(AreaIdMissing()); this.m_areaId = blockingCP; }
+//        { bwem_assert(AreaIdMissing()); this .areaId = blockingCP; }
         if (!isAreaIdMissing()) {
             throw new IllegalStateException();
         }
@@ -121,7 +121,7 @@ public class MiniTileImpl implements MiniTile {
     }
 
     public void replaceBlockedAreaId(final AreaId areaId) {
-//        { bwem_assert((m_areaId == blockingCP) && (id >= 1)); this.areaId = id; }
+//        { bwem_assert( (areaId == blockingCP) && (id >= 1)); this.areaId = id; }
         if (!(this.areaId.equals(MiniTileImpl.blockingCP) && areaId.intValue() >= 1)) {
             throw new IllegalStateException();
         }

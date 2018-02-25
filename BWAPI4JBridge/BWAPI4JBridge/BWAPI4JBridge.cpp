@@ -55,6 +55,7 @@ jclass bwMapClass;
 jmethodID bwMapNew;
 
 jmethodID addRequiredUnit;
+jmethodID addUsingUnit;
 
 /*
 * Finds and stores references to Java classes and methods globally.
@@ -90,6 +91,8 @@ void initializeJavaReferences(JNIEnv *env, jobject caller) {
 
 	addRequiredUnit = env->GetMethodID(unitTypeClass, "addRequiredUnit",
 		"(II)V");
+
+	addUsingUnit = env->GetMethodID(upgradeTypeClass, "addUsingUnit", "(I)V");
 
 	std::cout << "done." << std::endl;
 }

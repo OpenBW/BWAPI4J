@@ -4,10 +4,10 @@ import org.openbw.bwapi4j.BWMap;
 
 public interface AdvancedDataInitializer {
 
-    public abstract void markUnwalkableMiniTiles(BWMap bwMap);
+    void markUnwalkableMiniTiles(BWMap bwMap);
 
-    public abstract void markBuildableTilesAndGroundHeight(BWMap bwMap);
+    void markBuildableTilesAndGroundHeight(BWMap bwMap);
 
-    public abstract void decideSeasOrLakes(int lake_max_miniTiles, int lake_max_width_in_miniTiles);
+    void decideSeasOrLakes(int lakeMaxMiniTiles, int lakeMaxWidthInMiniTiles);
 
 }

@@ -28,33 +28,33 @@ public interface MiniTile {
 	//  - For each BWAPI's unwalkable MiniTile, we also mark its 8 neighbours as not walkable.
 	//    According to some tests, this prevents from wrongly pretending one small unit can go by some thin path.
 	//  - The relation buildable ==> walkable is enforced, by marking as walkable any MiniTile part of a buildable Tile (Cf. Tile::Buildable)
-	// Among the MiniTiles having Altitude() > 0, the walkable ones are considered Terrain-MiniTiles, and the other ones Lake-MiniTiles.
-    public abstract boolean isWalkable();
+	// Among the miniTiles having Altitude() > 0, the walkable ones are considered Terrain-miniTiles, and the other ones Lake-miniTiles.
+    boolean isWalkable();
 
-	// Distance in pixels between the center of this MiniTile and the center of the nearest Sea-MiniTile
-	// Sea-MiniTiles all have their Altitude() equal to 0.
-	// MiniTiles having Altitude() > 0 are not Sea-MiniTiles. They can be either Terrain-MiniTiles or Lake-MiniTiles.
-    public abstract Altitude getAltitude();
+	// distance in pixels between the center of this MiniTile and the center of the nearest Sea-MiniTile
+	// Sea-miniTiles all have their Altitude() equal to 0.
+	// miniTiles having Altitude() > 0 are not Sea-miniTiles. They can be either Terrain-miniTiles or Lake-miniTiles.
+    Altitude getAltitude();
 
-    // Sea-MiniTiles are unwalkable MiniTiles that have their Altitude() equal to 0.
-    public abstract boolean isSea();
+    // Sea-miniTiles are unwalkable miniTiles that have their Altitude() equal to 0.
+    boolean isSea();
 
-	// Lake-MiniTiles are unwalkable MiniTiles that have their Altitude() > 0.
+	// Lake-miniTiles are unwalkable miniTiles that have their Altitude() > 0.
 	// They form small zones (inside Terrain-zones) that can be eaysily walked around (e.g. Starcraft's doodads)
-	// The intent is to preserve the continuity of altitudes inside Areas.
-    public abstract boolean isLake();
+	// The intent is to preserve the continuity of altitudes inside areas.
+    boolean isLake();
 
-    // Terrain MiniTiles are just walkable MiniTiles
-    public abstract boolean isTerrain();
+    // Terrain miniTiles are just walkable miniTiles
+    boolean isTerrain();
 
-	// For Sea and Lake MiniTiles, returns 0
-	// For Terrain MiniTiles, returns a non zero id:
+	// For Sea and Lake miniTiles, returns 0
+	// For Terrain miniTiles, returns a non zero id:
 	//    - if (id > 0), id uniquely identifies the Area A that contains this MiniTile.
-	//      Moreover we have: A.Id() == id and Map::GetArea(id) == A
-	//      For more information about positive Area::ids, see Area::Id()
+	//      Moreover we have: A.id() == id and Map::getArea(id) == A
+	//      For more information about positive Area::ids, see Area::id()
 	//    - if (id < 0), then this MiniTile is part of a Terrain-zone that was considered too small to create an Area for it.
 	//      Note: negative Area::ids start from -2
-	// Note: because of the lakes, Map::GetNearestArea should be prefered over Map::GetArea.
-    public abstract AreaId getAreaId();
+	// Note: because of the lakes, Map::getNearestArea should be prefered over Map::getArea.
+    AreaId getAreaId();
 
 }

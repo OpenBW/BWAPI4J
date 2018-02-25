@@ -28,6 +28,16 @@ public class InfestedCommandCenter extends Building implements Organic, FlyingBu
     }
 
     @Override
+    public boolean canTrain(UnitType type) {
+        return this.trainer.canTrain(type);
+    }
+
+    @Override
+    public boolean train(UnitType type) {
+        return this.trainer.train(type);
+    }
+
+    @Override
     public boolean isLifted() {
         
         return this.flyer.isLifted();
@@ -85,5 +95,10 @@ public class InfestedCommandCenter extends Building implements Organic, FlyingBu
     public boolean setRallyPoint(Unit target) {
         
         return this.trainer.setRallyPoint(target);
+    }
+
+    @Override
+    public int getRemainingTrainTime() {
+        return trainer.getRemainingTrainingTime();
     }
 }

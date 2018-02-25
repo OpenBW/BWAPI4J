@@ -2,7 +2,7 @@ package org.openbw.bwapi4j.unit;
 
 import org.openbw.bwapi4j.type.UnitType;
 
-public class Interceptor extends MobileUnit implements Mechanical {
+public class Interceptor extends MobileUnit implements Mechanical, Armed {
 
     private int carrierId;
     
@@ -21,5 +21,15 @@ public class Interceptor extends MobileUnit implements Mechanical {
     public Unit getCarrier() {
         
         return super.getUnit(carrierId);
+    }
+
+    @Override
+    public Weapon getGroundWeapon() {
+        return groundWeapon;
+    }
+
+    @Override
+    public Weapon getAirWeapon() {
+        return airWeapon;
     }
 }

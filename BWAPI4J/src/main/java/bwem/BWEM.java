@@ -7,10 +7,10 @@ import org.openbw.bwapi4j.BW;
 
 public final class BWEM {
 
-    private final Map m_pMap;
+    private final Map map;
 
     public BWEM(final BW bw) {
-        m_pMap = new MapInitializerImpl(
+        map = new MapInitializerImpl(
                 bw.getBWMap(),
                 bw.getMapDrawer(),
                 bw.getAllPlayers(),
@@ -20,16 +20,16 @@ public final class BWEM {
         );
     }
 
-    public Map GetMap() {
-        return m_pMap;
+    public Map getMap() {
+        return map;
     }
 
     public void initialize() {
-        if (!(this.m_pMap instanceof MapInitializer)) {
+        if (!(this.map instanceof MapInitializer)) {
             throw new IllegalStateException("BWEM initialization failed.");
         } else {
-            MapInitializer map = (MapInitializer) this.m_pMap;
-            map.Initialize();
+            MapInitializer map = (MapInitializer) this .map;
+            map.initialize();
         }
     }
 

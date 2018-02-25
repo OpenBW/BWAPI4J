@@ -1,5 +1,7 @@
 package org.openbw.bwapi4j;
 
+import static java.lang.Math.abs;
+
 public class Position {
 
     private final int x;
@@ -28,12 +30,24 @@ public class Position {
         return this.y;
     }
 
-    public double getDistance(final Position position) {
-        // TODO replace with BW distance (see tscmoos code)
-    	double dx = getX() - position.getX();
-    	double dy = getY() - position.getY();
-    	
-        return Math.sqrt(dx * dx + dy * dy);
+    /**
+     * Returns the distance as BW would.
+     * This is ported from BWAPI's getApproxDistance method.
+     */
+    public int getDistance(final Position position) {
+    	int min = abs(getX() - position.getX());
+    	int max = abs(getY() - position.getY());
+
+        if (max < min) {
+            int t = max;
+            max = min;
+            min = t;
+        }
+
+        if (min < (max >> 2)) return max;
+
+        int minCalc = (3 * min) >> 3;
+        return (minCalc >> 5) + minCalc + max - (max >> 4) - (max >> 6);
     }
 
     public TilePosition toTilePosition() {

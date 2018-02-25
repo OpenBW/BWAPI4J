@@ -2,22 +2,22 @@ package bwem.util;
 
 public interface IWrappedInteger<T extends IWrappedInteger> {
 
-    public T add(T that);
+    T add(T that);
 
-    public T add(int val);
+    T add(int val);
 
-    public T subtract(T that);
+    T subtract(T that);
 
-    public T subtract(int val);
+    T subtract(int val);
 
-    public int intValue();
+    int intValue();
 
-    public int compareTo(T that);
+    int compareTo(T that);
 
-    public boolean equals(Object that);
+    boolean equals(Object that);
 
-    public int hashCode();
+    int hashCode();
 
-    public String toString();
+    String toString();
 
 }

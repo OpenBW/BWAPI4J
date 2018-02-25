@@ -2,6 +2,7 @@ package org.openbw.bwapi4j.unit;
 
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 
 import org.openbw.bwapi4j.Player;
@@ -9,6 +10,7 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
+import org.openbw.bwapi4j.type.WeaponType;
 
 public abstract class PlayerUnit extends Unit {
 
@@ -25,9 +27,10 @@ public abstract class PlayerUnit extends Unit {
     protected double velocityY;
     protected boolean isIdle;
     protected boolean isCompleted;
-    protected int groundWeaponCooldown;
-    protected int airWeaponCooldown;
+    protected Weapon groundWeapon = new Weapon(WeaponType.None, 0);
+    protected Weapon airWeapon = new Weapon(WeaponType.None, 0);
     protected int spellCooldown;
+    protected int targetId;
     private boolean isAccelerating;
     private boolean isAttacking;
     private boolean isAttackFrame;
@@ -39,7 +42,8 @@ public abstract class PlayerUnit extends Unit {
     private boolean isStartingAttack;
     private boolean isUnderAttack;
     private boolean isPowered;
-    
+    private boolean isInterruptible;
+
     protected int playerId;
 
     // other
@@ -56,8 +60,9 @@ public abstract class PlayerUnit extends Unit {
     public void initialize(int[] unitData, int index) {
 
         this.initialHitPoints = unitData[index + Unit.INITIAL_HITPOINTS_INDEX];
+        this.isInterruptible = unitData[index + Unit.IS_INTERRUPTIBLE_INDEX] == 1;
         super.initialize(unitData, index);
-        
+
         this.lastKnownPosition = this.initialPosition;
         this.lastKnownTilePosition = this.initialTilePosition;
         this.lastKnownHitPoints = this.initialHitPoints;
@@ -76,8 +81,6 @@ public abstract class PlayerUnit extends Unit {
         this.velocityY = unitData[index + Unit.VELOCITY_Y_INDEX] / 100.0;
         this.isIdle = unitData[index + Unit.IS_IDLE_INDEX] == 1;
         this.isCompleted = unitData[index + Unit.IS_COMPLETED_INDEX] == 1;
-        this.groundWeaponCooldown = unitData[index + Unit.GROUND_WEAPON_COOLDOWN_INDEX];
-        this.airWeaponCooldown = unitData[index + Unit.AIR_WEAPON_COOLDOWN_INDEX];
         this.spellCooldown = unitData[index + Unit.SPELL_COOLDOWN_INDEX];
         this.isAccelerating = unitData[index + Unit.IS_ACCELERATING_INDEX] == 1;
         this.isAttacking = unitData[index + Unit.IS_ATTACKING_INDEX] == 1;
@@ -90,15 +93,31 @@ public abstract class PlayerUnit extends Unit {
         this.isStartingAttack = unitData[index + Unit.IS_STARTING_ATTACK_INDEX] == 1;
         this.isUnderAttack = unitData[index + Unit.IS_UNDER_ATTACK_INDEX] == 1;
         this.isPowered = unitData[index + Unit.IS_POWERED_INDEX] == 1;
-        
+        this.targetId = unitData[index + Unit.TARGET_ID_INDEX];
+        this.isInterruptible = unitData[index + Unit.IS_INTERRUPTIBLE_INDEX] == 1;
+
         super.update(unitData, index, frame);
-        
+
+        this.groundWeapon.update(type.groundWeapon(), unitData[index + Unit.GROUND_WEAPON_COOLDOWN_INDEX]);
+        this.airWeapon.update(type.airWeapon(), unitData[index + Unit.AIR_WEAPON_COOLDOWN_INDEX]);
+
         if (this.isVisible) {
         	
             this.lastKnownPosition = this.position;
             this.lastKnownTilePosition = this.tilePosition;
             this.lastKnownHitPoints = this.hitPoints;
         }
+    }
+
+    public static Collection<UnitType> getMissingUnits(Collection<? extends PlayerUnit> group, Collection<UnitType> types) {
+        HashSet<UnitType> result = new HashSet<>(types);
+        group.stream().filter(u -> u.isCompleted).map(u -> u.type).forEach(result::remove);
+        return result;
+    }
+
+    protected Unit getTargetUnit() {
+
+        return this.getUnit(this.targetId);
     }
 
     /**
@@ -120,8 +139,8 @@ public abstract class PlayerUnit extends Unit {
             weakestUnit = this.getClosest(units);
         } else {
             
-            Comparator<T> comp = (u1, u2) -> Integer.compare(u1.getHitPoints(), u2.getHitPoints());
-            weakestUnit = inRange.parallelStream().min(comp).get();
+            Comparator<T> comp = Comparator.comparingInt(PlayerUnit::getHitPoints);
+            weakestUnit = inRange.stream().min(comp).get();
         }
         return weakestUnit;
     }
@@ -165,21 +184,15 @@ public abstract class PlayerUnit extends Unit {
         return this.hitPoints;
     }
 
+    public int getArmor() {
+        return type.armor();
+    }
+
     public int getShields() {
     	
     	return this.shields;
     }
     
-    public int getGroundWeaponCooldown() {
-        
-        return this.groundWeaponCooldown;
-    }
-
-    public int getAirWeaponCooldown() {
-        
-        return this.airWeaponCooldown;
-    }
-
     public int getSpellCooldown() {
         
         return this.spellCooldown;
@@ -225,6 +238,10 @@ public abstract class PlayerUnit extends Unit {
         return this.type.sightRange();
     }
 
+    public boolean isDetector() {
+        return type.isDetector();
+    }
+
     public boolean isDetected() {
         
         return this.isDetected;
@@ -238,6 +255,10 @@ public abstract class PlayerUnit extends Unit {
     public boolean isFlyer() {
         
         return this.type.isFlyer();
+    }
+
+    public boolean isInterruptible() {
+        return isInterruptible;
     }
 
     public int tileWidth() {

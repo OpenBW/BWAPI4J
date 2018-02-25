@@ -5,7 +5,7 @@ import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
-public class ScienceFacility extends Building implements Mechanical, ResearchingFacility {
+public class ScienceFacility extends Building implements Mechanical, ResearchingFacility, ExtendibleByAddon {
 
     private int addonId;
     private Researcher researcher;
@@ -59,6 +59,12 @@ public class ScienceFacility extends Building implements Mechanical, Researching
         }
     }
 
+    @Override
+    public Addon getAddon() {
+        return (Addon) getUnit(addonId);
+    }
+
+    @Override
     public boolean cancelAddon() {
         
         return issueCommand(this.id, UnitCommandType.Cancel_Addon.ordinal(), -1, -1, -1, -1);
@@ -80,6 +86,11 @@ public class ScienceFacility extends Building implements Mechanical, Researching
     public boolean buildCovertOps() {
         
         return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), -1, -1, -1, UnitType.Terran_Covert_Ops.getId());
+    }
+
+    @Override
+    public boolean build(UnitType addon) {
+        return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), -1, -1, -1, addon.getId());
     }
 
     public boolean researchEmpShockwave() {
@@ -119,5 +130,35 @@ public class ScienceFacility extends Building implements Mechanical, Researching
     public boolean cancelUpgrade() {
         
         return this.researcher.cancelUpgrade();
+    }
+
+    @Override
+    public boolean canResearch(TechType techType) {
+        return this.researcher.canResearch(techType);
+    }
+
+    @Override
+    public boolean canUpgrade(UpgradeType upgradeType) {
+        return this.researcher.canUpgrade(upgradeType);
+    }
+
+    @Override
+    public boolean research(TechType techType) {
+        return this.researcher.research(techType);
+    }
+
+    @Override
+    public boolean upgrade(UpgradeType upgradeType) {
+        return this.researcher.upgrade(upgradeType);
+    }
+
+    @Override
+    public UpgradeInProgress getUpgradeInProgress() {
+        return researcher.getUpgradeInProgress();
+    }
+
+    @Override
+    public ResearchInProgress getResearchInProgress() {
+        return researcher.getResearchInProgress();
     }
 }

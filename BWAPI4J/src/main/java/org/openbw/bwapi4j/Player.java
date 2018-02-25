@@ -1,10 +1,12 @@
 package org.openbw.bwapi4j;
 
-import org.openbw.bwapi4j.type.Color;
-import org.openbw.bwapi4j.type.PlayerType;
-import org.openbw.bwapi4j.type.Race;
-import org.openbw.bwapi4j.type.TechType;
-import org.openbw.bwapi4j.type.UpgradeType;
+import org.openbw.bwapi4j.type.*;
+import org.openbw.bwapi4j.unit.ExtendibleByAddon;
+import org.openbw.bwapi4j.unit.PlayerUnit;
+import org.openbw.bwapi4j.unit.Unit;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Player {
 
@@ -56,6 +58,7 @@ public class Player {
     // constant
     private int id;
     private String name;
+    private final BW bw;
     private Race race;
     private TilePosition startLocation;
     private Color color;
@@ -98,18 +101,20 @@ public class Player {
     int[] researchStatus;
     int[] upgradeStatus;
 
-    Player(int id, String name) {
+    Player(int id, String name, BW bw) {
 
         this.id = id;
         this.name = name;
+        this.bw = bw;
         this.supplyTotalRace = new int[3];
         this.supplyUsedRace = new int[3];
     }
 
     /**
      * Initializes a player with static information (constant through the course of a game).
+     *
      * @param playerData raw data array
-     * @param index current pointer
+     * @param index      current pointer
      */
     public void initialize(int[] playerData, int index) {
 
@@ -124,10 +129,11 @@ public class Player {
 
     /**
      * Updates dynamic player information. To be called once per frame.
-     * @param playerData raw data array
-     * @param index current pointer
+     *
+     * @param playerData     raw data array
+     * @param index          current pointer
      * @param researchStatus status for each possible research
-     * @param upgradeStatus status for each possible upgrade
+     * @param upgradeStatus  status for each possible upgrade
      */
     public void update(int[] playerData, int index, int[] researchStatus, int[] upgradeStatus) {
 
@@ -254,6 +260,7 @@ public class Player {
     // return isEnemy_native(pointer, player);
     // }
     //
+
     /**
      * Checks if this player is the neutral player. Return values true if this
      * player is the neutral player. false if this player is any other player.
@@ -558,13 +565,13 @@ public class Player {
      * UnitInterface::upgrade, getMaxUpgradeLevel
      */
     public int getUpgradeLevel(UpgradeType upgrade) {
-    	
-    	for (int i = 0; i < this.upgradeStatus.length; i += 3) {
-    		
-    		if (this.upgradeStatus[i] == upgrade.getId()) {
-    			return this.upgradeStatus[i + 1];
-    		}
-    	}
+
+        for (int i = 0; i < this.upgradeStatus.length; i += 3) {
+
+            if (this.upgradeStatus[i] == upgrade.getId()) {
+                return this.upgradeStatus[i + 1];
+            }
+        }
         return 0;
     }
 
@@ -575,13 +582,15 @@ public class Player {
      * isResearching, UnitInterface::research, isResearchAvailable
      */
     public boolean hasResearched(TechType tech) {
-    	
-    	for (int i = 0; i < this.researchStatus.length; i += 3) {
-    		
-    		if (this.researchStatus[i] == tech.getId()) {
-    			return this.researchStatus[i + 1] == 1;
-    		}
-    	}
+        if (TechType.None.equals(tech)) {
+            return true;
+        }
+        for (int i = 0; i < this.researchStatus.length; i += 3) {
+
+            if (this.researchStatus[i] == tech.getId()) {
+                return this.researchStatus[i + 1] == 1;
+            }
+        }
         return false;
     }
 
@@ -592,13 +601,13 @@ public class Player {
      * UnitInterface::research, hasResearched
      */
     public boolean isResearching(TechType tech) {
-        
-    	for (int i = 0; i < this.researchStatus.length; i += 3) {
-    		
-    		if (this.researchStatus[i] == tech.getId()) {
-    			return this.researchStatus[i + 2] == 1;
-    		}
-    	}
+
+        for (int i = 0; i < this.researchStatus.length; i += 3) {
+
+            if (this.researchStatus[i] == tech.getId()) {
+                return this.researchStatus[i + 2] == 1;
+            }
+        }
         return false;
     }
 
@@ -616,13 +625,13 @@ public class Player {
      * UnitInterface::upgrade
      */
     public boolean isUpgrading(UpgradeType upgrade) {
-    	
-    	for (int i = 0; i < this.upgradeStatus.length; i += 3) {
-    		
-    		if (this.upgradeStatus[i] == upgrade.getId()) {
-    			return this.upgradeStatus[i + 2] == 1;
-    		}
-    	}
+
+        for (int i = 0; i < this.upgradeStatus.length; i += 3) {
+
+            if (this.upgradeStatus[i] == upgrade.getId()) {
+                return this.upgradeStatus[i + 2] == 1;
+            }
+        }
         return false;
     }
 
@@ -722,6 +731,7 @@ public class Player {
     // return damage_native(pointer, wpn);
     // }
     //
+
     /**
      * Retrieves the total unit score, as seen in the end-game score screen.
      * Returns The player's unit score.
@@ -770,6 +780,66 @@ public class Player {
      */
     public boolean isObserver() {
         return this.isObserver;
+    }
+
+    /**
+     * Returns true if the this player can train/build the given type immediately.
+     */
+    public boolean canMake(UnitType type) {
+        return minerals >= type.mineralPrice()
+                && gas >= type.gasPrice()
+                && supplyUsed + type.supplyRequired() <= supplyTotal
+                && hasResearched(type.requiredTech())
+                && PlayerUnit.getMissingUnits(bw.getUnits(this), type.requiredUnits()).isEmpty();
+    }
+
+    public boolean canMake(Unit builder, UnitType type) {
+        if (!canMake(type) || !builder.isA(type.whatBuilds().first)) {
+            return false;
+        }
+        return type.requiredUnits().stream().filter(UnitType::isAddon).findAny()
+                .map(requiredAddon -> {
+                    ExtendibleByAddon building = (ExtendibleByAddon) builder;
+                    if (building.getAddon() == null || !building.getAddon().isA(requiredAddon)) {
+                        return false;
+                    }
+                    return true;
+                }).orElse(true);
+    }
+
+    /**
+     * Returns true, if this player can research the given tech immediately.
+     */
+    public boolean canResearch(TechType type) {
+        if (hasResearched(type) || isResearching(type)) {
+            return false;
+        }
+        List<UnitType> requiredUnits = new ArrayList<>();
+        if (type.whatResearches() != UnitType.None) {
+            requiredUnits.add(type.whatResearches());
+        }
+        if (type.requiredUnit() != UnitType.None) {
+            requiredUnits.add(type.requiredUnit());
+        }
+        return minerals >= type.mineralPrice()
+                && gas >= type.gasPrice()
+                && PlayerUnit.getMissingUnits(bw.getUnits(this), requiredUnits).isEmpty();
+    }
+
+    public boolean canUpgrade(UpgradeType type) {
+        int upgradeLevel = getUpgradeLevel(type);
+        if (upgradeLevel >= type.maxRepeats() || isUpgrading(type)) {
+            return false;
+        }
+        List<UnitType> requiredUnits = new ArrayList<>();
+        UnitType whatsRequired = type.whatsRequired(upgradeLevel);
+        if (whatsRequired != UnitType.None) {
+            requiredUnits.add(whatsRequired);
+        }
+        requiredUnits.add(type.whatUpgrades());
+        return minerals >= type.mineralPrice(upgradeLevel)
+                && gas >= type.gasPrice(upgradeLevel)
+                && PlayerUnit.getMissingUnits(bw.getUnits(this), requiredUnits).isEmpty();
     }
 
     // /**

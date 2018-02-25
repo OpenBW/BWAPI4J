@@ -4,7 +4,7 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
-public class BattleCruiser extends MobileUnit implements Mechanical, SpellCaster {
+public class BattleCruiser extends MobileUnit implements Mechanical, SpellCaster, Armed {
 
     private int energy;
 
@@ -37,5 +37,16 @@ public class BattleCruiser extends MobileUnit implements Mechanical, SpellCaster
     public int getEnergy() {
         
         return this.energy;
+    }
+
+
+    @Override
+    public Weapon getGroundWeapon() {
+        return groundWeapon;
+    }
+
+    @Override
+    public Weapon getAirWeapon() {
+        return airWeapon;
     }
 }
