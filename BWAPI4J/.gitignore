@@ -6,6 +6,7 @@ src/test/resources/mockdata/*.txt
 *.bmp
 src/main/java/jsd/
 log4j2-test.xml
+src/test/resources/mockdata/DummyBwemData/
 
 # BW
 BrooDat.mpq
