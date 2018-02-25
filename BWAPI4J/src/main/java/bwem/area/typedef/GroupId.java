@@ -1,7 +1,6 @@
 package bwem.area.typedef;
 
 import bwem.util.IWrappedInteger;
-import java.util.Objects;
 
 /**
  * Immutable wrapper of the integer primitive to satisfy
@@ -12,31 +11,31 @@ public final class GroupId implements IWrappedInteger<GroupId>, Comparable<Group
 
     private final int val;
 
-    public GroupId(int val) {
+    public GroupId(final int val) {
         this.val = val;
     }
 
-    public GroupId(GroupId groupId) {
+    public GroupId(final GroupId groupId) {
         this.val = groupId.val;
     }
 
     @Override
-    public GroupId add(GroupId that) {
+    public GroupId add(final GroupId that) {
         return new GroupId(this.val + that.val);
     }
 
     @Override
-    public GroupId add(int val) {
+    public GroupId add(final int val) {
         return new GroupId(this.val + val);
     }
 
     @Override
-    public GroupId subtract(GroupId that) {
+    public GroupId subtract(final GroupId that) {
         return new GroupId(this.val - that.val);
     }
 
     @Override
-    public GroupId subtract(int val) {
+    public GroupId subtract(final int val) {
         return new GroupId(this.val - val);
     }
 
@@ -46,18 +45,18 @@ public final class GroupId implements IWrappedInteger<GroupId>, Comparable<Group
     }
 
     @Override
-    public int compareTo(GroupId that) {
+    public int compareTo(final GroupId that) {
         return Integer.compare(this.val, that.val);
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(final Object object) {
         if (this == object) {
             return true;
         } else if (!(object instanceof GroupId)) {
             return false;
         } else {
-            GroupId that = (GroupId) object;
+            final GroupId that = (GroupId) object;
             return (this.val == that.val);
         }
     }

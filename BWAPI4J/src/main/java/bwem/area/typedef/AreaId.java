@@ -1,7 +1,6 @@
 package bwem.area.typedef;
 
 import bwem.util.IWrappedInteger;
-import java.util.Objects;
 
 /**
  * Immutable wrapper of the integer primitive to satisfy
@@ -12,31 +11,31 @@ public final class AreaId implements IWrappedInteger<AreaId>, Comparable<AreaId>
 
     private final int val;
 
-    public AreaId(int val) {
+    public AreaId(final int val) {
         this.val = val;
     }
 
-    public AreaId(AreaId areaId) {
+    public AreaId(final AreaId areaId) {
         this.val = areaId.val;
     }
 
     @Override
-    public AreaId add(AreaId that) {
+    public AreaId add(final AreaId that) {
         return new AreaId(this.val + that.val);
     }
 
     @Override
-    public AreaId add(int val) {
+    public AreaId add(final int val) {
         return new AreaId(this.val + val);
     }
 
     @Override
-    public AreaId subtract(AreaId that) {
+    public AreaId subtract(final AreaId that) {
         return new AreaId(this.val - that.val);
     }
 
     @Override
-    public AreaId subtract(int val) {
+    public AreaId subtract(final int val) {
         return new AreaId(this.val - val);
     }
 
@@ -46,18 +45,18 @@ public final class AreaId implements IWrappedInteger<AreaId>, Comparable<AreaId>
     }
 
     @Override
-    public int compareTo(AreaId that) {
+    public int compareTo(final AreaId that) {
         return Integer.compare(this.val, that.val);
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(final Object object) {
         if (this == object) {
             return true;
         } else if (!(object instanceof AreaId)) {
             return false;
         } else {
-            AreaId that = (AreaId) object;
+            final AreaId that = (AreaId) object;
             return (this.val == that.val);
         }
     }
