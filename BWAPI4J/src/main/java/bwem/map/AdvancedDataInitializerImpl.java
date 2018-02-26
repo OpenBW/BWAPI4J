@@ -3,6 +3,7 @@ package bwem.map;
 import bwem.CheckMode;
 import bwem.tile.MiniTile;
 import bwem.tile.MiniTileImpl;
+import bwem.tile.Tile;
 import bwem.tile.TileData;
 import bwem.tile.TileImpl;
 import org.openbw.bwapi4j.BWMap;
@@ -16,6 +17,26 @@ public class AdvancedDataInitializerImpl extends AdvancedDataImpl implements Adv
 
     public AdvancedDataInitializerImpl(final MapData mapData, final TileData tileData) {
         super(mapData, tileData);
+    }
+
+    @Override
+    public Tile getTile_(final TilePosition tilePosition, final CheckMode checkMode) {
+        return getTile(tilePosition, checkMode);
+    }
+
+    @Override
+    public Tile getTile_(final TilePosition p) {
+        return getTile_(p, CheckMode.CHECK);
+    }
+
+    @Override
+    public MiniTile getMiniTile_(final WalkPosition walkPosition, final CheckMode checkMode) {
+        return getMiniTile(walkPosition, checkMode);
+    }
+
+    @Override
+    public MiniTile getMiniTile_(final WalkPosition walkPosition) {
+        return getMiniTile_(walkPosition, CheckMode.CHECK);
     }
 
     ////////////////////////////////////////////////////////////////////////

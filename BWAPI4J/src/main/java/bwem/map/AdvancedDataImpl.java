@@ -7,12 +7,12 @@ import bwem.tile.TileData;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 
-public class AdvancedDataImpl implements AdvancedData {
+public abstract class AdvancedDataImpl implements AdvancedData {
 
     private final MapData mapData;
     private final TileData tileData;
 
-    public AdvancedDataImpl(final MapData mapData, final TileData tileData) {
+    protected AdvancedDataImpl(final MapData mapData, final TileData tileData) {
         this.mapData = mapData;
         this.tileData = tileData;
     }
@@ -42,16 +42,6 @@ public class AdvancedDataImpl implements AdvancedData {
     }
 
     @Override
-    public Tile getTile_(final TilePosition tilePosition, final CheckMode checkMode) {
-        return getTile(tilePosition, checkMode);
-    }
-
-    @Override
-    public Tile getTile_(final TilePosition p) {
-        return getTile_(p, CheckMode.CHECK);
-    }
-
-    @Override
     public MiniTile getMiniTile(final WalkPosition walkPosition, final CheckMode checkMode) {
 //        bwem_assert((checkMode == utils::Check::no_check) || Valid(p));
         if (!((checkMode == CheckMode.NO_CHECK) || getMapData().isValid(walkPosition))) {
@@ -63,16 +53,6 @@ public class AdvancedDataImpl implements AdvancedData {
     @Override
     public MiniTile getMiniTile(final WalkPosition walkPosition) {
         return getMiniTile(walkPosition, CheckMode.CHECK);
-    }
-
-    @Override
-    public MiniTile getMiniTile_(final WalkPosition walkPosition, final CheckMode checkMode) {
-        return getMiniTile(walkPosition, checkMode);
-    }
-
-    @Override
-    public MiniTile getMiniTile_(final WalkPosition walkPosition) {
-        return getMiniTile_(walkPosition, CheckMode.CHECK);
     }
 
     @Override

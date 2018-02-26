@@ -1,6 +1,7 @@
 package bwem.unit;
 
 import bwem.area.Area;
+import bwem.map.AdvancedDataInitializer;
 import bwem.map.Map;
 import bwem.map.MapImpl;
 import bwem.tile.Tile;
@@ -158,7 +159,7 @@ public class Neutral {
 
         for (int dy = 0; dy < getSize().getY(); ++dy)
         for (int dx = 0; dx < getSize().getX(); ++dx) {
-            Tile tile = getMap().getData().getTile_(getTopLeft().add(new TilePosition(dx, dy)));
+            Tile tile = ((AdvancedDataInitializer) getMap().getData()).getTile_(getTopLeft().add(new TilePosition(dx, dy)));
             if (tile.getNeutral() == null) {
                 ((TileImpl) tile).addNeutral(this);
             } else {
@@ -196,7 +197,7 @@ public class Neutral {
     public void removeFromTiles() {
         for (int dy = 0; dy < getSize().getY(); ++dy)
         for (int dx = 0; dx < getSize().getX(); ++dx) {
-            Tile tile = getMap().getData().getTile_(getTopLeft().add(new TilePosition(dx, dy)));
+            Tile tile = ((AdvancedDataInitializer) getMap().getData()).getTile_(getTopLeft().add(new TilePosition(dx, dy)));
 //            bwem_assert(tile.GetNeutral());
             if (tile.getNeutral() == null) {
                 throw new IllegalStateException();

@@ -5,6 +5,7 @@ import bwem.area.TempAreaInfo;
 import bwem.area.typedef.AreaId;
 import bwem.tile.MiniTile;
 import bwem.tile.MiniTileImpl;
+import bwem.tile.Tile;
 import bwem.tile.TileData;
 import bwem.tile.TileDataImpl;
 import bwem.tile.TileImpl;
@@ -242,7 +243,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                     for (final WalkPosition delta : deltas) {
                         final WalkPosition w = current.getLeft().add(delta);
                         if (advancedData.getMapData().isValid(w)) {
-                            final MiniTile miniTile = advancedData.getMiniTile_(w, CheckMode.NO_CHECK);
+                            final MiniTile miniTile = ((AdvancedDataInitializer) advancedData).getMiniTile_(w, CheckMode.NO_CHECK);
                             if (((MiniTileImpl) miniTile).isAltitudeMissing()) {
                                 if (updatedMaxAltitude != null && updatedMaxAltitude.intValue() > altitude.intValue()) {
                                     throw new IllegalStateException();
@@ -426,7 +427,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
             final WalkPosition pCandidateW = pCandidate.getSize().toWalkPosition();
             for (int dy = 0; dy < pCandidateW.getY(); ++dy) {
                 for (int dx = 0; dx < pCandidateW.getX(); ++dx) {
-                    final MiniTile miniTile = getData().getMiniTile_(((pCandidate.getTopLeft().toPosition()).toWalkPosition()).add(new WalkPosition(dx, dy)));
+                    final MiniTile miniTile = ((AdvancedDataInitializer) getData()).getMiniTile_(((pCandidate.getTopLeft().toPosition()).toWalkPosition()).add(new WalkPosition(dx, dy)));
                     if (miniTile.isWalkable()) {
                         ((MiniTileImpl) miniTile).setBlocked();
                     }
@@ -463,7 +464,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
         for (int y = 0; y < getData().getMapData().getWalkSize().getY(); ++y) {
             for (int x = 0; x < getData().getMapData().getWalkSize().getX(); ++x) {
                 final WalkPosition w = new WalkPosition(x, y);
-                final MiniTile miniTile = getData().getMiniTile_(w, CheckMode.NO_CHECK);
+                final MiniTile miniTile = ((AdvancedDataInitializer) getData()).getMiniTile_(w, CheckMode.NO_CHECK);
                 if (((MiniTileImpl) miniTile).isAreaIdMissing()) {
                     miniTilesByDescendingAltitude.add(new MutablePair<>(w, miniTile));
                 }
@@ -544,7 +545,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
 
     @Override
     public void replaceAreaIds(final WalkPosition p, final AreaId newAreaId) {
-        final MiniTile origin = getData().getMiniTile_(p, CheckMode.NO_CHECK);
+        final MiniTile origin = ((AdvancedDataInitializer) getData()).getMiniTile_(p, CheckMode.NO_CHECK);
         final AreaId oldAreaId = origin.getAreaId();
         ((MiniTileImpl) origin).replaceAreaId(newAreaId);
 
@@ -557,7 +558,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
             for (final WalkPosition delta : deltas) {
                 final WalkPosition next = current.add(delta);
                 if (getData().getMapData().isValid(next)) {
-                    final MiniTile miniTile = getData().getMiniTile_(next, CheckMode.NO_CHECK);
+                    final MiniTile miniTile = ((AdvancedDataInitializer) getData()).getMiniTile_(next, CheckMode.NO_CHECK);
                     if (miniTile.getAreaId().equals(oldAreaId)) {
                         toSearch.add(next);
                         ((MiniTileImpl) miniTile).replaceAreaId(newAreaId);
@@ -623,7 +624,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                 }
             }
 
-        ((TileImpl) getData().getTile_(t)).setMinAltitude(minAltitude);
+        ((TileImpl) ((AdvancedDataInitializer) getData()).getTile_(t)).setMinAltitude(minAltitude);
     }
 
     // Renamed from "MapImpl::SetAreaIdInTiles"
