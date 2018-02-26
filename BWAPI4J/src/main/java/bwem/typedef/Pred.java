@@ -1,5 +1,7 @@
 package bwem.typedef;
 
 public interface Pred {
-    boolean isTrue(Object... args);
+
+    public abstract boolean isTrue(final Object... args);
+
 }
