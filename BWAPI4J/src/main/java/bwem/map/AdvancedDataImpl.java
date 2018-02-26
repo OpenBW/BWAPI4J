@@ -33,7 +33,7 @@ public abstract class AdvancedDataImpl implements AdvancedData {
         if (!((checkMode == CheckMode.NO_CHECK) || getMapData().isValid(tilePosition))) {
             throw new IllegalArgumentException();
         }
-        return this.tileData.getTiles().get(getMapData().getTileSize().getX() * tilePosition.getY() + tilePosition.getX());
+        return getTileData().getTiles().get(getMapData().getTileSize().getX() * tilePosition.getY() + tilePosition.getX());
     }
 
     @Override
@@ -47,7 +47,7 @@ public abstract class AdvancedDataImpl implements AdvancedData {
         if (!((checkMode == CheckMode.NO_CHECK) || getMapData().isValid(walkPosition))) {
             throw new IllegalArgumentException();
         }
-        return this.tileData.getMiniTiles().get(getMapData().getWalkSize().getX() * walkPosition.getY() + walkPosition.getX());
+        return getTileData().getMiniTiles().get(getMapData().getWalkSize().getX() * walkPosition.getY() + walkPosition.getX());
     }
 
     @Override
