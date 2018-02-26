@@ -34,6 +34,10 @@ public interface AreaInitializer {
 
     public abstract int[] computeDistances(ChokePoint startCP, List<ChokePoint> targetCPs);
 
+    // Returns Distances such that Distances[i] == ground_distance(start, targets[i]) in pixels
+    // Note: same algorithm than Graph::computeDistances (derived from Dijkstra)
+    public abstract int[] computeDistances(TilePosition start, List<TilePosition> targets);
+
     public abstract void updateAccessibleNeighbors();
 
     // Fills in bases with good locations in this Area.
@@ -56,9 +60,5 @@ public interface AreaInitializer {
     // The function is intended to be called after computeBaseLocationScore, as it is more expensive.
     // See also the comments inside computeBaseLocationScore.
     public abstract boolean validateBaseLocation(AdvancedData mapAdvancedData, TilePosition location, List<Mineral> blockingMinerals);
-
-    // Returns Distances such that Distances[i] == ground_distance(start, targets[i]) in pixels
-    // Note: same algorithm than Graph::computeDistances (derived from Dijkstra)
-    public abstract int[] computeDistances(TilePosition start, List<TilePosition> targets);
 
 }

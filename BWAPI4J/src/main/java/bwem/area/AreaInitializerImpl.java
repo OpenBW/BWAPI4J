@@ -190,6 +190,84 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
     }
 
     @Override
+    public int[] computeDistances(final TilePosition start, final List<TilePosition> targets) {
+        final int[] distances = new int[targets.size()];
+
+        TileImpl.getStaticMarkable().unmarkAll();
+
+        final Queue<ImmutablePair<Integer, TilePosition>> toVisit = new PriorityQueue<>(Comparator.comparingInt(ImmutablePair::getLeft)); // a priority queue holding the tiles to visit ordered by their distance to start.
+        toVisit.offer(new ImmutablePair<>(0, start));
+
+        int remainingTargets = targets.size();
+        while (!toVisit.isEmpty()) {
+            final ImmutablePair<Integer, TilePosition> distanceAndTilePosition = toVisit.poll();
+            final int currentDist = distanceAndTilePosition.getLeft();
+            final TilePosition current = distanceAndTilePosition.getRight();
+            final Tile currentTile = getMap().getData().getTile(current, CheckMode.NO_CHECK);
+//            bwem_assert(currentTile.InternalData() == currentDist);
+            if (!(((TileImpl) currentTile).getInternalData().intValue() == currentDist)) {
+                throw new IllegalStateException("currentTile.InternalData().intValue()=" + ((TileImpl) currentTile).getInternalData().intValue() + ", currentDist=" + currentDist);
+            }
+            ((TileImpl) currentTile).getInternalData().setValue(0); // resets Tile::m_internalData for future usage
+            currentTile.getMarkable().setMarked();
+
+            for (int i = 0; i < targets.size(); ++i) {
+                if (current.equals(targets.get(i))) {
+                    distances[i] = (int) (0.5 + (currentDist * 32.0 /10000.0));
+                    --remainingTargets;
+                }
+            }
+            if (remainingTargets == 0) {
+                break;
+            }
+
+            final TilePosition[] deltas = {
+                    new TilePosition(-1, -1), new TilePosition(0, -1), new TilePosition(+1, -1),
+                    new TilePosition(-1,  0),                          new TilePosition(+1,  0),
+                    new TilePosition(-1, +1), new TilePosition(0, +1), new TilePosition(+1, +1)
+            };
+            for (final TilePosition delta : deltas) {
+                final boolean diagonalMove = (delta.getX() != 0) && (delta.getY() != 0);
+                final int newNextDist = currentDist + (diagonalMove ? 14142 : 10000);
+
+                final TilePosition next = current.add(delta);
+                if (getMap().getData().getMapData().isValid(next)) {
+                    final Tile nextTile = getMap().getData().getTile(next, CheckMode.NO_CHECK);
+                    if (!nextTile.getMarkable().isMarked()) {
+                        if (((TileImpl) nextTile).getInternalData().intValue() != 0) { // next already in toVisit
+                            if (newNextDist < ((TileImpl) nextTile).getInternalData().intValue()) { // nextNewDist < nextOldDist
+                                // To update next's distance, we need to remove-insert it from toVisit:
+//                                bwem_assert(iNext != range.second);
+                                final boolean removed = toVisit.remove(new ImmutablePair<>(((TileImpl) nextTile).getInternalData().intValue(), next));
+                                if (!removed) {
+                                    throw new IllegalStateException();
+                                }
+                                ((TileImpl) nextTile).getInternalData().setValue(newNextDist);
+                                toVisit.offer(new ImmutablePair<>(newNextDist, next));
+                            }
+                        } else if ((nextTile.getAreaId().equals(getId())) || (nextTile.getAreaId().equals(new AreaId(-1)))) {
+                            ((TileImpl) nextTile).getInternalData().setValue(newNextDist);
+                            toVisit.offer(new ImmutablePair<>(newNextDist, next));
+                        }
+                    }
+                }
+            }
+        }
+
+//        bwem_assert(!remainingTargets);
+        if (!(remainingTargets == 0)) {
+            throw new IllegalStateException();
+        }
+
+        for (final ImmutablePair<Integer, TilePosition> distanceAndTilePosition : toVisit) {
+            final TileImpl tileToUpdate = ((TileImpl) getMap().getData().getTile(distanceAndTilePosition.getRight(), CheckMode.NO_CHECK));
+            tileToUpdate.getInternalData().setValue(0);
+        }
+
+        return distances;
+    }
+
+    @Override
     public void updateAccessibleNeighbors() {
         super.accessibleNeighbors.clear();
         for (final Area area : getChokePointsByArea().keySet()) {
@@ -400,84 +478,6 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
         }
 
         return true;
-    }
-
-    @Override
-    public int[] computeDistances(final TilePosition start, final List<TilePosition> targets) {
-        final int[] distances = new int[targets.size()];
-
-        TileImpl.getStaticMarkable().unmarkAll();
-
-        final Queue<ImmutablePair<Integer, TilePosition>> toVisit = new PriorityQueue<>(Comparator.comparingInt(ImmutablePair::getLeft)); // a priority queue holding the tiles to visit ordered by their distance to start.
-        toVisit.offer(new ImmutablePair<>(0, start));
-
-        int remainingTargets = targets.size();
-        while (!toVisit.isEmpty()) {
-            final ImmutablePair<Integer, TilePosition> distanceAndTilePosition = toVisit.poll();
-            final int currentDist = distanceAndTilePosition.getLeft();
-            final TilePosition current = distanceAndTilePosition.getRight();
-            final Tile currentTile = getMap().getData().getTile(current, CheckMode.NO_CHECK);
-//            bwem_assert(currentTile.InternalData() == currentDist);
-            if (!(((TileImpl) currentTile).getInternalData().intValue() == currentDist)) {
-                throw new IllegalStateException("currentTile.InternalData().intValue()=" + ((TileImpl) currentTile).getInternalData().intValue() + ", currentDist=" + currentDist);
-            }
-            ((TileImpl) currentTile).getInternalData().setValue(0); // resets Tile::m_internalData for future usage
-            currentTile.getMarkable().setMarked();
-
-            for (int i = 0; i < targets.size(); ++i) {
-                if (current.equals(targets.get(i))) {
-                    distances[i] = (int) (0.5 + (currentDist * 32.0 /10000.0));
-                    --remainingTargets;
-                }
-            }
-            if (remainingTargets == 0) {
-                break;
-            }
-
-            final TilePosition[] deltas = {
-                    new TilePosition(-1, -1), new TilePosition(0, -1), new TilePosition(+1, -1),
-                    new TilePosition(-1,  0),                          new TilePosition(+1,  0),
-                    new TilePosition(-1, +1), new TilePosition(0, +1), new TilePosition(+1, +1)
-            };
-            for (final TilePosition delta : deltas) {
-                final boolean diagonalMove = (delta.getX() != 0) && (delta.getY() != 0);
-                final int newNextDist = currentDist + (diagonalMove ? 14142 : 10000);
-
-                final TilePosition next = current.add(delta);
-                if (getMap().getData().getMapData().isValid(next)) {
-                    final Tile nextTile = getMap().getData().getTile(next, CheckMode.NO_CHECK);
-                    if (!nextTile.getMarkable().isMarked()) {
-                        if (((TileImpl) nextTile).getInternalData().intValue() != 0) { // next already in toVisit
-                            if (newNextDist < ((TileImpl) nextTile).getInternalData().intValue()) { // nextNewDist < nextOldDist
-                                // To update next's distance, we need to remove-insert it from toVisit:
-//                                bwem_assert(iNext != range.second);
-                                final boolean removed = toVisit.remove(new ImmutablePair<>(((TileImpl) nextTile).getInternalData().intValue(), next));
-                                if (!removed) {
-                                    throw new IllegalStateException();
-                                }
-                                ((TileImpl) nextTile).getInternalData().setValue(newNextDist);
-                                toVisit.offer(new ImmutablePair<>(newNextDist, next));
-                            }
-                        } else if ((nextTile.getAreaId().equals(getId())) || (nextTile.getAreaId().equals(new AreaId(-1)))) {
-                            ((TileImpl) nextTile).getInternalData().setValue(newNextDist);
-                            toVisit.offer(new ImmutablePair<>(newNextDist, next));
-                        }
-                    }
-                }
-            }
-        }
-
-//        bwem_assert(!remainingTargets);
-        if (!(remainingTargets == 0)) {
-            throw new IllegalStateException();
-        }
-
-        for (final ImmutablePair<Integer, TilePosition> distanceAndTilePosition : toVisit) {
-            final TileImpl tileToUpdate = ((TileImpl) getMap().getData().getTile(distanceAndTilePosition.getRight(), CheckMode.NO_CHECK));
-            tileToUpdate.getInternalData().setValue(0);
-        }
-
-        return distances;
     }
 
 }
