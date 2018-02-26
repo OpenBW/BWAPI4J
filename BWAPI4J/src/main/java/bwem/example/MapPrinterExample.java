@@ -166,7 +166,7 @@ public class MapPrinterExample {
                     }
             }
 
-        if (mapPrinter.showAssignedRessources)
+        if (mapPrinter.showAssignedResources)
             for (Area area : theMap.getAreas())
                 for (Base base : area.getBases()) {
                     for (Mineral m : base.getMinerals())

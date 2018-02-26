@@ -23,7 +23,7 @@ import java.util.Objects;
 //
 // After Areas and ChokePoints, Bases are the third kind of object BWEM automatically computes from Brood War's maps.
 // A Base is essentially a suggested location (intended to be optimal) to put a Command Center, Nexus, or Hatchery.
-// It also provides information on the ressources available, and some statistics.
+// It also provides information on the resources available, and some statistics.
 // A Base alway belongs to some Area. An Area may contain zero, one or several Bases.
 // Like Areas and ChokePoints, the number and the addresses of Base instances remain unchanged.
 //
@@ -49,7 +49,7 @@ public final class Base {
         center = BwemExt.centerOfBuilding(location, UnitType.Terran_Command_Center.tileSize());
         this.BlockingMinerals = blockingMinerals;
 
-//        bwem_assert(!AssignedRessources.empty());
+//        bwem_assert(!AssignedResources.empty());
         if (assignedResources.isEmpty()) {
             throw new IllegalArgumentException();
         }

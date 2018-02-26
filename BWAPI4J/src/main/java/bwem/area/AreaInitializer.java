@@ -37,15 +37,15 @@ public interface AreaInitializer {
     public abstract void updateAccessibleNeighbors();
 
     // Fills in bases with good locations in this Area.
-    // The algorithm repeatedly searches the best possible location L (near ressources)
-    // When it finds one, the nearby ressources are assigned to L, which makes the remaining ressources decrease.
-    // This causes the algorithm to always terminate due to the lack of remaining ressources.
-    // To efficiently compute the distances to the ressources, with use Potiential Fields in the InternalData() value of the Tiles.
+    // The algorithm repeatedly searches the best possible location L (near resources)
+    // When it finds one, the nearby resources are assigned to L, which makes the remaining resources decrease.
+    // This causes the algorithm to always terminate due to the lack of remaining resources.
+    // To efficiently compute the distances to the resources, with use Potiential Fields in the InternalData() value of the Tiles.
     public abstract void createBases(AdvancedData mapAdvancedData);
 
     // Calculates the score >= 0 corresponding to the placement of a Base Command center at 'location'.
-    // The more there are ressources nearby, the higher the score is.
-    // The function assumes the distance to the nearby ressources has already been computed (in InternalData()) for each tile around.
+    // The more there are resources nearby, the higher the score is.
+    // The function assumes the distance to the nearby resources has already been computed (in InternalData()) for each tile around.
     // The job is therefore made easier : just need to sum the InternalData() values.
     // Returns -1 if the location is impossible.
     public abstract int computeBaseLocationScore(AdvancedData mapAdvancedData, TilePosition location);

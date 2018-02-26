@@ -240,7 +240,7 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
             topLeftSearchBoundingBox = BwemExt.makePointFitToBoundingBox(topLeftSearchBoundingBox, getTopLeft(), getBottomRight().subtract(resourceDepotDimensions).add(new TilePosition(1, 1)));
             bottomRightSearchBoundingBox = BwemExt.makePointFitToBoundingBox(bottomRightSearchBoundingBox, getTopLeft(), getBottomRight().subtract(resourceDepotDimensions).add(new TilePosition(1, 1)));
 
-            // 2) Mark the Tiles with their distances from each remaining Ressource (Potential Fields >= 0)
+            // 2) Mark the Tiles with their distances from each remaining Resource (Potential Fields >= 0)
             for (final Resource r : remainingResources)
                 for (int dy = -resourceDepotDimensions.getY() - BwemExt.MAX_TILES_BETWEEN_COMMAND_CENTER_AND_RESOURCES; dy < r.getSize().getY() + resourceDepotDimensions.getY() + BwemExt.MAX_TILES_BETWEEN_COMMAND_CENTER_AND_RESOURCES; ++dy)
                     for (int dx = -resourceDepotDimensions.getX() - BwemExt.MAX_TILES_BETWEEN_COMMAND_CENTER_AND_RESOURCES; dx < r.getSize().getX() + resourceDepotDimensions.getX() + BwemExt.MAX_TILES_BETWEEN_COMMAND_CENTER_AND_RESOURCES; ++dx) {
@@ -304,7 +304,7 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
                 break;
             }
 
-            // 6) Create a new Base at bestLocation, assign to it the relevant ressources and remove them from RemainingRessources:
+            // 6) Create a new Base at bestLocation, assign to it the relevant resources and remove them from RemainingResources:
             final List<Resource> assignedResources = new ArrayList<>();
             for (final Resource r : remainingResources) {
                 if (BwemExt.distToRectangle(r.getCenter(), bestLocation.toPosition(), resourceDepotDimensions.toPosition()) + 2 <= BwemExt.MAX_TILES_BETWEEN_COMMAND_CENTER_AND_RESOURCES * TilePosition.SIZE_IN_PIXELS) {
@@ -348,8 +348,8 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
                     return -1;
                 }
                 if (((TileImpl) tile).getInternalData().intValue() == -1) {
-                    // The special value InternalData() == -1 means there is some ressource at maximum 3 tiles, which Starcraft rules forbid.
-                    // Unfortunately, this is guaranteed only for the ressources in this Area, which is the very reason of validateBaseLocation
+                    // The special value InternalData() == -1 means there is some resource at maximum 3 tiles, which Starcraft rules forbid.
+                    // Unfortunately, this is guaranteed only for the resources in this Area, which is the very reason of validateBaseLocation
                     return -1;
                 }
                 if (!tile.getAreaId().equals(getId())){

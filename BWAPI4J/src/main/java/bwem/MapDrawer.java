@@ -75,7 +75,7 @@ public class MapDrawer {
     private final MutableBoolean showGeysers = new MutableBoolean(true);
     private final MutableBoolean showStaticBuildings = new MutableBoolean(true);
     private final MutableBoolean showBases = new MutableBoolean(true);
-    private final MutableBoolean showAssignedRessources = new MutableBoolean(true);
+    private final MutableBoolean showAssignedResources = new MutableBoolean(true);
     private final MutableBoolean showFrontier = new MutableBoolean(true);
     private final MutableBoolean showCP = new MutableBoolean(true);
 
@@ -92,7 +92,7 @@ public class MapDrawer {
         if (processCommandVariants(command, Command.SHOW_GEYSERS.toString(), showGeysers)) return true;
         if (processCommandVariants(command, Command.SHOW_STATIC_BUILDINGS.toString(), showStaticBuildings)) return true;
         if (processCommandVariants(command, Command.SHOW_BASES.toString(), showBases)) return true;
-        if (processCommandVariants(command, Command.SHOW_ASSIGNED_RESOURCES.toString(), showAssignedRessources)) return true;
+        if (processCommandVariants(command, Command.SHOW_ASSIGNED_RESOURCES.toString(), showAssignedResources)) return true;
         if (processCommandVariants(command, Command.SHOW_FRONTIER.toString(), showFrontier)) return true;
         if (processCommandVariants(command, Command.SHOW_CP.toString(), showCP)) return true;
 
@@ -104,7 +104,7 @@ public class MapDrawer {
         if (processCommandVariants(command, "all", showGeysers))
         if (processCommandVariants(command, "all", showStaticBuildings))
         if (processCommandVariants(command, "all", showBases))
-        if (processCommandVariants(command, "all", showAssignedRessources))
+        if (processCommandVariants(command, "all", showAssignedResources))
         if (processCommandVariants(command, "all", showFrontier))
         if (processCommandVariants(command, "all", showCP))
             return true;

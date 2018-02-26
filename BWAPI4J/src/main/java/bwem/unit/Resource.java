@@ -5,11 +5,11 @@ import org.openbw.bwapi4j.unit.Unit;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
-//                                  class Ressource
+//                                  class Resource
 //                                                                                          //
 //////////////////////////////////////////////////////////////////////////////////////////////
 //
-// A Ressource is either a Mineral or a Geyser
+// A Resource is either a Mineral or a Geyser
 //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -19,10 +19,10 @@ public abstract class Resource extends Neutral {
         super(u, map);
     }
 
-    // Returns the initial amount of ressources for this Ressource (same as unit()->getInitialResources).
+    // Returns the initial amount of resources for this Resource (same as unit()->getInitialResources).
     public abstract int getInitialAmount();
 
-    // Returns the current amount of ressources for this Ressource (same as unit()->getResources).
+    // Returns the current amount of resources for this Resource (same as unit()->getResources).
     public abstract int getAmount();
 
     @Override

@@ -71,7 +71,7 @@ public class MapPrinter {
     public final boolean showStackedNeutrals = true;		// renders the StaticBuildings and the minerals that are stacked
     public final boolean showStartingLocations = true;		// renders the bases that are at starting locations
     public final boolean showBases = true;					// prints the bases suggested by BWEM
-    public final boolean showAssignedRessources = showBases;		// renders the Ressources assigned to each Base, unless showBases == false
+    public final boolean showAssignedResources = showBases;		// renders the Resources assigned to each Base, unless showBases == false
     public final boolean showData = false;					// renders the Data() value for each MiniTile
 
     public MapPrinter() {

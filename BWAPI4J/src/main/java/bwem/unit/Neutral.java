@@ -20,7 +20,7 @@ import org.openbw.bwapi4j.unit.Unit;
 //////////////////////////////////////////////////////////////////////////////////////////////
 //
 // Neutral is the abstract base class for a small hierarchy of wrappers around some BWAPI::Units
-// The units concerned are the Ressources (Minerals and Geysers) and the static Buildings.
+// The units concerned are the Resources (Minerals and Geysers) and the static Buildings.
 // Stacked Neutrals are supported, provided they share the same type at the same location.
 //
 //////////////////////////////////////////////////////////////////////////////////////////////
