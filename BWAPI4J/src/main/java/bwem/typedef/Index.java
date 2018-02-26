@@ -1,7 +1,6 @@
 package bwem.typedef;
 
 import bwem.util.IWrappedInteger;
-import java.util.Objects;
 
 /**
  * Immutable wrapper of the integer primitive to satisfy
@@ -12,31 +11,31 @@ public final class Index implements IWrappedInteger<Index>, Comparable<Index> {
 
     private final int val;
 
-    public Index(int val) {
+    public Index(final int val) {
         this.val = val;
     }
 
-    public Index(Index index) {
+    public Index(final Index index) {
         this.val = index.val;
     }
 
     @Override
-    public Index add(Index that) {
+    public Index add(final Index that) {
         return new Index(this.val + that.val);
     }
 
     @Override
-    public Index add(int val) {
+    public Index add(final int val) {
         return new Index(this.val + val);
     }
 
     @Override
-    public Index subtract(Index that) {
+    public Index subtract(final Index that) {
         return new Index(this.val - that.val);
     }
 
     @Override
-    public Index subtract(int val) {
+    public Index subtract(final int val) {
         return new Index(this.val - val);
     }
 
@@ -46,18 +45,18 @@ public final class Index implements IWrappedInteger<Index>, Comparable<Index> {
     }
 
     @Override
-    public int compareTo(Index that) {
+    public int compareTo(final Index that) {
         return Integer.compare(this.val, that.val);
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(final Object object) {
         if (this == object) {
             return true;
         } else if (!(object instanceof Index)) {
             return false;
         } else {
-            Index that = (Index) object;
+            final Index that = (Index) object;
             return (this.val == that.val);
         }
     }
