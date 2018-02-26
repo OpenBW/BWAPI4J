@@ -1,8 +1,5 @@
 package bwem.tile;
 
-import bwem.tile.MiniTile;
-import bwem.tile.Tile;
-
 import java.util.List;
 
 public interface TileData {
