@@ -20,9 +20,9 @@ public abstract class AreaImpl implements Area {
     private final AreaId id;
     protected GroupId groupId = new GroupId(0);
     private final WalkPosition walkPositionWithHighestAltitude;
+    protected Altitude highestAltitude;
     protected TilePosition topLeft = new TilePosition(Integer.MAX_VALUE, Integer.MAX_VALUE);
     protected TilePosition bottomRight = new TilePosition(Integer.MIN_VALUE, Integer.MIN_VALUE);
-    protected Altitude highestAltitude;
     private final int miniTileCount;
     protected int tileCount = 0;
     protected int buildableTileCount = 0; /* Set and later incremented but not used in original C++ BWEM 1.4.1. Remains for portability consistency. */

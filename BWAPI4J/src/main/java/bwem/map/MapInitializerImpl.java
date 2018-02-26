@@ -521,7 +521,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                     tempAreaList.get(bigger.intValue()).add(cur);
 
                     // merges the two neighboring areas:
-                    replaceAreaIds(tempAreaList.get(smaller.intValue()).getTop(), bigger);
+                    replaceAreaIds(tempAreaList.get(smaller.intValue()).getWalkPositionWithHighestAltitude(), bigger);
                     tempAreaList.get(bigger.intValue()).merge(tempAreaList.get(smaller.intValue()));
                 } else { // no merge : cur starts or continues the frontier between the two neighboring areas
                     // adds cur to the chosen Area:
@@ -595,13 +595,13 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                         throw new IllegalStateException();
                     }
                     if (newAreaId != tempArea.getId().intValue()) {
-                        replaceAreaIds(tempArea.getTop(), new AreaId(newAreaId));
+                        replaceAreaIds(tempArea.getWalkPositionWithHighestAltitude(), new AreaId(newAreaId));
                     }
 
-                    areasList.add(new MutablePair<>(tempArea.getTop(), tempArea.getSize()));
+                    areasList.add(new MutablePair<>(tempArea.getWalkPositionWithHighestAltitude(), tempArea.getSize()));
                     ++newAreaId;
                 } else {
-                    replaceAreaIds(tempArea.getTop(), new AreaId(newTinyAreaId));
+                    replaceAreaIds(tempArea.getWalkPositionWithHighestAltitude(), new AreaId(newTinyAreaId));
                     --newTinyAreaId;
                 }
             }
