@@ -9,34 +9,34 @@ import java.util.List;
 public interface MapData {
 
     // Returns the size of the Map in Tiles.
-    TilePosition getTileSize();
+    public abstract TilePosition getTileSize();
 
     // Returns the size of the Map in MiniTiles.
-    WalkPosition getWalkSize();
+    public abstract WalkPosition getWalkSize();
 
     // Returns the size of the Map in pixels.
-    Position getPixelSize();
+    public abstract Position getPixelSize();
 
     // Returns the center of the Map in pixels.
-    Position getCenter();
+    public abstract Position getCenter();
 
     // Returns a reference to the starting Locations.
     // Note: these correspond to BWAPI::getStartLocations().
-    List<TilePosition> getStartingLocations();
+    public abstract List<TilePosition> getStartingLocations();
 
-    boolean isValid(TilePosition tilePosition);
+    public abstract boolean isValid(TilePosition tilePosition);
 
-    boolean isValid(WalkPosition walkPosition);
+    public abstract boolean isValid(WalkPosition walkPosition);
 
-    boolean isValid(Position position);
+    public abstract boolean isValid(Position position);
 
-    TilePosition crop(TilePosition tilePosition);
+    public abstract TilePosition crop(TilePosition tilePosition);
 
-    WalkPosition crop(WalkPosition walkPosition);
+    public abstract WalkPosition crop(WalkPosition walkPosition);
 
-    Position crop(Position position);
+    public abstract Position crop(Position position);
 
     // Returns a random position in the Map in pixels.
-    Position getRandomPosition();
+    public abstract Position getRandomPosition();
 
 }
