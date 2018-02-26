@@ -1,10 +1,10 @@
 package bwem.typedef;
 
 import bwem.ChokePoint;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 /**
  * Type of all the Paths used in BWEM (Cf. Map::GetPath).
@@ -24,15 +24,15 @@ public class CPPath implements Iterable<ChokePoint> {
         return this.chokepoints.size();
     }
 
-    public ChokePoint get(int index) {
+    public ChokePoint get(final int index) {
         return this.chokepoints.get(index);
     }
 
-    public void add(ChokePoint chokepoint) {
+    public void add(final ChokePoint chokepoint) {
         this.chokepoints.add(chokepoint);
     }
 
-    public void add(int index, ChokePoint chokepoint) {
+    public void add(final int index, final ChokePoint chokepoint) {
         this.chokepoints.add(index, chokepoint);
     }
 
