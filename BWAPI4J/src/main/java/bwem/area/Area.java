@@ -29,7 +29,7 @@ import java.util.List;
 public interface Area {
 
     /**
-     * - Unique id > 0 of this Area. Range = 1 .. Map::Areas().size()<br/>
+     * - Unique id > 0 of this Area. Range = 1.. Map::Areas().size()<br/>
      * - this == Map::GetArea(id())<br/>
      * - id() == Map::GetMiniTile(w).AreaId() for each walkable MiniTile w in this Area.<br/>
      * - Area::ids are guaranteed to remain unchanged.

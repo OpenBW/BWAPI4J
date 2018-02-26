@@ -126,7 +126,7 @@ public class TileImpl implements Tile {
     }
 
     public void setMinAltitude(final Altitude minAltitude) {
-//        { bwem_assert(a >= 0); this .minAltitude = a; }
+//        { bwem_assert(a >= 0); this.minAltitude = a; }
         if (!(minAltitude.intValue() >= 0)) {
             throw new IllegalArgumentException();
         }

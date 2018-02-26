@@ -145,18 +145,18 @@ public final class Base {
             return false;
         } else {
             Base that = (Base) object;
-            return (this .area.equals(that .area)
-                    && this .location.equals(that .location)
-                    && this .center.equals(that .center));
+            return (this.area.equals(that.area)
+                    && this.location.equals(that.location)
+                    && this.center.equals(that.center));
         }
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(
-                this .area,
-                this .location,
-                this .center
+                this.area,
+                this.location,
+                this.center
         );
     }
 

@@ -133,8 +133,8 @@ public class Neutral {
 	// Returns the last Neutral stacked over this Neutral, if ever.
 	public Neutral getLastStacked() {
         Neutral pTop = this;
-        while (pTop .nextStacked != null) {
-            pTop = pTop .nextStacked;
+        while (pTop.nextStacked != null) {
+            pTop = pTop.nextStacked;
         }
         return pTop;
     }
@@ -183,7 +183,7 @@ public class Neutral {
 //                    bwem_assert((dx == 0) && (dy == 0));
                     throw new IllegalStateException();
                 }
-                pTop .nextStacked = this;
+                pTop.nextStacked = this;
                 return;
             }
         }
@@ -224,7 +224,7 @@ public class Neutral {
                     throw new IllegalStateException();
                 }
 
-                pPrevStacked .nextStacked = nextStacked;
+                pPrevStacked.nextStacked = nextStacked;
                 nextStacked = null;
                 return;
             }

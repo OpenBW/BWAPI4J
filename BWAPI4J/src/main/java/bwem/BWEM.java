@@ -28,7 +28,7 @@ public final class BWEM {
         if (!(this.map instanceof MapInitializer)) {
             throw new IllegalStateException("BWEM initialization failed.");
         } else {
-            MapInitializer map = (MapInitializer) this .map;
+            MapInitializer map = (MapInitializer) this.map;
             map.initialize();
         }
     }

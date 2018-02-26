@@ -179,7 +179,7 @@ public class MapImpl implements Map {
                 //TODO: Handle this exception appropriately.
                 /**
                  * An exception WILL be thrown if the unit is not in
-                 * the "Map .StaticBuildings" list.
+                 * the "Map.StaticBuildings" list.
                  * Just ignore the exception.
                  */
             }

@@ -263,7 +263,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
 
     @Override
     public void setMaxAltitude(final Altitude altitude) {
-        super .maxAltitude = new Altitude(altitude);
+        super.maxAltitude = new Altitude(altitude);
     }
 
     //----------------------------------------------------------------------
@@ -527,7 +527,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                 } else { // no merge : cur starts or continues the frontier between the two neighboring areas
                     // adds cur to the chosen Area:
                     tempAreaList.get(chooseNeighboringArea(smaller, bigger).intValue()).add(cur);
-                    super .RawFrontier.add(new MutablePair<>(neighboringAreas, pos));
+                    super.RawFrontier.add(new MutablePair<>(neighboringAreas, pos));
                 }
             }
         }
@@ -569,7 +569,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
 
         // also replaces references of oldAreaId by newAreaId in getRawFrontier:
         if (newAreaId.intValue() > 0) {
-            for (final MutablePair<MutablePair<AreaId, AreaId>, WalkPosition> f : super .RawFrontier) {
+            for (final MutablePair<MutablePair<AreaId, AreaId>, WalkPosition> f : super.RawFrontier) {
                 if (f.getLeft().getLeft().equals(oldAreaId)) {
                     f.getLeft().setLeft(newAreaId);
                 }
