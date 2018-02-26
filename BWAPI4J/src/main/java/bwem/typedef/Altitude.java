@@ -1,7 +1,6 @@
 package bwem.typedef;
 
 import bwem.util.IWrappedInteger;
-import java.util.Objects;
 
 /**
  * Immutable wrapper of the integer primitive to satisfy
@@ -14,31 +13,31 @@ public final class Altitude implements IWrappedInteger<Altitude>, Comparable<Alt
 
     private final int val;
 
-    public Altitude(int val) {
+    public Altitude(final int val) {
         this.val = val;
     }
 
-    public Altitude(Altitude altitude) {
+    public Altitude(final Altitude altitude) {
         this.val = altitude.val;
     }
 
     @Override
-    public Altitude add(Altitude that) {
+    public Altitude add(final Altitude that) {
         return new Altitude(this.val + that.val);
     }
 
     @Override
-    public Altitude add(int val) {
+    public Altitude add(final int val) {
         return new Altitude(this.val + val);
     }
 
     @Override
-    public Altitude subtract(Altitude that) {
+    public Altitude subtract(final Altitude that) {
         return new Altitude(this.val - that.val);
     }
 
     @Override
-    public Altitude subtract(int val) {
+    public Altitude subtract(final int val) {
         return new Altitude(this.val - val);
     }
 
@@ -48,18 +47,18 @@ public final class Altitude implements IWrappedInteger<Altitude>, Comparable<Alt
     }
 
     @Override
-    public int compareTo(Altitude that) {
+    public int compareTo(final Altitude that) {
         return Integer.compare(this.val, that.val);
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(final Object object) {
         if (this == object) {
             return true;
         } else if (!(object instanceof Altitude)) {
             return false;
         } else {
-            Altitude that = (Altitude) object;
+            final Altitude that = (Altitude) object;
             return (this.val == that.val);
         }
     }
