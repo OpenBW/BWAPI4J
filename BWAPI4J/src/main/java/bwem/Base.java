@@ -1,18 +1,19 @@
 package bwem;
 
-import bwem.map.Map;
 import bwem.area.Area;
+import bwem.area.AreaInitializer;
+import bwem.map.Map;
 import bwem.unit.Geyser;
 import bwem.unit.Mineral;
 import bwem.unit.Resource;
 import bwem.util.BwemExt;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.UnitType;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -43,7 +44,7 @@ public final class Base {
 
     public Base(Area area, TilePosition location, List<Resource> assignedResources, List<Mineral> blockingMinerals) {
         this.area = area;
-        map = area.getMap();
+        map = ((AreaInitializer) area).getMap();
         this.location = location;
         center = BwemExt.centerOfBuilding(location, UnitType.Terran_Command_Center.tileSize());
         this.BlockingMinerals = blockingMinerals;

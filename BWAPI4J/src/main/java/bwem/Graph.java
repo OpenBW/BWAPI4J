@@ -1,5 +1,7 @@
 package bwem;
 
+import bwem.area.AreaInitializer;
+import bwem.area.AreaInitializerImpl;
 import bwem.map.AdvancedData;
 import bwem.map.MapImpl;
 import bwem.tile.TileImpl;
@@ -270,7 +272,7 @@ public final class Graph {
         for (int id = 1; id <= areasList.size(); ++id) {
             final WalkPosition top = areasList.get(id - 1).getLeft();
             final int miniTiles = areasList.get(id - 1).getRight();
-            areas.add(new Area(getMap(), new AreaId(id), top, miniTiles));
+            areas.add(new AreaInitializerImpl(getMap(), new AreaId(id), top, miniTiles));
         }
     }
 
@@ -480,8 +482,8 @@ public final class Graph {
             final AreaId a = new AreaId(loopA);
             final AreaId b = new AreaId(loopB);
     		if (!getChokePoints(a, b).isEmpty()) {
-    			getArea(a).addChokePoints(getArea(b), getChokePoints(a, b));
-    			getArea(b).addChokePoints(getArea(a), getChokePoints(a, b));
+                ((AreaInitializer) getArea(a)).addChokePoints(getArea(b), getChokePoints(a, b));
+                ((AreaInitializer) getArea(b)).addChokePoints(getArea(a), getChokePoints(a, b));
 
                 chokePoints.addAll(getChokePoints(a, b));
     		}
@@ -535,7 +537,7 @@ public final class Graph {
 
     	// 4) Update Area::m_AccessibleNeighbours for each Area
     	for (Area area : getAreas())
-    		area.updateAccessibleNeighbors();
+            ((AreaInitializer) area).updateAccessibleNeighbors();
 
     	// 5)  Update Area::m_groupId for each Area
     	updateGroupIds();
@@ -547,14 +549,14 @@ public final class Graph {
         for (final Mineral mineral : getMap().getNeutralData().getMinerals()) {
             final Area area = getMap().getMainArea(mineral.getTopLeft(), mineral.getSize());
             if (area != null) {
-                area.addMineral(mineral);
+                ((AreaInitializer) area).addMineral(mineral);
             }
         }
 
         for (Geyser geyser : getMap().getNeutralData().getGeysers()) {
             final Area area = getMap().getMainArea(geyser.getTopLeft(), geyser.getSize());
             if (area != null) {
-                area.addGeyser(geyser);
+                ((AreaInitializer) area).addGeyser(geyser);
             }
         }
 
@@ -562,21 +564,21 @@ public final class Graph {
         for (int x = 0; x < getMap().getData().getMapData().getTileSize().getX(); ++x) {
             final Tile tile = getMap().getData().getTile(new TilePosition(x, y));
             if (tile.getAreaId().intValue() > 0) {
-                getArea(tile.getAreaId()).addTileInformation(new TilePosition(x, y), tile);
+                ((AreaInitializer) getArea(tile.getAreaId())).addTileInformation(new TilePosition(x, y), tile);
             }
         }
 
         // 2) Post-process each Area separately:
 
         for (final Area area : areas) {
-            area.postCollectInformation();
+            ((AreaInitializer) area).postCollectInformation();
         }
     }
 
     public void createBases(final AdvancedData mapAdvancedData) {
         baseCount = 0;
         for (Area area : areas) {
-            area.createBases(mapAdvancedData);
+            ((AreaInitializer) area).createBases(mapAdvancedData);
             baseCount += area.getBases().size();
         }
     }
@@ -596,7 +598,7 @@ public final class Graph {
                 targets.add(cp);
             }
 
-            final int[] distanceToTargets = pContext.computeDistances(pStart, targets);
+            final int[] distanceToTargets = ((AreaInitializer) pContext).computeDistances(pStart, targets);
 
             for (int i = 0; i < targets.size(); ++i) {
                 final int newDist = distanceToTargets[i];
@@ -751,18 +753,18 @@ public final class Graph {
     private void updateGroupIds() {
     	int nextGroupId = 1;
 
-    	Area.getStaticMarkable().unmarkAll();
+    	AreaInitializerImpl.getStaticMarkable().unmarkAll();
     	for (final Area start : getAreas()) {
-    		if (!start.getMarkable().isMarked()) {
+    		if (!((AreaInitializer) start).getMarkable().isMarked()) {
     			final List<Area> toVisit = new ArrayList<>();
                 toVisit.add(start);
     			while (!toVisit.isEmpty()) {
     				final Area current = toVisit.remove(toVisit.size() - 1);
-    				current.setGroupId(new GroupId(nextGroupId));
+                    ((AreaInitializer) current).setGroupId(new GroupId(nextGroupId));
 
     				for (final Area next : current.getAccessibleNeighbors()) {
-    					if (!next.getMarkable().isMarked()) {
-    						next.getMarkable().setMarked();
+    					if (!((AreaInitializer) next).getMarkable().isMarked()) {
+                            ((AreaInitializer) next).getMarkable().setMarked();
     						toVisit.add(next);
     					}
                     }

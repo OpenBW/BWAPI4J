@@ -2,6 +2,8 @@ package bwem.map;
 
 import bwem.*;
 import bwem.area.Area;
+import bwem.area.AreaImpl;
+import bwem.area.AreaInitializer;
 import bwem.area.typedef.AreaId;
 import bwem.CheckMode;
 import bwem.tile.MiniTile;
@@ -205,7 +207,7 @@ public class MapImpl implements Map {
      */
     private void onMineralDestroyed(Mineral pMineral) {
         for (Area area : getGraph().getAreas()) {
-            area.onMineralDestroyed(pMineral);
+            ((AreaImpl) area).onMineralDestroyed(pMineral);
         }
     }
 
