@@ -77,7 +77,7 @@ public abstract class AreaImpl implements Area {
     }
 
     @Override
-    public int getMiniTileCount() {
+    public int getSize() {
         return this.miniTileCount;
     }
 
