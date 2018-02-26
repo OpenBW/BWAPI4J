@@ -12,8 +12,8 @@ import org.openbw.bwapi4j.WalkPosition;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class AreaImpl implements Area {
 
@@ -25,10 +25,10 @@ public abstract class AreaImpl implements Area {
     protected Altitude highestAltitude;
     private final int miniTileCount;
     protected int tileCount = 0;
-    protected int buildableTileCount = 0; /* Set and later incremented but not used in BWEM 1.4.1. Remains for portability consistency. */
+    protected int buildableTileCount = 0; /* Set and later incremented but not used in original C++ BWEM 1.4.1. Remains for portability consistency. */
     protected int highGroundTileCount = 0;
     protected int veryHighGroundTileCount = 0;
-    protected final AbstractMap<Area, List<ChokePoint>> chokePointsByArea = new ConcurrentHashMap<>();
+    protected final AbstractMap<Area, List<ChokePoint>> chokePointsByArea = new HashMap<>();
     protected final List<Area> accessibleNeighbors = new ArrayList<>();
     protected final List<ChokePoint> chokePoints = new ArrayList<>();
     protected final List<Mineral> minerals = new ArrayList<>();
@@ -83,7 +83,8 @@ public abstract class AreaImpl implements Area {
 
     @Override
     public int getLowGroundPercentage() {
-        return (((this.tileCount - this.highGroundTileCount - this.veryHighGroundTileCount) * 100) / this.tileCount);
+        final int lowGroundTileCount = this.tileCount - this.highGroundTileCount - this.veryHighGroundTileCount;
+        return ((lowGroundTileCount * 100) / this.tileCount);
     }
 
     @Override
