@@ -270,7 +270,7 @@ public final class Graph {
         for (int id = 1; id <= areasList.size(); ++id) {
             final WalkPosition top = areasList.get(id - 1).getLeft();
             final int miniTiles = areasList.get(id - 1).getRight();
-            areas.add(new Area(this, new AreaId(id), top, miniTiles));
+            areas.add(new Area(getMap(), new AreaId(id), top, miniTiles));
         }
     }
 

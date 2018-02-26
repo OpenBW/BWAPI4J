@@ -3,7 +3,6 @@ package bwem.area;
 import bwem.Base;
 import bwem.CheckMode;
 import bwem.ChokePoint;
-import bwem.Graph;
 import bwem.Markable;
 import bwem.StaticMarkable;
 import bwem.area.typedef.AreaId;
@@ -59,7 +58,7 @@ public final class Area {
     private static final StaticMarkable staticMarkable = new StaticMarkable();
     private final Markable markable;
 
-    private final Graph graph;
+    private final Map map;
     private final AreaId id;
     private GroupId groupId = new GroupId(0);
     private final WalkPosition walkPositionWithHighestAltitude;
@@ -78,10 +77,10 @@ public final class Area {
     private final List<Geyser> geysers = new ArrayList<>();
 	private final List<Base> bases = new ArrayList<>();
 
-    public Area(final Graph graph, final AreaId areaId, final WalkPosition top, final int miniTileCount) {
+    public Area(final Map map, final AreaId areaId, final WalkPosition top, final int miniTileCount) {
         this.markable = new Markable(Area.staticMarkable);
 
-        this.graph = graph;
+        this.map = map;
         this.id = areaId;
         this.walkPositionWithHighestAltitude = top;
         this.miniTileCount = miniTileCount;
@@ -106,13 +105,6 @@ public final class Area {
 
     public Markable getMarkable() {
         return this.markable;
-    }
-
-    /**
-     * Returns the internal Graph object. Not used in BWEM 1.4.1. Remains for portability consistency.
-     */
-    private Graph getGraph() {
-        return this.graph;
     }
 
 	// Unique id > 0 of this Area. Range = 1 .. Map::areas().size()
@@ -243,7 +235,7 @@ public final class Area {
     }
 
     public Map getMap() {
-        return this.graph.getMap();
+        return this.map;
     }
 
     public void addChokePoints(final Area area, final List<ChokePoint> chokePoints) {
@@ -683,6 +675,5 @@ public final class Area {
     public int hashCode() {
         return this .id.hashCode();
     }
-
 
 }
