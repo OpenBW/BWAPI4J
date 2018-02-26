@@ -236,7 +236,7 @@ public final class ChokePoint {
 	// is destroyed and there is no remaining Neutral stacked with it.
 	// However, in the case where Map::automaticPathUpdate() == false, blocked() will always return true
 	// whatever blockingNeutral() returns.
-	// Cf. Area::AccessibleNeighbours().
+	// Cf. Area::AccessibleNeighbors().
 	public boolean isBlocked() {
         return blocked;
     }

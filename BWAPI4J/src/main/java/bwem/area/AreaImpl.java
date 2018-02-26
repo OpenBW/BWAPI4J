@@ -150,7 +150,7 @@ public abstract class AreaImpl implements Area {
         this.minerals.remove(mineral);
 
         // let's examine the bases even if mineral was not found in this Area,
-        // which could arise if minerals were allowed to be assigned to neighbouring areas.
+        // which could arise if minerals were allowed to be assigned to neighboring areas.
         for (final Base base : getBases()) {
             base.onMineralDestroyed(mineral);
         }

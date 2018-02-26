@@ -145,7 +145,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
 
     // Assigns MiniTile::m_altitude foar each miniTile having AltitudeMissing()
     // Cf. MiniTile::Altitude() for meaning of altitude_t.
-    // Altitudes are computed using the straightforward Dijkstra's algorithm : the lower ones are computed first, starting from the seaside-miniTiles neighbours.
+    // Altitudes are computed using the straightforward Dijkstra's algorithm : the lower ones are computed first, starting from the seaside-miniTiles neighbors.
     // The point here is to precompute all possible altitudes for all possible tiles, and sort them.
     @Override
     public void computeAltitude(final AdvancedData advancedData) {
@@ -324,7 +324,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
     //----------------------------------------------------------------------
 
     /**
-     * 2)  Find the doors in border: one door for each connected set of walkable, neighbouring miniTiles.
+     * 2)  Find the doors in border: one door for each connected set of walkable, neighboring miniTiles.
      *     The searched connected miniTiles all have to be next to some lake or some static building, though they can't be part of one.
      */
     @Override
@@ -448,8 +448,8 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
     // The miniTiles are considered successively in descending order of their Altitude().
     // Each of them either:
     //   - involves the creation of a new area.
-    //   - is added to some existing neighbouring area.
-    //   - makes two neighbouring areas merge together.
+    //   - is added to some existing neighboring area.
+    //   - makes two neighboring areas merge together.
     @Override
     public void computeAreas(final List<TempAreaInfo> tempAreaList, final int areaMinMiniTiles) {
         createAreas(tempAreaList, areaMinMiniTiles);

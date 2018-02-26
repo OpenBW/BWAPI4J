@@ -63,7 +63,7 @@ public class MapPrinterExample {
                     // 1) color should not be too dark
                     (color.getRed() + color.getGreen() < 150) ||
 
-                    // 2) color should differ enough from the colors of the neighbouring areas
+                    // 2) color should differ enough from the colors of the neighboring areas
                     (mapPrinter.showAreas && getZoneColorCppAlgorithmAnyOf(area.getChokePointsByArea(), mapZoneColor, color))
             );
             mapZoneColor.put(zoneId, color);

@@ -535,7 +535,7 @@ public final class Graph {
     		setPath(cp, cp, cppath);
     	}
 
-    	// 4) Update Area::m_AccessibleNeighbours for each Area
+    	// 4) Update Area::m_AccessibleNeighbors for each Area
     	for (Area area : getAreas())
             ((AreaInitializer) area).updateAccessibleNeighbors();
 

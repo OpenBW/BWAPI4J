@@ -24,7 +24,7 @@ import java.util.List;
 // More formally:
 //  - An area consists in a set of 4-connected MiniTiles, which are either Terrain-MiniTiles or Lake-MiniTiles.
 //  - An Area is delimited by the side of the Map, by Water-MiniTiles, or by other Areas. In the latter case
-//    the adjoining Areas are called neighbouring Areas, and each pair of such Areas defines at least one ChokePoint.
+//    the adjoining Areas are called neighboring Areas, and each pair of such Areas defines at least one ChokePoint.
 // Like ChokePoints and Bases, the number and the addresses of Area instances remain unchanged.
 // To access Areas one can use their ids or their addresses with equivalent efficiency.
 //
@@ -72,30 +72,30 @@ public interface Area {
     // Returns the percentage of very high ground Tiles in this Area.
     public abstract int getVeryHighGroundPercentage();
 
-    // Returns the ChokePoints between this Area and the neighbouring ones.
-    // Note: if there are no neighbouring Areas, then an empty set is returned.
-    // Note there may be more ChokePoints returned than the number of neighbouring Areas, as there may be several ChokePoints between two Areas (Cf. ChokePoints(const Area * pArea)).
+    // Returns the ChokePoints between this Area and the neighboring ones.
+    // Note: if there are no neighboring Areas, then an empty set is returned.
+    // Note there may be more ChokePoints returned than the number of neighboring Areas, as there may be several ChokePoints between two Areas (Cf. ChokePoints(const Area * pArea)).
     public abstract List<ChokePoint> getChokePoints();
 
     // Returns the ChokePoints between this Area and pArea.
-    // Assumes pArea is a neighbour of this Area, i.e. ChokePointsByArea().find(pArea) != ChokePointsByArea().end()
-    // Note: there is always at least one ChokePoint between two neighbouring Areas.
+    // Assumes pArea is a neighbor of this Area, i.e. ChokePointsByArea().find(pArea) != ChokePointsByArea().end()
+    // Note: there is always at least one ChokePoint between two neighboring Areas.
     public abstract List<ChokePoint> getChokePoints(Area area);
 
-    // Returns the ChokePoints of this Area grouped by neighbouring Areas
-    // Note: if there are no neighbouring Areas, than an empty set is returned.
+    // Returns the ChokePoints of this Area grouped by neighboring Areas
+    // Note: if there are no neighboring Areas, than an empty set is returned.
     public abstract AbstractMap<Area, List<ChokePoint>> getChokePointsByArea();
 
-    // Returns the accessible neighbouring Areas.
-    // The accessible neighbouring Areas are a subset of the neighbouring Areas (the neighbouring Areas can be iterated using ChokePointsByArea()).
-    // Two neighbouring Areas are accessible from each over if at least one the ChokePoints they share is not Blocked (Cf. ChokePoint::Blocked).
+    // Returns the accessible neighboring Areas.
+    // The accessible neighboring Areas are a subset of the neighboring Areas (the neighboring Areas can be iterated using ChokePointsByArea()).
+    // Two neighboring Areas are accessible from each over if at least one the ChokePoints they share is not Blocked (Cf. ChokePoint::Blocked).
     public abstract List<Area> getAccessibleNeighbors();
 
     // Returns whether this Area is accessible from pArea, that is, if they share the same GroupId().
     // Note: accessibility is always symmetrical.
-    // Note: even if a and b are neighbouring Areas,
+    // Note: even if a and b are neighboring Areas,
     //       we can have: a->AccessibleFrom(b)
-    //       and not:     contains(a->AccessibleNeighbours(), b)
+    //       and not:     contains(a->AccessibleNeighbors(), b)
     // See also GroupId()
     public abstract boolean isAccessibleFrom(Area area);
 

@@ -25,7 +25,7 @@ public interface MiniTile {
 
 	// Corresponds approximatively to BWAPI::isWalkable
 	// The differences are:
-	//  - For each BWAPI's unwalkable MiniTile, we also mark its 8 neighbours as not walkable.
+	//  - For each BWAPI's unwalkable MiniTile, we also mark its 8 neighbors as not walkable.
 	//    According to some tests, this prevents from wrongly pretending one small unit can go by some thin path.
 	//  - The relation buildable ==> walkable is enforced, by marking as walkable any MiniTile part of a buildable Tile (Cf. Tile::Buildable)
 	// Among the miniTiles having Altitude() > 0, the walkable ones are considered Terrain-miniTiles, and the other ones Lake-miniTiles.
