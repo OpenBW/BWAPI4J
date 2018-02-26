@@ -1,6 +1,6 @@
 package bwem;
 
-public enum Check {
+public enum CheckMode {
     CHECK,
     NO_CHECK
 }

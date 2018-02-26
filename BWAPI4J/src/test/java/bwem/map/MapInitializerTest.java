@@ -138,7 +138,7 @@ public class MapInitializerTest implements BWEventListener {
 
         graph.collectInformation();
 
-        graph.createBases();
+        graph.createBases(advancedData);
     }
 
     private void runMapPrinterExample() {

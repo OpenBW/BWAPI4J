@@ -1,6 +1,6 @@
 package bwem.map;
 
-import bwem.Check;
+import bwem.CheckMode;
 import bwem.area.TempAreaInfo;
 import bwem.area.typedef.AreaId;
 import bwem.tile.MiniTile;
@@ -102,7 +102,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
 //    ///	bw << "Graph::collectInformation: " << timer.elapsedMilliseconds() << " ms" << endl; timer.reset();
         logger.info("Map::collectInformation: " + timer.elapsedMilliseconds() + " ms"); timer.reset();
 
-        getGraph().createBases();
+        getGraph().createBases(getData());
 //    ///	bw << "Graph::createBases: " << timer.elapsedMilliseconds() << " ms" << endl; timer.reset();
         logger.info("Map::createBases: " + timer.elapsedMilliseconds() + " ms"); timer.reset();
 
@@ -242,7 +242,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                     for (final WalkPosition delta : deltas) {
                         final WalkPosition w = current.getLeft().add(delta);
                         if (advancedData.getMapData().isValid(w)) {
-                            final MiniTile miniTile = advancedData.getMiniTile_(w, Check.NO_CHECK);
+                            final MiniTile miniTile = advancedData.getMiniTile_(w, CheckMode.NO_CHECK);
                             if (((MiniTileImpl) miniTile).isAltitudeMissing()) {
                                 if (updatedMaxAltitude != null && updatedMaxAltitude.intValue() > altitude.intValue()) {
                                     throw new IllegalStateException();
@@ -315,8 +315,8 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
         Utils.reallyRemoveIf(border, args -> {
             WalkPosition w = (WalkPosition) args[0];
             return (!getData().getMapData().isValid(w)
-                    || !getData().getMiniTile(w, Check.NO_CHECK).isWalkable()
-                    || getData().getTile(w.toTilePosition(), Check.NO_CHECK).getNeutral() != null);
+                    || !getData().getMiniTile(w, CheckMode.NO_CHECK).isWalkable()
+                    || getData().getTile(w.toTilePosition(), CheckMode.NO_CHECK).getNeutral() != null);
         });
         return border;
     }
@@ -348,8 +348,8 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                 for (final WalkPosition delta : deltas) {
                     final WalkPosition next = current.add(delta);
                     if (getData().getMapData().isValid(next) && !visited.contains(next)) {
-                        if (getData().getMiniTile(next, Check.NO_CHECK).isWalkable()) {
-                            if (getData().getTile((next.toPosition()).toTilePosition(), Check.NO_CHECK).getNeutral() == null) {
+                        if (getData().getMiniTile(next, CheckMode.NO_CHECK).isWalkable()) {
+                            if (getData().getTile((next.toPosition()).toTilePosition(), CheckMode.NO_CHECK).getNeutral() == null) {
                                 if (BwemExt.adjoins8SomeLakeOrNeutral(next, this)) {
                                     toVisit.add(next);
                                     visited.add(next);
@@ -392,8 +392,8 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                     for (final WalkPosition delta : deltas) {
                         final WalkPosition next = current.add(delta);
                         if (getData().getMapData().isValid(next) && !visited.contains(next)) {
-                            if (getData().getMiniTile(next, Check.NO_CHECK).isWalkable()) {
-                                if (getData().getTile(next.toTilePosition(), Check.NO_CHECK).getNeutral() == null) {
+                            if (getData().getMiniTile(next, CheckMode.NO_CHECK).isWalkable()) {
+                                if (getData().getTile(next.toTilePosition(), CheckMode.NO_CHECK).getNeutral() == null) {
                                     toVisit.add(next);
                                     visited.add(next);
                                 }
@@ -463,7 +463,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
         for (int y = 0; y < getData().getMapData().getWalkSize().getY(); ++y) {
             for (int x = 0; x < getData().getMapData().getWalkSize().getX(); ++x) {
                 final WalkPosition w = new WalkPosition(x, y);
-                final MiniTile miniTile = getData().getMiniTile_(w, Check.NO_CHECK);
+                final MiniTile miniTile = getData().getMiniTile_(w, CheckMode.NO_CHECK);
                 if (((MiniTileImpl) miniTile).isAreaIdMissing()) {
                     miniTilesByDescendingAltitude.add(new MutablePair<>(w, miniTile));
                 }
@@ -544,7 +544,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
 
     @Override
     public void replaceAreaIds(final WalkPosition p, final AreaId newAreaId) {
-        final MiniTile origin = getData().getMiniTile_(p, Check.NO_CHECK);
+        final MiniTile origin = getData().getMiniTile_(p, CheckMode.NO_CHECK);
         final AreaId oldAreaId = origin.getAreaId();
         ((MiniTileImpl) origin).replaceAreaId(newAreaId);
 
@@ -557,7 +557,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
             for (final WalkPosition delta : deltas) {
                 final WalkPosition next = current.add(delta);
                 if (getData().getMapData().isValid(next)) {
-                    final MiniTile miniTile = getData().getMiniTile_(next, Check.NO_CHECK);
+                    final MiniTile miniTile = getData().getMiniTile_(next, CheckMode.NO_CHECK);
                     if (miniTile.getAreaId().equals(oldAreaId)) {
                         toSearch.add(next);
                         ((MiniTileImpl) miniTile).replaceAreaId(newAreaId);
@@ -617,7 +617,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
 
         for (int dy = 0; dy < 4; ++dy)
             for (int dx = 0; dx < 4; ++dx) {
-                final Altitude altitude = new Altitude(getData().getMiniTile(((t.toPosition()).toWalkPosition()).add(new WalkPosition(dx, dy)), Check.NO_CHECK).getAltitude());
+                final Altitude altitude = new Altitude(getData().getMiniTile(((t.toPosition()).toWalkPosition()).add(new WalkPosition(dx, dy)), CheckMode.NO_CHECK).getAltitude());
                 if (altitude.intValue() < minAltitude.intValue()) {
                     minAltitude = new Altitude(altitude);
                 }

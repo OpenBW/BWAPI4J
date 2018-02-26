@@ -3,7 +3,7 @@ package bwem.map;
 import bwem.*;
 import bwem.area.Area;
 import bwem.area.typedef.AreaId;
-import bwem.Check;
+import bwem.CheckMode;
 import bwem.tile.MiniTile;
 import bwem.tile.MiniTileImpl;
 import bwem.tile.Tile;
@@ -378,7 +378,7 @@ public class MapImpl implements Map {
             for (TilePosition delta : directions) {
                 TilePosition next = current.add(delta);
                 if (getData().getMapData().isValid(next)) {
-                    Tile nextTile = getData().getTile(next, Check.NO_CHECK);
+                    Tile nextTile = getData().getTile(next, CheckMode.NO_CHECK);
                     if (findCond.isTrue(nextTile, next, this)) {
                         return next;
                     }
@@ -424,7 +424,7 @@ public class MapImpl implements Map {
             for (final WalkPosition delta : directions) {
                 final WalkPosition next = current.add(delta);
                 if (getData().getMapData().isValid(next)) {
-                    final MiniTile miniTile = getData().getMiniTile(next, Check.NO_CHECK);
+                    final MiniTile miniTile = getData().getMiniTile(next, CheckMode.NO_CHECK);
                     if (findCond.isTrue(miniTile, next, this)) {
                         return next;
                     }
@@ -485,7 +485,7 @@ public class MapImpl implements Map {
 
         for (int dy = 0; dy < 4; ++dy) {
             for (int dx = 0; dx < 4; ++dx) {
-                final AreaId id = getData().getMiniTile(t.toWalkPosition().add(new WalkPosition(dx, dy)), Check.NO_CHECK).getAreaId();
+                final AreaId id = getData().getMiniTile(t.toWalkPosition().add(new WalkPosition(dx, dy)), CheckMode.NO_CHECK).getAreaId();
                 if (id.intValue() != 0) {
                     if (tile.getAreaId().intValue() == 0) {
                         ((TileImpl) tile).setAreaId(id);
@@ -504,7 +504,7 @@ public class MapImpl implements Map {
         final WalkPosition[] deltas = {new WalkPosition(0, -1), new WalkPosition(-1, 0), new WalkPosition(+1, 0), new WalkPosition(0, +1)};
         for (final WalkPosition delta : deltas) {
             if (getData().getMapData().isValid(p.add(delta))) {
-                final AreaId areaId = getData().getMiniTile(p.add(delta), Check.NO_CHECK).getAreaId();
+                final AreaId areaId = getData().getMiniTile(p.add(delta), CheckMode.NO_CHECK).getAreaId();
                 if (areaId.intValue() > 0) {
                     if (result.getLeft() == null) {
                         result.setLeft(areaId);

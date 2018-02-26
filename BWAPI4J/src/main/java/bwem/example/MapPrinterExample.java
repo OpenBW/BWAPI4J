@@ -1,7 +1,7 @@
 package bwem.example;
 
 import bwem.Base;
-import bwem.Check;
+import bwem.CheckMode;
 import bwem.ChokePoint;
 import bwem.MapPrinter;
 import bwem.area.Area;
@@ -101,7 +101,7 @@ public class MapPrinterExample {
         for (int y = 0; y < theMap.getData().getMapData().getWalkSize().getY(); ++y)
         for (int x = 0; x < theMap.getData().getMapData().getWalkSize().getX(); ++x) {
             WalkPosition p = new WalkPosition(x, y);
-            MiniTile miniTile = theMap.getData().getMiniTile(p, Check.NO_CHECK);
+            MiniTile miniTile = theMap.getData().getMiniTile(p, CheckMode.NO_CHECK);
 
             Color col;
             if (miniTile.isSea()) {
@@ -160,7 +160,7 @@ public class MapPrinterExample {
                     for (int dy = 0; dy < 4; ++dy)
                     for (int dx = 0; dx < 4; ++dx) {
                         WalkPosition p = (new TilePosition(x, y).toWalkPosition()).add(new WalkPosition(dx, dy));
-                        if (theMap.getData().getMiniTile(p, Check.NO_CHECK).isWalkable()) // groundHeight is usefull only for walkable miniTiles
+                        if (theMap.getData().getMiniTile(p, CheckMode.NO_CHECK).isWalkable()) // groundHeight is usefull only for walkable miniTiles
                             if (((dx + dy) & (groundHeight == Tile.GroundHeight.HIGH_GROUND ? 1 : 3)) != 0)
                                 mapPrinter.point(p, MapPrinter.CustomColor.HIGHER_GROUND.color());
                     }

@@ -1,6 +1,6 @@
 package bwem.util;
 
-import bwem.Check;
+import bwem.CheckMode;
 import bwem.map.MapImpl;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.openbw.bwapi4j.MapDrawer;
@@ -27,7 +27,7 @@ public final class BwemExt {
     // At least area_min_miniTiles connected MiniTiles are necessary for an Area to be created.
     public static final int area_min_miniTiles = 64;
 
-    public static final int max_tiles_between_CommandCenter_and_resources = 10;
+    public static final int MAX_TILES_BETWEEN_COMMAND_CENTER_AND_RESOURCES = 10;
     public static final int min_tiles_between_Bases = 10;
 
     public static final int max_tiles_between_StartingLocation_and_its_AssignedBase = 3;
@@ -244,10 +244,10 @@ public final class BwemExt {
         for (final WalkPosition delta : deltas) {
             final WalkPosition next = p.add(delta);
             if (pMap.getData().getMapData().isValid(next)) {
-                if (pMap.getData().getTile(next.toTilePosition(), Check.NO_CHECK).getNeutral() != null) {
+                if (pMap.getData().getTile(next.toTilePosition(), CheckMode.NO_CHECK).getNeutral() != null) {
                     return true;
                 }
-                if (pMap.getData().getMiniTile(next, Check.NO_CHECK).isLake()) {
+                if (pMap.getData().getMiniTile(next, CheckMode.NO_CHECK).isLake()) {
                     return true;
                 }
             }

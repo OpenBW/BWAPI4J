@@ -141,7 +141,7 @@ public final class ChokePoint {
                                 WalkPosition w = (WalkPosition) tpos;
                                 TilePosition t = (w.toPosition()).toTilePosition();
                                 Map map = (Map) tmap;
-                                return (miniTile.getAreaId().equals(pArea.getId()) && map.getData().getTile(t, Check.NO_CHECK).getNeutral() == null);
+                                return (miniTile.getAreaId().equals(pArea.getId()) && map.getData().getTile(t, CheckMode.NO_CHECK).getNeutral() == null);
                             } else {
                                 throw new IllegalArgumentException();
                             }
@@ -155,7 +155,7 @@ public final class ChokePoint {
                                 WalkPosition w = (WalkPosition) tpos;
                                 TilePosition t = (w.toPosition()).toTilePosition();
                                 Map map = (Map) tmap;
-                                return (miniTile.getAreaId().equals(pArea.getId()) || (isBlocked() && (((MiniTileImpl) miniTile).isBlocked() || map.getData().getTile(t, Check.NO_CHECK).getNeutral() != null)));
+                                return (miniTile.getAreaId().equals(pArea.getId()) || (isBlocked() && (((MiniTileImpl) miniTile).isBlocked() || map.getData().getTile(t, CheckMode.NO_CHECK).getNeutral() != null)));
                             } else {
                                 throw new IllegalArgumentException("Invalid argument list.");
                             }
