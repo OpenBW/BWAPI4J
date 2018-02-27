@@ -140,8 +140,10 @@ public abstract class Unit implements Comparable<Unit> {
     protected static int IS_VISIBLE_INDEX = 122;
     protected static int IS_RESEARCHING_INDEX = 123;
     protected static int IS_FLYING_INDEX = 124;
+    protected static int ORDER_TARGET_POSITION_X_INDEX = 125;
+    protected static int ORDER_TARGET_POSITION_Y_INDEX = 126;
 
-    public static int TOTAL_PROPERTIES = 125;
+    public static int TOTAL_PROPERTIES = 127;
 
     // static
     protected int id;
@@ -208,9 +210,15 @@ public abstract class Unit implements Comparable<Unit> {
         this.exists = unitData[index + Unit.EXISTS_INDEX] == 1;
         this.isSelected = unitData[index + Unit.IS_SELECTED_INDEX] == 1;
         this.isFlying = unitData[index + Unit.IS_FLYING_INDEX] == 1;
+
         this.order = Order.values()[unitData[index + Unit.ORDER_ID_INDEX]];
-        this.secondaryOrder = Order.values()[unitData[index + Unit.SECONDARY_ORDER_ID_INDEX]];
         this.orderTargetId = unitData[index + Unit.ORDER_TARGET_ID_INDEX];
+
+        final int orderTargetPositionX = unitData[index + Unit.ORDER_TARGET_POSITION_X_INDEX];
+        final int orderTargetPositionY = unitData[index + Unit.ORDER_TARGET_POSITION_Y_INDEX];
+        this.orderTargetPosition = new Position(orderTargetPositionX, orderTargetPositionY);
+
+        this.secondaryOrder = Order.values()[unitData[index + Unit.SECONDARY_ORDER_ID_INDEX]];
     }
 
     public int getLastSpotted() {
@@ -421,6 +429,11 @@ public abstract class Unit implements Comparable<Unit> {
                 : null;
     }
 
+    protected Position getOrderTargetPosition() {
+
+        return this.orderTargetPosition;
+    }
+
     protected Order getSecondaryOrder() {
 
         return this.secondaryOrder;
@@ -483,9 +496,9 @@ public abstract class Unit implements Comparable<Unit> {
 
     private Unit buildUnit;
     private Order order;
-    private Order secondaryOrder;
     private int orderTargetId;
     private Position orderTargetPosition;
+    private Order secondaryOrder;
 
     private boolean isMorphing;
     private boolean isTargetable;
