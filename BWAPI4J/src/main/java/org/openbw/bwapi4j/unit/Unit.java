@@ -209,6 +209,8 @@ public abstract class Unit implements Comparable<Unit> {
         this.isSelected = unitData[index + Unit.IS_SELECTED_INDEX] == 1;
         this.isFlying = unitData[index + Unit.IS_FLYING_INDEX] == 1;
         this.order = Order.values()[unitData[index + Unit.ORDER_ID_INDEX]];
+        this.secondaryOrder = Order.values()[unitData[index + Unit.SECONDARY_ORDER_ID_INDEX]];
+        this.orderTargetId = unitData[index + Unit.ORDER_TARGET_ID_INDEX];
     }
 
     public int getLastSpotted() {
@@ -412,6 +414,18 @@ public abstract class Unit implements Comparable<Unit> {
         return this.order;
     }
 
+    protected Unit getOrderTarget() {
+
+        return (this.orderTargetId >= 0)
+                ? this.getUnit(this.orderTargetId)
+                : null;
+    }
+
+    protected Order getSecondaryOrder() {
+
+        return this.secondaryOrder;
+    }
+
     @Override
     public int hashCode() {
 
@@ -470,7 +484,7 @@ public abstract class Unit implements Comparable<Unit> {
     private Unit buildUnit;
     private Order order;
     private Order secondaryOrder;
-    private Unit orderTarget;
+    private int orderTargetId;
     private Position orderTargetPosition;
 
     private boolean isMorphing;

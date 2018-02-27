@@ -363,4 +363,15 @@ public abstract class PlayerUnit extends Unit {
         return super.getOrder();
     }
 
+    @Override
+    public Unit getOrderTarget() {
+
+        return super.getOrderTarget();
+    }
+
+    @Override
+    public Order getSecondaryOrder() {
+        return super.getSecondaryOrder();
+    }
+
 }
