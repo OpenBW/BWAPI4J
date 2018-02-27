@@ -494,6 +494,8 @@ int addUnitDataToBuffer(Unit &u, int index) {
 	intBuf[index++] = u->isVisible() ? 1 : 0;
 	intBuf[index++] = u->isResearching() ? 1 : 0;
 	intBuf[index++] = u->isFlying() ? 1 : 0;
+	intBuf[index++] = u->getOrderTargetPosition().x;
+	intBuf[index++] = u->getOrderTargetPosition().y;
 
 	return index;
 }
