@@ -8,6 +8,7 @@ import java.util.List;
 import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
+import org.openbw.bwapi4j.type.Order;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.WeaponType;
@@ -355,4 +356,11 @@ public abstract class PlayerUnit extends Unit {
 
     	return this.getDamageEvaluator().getDamageFrom(from.initialType, this.initialType, from.getPlayer(), this.getPlayer());
     }
+
+    @Override
+    public Order getOrder() {
+
+        return super.getOrder();
+    }
+
 }

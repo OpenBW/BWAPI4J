@@ -208,6 +208,7 @@ public abstract class Unit implements Comparable<Unit> {
         this.exists = unitData[index + Unit.EXISTS_INDEX] == 1;
         this.isSelected = unitData[index + Unit.IS_SELECTED_INDEX] == 1;
         this.isFlying = unitData[index + Unit.IS_FLYING_INDEX] == 1;
+        this.order = Order.values()[unitData[index + Unit.ORDER_ID_INDEX]];
     }
 
     public int getLastSpotted() {
@@ -404,6 +405,11 @@ public abstract class Unit implements Comparable<Unit> {
     public TilePosition getInitialTilePosition() {
 
         return initialTilePosition;
+    }
+
+    protected Order getOrder() {
+
+        return this.order;
     }
 
     @Override
