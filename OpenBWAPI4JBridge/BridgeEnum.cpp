@@ -330,6 +330,15 @@ void BridgeEnum::createUnitTypeEnum() {
 		}
 		globalEnv->DeleteLocalRef(researchesWhatList);
 
+		jobject buildsWhatList = globalEnv->GetObjectField(CurrentUnitType, globalEnv->GetFieldID(unitTypeClass, "buildsWhat", "Ljava/util/ArrayList;"));
+		for (UnitType unitType : unitType.buildsWhat()) {
+
+			jobject buildsWhatMemberType = globalEnv->GetStaticObjectField(unitTypeClass, globalEnv->GetStaticFieldID(unitTypeClass, unitType.getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;"));
+			globalEnv->CallObjectMethod(buildsWhatList, arrayListAdd, buildsWhatMemberType);
+			globalEnv->DeleteLocalRef(buildsWhatMemberType);
+		}
+		globalEnv->DeleteLocalRef(buildsWhatList);
+
 		// create a new Pair object and fill in UnitType,Integer
 		jfieldID whatBuildsField = globalEnv->GetStaticFieldID(unitTypeClass, unitType.whatBuilds().first.getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;");
 		jobject whatBuildsType = globalEnv->GetStaticObjectField(unitTypeClass, whatBuildsField);

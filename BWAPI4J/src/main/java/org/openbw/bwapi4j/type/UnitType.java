@@ -1,10 +1,10 @@
 package org.openbw.bwapi4j.type;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.util.Pair;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public enum UnitType {
 
@@ -246,6 +246,7 @@ public enum UnitType {
     private int id;
     private Race race;
     private Pair<UnitType, Integer> whatBuilds;
+    private ArrayList<UnitType> buildsWhat;
     private ArrayList<UnitType> requiredUnits;
     private TechType requiredTech;
     private TechType cloakingTech;
@@ -326,11 +327,12 @@ public enum UnitType {
     private UnitType() {
 
         // this.whatBuilds will be created via JNI
-        this.requiredUnits = new ArrayList<UnitType>();
-        this.abilities = new ArrayList<TechType>();
-        this.upgrades = new ArrayList<UpgradeType>();
-        this.researchesWhat = new ArrayList<TechType>();
-        this.upgradesWhat = new ArrayList<UpgradeType>();
+        this.requiredUnits = new ArrayList<>();
+        this.abilities = new ArrayList<>();
+        this.upgrades = new ArrayList<>();
+        this.researchesWhat = new ArrayList<>();
+        this.upgradesWhat = new ArrayList<>();
+        buildsWhat = new ArrayList<>();
     }
 
     public int getId() {
@@ -1141,5 +1143,19 @@ public enum UnitType {
      */
     public List<UpgradeType> upgradesWhat() {
         return this.upgradesWhat;
+    }
+
+
+    /**
+     * Retrieves the set of units that this unit type is capable of creating.
+     * This includes training, constructing, warping, and morphing.
+     * <i>Some maps have special parameters that disable construction of units
+     * that are otherwise normally available. Use PlayerInterface::isUnitAvailable to
+     * determine if a unit type is actually available in the current game for a specific player.</i>
+     *
+     * @return A list containing the units it can build.
+     */
+    public ArrayList<UnitType> buildsWhat() {
+        return buildsWhat;
     }
 }
