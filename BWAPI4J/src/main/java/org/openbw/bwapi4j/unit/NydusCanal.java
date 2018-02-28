@@ -4,6 +4,9 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
+import static org.openbw.bwapi4j.type.UnitCommandType.Build;
+import static org.openbw.bwapi4j.type.UnitType.Zerg_Nydus_Canal;
+
 public class NydusCanal extends Building implements Organic {
 
     private int nydusExitId;
@@ -32,7 +35,7 @@ public class NydusCanal extends Building implements Organic {
      */
     public boolean buildNydusExit(Position position) {
         
-        return issueCommand(this.id, UnitCommandType.Build.ordinal(), -1,
-                position.getX(), position.getY(), UnitType.Zerg_Nydus_Canal.getId()); 
+        return issueCommand(this.id, Build, -1,
+                position.getX(), position.getY(), Zerg_Nydus_Canal.getId());
     }
 }

@@ -4,6 +4,9 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
+import static org.openbw.bwapi4j.type.TechType.Yamato_Gun;
+import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Unit;
+
 public class BattleCruiser extends MobileUnit implements Mechanical, SpellCaster, Armed {
 
     private int energy;
@@ -29,8 +32,8 @@ public class BattleCruiser extends MobileUnit implements Mechanical, SpellCaster
 
     public boolean yamatoGun(PlayerUnit unit) {
         
-        return issueCommand(this.id, UnitCommandType.Use_Tech_Unit.ordinal(), unit.getId(), -1, -1,
-                TechType.Yamato_Gun.getId());
+        return issueCommand(this.id, Use_Tech_Unit, unit.getId(), -1, -1,
+                Yamato_Gun.getId());
     }
 
     @Override

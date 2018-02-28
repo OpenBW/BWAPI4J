@@ -4,6 +4,9 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
+import static org.openbw.bwapi4j.type.TechType.Stim_Packs;
+import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech;
+
 public class Firebat extends MobileUnit implements Organic, Armed {
 
     private boolean isStimmed;
@@ -27,7 +30,7 @@ public class Firebat extends MobileUnit implements Organic, Armed {
 
     public boolean stimPack() {
         
-        return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), -1, -1, -1, TechType.Stim_Packs.getId());
+        return issueCommand(this.id, Use_Tech, -1, -1, -1, Stim_Packs.getId());
     }
 
     @Override

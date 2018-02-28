@@ -4,6 +4,8 @@ import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.WeaponType;
 
+import static org.openbw.bwapi4j.type.UnitCommandType.Attack_Unit;
+
 public class MissileTurret extends Building implements Mechanical, Detector {
 
     protected MissileTurret(int id, int timeSpotted) {
@@ -13,7 +15,7 @@ public class MissileTurret extends Building implements Mechanical, Detector {
 
     protected boolean attack(Unit target, boolean queued) {
         
-        return issueCommand(this.id, UnitCommandType.Attack_Unit.ordinal(), target.getId(), -1, -1, queued ? 1 : 0);
+        return issueCommand(this.id, Attack_Unit, target.getId(), -1, -1, queued ? 1 : 0);
     }
 
     public WeaponType getAirWeapon() {

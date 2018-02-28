@@ -4,6 +4,9 @@ import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
+import static org.openbw.bwapi4j.type.UnitCommandType.Morph;
+import static org.openbw.bwapi4j.type.UnitType.Zerg_Hive;
+
 public class Lair extends Hatchery {
 
     protected Lair(int id, int timeSpotted) {
@@ -33,6 +36,6 @@ public class Lair extends Hatchery {
     
     public boolean morph() {
         
-        return issueCommand(this.id, UnitCommandType.Morph.ordinal(), -1, -1, -1, UnitType.Zerg_Hive.getId());
+        return issueCommand(this.id, Morph, -1, -1, -1, Zerg_Hive.getId());
     }
 }

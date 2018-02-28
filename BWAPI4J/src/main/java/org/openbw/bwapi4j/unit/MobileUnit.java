@@ -4,6 +4,8 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
+import static org.openbw.bwapi4j.type.UnitCommandType.*;
+
 public abstract class MobileUnit extends PlayerUnit {
 
     private boolean isFollowing;
@@ -64,7 +66,7 @@ public abstract class MobileUnit extends PlayerUnit {
 
     public boolean attack(Position p, boolean queued) {
 
-        return issueCommand(this.id, UnitCommandType.Attack_Move.ordinal(), -1, p.getX(), p.getY(), queued ? 1 : 0);
+        return issueCommand(this.id, Attack_Move, -1, p.getX(), p.getY(), queued ? 1 : 0);
     }
 
     public boolean attack(Unit target) {
@@ -74,7 +76,7 @@ public abstract class MobileUnit extends PlayerUnit {
 
     public boolean attack(Unit target, boolean queued) {
 
-        return issueCommand(this.id, UnitCommandType.Attack_Unit.ordinal(), target.getId(), -1, -1, queued ? 1 : 0);
+        return issueCommand(this.id, Attack_Unit, target.getId(), -1, -1, queued ? 1 : 0);
     }
 
     public boolean move(Position p) {
@@ -84,7 +86,7 @@ public abstract class MobileUnit extends PlayerUnit {
 
     public boolean move(Position p, boolean queued) {
 
-        return issueCommand(this.id, UnitCommandType.Move.ordinal(), -1, p.getX(), p.getY(), queued ? 1 : 0);
+        return issueCommand(this.id, Move, -1, p.getX(), p.getY(), queued ? 1 : 0);
     }
 
     public boolean patrol(Position p) {
@@ -94,7 +96,7 @@ public abstract class MobileUnit extends PlayerUnit {
 
     public boolean patrol(Position p, boolean queued) {
 
-        return issueCommand(this.id, UnitCommandType.Patrol.ordinal(), -1, p.getX(), p.getY(), queued ? 1 : 0);
+        return issueCommand(this.id, Patrol, -1, p.getX(), p.getY(), queued ? 1 : 0);
     }
 
     public boolean holdPosition() {
@@ -104,17 +106,17 @@ public abstract class MobileUnit extends PlayerUnit {
 
     public boolean holdPosition(boolean queued) {
 
-        return issueCommand(this.id, UnitCommandType.Hold_Position.ordinal(), -1, -1, -1, queued ? 1 : 0);
+        return issueCommand(this.id, Hold_Position, -1, -1, -1, queued ? 1 : 0);
     }
 
     public boolean stop(boolean queued) {
 
-        return issueCommand(this.id, UnitCommandType.Stop.ordinal(), -1, -1, -1, queued ? 1 : 0);
+        return issueCommand(this.id, Stop, -1, -1, -1, queued ? 1 : 0);
     }
 
     public boolean follow(Unit target, boolean queued) {
 
-        return issueCommand(this.id, UnitCommandType.Follow.ordinal(), target.getId(), -1, -1, queued ? 1 : 0);
+        return issueCommand(this.id, Follow, target.getId(), -1, -1, queued ? 1 : 0);
     }
 
     public int getAcidSporeCount() {

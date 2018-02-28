@@ -3,6 +3,8 @@ package org.openbw.bwapi4j.unit;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
+import static org.openbw.bwapi4j.type.UnitCommandType.Right_Click_Unit;
+
 public class ShieldBattery extends Building implements Mechanical {
 
     protected ShieldBattery(int id, int timeSpotted) {
@@ -19,6 +21,6 @@ public class ShieldBattery extends Building implements Mechanical {
      */
     protected boolean recharge(Unit target, boolean queued) {
         
-    	return issueCommand(target.id, UnitCommandType.Right_Click_Unit.ordinal(), this.getId(), -1, -1, queued ? 1 : 0);
+    	return issueCommand(target.id, Right_Click_Unit, this.getId(), -1, -1, queued ? 1 : 0);
     }
 }

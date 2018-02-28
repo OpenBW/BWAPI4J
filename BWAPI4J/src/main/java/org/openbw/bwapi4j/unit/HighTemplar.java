@@ -5,6 +5,9 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
+import static org.openbw.bwapi4j.type.TechType.*;
+import static org.openbw.bwapi4j.type.UnitCommandType.*;
+
 public class HighTemplar extends MobileUnit implements Organic, SpellCaster {
 
     private int energy;
@@ -37,7 +40,7 @@ public class HighTemplar extends MobileUnit implements Organic, SpellCaster {
     public boolean archonWarp() {
         
         // TODO how does this spell work? does the other templars ID have to be passed as well?
-        return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), -1, -1, -1, TechType.Archon_Warp.getId());
+        return issueCommand(this.id, Use_Tech, -1, -1, -1, Archon_Warp.getId());
     }
 
     public boolean hallucination(MobileUnit unit) {
@@ -47,8 +50,8 @@ public class HighTemplar extends MobileUnit implements Organic, SpellCaster {
             return false;
         } else {
             
-            return issueCommand(this.id, UnitCommandType.Use_Tech_Unit.ordinal(), unit.getId(), 
-                    -1, -1, TechType.Hallucination.getId());
+            return issueCommand(this.id, Use_Tech_Unit, unit.getId(),
+                    -1, -1, Hallucination.getId());
         }
     }
 
@@ -59,8 +62,8 @@ public class HighTemplar extends MobileUnit implements Organic, SpellCaster {
             return false;
         } else {
             
-            return issueCommand(this.id, UnitCommandType.Use_Tech_Position.ordinal(), -1, 
-                    position.getX(), position.getY(), TechType.Psionic_Storm.getId());
+            return issueCommand(this.id, Use_Tech_Position, -1,
+                    position.getX(), position.getY(), Psionic_Storm.getId());
         }
     }
 }

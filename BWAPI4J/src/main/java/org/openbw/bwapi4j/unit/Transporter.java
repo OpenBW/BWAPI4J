@@ -6,6 +6,8 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
+import static org.openbw.bwapi4j.type.UnitCommandType.*;
+
 public abstract class Transporter extends MobileUnit implements Loadable {
 
     private static final Logger logger = LogManager.getLogger();
@@ -38,13 +40,13 @@ public abstract class Transporter extends MobileUnit implements Loadable {
             logger.error("Can't load a {} into a transport. Only non-flying units allowed.", target);
             return false;
         } else {
-            return issueCommand(this.id, UnitCommandType.Load.ordinal(), target.getId(), -1, -1, queued ? 1 : 0);
+            return issueCommand(this.id, Load, target.getId(), -1, -1, queued ? 1 : 0);
         }
     }
 
     @Override
     public boolean unload(final MobileUnit target) {
-        return issueCommand(this.id, UnitCommandType.Unload.ordinal(), target.getId(), -1, -1, -1);
+        return issueCommand(this.id, Unload, target.getId(), -1, -1, -1);
     }
 
     @Override
@@ -54,7 +56,7 @@ public abstract class Transporter extends MobileUnit implements Loadable {
 
     @Override
     public boolean unloadAll(final boolean queued) {
-        return issueCommand(this.id, UnitCommandType.Unload_All.ordinal(), -1, -1, -1, queued ? 1 : 0);
+        return issueCommand(this.id, Unload_All, -1, -1, -1, queued ? 1 : 0);
     }
 
     public boolean unloadAll(final Position p) {
@@ -62,7 +64,7 @@ public abstract class Transporter extends MobileUnit implements Loadable {
     }
 
     public boolean unloadAll(final Position p, final boolean queued) {
-        return issueCommand(this.id, UnitCommandType.Unload_All_Position.ordinal(), -1, p.getX(), p.getY(), queued ? 1 : 0);
+        return issueCommand(this.id, Unload_All_Position, -1, p.getX(), p.getY(), queued ? 1 : 0);
     }
 
 }

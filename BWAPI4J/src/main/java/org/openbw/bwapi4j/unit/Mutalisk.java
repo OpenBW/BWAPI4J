@@ -3,6 +3,8 @@ package org.openbw.bwapi4j.unit;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
+import static org.openbw.bwapi4j.type.UnitCommandType.Morph;
+
 public class Mutalisk extends MobileUnit implements Organic, Armed {
 
     protected Mutalisk(int id) {
@@ -11,7 +13,7 @@ public class Mutalisk extends MobileUnit implements Organic, Armed {
     }
 
     public boolean morph(final UnitType unitType) {
-        return issueCommand(this.id, UnitCommandType.Morph.ordinal(), -1, -1, -1, unitType.getId());
+        return issueCommand(this.id, Morph, -1, -1, -1, unitType.getId());
     }
 
     public boolean morphGuardian() {

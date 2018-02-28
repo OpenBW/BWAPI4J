@@ -5,6 +5,10 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
+import static org.openbw.bwapi4j.type.TechType.*;
+import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Position;
+import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Unit;
+
 public class ScienceVessel extends MobileUnit implements Mechanical, SpellCaster, Detector {
 
     private int energy;
@@ -30,20 +34,20 @@ public class ScienceVessel extends MobileUnit implements Mechanical, SpellCaster
 
     public boolean defensiveMatrix(PlayerUnit unit) {
         
-        return issueCommand(this.id, UnitCommandType.Use_Tech_Unit.ordinal(), unit.getId(), -1, -1,
-                TechType.Defensive_Matrix.getId());
+        return issueCommand(this.id, Use_Tech_Unit, unit.getId(), -1, -1,
+                Defensive_Matrix.getId());
     }
 
     public boolean irradiate(Organic unit) {
         
-        return issueCommand(this.id, UnitCommandType.Use_Tech_Unit.ordinal(), ((Unit) unit).getId(), -1, -1,
-                TechType.Irradiate.getId());
+        return issueCommand(this.id, Use_Tech_Unit, ((Unit) unit).getId(), -1, -1,
+                Irradiate.getId());
     }
 
     public boolean empShockWave(Position p) {
         
-        return issueCommand(this.id, UnitCommandType.Use_Tech_Position.ordinal(), -1, p.getX(), p.getY(),
-                TechType.EMP_Shockwave.getId());
+        return issueCommand(this.id, Use_Tech_Position, -1, p.getX(), p.getY(),
+                EMP_Shockwave.getId());
     }
 
     @Override

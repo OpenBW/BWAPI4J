@@ -3,6 +3,9 @@ package org.openbw.bwapi4j.unit;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
+import static org.openbw.bwapi4j.type.UnitCommandType.Train;
+import static org.openbw.bwapi4j.type.UnitType.Protoss_Scarab;
+
 public class Reaver extends MobileUnit implements Mechanical {
 
     private int scarabCount;
@@ -33,6 +36,6 @@ public class Reaver extends MobileUnit implements Mechanical {
     
     public boolean trainScarab() {
         
-        return issueCommand(id, UnitCommandType.Train.ordinal(), UnitType.Protoss_Scarab.getId(), -1, -1, -1);
+        return issueCommand(id, Train, Protoss_Scarab.getId(), -1, -1, -1);
     }
 }

@@ -7,6 +7,9 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
+import static org.openbw.bwapi4j.type.TechType.*;
+import static org.openbw.bwapi4j.type.UnitCommandType.*;
+
 public class Ghost extends MobileUnit implements SpellCaster, Organic, Armed {
 
     private static final Logger logger = LogManager.getLogger();
@@ -40,8 +43,8 @@ public class Ghost extends MobileUnit implements SpellCaster, Organic, Armed {
 
     public boolean personnelCloaking() {
         
-        return issueCommand(this.id, UnitCommandType.Use_Tech.ordinal(), -1, -1, -1,
-                TechType.Personnel_Cloaking.getId());
+        return issueCommand(this.id, Use_Tech, -1, -1, -1,
+                Personnel_Cloaking.getId());
     }
 
     /**
@@ -52,8 +55,8 @@ public class Ghost extends MobileUnit implements SpellCaster, Organic, Armed {
     public boolean lockdown(Mechanical unit) {
         
         if (unit instanceof Unit) {
-            return issueCommand(this.id, UnitCommandType.Use_Tech_Unit.ordinal(), ((Unit) unit).getId(), -1, -1,
-                    TechType.Lockdown.getId());
+            return issueCommand(this.id, Use_Tech_Unit, ((Unit) unit).getId(), -1, -1,
+                    Lockdown.getId());
         } else {
             logger.error("unit {} is not a valid target for lockDown.", unit);
             return false;
@@ -62,8 +65,8 @@ public class Ghost extends MobileUnit implements SpellCaster, Organic, Armed {
 
     public boolean nuclearStrike(Position p) {
         
-        return issueCommand(this.id, UnitCommandType.Use_Tech_Position.ordinal(), -1, p.getX(), p.getY(),
-                TechType.Nuclear_Strike.getId());
+        return issueCommand(this.id, Use_Tech_Position, -1, p.getX(), p.getY(),
+                Nuclear_Strike.getId());
     }
 
     @Override

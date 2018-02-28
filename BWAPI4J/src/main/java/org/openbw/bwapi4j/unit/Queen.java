@@ -7,6 +7,10 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
+import static org.openbw.bwapi4j.type.TechType.*;
+import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Position;
+import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Unit;
+
 public class Queen extends MobileUnit implements Organic, SpellCaster {
 
     private static final Logger logger = LogManager.getLogger();
@@ -49,8 +53,8 @@ public class Queen extends MobileUnit implements Organic, SpellCaster {
             return false;
         } else {
             
-            return issueCommand(this.id, UnitCommandType.Use_Tech_Unit.ordinal(), commandCenter.getId(), 
-                    -1, -1, TechType.Infestation.getId());
+            return issueCommand(this.id, Use_Tech_Unit, commandCenter.getId(),
+                    -1, -1, Infestation.getId());
         }
     }
     
@@ -66,8 +70,8 @@ public class Queen extends MobileUnit implements Organic, SpellCaster {
             return false;
         } else {
             
-            return issueCommand(this.id, UnitCommandType.Use_Tech_Unit.ordinal(), target.getId(), 
-                    -1, -1, TechType.Parasite.getId());
+            return issueCommand(this.id, Use_Tech_Unit, target.getId(),
+                    -1, -1, Parasite.getId());
         }
     }
     
@@ -82,7 +86,7 @@ public class Queen extends MobileUnit implements Organic, SpellCaster {
             return false;
         } else {
             
-            return issueCommand(this.id, UnitCommandType.Use_Tech_Unit.ordinal(), target.getId(), -1, -1, TechType.Spawn_Broodlings.getId());
+            return issueCommand(this.id, Use_Tech_Unit, target.getId(), -1, -1, Spawn_Broodlings.getId());
         }
     }
     
@@ -93,7 +97,7 @@ public class Queen extends MobileUnit implements Organic, SpellCaster {
             return false;
         } else {
             
-            return issueCommand(this.id, UnitCommandType.Use_Tech_Position.ordinal(), -1, position.getX(), position.getY(), TechType.Ensnare.getId());
+            return issueCommand(this.id, Use_Tech_Position, -1, position.getX(), position.getY(), Ensnare.getId());
         }
     }
 }

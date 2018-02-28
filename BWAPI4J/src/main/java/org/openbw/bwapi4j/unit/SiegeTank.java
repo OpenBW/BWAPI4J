@@ -3,6 +3,9 @@ package org.openbw.bwapi4j.unit;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
+import static org.openbw.bwapi4j.type.UnitCommandType.Siege;
+import static org.openbw.bwapi4j.type.UnitCommandType.Unsiege;
+
 public class SiegeTank extends MobileUnit implements Mechanical, Armed {
 
     private boolean sieged;
@@ -22,12 +25,12 @@ public class SiegeTank extends MobileUnit implements Mechanical, Armed {
 
     public boolean siege() {
         
-        return issueCommand(this.id, UnitCommandType.Siege.ordinal(), -1, -1, -1, -1);
+        return issueCommand(this.id, Siege, -1, -1, -1, -1);
     }
 
     public boolean unsiege() {
         
-        return issueCommand(this.id, UnitCommandType.Unsiege.ordinal(), -1, -1, -1, -1);
+        return issueCommand(this.id, Unsiege, -1, -1, -1, -1);
     }
 
     public boolean isSieged() {

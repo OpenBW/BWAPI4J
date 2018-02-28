@@ -3,6 +3,10 @@ package org.openbw.bwapi4j.unit;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
+import static org.openbw.bwapi4j.type.UnitCommandType.Morph;
+import static org.openbw.bwapi4j.type.UnitType.Zerg_Spore_Colony;
+import static org.openbw.bwapi4j.type.UnitType.Zerg_Sunken_Colony;
+
 public class CreepColony extends Building implements Organic {
 
     protected CreepColony(int id, int timeSpotted) {
@@ -31,11 +35,11 @@ public class CreepColony extends Building implements Organic {
     
     public boolean morphSporeColony() {
         
-        return issueCommand(this.id, UnitCommandType.Morph.ordinal(), -1, -1, -1, UnitType.Zerg_Spore_Colony.getId());
+        return issueCommand(this.id, Morph, -1, -1, -1, Zerg_Spore_Colony.getId());
     }
     
     public boolean morphSunkenColony() {
         
-        return issueCommand(this.id, UnitCommandType.Morph.ordinal(), -1, -1, -1, UnitType.Zerg_Sunken_Colony.getId());
+        return issueCommand(this.id, Morph, -1, -1, -1, Zerg_Sunken_Colony.getId());
     }
 }

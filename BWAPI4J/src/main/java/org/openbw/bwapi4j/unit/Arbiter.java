@@ -5,6 +5,10 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
+import static org.openbw.bwapi4j.type.TechType.Recall;
+import static org.openbw.bwapi4j.type.TechType.Stasis_Field;
+import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Position;
+
 public class Arbiter extends MobileUnit implements Mechanical, SpellCaster, Armed {
 
     private int energy;
@@ -39,8 +43,8 @@ public class Arbiter extends MobileUnit implements Mechanical, SpellCaster, Arme
         if (this.energy < TechType.Stasis_Field.energyCost()) {
             return false;
         } else {
-            return issueCommand(this.id, UnitCommandType.Use_Tech_Position.ordinal(), -1, 
-                    position.getX(), position.getY(), TechType.Stasis_Field.getId());
+            return issueCommand(this.id, Use_Tech_Position, -1,
+                    position.getX(), position.getY(), Stasis_Field.getId());
         }
     }
     
@@ -49,8 +53,8 @@ public class Arbiter extends MobileUnit implements Mechanical, SpellCaster, Arme
         if (this.energy < TechType.Recall.energyCost()) {
             return false;
         } else {
-            return issueCommand(this.id, UnitCommandType.Use_Tech_Position.ordinal(), -1, 
-                    position.getX(), position.getY(), TechType.Recall.getId());
+            return issueCommand(this.id, Use_Tech_Position, -1,
+                    position.getX(), position.getY(), Recall.getId());
         }
     }
 

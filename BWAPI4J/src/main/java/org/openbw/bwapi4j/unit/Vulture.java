@@ -5,6 +5,9 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
+import static org.openbw.bwapi4j.type.TechType.Spider_Mines;
+import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Position;
+
 public class Vulture extends MobileUnit implements Mechanical, Armed {
 
     private int spiderMineCount;
@@ -40,8 +43,8 @@ public class Vulture extends MobileUnit implements Mechanical, Armed {
      */
     public boolean spiderMine(Position position) {
         
-        return issueCommand(this.id, UnitCommandType.Use_Tech_Position.ordinal(), -1, 
-                position.getX(), position.getY(), TechType.Spider_Mines.getId());
+        return issueCommand(this.id, Use_Tech_Position, -1,
+                position.getX(), position.getY(), Spider_Mines.getId());
     }
 
     @Override

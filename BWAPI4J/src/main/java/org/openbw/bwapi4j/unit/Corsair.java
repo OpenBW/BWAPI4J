@@ -5,6 +5,9 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
+import static org.openbw.bwapi4j.type.TechType.Disruption_Web;
+import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Position;
+
 public class Corsair extends MobileUnit implements Mechanical, SpellCaster, Armed {
 
     private int energy;
@@ -41,8 +44,8 @@ public class Corsair extends MobileUnit implements Mechanical, SpellCaster, Arme
             return false;
         } else {
             
-            return issueCommand(this.id, UnitCommandType.Use_Tech_Position.ordinal(), -1, 
-                    position.getX(), position.getY(), TechType.Disruption_Web.getId());
+            return issueCommand(this.id, Use_Tech_Position, -1,
+                    position.getX(), position.getY(), Disruption_Web.getId());
         }
     }
 

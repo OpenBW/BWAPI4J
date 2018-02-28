@@ -4,6 +4,10 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
+import static org.openbw.bwapi4j.type.UnitCommandType.Build_Addon;
+import static org.openbw.bwapi4j.type.UnitCommandType.Cancel_Addon;
+import static org.openbw.bwapi4j.type.UnitType.Terran_Machine_Shop;
+
 public class Factory extends Building implements Mechanical, FlyingBuilding, TrainingFacility, ExtendibleByAddon {
 
     private int addonId;
@@ -62,7 +66,7 @@ public class Factory extends Building implements Mechanical, FlyingBuilding, Tra
     @Override
     public boolean cancelAddon() {
         
-        return issueCommand(this.id, UnitCommandType.Cancel_Addon.ordinal(), -1, -1, -1, -1);
+        return issueCommand(this.id, Cancel_Addon, -1, -1, -1, -1);
     }
     
     /**
@@ -71,7 +75,7 @@ public class Factory extends Building implements Mechanical, FlyingBuilding, Tra
      */
     public boolean buildMachineShop() {
         
-        return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), -1, -1, -1, UnitType.Terran_Machine_Shop.getId());
+        return issueCommand(this.id, Build_Addon, -1, -1, -1, Terran_Machine_Shop.getId());
     }
 
     public MachineShop getMachineShop() {
@@ -86,7 +90,7 @@ public class Factory extends Building implements Mechanical, FlyingBuilding, Tra
 
     @Override
     public boolean build(UnitType addon) {
-        return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), -1, -1, -1, addon.getId());
+        return issueCommand(this.id, Build_Addon, -1, -1, -1, addon.getId());
     }
 
     @Override

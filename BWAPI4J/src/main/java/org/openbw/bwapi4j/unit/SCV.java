@@ -2,9 +2,10 @@ package org.openbw.bwapi4j.unit;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
+
+import static org.openbw.bwapi4j.type.UnitCommandType.*;
 
 public class SCV extends Worker implements Mechanical {
 
@@ -38,7 +39,7 @@ public class SCV extends Worker implements Mechanical {
     }
 
     public boolean repair(Mechanical target) {
-        return issueCommand(id, UnitCommandType.Repair.ordinal(), ((Unit) target).id, -1, -1, -1);
+        return issueCommand(id, Repair, ((Unit) target).id, -1, -1, -1);
     }
 
     public Building getBuildUnit() {
@@ -55,11 +56,11 @@ public class SCV extends Worker implements Mechanical {
 
     public boolean haltConstruction() {
         
-        return issueCommand(this.id, UnitCommandType.Halt_Construction.ordinal(), -1, -1, -1, -1);
+        return issueCommand(this.id, Halt_Construction, -1, -1, -1, -1);
     }
 
     public boolean resumeBuilding(Building building) {
         
-        return issueCommand(this.id, UnitCommandType.Right_Click_Unit.ordinal(), building.getId(), -1, -1, -1);
+        return issueCommand(this.id, Right_Click_Unit, building.getId(), -1, -1, -1);
     }
 }

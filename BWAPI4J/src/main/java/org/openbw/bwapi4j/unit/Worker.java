@@ -4,6 +4,8 @@ import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
+import static org.openbw.bwapi4j.type.UnitCommandType.*;
+
 public abstract class Worker extends MobileUnit implements Armed {
     private boolean isConstructing;
     private boolean isGatheringGas;
@@ -70,39 +72,39 @@ public abstract class Worker extends MobileUnit implements Armed {
 
     public boolean returnCargo() {
 
-        return issueCommand(this.id, UnitCommandType.Return_Cargo.ordinal(), -1, -1, -1, -1);
+        return issueCommand(this.id, Return_Cargo, -1, -1, -1, -1);
     }
 
     public boolean returnCargo(boolean queued) {
 
-        return issueCommand(this.id, UnitCommandType.Return_Cargo.ordinal(), -1, -1, -1, queued ? 1 : 0);
+        return issueCommand(this.id, Return_Cargo, -1, -1, -1, queued ? 1 : 0);
     }
 
     public boolean gather(GasMiningFacility gasMiningFacility) {
 
-        return issueCommand(this.id, UnitCommandType.Gather.ordinal(), gasMiningFacility.getId(), -1, -1, 0);
+        return issueCommand(this.id, Gather, gasMiningFacility.getId(), -1, -1, 0);
     }
 
     public boolean gather(GasMiningFacility gasMiningFacility, boolean shiftQueueCommand) {
 
-        return issueCommand(this.id, UnitCommandType.Gather.ordinal(), gasMiningFacility.getId(), -1, -1,
+        return issueCommand(this.id, Gather, gasMiningFacility.getId(), -1, -1,
                 shiftQueueCommand ? 1 : 0);
     }
 
     public boolean gather(MineralPatch mineralPatch) {
 
-        return issueCommand(this.id, UnitCommandType.Gather.ordinal(), mineralPatch.getId(), -1, -1, 0);
+        return issueCommand(this.id, Gather, mineralPatch.getId(), -1, -1, 0);
     }
 
     public boolean gather(MineralPatch mineralPatch, boolean shiftQueueCommand) {
 
-        return issueCommand(this.id, UnitCommandType.Gather.ordinal(), mineralPatch.getId(), -1, -1,
+        return issueCommand(this.id, Gather, mineralPatch.getId(), -1, -1,
                 shiftQueueCommand ? 1 : 0);
     }
 
     public boolean build(TilePosition p, UnitType type) {
 
-        return issueCommand(this.id, UnitCommandType.Build.ordinal(), -1, p.getX(), p.getY(), type.getId());
+        return issueCommand(this.id, Build, -1, p.getX(), p.getY(), type.getId());
     }
 
     @Override

@@ -5,6 +5,9 @@ import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
+import static org.openbw.bwapi4j.type.UnitCommandType.Morph;
+import static org.openbw.bwapi4j.type.UnitType.Zerg_Greater_Spire;
+
 public class Spire extends Building implements Organic, ResearchingFacility {
 
     private Researcher researcher;
@@ -58,7 +61,7 @@ public class Spire extends Building implements Organic, ResearchingFacility {
     
     public boolean morph() {
         
-        return issueCommand(this.id, UnitCommandType.Morph.ordinal(), -1, -1, -1, UnitType.Zerg_Greater_Spire.getId());
+        return issueCommand(this.id, Morph, -1, -1, -1, Zerg_Greater_Spire.getId());
     }
 
     @Override

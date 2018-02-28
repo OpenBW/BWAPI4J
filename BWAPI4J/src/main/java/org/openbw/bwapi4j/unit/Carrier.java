@@ -6,6 +6,9 @@ import java.util.stream.Collectors;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
+import static org.openbw.bwapi4j.type.UnitCommandType.Train;
+import static org.openbw.bwapi4j.type.UnitType.Protoss_Interceptor;
+
 public class Carrier extends MobileUnit implements Mechanical {
 
     private int interceptorCount;
@@ -46,6 +49,6 @@ public class Carrier extends MobileUnit implements Mechanical {
     
     public boolean trainInterceptor() {
         
-        return issueCommand(id, UnitCommandType.Train.ordinal(), UnitType.Protoss_Interceptor.getId(), -1, -1, -1);
+        return issueCommand(id, Train, Protoss_Interceptor.getId(), -1, -1, -1);
     }
 }

@@ -158,6 +158,8 @@ public abstract class Unit implements Comparable<Unit> {
     protected Position position;
     protected TilePosition tilePosition;
     protected double angle;
+    protected int lastCommandFrame;
+    protected UnitCommandType lastCommand;
 
     protected boolean isVisible;
     protected boolean exists;
@@ -439,6 +441,10 @@ public abstract class Unit implements Comparable<Unit> {
         return this.secondaryOrder;
     }
 
+    protected int getCurrentFrame() {
+        return bw.getInteractionHandler().getFrameCount();
+    }
+
     @Override
     public int hashCode() {
 
@@ -467,7 +473,16 @@ public abstract class Unit implements Comparable<Unit> {
         return this.getId() - otherUnit.getId();
     }
 
-    protected native boolean issueCommand(int unitId, int unitCommandTypeId, int targetUnitId, int x, int y, int extra);
+    protected boolean issueCommand(int unitId, UnitCommandType unitCommandType, int targetUnitId, int x, int y, int extra) {
+        if (issueCommand(unitId, unitCommandType.ordinal(), targetUnitId, x, y, extra)) {
+            lastCommandFrame = getCurrentFrame();
+            lastCommand = unitCommandType;
+            return true;
+        }
+        return false;
+    }
+
+    private native boolean issueCommand(int unitId, int unitCommandTypeId, int targetUnitId, int x, int y, int extra);
 
     // --------------------------------------------------
 
@@ -475,8 +490,6 @@ public abstract class Unit implements Comparable<Unit> {
     private int replayID;
 
     private int resourceGroup;
-    private int lastCommandFrame;
-    private UnitCommandType lastCommand;
     private Player lastAttackingPlayer;
     private int defenseMatrixPoints;
     private int defenseMatrixTimer;

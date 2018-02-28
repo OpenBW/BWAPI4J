@@ -9,13 +9,15 @@ import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
+import static org.openbw.bwapi4j.type.UnitCommandType.*;
+
 public abstract class Building extends PlayerUnit {
 
     private static final Logger logger = LogManager.getLogger();
 
     public boolean cancelConstruction() {
 
-        return issueCommand(this.id, UnitCommandType.Cancel_Construction.ordinal(), -1, -1, -1, -1);
+        return issueCommand(this.id, Cancel_Construction, -1, -1, -1, -1);
     }
 
     protected class Researcher implements ResearchingFacility {
@@ -49,12 +51,12 @@ public abstract class Building extends PlayerUnit {
 
         public boolean cancelResearch() {
 
-            return issueCommand(id, UnitCommandType.Cancel_Research.ordinal(), -1, -1, -1, -1);
+            return issueCommand(id, Cancel_Research, -1, -1, -1, -1);
         }
 
         public boolean cancelUpgrade() {
 
-            return issueCommand(id, UnitCommandType.Cancel_Upgrade.ordinal(), -1, -1, -1, -1);
+            return issueCommand(id, Cancel_Upgrade, -1, -1, -1, -1);
         }
 
         @Override
@@ -72,13 +74,13 @@ public abstract class Building extends PlayerUnit {
         @Override
         public boolean research(TechType techType) {
 
-            return issueCommand(id, UnitCommandType.Research.ordinal(), -1, -1, -1, techType.getId());
+            return issueCommand(id, Research, -1, -1, -1, techType.getId());
         }
 
         @Override
         public boolean upgrade(UpgradeType upgrade) {
 
-            return issueCommand(id, UnitCommandType.Upgrade.ordinal(), -1, -1, -1, upgrade.getId());
+            return issueCommand(id, Upgrade, -1, -1, -1, upgrade.getId());
         }
 
         @Override
@@ -152,27 +154,27 @@ public abstract class Building extends PlayerUnit {
 
         public boolean train(UnitType type) {
 
-            return issueCommand(id, UnitCommandType.Train.ordinal(), -1, -1, -1, type.getId());
+            return issueCommand(id, Train, -1, -1, -1, type.getId());
         }
 
         public boolean cancelTrain(int slot) {
 
-            return issueCommand(id, UnitCommandType.Cancel_Train_Slot.ordinal(), -1, -1, -1, slot);
+            return issueCommand(id, Cancel_Train_Slot, -1, -1, -1, slot);
         }
 
         public boolean cancelTrain() {
 
-            return issueCommand(id, UnitCommandType.Cancel_Train.ordinal(), -1, -1, -1, -1);
+            return issueCommand(id, Cancel_Train, -1, -1, -1, -1);
         }
 
         public boolean setRallyPoint(Position p) {
 
-            return issueCommand(id, UnitCommandType.Set_Rally_Position.ordinal(), -1, p.getX(), p.getY(), -1);
+            return issueCommand(id, Set_Rally_Position, -1, p.getX(), p.getY(), -1);
         }
 
         public boolean setRallyPoint(Unit target) {
 
-            return issueCommand(id, UnitCommandType.Set_Rally_Unit.ordinal(), target.getId(), -1, -1, -1);
+            return issueCommand(id, Set_Rally_Unit, target.getId(), -1, -1, -1);
         }
     }
 
@@ -188,19 +190,19 @@ public abstract class Building extends PlayerUnit {
         @Override
         public boolean lift() {
 
-            return issueCommand(id, UnitCommandType.Lift.ordinal(), -1, -1, -1, -1);
+            return issueCommand(id, Lift, -1, -1, -1, -1);
         }
 
         @Override
         public boolean land(Position p) {
 
-            return issueCommand(id, UnitCommandType.Land.ordinal(), -1, p.getX(), p.getY(), -1);
+            return issueCommand(id, Land, -1, p.getX(), p.getY(), -1);
         }
 
         @Override
         public boolean move(Position p) {
 
-            return issueCommand(id, UnitCommandType.Move.ordinal(), -1, p.getX(), p.getY(), -1);
+            return issueCommand(id, Move, -1, p.getX(), p.getY(), -1);
         }
 
         @Override

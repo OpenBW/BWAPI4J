@@ -5,6 +5,11 @@ import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
+import static org.openbw.bwapi4j.type.UnitCommandType.Build_Addon;
+import static org.openbw.bwapi4j.type.UnitCommandType.Cancel_Addon;
+import static org.openbw.bwapi4j.type.UnitType.Terran_Covert_Ops;
+import static org.openbw.bwapi4j.type.UnitType.Terran_Physics_Lab;
+
 public class ScienceFacility extends Building implements Mechanical, ResearchingFacility, ExtendibleByAddon {
 
     private int addonId;
@@ -67,7 +72,7 @@ public class ScienceFacility extends Building implements Mechanical, Researching
     @Override
     public boolean cancelAddon() {
         
-        return issueCommand(this.id, UnitCommandType.Cancel_Addon.ordinal(), -1, -1, -1, -1);
+        return issueCommand(this.id, Cancel_Addon, -1, -1, -1, -1);
     }
     
     /**
@@ -76,7 +81,7 @@ public class ScienceFacility extends Building implements Mechanical, Researching
      */
     public boolean buildPhysicslab() {
         
-        return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), -1, -1, -1, UnitType.Terran_Physics_Lab.getId());
+        return issueCommand(this.id, Build_Addon, -1, -1, -1, Terran_Physics_Lab.getId());
     }
 
     /**
@@ -85,12 +90,12 @@ public class ScienceFacility extends Building implements Mechanical, Researching
      */
     public boolean buildCovertOps() {
         
-        return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), -1, -1, -1, UnitType.Terran_Covert_Ops.getId());
+        return issueCommand(this.id, Build_Addon, -1, -1, -1, Terran_Covert_Ops.getId());
     }
 
     @Override
     public boolean build(UnitType addon) {
-        return issueCommand(this.id, UnitCommandType.Build_Addon.ordinal(), -1, -1, -1, addon.getId());
+        return issueCommand(this.id, Build_Addon, -1, -1, -1, addon.getId());
     }
 
     public boolean researchEmpShockwave() {

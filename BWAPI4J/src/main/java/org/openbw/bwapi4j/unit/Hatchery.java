@@ -8,6 +8,9 @@ import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
+import static org.openbw.bwapi4j.type.UnitCommandType.Morph;
+import static org.openbw.bwapi4j.type.UnitType.Zerg_Lair;
+
 public class Hatchery extends Building implements Organic, ResearchingFacility, Base {
 
     protected Researcher researcher;
@@ -72,7 +75,7 @@ public class Hatchery extends Building implements Organic, ResearchingFacility, 
     
     public boolean morph() {
         
-        return issueCommand(this.id, UnitCommandType.Morph.ordinal(), -1, -1, -1, UnitType.Zerg_Lair.getId());
+        return issueCommand(this.id, Morph, -1, -1, -1, Zerg_Lair.getId());
     }
 
     @Override

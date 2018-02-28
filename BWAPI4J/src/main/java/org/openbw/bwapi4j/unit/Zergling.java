@@ -3,6 +3,9 @@ package org.openbw.bwapi4j.unit;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
+import static org.openbw.bwapi4j.type.UnitCommandType.Burrow;
+import static org.openbw.bwapi4j.type.UnitCommandType.Unburrow;
+
 public class Zergling extends MobileUnit implements Organic, Burrowable, Armed {
 
     private boolean burrowed;
@@ -29,13 +32,13 @@ public class Zergling extends MobileUnit implements Organic, Burrowable, Armed {
     @Override
     public boolean burrow() {
         
-        return issueCommand(this.id, UnitCommandType.Burrow.ordinal(), -1, -1, -1, -1);
+        return issueCommand(this.id, Burrow, -1, -1, -1, -1);
     }
 
     @Override
     public boolean unburrow() {
         
-        return issueCommand(this.id, UnitCommandType.Unburrow.ordinal(), -1, -1, -1, -1);
+        return issueCommand(this.id, Unburrow, -1, -1, -1, -1);
     }
 
     @Override

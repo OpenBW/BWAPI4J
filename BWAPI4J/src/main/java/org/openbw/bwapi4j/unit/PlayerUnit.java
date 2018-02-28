@@ -13,6 +13,9 @@ import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.WeaponType;
 
+import static org.openbw.bwapi4j.type.UnitCommandType.Right_Click_Position;
+import static org.openbw.bwapi4j.type.UnitCommandType.Right_Click_Unit;
+
 public abstract class PlayerUnit extends Unit {
 
     // static
@@ -51,6 +54,7 @@ public abstract class PlayerUnit extends Unit {
     private Position lastKnownPosition;
     private TilePosition lastKnownTilePosition;
     private int lastKnownHitPoints;
+    private int currentFrame;
 
     protected PlayerUnit(int id, UnitType unitType) {
         
@@ -67,6 +71,7 @@ public abstract class PlayerUnit extends Unit {
         this.lastKnownPosition = this.initialPosition;
         this.lastKnownTilePosition = this.initialTilePosition;
         this.lastKnownHitPoints = this.initialHitPoints;
+        this.lastCommand = UnitCommandType.None;
     }
 
     @Override
@@ -96,6 +101,8 @@ public abstract class PlayerUnit extends Unit {
         this.isPowered = unitData[index + Unit.IS_POWERED_INDEX] == 1;
         this.targetId = unitData[index + Unit.TARGET_ID_INDEX];
         this.isInterruptible = unitData[index + Unit.IS_INTERRUPTIBLE_INDEX] == 1;
+        this.lastCommand = UnitCommandType.values()[unitData[index + Unit.LAST_COMMAND_TYPE_ID_INDEX]];
+        this.lastCommandFrame = unitData[index + Unit.LAST_COMMAND_FRAME_INDEX];
 
         super.update(unitData, index, frame);
 
@@ -154,7 +161,7 @@ public abstract class PlayerUnit extends Unit {
      */
     public boolean rightClick(Position position, boolean queued) {
         
-        return issueCommand(this.id, UnitCommandType.Right_Click_Position.ordinal(), -1, 
+        return issueCommand(this.id, Right_Click_Position, -1,
                 position.getX(), position.getY(), queued ? 1 : 0);
     }
 
@@ -166,7 +173,7 @@ public abstract class PlayerUnit extends Unit {
      */
     public boolean rightClick(Unit target, boolean queued) {
         
-        return issueCommand(this.id, UnitCommandType.Right_Click_Unit.ordinal(), target.getId(), -1, -1,
+        return issueCommand(this.id, Right_Click_Unit, target.getId(), -1, -1,
                 queued ? 1 : 0);
     }
     
@@ -381,4 +388,11 @@ public abstract class PlayerUnit extends Unit {
         return super.getSecondaryOrder();
     }
 
+    public int getLastCommandFrame() {
+        return lastCommandFrame;
+    }
+
+    public UnitCommandType getLastCommand() {
+        return lastCommand;
+    }
 }
