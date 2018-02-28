@@ -21,7 +21,6 @@ import bwem.util.BwemExt;
 import bwem.util.Utils;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.MutablePair;
@@ -305,10 +304,10 @@ public final class Graph {
     //----------------------------------------------------------------------
     // 2) Dispatch the global raw frontier between all the relevant pairs of areas:
     //----------------------------------------------------------------------
-    private AbstractMap<MutablePair<AreaId, AreaId>, List<WalkPosition>> createRawFrontierByAreaPairMap(
+    private Map<MutablePair<AreaId, AreaId>, List<WalkPosition>> createRawFrontierByAreaPairMap(
             final List<MutablePair<MutablePair<AreaId, AreaId>, WalkPosition>> rawFrontier
     ) {
-        final AbstractMap<MutablePair<AreaId, AreaId>, List<WalkPosition>> rawFrontierByAreaPair = new ConcurrentHashMap<>();
+        final Map<MutablePair<AreaId, AreaId>, List<WalkPosition>> rawFrontierByAreaPair = new HashMap<>();
 
         for (final MutablePair<MutablePair<AreaId, AreaId>, WalkPosition> raw : rawFrontier) {
             AreaId a = new AreaId(raw.getLeft().getLeft());
@@ -328,13 +327,8 @@ public final class Graph {
             }
 
             final MutablePair<AreaId, AreaId> key = new MutablePair<>(a, b);
-            if (!rawFrontierByAreaPair.containsKey(key)) {
-                final List<WalkPosition> list = new ArrayList<>();
-                list.add(raw.getRight());
-                rawFrontierByAreaPair.put(key, list);
-            } else {
-                rawFrontierByAreaPair.get(key).add(raw.getRight());
-            }
+            rawFrontierByAreaPair.computeIfAbsent(key, mp -> new ArrayList<>())
+                    .add(raw.getRight());
         }
 
         return rawFrontierByAreaPair;
@@ -375,7 +369,7 @@ public final class Graph {
         initializeChokePointsMatrix (ChokePointsMatrix, areasCount());
 
     	// 2) Dispatch the global raw frontier between all the relevant pairs of areas:
-        final AbstractMap<MutablePair<AreaId, AreaId>, List<WalkPosition>> rawFrontierByAreaPair
+        final Map<MutablePair<AreaId, AreaId>, List<WalkPosition>> rawFrontierByAreaPair
                 = createRawFrontierByAreaPairMap(rawFrontier);
 
     	// 3) For each pair of areas (A, B):

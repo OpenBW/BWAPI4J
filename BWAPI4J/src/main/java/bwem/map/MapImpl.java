@@ -33,13 +33,7 @@ import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.unit.VespeneGeyser;
 
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.*;
 
 public class MapImpl implements Map {
 
@@ -362,7 +356,7 @@ public class MapImpl implements Map {
         }
 
         List<TilePosition> visited = new ArrayList<>();
-        Queue<TilePosition> toVisit = new LinkedList<>();
+        Queue<TilePosition> toVisit = new ArrayDeque<>();
 
         toVisit.add(start);
         visited.add(start);
@@ -408,7 +402,7 @@ public class MapImpl implements Map {
         }
 
         final List<WalkPosition> visited = new ArrayList<>();
-        final Queue<WalkPosition> toVisit = new LinkedList<>();
+        final Queue<WalkPosition> toVisit = new ArrayDeque<>();
 
         toVisit.add(start);
         visited.add(start);
@@ -522,7 +516,7 @@ public class MapImpl implements Map {
         return result;
     }
 
-    private static final AbstractMap<MutablePair<AreaId, AreaId>, Integer> map_AreaPair_counter = new ConcurrentHashMap<>();
+    private static final java.util.Map<MutablePair<AreaId, AreaId>, Integer> map_AreaPair_counter = new HashMap<>();
     public static AreaId chooseNeighboringArea(final AreaId a, final AreaId b) {
         int aVal = a.intValue();
         int bVal = b.intValue();

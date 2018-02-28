@@ -19,10 +19,10 @@ import bwem.unit.StaticBuilding;
 import java.awt.Color;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.AbstractMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ConcurrentHashMap;
+
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.openbw.bwapi4j.TilePosition;
@@ -37,7 +37,7 @@ public class MapPrinterExample {
         this.mapPrinter = mapPrinter;
     }
 
-    private boolean getZoneColorCppAlgorithmAnyOf(AbstractMap<Area, List<ChokePoint>> chokePointsByArea, AbstractMap<Integer, Color> mapZoneColor, Color color) {
+    private boolean getZoneColorCppAlgorithmAnyOf(java.util.Map<Area, List<ChokePoint>> chokePointsByArea, java.util.Map<Integer, Color> mapZoneColor, Color color) {
         for (Area neighbor: chokePointsByArea.keySet()) {
             int neighborId = neighbor.getId().intValue();
             Color neighboringColor = mapZoneColor.get(neighborId);
@@ -50,7 +50,7 @@ public class MapPrinterExample {
         return false;
     }
 
-    private Color getZoneColor(Area area, AbstractMap<Integer, Color> mapZoneColor) {
+    private Color getZoneColor(Area area, java.util.Map<Integer, Color> mapZoneColor) {
         final Random rand = new Random();
         final int zoneId = mapPrinter.showAreas ? area.getId().intValue() : area.getGroupId().intValue();
         Color color = mapZoneColor.get(zoneId);
@@ -96,7 +96,7 @@ public class MapPrinterExample {
     }
 
     public void printMap(Map theMap) {
-        AbstractMap<Integer, Color> mapZoneColor = new ConcurrentHashMap<>();
+        java.util.Map<Integer, Color> mapZoneColor = new HashMap<>();
 
         for (int y = 0; y < theMap.getData().getMapData().getWalkSize().getY(); ++y)
         for (int x = 0; x < theMap.getData().getMapData().getWalkSize().getX(); ++x) {
