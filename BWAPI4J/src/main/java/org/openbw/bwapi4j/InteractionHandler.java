@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.type.BwError;
+import org.openbw.bwapi4j.type.GameType;
 import org.openbw.bwapi4j.type.Key;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.unit.Unit;
@@ -28,10 +29,11 @@ public final class InteractionHandler {
     public static int REMAINING_LATENCY_FRAMES_INDEX    = 8;
     public static int LATENCY_FRAMES_INDEX              = 9;
     public static int LATENCY_INDEX                     = 10;
-    public static int SELF_ID_INDEX                     = 11;
-    public static int ENEMY_ID_INDEX                    = 12;
+    public static int GAME_TYPE_ID_INDEX                = 11;
+    public static int SELF_ID_INDEX                     = 12;
+    public static int ENEMY_ID_INDEX                    = 13;
 
-    public static int TOTAL_PROPERTIES                  = 13;
+    public static int TOTAL_PROPERTIES                  = 14;
 
     private BW bw;
 
@@ -48,6 +50,7 @@ public final class InteractionHandler {
     private int latency;
     private int selfId;
     private int enemyId;
+    private int gameTypeId;
     
     /* default */ InteractionHandler(BW bw) {
         
@@ -69,6 +72,7 @@ public final class InteractionHandler {
         this.latency = data[LATENCY_FRAMES_INDEX];
         this.selfId = data[SELF_ID_INDEX];
         this.enemyId = data[ENEMY_ID_INDEX];
+        this.gameTypeId = data[GAME_TYPE_ID_INDEX];
     }
 
     /**
@@ -153,6 +157,11 @@ public final class InteractionHandler {
     public int getLatency() {
     	
         return this.latency;
+    }
+
+    public GameType getGameType() {
+
+        return GameType.values()[this.gameTypeId];
     }
 
     public List<Unit> getSelectedUnits() {
