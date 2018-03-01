@@ -34,60 +34,60 @@ public interface Area {
      * - id() == Map::GetMiniTile(w).AreaId() for each walkable MiniTile w in this Area.<br/>
      * - Area::ids are guaranteed to remain unchanged.
      */
-    public abstract AreaId getId();
+    AreaId getId();
 
     /**
      * - Unique id > 0 of the group of Areas which are accessible from this Area.<br/>
      * - For each pair (a, b) of Areas: a->GroupId() == b->GroupId()  <==>  a->AccessibleFrom(b)<br/>
      * - A groupId uniquely identifies a maximum set of mutually accessible Areas, that is, in the absence of blocking ChokePoints, a continent.
      */
-    public abstract GroupId getGroupId();
+    GroupId getGroupId();
 
     /**
      * Returns the top left position of the bounding box of this area.
      */
-    public abstract TilePosition getTopLeft();
+    TilePosition getTopLeft();
 
     /**
      * Returns the bottom right position of the bounding box of this area.
      */
-    public abstract TilePosition getBottomRight();
+    TilePosition getBottomRight();
 
     /**
      * Returns the bounding box size of this area.
      * The size is equal to (bottom right) subtract (top left) plus (1).
      */
-    public abstract TilePosition getBoundingBoxSize();
+    TilePosition getBoundingBoxSize();
 
     /**
      * Returns the position of the MiniTile with the highest altitude value.
      */
-    public abstract WalkPosition getWalkPositionWithHighestAltitude();
+    WalkPosition getWalkPositionWithHighestAltitude();
 
     /**
      * Returns the highest altitude observed in this area.
      */
-    public abstract Altitude getHighestAltitude();
+    Altitude getHighestAltitude();
 
     /**
      * Returns the number of MiniTiles in this area. This most accurately defines the size of this area.
      */
-    public abstract int getSize();
+    int getSize();
 
     /**
      * Returns the percentage of low ground tiles in this area.
      */
-    public abstract int getLowGroundPercentage();
+    int getLowGroundPercentage();
 
     /**
      * Returns the percentage of high ground tiles in this area.
      */
-    public abstract int getHighGroundPercentage();
+    int getHighGroundPercentage();
 
     /**
      * Returns the percentage of very high ground tiles in this area.
      */
-    public abstract int getVeryHighGroundPercentage();
+    int getVeryHighGroundPercentage();
 
     /**
      * Returns the ChokePoints between this Area and the neighboring ones.<br/>
@@ -96,7 +96,7 @@ public interface Area {
      *
      * @see #getChokePoints(Area)
      */
-    public abstract List<ChokePoint> getChokePoints();
+    List<ChokePoint> getChokePoints();
 
     /**
      * Returns the ChokePoints between this Area and the specified area.<br/>
@@ -105,13 +105,13 @@ public interface Area {
      *
      * @param area the specified area
      */
-    public abstract List<ChokePoint> getChokePoints(Area area);
+    List<ChokePoint> getChokePoints(Area area);
 
     /**
      * Returns the ChokePoints of this Area grouped by neighboring Areas.
      * Note: if there are no neighboring Areas, than an empty set is returned.
      */
-    public abstract AbstractMap<Area, List<ChokePoint>> getChokePointsByArea();
+    AbstractMap<Area, List<ChokePoint>> getChokePointsByArea();
 
     /**
      * Returns the accessible neighboring Areas.<br/>
@@ -120,7 +120,7 @@ public interface Area {
      *
      * @see ChokePoint#isBlocked()
      */
-    public abstract List<Area> getAccessibleNeighbors();
+    List<Area> getAccessibleNeighbors();
 
     /**
      * Returns whether this Area is accessible from the specified area, that is, if they share the same GroupId().<br/>
@@ -132,21 +132,21 @@ public interface Area {
      * @param area the specified area
      * @see #getGroupId()
      */
-    public abstract boolean isAccessibleFrom(Area area);
+    boolean isAccessibleFrom(Area area);
 
     /**
      * Returns the Minerals contained in this Area.<br/>
      */
-    public abstract List<Mineral> getMinerals();
+    List<Mineral> getMinerals();
 
     /**
      * Returns the Geysers contained in this Area.
      */
-    public abstract List<Geyser> getGeysers();
+    List<Geyser> getGeysers();
 
     /**
      * Returns the Bases contained in this Area.
      */
-    public abstract List<Base> getBases();
+    List<Base> getBases();
 
 }

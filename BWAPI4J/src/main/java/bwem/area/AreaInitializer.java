@@ -14,51 +14,51 @@ import java.util.List;
 
 public interface AreaInitializer {
 
-    public abstract Markable getMarkable();
+    Markable getMarkable();
 
-    public abstract void addChokePoints(Area area, List<ChokePoint> chokePoints);
+    void addChokePoints(Area area, List<ChokePoint> chokePoints);
 
-    public abstract void addMineral(final Mineral mineral);
+    void addMineral(final Mineral mineral);
 
-    public abstract void addGeyser(Geyser geyser);
+    void addGeyser(Geyser geyser);
 
     // Called for each tile t of this Area
-    public abstract void addTileInformation(TilePosition tilePosition, Tile tile);
+    void addTileInformation(TilePosition tilePosition, Tile tile);
 
-    public abstract void setGroupId(GroupId gid);
+    void setGroupId(GroupId gid);
 
-    public abstract Map getMap();
+    Map getMap();
 
     // Called after addTileInformation(t) has been called for each tile t of this Area
-    public abstract void postCollectInformation();
+    void postCollectInformation();
 
-    public abstract int[] computeDistances(ChokePoint startCP, List<ChokePoint> targetCPs);
+    int[] computeDistances(ChokePoint startCP, List<ChokePoint> targetCPs);
 
     // Returns Distances such that Distances[i] == ground_distance(start, targets[i]) in pixels
     // Note: same algorithm than Graph::computeDistances (derived from Dijkstra)
-    public abstract int[] computeDistances(TilePosition start, List<TilePosition> targets);
+    int[] computeDistances(TilePosition start, List<TilePosition> targets);
 
-    public abstract void updateAccessibleNeighbors();
+    void updateAccessibleNeighbors();
 
     // Fills in bases with good locations in this Area.
     // The algorithm repeatedly searches the best possible location L (near resources)
     // When it finds one, the nearby resources are assigned to L, which makes the remaining resources decrease.
     // This causes the algorithm to always terminate due to the lack of remaining resources.
     // To efficiently compute the distances to the resources, with use Potiential Fields in the InternalData() value of the Tiles.
-    public abstract void createBases(AdvancedData mapAdvancedData);
+    void createBases(AdvancedData mapAdvancedData);
 
     // Calculates the score >= 0 corresponding to the placement of a Base Command center at 'location'.
     // The more there are resources nearby, the higher the score is.
     // The function assumes the distance to the nearby resources has already been computed (in InternalData()) for each tile around.
     // The job is therefore made easier : just need to sum the InternalData() values.
     // Returns -1 if the location is impossible.
-    public abstract int computeBaseLocationScore(AdvancedData mapAdvancedData, TilePosition location);
+    int computeBaseLocationScore(AdvancedData mapAdvancedData, TilePosition location);
 
     // Checks if 'location' is a valid location for the placement of a Base Command center.
     // If the location is valid except for the presence of Mineral patches of less than 9 (see Andromeda.scx),
     // the function returns true, and these minerals are reported in blockingMinerals
     // The function is intended to be called after computeBaseLocationScore, as it is more expensive.
     // See also the comments inside computeBaseLocationScore.
-    public abstract boolean validateBaseLocation(AdvancedData mapAdvancedData, TilePosition location, List<Mineral> blockingMinerals);
+    boolean validateBaseLocation(AdvancedData mapAdvancedData, TilePosition location, List<Mineral> blockingMinerals);
 
 }

@@ -107,7 +107,7 @@ public class TempAreaInfo {
         if (!(isValid() && absorbed.isValid())) {
 //            bwem_assert(valid() && absorbed.isValid());
             throw new IllegalStateException();
-        } else if (! (this.size >= absorbed.size)) {
+        } else if (!(this.size >= absorbed.size)) {
 //            bwem_assert (size >= absorbed.size);
             throw new IllegalStateException();
         }

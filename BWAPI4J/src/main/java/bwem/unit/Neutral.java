@@ -141,7 +141,7 @@ public class Neutral {
 
     public void setBlocking(List<WalkPosition> blockedAreas) {
 //        bwem_assert (blockedAreas.empty() && !blockedAreas.empty());
-        if (! (this.blockedAreas.isEmpty() && !blockedAreas.isEmpty())) {
+        if (!(this.blockedAreas.isEmpty() && !blockedAreas.isEmpty())) {
             throw new IllegalStateException();
         }
         this.blockedAreas = blockedAreas;
@@ -153,7 +153,7 @@ public class Neutral {
 
     private void putOnTiles() {
 //        bwem_assert(!pNextStacked);
-        if (! (nextStacked == null)) {
+        if (!(nextStacked == null)) {
             throw new IllegalStateException();
         }
 
