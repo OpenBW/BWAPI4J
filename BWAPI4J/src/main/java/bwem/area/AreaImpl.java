@@ -1,6 +1,7 @@
 package bwem.area;
 
 import bwem.Base;
+import bwem.BaseImpl;
 import bwem.ChokePoint;
 import bwem.area.typedef.AreaId;
 import bwem.area.typedef.GroupId;
@@ -152,7 +153,7 @@ public abstract class AreaImpl implements Area {
         // let's examine the bases even if mineral was not found in this Area,
         // which could arise if minerals were allowed to be assigned to neighboring areas.
         for (final Base base : getBases()) {
-            base.onMineralDestroyed(mineral);
+            ((BaseImpl) base).onMineralDestroyed(mineral);
         }
     }
 

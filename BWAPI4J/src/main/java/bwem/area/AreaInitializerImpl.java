@@ -1,6 +1,7 @@
 package bwem.area;
 
 import bwem.Base;
+import bwem.BaseImpl;
 import bwem.CheckMode;
 import bwem.ChokePoint;
 import bwem.Markable;
@@ -410,7 +411,7 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
                 break;
             }
 
-            super.bases.add(new Base(this, bestLocation, assignedResources, blockingMinerals));
+            super.bases.add(new BaseImpl(this, bestLocation, assignedResources, blockingMinerals));
         }
     }
 

@@ -108,7 +108,7 @@ public interface Area {
 
     /**
      * Returns the ChokePoints of this Area grouped by neighboring Areas.
-     * Note: if there are no neighboring Areas, than an empty set is returned.
+     * - Note: if there are no neighboring Areas, than an empty set is returned.
      */
     java.util.Map<Area, List<ChokePoint>> getChokePointsByArea();
 

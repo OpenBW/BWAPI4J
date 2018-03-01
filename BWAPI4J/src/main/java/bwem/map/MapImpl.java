@@ -1,6 +1,7 @@
 package bwem.map;
 
 import bwem.Base;
+import bwem.BaseImpl;
 import bwem.CheckMode;
 import bwem.ChokePoint;
 import bwem.Graph;
@@ -133,7 +134,7 @@ public abstract class MapImpl implements Map {
                     for (Base base : area.getBases()) {
                         if (!found) {
                             if (BwemExt.queenWiseDist(base.getLocation(), location) <= BwemExt.max_tiles_between_StartingLocation_and_its_AssignedBase) {
-                                base.setStartingLocation(location);
+                                ((BaseImpl) base).setStartingLocation(location);
                                 found = true;
                             }
                         }
