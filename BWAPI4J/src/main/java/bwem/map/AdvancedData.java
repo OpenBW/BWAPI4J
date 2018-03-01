@@ -9,19 +9,18 @@ import org.openbw.bwapi4j.WalkPosition;
 
 public interface AdvancedData {
 
-    public abstract MapData getMapData();
+    MapData getMapData();
 
-    public abstract TileData getTileData();
+    TileData getTileData();
 
-    public abstract Tile getTile(TilePosition tilePosition, CheckMode checkMode);
+    Tile getTile(TilePosition tilePosition, CheckMode checkMode);
 
-    public abstract Tile getTile(TilePosition tilePosition);
+    Tile getTile(TilePosition tilePosition);
 
-    public abstract MiniTile getMiniTile(WalkPosition walkPosition, CheckMode checkMode);
+    MiniTile getMiniTile(WalkPosition walkPosition, CheckMode checkMode);
 
-    public abstract MiniTile getMiniTile(WalkPosition walkPosition);
+    MiniTile getMiniTile(WalkPosition walkPosition);
 
-    // map.cpp:29:seaSide
-    public abstract boolean isSeaWithNonSeaNeighbors(WalkPosition walkPosition);
+    boolean isSeaWithNonSeaNeighbors(WalkPosition walkPosition);
 
 }

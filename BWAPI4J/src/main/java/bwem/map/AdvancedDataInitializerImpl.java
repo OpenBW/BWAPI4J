@@ -25,8 +25,8 @@ public class AdvancedDataInitializerImpl extends AdvancedDataImpl implements Adv
     }
 
     @Override
-    public Tile getTile_(final TilePosition p) {
-        return getTile_(p, CheckMode.CHECK);
+    public Tile getTile_(final TilePosition tilePosition) {
+        return getTile_(tilePosition, CheckMode.CHECK);
     }
 
     @Override
@@ -38,6 +38,8 @@ public class AdvancedDataInitializerImpl extends AdvancedDataImpl implements Adv
     public MiniTile getMiniTile_(final WalkPosition walkPosition) {
         return getMiniTile_(walkPosition, CheckMode.CHECK);
     }
+
+
 
     ////////////////////////////////////////////////////////////////////////
     // MapImpl::LoadData

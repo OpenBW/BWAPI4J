@@ -42,7 +42,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Queue;
 
-public class MapImpl implements Map {
+public abstract class MapImpl implements Map {
 
     private final MapPrinter mapPrinter;
 

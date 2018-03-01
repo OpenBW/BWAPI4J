@@ -9,18 +9,18 @@ import org.openbw.bwapi4j.WalkPosition;
 
 public interface AdvancedDataInitializer {
 
-    public abstract Tile getTile_(final TilePosition tilePosition, final CheckMode checkMode);
+    Tile getTile_(TilePosition tilePosition, CheckMode checkMode);
 
-    public abstract Tile getTile_(final TilePosition p);
+    Tile getTile_(TilePosition tilePosition);
 
-    public abstract MiniTile getMiniTile_(final WalkPosition walkPosition, final CheckMode checkMode);
+    MiniTile getMiniTile_(WalkPosition walkPosition, CheckMode checkMode);
 
-    public abstract MiniTile getMiniTile_(final WalkPosition walkPosition);
+    MiniTile getMiniTile_(WalkPosition walkPosition);
 
-    public abstract void markUnwalkableMiniTiles(BWMap bwMap);
+    void markUnwalkableMiniTiles(BWMap bwMap);
 
-    public abstract void markBuildableTilesAndGroundHeight(BWMap bwMap);
+    void markBuildableTilesAndGroundHeight(BWMap bwMap);
 
-    public abstract void decideSeasOrLakes(int lakeMaxMiniTiles, int lakeMaxWidthInMiniTiles);
+    void decideSeasOrLakes(int lakeMaxMiniTiles, int lakeMaxWidthInMiniTiles);
 
 }
