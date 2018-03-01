@@ -1,11 +1,13 @@
 package bwem.map;
 
-import bwem.*;
+import bwem.Base;
+import bwem.CheckMode;
+import bwem.ChokePoint;
+import bwem.Graph;
+import bwem.MapPrinter;
 import bwem.area.Area;
 import bwem.area.AreaImpl;
-import bwem.area.AreaInitializer;
 import bwem.area.typedef.AreaId;
-import bwem.CheckMode;
 import bwem.tile.MiniTile;
 import bwem.tile.MiniTileImpl;
 import bwem.tile.Tile;
@@ -33,7 +35,12 @@ import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.unit.VespeneGeyser;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Queue;
 
 public class MapImpl implements Map {
 
@@ -296,7 +303,7 @@ public class MapImpl implements Map {
 //        //----------------------------------------------------------------------
 //        // Area with the highest frequency.
 //        //----------------------------------------------------------------------
-//        final AbstractMap<Area, Integer> areaFrequency = new HashMap<>();
+//        final java.util.Map<Area, Integer> areaFrequency = new HashMap<>();
 //        for (int dy = 0; dy < size.getY(); ++dy)
 //        for (int dx = 0; dx < size.getX(); ++dx) {
 //            final Area area = getArea(topLeft.add(new TilePosition(dx, dy)));

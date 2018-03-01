@@ -10,7 +10,6 @@ import bwem.unit.Mineral;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 
-import java.util.AbstractMap;
 import java.util.List;
 
 /**
@@ -111,7 +110,7 @@ public interface Area {
      * Returns the ChokePoints of this Area grouped by neighboring Areas.
      * Note: if there are no neighboring Areas, than an empty set is returned.
      */
-    AbstractMap<Area, List<ChokePoint>> getChokePointsByArea();
+    java.util.Map<Area, List<ChokePoint>> getChokePointsByArea();
 
     /**
      * Returns the accessible neighboring Areas.<br/>

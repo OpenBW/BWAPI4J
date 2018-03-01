@@ -10,7 +10,6 @@ import bwem.unit.Mineral;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +27,7 @@ public abstract class AreaImpl implements Area {
     protected int buildableTileCount = 0; /* Set and later incremented but not used in original C++ BWEM 1.4.1. Remains for portability consistency. */
     protected int highGroundTileCount = 0;
     protected int veryHighGroundTileCount = 0;
-    protected final AbstractMap<Area, List<ChokePoint>> chokePointsByArea = new HashMap<>();
+    protected final java.util.Map<Area, List<ChokePoint>> chokePointsByArea = new HashMap<>();
     protected final List<Area> accessibleNeighbors = new ArrayList<>();
     protected final List<ChokePoint> chokePoints = new ArrayList<>();
     protected final List<Mineral> minerals = new ArrayList<>();
@@ -113,7 +112,7 @@ public abstract class AreaImpl implements Area {
     }
 
     @Override
-    public AbstractMap<Area, List<ChokePoint>> getChokePointsByArea() {
+    public java.util.Map<Area, List<ChokePoint>> getChokePointsByArea() {
         return this.chokePointsByArea;
     }
 
