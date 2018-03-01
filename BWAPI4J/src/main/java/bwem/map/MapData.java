@@ -29,7 +29,7 @@ public interface MapData {
     Position getCenter();
 
     /**
-     * Returns a reference to the starting Locations.<br/>
+     * Returns the internal container of the starting Locations.<br/>
      * Note: these correspond to BWAPI::getStartLocations().
      */
     List<TilePosition> getStartingLocations();

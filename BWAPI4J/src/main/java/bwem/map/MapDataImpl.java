@@ -53,33 +53,21 @@ public class MapDataImpl implements MapData {
 
     @Override
     public boolean isValid(final TilePosition tilePosition) {
-        return ((0 <= tilePosition.getX()) && (tilePosition.getX() < getTileSize().getX())
-                && (0 <= tilePosition.getY()) && (tilePosition.getY() < getTileSize().getY()));
+        return isValid(tilePosition.getX(), tilePosition.getY(), getTileSize().getX(), getTileSize().getY());
     }
 
     @Override
     public boolean isValid(final WalkPosition walkPosition) {
-        return ((0 <= walkPosition.getX()) && (walkPosition.getX() < getWalkSize().getX())
-                && (0 <= walkPosition.getY()) && (walkPosition.getY() < getWalkSize().getY()));
+        return isValid(walkPosition.getX(), walkPosition.getY(), getWalkSize().getX(), getWalkSize().getY());
     }
 
     @Override
     public boolean isValid(final Position position) {
-        return ((0 <= position.getX()) && (position.getX() < getPixelSize().getX())
-                && (0 <= position.getY()) && (position.getY() < getPixelSize().getY()));
+        return isValid(position.getX(), position.getY(), getPixelSize().getX(), getPixelSize().getY());
     }
 
-    private int[] crop(final int x, final int y, final int maxX, final int maxY) {
-        int retX = x;
-        int retY = y;
-
-        if (retX < 0) retX = 0;
-        else if (retX >= maxX) retX = maxX - 1;
-
-        if (retY < 0) retY = 0;
-        else if (retY >= maxY) retY = maxY - 1;
-
-        return new int[]{retX, retY};
+    private boolean isValid(final int x, final int y, final int maxX, final int maxY) {
+        return (x >= 0 && x < maxX && y >= 0 && y < maxY);
     }
 
     @Override
@@ -98,6 +86,19 @@ public class MapDataImpl implements MapData {
     public Position crop(final Position position) {
         final int[] ret = crop(position.getX(), position.getY(), getPixelSize().getX(), getPixelSize().getY());
         return new Position(ret[0], ret[1]);
+    }
+
+    private int[] crop(final int x, final int y, final int maxX, final int maxY) {
+        int retX = x;
+        int retY = y;
+
+        if (retX < 0) retX = 0;
+        else if (retX >= maxX) retX = maxX - 1;
+
+        if (retY < 0) retY = 0;
+        else if (retY >= maxY) retY = maxY - 1;
+
+        return new int[]{retX, retY};
     }
 
     @Override
