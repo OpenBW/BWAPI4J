@@ -45,3 +45,8 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enableUserInpu
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enableCompleteMapInformation(JNIEnv *env, jobject jObj) {
 	Broodwar->enableFlag(Flag::CompleteMapInformation);
 }
+
+JNIEXPORT jlong JNICALL Java_org_openbw_bwapi4j_InteractionHandler_getRandomSeed(JNIEnv *env, jobject jObj) {
+
+	return (jlong)Broodwar->getRandomSeed();
+}

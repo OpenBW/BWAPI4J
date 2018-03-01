@@ -63,6 +63,14 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enableUserInpu
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enableCompleteMapInformation
   (JNIEnv *, jobject);
 
+/*
+ * Class:     org_openbw_bwapi4j_InteractionHandler
+ * Method:    getRandomSeed
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_org_openbw_bwapi4j_InteractionHandler_getRandomSeed
+  (JNIEnv *, jobject);
+
 #ifdef __cplusplus
 }
 #endif

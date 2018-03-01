@@ -193,4 +193,7 @@ public final class InteractionHandler {
     public native void enableUserInput();
 
     public native void enableCompleteMapInformation();
+
+    public native long getRandomSeed();
+
 }
