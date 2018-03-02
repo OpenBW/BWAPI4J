@@ -43,7 +43,7 @@ public final class Graph {
     private final List<List<List<ChokePoint>>> ChokePointsMatrix = new ArrayList<>(); // index == Area::id x Area::id
     private final List<List<Integer>> chokePointDistanceMatrix = new ArrayList<>(); // index == ChokePoint::index x ChokePoint::index
     private final List<List<CPPath>> pathsBetweenChokePoints = new ArrayList<>(); // index == ChokePoint::index x ChokePoint::index
-    private int baseCount = 0;
+    private final List<Base> bases = new ArrayList<>();
 
     public Graph(MapImpl map) {
         this.map = map;
@@ -262,8 +262,8 @@ public final class Graph {
         return getPath(a, b, null);
     }
 
-	public int getBaseCount() {
-        return baseCount;
+    public List<Base> getBases() {
+        return bases;
     }
 
 	// Creates a new Area for each pair (top, miniTiles) in areasList (See Area::top() and Area::miniTiles())
@@ -570,10 +570,10 @@ public final class Graph {
     }
 
     public void createBases(final AdvancedData mapAdvancedData) {
-        baseCount = 0;
-        for (Area area : areas) {
+        bases.clear();
+        for (final Area area : areas) {
             ((AreaInitializer) area).createBases(mapAdvancedData);
-            baseCount += area.getBases().size();
+            bases.addAll(area.getBases());
         }
     }
 

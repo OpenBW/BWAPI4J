@@ -156,8 +156,8 @@ public abstract class MapImpl implements Map {
     }
 
     @Override
-    public int getBaseCount() {
-        return getGraph().getBaseCount();
+    public List<Base> getBases() {
+        return getGraph().getBases();
     }
 
     @Override

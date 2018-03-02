@@ -1,5 +1,6 @@
 package bwem.map;
 
+import bwem.Base;
 import bwem.MapPrinter;
 import bwem.area.Area;
 import bwem.area.typedef.AreaId;
@@ -73,8 +74,7 @@ public interface Map {
     // Returns the maximum altitude in the whole Map (Cf. MiniTile::Altitude()).
     Altitude getMaxAltitude();
 
-    // Returns the number of bases.
-    int getBaseCount();
+    List<Base> getBases();
 
     // Returns the number of getChokePoints.
     int getChokePointCount();
