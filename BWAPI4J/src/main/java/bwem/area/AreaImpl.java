@@ -72,6 +72,11 @@ public abstract class AreaImpl implements Area {
     }
 
     @Override
+    public WalkPosition getTop() {
+        return getWalkPositionWithHighestAltitude();
+    }
+
+    @Override
     public Altitude getHighestAltitude() {
         return this.highestAltitude;
     }

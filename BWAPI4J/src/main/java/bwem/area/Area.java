@@ -64,6 +64,11 @@ public interface Area {
     WalkPosition getWalkPositionWithHighestAltitude();
 
     /**
+     * Alias for {@link #getWalkPositionWithHighestAltitude()}
+     */
+    WalkPosition getTop();
+
+    /**
      * Returns the highest altitude observed in this area.
      */
     Altitude getHighestAltitude();
