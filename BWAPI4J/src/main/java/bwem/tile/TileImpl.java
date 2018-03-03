@@ -82,7 +82,7 @@ public class TileImpl implements Tile {
     @Override
     public int getStackedNeutralCount() {
         int stackSize = 0;
-        for (Neutral pStacked = getNeutral(); pStacked != null; pStacked = pStacked.getNextStacked()) {
+        for (Neutral stackedNeutral = getNeutral(); stackedNeutral != null; stackedNeutral = stackedNeutral.getNextStacked()) {
             ++stackSize;
         }
         return stackSize;
