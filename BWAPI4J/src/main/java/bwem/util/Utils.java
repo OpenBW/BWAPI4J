@@ -5,6 +5,7 @@ import org.apache.commons.lang3.mutable.MutableDouble;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public final class Utils {
 
@@ -64,6 +65,19 @@ public final class Utils {
         return getLineIntersection(ax, ay, bx, by, cx, cy, dx, dy, null, null);
     }
 
+    /**
+     * Returns a random element from the specified container.
+     * There is nothing special about this function other than to provide
+     * a function similar to the one provided in the original C++ BWEM.
+     *
+     * @param list the specified list
+     */
+    public static <T> T getRandomElement(final List<T> list) {
+        final Random random = new Random();
+        final int randomIndex = random.nextInt(list.size());
+        return list.get(randomIndex);
+    }
+
     public static <T> void fastErase(final List<T> list, final int index) {
 //        bwem_assert((0 <= i) && (i < (int)Vector.size()));
         if (!((0 <= index) && (index < list.size()))) {
@@ -74,10 +88,16 @@ public final class Utils {
         list.remove(list.size() - 1);
     }
 
-    public static <T> void reallyRemoveIf(final List<T> container, final Pred pred) {
-        for (int i = 0; i < container.size(); ++i) {
-            if (pred.isTrue(container.get(i))) {
-                fastErase(container, i--);
+    /**
+     * Removes elements from the specified list satisfying the specified predicate.
+     *
+     * @param list the specified list
+     * @param pred the specified predicate
+     */
+    public static <T> void reallyRemoveIf(final List<T> list, final Pred pred) {
+        for (int i = 0; i < list.size(); ++i) {
+            if (pred.isTrue(list.get(i))) {
+                list.remove(i--);
             }
         }
     }
