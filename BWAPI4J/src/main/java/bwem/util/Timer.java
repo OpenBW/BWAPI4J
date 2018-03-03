@@ -1,11 +1,8 @@
 package bwem.util;
 
-//////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                          //
-//                                  class Timer
-//                                                                                          //
-//////////////////////////////////////////////////////////////////////////////////////////////
-
+/**
+ * This timer class is similar to the one provided by the original C++ BWEM.
+ */
 public class Timer {
 
     private long start;
@@ -15,11 +12,15 @@ public class Timer {
     }
 
     public void reset() {
-        start = System.currentTimeMillis();
+        this.start = now();
     }
 
     public long elapsedMilliseconds() {
-        return (System.currentTimeMillis() - start);
+        return (now() - this.start);
+    }
+
+    private long now() {
+        return System.currentTimeMillis();
     }
 
 }
