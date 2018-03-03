@@ -117,7 +117,7 @@ public class MiniTileImpl implements MiniTile {
     }
 
     public boolean isBlocked() {
-        return this.areaId.equals(blockingCP);
+        return this.areaId.equals(MiniTileImpl.blockingCP);
     }
 
     public void replaceBlockedAreaId(final AreaId areaId) {
