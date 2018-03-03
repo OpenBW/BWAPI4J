@@ -3,36 +3,33 @@ package bwem.unit;
 import bwem.map.Map;
 import org.openbw.bwapi4j.unit.Unit;
 
-//////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                          //
-//                                  class Resource
-//                                                                                          //
-//////////////////////////////////////////////////////////////////////////////////////////////
-//
-// A Resource is either a Mineral or a Geyser
-//
-//////////////////////////////////////////////////////////////////////////////////////////////
-
+/**
+ * A Resource is either a Mineral or a Geyser.
+ */
 public abstract class Resource extends NeutralImpl {
 
-    protected Resource(Unit u, Map map) {
-        super(u, map);
+    protected Resource(final Unit unit, final Map map) {
+        super(unit, map);
     }
 
-    // Returns the initial amount of resources for this Resource (same as unit()->getInitialResources).
+    /**
+     * Returns the initial amount of resources for this Resource (same as unit()->getInitialResources).
+     */
     public abstract int getInitialAmount();
 
-    // Returns the current amount of resources for this Resource (same as unit()->getResources).
+    /**
+     * Returns the current amount of resources for this Resource (same as unit()->getResources).
+     */
     public abstract int getAmount();
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(final Object object) {
         if (this == object) {
             return true;
         } else if (!(object instanceof Resource)) {
             return false;
         } else {
-            Resource that = (Resource) object;
+            final Resource that = (Resource) object;
             return (this.getUnit().getId() == that.getUnit().getId());
         }
     }

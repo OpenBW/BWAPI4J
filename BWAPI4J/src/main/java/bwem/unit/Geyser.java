@@ -4,47 +4,40 @@ import bwem.map.Map;
 import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.unit.VespeneGeyser;
 
-//////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                          //
-//                                  class Geyser
-//                                                                                          //
-//////////////////////////////////////////////////////////////////////////////////////////////
-//
-// Geysers Correspond to the units in BWAPI::getStaticNeutralUnits() for which getType() == Resource_Vespene_Geyser
-//
-//////////////////////////////////////////////////////////////////////////////////////////////
-
+/**
+ * Geysers Correspond to the units in BWAPI::getStaticNeutralUnits() for which getType() == Resource_Vespene_Geyser.
+ */
 public final class Geyser extends Resource {
 
-    public Geyser(Unit u, Map pMap) {
-        super(u, pMap);
+    public Geyser(final Unit unit, final Map map) {
+        super(unit, map);
 
 //        bwem_assert(Type() == Resource_Vespene_Geyser);
-        if (!(u instanceof VespeneGeyser)) {
-            throw new IllegalArgumentException("Unit is not a VespeneGeyser: " + u.getClass().getName());
+        if (!(unit instanceof VespeneGeyser)) {
+            throw new IllegalArgumentException("Unit is not a VespeneGeyser: " + unit.getClass().getName());
         }
     }
 
     @Override
     public int getInitialAmount() {
-        VespeneGeyser ret = (VespeneGeyser) super.getUnit();
-        return ret.getInitialResources();
+        final VespeneGeyser bwapi4jGeyser = (VespeneGeyser) super.getUnit();
+        return bwapi4jGeyser.getInitialResources();
     }
 
     @Override
     public int getAmount() {
-        VespeneGeyser ret = (VespeneGeyser) super.getUnit();
-        return ret.getResources();
+        final VespeneGeyser bwapi4jGeyser = (VespeneGeyser) super.getUnit();
+        return bwapi4jGeyser.getResources();
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(final Object object) {
         if (this == object) {
             return true;
         } else if (!(object instanceof Geyser)) {
             return false;
         } else {
-            Geyser that = (Geyser) object;
+            final Geyser that = (Geyser) object;
             return (this.getUnit().getId() == that.getUnit().getId());
         }
     }
