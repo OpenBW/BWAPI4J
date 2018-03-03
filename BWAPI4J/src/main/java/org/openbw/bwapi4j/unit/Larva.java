@@ -5,7 +5,7 @@ import org.openbw.bwapi4j.type.UnitType;
 
 import static org.openbw.bwapi4j.type.UnitCommandType.Morph;
 
-public class Larva extends PlayerUnit implements Organic {
+public class Larva extends PlayerUnit implements Organic, Morphable {
 
     private int hatcheryId;
     
@@ -25,7 +25,8 @@ public class Larva extends PlayerUnit implements Organic {
         
         return (Hatchery) super.getUnit(hatcheryId);
     }
-    
+
+    @Override
     public boolean morph(UnitType type) {
         
         return issueCommand(this.id, Morph, -1, -1, -1, type.getId());

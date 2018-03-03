@@ -6,7 +6,7 @@ import org.openbw.bwapi4j.type.UnitType;
 import static org.openbw.bwapi4j.type.UnitCommandType.*;
 import static org.openbw.bwapi4j.type.UnitType.Zerg_Lurker;
 
-public class Hydralisk extends MobileUnit implements Organic, Burrowable, Armed {
+public class Hydralisk extends MobileUnit implements Organic, Burrowable, Armed, Morphable {
 
     private boolean burrowed;
     
@@ -45,10 +45,17 @@ public class Hydralisk extends MobileUnit implements Organic, Burrowable, Armed 
         
         return this.burrowed;
     }
-    
-    public boolean morph() {
-        
+
+    @Override
+    public boolean morph(UnitType type) {
+        if (type != Zerg_Lurker) {
+            throw new IllegalArgumentException("Can only morph into Lurker");
+        }
         return issueCommand(this.id, Morph, -1, -1, -1, Zerg_Lurker.getId());
+    }
+
+    public boolean morph() {
+        return morph(Zerg_Lurker);
     }
 
     @Override

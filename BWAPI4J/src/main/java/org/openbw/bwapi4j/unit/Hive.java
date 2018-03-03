@@ -9,8 +9,8 @@ public class Hive extends Lair {
         super(id, UnitType.Zerg_Hive, timeSpotted);
     }
 
-    public boolean morph() {
-        
+    @Override
+    public boolean morph(UnitType type) {
         return false;
     }
 }

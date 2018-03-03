@@ -7,7 +7,7 @@ import static org.openbw.bwapi4j.type.UnitCommandType.Morph;
 import static org.openbw.bwapi4j.type.UnitType.Zerg_Spore_Colony;
 import static org.openbw.bwapi4j.type.UnitType.Zerg_Sunken_Colony;
 
-public class CreepColony extends Building implements Organic {
+public class CreepColony extends Building implements Organic, Morphable {
 
     protected CreepColony(int id, int timeSpotted) {
         
@@ -19,6 +19,7 @@ public class CreepColony extends Building implements Organic {
      * @param type UnitType.Zerg_Sunken_Colony or UnitType.Zerg_Spore_Colony
      * @return true if morph successful, false else
      */
+    @Override
     public boolean morph(UnitType type) {
         
         if (type == UnitType.Zerg_Sunken_Colony) {

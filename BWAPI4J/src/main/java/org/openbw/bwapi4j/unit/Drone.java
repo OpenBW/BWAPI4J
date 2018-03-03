@@ -5,7 +5,7 @@ import org.openbw.bwapi4j.type.UnitType;
 
 import static org.openbw.bwapi4j.type.UnitCommandType.*;
 
-public class Drone extends Worker implements Organic, Burrowable {
+public class Drone extends Worker implements Organic, Burrowable, Morphable {
 
     private boolean burrowed;
 
@@ -45,7 +45,8 @@ public class Drone extends Worker implements Organic, Burrowable {
         
         return this.burrowed;
     }
-    
+
+    @Override
     public boolean morph(UnitType type) {
         
         return issueCommand(this.id, Morph, -1, -1, -1, type.getId());

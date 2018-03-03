@@ -8,7 +8,7 @@ import org.openbw.bwapi4j.type.UpgradeType;
 import static org.openbw.bwapi4j.type.UnitCommandType.Morph;
 import static org.openbw.bwapi4j.type.UnitType.Zerg_Greater_Spire;
 
-public class Spire extends Building implements Organic, ResearchingFacility {
+public class Spire extends Building implements Organic, ResearchingFacility, Morphable {
 
     private Researcher researcher;
     
@@ -58,9 +58,12 @@ public class Spire extends Building implements Organic, ResearchingFacility {
         
         return this.researcher.cancelUpgrade();
     }
-    
-    public boolean morph() {
-        
+
+    @Override
+    public boolean morph(UnitType type) {
+        if (type != Zerg_Greater_Spire) {
+            throw new IllegalArgumentException("Can only morph into Greater Spire");
+        }
         return issueCommand(this.id, Morph, -1, -1, -1, Zerg_Greater_Spire.getId());
     }
 

@@ -11,7 +11,7 @@ import org.openbw.bwapi4j.type.UpgradeType;
 import static org.openbw.bwapi4j.type.UnitCommandType.Morph;
 import static org.openbw.bwapi4j.type.UnitType.Zerg_Lair;
 
-public class Hatchery extends Building implements Organic, ResearchingFacility, Base {
+public class Hatchery extends Building implements Organic, ResearchingFacility, Base, Morphable {
 
     protected Researcher researcher;
     
@@ -72,10 +72,18 @@ public class Hatchery extends Building implements Organic, ResearchingFacility, 
         
         return this.researcher.cancelUpgrade();
     }
-    
-    public boolean morph() {
-        
+
+    @Override
+    public boolean morph(UnitType type) {
+        if (type != Zerg_Lair) {
+            throw new IllegalArgumentException("Can only morph to Lair");
+        }
+
         return issueCommand(this.id, Morph, -1, -1, -1, Zerg_Lair.getId());
+    }
+
+    public boolean morph() {
+        return morph(Zerg_Lair);
     }
 
     @Override
