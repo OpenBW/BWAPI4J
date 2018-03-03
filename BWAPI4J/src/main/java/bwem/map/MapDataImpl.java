@@ -6,10 +6,11 @@ import org.openbw.bwapi4j.WalkPosition;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import java.util.SplittableRandom;
 
 public class MapDataImpl implements MapData {
 
+    private final SplittableRandom randomGenerator;
     private final TilePosition tileSize;
     private final WalkPosition walkSize;
     private final Position pixelSize;
@@ -17,6 +18,8 @@ public class MapDataImpl implements MapData {
     private final List<TilePosition> startingLocations;
 
     public MapDataImpl(final int tileWidth, final int tileHeight, final List<TilePosition> startingLocations) {
+        this.randomGenerator = new SplittableRandom();
+
         this.tileSize = new TilePosition(tileWidth, tileHeight);
         this.walkSize = this.tileSize.toWalkPosition();
         this.pixelSize = this.tileSize.toPosition();
@@ -103,9 +106,8 @@ public class MapDataImpl implements MapData {
 
     @Override
     public Position getRandomPosition() {
-        final Random random = new Random();
-        final int x = random.nextInt(getPixelSize().getX());
-        final int y = random.nextInt(getPixelSize().getY());
+        final int x = this.randomGenerator.nextInt(getPixelSize().getX());
+        final int y = this.randomGenerator.nextInt(getPixelSize().getY());
         return new Position(x, y);
     }
 

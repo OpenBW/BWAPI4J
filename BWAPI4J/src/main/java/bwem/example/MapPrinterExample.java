@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
+import java.util.SplittableRandom;
 
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.MutablePair;
@@ -32,9 +32,11 @@ import org.openbw.bwapi4j.type.UnitType;
 public class MapPrinterExample {
 
     private final MapPrinter mapPrinter;
+    private final SplittableRandom randomGenerator;
 
     public MapPrinterExample(MapPrinter mapPrinter) {
         this.mapPrinter = mapPrinter;
+        this.randomGenerator = new SplittableRandom();
     }
 
     private boolean getZoneColorCppAlgorithmAnyOf(java.util.Map<Area, List<ChokePoint>> chokePointsByArea, java.util.Map<Integer, Color> mapZoneColor, Color color) {
@@ -51,13 +53,12 @@ public class MapPrinterExample {
     }
 
     private Color getZoneColor(Area area, java.util.Map<Integer, Color> mapZoneColor) {
-        final Random rand = new Random();
         final int zoneId = mapPrinter.showAreas ? area.getId().intValue() : area.getGroupId().intValue();
         Color color = mapZoneColor.get(zoneId);
         if (color == null) { // zoneId was not find --> insertion did occur --> we have do define the new color:
             int tries = 0;
             do {
-                color = new Color(rand.nextInt(256), rand.nextInt(256), 0); // blue unused for Terrain so that Water can be easily distinguished.
+                color = new Color(this.randomGenerator.nextInt(256), this.randomGenerator.nextInt(256), 0); // blue unused for Terrain so that Water can be easily distinguished.
                 if (++tries > 100) break;
             } while (
                     // 1) color should not be too dark
@@ -227,15 +228,13 @@ public class MapPrinterExample {
     public void pathExample(Map theMap) {
     	if (theMap.getData().getMapData().getStartingLocations().size() < 2) return;
 
-        Random rand = new Random();
-
     	Color col = new Color(255, 255, 255);
 
-    	WalkPosition a = (theMap.getData().getMapData().getStartingLocations().get(rand.nextInt(theMap.getData().getMapData().getStartingLocations().size()))).toWalkPosition();
+    	WalkPosition a = (theMap.getData().getMapData().getStartingLocations().get(randomGenerator.nextInt(theMap.getData().getMapData().getStartingLocations().size()))).toWalkPosition();
 
     	WalkPosition b = a;
     	while (b.equals(a)) {
-            b = (theMap.getData().getMapData().getStartingLocations().get(rand.nextInt(theMap.getData().getMapData().getStartingLocations().size()))).toWalkPosition();
+            b = (theMap.getData().getMapData().getStartingLocations().get(randomGenerator.nextInt(theMap.getData().getMapData().getStartingLocations().size()))).toWalkPosition();
         }
 
     //	Uncomment this to use random positions for a and b:

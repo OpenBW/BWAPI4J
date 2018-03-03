@@ -18,7 +18,7 @@ package org.xguzm.pathfinding.util;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.Random;
+import java.util.SplittableRandom;
 
 /** An unordered map where the values are ints. This implementation is a cuckoo hash map using 3 hashes, random walking, and a
  * small stash for problematic keys. Null keys are not allowed. No allocation is done except when growing the table size. <br>
@@ -46,7 +46,7 @@ public class ObjectIntMap<K> implements Iterable<ObjectIntMap.Entry<K>> {
     private Entries entries1, entries2;
     private Values values1, values2;
     private Keys keys1, keys2;
-    Random random;
+    SplittableRandom random;
 
     /** Creates a new map with an initial capacity of 32 and a load factor of 0.8. This map will hold 25 items before growing the
      * backing table. */
@@ -65,7 +65,7 @@ public class ObjectIntMap<K> implements Iterable<ObjectIntMap.Entry<K>> {
     public ObjectIntMap (int initialCapacity, float loadFactor) {
         if (initialCapacity < 0) throw new IllegalArgumentException("initialCapacity must be >= 0: " + initialCapacity);
         if (initialCapacity > 1 << 30) throw new IllegalArgumentException("initialCapacity is too large: " + initialCapacity);
-        random = new Random();
+        random = new SplittableRandom();
         capacity = nextPowerOfTwo(initialCapacity);
 
         if (loadFactor <= 0) throw new IllegalArgumentException("loadFactor must be > 0: " + loadFactor);

@@ -5,9 +5,11 @@ import org.apache.commons.lang3.mutable.MutableDouble;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
+import java.util.SplittableRandom;
 
 public final class Utils {
+
+    private static final SplittableRandom randomGenerator = new SplittableRandom();
 
     private Utils() {}
 
@@ -73,8 +75,7 @@ public final class Utils {
      * @param list the specified list
      */
     public static <T> T getRandomElement(final List<T> list) {
-        final Random random = new Random();
-        final int randomIndex = random.nextInt(list.size());
+        final int randomIndex = randomGenerator.nextInt(list.size());
         return list.get(randomIndex);
     }
 
