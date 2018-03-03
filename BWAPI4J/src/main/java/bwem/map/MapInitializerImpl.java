@@ -5,7 +5,6 @@ import bwem.area.TempAreaInfo;
 import bwem.area.typedef.AreaId;
 import bwem.tile.MiniTile;
 import bwem.tile.MiniTileImpl;
-import bwem.tile.Tile;
 import bwem.tile.TileData;
 import bwem.tile.TileDataImpl;
 import bwem.tile.TileImpl;
@@ -13,6 +12,7 @@ import bwem.typedef.Altitude;
 import bwem.unit.Mineral;
 import bwem.unit.Neutral;
 import bwem.unit.NeutralDataImpl;
+import bwem.unit.NeutralImpl;
 import bwem.unit.StaticBuilding;
 import bwem.util.BwemExt;
 import bwem.util.PairGenericAltitudeComparator;
@@ -419,7 +419,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
         if (trueDoors.size() >= 2) {
             // Marks pCandidate (and any Neutral stacked with it) as blocking.
             for (Neutral pNeutral = getData().getTile(pCandidate.getTopLeft()).getNeutral(); pNeutral != null; pNeutral = pNeutral.getNextStacked()) {
-                pNeutral.setBlocking(trueDoors);
+                ((NeutralImpl) pNeutral).setBlocking(trueDoors);
             }
 
             // Marks all the miniTiles of pCandidate as blocked.

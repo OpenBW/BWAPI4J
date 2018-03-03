@@ -1,19 +1,17 @@
 package bwem.unit;
 
-import bwem.unit.Geyser;
-import bwem.unit.Mineral;
-import bwem.unit.StaticBuilding;
 import org.openbw.bwapi4j.unit.Unit;
 
 import java.util.List;
 
 public interface NeutralData {
 
-    // Returns a reference to the minerals (Cf. Mineral).
     List<Mineral> getMinerals();
 
-    // If a Mineral wrappers the given BWAPI unit, returns a pointer to it.
-    // Otherwise, returns nullptr.
+    /**
+     * If a Mineral wrappers the given BWAPI unit, returns a pointer to it.
+     * Otherwise, returns null.
+     */
     Mineral getMineral(Unit u);
 
     // Returns a reference to the geysers (Cf. Geyser).

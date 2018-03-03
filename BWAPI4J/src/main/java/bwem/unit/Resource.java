@@ -13,7 +13,7 @@ import org.openbw.bwapi4j.unit.Unit;
 //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-public abstract class Resource extends Neutral {
+public abstract class Resource extends NeutralImpl {
 
     protected Resource(Unit u, Map map) {
         super(u, map);

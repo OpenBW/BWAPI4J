@@ -14,7 +14,7 @@ import org.openbw.bwapi4j.unit.Unit;
 //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-public class StaticBuilding extends Neutral {
+public class StaticBuilding extends NeutralImpl {
 
     public StaticBuilding(Unit u, Map pMap) {
         super(u, pMap);
