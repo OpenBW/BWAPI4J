@@ -35,7 +35,6 @@ public class TileImpl implements Tile {
         return TileImpl.staticMarkable;
     }
 
-    @Override
     public Markable getMarkable() {
         return this.markable;
     }

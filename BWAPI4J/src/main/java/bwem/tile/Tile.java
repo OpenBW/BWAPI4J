@@ -59,8 +59,6 @@ public interface Tile {
 
     }
 
-    Markable getMarkable();
-
     // Corresponds to BWAPI::isBuildable
 	// Note: BWEM enforces the relation buildable ==> walkable (Cf. MiniTile::Walkable)
     boolean isBuildable();

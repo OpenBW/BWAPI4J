@@ -685,7 +685,7 @@ public final class Graph {
                 throw new IllegalStateException();
             }
             ((TileImpl) currentTile).getInternalData().setValue(0); // resets Tile::m_internalData for future usage
-            currentTile.getMarkable().setMarked();
+            ((TileImpl) currentTile).getMarkable().setMarked();
 
             for (int i = 0; i < targets.size(); ++i) {
                 if (current == targets.get(i)) {
@@ -707,7 +707,7 @@ public final class Graph {
                     if (!next.equals(current)) {
                         final int newNextDist = currentDist + distance(current, next);
                         final Tile nextTile = getMap().getData().getTile(next.getCenter().toTilePosition(), CheckMode.NO_CHECK);
-                        if (!nextTile.getMarkable().isMarked()) {
+                        if (!((TileImpl) nextTile).getMarkable().isMarked()) {
                             if (((TileImpl) nextTile).getInternalData().intValue() != 0) { // next already in toVisit
                                 if (newNextDist < ((TileImpl) nextTile).getInternalData().intValue()) { // nextNewDist < nextOldDist
                                                                                            // To update next's distance, we need to remove-insert it from toVisit:

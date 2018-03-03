@@ -210,7 +210,7 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
                 throw new IllegalStateException("currentTile.InternalData().intValue()=" + ((TileImpl) currentTile).getInternalData().intValue() + ", currentDist=" + currentDist);
             }
             ((TileImpl) currentTile).getInternalData().setValue(0); // resets Tile::m_internalData for future usage
-            currentTile.getMarkable().setMarked();
+            ((TileImpl) currentTile).getMarkable().setMarked();
 
             for (int i = 0; i < targets.size(); ++i) {
                 if (current.equals(targets.get(i))) {
@@ -234,7 +234,7 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
                 final TilePosition next = current.add(delta);
                 if (getMap().getData().getMapData().isValid(next)) {
                     final Tile nextTile = getMap().getData().getTile(next, CheckMode.NO_CHECK);
-                    if (!nextTile.getMarkable().isMarked()) {
+                    if (!((TileImpl) nextTile).getMarkable().isMarked()) {
                         if (((TileImpl) nextTile).getInternalData().intValue() != 0) { // next already in toVisit
                             if (newNextDist < ((TileImpl) nextTile).getInternalData().intValue()) { // nextNewDist < nextOldDist
                                 // To update next's distance, we need to remove-insert it from toVisit:
