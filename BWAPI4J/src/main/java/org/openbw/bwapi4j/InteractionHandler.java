@@ -30,10 +30,12 @@ public final class InteractionHandler {
     public static int LATENCY_FRAMES_INDEX              = 9;
     public static int LATENCY_INDEX                     = 10;
     public static int GAME_TYPE_ID_INDEX                = 11;
-    public static int SELF_ID_INDEX                     = 12;
-    public static int ENEMY_ID_INDEX                    = 13;
+    public static int IS_REPLAY_INDEX                   = 12;
+    public static int IS_PAUSED_INDEX                   = 13;
+    public static int SELF_ID_INDEX                     = 14;
+    public static int ENEMY_ID_INDEX                    = 15;
 
-    public static int TOTAL_PROPERTIES                  = 14;
+    public static int TOTAL_PROPERTIES                  = 16;
 
     private BW bw;
 
@@ -51,6 +53,8 @@ public final class InteractionHandler {
     private int selfId;
     private int enemyId;
     private int gameTypeId;
+    private boolean isReplay;
+    private boolean isPaused;
     
     /* default */ InteractionHandler(BW bw) {
         
@@ -73,6 +77,8 @@ public final class InteractionHandler {
         this.selfId = data[SELF_ID_INDEX];
         this.enemyId = data[ENEMY_ID_INDEX];
         this.gameTypeId = data[GAME_TYPE_ID_INDEX];
+        this.isReplay = data[IS_REPLAY_INDEX] == 1;
+        this.isPaused = data[IS_PAUSED_INDEX] == 1;
     }
 
     /**
@@ -162,6 +168,16 @@ public final class InteractionHandler {
     public GameType getGameType() {
 
         return GameType.values()[this.gameTypeId];
+    }
+
+    public boolean isReplay() {
+
+        return this.isReplay;
+    }
+
+    public boolean isPaused() {
+
+        return this.isPaused;
     }
 
     public List<Unit> getSelectedUnits() {

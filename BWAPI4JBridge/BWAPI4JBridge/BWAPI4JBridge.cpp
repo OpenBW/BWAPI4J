@@ -649,6 +649,8 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getGameData(JNIEnv *env, 
 	intBuf[index++] = Broodwar->getLatencyFrames();
 	intBuf[index++] = Broodwar->getLatency();
 	intBuf[index++] = Broodwar->getGameType().getID();
+	intBuf[index++] = Broodwar->isReplay();
+	intBuf[index++] = Broodwar->isPaused();
 
 	if (Broodwar->isReplay()) {
 

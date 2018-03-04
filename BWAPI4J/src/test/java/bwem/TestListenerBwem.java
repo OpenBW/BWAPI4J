@@ -6,7 +6,6 @@ import org.openbw.bwapi4j.BWEventListener;
 import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.Color;
-import org.openbw.bwapi4j.type.Key;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.unit.Unit;
 
@@ -54,15 +53,14 @@ public class TestListenerBwem implements BWEventListener {
             example.pathExample(this.bwem.getMap());
 
             // Check if this is a replay
-            //TODO
-            if (false) {
+            if (this.bw.getInteractionHandler().isReplay()) {
                 for (final Player player : this.bw.getAllPlayers()) {
                     // Only print the player if they are not an observer
                     if (!player.isObserver()) {
                         this.bw.getInteractionHandler().printf(player.getName() + ", playing as " + player.getRace());
                     }
                 }
-            } else if (false && false) { //TODO: Delete this conditional when the first conditional is implemented.
+            } else {
                 // Retrieve you and your enemy's races. enemy() will just return the first enemy.
                 // If you wish to deal with multiple enemies then you must use enemies().
                 this.bw.getInteractionHandler().printf("The matchup is " + this.bw.getInteractionHandler().self().getRace() + " vs " + this.bw.getInteractionHandler().enemy().getRace());
