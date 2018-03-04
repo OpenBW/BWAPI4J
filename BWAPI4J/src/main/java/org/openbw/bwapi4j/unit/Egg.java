@@ -15,6 +15,10 @@ public class Egg extends PlayerUnit implements Organic {
         super(id, UnitType.Zerg_Egg);
     }
 
+    protected Egg(int id, UnitType unitType) {
+        super(id, unitType);
+    }
+
     @Override
     public void initialize(int[] unitData, int index) {
         super.initialize(unitData, index);
