@@ -36,6 +36,11 @@ void BridgeMap::initialize(JNIEnv * env, jclass jc, jobject bwObject, jclass bwM
 		jstring mapFileName = env->NewStringUTF(Broodwar->mapFileName().c_str());
 		env->SetObjectField(bwMap, mapFileNameField, mapFileName);
 
+		//set mapName
+		jfieldID mapNameField = env->GetFieldID(bwMapClass, "mapName", "Ljava/lang/String;");
+		jstring mapName = env->NewStringUTF(Broodwar->mapName().c_str());
+		env->SetObjectField(bwMap, mapNameField, mapName);
+
 		// set width
 		jfieldID mapWidthField = env->GetFieldID(bwMapClass, "width", "I");
 		env->SetIntField(bwMap, mapWidthField, (jint)Broodwar->mapWidth());

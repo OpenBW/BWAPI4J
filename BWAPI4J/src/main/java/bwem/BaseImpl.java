@@ -80,7 +80,7 @@ public class BaseImpl implements Base {
         return this.blockingMinerals;
     }
 
-    public void setStartingLocation(final TilePosition actualLocation) {
+    public void assignStartingLocation(final TilePosition actualLocation) {
         this.isStartingLocation = true;
         this.location = actualLocation;
         this.center = BwemExt.centerOfBuilding(actualLocation, UnitType.Terran_Command_Center.tileSize());

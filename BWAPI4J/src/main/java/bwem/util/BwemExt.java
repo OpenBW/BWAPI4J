@@ -30,7 +30,7 @@ public final class BwemExt {
     public static final int MAX_TILES_BETWEEN_COMMAND_CENTER_AND_RESOURCES = 10;
     public static final int min_tiles_between_Bases = 10;
 
-    public static final int max_tiles_between_StartingLocation_and_its_AssignedBase = 3;
+    public static final int MAX_TILES_BETWEEN_STARTING_LOCATION_AND_ITS_ASSIGNED_BASE = 3;
 
     private BwemExt() {}
 

@@ -69,7 +69,7 @@ public class MapTest implements BWEventListener {
     	List<Unit> units = new ArrayList<>();
     	
     	this.map = new MapInitializerImpl(mapMock, null, players, mineralPatches, geysers, units);
-		((MapInitializer) this.map).initialize();
+		((MapInitializer) this.map).initialize(true);
 
     	assertMiniTileAltitudes(mapMock.mapWidth() * 4, mapMock.mapHeight() * 4);
     }
@@ -107,7 +107,7 @@ public class MapTest implements BWEventListener {
 	@Override
 	public void onStart() {
 		this.map = new BWEM(this.bw).getMap();
-		((MapInitializer) this.map).initialize();
+		((MapInitializer) this.map).initialize(true);
 		
 //    	BWMap map1 = this.bw.getBWMap();
 //    	BWMap map2 = new BWMapMock();

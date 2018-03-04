@@ -128,7 +128,7 @@ public class ChokePointTest implements BWEventListener {
     @Override
     public void onStart() {
         this.map = new BWEM(this.bw).getMap();
-        ((MapInitializer) this.map).initialize();
+        ((MapInitializer) this.map).initialize(true);
 
 //    	BWMap map1 = this.bw.getBWMap();
 //    	BWMap map2 = new BWMapMock();

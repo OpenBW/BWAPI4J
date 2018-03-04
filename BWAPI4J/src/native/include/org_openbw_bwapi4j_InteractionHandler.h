@@ -25,6 +25,14 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_leaveGame
 
 /*
  * Class:     org_openbw_bwapi4j_InteractionHandler
+ * Method:    printf
+ * Signature: (Ljava/lang/String;)V
+ */
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_printf
+  (JNIEnv *, jobject, jstring);
+
+/*
+ * Class:     org_openbw_bwapi4j_InteractionHandler
  * Method:    sendText
  * Signature: (Ljava/lang/String;)V
  */

@@ -10,7 +10,7 @@ public final class BWEM {
     private final Map map;
 
     public BWEM(final BW bw) {
-        map = new MapInitializerImpl(
+        this.map = new MapInitializerImpl(
                 bw.getBWMap(),
                 bw.getMapDrawer(),
                 bw.getAllPlayers(),
@@ -21,15 +21,19 @@ public final class BWEM {
     }
 
     public Map getMap() {
-        return map;
+        return this.map;
     }
 
     public void initialize() {
+        initialize(false);
+    }
+
+    public void initialize(final boolean enableTimer) {
         if (!(this.map instanceof MapInitializer)) {
             throw new IllegalStateException("BWEM initialization failed.");
         } else {
-            MapInitializer map = (MapInitializer) this.map;
-            map.initialize();
+            final MapInitializer map = (MapInitializer) this.map;
+            map.initialize(enableTimer);
         }
     }
 

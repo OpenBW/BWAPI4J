@@ -298,7 +298,7 @@ public final class ChokePoint {
             blockingNeutral = getMap().getData().getTile(blockingNeutral.getTopLeft()).getNeutral();
 
             if (blockingNeutral == null) {
-                if (getGraph().getMap().automaticPathUpdate().booleanValue()) {
+                if (getGraph().getMap().automaticPathUpdate()) {
                     blocked = false;
                 }
             }

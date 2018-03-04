@@ -10,6 +10,8 @@ public interface BWMap {
 
     public String mapFileName();
 
+    public String mapName();
+
     public int getGroundHeight(TilePosition position);
 
     public int getGroundHeight(int tileX, int tileY);

@@ -23,7 +23,7 @@ public interface MapInitializer {
 
     // This has to be called before any other function is called.
     // A good place to do this is in ExampleAIModule::onStart()
-    void initialize();
+    void initialize(boolean enableTimer);
 
     void initializeAdvancedData(int mapTileWidth, int mapTileHeight, List<TilePosition> startingLocations);
 

@@ -115,8 +115,8 @@ public abstract class MapImpl implements Map {
     }
 
     @Override
-    public MutableBoolean automaticPathUpdate() {
-        return automaticPathUpdate;
+    public boolean automaticPathUpdate() {
+        return automaticPathUpdate.booleanValue();
     }
 
     @Override
@@ -125,29 +125,41 @@ public abstract class MapImpl implements Map {
     }
 
     @Override
-    public boolean findBasesForStartingLocations() {
+    public void assignStartingLocationsToSuitableBases() {
         boolean atLeastOneFailed = false;
-        for (TilePosition location : getData().getMapData().getStartingLocations()) {
-            boolean found = false;
-            for (Area area : getGraph().getAreas()) {
-                if (!found) {
-                    for (Base base : area.getBases()) {
-                        if (!found) {
-                            if (BwemExt.queenWiseDist(base.getLocation(), location) <= BwemExt.max_tiles_between_StartingLocation_and_its_AssignedBase) {
-                                ((BaseImpl) base).setStartingLocation(location);
-                                found = true;
-                            }
-                        }
-                    }
+        for (final TilePosition startingLocation : getData().getMapData().getStartingLocations()) {
+            boolean isAssigned = false;
+
+            for (final Base base : getBases()) {
+                if (BwemExt.queenWiseDist(base.getLocation(), startingLocation) <= BwemExt.MAX_TILES_BETWEEN_STARTING_LOCATION_AND_ITS_ASSIGNED_BASE) {
+                    ((BaseImpl) base).assignStartingLocation(startingLocation);
+                    isAssigned = true;
                 }
             }
 
-            if (!found) {
+            if (!atLeastOneFailed && !isAssigned) {
                 atLeastOneFailed = true;
             }
         }
 
-        return !atLeastOneFailed;
+        if (atLeastOneFailed) {
+            throw new IllegalStateException("At least one starting location was not assigned to a base.");
+        }
+    }
+
+    @Override
+    public List<TilePosition> getUnassignedStartingLocations() {
+        final List<TilePosition> remainingStartingLocations = new ArrayList<>(getData().getMapData().getStartingLocations());
+
+        for (final Base base : getBases()) {
+            if (remainingStartingLocations.isEmpty()) {
+                break;
+            } else if (base.isStartingLocation() && base.getLocation().equals(remainingStartingLocations.get(0))) {
+                remainingStartingLocations.remove(0);
+            }
+        }
+
+        return remainingStartingLocations;
     }
 
     @Override
@@ -260,7 +272,7 @@ public abstract class MapImpl implements Map {
             setAreaIdInTile(pBlocking.getTopLeft().add(new TilePosition(dx, dy)));
         }
 
-        if (automaticPathUpdate().booleanValue()) {
+        if (automaticPathUpdate()) {
             getGraph().computeChokePointDistanceMatrix();
         }
     }

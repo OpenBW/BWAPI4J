@@ -183,7 +183,9 @@ public final class InteractionHandler {
     	logger.info(text);
     	sendText(text);
     }
-    
+
+    public native void printf(String text);
+
     public native void sendText(String text);
 
     public native void setLocalSpeed(int speed);

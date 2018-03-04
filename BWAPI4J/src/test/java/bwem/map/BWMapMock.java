@@ -127,6 +127,10 @@ public class BWMapMock implements BWMap {
 		return this.data.getMapFilename();
 	}
 
+	public String mapName() {
+		throw new UnsupportedOperationException("TODO");
+	}
+
 	@Override
 	public boolean isBuildable(int tileX, int tileY, boolean considerBuildings) {
 		return this.buildable[tileX][tileY] == 1;

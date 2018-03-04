@@ -53,23 +53,23 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
     }
 
     @Override
-    public void initialize() {
+    public void initialize(final boolean enableTimer) {
         final Timer overallTimer = new Timer();
         final Timer timer = new Timer();
 
         initializeAdvancedData(getBWMap().mapWidth(), getBWMap().mapHeight(), getBWMap().getStartPositions());
 //    ///	bw << "Map::initialize-resize: " << timer.elapsedMilliseconds() << " ms" << endl; timer.reset();
-        logger.info("Map::initialize-resize: " + timer.elapsedMilliseconds() + " ms"); timer.reset();
+        if (enableTimer) { logger.info("Map::initialize-resize: " + timer.elapsedMilliseconds() + " ms"); timer.reset(); }
 
         // Computes walkability, buildability and groundHeight and doodad information, using BWAPI corresponding functions
         ((AdvancedDataInitializer) getData()).markUnwalkableMiniTiles(getBWMap());
         ((AdvancedDataInitializer) getData()).markBuildableTilesAndGroundHeight(getBWMap());
 //    ///	bw << "Map::LoadData: " << timer.elapsedMilliseconds() << " ms" << endl; timer.reset();
-        logger.info("Map::LoadData: " + timer.elapsedMilliseconds() + " ms"); timer.reset();
+        if (enableTimer) { logger.info("Map::LoadData: " + timer.elapsedMilliseconds() + " ms"); timer.reset(); }
 //
         ((AdvancedDataInitializer) getData()).decideSeasOrLakes(BwemExt.lake_max_miniTiles, BwemExt.lake_max_width_in_miniTiles);
 //    ///	bw << "Map::DecideSeasOrLakes: " << timer.elapsedMilliseconds() << " ms" << endl; timer.reset();
-        logger.info("Map::DecideSeasOrLakes: " + timer.elapsedMilliseconds() + " ms"); timer.reset();
+        if (enableTimer) { logger.info("Map::DecideSeasOrLakes: " + timer.elapsedMilliseconds() + " ms"); timer.reset(); }
 
         initializeNeutralData(
                 super.mineralPatches,
@@ -77,38 +77,38 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                 filterNeutralPlayerUnits(super.units, super.players)
         );
 //    ///	bw << "Map::InitializeNeutrals: " << timer.elapsedMilliseconds() << " ms" << endl; timer.reset();
-        logger.info("Map::InitializeNeutrals: " + timer.elapsedMilliseconds() + " ms"); timer.reset();
+        if (enableTimer) { logger.info("Map::InitializeNeutrals: " + timer.elapsedMilliseconds() + " ms"); timer.reset(); }
 
         computeAltitude(getData());
 //    ///	bw << "Map::ComputeAltitude: " << timer.elapsedMilliseconds() << " ms" << endl; timer.reset();
-        logger.info("Map::ComputeAltitude: " + timer.elapsedMilliseconds() + " ms"); timer.reset();
+        if (enableTimer) { logger.info("Map::ComputeAltitude: " + timer.elapsedMilliseconds() + " ms"); timer.reset(); }
 
         processBlockingNeutrals(getCandidates(getNeutralData().getStaticBuildings(), getNeutralData().getMinerals()));
 //    ///	bw << "Map::processBlockingNeutrals: " << timer.elapsedMilliseconds() << " ms" << endl; timer.reset();
-        logger.info("Map::processBlockingNeutrals: " + timer.elapsedMilliseconds() + " ms"); timer.reset();
+        if (enableTimer) { logger.info("Map::processBlockingNeutrals: " + timer.elapsedMilliseconds() + " ms"); timer.reset(); }
 
         computeAreas(computeTempAreas(getSortedMiniTilesByDescendingAltitude()), BwemExt.area_min_miniTiles);
 //    ///	bw << "Map::computeAreas: " << timer.elapsedMilliseconds() << " ms" << endl; timer.reset();
-        logger.info("Map::computeAreas: " + timer.elapsedMilliseconds() + " ms"); timer.reset();
+        if (enableTimer) { logger.info("Map::computeAreas: " + timer.elapsedMilliseconds() + " ms"); timer.reset(); }
 
         getGraph().createChokePoints(getNeutralData().getStaticBuildings(), getNeutralData().getMinerals(), getRawFrontier());
 //    ///	bw << "Graph::createChokePoints: " << timer.elapsedMilliseconds() << " ms" << endl; timer.reset();
-        logger.info("Map::createChokePoints: " + timer.elapsedMilliseconds() + " ms"); timer.reset();
+        if (enableTimer) { logger.info("Map::createChokePoints: " + timer.elapsedMilliseconds() + " ms"); timer.reset(); }
 
         getGraph().computeChokePointDistanceMatrix();
 //    ///	bw << "Graph::computeChokePointDistanceMatrix: " << timer.elapsedMilliseconds() << " ms" << endl; timer.reset();
-        logger.info("Map::computeChokePointDistanceMatrix: " + timer.elapsedMilliseconds() + " ms"); timer.reset();
+        if (enableTimer) { logger.info("Map::computeChokePointDistanceMatrix: " + timer.elapsedMilliseconds() + " ms"); timer.reset(); }
 
         getGraph().collectInformation();
 //    ///	bw << "Graph::collectInformation: " << timer.elapsedMilliseconds() << " ms" << endl; timer.reset();
-        logger.info("Map::collectInformation: " + timer.elapsedMilliseconds() + " ms"); timer.reset();
+        if (enableTimer) { logger.info("Map::collectInformation: " + timer.elapsedMilliseconds() + " ms"); timer.reset(); }
 
         getGraph().createBases(getData());
 //    ///	bw << "Graph::createBases: " << timer.elapsedMilliseconds() << " ms" << endl; timer.reset();
-        logger.info("Map::createBases: " + timer.elapsedMilliseconds() + " ms"); timer.reset();
+        if (enableTimer) { logger.info("Map::createBases: " + timer.elapsedMilliseconds() + " ms"); timer.reset(); }
 
 //    ///	bw << "Map::initialize: " << overallTimer.elapsedMilliseconds() << " ms" << endl;
-        logger.info("Map::initialize: " + overallTimer.elapsedMilliseconds() + " ms"); timer.reset();
+        if (enableTimer) { logger.info("Map::initialize Total: " + overallTimer.elapsedMilliseconds() + " ms"); timer.reset(); }
     }
 
     @Override
@@ -159,13 +159,10 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                 advancedData.getMapData().getWalkSize().getX(),
                 advancedData.getMapData().getWalkSize().getY(),
                 altitudeScale);
-        logger.info("Map::ComputeAltitude:getSortedDeltasByAscendingAltitude: " + timer.elapsedMilliseconds() + " ms"); timer.reset();
 
         final List<MutablePair<WalkPosition, Altitude>> activeSeaSides = getActiveSeaSideList(advancedData);
-        logger.info("Map::ComputeAltitude:getActiveSeaSideList: " + timer.elapsedMilliseconds() + " ms"); timer.reset();
 
         setMaxAltitude(setAltitudesAndGetUpdatedMaxAltitude(getMaxAltitude(), advancedData, deltasByAscendingAltitude, activeSeaSides, altitudeScale));
-        logger.info("Map::ComputeAltitude:setAltitudesAndGetUpdatedMaxAltitude: " + timer.elapsedMilliseconds() + " ms"); timer.reset();
     }
 
     /**

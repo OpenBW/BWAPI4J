@@ -9,6 +9,7 @@ class BWMapImpl implements BWMap {
 
     private String mapHash;
     private String mapFileName;
+    private String mapName;
 
     // Walk resolution
     private int[][] walkabilityInfo;
@@ -25,12 +26,18 @@ class BWMapImpl implements BWMap {
     }
 
     public String mapHash() {
+        
         return this.mapHash;
     }
 
     public String mapFileName() {
 
         return this.mapFileName;
+    }
+
+    public String mapName() {
+
+        return this.mapName;
     }
 
     public int getGroundHeight(TilePosition position) {

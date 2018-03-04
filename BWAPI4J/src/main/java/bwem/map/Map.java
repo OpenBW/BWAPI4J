@@ -55,7 +55,7 @@ public interface Map {
 	// any information relative to the paths through the areas is updated accordingly.
 	// For this to function, the Map still needs to be informed of such destructions
 	// (by calling onMineralDestroyed and onStaticBuildingDestroyed).
-    MutableBoolean automaticPathUpdate();
+    boolean automaticPathUpdate();
 
 	// Enables the automatic path update (Cf. automaticPathUpdate()).
 	// One might NOT want to call this function, in order to make the accessibility between areas remain the same throughout the game.
@@ -69,7 +69,9 @@ public interface Map {
 	// or a suboptimal placement in one of the starting Locations).
 	// You normally should call this function, unless you want to compare the StartingLocations() with
 	// BWEM's suggested locations for the bases.
-    boolean findBasesForStartingLocations();
+    void assignStartingLocationsToSuitableBases();
+
+    List<TilePosition> getUnassignedStartingLocations();
 
     // Returns the maximum altitude in the whole Map (Cf. MiniTile::Altitude()).
     Altitude getMaxAltitude();

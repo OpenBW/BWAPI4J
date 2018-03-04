@@ -5,6 +5,8 @@ package bwem.util;
  */
 public class Timer {
 
+    private static final double NANOSECONDS_PER_MILLISECOND = Math.pow(10, 6);
+
     private long start;
 
     public Timer() {
@@ -15,12 +17,12 @@ public class Timer {
         this.start = now();
     }
 
-    public long elapsedMilliseconds() {
-        return (now() - this.start);
+    public double elapsedMilliseconds() {
+        return ((double) (now() - this.start)) / NANOSECONDS_PER_MILLISECOND;
     }
 
     private long now() {
-        return System.currentTimeMillis();
+        return System.nanoTime();
     }
 
 }

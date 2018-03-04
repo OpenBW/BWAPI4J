@@ -1,52 +1,74 @@
 package bwem;
 
 import bwem.example.MapPrinterExample;
-import org.openbw.bwapi4j.unit.Unit;
-
-import bwta.BWTA;
 import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.BWEventListener;
 import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
+import org.openbw.bwapi4j.type.Color;
+import org.openbw.bwapi4j.type.Key;
+import org.openbw.bwapi4j.type.UnitType;
+import org.openbw.bwapi4j.unit.Unit;
 
 public class TestListenerBwem implements BWEventListener {
 
     private BW bw;
-    private BWTA bwta;
     private BWEM bwem;
-//    private int frame;
 
     @Override
     public void onStart() {
-
         try {
             System.out.println("onStart");
+
+            // Hello World!
+            this.bw.getInteractionHandler().sendText("hello, world");
+
+            // Print the map name.
+            this.bw.getInteractionHandler().printf("The map is " + this.bw.getBWMap().mapName() + "! Size: " + this.bw.getBWMap().mapWidth() + "x" + this.bw.getBWMap().mapHeight());
+
+            // Enable the UserInput flag, which allows us to manually control units and type messages.
             this.bw.getInteractionHandler().enableUserInput();
 
-//            this.bwta = new BWTA();
-//            this.bwta.analyze();
-//            System.out.println("BWTA analysis done.");
+            // Uncomment the following line and the bot will know about everything through the fog of war (cheat).
+            //this.bw.getInteractionHandler().enableCompleteMapInformation();
 
+            // Initialize BWEM.
             System.out.println("BWEM initialization started.");
-            this.bwem = new BWEM(this.bw);
-//            this.bwem.getMap().initialize();
-            this.bwem.initialize();
-            this.bwem.getMap().enableAutomaticPathAnalysis();
-            final boolean startLocationsOK = this.bwem.getMap().findBasesForStartingLocations();
-            if (!startLocationsOK) {
-                System.out.println("startLocationsOK: FAIL");
-                System.exit(0);
+            this.bwem = new BWEM(this.bw); // Instantiate the BWEM object.
+            this.bwem.initialize(); // Initialize and pre-calculate internal data.
+            this.bwem.getMap().enableAutomaticPathAnalysis(); // This option requires "bwem.getMap().onUnitDestroyed(unit);" in the "onUnitDestroy" callback.
+            try {
+                this.bwem.getMap().assignStartingLocationsToSuitableBases(); // Throws an exception on failure.
+            } catch (final Exception e) {
+                e.printStackTrace();
+                if (this.bwem.getMap().getUnassignedStartingLocations().size() > 0) {
+                    throw new IllegalStateException("Failed to find suitable bases for the following starting locations: " + this.bwem.getMap().getUnassignedStartingLocations().toString());
+                }
             }
-            this.bwem.getMap().getMapPrinter().initialize(this.bw, this.bwem.getMap());
-            MapPrinterExample example = new MapPrinterExample(this.bwem.getMap().getMapPrinter());
-            example.printMap(this.bwem.getMap());
-            example.pathExample(this.bwem.getMap());
             System.out.println("BWEM initialization completed.");
 
-//            this.frame = 0;
+            // BWEM's map printer example. Generates a "map.bmp" image file.
+            this.bwem.getMap().getMapPrinter().initialize(this.bw, this.bwem.getMap());
+            final MapPrinterExample example = new MapPrinterExample(this.bwem.getMap().getMapPrinter());
+            example.printMap(this.bwem.getMap());
+            example.pathExample(this.bwem.getMap());
+
+            // Check if this is a replay
+            //TODO
+            if (false) {
+                for (final Player player : this.bw.getAllPlayers()) {
+                    // Only print the player if they are not an observer
+                    if (!player.isObserver()) {
+                        this.bw.getInteractionHandler().printf(player.getName() + ", playing as " + player.getRace());
+                    }
+                }
+            } else if (false && false) { //TODO: Delete this conditional when the first conditional is implemented.
+                // Retrieve you and your enemy's races. enemy() will just return the first enemy.
+                // If you wish to deal with multiple enemies then you must use enemies().
+                this.bw.getInteractionHandler().printf("The matchup is " + this.bw.getInteractionHandler().self().getRace() + " vs " + this.bw.getInteractionHandler().enemy().getRace());
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            System.exit(0);
         }
     }
 
@@ -57,35 +79,18 @@ public class TestListenerBwem implements BWEventListener {
 
     @Override
     public void onFrame() {
-
         try {
+            // Display starting locations and possible base locations.
+            for (final Base base : this.bwem.getMap().getBases()) {
+                final boolean isStartingLocation = base.isStartingLocation();
+                final Color highlightColor = isStartingLocation ? Color.GREEN : Color.YELLOW;
+                final Position location = base.getLocation().toPosition();
+                final Position resourceDepotSize = UnitType.Terran_Command_Center.tileSize().toPosition();
+                this.bw.getMapDrawer().drawBoxMap(location.getX(), location.getY(), location.add(resourceDepotSize).getX(), location.add(resourceDepotSize).getY(), highlightColor);
+            }
 
-//        if (frame == 5) {
-//
-//            System.out.println(this.bwta.getBaseLocations().size() + " base locations found.");
-//            for (BaseLocation base : this.bwta.getBaseLocations()) {
-//
-//                System.out.println("location at " + base.getPosition().getX() + ", " + base.getPosition().getY());
-//            }
-//
-//            System.out.println(this.bwta.getChokepoints().size() + " chokepoints found.");
-//            for (Chokepoint choke : this.bwta.getChokepoints()) {
-//
-//                System.out.println("choke side 1: " + choke.getRegions().first + ", side 2: " + choke.getRegions().second);
-//            }
-//
-//            System.out.println(this.bwta.getRegions().size() + " regions found.");
-//        }
-//
-//        if (bw.getInteractionHandler().isKeyPressed(Key.K_D)) {
-//            System.out.println("D");
-//        }
-//        for (Player player : bw.getAllPlayers()) {
-//            System.out.println("Player " + player.getName() + " has minerals " + player.minerals());
-//        }
-//
-//        this.frame++;
-
+            // Display choke points.
+            //TODO
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(0);
@@ -95,6 +100,8 @@ public class TestListenerBwem implements BWEventListener {
     @Override
     public void onSendText(String text) {
         System.out.println("onSendText: " + text);
+
+        this.bw.getInteractionHandler().sendText(text);
     }
 
     @Override
@@ -110,6 +117,12 @@ public class TestListenerBwem implements BWEventListener {
     @Override
     public void onNukeDetect(Position target) {
         System.out.println("onNukeDetect: " + target);
+
+        if (this.bw.getBWMap().isValidPosition(target)) {
+            this.bw.getInteractionHandler().sendText("Nuclear Launch Detected at " + target.toString());
+        } else {
+            this.bw.getInteractionHandler().sendText("Where's the nuke?");
+        }
     }
 
     @Override
@@ -141,11 +154,11 @@ public class TestListenerBwem implements BWEventListener {
     public void onUnitDestroy(Unit unit) {
         System.out.println("onUnitDestroy: " + unit);
 
-        /* BWEM's unit tracking. */
+        // BWEM's unit tracking for automatic path analysis.
         try {
             this.bwem.getMap().onUnitDestroyed(unit);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (final Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -174,9 +187,9 @@ public class TestListenerBwem implements BWEventListener {
      * @param args arguments
      */
     public static void main(String[] args) {
+        final TestListenerBwem listener = new TestListenerBwem();
 
-        TestListenerBwem listener = new TestListenerBwem();
-        BW bw = new BW(listener);
+        final BW bw = new BW(listener);
         listener.bw = bw;
 
         bw.startGame();
