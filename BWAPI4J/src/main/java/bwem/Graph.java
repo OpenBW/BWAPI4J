@@ -776,10 +776,12 @@ public final class Graph {
     private void setPath(final ChokePoint cpA, final ChokePoint cpB, final CPPath pathAB) {
         pathsBetweenChokePoints.get(cpA.getIndex().intValue()).set(cpB.getIndex().intValue(), pathAB);
 
-        pathsBetweenChokePoints.get(cpB.getIndex().intValue()).get(cpA.getIndex().intValue()).clear();
-        for (int i = pathAB.size() - 1; i >= 0; --i) {
-            final ChokePoint cp = pathAB.get(i);
-            pathsBetweenChokePoints.get(cpB.getIndex().intValue()).get(cpA.getIndex().intValue()).add(cp);
+        if (cpA != cpB) {
+            pathsBetweenChokePoints.get(cpB.getIndex().intValue()).get(cpA.getIndex().intValue()).clear();
+            for (int i = pathAB.size() - 1; i >= 0; --i) {
+                final ChokePoint cp = pathAB.get(i);
+                pathsBetweenChokePoints.get(cpB.getIndex().intValue()).get(cpA.getIndex().intValue()).add(cp);
+            }
         }
     }
 
