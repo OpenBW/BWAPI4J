@@ -26,6 +26,10 @@ public interface BWMap {
 
     boolean isValidPosition(TilePosition tilePosition);
 
+    boolean isValidPosition(WalkPosition walkPosition);
+
+    boolean isValidPosition(Position position);
+
     public int mapWidth();
 
     public int mapHeight();

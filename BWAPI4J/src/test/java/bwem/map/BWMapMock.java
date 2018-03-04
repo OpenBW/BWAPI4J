@@ -93,8 +93,18 @@ public class BWMapMock implements BWMap {
 	}
 
 	@Override
+	public boolean isValidPosition(TilePosition tilePosition) {
+		throw new UnsupportedOperationException("TODO");
+	}
+
+	@Override
 	public boolean isValidPosition(WalkPosition walkPosition) {
-		return walkPosition.getX() >= 0 && walkPosition.getY() >= 0 && walkPosition.getX() < mapWidth() && walkPosition.getY() < mapHeight();
+		return walkPosition.getX() >= 0 && walkPosition.getY() >= 0 && walkPosition.getX() < mapWidth() * 4 && walkPosition.getY() < mapHeight() * 4;
+	}
+
+	@Override
+	public boolean isValidPosition(Position position) {
+		throw new UnsupportedOperationException("TODO");
 	}
 
 	@Override

@@ -61,6 +61,18 @@ class BWMapImpl implements BWMap {
         return tilePosition.getX() >= 0 && tilePosition.getX() < mapWidth() && tilePosition.getY() >= 0 && tilePosition.getY() < mapHeight();
     }
 
+    //TODO: Remove arithmetic.
+    @Override
+    public boolean isValidPosition(WalkPosition walkPosition) {
+        return walkPosition.getX() >= 0 && walkPosition.getX() < mapWidth() * 4 && walkPosition.getY() >= 0 && walkPosition.getY() < mapHeight() * 4;
+    }
+
+    //TODO: Remove arithmetic.
+    @Override
+    public boolean isValidPosition(Position position) {
+        return position.getX() >= 0 && position.getX() < mapWidth() * 32 && position.getY() >= 0 && position.getY() < mapHeight() * 32;
+    }
+
     public int mapWidth() {
         return this.width;
     }
