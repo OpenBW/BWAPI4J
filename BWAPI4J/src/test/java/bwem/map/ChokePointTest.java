@@ -97,6 +97,7 @@ public class ChokePointTest implements BWEventListener {
 
         int pathErrorsCount = 0;
         int pathsCount = 0;
+        int differenceSum = 0;
 
         final BWEM_CPPathSamples cppathSamples = new BWEM_CPPathSamples(this.bw.getBWMap().mapHash());
         for (final BWEM_CPPathSamples.CPPSample sample : cppathSamples.samples) {
@@ -113,6 +114,7 @@ public class ChokePointTest implements BWEventListener {
 
                 final int difference = pathLength.intValue() - samplePathLength;
                 if (difference != 0) {
+                    differenceSum += difference;
                     logger.warn("Path lengths do not match: difference=" + difference);
                 }
             } catch (final Exception e) {
@@ -123,6 +125,7 @@ public class ChokePointTest implements BWEventListener {
         }
 
         logger.info("Total # of Paths: " + pathsCount + ", # of Path errors: " + pathErrorsCount);
+        logger.info("Average difference: " + (differenceSum / (pathsCount - pathErrorsCount)));
     }
 
     @Override
