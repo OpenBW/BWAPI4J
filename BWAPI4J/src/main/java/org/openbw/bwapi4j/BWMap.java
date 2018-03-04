@@ -24,7 +24,7 @@ public interface BWMap {
 
     boolean isWalkable(WalkPosition walkPosition);
 
-    boolean isValidPosition(WalkPosition walkPosition);
+    boolean isValidPosition(TilePosition tilePosition);
 
     public int mapWidth();
 

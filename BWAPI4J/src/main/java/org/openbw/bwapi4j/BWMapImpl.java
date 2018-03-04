@@ -54,9 +54,11 @@ class BWMapImpl implements BWMap {
         return isWalkable(walkPosition.getX(), walkPosition.getY());
     }
 
+    //TODO: Add the other two position class cases. I.e. "WalkPosition" and "Position" using
+    //precomputed values with no arithmetic in the functions themselves. E.g. "walkWidth", "pixelWidth" etc.
     @Override
-    public boolean isValidPosition(WalkPosition walkPosition) {
-        return walkPosition.getX() >= 0 && walkPosition.getY() >= 0 && walkPosition.getX() < mapWidth() && walkPosition.getY() < mapHeight();
+    public boolean isValidPosition(TilePosition tilePosition) {
+        return tilePosition.getX() >= 0 && tilePosition.getX() < mapWidth() && tilePosition.getY() >= 0 && tilePosition.getY() < mapHeight();
     }
 
     public int mapWidth() {
