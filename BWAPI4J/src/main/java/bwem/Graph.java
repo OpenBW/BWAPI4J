@@ -777,10 +777,11 @@ public final class Graph {
         pathsBetweenChokePoints.get(cpA.getIndex().intValue()).set(cpB.getIndex().intValue(), pathAB);
 
         if (cpA != cpB) {
-            pathsBetweenChokePoints.get(cpB.getIndex().intValue()).get(cpA.getIndex().intValue()).clear();
+            CPPath reversePath = pathsBetweenChokePoints.get(cpB.getIndex().intValue()).get(cpA.getIndex().intValue());
+            reversePath.clear();
             for (int i = pathAB.size() - 1; i >= 0; --i) {
                 final ChokePoint cp = pathAB.get(i);
-                pathsBetweenChokePoints.get(cpB.getIndex().intValue()).get(cpA.getIndex().intValue()).add(cp);
+                reversePath.add(cp);
             }
         }
     }
