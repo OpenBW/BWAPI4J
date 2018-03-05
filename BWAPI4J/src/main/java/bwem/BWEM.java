@@ -20,20 +20,32 @@ public final class BWEM {
         );
     }
 
+    /**
+     * Returns the root internal data container.
+     */
     public Map getMap() {
         return this.map;
     }
 
+    /**
+     * Default value for {@code enableTimer} is {@code false}.
+     *
+     * @see #initialize()
+     */
     public void initialize() {
         initialize(false);
     }
 
+    /**
+     * Initializes and pre-computes all of the internal data.
+     *
+     * @param enableTimer whether to print the elapsed time of each initialization stage
+     */
     public void initialize(final boolean enableTimer) {
         if (!(this.map instanceof MapInitializer)) {
-            throw new IllegalStateException("BWEM initialization failed.");
+            throw new IllegalStateException("BWEM was not instantiated properly.");
         } else {
-            final MapInitializer map = (MapInitializer) this.map;
-            map.initialize(enableTimer);
+            ((MapInitializer) this.map).initialize(enableTimer);
         }
     }
 
