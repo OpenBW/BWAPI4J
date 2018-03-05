@@ -1,8 +1,8 @@
 package bwem;
 
 import bwem.map.Map;
-import bwem.map.MapInitializerImpl;
 import bwem.map.MapInitializer;
+import bwem.map.MapInitializerImpl;
 import org.openbw.bwapi4j.BW;
 
 public final class BWEM {

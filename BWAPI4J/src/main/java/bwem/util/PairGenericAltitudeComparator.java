@@ -1,8 +1,9 @@
 package bwem.util;
 
 import bwem.typedef.Altitude;
-import java.util.Comparator;
 import org.apache.commons.lang3.tuple.MutablePair;
+
+import java.util.Comparator;
 
 public final class PairGenericAltitudeComparator<T> implements Comparator<MutablePair<T, Altitude>> {
 

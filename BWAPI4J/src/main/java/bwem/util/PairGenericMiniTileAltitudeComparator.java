@@ -1,8 +1,9 @@
 package bwem.util;
 
 import bwem.tile.MiniTile;
-import java.util.Comparator;
 import org.apache.commons.lang3.tuple.MutablePair;
+
+import java.util.Comparator;
 
 public final class PairGenericMiniTileAltitudeComparator<T> implements Comparator<MutablePair<T, MiniTile>> {
 

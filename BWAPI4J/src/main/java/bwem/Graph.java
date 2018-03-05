@@ -1,33 +1,39 @@
 package bwem;
 
+import bwem.area.Area;
 import bwem.area.AreaInitializer;
 import bwem.area.AreaInitializerImpl;
-import bwem.map.AdvancedData;
-import bwem.map.MapImpl;
-import bwem.tile.TileImpl;
-import bwem.typedef.CPPath;
-import bwem.typedef.Altitude;
-import bwem.typedef.Index;
-import bwem.area.Area;
 import bwem.area.typedef.AreaId;
 import bwem.area.typedef.GroupId;
+import bwem.map.AdvancedData;
+import bwem.map.MapImpl;
 import bwem.tile.MiniTile;
 import bwem.tile.Tile;
+import bwem.tile.TileImpl;
+import bwem.typedef.Altitude;
+import bwem.typedef.CPPath;
+import bwem.typedef.Index;
 import bwem.unit.Geyser;
 import bwem.unit.Mineral;
 import bwem.unit.Neutral;
 import bwem.unit.StaticBuilding;
 import bwem.util.BwemExt;
 import bwem.util.Utils;
-
-import java.util.*;
-
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.util.Pair;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //

@@ -15,19 +15,18 @@ import bwem.unit.Geyser;
 import bwem.unit.Mineral;
 import bwem.unit.Neutral;
 import bwem.unit.StaticBuilding;
-
-import java.awt.Color;
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
-import java.util.SplittableRandom;
-
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.type.UnitType;
+
+import java.awt.*;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.List;
+import java.util.SplittableRandom;
 
 public class MapPrinterExample {
 

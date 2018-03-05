@@ -2,14 +2,14 @@ package bwem;
 
 import bwem.map.Map;
 import bwem.util.BwemExt;
-import java.awt.Color;
-import java.awt.Graphics2D;
+import org.openbw.bwapi4j.BW;
+import org.openbw.bwapi4j.WalkPosition;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Path;
-import javax.imageio.ImageIO;
-import org.openbw.bwapi4j.BW;
-import org.openbw.bwapi4j.WalkPosition;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //

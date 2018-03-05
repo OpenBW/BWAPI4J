@@ -1,7 +1,7 @@
 package bwem.tile;
 
-import bwem.typedef.Altitude;
 import bwem.area.typedef.AreaId;
+import bwem.typedef.Altitude;
 import org.openbw.bwapi4j.WalkPosition;
 
 /**

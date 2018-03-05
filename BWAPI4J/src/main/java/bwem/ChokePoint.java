@@ -1,19 +1,19 @@
 package bwem;
 
+import bwem.area.Area;
 import bwem.map.Map;
+import bwem.tile.MiniTile;
 import bwem.tile.MiniTileImpl;
 import bwem.typedef.CPPath;
 import bwem.typedef.Index;
-import bwem.area.Area;
-import bwem.tile.MiniTile;
 import bwem.unit.Neutral;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
