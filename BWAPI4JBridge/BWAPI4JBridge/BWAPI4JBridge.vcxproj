@@ -196,7 +196,6 @@
     <ClInclude Include="BWAPI\Playerset.h" />
     <ClInclude Include="BWAPI\PlayerType.h" />
     <ClInclude Include="BWAPI\Position.h" />
-    <ClInclude Include="BWAPI\PositionUnit.h" />
     <ClInclude Include="BWAPI\Race.h" />
     <ClInclude Include="BWAPI\Region.h" />
     <ClInclude Include="BWAPI\Regionset.h" />
