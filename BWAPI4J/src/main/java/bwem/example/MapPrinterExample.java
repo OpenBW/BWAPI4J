@@ -219,7 +219,7 @@ public class MapPrinterExample {
         }
 
         try {
-            mapPrinter.writeImageToFile(Paths.get("map.bmp"));
+            mapPrinter.writeImageToFile(Paths.get("map.png"), "png");
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -281,7 +281,7 @@ public class MapPrinterExample {
 
         //TODO: Handle exception.
         try {
-            mapPrinter.writeImageToFile(Paths.get("map.bmp"));
+            mapPrinter.writeImageToFile(Paths.get("map.png"), "png");
         } catch (IOException ex) {
             ex.printStackTrace();
         }

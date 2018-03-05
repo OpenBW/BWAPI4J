@@ -183,8 +183,8 @@ public class MapPrinter {
         circle(center, radius, col, fill_t.do_not_fill);
     }
 
-    public void writeImageToFile(Path file) throws IOException {
-        ImageIO.write (image, "bmp", file.toFile());
+    public void writeImageToFile(Path file, String imageFormat) throws IOException {
+        ImageIO.write (image, imageFormat, file.toFile());
     }
 
 }

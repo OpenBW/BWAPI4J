@@ -4,6 +4,7 @@ build/
 QuickFileWriter.java
 src/test/resources/mockdata/*.txt
 *.bmp
+*.png
 src/main/java/jsd/
 log4j2-test.xml
 src/test/resources/mockdata/DummyBwemData/
