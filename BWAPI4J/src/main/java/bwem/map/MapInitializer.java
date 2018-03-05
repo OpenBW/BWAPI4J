@@ -36,14 +36,14 @@ public interface MapInitializer {
     void computeAltitude(AdvancedData advancedData);
     List<MutablePair<WalkPosition, Altitude>> getSortedDeltasByAscendingAltitude(int mapWalkTileWidth, int mapWalkTileHeight, int altitudeScale);
     List<MutablePair<WalkPosition, Altitude>> getActiveSeaSideList(AdvancedData advancedData);
-    Altitude setAltitudesAndGetUpdatedMaxAltitude(
-            Altitude currentMaxAltitude,
+    Altitude setAltitudesAndGetUpdatedHighestAltitude(
+            Altitude currentHighestAltitude,
             AdvancedData advancedData,
             List<MutablePair<WalkPosition, Altitude>> deltasByAscendingAltitude,
             List<MutablePair<WalkPosition, Altitude>> activeSeaSideList,
             int altitudeScale
     );
-    void setMaxAltitude(Altitude altitude);
+    void setHighestAltitude(Altitude altitude);
 
     void processBlockingNeutrals(List<Neutral> candidates);
     List<Neutral> getCandidates(List<StaticBuilding> staticBuildings, List<Mineral> minerals);
@@ -58,7 +58,7 @@ public interface MapInitializer {
     List<TempAreaInfo> computeTempAreas(List<MutablePair<WalkPosition, MiniTile>> miniTilesByDescendingAltitude);
     void replaceAreaIds(WalkPosition p, AreaId newAreaId);
     void createAreas(List<TempAreaInfo> tempAreaList, int areaMinMiniTiles);
-    void setMinAltitudeInTile(TilePosition t);
+    void setLowestAltitudeInTile(TilePosition t);
 
     List<PlayerUnit> filterPlayerUnits(Collection<Unit> units, Player player);
     List<PlayerUnit> filterNeutralPlayerUnits(Collection<Unit> units, Collection<Player> players);

@@ -50,7 +50,7 @@ public abstract class MapImpl implements Map {
     protected AdvancedData advancedData = null;
     protected NeutralData neutralData = null;
 
-    protected Altitude maxAltitude;
+    protected Altitude highestAltitude;
     private final MutableBoolean automaticPathUpdate = new MutableBoolean(false);
     private final Graph graph;
 
@@ -163,8 +163,8 @@ public abstract class MapImpl implements Map {
     }
 
     @Override
-    public Altitude getMaxAltitude() {
-        return maxAltitude;
+    public Altitude getHighestAltitude() {
+        return highestAltitude;
     }
 
     @Override

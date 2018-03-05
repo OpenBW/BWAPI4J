@@ -71,7 +71,7 @@ public interface Map {
     List<TilePosition> getUnassignedStartingLocations();
 
     // Returns the maximum altitude in the whole Map (Cf. MiniTile::Altitude()).
-    Altitude getMaxAltitude();
+    Altitude getHighestAltitude();
 
     List<Base> getBases();
 

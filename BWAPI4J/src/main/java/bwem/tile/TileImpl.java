@@ -13,7 +13,7 @@ public class TileImpl implements Tile {
     private final Markable markable;
 
     private Neutral neutral;
-    private Altitude minAltitude;
+    private Altitude lowestAltitude;
     private AreaId areaId;
     private final MutableInt internalData;
     private Tile.GroundHeight groundHeight;
@@ -23,7 +23,7 @@ public class TileImpl implements Tile {
     public TileImpl() {
         this.markable = new Markable(TileImpl.staticMarkable);
         this.neutral = null;
-        this.minAltitude = new Altitude(0);
+        this.lowestAltitude = new Altitude(0);
         this.areaId = new AreaId(0);
         this.internalData = new MutableInt(0);
         this.groundHeight = GroundHeight.LOW_GROUND;
@@ -50,8 +50,8 @@ public class TileImpl implements Tile {
     }
 
     @Override
-    public Altitude getMinAltitude() {
-        return this.minAltitude;
+    public Altitude getLowestAltitude() {
+        return this.lowestAltitude;
     }
 
     @Override
@@ -124,12 +124,12 @@ public class TileImpl implements Tile {
         this.areaId = new AreaId(0);
     }
 
-    public void setMinAltitude(final Altitude minAltitude) {
-//        { bwem_assert(a >= 0); this.minAltitude = a; }
-        if (!(minAltitude.intValue() >= 0)) {
+    public void setLowestAltitude(final Altitude lowestAltitude) {
+//        { bwem_assert(a >= 0); this.lowestAltitude = a; }
+        if (!(lowestAltitude.intValue() >= 0)) {
             throw new IllegalArgumentException();
         }
-        this.minAltitude = minAltitude;
+        this.lowestAltitude = lowestAltitude;
     }
 
     public void removeNeutral(final Neutral neutral) {

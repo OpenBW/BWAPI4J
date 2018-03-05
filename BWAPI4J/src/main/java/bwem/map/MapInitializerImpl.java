@@ -162,7 +162,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
 
         final List<MutablePair<WalkPosition, Altitude>> activeSeaSides = getActiveSeaSideList(advancedData);
 
-        setMaxAltitude(setAltitudesAndGetUpdatedMaxAltitude(getMaxAltitude(), advancedData, deltasByAscendingAltitude, activeSeaSides, altitudeScale));
+        setHighestAltitude(setAltitudesAndGetUpdatedHighestAltitude(getHighestAltitude(), advancedData, deltasByAscendingAltitude, activeSeaSides, altitudeScale));
     }
 
     /**
@@ -215,14 +215,14 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
     //----------------------------------------------------------------------
 
     @Override
-    public Altitude setAltitudesAndGetUpdatedMaxAltitude(
-            final Altitude currentMaxAltitude,
+    public Altitude setAltitudesAndGetUpdatedHighestAltitude(
+            final Altitude currentHighestAltitude,
             final AdvancedData advancedData,
             final List<MutablePair<WalkPosition, Altitude>> deltasByAscendingAltitude,
             final List<MutablePair<WalkPosition, Altitude>> activeSeaSideList,
             final int altitudeScale
     ) {
-        Altitude updatedMaxAltitude = (currentMaxAltitude != null) ? new Altitude(currentMaxAltitude) : null;
+        Altitude updatedHighestAltitude = (currentHighestAltitude != null) ? new Altitude(currentHighestAltitude) : null;
 
         for (final MutablePair<WalkPosition, Altitude> deltaAltitude : deltasByAscendingAltitude) {
             final WalkPosition d = deltaAltitude.getLeft();
@@ -242,10 +242,10 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                         if (advancedData.getMapData().isValid(w)) {
                             final MiniTile miniTile = ((AdvancedDataInitializer) advancedData).getMiniTile_(w, CheckMode.NO_CHECK);
                             if (((MiniTileImpl) miniTile).isAltitudeMissing()) {
-                                if (updatedMaxAltitude != null && updatedMaxAltitude.intValue() > altitude.intValue()) {
+                                if (updatedHighestAltitude != null && updatedHighestAltitude.intValue() > altitude.intValue()) {
                                     throw new IllegalStateException();
                                 }
-                                updatedMaxAltitude = altitude;
+                                updatedHighestAltitude = altitude;
                                 current.setRight(altitude);
                                 ((MiniTileImpl) miniTile).setAltitude(altitude);
                             }
@@ -255,12 +255,12 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
             }
         }
 
-        return updatedMaxAltitude;
+        return updatedHighestAltitude;
     }
 
     @Override
-    public void setMaxAltitude(final Altitude altitude) {
-        super.maxAltitude = new Altitude(altitude);
+    public void setHighestAltitude(final Altitude altitude) {
+        super.highestAltitude = new Altitude(altitude);
     }
 
     //----------------------------------------------------------------------
@@ -451,7 +451,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
     @Override
     public void computeAreas(final List<TempAreaInfo> tempAreaList, final int areaMinMiniTiles) {
         createAreas(tempAreaList, areaMinMiniTiles);
-        setAreaIdAndMinAltitudeInTiles();
+        setAreaIdAndLowestAltitudeInTiles();
     }
 
     @Override
@@ -610,27 +610,27 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
 
     // Renamed from "MapImpl::SetAltitudeInTile"
     @Override
-    public void setMinAltitudeInTile(final TilePosition t) {
-        Altitude minAltitude = new Altitude(Integer.MAX_VALUE);
+    public void setLowestAltitudeInTile(final TilePosition t) {
+        Altitude lowestAltitude = new Altitude(Integer.MAX_VALUE);
 
         for (int dy = 0; dy < 4; ++dy)
             for (int dx = 0; dx < 4; ++dx) {
                 final Altitude altitude = new Altitude(getData().getMiniTile(((t.toPosition()).toWalkPosition()).add(new WalkPosition(dx, dy)), CheckMode.NO_CHECK).getAltitude());
-                if (altitude.intValue() < minAltitude.intValue()) {
-                    minAltitude = new Altitude(altitude);
+                if (altitude.intValue() < lowestAltitude.intValue()) {
+                    lowestAltitude = new Altitude(altitude);
                 }
             }
 
-        ((TileImpl) ((AdvancedDataInitializer) getData()).getTile_(t)).setMinAltitude(minAltitude);
+        ((TileImpl) ((AdvancedDataInitializer) getData()).getTile_(t)).setLowestAltitude(lowestAltitude);
     }
 
     // Renamed from "MapImpl::SetAreaIdInTiles"
-    private void setAreaIdAndMinAltitudeInTiles() {
+    private void setAreaIdAndLowestAltitudeInTiles() {
         for (int y = 0; y < getData().getMapData().getTileSize().getY(); ++y)
             for (int x = 0; x < getData().getMapData().getTileSize().getX(); ++x) {
                 final TilePosition t = new TilePosition(x, y);
                 setAreaIdInTile(t);
-                setMinAltitudeInTile(t);
+                setLowestAltitudeInTile(t);
             }
     }
 

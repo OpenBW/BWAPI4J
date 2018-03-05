@@ -13,7 +13,7 @@ import org.openbw.bwapi4j.TilePosition;
  * - It should be noted that a Tile exactly overlaps 4 x 4 MiniTiles.<br/>
  * - As there are 16 times as many MiniTiles as Tiles, we allow a Tiles to contain more data than MiniTiles.<br/>
  * - As a consequence, Tiles should be preferred over MiniTiles, for efficiency.<br/>
- * - The use of Tiles is further facilitated by some functions like Tile::AreaId or Tile::MinAltitude<br/>
+ * - The use of Tiles is further facilitated by some functions like Tile::AreaId or Tile::LowestAltitude<br/>
  * which somewhat aggregate the MiniTile's corresponding information
  */
 public interface Tile {
@@ -63,10 +63,10 @@ public interface Tile {
     AreaId getAreaId();
 
     /**
-     * Tile::MinAltitude() somewhat aggregates the MiniTile::Altitude() values of the 4 x 4 sub-miniTiles.<br/>
+     * Tile::LowestAltitude() somewhat aggregates the MiniTile::Altitude() values of the 4 x 4 sub-miniTiles.<br/>
      * - Returns the minimum value.
      */
-    Altitude getMinAltitude();
+    Altitude getLowestAltitude();
 
     /**
      * Tells if at least one of the sub-miniTiles is Walkable.

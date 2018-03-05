@@ -112,7 +112,7 @@ public class MapPrinterExample {
                     col = MapPrinter.CustomColor.LAKE.color();
                 } else {
                     if (mapPrinter.showAltitude) {
-                        int c = 255 - ((miniTile.getAltitude().intValue() * 255) / theMap.getMaxAltitude().intValue());
+                        int c = 255 - ((miniTile.getAltitude().intValue() * 255) / theMap.getHighestAltitude().intValue());
                         col = new Color(c, c, c);
                     } else {
                         col = MapPrinter.CustomColor.TERRAIN.color();

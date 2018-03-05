@@ -110,7 +110,7 @@ public class MapInitializerTest implements BWEventListener {
 
         final List<MutablePair<WalkPosition, Altitude>> ActiveSeaSides = mapInitializer.getActiveSeaSideList(advancedData);
 
-        mapInitializer.setMaxAltitude(mapInitializer.setAltitudesAndGetUpdatedMaxAltitude(this.map.getMaxAltitude(), advancedData, DeltasByAscendingAltitude, ActiveSeaSides, altitude_scale));
+        mapInitializer.setHighestAltitude(mapInitializer.setAltitudesAndGetUpdatedHighestAltitude(this.map.getHighestAltitude(), advancedData, DeltasByAscendingAltitude, ActiveSeaSides, altitude_scale));
 
         //////////////////////////////////////////////////////////////////////
 
