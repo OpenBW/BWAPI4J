@@ -1,6 +1,7 @@
 package bwem.map;
 
 import bwem.Base;
+import bwem.ChokePoint;
 import bwem.MapPrinter;
 import bwem.area.Area;
 import bwem.area.typedef.AreaId;
@@ -75,8 +76,7 @@ public interface Map {
 
     List<Base> getBases();
 
-    // Returns the number of getChokePoints.
-    int getChokePointCount();
+    List<ChokePoint> getChokePoints();
 
     NeutralData getNeutralData();
 

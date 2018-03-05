@@ -173,8 +173,8 @@ public abstract class MapImpl implements Map {
     }
 
     @Override
-    public int getChokePointCount() {
-        return getGraph().getChokePoints().size();
+    public List<ChokePoint> getChokePoints() {
+        return getGraph().getChokePoints();
     }
 
     @Override
