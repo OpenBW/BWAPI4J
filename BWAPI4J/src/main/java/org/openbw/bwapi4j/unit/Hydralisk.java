@@ -49,7 +49,7 @@ public class Hydralisk extends MobileUnit implements Organic, Burrowable, Armed,
     @Override
     public boolean morph(UnitType type) {
         if (type != Zerg_Lurker) {
-            throw new IllegalArgumentException("Can only morph into Lurker");
+            throw new IllegalArgumentException("Cannot morph to " + type);
         }
         return issueCommand(this.id, Morph, -1, -1, -1, Zerg_Lurker.getId());
     }

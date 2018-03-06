@@ -76,7 +76,7 @@ public class Hatchery extends Building implements Organic, ResearchingFacility, 
     @Override
     public boolean morph(UnitType type) {
         if (type != Zerg_Lair) {
-            throw new IllegalArgumentException("Can only morph to Lair");
+            throw new IllegalArgumentException("Cannot morph to " + type);
         }
 
         return issueCommand(this.id, Morph, -1, -1, -1, Zerg_Lair.getId());

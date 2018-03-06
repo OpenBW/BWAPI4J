@@ -62,7 +62,7 @@ public class Spire extends Building implements Organic, ResearchingFacility, Mor
     @Override
     public boolean morph(UnitType type) {
         if (type != Zerg_Greater_Spire) {
-            throw new IllegalArgumentException("Can only morph into Greater Spire");
+            throw new IllegalArgumentException("Cannot morph to " + type);
         }
         return issueCommand(this.id, Morph, -1, -1, -1, Zerg_Greater_Spire.getId());
     }
