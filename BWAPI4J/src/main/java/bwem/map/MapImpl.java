@@ -62,6 +62,7 @@ public abstract class MapImpl implements Map {
     protected final Collection<Player> players;
     protected final List<VespeneGeyser> vespeneGeysers;
     protected final Collection<Unit> units;
+    private final NeighboringAreaChooser neighboringAreaChooser;
     
     public MapImpl(
             BWMap bwMap,
@@ -71,14 +72,15 @@ public abstract class MapImpl implements Map {
             List<VespeneGeyser> vespeneGeysers,
             Collection<Unit> units
     ) {
-        mapPrinter = new MapPrinter();
+        this.mapPrinter = new MapPrinter();
     	this.mapDrawer = mapDrawer;
     	this.bwMap = bwMap;
     	this.players = players;
     	this.mineralPatches = mineralPatches;
     	this.vespeneGeysers = vespeneGeysers;
     	this.units = units;
-        graph = new Graph(this);
+        this.graph = new Graph(this);
+        this.neighboringAreaChooser = new NeighboringAreaChooser();
     }
 
 //    MapImpl::~MapImpl()
@@ -536,25 +538,38 @@ public abstract class MapImpl implements Map {
         return result;
     }
 
-    private static final java.util.Map<MutablePair<AreaId, AreaId>, Integer> map_AreaPair_counter = new HashMap<>();
-    public static AreaId chooseNeighboringArea(final AreaId a, final AreaId b) {
-        int aVal = a.intValue();
-        int bVal = b.intValue();
+    public AreaId chooseNeighboringArea(final AreaId a, final AreaId b) {
+        return this.neighboringAreaChooser.chooseNeighboringArea(a, b);
+    }
 
-        if (aVal > bVal) {
-            int aValTmp = aVal;
-            aVal = bVal;
-            bVal = aValTmp;
+    private static class NeighboringAreaChooser {
+
+        private final java.util.Map<MutablePair<AreaId, AreaId>, Integer> areaPairCounter;
+
+        public NeighboringAreaChooser() {
+            this.areaPairCounter = new HashMap<>();
         }
 
-        final MutablePair<AreaId, AreaId> key = new MutablePair<>(new AreaId(aVal), new AreaId(bVal));
-        Integer val = map_AreaPair_counter.get(key);
-        if (val == null) {
-            val = 0;
-        }
-        map_AreaPair_counter.put(key, val + 1);
+        public AreaId chooseNeighboringArea(final AreaId a, final AreaId b) {
+            int a_val = a.intValue();
+            int b_val = b.intValue();
 
-        return new AreaId((val % 2 == 0) ? aVal : bVal);
+            if (a_val > b_val) {
+                int a_val_tmp = a_val;
+                a_val = b_val;
+                b_val = a_val_tmp;
+            }
+
+            final MutablePair<AreaId, AreaId> pairKey = new MutablePair<>(new AreaId(a_val), new AreaId(b_val));
+            Integer pairVal = this.areaPairCounter.get(pairKey);
+            if (pairVal == null) {
+                pairVal = 0;
+            }
+            this.areaPairCounter.put(pairKey, pairVal + 1);
+
+            return new AreaId((pairVal % 2 == 0) ? a_val : b_val);
+        }
+
     }
 
 }
