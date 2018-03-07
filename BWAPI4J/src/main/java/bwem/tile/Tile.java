@@ -19,7 +19,7 @@ import org.openbw.bwapi4j.TilePosition;
 public interface Tile {
 
     /**
-     * Corresponds to BWAPI::getGroundHeight.
+     * Corresponds to BWAPI::getGroundHeight divided by 2.
      */
     enum GroundHeight {
 
