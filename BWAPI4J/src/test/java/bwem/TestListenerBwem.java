@@ -78,17 +78,29 @@ public class TestListenerBwem implements BWEventListener {
     @Override
     public void onFrame() {
         try {
-            // Display starting locations and possible base locations.
-            for (final Base base : this.bwem.getMap().getBases()) {
-                final boolean isStartingLocation = base.isStartingLocation();
-                final Color highlightColor = isStartingLocation ? Color.GREEN : Color.YELLOW;
-                final Position location = base.getLocation().toPosition();
-                final Position resourceDepotSize = UnitType.Terran_Command_Center.tileSize().toPosition();
-                this.bw.getMapDrawer().drawBoxMap(location.getX(), location.getY(), location.add(resourceDepotSize).getX(), location.add(resourceDepotSize).getY(), highlightColor);
+            /* Display starting locations and possible base locations. */ {
+                for (final Base base : this.bwem.getMap().getBases()) {
+                    final boolean isStartingLocation = base.isStartingLocation();
+                    final Color highlightColor = isStartingLocation ? Color.GREEN : Color.YELLOW;
+                    final Position location = base.getLocation().toPosition();
+                    final Position resourceDepotSize = UnitType.Terran_Command_Center.tileSize().toPosition();
+                    this.bw.getMapDrawer().drawBoxMap(location.getX(), location.getY(), location.add(resourceDepotSize).getX(), location.add(resourceDepotSize).getY(), highlightColor);
+                }
             }
 
-            // Display choke points.
-            //TODO
+            /* Display choke points. */ {
+                final float chokePointRadius = 8.0f;
+//                final float chokePointCrosshairDistance = chokePointRadius * 2.5f;
+                final float chokePointCrosshairDistance = chokePointRadius;
+                final Color chokePointColor = Color.RED;
+                for (final ChokePoint chokePoint : this.bwem.getMap().getChokePoints()) {
+                    final Position center = chokePoint.getCenter().toPosition();
+                    this.bw.getMapDrawer().drawCircleMap(center.getX(), center.getY(), (int) chokePointRadius, chokePointColor);
+//                    this.bw.getMapDrawer().drawCircleMap(center.getX(), center.getY(), (int) (chokePointRadius * 2.5f), chokePointColor);
+                    this.bw.getMapDrawer().drawLineMap(center.getX() - (int)chokePointCrosshairDistance, center.getY(), center.getX() + (int)chokePointCrosshairDistance, center.getY(), chokePointColor);
+                    this.bw.getMapDrawer().drawLineMap(center.getX(), center.getY() - (int)chokePointCrosshairDistance, center.getX(), center.getY() + (int)chokePointCrosshairDistance, chokePointColor);
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(0);
