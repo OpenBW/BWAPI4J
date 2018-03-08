@@ -76,7 +76,7 @@ public class InfestedCommandCenter extends Building implements Organic, FlyingBu
     }
 
     @Override
-    public List<UnitType> getTrainingQueue() {
+    public List<TrainingSlot> getTrainingQueue() {
 
         return this.trainer.getTrainingQueue();
     }

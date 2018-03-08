@@ -142,7 +142,7 @@ public class Starport extends Building implements Mechanical, FlyingBuilding, Tr
     }
 
     @Override
-    public List<UnitType> getTrainingQueue() {
+    public List<TrainingSlot> getTrainingQueue() {
 
         return this.trainer.getTrainingQueue();
     }

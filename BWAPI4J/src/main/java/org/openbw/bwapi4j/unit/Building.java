@@ -10,6 +10,7 @@ import org.openbw.bwapi4j.type.UpgradeType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static org.openbw.bwapi4j.type.UnitCommandType.*;
 
@@ -102,6 +103,49 @@ public abstract class Building extends PlayerUnit {
         }
     }
 
+    public class TrainingSlot {
+
+        private final int slotIndex;
+        private final UnitType unitType;
+
+        protected TrainingSlot(final int slotIndex, final UnitType unitType) {
+
+            this.slotIndex = slotIndex;
+            this.unitType = unitType;
+        }
+
+        public UnitType getUnitType() {
+
+            return this.unitType;
+        }
+
+        public boolean cancel() {
+
+            return issueCommand(id, Cancel_Train_Slot, -1, -1, -1, this.slotIndex);
+        }
+
+        @Override
+        public boolean equals(final Object object) {
+
+            if (this == object) {
+                return true;
+            } else if (!(object instanceof TrainingSlot)) {
+                return false;
+            } else {
+                final TrainingSlot trainingSlot = (TrainingSlot) object;
+                return (this.slotIndex == trainingSlot.slotIndex
+                    && this.unitType == trainingSlot.unitType);
+            }
+        }
+
+        @Override
+        public int hashCode() {
+
+            return Objects.hash(this.slotIndex, this.unitType);
+        }
+
+    }
+
     protected class Trainer {
 
         private boolean isTraining;
@@ -111,7 +155,7 @@ public abstract class Building extends PlayerUnit {
         private int rallyPositionY;
         private int rallyUnitId;
         private int[] trainingQueueUnitTypeIds = new int[MAX_TRAINING_QUEUE_SIZE];
-        private List<UnitType> trainingQueue = new ArrayList<>();
+        private List<TrainingSlot> trainingQueue = new ArrayList<>();
 
         public void update(int[] unitData, int index) {
 
@@ -125,7 +169,7 @@ public abstract class Building extends PlayerUnit {
             this.trainingQueueUnitTypeIds[4] = unitData[index + Unit.TRAINING_QUEUE_SLOT_4_INDEX];
             this.trainingQueue.clear();
             for (int i = 0; i < this.trainingQueueSize; ++i) {
-                this.trainingQueue.add(UnitType.values()[this.trainingQueueUnitTypeIds[i]]);
+                this.trainingQueue.add(new TrainingSlot(i, UnitType.values()[this.trainingQueueUnitTypeIds[i]]));
             }
 
             this.remainingTrainTime = unitData[index + Unit.REMAINING_TRAIN_TIME_INDEX];
@@ -159,7 +203,7 @@ public abstract class Building extends PlayerUnit {
             return this.trainingQueueSize;
         }
 
-        public List<UnitType> getTrainingQueue() {
+        public List<TrainingSlot> getTrainingQueue() {
 
             return this.trainingQueue;
         }

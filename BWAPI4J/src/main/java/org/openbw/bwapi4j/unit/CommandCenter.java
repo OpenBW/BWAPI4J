@@ -147,7 +147,7 @@ public class CommandCenter extends Building implements Mechanical, FlyingBuildin
     }
 
     @Override
-    public List<UnitType> getTrainingQueue() {
+    public List<TrainingSlot> getTrainingQueue() {
 
         return this.trainer.getTrainingQueue();
     }

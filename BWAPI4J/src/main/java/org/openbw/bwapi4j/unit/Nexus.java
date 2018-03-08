@@ -56,7 +56,7 @@ public class Nexus extends Building implements Mechanical, TrainingFacility, Bas
     }
 
     @Override
-    public List<UnitType> getTrainingQueue() {
+    public List<TrainingSlot> getTrainingQueue() {
 
         return this.trainer.getTrainingQueue();
     }

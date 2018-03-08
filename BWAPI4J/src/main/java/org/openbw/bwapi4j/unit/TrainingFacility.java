@@ -11,7 +11,7 @@ public interface TrainingFacility {
 
     int getTrainingQueueSize();
 
-    List<UnitType> getTrainingQueue();
+    List<Building.TrainingSlot> getTrainingQueue();
 
     int getRemainingTrainTime();
 

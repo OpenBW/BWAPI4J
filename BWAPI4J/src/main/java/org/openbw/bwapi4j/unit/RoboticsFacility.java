@@ -60,7 +60,7 @@ public class RoboticsFacility extends Building implements Mechanical, TrainingFa
     }
 
     @Override
-    public List<UnitType> getTrainingQueue() {
+    public List<TrainingSlot> getTrainingQueue() {
 
         return this.trainer.getTrainingQueue();
     }

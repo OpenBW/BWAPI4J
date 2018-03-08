@@ -132,7 +132,7 @@ public class Factory extends Building implements Mechanical, FlyingBuilding, Tra
     }
 
     @Override
-    public List<UnitType> getTrainingQueue() {
+    public List<TrainingSlot> getTrainingQueue() {
 
         return this.trainer.getTrainingQueue();
     }

@@ -65,7 +65,7 @@ public class Stargate extends Building implements Mechanical, TrainingFacility {
     }
 
     @Override
-    public List<UnitType> getTrainingQueue() {
+    public List<TrainingSlot> getTrainingQueue() {
 
         return this.trainer.getTrainingQueue();
     }

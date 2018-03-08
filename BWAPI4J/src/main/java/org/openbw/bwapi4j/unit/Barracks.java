@@ -92,13 +92,14 @@ public class Barracks extends Building implements Mechanical, FlyingBuilding, Tr
     }
 
     @Override
-    public List<UnitType> getTrainingQueue() {
+    public List<TrainingSlot> getTrainingQueue() {
 
         return this.trainer.getTrainingQueue();
     }
 
     @Override
     public int getRemainingTrainTime() {
+
         return trainer.getRemainingTrainingTime();
     }
 
