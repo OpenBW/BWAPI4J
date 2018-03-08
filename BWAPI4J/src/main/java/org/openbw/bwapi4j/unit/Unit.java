@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.*;
 import org.openbw.bwapi4j.type.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -142,8 +143,14 @@ public abstract class Unit implements Comparable<Unit> {
     protected static int IS_FLYING_INDEX = 124;
     protected static int ORDER_TARGET_POSITION_X_INDEX = 125;
     protected static int ORDER_TARGET_POSITION_Y_INDEX = 126;
+    protected static int TRAINING_QUEUE_SLOT_0_INDEX = 127;
+    protected static int TRAINING_QUEUE_SLOT_1_INDEX = 128;
+    protected static int TRAINING_QUEUE_SLOT_2_INDEX = 129;
+    protected static int TRAINING_QUEUE_SLOT_3_INDEX = 130;
+    protected static int TRAINING_QUEUE_SLOT_4_INDEX = 131;
+    protected static int MAX_TRAINING_QUEUE_SIZE = 5;
 
-    public static int TOTAL_PROPERTIES = 127;
+    public static int TOTAL_PROPERTIES = 132;
 
     // static
     protected int id;
@@ -503,7 +510,6 @@ public abstract class Unit implements Comparable<Unit> {
     private int stasisTimer;
     private int stimTimer;
     private UnitType buildType;
-    private List<UnitType> trainingQueue;
     private TechType tech;
     private UpgradeType uppgrade;
 

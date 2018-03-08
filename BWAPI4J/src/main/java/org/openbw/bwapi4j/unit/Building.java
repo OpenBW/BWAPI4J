@@ -5,9 +5,11 @@ import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.TechType;
-import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.openbw.bwapi4j.type.UnitCommandType.*;
 
@@ -108,11 +110,24 @@ public abstract class Building extends PlayerUnit {
         private int rallyPositionX;
         private int rallyPositionY;
         private int rallyUnitId;
+        private int[] trainingQueueUnitTypeIds = new int[MAX_TRAINING_QUEUE_SIZE];
+        private List<UnitType> trainingQueue = new ArrayList<>();
 
         public void update(int[] unitData, int index) {
 
             this.isTraining = unitData[index + Unit.IS_TRAINING_INDEX] == 1;
             this.trainingQueueSize = unitData[index + Unit.TRAINING_QUEUE_SIZE_INDEX];
+
+            this.trainingQueueUnitTypeIds[0] = unitData[index + Unit.TRAINING_QUEUE_SLOT_0_INDEX];
+            this.trainingQueueUnitTypeIds[1] = unitData[index + Unit.TRAINING_QUEUE_SLOT_1_INDEX];
+            this.trainingQueueUnitTypeIds[2] = unitData[index + Unit.TRAINING_QUEUE_SLOT_2_INDEX];
+            this.trainingQueueUnitTypeIds[3] = unitData[index + Unit.TRAINING_QUEUE_SLOT_3_INDEX];
+            this.trainingQueueUnitTypeIds[4] = unitData[index + Unit.TRAINING_QUEUE_SLOT_4_INDEX];
+            this.trainingQueue.clear();
+            for (int i = 0; i < this.trainingQueueSize; ++i) {
+                this.trainingQueue.add(UnitType.values()[this.trainingQueueUnitTypeIds[i]]);
+            }
+
             this.remainingTrainTime = unitData[index + Unit.REMAINING_TRAIN_TIME_INDEX];
             this.rallyUnitId = unitData[index + Unit.RALLY_UNIT_INDEX];
             this.rallyPositionX = unitData[index + Unit.RALLY_POSITION_X_INDEX];
@@ -142,6 +157,11 @@ public abstract class Building extends PlayerUnit {
         public int getTrainingQueueSize() {
 
             return this.trainingQueueSize;
+        }
+
+        public List<UnitType> getTrainingQueue() {
+
+            return this.trainingQueue;
         }
 
         public boolean canTrain(UnitType type) {
