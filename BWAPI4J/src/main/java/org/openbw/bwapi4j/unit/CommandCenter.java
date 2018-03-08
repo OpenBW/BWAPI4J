@@ -4,6 +4,8 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
+import java.util.List;
+
 import static org.openbw.bwapi4j.type.UnitCommandType.Build_Addon;
 import static org.openbw.bwapi4j.type.UnitCommandType.Cancel_Addon;
 import static org.openbw.bwapi4j.type.UnitType.Terran_Comsat_Station;
@@ -142,6 +144,12 @@ public class CommandCenter extends Building implements Mechanical, FlyingBuildin
     public int getTrainingQueueSize() {
         
         return this.trainer.getTrainingQueueSize();
+    }
+
+    @Override
+    public List<TrainingSlot> getTrainingQueue() {
+
+        return this.trainer.getTrainingQueue();
     }
 
     @Override

@@ -3,6 +3,8 @@ package org.openbw.bwapi4j.unit;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitType;
 
+import java.util.List;
+
 public class InfestedCommandCenter extends Building implements Organic, FlyingBuilding, TrainingFacility {
 
     private Flyer flyer;
@@ -71,6 +73,12 @@ public class InfestedCommandCenter extends Building implements Organic, FlyingBu
     public int getTrainingQueueSize() {
         
         return this.trainer.getTrainingQueueSize();
+    }
+
+    @Override
+    public List<TrainingSlot> getTrainingQueue() {
+
+        return this.trainer.getTrainingQueue();
     }
 
     @Override

@@ -3,6 +3,8 @@ package org.openbw.bwapi4j.unit;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitType;
 
+import java.util.List;
+
 public class Nexus extends Building implements Mechanical, TrainingFacility, Base {
 
     private Trainer trainer;
@@ -51,6 +53,12 @@ public class Nexus extends Building implements Mechanical, TrainingFacility, Bas
     public int getTrainingQueueSize() {
         
         return this.trainer.getTrainingQueueSize();
+    }
+
+    @Override
+    public List<TrainingSlot> getTrainingQueue() {
+
+        return this.trainer.getTrainingQueue();
     }
 
     @Override
