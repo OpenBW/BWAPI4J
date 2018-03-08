@@ -51,9 +51,9 @@ public class BW {
 
     	loadDLL();
     	
-        this.players = new HashMap<Integer, Player>();
-        this.units = new ConcurrentHashMap<Integer, Unit>();
-        this.bullets = new ConcurrentHashMap<Integer, Bullet>();
+        this.players = new HashMap<>();
+        this.units = new ConcurrentHashMap<>();
+        this.bullets = new ConcurrentHashMap<>();
         this.listener = listener;
         this.interactionHandler = new InteractionHandler(this);
         this.mapDrawer = new MapDrawer();
@@ -136,15 +136,7 @@ public class BW {
 
     	this.onStartInitializationDone = false;
     	BW myBw = this;
-    	Thread thread = new Thread(new Runnable() {
-
-    	    @Override
-    	    public void run() {
-
-    	    	startGame(myBw);
-    	    }
-
-    	});
+    	Thread thread = new Thread(() -> startGame(myBw));
 
     	thread.start();
     	logger.trace("calling native mainThread...");
