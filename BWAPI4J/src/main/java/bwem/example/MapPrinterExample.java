@@ -210,7 +210,7 @@ public class MapPrinterExample {
 
             for (Area area : theMap.getAreas())
                 for (ChokePoint cp : area.getChokePoints()) {
-                    ChokePoint.Node[] nodes = {ChokePoint.Node.END_1, ChokePoint.Node.END_2};
+                    ChokePoint.Node[] nodes = {ChokePoint.Node.END1, ChokePoint.Node.END2};
                     for (ChokePoint.Node n : nodes)
                         mapPrinter.square(cp.positionOfNode(n), 1, new Color(255, 0, 255), MapPrinter.fill_t.fill);
                     mapPrinter.square(cp.getCenter(), 1, new Color(0, 0, 255), MapPrinter.fill_t.fill);

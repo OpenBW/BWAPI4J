@@ -244,12 +244,12 @@ public final class Graph {
                     throw new IllegalStateException();
                 }
 
-                final Position cpEnd1 = BwemExt.center(pBestCpA.positionOfNode(ChokePoint.Node.END_1));
-                final Position cpEnd2 = BwemExt.center(pBestCpA.positionOfNode(ChokePoint.Node.END_2));
+                final Position cpEnd1 = BwemExt.center(pBestCpA.positionOfNode(ChokePoint.Node.END1));
+                final Position cpEnd2 = BwemExt.center(pBestCpA.positionOfNode(ChokePoint.Node.END2));
                 if (Utils.intersect(a.getX(), a.getY(), b.getX(), b.getY(), cpEnd1.getX(), cpEnd1.getY(), cpEnd2.getX(), cpEnd2.getY())) {
                     pLength.setValue(BwemExt.getApproxDistance(a, b));
                 } else {
-                    final ChokePoint.Node[] nodes = {ChokePoint.Node.END_1, ChokePoint.Node.END_2};
+                    final ChokePoint.Node[] nodes = {ChokePoint.Node.END1, ChokePoint.Node.END2};
                     for (final ChokePoint.Node node : nodes) {
                         final Position c = BwemExt.center(pBestCpA.positionOfNode(node));
                         final int distAToB = BwemExt.getApproxDistance(a, c) + BwemExt.getApproxDistance(b, c);

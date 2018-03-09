@@ -15,54 +15,35 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-//////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                          //
-//                                  class ChokePoint
-//                                                                                          //
-//////////////////////////////////////////////////////////////////////////////////////////////
-//
-// ChokePoints are frontiers that BWEM automatically computes from Brood War's maps
-// A ChokePoint represents (part of) the frontier between exactly 2 Areas. It has a form of line.
-// A ChokePoint doesn't contain any MiniTile: All the MiniTiles whose positions are returned by its Geometry()
-// are just guaranteed to be part of one of the 2 Areas.
-// Among the MiniTiles of its Geometry, 3 particular ones called nodes can also be accessed using Pos(middle), Pos(end1) and Pos(end2).
-// ChokePoints play an important role in BWEM:
-//   - they define accessibility between Areas.
-//   - the Paths provided by Map::GetPath are made of ChokePoints.
-// Like Areas and Bases, the number and the addresses of ChokePoint instances remain unchanged.
-//
-// Pseudo ChokePoints:
-// Some Neutrals can be detected as blocking Neutrals (Cf. Neutral::Blocking).
-// Because only ChokePoints can serve as frontiers between Areas, BWEM automatically creates a ChokePoint
-// for each blocking Neutral (only one in the case of stacked blocking Neutral).
-// Such ChokePoints are called pseudo ChokePoints and they behave differently in several ways.
-//
-// ChokePoints inherit utils::Markable, which provides marking ability
-// ChokePoints inherit utils::UserData, which provides free-to-use data.
-//
-//////////////////////////////////////////////////////////////////////////////////////////////
-
+/**
+ * ChokePoints are frontiers that BWEM automatically computes from Brood War's maps.<br/>
+ * A ChokePoint represents (part of) the frontier between exactly 2 Areas. It has a form of line.<br/>
+ * A ChokePoint doesn't contain any MiniTile: All the MiniTiles whose positions are returned by its Geometry()
+ * are just guaranteed to be part of one of the 2 Areas.<br/>
+ * Among the MiniTiles of its Geometry, 3 particular ones called nodes can also be accessed using Pos(middle), Pos(end1) and Pos(end2).<br/>
+ * ChokePoints play an important role in BWEM:<br/>
+ * - they define accessibility between Areas.<br/>
+ * - the Paths provided by Map::GetPath are made of ChokePoints.<br/>
+ * Like Areas and Bases, the number and the addresses of ChokePoint instances remain unchanged.<br/>
+ * <br/>
+ * Pseudo ChokePoints:<br/>
+ * Some Neutrals can be detected as blocking Neutrals (Cf. Neutral::Blocking).<br/>
+ * Because only ChokePoints can serve as frontiers between Areas, BWEM automatically creates a ChokePoint
+ * for each blocking Neutral (only one in the case of stacked blocking Neutral).<br/>
+ * Such ChokePoints are called pseudo ChokePoints and they behave differently in several ways.
+ */
 public final class ChokePoint {
 
-	// ChokePoint::middle denotes the "middle" MiniTile of Geometry(), while
-	// ChokePoint::END_1 and ChokePoint::END_2 denote its "ends".
-	// It is guaranteed that, among all the MiniTiles of Geometry(), ChokePoint::middle has the highest altitude value (Cf. MiniTile::Altitude()).
+    /**
+     * ChokePoint::middle denotes the "middle" MiniTile of Geometry(), while
+     * ChokePoint::END_1 and ChokePoint::END_2 denote its "ends".
+     * It is guaranteed that, among all the MiniTiles of Geometry(), ChokePoint::middle has the highest altitude value (Cf. MiniTile::Altitude()).
+     */
     public enum Node {
-        END_1(0),
-        MIDDLE(1),
-        END_2(2),
-        NODE_COUNT(3)
-        ;
-
-        private final int val;
-
-        Node(int val) {
-            this.val = val;
-        }
-
-        public int intVal() {
-            return this.val;
-        }
+        END1,
+        MIDDLE,
+        END2,
+        NODE_COUNT
     }
 
     private final Graph graph;
@@ -101,12 +82,12 @@ public final class ChokePoint {
             this.blockingNeutral = getMap().getData().getTile(this.blockingNeutral.getTopLeft()).getNeutral();
         }
 
-        nodes = new WalkPosition[ChokePoint.Node.NODE_COUNT.intVal()];
-        nodes[ChokePoint.Node.END_1.intVal()] = geometry.get(0);
-        nodes[ChokePoint.Node.END_2.intVal()] = geometry.get(geometry.size() - 1);
+        nodes = new WalkPosition[ChokePoint.Node.NODE_COUNT.ordinal()];
+        nodes[ChokePoint.Node.END1.ordinal()] = geometry.get(0);
+        nodes[ChokePoint.Node.END2.ordinal()] = geometry.get(geometry.size() - 1);
 
-        nodesInArea = new ArrayList<>(ChokePoint.Node.NODE_COUNT.intVal());
-        for (int i = 0; i < ChokePoint.Node.NODE_COUNT.intVal(); ++i) {
+        nodesInArea = new ArrayList<>(ChokePoint.Node.NODE_COUNT.ordinal());
+        for (int i = 0; i < ChokePoint.Node.NODE_COUNT.ordinal(); ++i) {
             nodesInArea.add(new MutablePair<>(new WalkPosition(0, 0), new WalkPosition(0, 0)));
         }
 
@@ -121,9 +102,9 @@ public final class ChokePoint {
                     > getMap().getData().getMiniTile(geometry.get(i)).getAltitude().intValue())) {
             ++i;
         }
-        nodes[ChokePoint.Node.MIDDLE.intVal()] = geometry.get(i);
+        nodes[ChokePoint.Node.MIDDLE.ordinal()] = geometry.get(i);
 
-        for (int n = 0; n < ChokePoint.Node.NODE_COUNT.intVal(); ++n) {
+        for (int n = 0; n < ChokePoint.Node.NODE_COUNT.ordinal(); ++n) {
             final List<Area> tmpAreaList = new ArrayList<>();
             tmpAreaList.add(area1);
             tmpAreaList.add(area2);
@@ -203,10 +184,10 @@ public final class ChokePoint {
 	// Note: the returned value is contained in geometry()
     public WalkPosition positionOfNode(Node n) {
 //        bwem_assert(n < NODE_COUNT);
-        if (!(n.intVal() < Node.NODE_COUNT.intVal())) {
+        if (!(n.ordinal() < Node.NODE_COUNT.ordinal())) {
             throw new IllegalArgumentException();
         }
-        return nodes[n.intVal()];
+        return nodes[n.ordinal()];
     }
 
 	// Pretty much the same as pos(n), except that the returned MiniTile position is guaranteed to be part of pArea.
@@ -217,8 +198,8 @@ public final class ChokePoint {
             throw new IllegalArgumentException();
         }
         return pArea.equals(areas.getLeft())
-                ? nodesInArea.get(n.intVal()).getLeft()
-                : nodesInArea.get(n.intVal()).getRight();
+                ? nodesInArea.get(n.ordinal()).getLeft()
+                : nodesInArea.get(n.ordinal()).getRight();
     }
 
 	// Returns the set of positions that defines the shape of this ChokePoint.
