@@ -4,6 +4,7 @@ import bwem.Base;
 import bwem.BaseImpl;
 import bwem.CheckMode;
 import bwem.ChokePoint;
+import bwem.ChokePointImpl;
 import bwem.Graph;
 import bwem.MapPrinter;
 import bwem.area.Area;
@@ -249,7 +250,7 @@ public abstract class MapImpl implements Map {
 
         for (Area pArea : pBlocking.getBlockedAreas())
         for (ChokePoint cp : pArea.getChokePoints()) {
-            cp.onBlockingNeutralDestroyed(pBlocking);
+            ((ChokePointImpl) cp).onBlockingNeutralDestroyed(pBlocking);
         }
 
         if (getData().getTile(pBlocking.getTopLeft()).getNeutral() != null) { // there remains some blocking Neutrals at the same location

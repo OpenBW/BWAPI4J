@@ -175,12 +175,12 @@ public final class Graph {
 
 	// Returns the ground distance in pixels between cpA->center() and cpB>center()
 	public int distance(ChokePoint cpA, ChokePoint cpB) {
-        return chokePointDistanceMatrix.get(cpA.getIndex().intValue()).get(cpB.getIndex().intValue());
+        return chokePointDistanceMatrix.get(((ChokePointImpl) cpA).getIndex().intValue()).get(((ChokePointImpl) cpB).getIndex().intValue());
     }
 
     // Returns a list of getChokePoints, which is intended to be the shortest walking path from cpA to cpB.
 	public CPPath getPath(ChokePoint cpA, ChokePoint cpB) {
-        return pathsBetweenChokePoints.get(cpA.getIndex().intValue()).get(cpB.getIndex().intValue());
+        return pathsBetweenChokePoints.get(((ChokePointImpl) cpA).getIndex().intValue()).get(((ChokePointImpl) cpB).getIndex().intValue());
     }
 
     public CPPath getPath(final Position a, final Position b, final MutableInt pLength) {
@@ -438,7 +438,7 @@ public final class Graph {
     		// 3.2) Create one Chokepoint for each cluster:
 //            getChokePoints(a, b).reserve(clusters.size() + pseudoChokePointsToCreate);
     		for (final List<WalkPosition> cluster : clusters) {
-    			getChokePoints(a, b).add(new ChokePoint(this, new Index(newIndex), getArea(a), getArea(b), cluster));
+    			getChokePoints(a, b).add(new ChokePointImpl(this, new Index(newIndex), getArea(a), getArea(b), cluster));
                 newIndex = newIndex.add(1);
             }
     	}
@@ -470,7 +470,7 @@ public final class Graph {
 
                     final List<WalkPosition> list = new ArrayList<>();
                     list.add(center);
-    				getChokePoints(pA, pB).add(new ChokePoint(this, new Index(newIndex), pA, pB, list, pNeutral));
+    				getChokePoints(pA, pB).add(new ChokePointImpl(this, new Index(newIndex), pA, pB, list, pNeutral));
                     newIndex = newIndex.add(1);
     			}
     		}
@@ -654,7 +654,7 @@ public final class Graph {
 //                    // so we just have to collect them (in the reverse order) and insert them into Path:
 //                    if ((void *)(pContext) == (void *)(this))	// tests (Context == Graph) without warning about constant condition
                         //TODO: Verify this loop is correct.
-                        for (ChokePoint pPrev = target.getPathBackTrace(); !pPrev.equals(pStart); pPrev = pPrev.getPathBackTrace()) {
+                        for (ChokePoint pPrev = ((ChokePointImpl) target).getPathBackTrace(); !pPrev.equals(pStart); pPrev = ((ChokePointImpl) pPrev).getPathBackTrace()) {
                             path.add(1, pPrev);
                         }
 
@@ -723,12 +723,12 @@ public final class Graph {
                                         throw new IllegalStateException();
                                     }
                                     ((TileImpl) nextTile).getInternalData().setValue(newNextDist);
-                                    next.setPathBackTrace(current);
+                                    ((ChokePointImpl) next).setPathBackTrace(current);
                                     toVisit.offer(new Pair<>(newNextDist, next));
                                 }
                             } else {
                                 ((TileImpl) nextTile).getInternalData().setValue(newNextDist);
-                                next.setPathBackTrace(current);
+                                ((ChokePointImpl) next).setPathBackTrace(current);
                                 toVisit.offer(new Pair<>(newNextDist, next));
                             }
                         }
@@ -775,15 +775,15 @@ public final class Graph {
     }
 
     private void setDistance(final ChokePoint cpA, final ChokePoint cpB, final int value) {
-        chokePointDistanceMatrix.get(cpA.getIndex().intValue()).set(cpB.getIndex().intValue(), value);
-        chokePointDistanceMatrix.get(cpB.getIndex().intValue()).set(cpA.getIndex().intValue(), value);
+        chokePointDistanceMatrix.get(((ChokePointImpl) cpA).getIndex().intValue()).set(((ChokePointImpl) cpB).getIndex().intValue(), value);
+        chokePointDistanceMatrix.get(((ChokePointImpl) cpB).getIndex().intValue()).set(((ChokePointImpl) cpA).getIndex().intValue(), value);
     }
 
     private void setPath(final ChokePoint cpA, final ChokePoint cpB, final CPPath pathAB) {
-        pathsBetweenChokePoints.get(cpA.getIndex().intValue()).set(cpB.getIndex().intValue(), pathAB);
+        pathsBetweenChokePoints.get(((ChokePointImpl) cpA).getIndex().intValue()).set(((ChokePointImpl) cpB).getIndex().intValue(), pathAB);
 
         if (cpA != cpB) {
-            CPPath reversePath = pathsBetweenChokePoints.get(cpB.getIndex().intValue()).get(cpA.getIndex().intValue());
+            CPPath reversePath = pathsBetweenChokePoints.get(((ChokePointImpl) cpB).getIndex().intValue()).get(((ChokePointImpl) cpA).getIndex().intValue());
             reversePath.clear();
             for (int i = pathAB.size() - 1; i >= 0; --i) {
                 final ChokePoint cp = pathAB.get(i);
