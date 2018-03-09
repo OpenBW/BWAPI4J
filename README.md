@@ -13,7 +13,7 @@ The project consists of three parts:
 
 This is a development version, and breaking changes can occur at any time.
 
-### build & install
+## build & install
 
 Clone the [BWAPI4J repository](https://github.com/OpenBW/BWAPI4J):
 
@@ -23,7 +23,7 @@ Clone the [OpenBW BWAPI repository](https://github.com/OpenBW/bwapi):
 
 `git clone https://github.com/OpenBW/bwapi.git`
 
-#### "BWAPI4J" Java project
+### "BWAPI4J" Java project
 
 Prerequisites:
 
@@ -61,7 +61,23 @@ Run the smoke test:
 
 The smoke test starts a game and sends the first SCV to the first mineral patch it finds.
 
-#### "OpenBWAPI4JBridge" C++ project
+#### Build your own JAR and add it to existing maven project
+
+[Install gradle](https://gradle.org/install/) if you didn't already.
+
+    git clone https://github.com/OpenBW/BWAPI4J.git
+    cd BWAPI4J/BWAPI4J
+    ./gradlew jar sourcesJar javadocJar
+    mvn install:install-file \
+        -Dfile=build/libs/BWAPI4J.jar \
+        -Djavadoc=build/libs/BWAPI4J-javadoc.jar \
+        -Dsources=build/libs/BWAPI4J-sources.jar \
+        -DgroupId=org.openbw \
+        -DartifactId=bwapi4j \
+        -Dversion=0.1-SNAPSHOT  \
+        -Dpackaging=jar
+
+### "OpenBWAPI4JBridge" C++ project
 
 Prerequisites:
 
@@ -81,7 +97,7 @@ Build Steps:
    * Click the `Build release` icon in the Eclipse menubar
    
 
-#### BWAPI4JBridge C++ project
+### BWAPI4JBridge C++ project
 
 Prerequisites:
  - Windows

@@ -189,10 +189,6 @@ public class Player {
      * Retrieves the name of the player. Returns A std::string object containing
      * the player's name. Note Don't forget to use std::string::c_str() when
      * passing this parameter to Game::sendText and other variadic functions.
-     * Example usage: BWAPI::Player myEnemy = BWAPI::Broodwar->enemy(); if (
-     * myEnemy != nullptr ) // Make sure there is an enemy!
-     * BWAPI::Broodwar->sendText("Prepare to be crushed, %s!",
-     * myEnemy->getName().c_str());
      */
     public String getName() {
         return this.name;
@@ -203,10 +199,7 @@ public class Player {
      * against different races, or generalize some commands for yourself. Return
      * values Races::Unknown If the player chose Races::Random when the game
      * started and they have not been seen. Returns The Race that the player is
-     * using. Example usage: if ( BWAPI::Broodwar->enemy() ) { BWAPI::Race
-     * enemyRace = BWAPI::Broodwar->enemy()->getRace(); if ( enemyRace ==
-     * Races::Zerg ) BWAPI::Broodwar->sendText("Do you really think you can beat
-     * me with a zergling rush?"); }
+     * using.
      */
     public Race getRace() {
         return this.race;
@@ -216,10 +209,7 @@ public class Player {
      * Retrieves the player's controller type. This allows you to distinguish
      * betweeen computer and human players. Returns The PlayerType that
      * identifies who is controlling a player. Note Other players using BWAPI
-     * will be treated as a human player and return PlayerTypes::Player. if (
-     * BWAPI::Broodwar->enemy() ) { if ( BWAPI::Broodwar->enemy()->getType() ==
-     * PlayerTypes::Computer ) BWAPI::Broodwar << "Looks like something I can
-     * abuse!" << std::endl; }
+     * will be treated as a human player and return PlayerTypes::Player.
      */
     public PlayerType getType() {
         return this.playerType;
@@ -415,10 +405,7 @@ public class Player {
      * It will instead give you 16 Protoss supply and 16 Zerg supply. Parameters
      * race (optional) The race to query the total supply for. If this is
      * omitted, then the player's current race will be used. Returns The total
-     * supply available for this player and the given race. Example usage: if (
-     * BWAPI::Broodwar->self()->supplyUsed() + 8 >=
-     * BWAPI::Broodwar->self()->supplyTotal() ) { // Construct pylons, supply
-     * depots, or overlords } See also supplyUsed
+     * supply available for this player and the given race. See also supplyUsed
      */
     public int supplyTotal() {
         return this.supplyTotal;
@@ -483,15 +470,7 @@ public class Player {
      * return the number of visible completed units. Parameters unit (optional)
      * The unit type to query. UnitType macros are accepted. If this parameter
      * is omitted, then it will use UnitTypes::AllUnits by default. Returns The
-     * number of completed units of the given type that the player owns. Example
-     * usage: bool obtainNextUpgrade(BWAPI::UpgradeType upgType) { BWAPI::Player
-     * self = BWAPI::Broodwar->self(); int maxLvl =
-     * self->getMaxUpgradeLevel(upgType); int currentLvl =
-     * self->getUpgradeLevel(upgType); if ( !self->isUpgrading(upgType) &&
-     * currentLvl < maxLvl &&
-     * self->completedUnitCount(upgType.whatsRequired(currentLvl+1)) > 0 &&
-     * self->completedUnitCount(upgType.whatUpgrades()) > 0 ) return
-     * self->getUnits().upgrade(upgType); return false; } See also allUnitCount,
+     * number of completed units of the given type that the player owns. See also allUnitCount,
      * visibleUnitCount, incompleteUnitCount
      */
     public int completedUnitCount() {
@@ -554,14 +533,7 @@ public class Player {
      * Retrieves the current upgrade level that the player has attained for a
      * given upgrade type. Parameters upgrade The UpgradeType to query. Returns
      * The number of levels that the upgrade has been upgraded for this player.
-     * Example usage: bool obtainNextUpgrade(BWAPI::UpgradeType upgType) {
-     * BWAPI::Player self = BWAPI::Broodwar->self(); int maxLvl =
-     * self->getMaxUpgradeLevel(upgType); int currentLvl =
-     * self->getUpgradeLevel(upgType); if ( !self->isUpgrading(upgType) &&
-     * currentLvl < maxLvl &&
-     * self->completedUnitCount(upgType.whatsRequired(currentLvl+1)) > 0 &&
-     * self->completedUnitCount(upgType.whatUpgrades()) > 0 ) return
-     * self->getUnits().upgrade(upgType); return false; } See also
+     * See also
      * UnitInterface::upgrade, getMaxUpgradeLevel
      */
     public int getUpgradeLevel(UpgradeType upgrade) {
@@ -594,14 +566,7 @@ public class Player {
     /**
      * Checks if the player is upgrading a given upgrade type. Parameters
      * upgrade The upgrade type to query. Returns true if the player is
-     * currently upgrading the given upgrade, false otherwise Example usage:
-     * bool obtainNextUpgrade(BWAPI::UpgradeType upgType) { BWAPI::Player self =
-     * BWAPI::Broodwar->self(); int maxLvl = self->getMaxUpgradeLevel(upgType);
-     * int currentLvl = self->getUpgradeLevel(upgType); if (
-     * !self->isUpgrading(upgType) && currentLvl < maxLvl &&
-     * self->completedUnitCount(upgType.whatsRequired(currentLvl+1)) > 0 &&
-     * self->completedUnitCount(upgType.whatUpgrades()) > 0 ) return
-     * self->getUnits().upgrade(upgType); return false; } See also
+     * currently upgrading the given upgrade, false otherwise  See also
      * UnitInterface::upgrade
      */
     public boolean isUpgrading(UpgradeType upgrade) {
@@ -857,14 +822,6 @@ public class Player {
     // * games. Parameters upgrade The UpgradeType to retrieve the maximum
     // upgrade
     // * level for. Returns Maximum upgrade level of the given upgrade type.
-    // * Example usage: bool obtainNextUpgrade(BWAPI::UpgradeType upgType) {
-    // * BWAPI::Player self = BWAPI::Broodwar->self(); int maxLvl =
-    // * self->getMaxUpgradeLevel(upgType); int currentLvl =
-    // * self->getUpgradeLevel(upgType); if ( !self->isUpgrading(upgType) &&
-    // * currentLvl < maxLvl &&
-    // * self->completedUnitCount(upgType.whatsRequired(currentLvl+1)) > 0 &&
-    // * self->completedUnitCount(upgType.whatUpgrades()) > 0 ) return
-    // * self->getUnits().upgrade(upgType); return false; }
     // */
     // public int getMaxUpgradeLevel(UpgradeType upgrade) {
     // return getMaxUpgradeLevel_native(pointer, upgrade);
