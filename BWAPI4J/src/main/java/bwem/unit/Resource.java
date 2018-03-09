@@ -13,12 +13,12 @@ public abstract class Resource extends NeutralImpl {
     }
 
     /**
-     * Returns the initial amount of resources for this Resource (same as unit()->getInitialResources).
+     * Returns the initial amount of resources for this Resource (same as unit()-&gt;getInitialResources).
      */
     public abstract int getInitialAmount();
 
     /**
-     * Returns the current amount of resources for this Resource (same as unit()->getResources).
+     * Returns the current amount of resources for this Resource (same as unit()-&gt;getResources).
      */
     public abstract int getAmount();
 
