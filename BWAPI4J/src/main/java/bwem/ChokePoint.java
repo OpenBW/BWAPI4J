@@ -7,8 +7,8 @@ import bwem.tile.MiniTileImpl;
 import bwem.typedef.CPPath;
 import bwem.typedef.Index;
 import bwem.unit.Neutral;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.MutablePair;
-import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 
 import java.util.ArrayList;
@@ -47,48 +47,49 @@ public final class ChokePoint {
     }
 
     private final Graph graph;
-    private final boolean pseudo;
+    private final boolean isPseudo;
     private final Index index;
-    private final MutablePair<Area, Area> areas;
-    private WalkPosition[] nodes;
-    private List<MutablePair<WalkPosition, WalkPosition>> nodesInArea;
+    private final ImmutablePair<Area, Area> areas;
+    private final WalkPosition[] nodes;
+    private final List<MutablePair<WalkPosition, WalkPosition>> nodesInArea;
     private final List<WalkPosition> geometry;
-    private boolean blocked;
+    private boolean isBlocked;
     private Neutral blockingNeutral;
     private ChokePoint pathBackTrace = null;
 
     public ChokePoint(
             final Graph graph,
-            final Index idx,
-            final Area area1, Area area2,
+            final Index index,
+            final Area area1,
+            final Area area2,
             final List<WalkPosition> geometry,
-            final Neutral blockingNeutral
-    ) {
-        this.graph = graph;
-        index = idx;
-        areas = new MutablePair<>(area1, area2);
-        this.geometry = geometry;
-        this.blockingNeutral = blockingNeutral;
-        blocked = blockingNeutral != null;
-        pseudo = blockingNeutral != null;
+            final Neutral blockingNeutral) {
 
 //        bwem_assert(!geometry.empty());
         if (geometry.isEmpty()) {
             throw new IllegalArgumentException();
         }
 
+        this.graph = graph;
+        this.index = index;
+        this.areas = new ImmutablePair<>(area1, area2);
+        this.geometry = geometry;
+
         // Ensures that in the case where several neutrals are stacked, blockingNeutral points to the bottom one:
-        if (this.blockingNeutral != null) {
-            this.blockingNeutral = getMap().getData().getTile(this.blockingNeutral.getTopLeft()).getNeutral();
-        }
+        this.blockingNeutral = blockingNeutral != null
+                ? getMap().getData().getTile(blockingNeutral.getTopLeft()).getNeutral()
+                : blockingNeutral;
 
-        nodes = new WalkPosition[ChokePoint.Node.NODE_COUNT.ordinal()];
-        nodes[ChokePoint.Node.END1.ordinal()] = geometry.get(0);
-        nodes[ChokePoint.Node.END2.ordinal()] = geometry.get(geometry.size() - 1);
+        this.isBlocked = blockingNeutral != null;
+        this.isPseudo = this.isBlocked;
 
-        nodesInArea = new ArrayList<>(ChokePoint.Node.NODE_COUNT.ordinal());
-        for (int i = 0; i < ChokePoint.Node.NODE_COUNT.ordinal(); ++i) {
-            nodesInArea.add(new MutablePair<>(new WalkPosition(0, 0), new WalkPosition(0, 0)));
+        this.nodes = new WalkPosition[Node.NODE_COUNT.ordinal()];
+        this.nodes[Node.END1.ordinal()] = geometry.get(0);
+        this.nodes[Node.END2.ordinal()] = geometry.get(geometry.size() - 1);
+
+        this.nodesInArea = new ArrayList<>(Node.NODE_COUNT.ordinal());
+        for (int i = 0; i < Node.NODE_COUNT.ordinal(); ++i) {
+            this.nodesInArea.add(new MutablePair<>(new WalkPosition(0, 0), new WalkPosition(0, 0)));
         }
 
         int i = geometry.size() / 2;
@@ -102,41 +103,36 @@ public final class ChokePoint {
                     > getMap().getData().getMiniTile(geometry.get(i)).getAltitude().intValue())) {
             ++i;
         }
-        nodes[ChokePoint.Node.MIDDLE.ordinal()] = geometry.get(i);
+        this.nodes[Node.MIDDLE.ordinal()] = geometry.get(i);
 
-        for (int n = 0; n < ChokePoint.Node.NODE_COUNT.ordinal(); ++n) {
-            final List<Area> tmpAreaList = new ArrayList<>();
-            tmpAreaList.add(area1);
-            tmpAreaList.add(area2);
-            for (final Area pArea : tmpAreaList) {
-                // findCond
-                // visitCond
+        for (int n = 0; n < Node.NODE_COUNT.ordinal(); ++n) {
+            for (final Area area : new Area[]{area1, area2}) {
                 final WalkPosition nodeInArea = getGraph().getMap().breadthFirstSearch(
-                    nodes[n],
+                    this.nodes[n],
+                        // findCond
                         args -> {
-                            Object ttile = args[0];
-                            Object tpos = args[1];
-                            Object tmap = args[args.length - 1];
+                            final Object ttile = args[0];
+                            final Object tpos = args[1];
+                            final Object tmap = args[args.length - 1];
                             if (ttile instanceof MiniTile && tpos instanceof WalkPosition && tmap instanceof Map) {
-                                MiniTile miniTile = (MiniTile) ttile;
-                                WalkPosition w = (WalkPosition) tpos;
-                                TilePosition t = (w.toPosition()).toTilePosition();
-                                Map map = (Map) tmap;
-                                return (miniTile.getAreaId().equals(pArea.getId()) && map.getData().getTile(t, CheckMode.NO_CHECK).getNeutral() == null);
+                                final MiniTile miniTile = (MiniTile) ttile;
+                                final WalkPosition w = (WalkPosition) tpos;
+                                final Map map = (Map) tmap;
+                                return (miniTile.getAreaId().equals(area.getId()) && map.getData().getTile(w.toTilePosition(), CheckMode.NO_CHECK).getNeutral() == null);
                             } else {
                                 throw new IllegalArgumentException();
                             }
                         },
+                        // visitCond
                         args -> {
-                            Object ttile = args[0];
-                            Object tpos = args[1];
-                            Object tmap = args[args.length - 1];
+                            final Object ttile = args[0];
+                            final Object tpos = args[1];
+                            final Object tmap = args[args.length - 1];
                             if (ttile instanceof MiniTile && tpos instanceof WalkPosition) {
-                                MiniTile miniTile = (MiniTile) ttile;
-                                WalkPosition w = (WalkPosition) tpos;
-                                TilePosition t = (w.toPosition()).toTilePosition();
-                                Map map = (Map) tmap;
-                                return (miniTile.getAreaId().equals(pArea.getId()) || (isBlocked() && (((MiniTileImpl) miniTile).isBlocked() || map.getData().getTile(t, CheckMode.NO_CHECK).getNeutral() != null)));
+                                final MiniTile miniTile = (MiniTile) ttile;
+                                final WalkPosition w = (WalkPosition) tpos;
+                                final Map map = (Map) tmap;
+                                return (miniTile.getAreaId().equals(area.getId()) || (isBlocked() && (((MiniTileImpl) miniTile).isBlocked() || map.getData().getTile(w.toTilePosition(), CheckMode.NO_CHECK).getNeutral() != null)));
                             } else {
                                 throw new IllegalArgumentException("Invalid argument list.");
                             }
@@ -149,122 +145,149 @@ public final class ChokePoint {
                  */
                 final WalkPosition left = nodesInArea.get(n).getLeft();
                 final WalkPosition right = nodesInArea.get(n).getRight();
-                final MutablePair<WalkPosition, WalkPosition> replacementPair
-                        = new MutablePair<>(new WalkPosition(left.getX(), left.getY()), new WalkPosition(right.getX(), right.getY()));
-                if (pArea.equals(areas.getLeft())) {
+                final MutablePair<WalkPosition, WalkPosition> replacementPair = new MutablePair<>(left, right);
+                if (area.equals(this.areas.getLeft())) {
                     replacementPair.setLeft(nodeInArea);
                 } else {
                     replacementPair.setRight(nodeInArea);
                 }
-                nodesInArea.set(n, replacementPair);
+                this.nodesInArea.set(n, replacementPair);
             }
         }
     }
 
-    public ChokePoint(Graph graph, Index idx, Area area1, Area area2, List<WalkPosition> geometry) {
-        this(graph, idx, area1, area2, geometry, null);
+    public ChokePoint(final Graph graph, final Index index, final Area area1, final Area area2, final List<WalkPosition> geometry) {
+        this(graph, index, area1, area2, geometry, null);
     }
 
-	// Tells whether this ChokePoint is a pseudo ChokePoint, i.e., it was created on top of a blocking Neutral.
+    /**
+     * Tells whether this ChokePoint is a pseudo ChokePoint, i.e., it was created on top of a blocking Neutral.
+     */
 	public boolean isPseudo() {
-        return pseudo;
+        return this.isPseudo;
     }
 
-	// Returns the two areas of this ChokePoint.
-	public MutablePair<Area, Area> getAreas() {
-        return areas;
+    /**
+     * Returns the two areas of this ChokePoint.
+     */
+	public ImmutablePair<Area, Area> getAreas() {
+        return this.areas;
     }
 
-	// Returns the center of this ChokePoint.
+    /**
+     * Returns the center of this ChokePoint.
+     */
 	public WalkPosition getCenter() {
-        return positionOfNode(Node.MIDDLE);
+        return getNodePosition(Node.MIDDLE);
     }
 
-	// Returns the position of one of the 3 nodes of this ChokePoint (Cf. node definition).
-	// Note: the returned value is contained in geometry()
-    public WalkPosition positionOfNode(Node n) {
+    /**
+     * Returns the position of one of the 3 nodes of this ChokePoint (Cf. node definition).<br/>
+     * - Note: the returned value is contained in geometry()
+     */
+    public WalkPosition getNodePosition(final Node node) {
 //        bwem_assert(n < NODE_COUNT);
-        if (!(n.ordinal() < Node.NODE_COUNT.ordinal())) {
+        if (!(node.ordinal() < Node.NODE_COUNT.ordinal())) {
             throw new IllegalArgumentException();
         }
-        return nodes[n.ordinal()];
+        return this.nodes[node.ordinal()];
     }
 
-	// Pretty much the same as pos(n), except that the returned MiniTile position is guaranteed to be part of pArea.
-	// That is: Map::getArea(positionOfNodeInArea(n, pArea)) == pArea.
-    public WalkPosition positionOfNodeInArea(Node n, Area pArea) {
+    /**
+     * Pretty much the same as pos(n), except that the returned MiniTile position is guaranteed to be part of pArea.
+     * That is: Map::getArea(positionOfNodeInArea(n, pArea)) == pArea.
+     */
+    public WalkPosition getNodePositionInArea(final Node node, final Area area) {
 //        bwem_assert((pArea == areas.getLeft()) || (pArea == areas.getRight()));
-        if (!(pArea.equals(areas.getLeft()) || pArea.equals(areas.getRight()))) {
+        if (!(area.equals(this.areas.getLeft()) || area.equals(this.areas.getRight()))) {
             throw new IllegalArgumentException();
         }
-        return pArea.equals(areas.getLeft())
-                ? nodesInArea.get(n.ordinal()).getLeft()
-                : nodesInArea.get(n.ordinal()).getRight();
+        return area.equals(areas.getLeft())
+                ? this.nodesInArea.get(node.ordinal()).getLeft()
+                : this.nodesInArea.get(node.ordinal()).getRight();
     }
 
-	// Returns the set of positions that defines the shape of this ChokePoint.
-	// Note: none of these miniTiles actually belongs to this ChokePoint (a ChokePoint doesn't contain any MiniTile).
-	//       They are however guaranteed to be part of one of the 2 areas.
-	// Note: the returned set contains pos(middle), pos(END_1) and pos(END_2).
-	// If isPseudo(), returns {p} where p is the position of a walkable MiniTile near from blockingNeutral()->pos().
+
+    /**
+     * Returns the set of positions that defines the shape of this ChokePoint.<br/>
+     * - Note: none of these miniTiles actually belongs to this ChokePoint (a ChokePoint doesn't contain any MiniTile).
+     * They are however guaranteed to be part of one of the 2 areas.<br/>
+     * - Note: the returned set contains pos(middle), pos(END_1) and pos(END_2).
+     * If isPseudo(), returns {p} where p is the position of a walkable MiniTile near from blockingNeutral()->pos().
+     */
 	public List<WalkPosition> getGeometry() {
-        return geometry;
+        return this.geometry;
     }
 
-	// If !isPseudo(), returns false.
-	// Otherwise, returns whether this ChokePoint is considered blocked.
-	// Normally, a pseudo ChokePoint either remains blocked, or switches to not blocked when blockingNeutral()
-	// is destroyed and there is no remaining Neutral stacked with it.
-	// However, in the case where Map::automaticPathUpdate() == false, blocked() will always return true
-	// whatever blockingNeutral() returns.
-	// Cf. Area::AccessibleNeighbors().
+
+    /**
+     * If !isPseudo(), returns false.
+     * Otherwise, returns whether this ChokePoint is considered blocked.
+     * Normally, a pseudo ChokePoint either remains blocked, or switches to not isBlocked when blockingNeutral()
+     * is destroyed and there is no remaining Neutral stacked with it.
+     * However, in the case where Map::automaticPathUpdate() == false, blocked() will always return true
+     * whatever blockingNeutral() returns.
+     * Cf. Area::AccessibleNeighbors().
+     */
 	public boolean isBlocked() {
-        return blocked;
+        return this.isBlocked;
     }
 
-	// If !isPseudo(), returns nullptr.
-	// Otherwise, returns a pointer to the blocking Neutral on top of which this pseudo ChokePoint was created,
-	// unless this blocking Neutral has been destroyed.
-	// In this case, returns a pointer to the next blocking Neutral that was stacked at the same location,
-	// or nullptr if no such Neutral exists.
+    /**
+     * If !isPseudo(), returns nullptr.
+     * Otherwise, returns a pointer to the blocking Neutral on top of which this pseudo ChokePoint was created,
+     * unless this blocking Neutral has been destroyed.
+     * In this case, returns a pointer to the next blocking Neutral that was stacked at the same location,
+     * or nullptr if no such Neutral exists.
+     */
 	public Neutral getBlockingNeutral() {
-        return blockingNeutral;
+        return this.blockingNeutral;
     }
 
-	// If accessibleFrom(cp) == false, returns -1.
-	// Otherwise, returns the ground distance in pixels between center() and cp->center().
-	// Note: if this == cp, returns 0.
-	// Time complexity: O(1)
-	// Note: Corresponds to the length in pixels of getPathTo(cp). So it suffers from the same lack of accuracy.
-	//       In particular, the value returned tends to be slightly higher than expected when getPathTo(cp).size() is high.
-	public int distanceFrom(ChokePoint cp) {
-        return getGraph().distance(this, cp);
+
+
+    /**
+     * If accessibleFrom(cp) == false, returns -1.
+     * Otherwise, returns the ground distance in pixels between center() and cp->center().
+     * - Note: if this == cp, returns 0.<br/>
+     * - Time complexity: O(1)<br/>
+     * - Note: Corresponds to the length in pixels of getPathTo(cp). So it suffers from the same lack of accuracy.
+     * In particular, the value returned tends to be slightly higher than expected when getPathTo(cp).size() is high.
+     */
+	public int distanceFrom(final ChokePoint chokePoint) {
+        return getGraph().distance(this, chokePoint);
     }
 
-	// Returns whether this ChokePoint is accessible from cp (through a walkable path).
-	// Note: the relation is symmetric: this->accessibleFrom(cp) == cp->accessibleFrom(this)
-	// Note: if this == cp, returns true.
-	// Time complexity: O(1)
-	public boolean accessibleFrom(ChokePoint cp) {
-        return (distanceFrom(cp) >= 0);
+    /**
+     * Returns whether this ChokePoint is accessible from cp (through a walkable path).<br/>
+     * - Note: the relation is symmetric: this->accessibleFrom(cp) == cp->accessibleFrom(this)<br/>
+     * - Note: if this == cp, returns true.<br/>
+     * - Time complexity: O(1)<br/>
+     */
+	public boolean accessibleFrom(final ChokePoint chokePoint) {
+        return (distanceFrom(chokePoint) >= 0);
     }
 
-	// Returns a list of getChokePoints, which is intended to be the shortest walking path from this ChokePoint to cp.
-	// The path always starts with this ChokePoint and ends with cp, unless accessibleFrom(cp) == false.
-	// In this case, an empty list is returned.
-	// Note: if this == cp, returns [cp].
-	// Time complexity: O(1)
-	// To get the length of the path returned in pixels, use distanceFrom(cp).
-	// Note: all the possible Paths are precomputed during Map::initialize().
-	//       The best one is then stored for each pair of getChokePoints.
-	//       However, only the center of the getChokePoints is considered.
-	//       As a consequence, the returned path may not be the shortest one.
+
+
+    /**
+     * Returns a list of getChokePoints, which is intended to be the shortest walking path from this ChokePoint to cp.
+     * The path always starts with this ChokePoint and ends with cp, unless accessibleFrom(cp) == false.
+     * In this case, an empty list is returned.<br/>
+     * - Note: if this == cp, returns [cp].<br/>
+     * Time complexity: O(1)<br/>
+     * To get the length of the path returned in pixels, use distanceFrom(cp).<br/>
+     * - Note: all the possible Paths are precomputed during Map::initialize().<br/>
+     * The best one is then stored for each pair of getChokePoints.
+     * However, only the center of the getChokePoints is considered.
+     * As a consequence, the returned path may not be the shortest one.
+     */
     public CPPath getPathTo(ChokePoint cp) {
         return getGraph().getPath(this, cp);
     }
 
-    public Map getMap() {
-        return graph.getMap();
+    private Map getMap() {
+        return this.graph.getMap();
     }
 
     // Assumes pBlocking->removeFromTiles() has been called
@@ -274,32 +297,32 @@ public final class ChokePoint {
             throw new IllegalStateException();
         }
 
-        if (blockingNeutral.equals(pBlocking)) {
+        if (this.blockingNeutral.equals(pBlocking)) {
             // Ensures that in the case where several neutrals are stacked, blockingNeutral points to the bottom one:
-            blockingNeutral = getMap().getData().getTile(blockingNeutral.getTopLeft()).getNeutral();
+            this.blockingNeutral = getMap().getData().getTile(this.blockingNeutral.getTopLeft()).getNeutral();
 
-            if (blockingNeutral == null) {
+            if (this.blockingNeutral == null) {
                 if (getGraph().getMap().automaticPathUpdate()) {
-                    blocked = false;
+                    this.isBlocked = false;
                 }
             }
         }
     }
 
 	public Index getIndex() {
-        return index;
+        return this.index;
     }
 
     public ChokePoint getPathBackTrace() {
-        return pathBackTrace;
+        return this.pathBackTrace;
     }
 
-	public void setPathBackTrace(ChokePoint p) {
-        pathBackTrace = p;
+	public void setPathBackTrace(final ChokePoint pathBackTrace) {
+        this.pathBackTrace = pathBackTrace;
     }
 
     private Graph getGraph() {
-        return graph;
+        return this.graph;
     }
 
     @Override

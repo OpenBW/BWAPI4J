@@ -152,7 +152,7 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
         }
 
         final TilePosition start = getMap().breadthFirstSearch(
-                startCP.positionOfNodeInArea(ChokePoint.Node.MIDDLE, this).toTilePosition(),
+                startCP.getNodePositionInArea(ChokePoint.Node.MIDDLE, this).toTilePosition(),
                 // findCond
                 args -> {
                     final Object ttile = args[0];
@@ -170,7 +170,7 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
         final List<TilePosition> targets = new ArrayList<>();
         for (final ChokePoint cp : targetCPs) {
             final TilePosition t = getMap().breadthFirstSearch(
-                    cp.positionOfNodeInArea(ChokePoint.Node.MIDDLE, this).toTilePosition(),
+                    cp.getNodePositionInArea(ChokePoint.Node.MIDDLE, this).toTilePosition(),
                     // findCond
                     args -> {
                         final Object ttile = args[0];
