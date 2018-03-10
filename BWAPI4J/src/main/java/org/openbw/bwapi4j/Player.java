@@ -796,7 +796,7 @@ public class Player {
     public boolean canMake(UnitType type) {
         return minerals >= type.mineralPrice()
                 && gas >= type.gasPrice()
-                && supplyUsed + type.supplyRequired() <= supplyTotal
+                && (type.supplyRequired() == 0 || supplyUsed + type.supplyRequired() <= supplyTotal)
                 && hasResearched(type.requiredTech())
                 && PlayerUnit.getMissingUnits(bw.getUnits(this), type.requiredUnits()).isEmpty();
     }
