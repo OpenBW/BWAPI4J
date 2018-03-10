@@ -42,14 +42,57 @@ public class BattleCruiser extends MobileUnit implements Mechanical, SpellCaster
         return this.energy;
     }
 
+    @Override
+    public int getMaxEnergy() {
+
+        return super.getMaxEnergy();
+    }
 
     @Override
     public Weapon getGroundWeapon() {
+
         return groundWeapon;
     }
 
     @Override
     public Weapon getAirWeapon() {
+
         return airWeapon;
+    }
+
+    @Override
+    public int getGroundWeaponMaxRange() {
+
+        return super.getGroundWeaponMaxRange();
+    }
+
+    @Override
+    public int getGroundWeaponCooldown() {
+
+        return super.getGroundWeaponCooldown();
+    }
+
+    @Override
+    public int getGroundWeaponDamage() {
+
+        return super.getGroundWeaponDamage();
+    }
+
+    @Override
+    public int getAirWeaponMaxRange() {
+
+        return super.getAirWeaponMaxRange();
+    }
+
+    @Override
+    public int getAirWeaponCooldown() {
+
+        return super.getAirWeaponCooldown();
+    }
+
+    @Override
+    public int getAirWeaponDamage() {
+
+        return super.getAirWeaponDamage();
     }
 }

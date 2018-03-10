@@ -53,4 +53,10 @@ public class Medic extends MobileUnit implements SpellCaster, Organic {
         
         return this.energy;
     }
+
+    @Override
+    public int getMaxEnergy() {
+
+        return super.getMaxEnergy();
+    }
 }

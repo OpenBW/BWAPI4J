@@ -37,7 +37,13 @@ public class DarkArchon extends MobileUnit implements Organic, SpellCaster {
         
         return this.energy;
     }
-    
+
+    @Override
+    public int getMaxEnergy() {
+
+        return super.getMaxEnergy();
+    }
+
     public boolean feedback(MobileUnit unit) {
         
         if (this.energy < TechType.Feedback.energyCost()) {

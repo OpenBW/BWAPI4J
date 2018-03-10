@@ -197,7 +197,7 @@ public abstract class PlayerUnit extends Unit {
         return getUnitStatCalculator().maxEnergy(type);
     }
 
-    protected int getArmor() {
+    public int getArmor() {
 
         return getUnitStatCalculator().armor(type);
     }
@@ -247,7 +247,7 @@ public abstract class PlayerUnit extends Unit {
         return this.lastKnownTilePosition;
     }
 
-    protected int getSightRange() {
+    public int getSightRange() {
         
         return getUnitStatCalculator().sightRange(type);
     }
@@ -286,7 +286,7 @@ public abstract class PlayerUnit extends Unit {
         return this.type.tileHeight();
     }
 
-    protected double topSpeed() {
+    protected double getTopSpeed() {
         
         return getUnitStatCalculator().topSpeed(type);
     }

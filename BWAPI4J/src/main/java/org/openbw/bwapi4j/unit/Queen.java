@@ -40,7 +40,13 @@ public class Queen extends MobileUnit implements Organic, SpellCaster {
         
         return this.energy;
     }
-    
+
+    @Override
+    public int getMaxEnergy() {
+
+        return super.getMaxEnergy();
+    }
+
     /**
      * Infests a given Command Center.
      * @param commandCenter Command Center to be infested

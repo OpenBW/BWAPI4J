@@ -36,7 +36,13 @@ public class Corsair extends MobileUnit implements Mechanical, SpellCaster, Arme
         
         return this.energy;
     }
-    
+
+    @Override
+    public int getMaxEnergy() {
+
+        return super.getMaxEnergy();
+    }
+
     public boolean disruptionWeb(Position position) {
         
         if (this.energy < TechType.Disruption_Web.energyCost()) {
@@ -57,5 +63,41 @@ public class Corsair extends MobileUnit implements Mechanical, SpellCaster, Arme
     @Override
     public Weapon getAirWeapon() {
         return airWeapon;
+    }
+
+    @Override
+    public int getGroundWeaponMaxRange() {
+
+        return super.getGroundWeaponMaxRange();
+    }
+
+    @Override
+    public int getGroundWeaponCooldown() {
+
+        return super.getGroundWeaponCooldown();
+    }
+
+    @Override
+    public int getGroundWeaponDamage() {
+
+        return super.getGroundWeaponDamage();
+    }
+
+    @Override
+    public int getAirWeaponMaxRange() {
+
+        return super.getAirWeaponMaxRange();
+    }
+
+    @Override
+    public int getAirWeaponCooldown() {
+
+        return super.getAirWeaponCooldown();
+    }
+
+    @Override
+    public int getAirWeaponDamage() {
+
+        return super.getAirWeaponDamage();
     }
 }

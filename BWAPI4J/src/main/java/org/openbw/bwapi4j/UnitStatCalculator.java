@@ -127,5 +127,4 @@ public class UnitStatCalculator {
         dmg *= weaponType.damageFactor();
         return dmg;
     }
-
 }

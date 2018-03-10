@@ -36,7 +36,13 @@ public class HighTemplar extends MobileUnit implements Organic, SpellCaster {
         
         return this.energy;
     }
-    
+
+    @Override
+    public int getMaxEnergy() {
+
+        return super.getMaxEnergy();
+    }
+
     public boolean archonWarp() {
         
         // TODO how does this spell work? does the other templars ID have to be passed as well?
