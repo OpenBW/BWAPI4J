@@ -177,12 +177,15 @@ public abstract class Unit implements Comparable<Unit> {
     private BW bw;
     private int lastSpotted;
 
+    private final UnitStatCalculator unitStatCalculator;
+
     protected Unit(int id, UnitType unitType) {
 
         this.id = id;
         this.type = unitType;
         this.initialType = unitType;
         this.lastSpotted = 0;
+        this.unitStatCalculator = this.bw.getPlayer(id).getUnitStatCalculator();
     }
 
     final void setBW(BW bw) {
@@ -248,6 +251,11 @@ public abstract class Unit implements Comparable<Unit> {
     protected DamageEvaluator getDamageEvaluator() {
 
         return bw.getDamageEvaluator();
+    }
+
+    protected UnitStatCalculator getUnitStatCalculator() {
+
+        return this.unitStatCalculator;
     }
 
     protected Player getPlayer(int id) {
