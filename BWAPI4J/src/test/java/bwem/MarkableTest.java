@@ -9,7 +9,7 @@ import java.util.List;
 public class MarkableTest {
 
     @Test
-    public void testMarkable() {
+    public void Test_setMarked_with_isMarked() {
         MarkableClassA.getStaticMarkable().unmarkAll();
         final List<MarkableClassA> a = new ArrayList<>();
         a.add(new MarkableClassA(0));

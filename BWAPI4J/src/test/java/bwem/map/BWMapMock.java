@@ -57,7 +57,7 @@ public class BWMapMock implements BWMap {
 		this.buildable = new int[this.width][this.height];
 		for (int y = 0; y < this.height; ++y) {
 			for (int x = 0; x < this.width; ++x) {
-				this.buildable[x][y] = data.getBuildableInfo()[this.width * y + x];
+				this.buildable[x][y] = this.data.getBuildableInfo()[this.width * y + x];
 			}
 		}
 
@@ -94,17 +94,20 @@ public class BWMapMock implements BWMap {
 
 	@Override
 	public boolean isValidPosition(TilePosition tilePosition) {
-		throw new UnsupportedOperationException("TODO");
+		return tilePosition.getX() >= 0 && tilePosition.getX() < mapWidth()
+                && tilePosition.getY() >= 0 && tilePosition.getY() < mapHeight();
 	}
 
 	@Override
 	public boolean isValidPosition(WalkPosition walkPosition) {
-		return walkPosition.getX() >= 0 && walkPosition.getY() >= 0 && walkPosition.getX() < mapWidth() * 4 && walkPosition.getY() < mapHeight() * 4;
+		return walkPosition.getX() >= 0 && walkPosition.getX() < mapWidth() * 4
+                && walkPosition.getY() >= 0 && walkPosition.getY() < mapHeight() * 4;
 	}
 
 	@Override
 	public boolean isValidPosition(Position position) {
-		throw new UnsupportedOperationException("TODO");
+		return position.getX() >= 0 && position.getX() < mapWidth() * 32
+                && position.getY() >= 0 && position.getY() < mapHeight() * 32;
 	}
 
 	@Override
@@ -128,7 +131,7 @@ public class BWMapMock implements BWMap {
 	}
 
 	public String mapName() {
-		throw new UnsupportedOperationException("TODO");
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -137,39 +140,38 @@ public class BWMapMock implements BWMap {
 	}
 
 	@Override
-	public boolean isBuildable(TilePosition position, boolean considerBuildings) {
-		return isBuildable(position.getX(), position.getY(), considerBuildings);
+	public boolean isBuildable(TilePosition tilePosition, boolean considerBuildings) {
+		return isBuildable(tilePosition.getX(), tilePosition.getY(), considerBuildings);
 	}
 
 	@Override
 	public boolean isExplored(int tileX, int tileY) {
-
-		return true;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public boolean isExplored(TilePosition position) {
-
-		return true;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public boolean isVisible(int tileX, int tileY) {
-		throw new UnsupportedOperationException("This mock method is disabled.");
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public boolean isVisible(TilePosition position) {
-		throw new UnsupportedOperationException("This mock method is disabled.");
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public boolean hasPath(Position source, Position destination) {
-		throw new UnsupportedOperationException("This mock method is disabled.");
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public boolean canBuildHere(TilePosition position, UnitType type) {
-		throw new UnsupportedOperationException("This mock method is disabled.");
+		throw new UnsupportedOperationException();
 	}
+
 }

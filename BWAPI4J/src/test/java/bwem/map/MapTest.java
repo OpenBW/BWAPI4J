@@ -1,11 +1,19 @@
 package bwem.map;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import bwem.ChokePoint;
+import bwem.typedef.CPPath;
+import mockdata.BWEM_CPPathSamples;
 import mockdata.BWEM_DummyData;
 import mockdata.BWEM_FightingSpirit;
+import mockdata.DummyDataUtils;
+import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
@@ -30,7 +38,7 @@ public class MapTest implements BWEventListener {
 	private static final Logger logger = LogManager.getLogger();
 
 	private BW bw;
-	private Map map;
+	private Map bwemMap;
 
 	private BWEM_DummyData bwemData = null;
 	
@@ -53,74 +61,156 @@ public class MapTest implements BWEventListener {
 
 	@Ignore
 	@Test
-    public void altitudeTest_Real() throws AssertionError {
+    public void Compare_MiniTile_Altitudes_to_Original_Samples_LIVE() throws AssertionError {
 		this.bw = new BW(this);
 		this.bw.startGame();
 
-		assertMiniTileAltitudes(this.bw.getBWMap().mapWidth() * 4, this.bw.getBWMap().mapHeight() * 4);
+		assertEquals_MiniTileAltitudes(this.bwemMap.getData(), this.bwemData, this.bw.getBWMap().mapWidth() * 4, this.bw.getBWMap().mapHeight() * 4);
 	}
 
     @Test
-    public void altitudeTest_Mock() throws AssertionError {
-    	BWMap mapMock = new BWMapMock();
-    	Collection<Player> players = new ArrayList<>();
-    	List<MineralPatch> mineralPatches = new ArrayList<>();
-    	List<VespeneGeyser> geysers = new ArrayList<>();
-    	List<Unit> units = new ArrayList<>();
-    	
-    	this.map = new MapInitializerImpl(mapMock, null, players, mineralPatches, geysers, units);
-		((MapInitializer) this.map).initialize(true);
+    public void Compare_MiniTile_Altitudes_to_Original_Samples() throws AssertionError {
+    	final BWMap bwMapMock = new BWMapMock();
 
-    	assertMiniTileAltitudes(mapMock.mapWidth() * 4, mapMock.mapHeight() * 4);
+    	this.bwemMap = new MapInitializerImpl(bwMapMock, null, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+		((MapInitializer) this.bwemMap).initialize(true);
+
+    	assertEquals_MiniTileAltitudes(this.bwemMap.getData(), this.bwemData, bwMapMock.mapWidth() * 4, bwMapMock.mapHeight() * 4);
     }
 
 	/**
 	 * Tests that each MiniTile's Altitude for all WalkPositions match between
 	 * the original BWAPI/BWEM in C++ and this Java port.
 	 */
-	private void assertMiniTileAltitudes(int walkTileWidth, int walkTileHeight) {
+	private void assertEquals_MiniTileAltitudes(AdvancedData data, BWEM_DummyData dummyBwemData, int walkTileWidth, int walkTileHeight) {
 		for (int y = 0; y < walkTileHeight; ++y) {
 			for (int x = 0; x < walkTileWidth; ++x) {
+			    final WalkPosition w = new WalkPosition(x, y);
+
+			    final int expected = dummyBwemData.miniTileAltitudes[walkTileWidth * y + x];
+			    final int actual = data.getMiniTile(w).getAltitude().intValue();
+
 				//----------------------------------------------------------------------
-				// Three mini tile altitudes that do/did not match original.
+				// Three mini tile altitudes that do/did not match the original on map Fighting Spirit.
 				//----------------------------------------------------------------------
-				if (x == 248 && y == 249) { // index = 127737
-					if (this.map.getData().getMiniTile(new WalkPosition(x, y)).getAltitude().intValue()
-							!= this.bwemData.miniTileAltitudes[walkTileWidth * y + x]) {
-						logger.warn("This mini tile's altitude does not match the original but has been marked as irrelevant or a possible false positive for now: " + x + " / " + y);
-						continue;
-					}
-				}
-//				if (x == 273 && y == 260) { continue; } // index = 133393
-//				if (x == 273 && y == 261) { continue; } // index = 133905
+                if (expected != actual) {
+                    if (x == 248 && y == 249) { // index = 127737
+                        logger.warn("The altitude of mini tile " + w.toString() + " does not match the original but has been marked as a possible false positive for now. expected=" + expected + ", actual=" + actual);
+                        continue;
+                    }
+//                    if (x == 273 && y == 260) { continue; } // index = 133393
+//                    if (x == 273 && y == 261) { continue; } // index = 133905
+                }
 				//----------------------------------------------------------------------
 
-				Assert.assertEquals(
-						x + " / " + y + " : mini tile altitude is wrong.",
-						this.bwemData.miniTileAltitudes[walkTileWidth * y + x],
-						this.map.getData().getMiniTile(new WalkPosition(x, y)).getAltitude().intValue()
-				);
+				Assert.assertEquals(w.toTilePosition() + ": mini tile altitude is wrong.", expected, actual);
 			}
 		}
 	}
 
+    @Ignore
+    @Test
+    public void Compare_ChokePoint_Centers_to_Original_Samples_LIVE() throws URISyntaxException, IOException {
+        this.bw = new BW(this);
+        this.bw.startGame();
+
+        final String filename = Paths.get("DummyBwemData", this.bw.getBWMap().mapHash().substring(0, 7) + "_ChokePoints_ORIGINAL.txt").toString();
+        final int[] chokepointCentersVals_ORIGINAL = DummyDataUtils.parseIntegerArray(filename, " ");
+        final List<WalkPosition> chokepointCenters_ORIGINAL = new ArrayList<>();
+        final int chokepointCentersCount_ORIGINAL = (chokepointCentersVals_ORIGINAL.length - 1) / 2;
+        for (int i = 1; i < chokepointCentersVals_ORIGINAL.length; i += 2) {
+            final int x = chokepointCentersVals_ORIGINAL[i];
+            final int y = chokepointCentersVals_ORIGINAL[i + 1];
+            final WalkPosition chokepoint = new WalkPosition(x, y);
+            chokepointCenters_ORIGINAL.add(chokepoint);
+        }
+
+        final List<ChokePoint> chokepoints = ((MapImpl)this.bwemMap).getGraph().getChokePoints();
+        final List<WalkPosition> chokepointCenters = new ArrayList<>();
+        for (final ChokePoint chokepoint : chokepoints) {
+            final WalkPosition center = chokepoint.getCenter();
+            chokepointCenters.add(center);
+        }
+
+        Assert.assertEquals("Chokepoint container sizes do not match. original=" + chokepointCentersCount_ORIGINAL + ", port=" + chokepointCenters.size(), chokepointCentersCount_ORIGINAL, chokepointCenters.size());
+
+        final int tolerance = 20; // If an exact position is not found, search within this radius value.
+        final List<WalkPosition> tolerantCenters = new ArrayList<>(); // Keep track of and do not use the same tolerant center more than once.
+
+        for (final WalkPosition center_ORIGINAL : chokepointCenters_ORIGINAL) {
+            boolean found = chokepointCenters.contains(center_ORIGINAL);
+            if (!found) {
+                logger.warn("Did not find original chokepoint: " + center_ORIGINAL.toString() + ". Retrying with a tolerance value of " + tolerance + ".");
+                final int boundsLowerX = center_ORIGINAL.getX() - tolerance;
+                final int boundsUpperX = center_ORIGINAL.getX() + tolerance;
+                final int boundsLowerY = center_ORIGINAL.getY() - tolerance;
+                final int boundsUpperY = center_ORIGINAL.getY() + tolerance;
+                boolean foundTolerant = false;
+                for (int y = boundsLowerY; y <= boundsUpperY; ++y) {
+                    for (int x = boundsLowerX; x <= boundsUpperX; ++x) {
+                        final WalkPosition tolerantCenter = new WalkPosition(x, y);
+                        if (chokepointCenters.contains(tolerantCenter)) {
+                            Assert.assertEquals("Found a tolerant center but it has already been used: " + tolerantCenter.toString(), false, tolerantCenters.contains(tolerantCenter));
+                            tolerantCenters.add(tolerantCenter);
+                            foundTolerant = true;
+                            logger.debug("Found tolerant center: " + tolerantCenter.toString() + ", tolerance=" + center_ORIGINAL.subtract(tolerantCenter) + ".");
+                            break;
+                        }
+                    }
+                    if (foundTolerant) {
+                        break;
+                    }
+                }
+                Assert.assertEquals("Did not find original chokepoint even with a tolerance value. list=" + chokepointCenters.toString(), true, foundTolerant);
+            }
+        }
+    }
+
+    @Ignore
+    @Test
+    public void Test_getPath_Lengths_Using_Original_Samples_LIVE() throws IOException, URISyntaxException {
+        this.bw = new BW(this);
+        this.bw.startGame();
+
+        int pathErrorsCount = 0;
+        int pathsCount = 0;
+        int differenceSum = 0;
+
+        final BWEM_CPPathSamples cppathSamples = new BWEM_CPPathSamples(this.bw.getBWMap().mapHash());
+        for (final BWEM_CPPathSamples.CPPSample sample : cppathSamples.samples) {
+            final Position sampleStartPosition = sample.startAndEnd.getLeft();
+            final Position sampleEndPosition = sample.startAndEnd.getRight();
+            final int samplePathLength = sample.pathLength;
+
+            logger.debug("Testing: startPosition=" + sampleStartPosition.toString() + ", endPosition=" + sampleEndPosition.toString() + ", pathLength=" + samplePathLength);
+
+            ++pathsCount;
+            try {
+                final MutableInt pathLength = new MutableInt();
+                final CPPath path = this.bwemMap.getPath(sampleStartPosition, sampleEndPosition, pathLength);
+
+                final int difference = pathLength.intValue() - samplePathLength;
+                if (difference != 0) {
+                    differenceSum += difference;
+                    logger.warn("Path lengths do not match: difference=" + difference);
+                }
+            } catch (final Exception e) {
+                logger.warn("Path error: startPosition=" + sampleStartPosition.toString() + ", endPosition=" + sampleEndPosition.toString() + ", pathLength=" + samplePathLength);
+                ++pathErrorsCount;
+                e.printStackTrace();
+            }
+        }
+
+        logger.info("Total # of Paths: " + pathsCount + ", # of Path errors: " + pathErrorsCount);
+        logger.info("Average difference: " + (differenceSum / (pathsCount - pathErrorsCount)));
+    }
+
 	@Override
 	public void onStart() {
-		this.map = new BWEM(this.bw).getMap();
-		((MapInitializer) this.map).initialize(true);
-		
-//    	BWMap map1 = this.bw.getBWMap();
-//    	BWMap map2 = new BWMapMock();
-//
-//    	// test the test: are the mock values correct?
-//    	for (int j = 0; j < 128; j++ ) {
-//			for (int i = 0; i < 128; i++) {
-//				int groundHeight1 = map1.getGroundHeight(i, j);
-//				int groundHeight2 = map2.getGroundHeight(i, j);
-//				Assert.assertEquals("ground height not equal between real and mock.", groundHeight1, groundHeight2);
-//	    	}
-//		}
-    	
+		final BWEM bwem = new BWEM(this.bw);
+		bwem.initialize(true);
+		this.bwemMap = bwem.getMap();
+
     	this.bw.exit();
         this.bw.getInteractionHandler().leaveGame();
 	}
