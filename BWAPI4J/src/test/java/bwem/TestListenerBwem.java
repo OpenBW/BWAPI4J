@@ -1,6 +1,8 @@
 package bwem;
 
 import bwem.example.MapPrinterExample;
+import bwem.unit.Geyser;
+import bwem.unit.Mineral;
 import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.BWEventListener;
 import org.openbw.bwapi4j.Player;
@@ -85,6 +87,16 @@ public class TestListenerBwem implements BWEventListener {
                     final Position location = base.getLocation().toPosition();
                     final Position resourceDepotSize = UnitType.Terran_Command_Center.tileSize().toPosition();
                     this.bw.getMapDrawer().drawBoxMap(location.getX(), location.getY(), location.add(resourceDepotSize).getX(), location.add(resourceDepotSize).getY(), highlightColor);
+
+                    /* Display minerals. */
+                    for (final Mineral mineral : base.getMinerals()) {
+                        this.bw.getMapDrawer().drawLineMap(mineral.getCenter(), base.getCenter(), Color.CYAN);
+                    }
+
+                    /* Display geysers. */
+                    for (final Geyser geyser : base.getGeysers()) {
+                        this.bw.getMapDrawer().drawLineMap(geyser.getCenter(), base.getCenter(), Color.GREEN);
+                    }
                 }
             }
 
