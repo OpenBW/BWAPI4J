@@ -276,11 +276,13 @@ public abstract class PlayerUnit extends Unit {
         return isInterruptible;
     }
 
+    @Override
     public int tileWidth() {
         
         return this.type.tileWidth();
     }
 
+    @Override
     public int tileHeight() {
         
         return this.type.tileHeight();
@@ -289,6 +291,16 @@ public abstract class PlayerUnit extends Unit {
     protected double getTopSpeed() {
         
         return getUnitStatCalculator().topSpeed(type);
+    }
+
+    protected int getMaxGroundHits() {
+
+        return this.type.maxGroundHits();
+    }
+
+    protected int getMaxAirHits() {
+
+        return this.type.maxAirHits();
     }
 
     public double getVelocityX() {

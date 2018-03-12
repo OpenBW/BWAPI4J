@@ -2,14 +2,13 @@ package org.openbw.bwapi4j.unit;
 
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.TechType;
-import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
 import static org.openbw.bwapi4j.type.TechType.Recall;
 import static org.openbw.bwapi4j.type.TechType.Stasis_Field;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Position;
 
-public class Arbiter extends MobileUnit implements Mechanical, SpellCaster, Armed {
+public class Arbiter extends MobileUnit implements Mechanical, SpellCaster, GroundAttacker, AirAttacker {
 
     private int energy;
 
@@ -66,11 +65,13 @@ public class Arbiter extends MobileUnit implements Mechanical, SpellCaster, Arme
 
     @Override
     public Weapon getGroundWeapon() {
+
         return groundWeapon;
     }
 
     @Override
     public Weapon getAirWeapon() {
+
         return airWeapon;
     }
 
@@ -93,6 +94,12 @@ public class Arbiter extends MobileUnit implements Mechanical, SpellCaster, Arme
     }
 
     @Override
+    public int getMaxGroundHits() {
+
+        return super.getMaxGroundHits();
+    }
+
+    @Override
     public int getAirWeaponMaxRange() {
 
         return super.getAirWeaponMaxRange();
@@ -108,5 +115,11 @@ public class Arbiter extends MobileUnit implements Mechanical, SpellCaster, Arme
     public int getAirWeaponDamage() {
 
         return super.getAirWeaponDamage();
+    }
+
+    @Override
+    public int getMaxAirHits() {
+
+        return super.getMaxAirHits();
     }
 }

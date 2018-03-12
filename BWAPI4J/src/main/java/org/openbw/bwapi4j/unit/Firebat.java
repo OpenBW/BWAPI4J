@@ -1,13 +1,11 @@
 package org.openbw.bwapi4j.unit;
 
-import org.openbw.bwapi4j.type.TechType;
-import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
 import static org.openbw.bwapi4j.type.TechType.Stim_Packs;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech;
 
-public class Firebat extends MobileUnit implements Organic, Armed {
+public class Firebat extends MobileUnit implements Organic, GroundAttacker {
 
     private boolean isStimmed;
 
@@ -40,12 +38,6 @@ public class Firebat extends MobileUnit implements Organic, Armed {
     }
 
     @Override
-    public Weapon getAirWeapon() {
-
-        return airWeapon;
-    }
-
-    @Override
     public int getGroundWeaponMaxRange() {
 
         return super.getGroundWeaponMaxRange();
@@ -64,20 +56,8 @@ public class Firebat extends MobileUnit implements Organic, Armed {
     }
 
     @Override
-    public int getAirWeaponMaxRange() {
+    public int getMaxGroundHits() {
 
-        return super.getAirWeaponMaxRange();
-    }
-
-    @Override
-    public int getAirWeaponCooldown() {
-
-        return super.getAirWeaponCooldown();
-    }
-
-    @Override
-    public int getAirWeaponDamage() {
-
-        return super.getAirWeaponDamage();
+        return super.getMaxGroundHits();
     }
 }

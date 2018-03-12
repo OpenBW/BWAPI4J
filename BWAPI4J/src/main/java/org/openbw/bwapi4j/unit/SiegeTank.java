@@ -1,12 +1,11 @@
 package org.openbw.bwapi4j.unit;
 
-import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
 import static org.openbw.bwapi4j.type.UnitCommandType.Siege;
 import static org.openbw.bwapi4j.type.UnitCommandType.Unsiege;
 
-public class SiegeTank extends MobileUnit implements Mechanical, Armed {
+public class SiegeTank extends MobileUnit implements Mechanical, GroundAttacker {
 
     private boolean sieged;
 
@@ -40,12 +39,8 @@ public class SiegeTank extends MobileUnit implements Mechanical, Armed {
 
     @Override
     public Weapon getGroundWeapon() {
-        return groundWeapon;
-    }
 
-    @Override
-    public Weapon getAirWeapon() {
-        return airWeapon;
+        return groundWeapon;
     }
 
     @Override
@@ -67,20 +62,8 @@ public class SiegeTank extends MobileUnit implements Mechanical, Armed {
     }
 
     @Override
-    public int getAirWeaponMaxRange() {
+    public int getMaxGroundHits() {
 
-        return super.getAirWeaponMaxRange();
-    }
-
-    @Override
-    public int getAirWeaponCooldown() {
-
-        return super.getAirWeaponCooldown();
-    }
-
-    @Override
-    public int getAirWeaponDamage() {
-
-        return super.getAirWeaponDamage();
+        return super.getMaxGroundHits();
     }
 }

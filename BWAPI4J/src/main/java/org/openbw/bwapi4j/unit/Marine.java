@@ -5,7 +5,7 @@ import org.openbw.bwapi4j.type.UnitType;
 import static org.openbw.bwapi4j.type.TechType.Stim_Packs;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech;
 
-public class Marine extends MobileUnit implements Organic, Armed {
+public class Marine extends MobileUnit implements Organic, GroundAttacker, AirAttacker {
 
     private boolean isStimmed;
 
@@ -62,6 +62,12 @@ public class Marine extends MobileUnit implements Organic, Armed {
     }
 
     @Override
+    public int getMaxGroundHits() {
+
+        return super.getMaxGroundHits();
+    }
+
+    @Override
     public int getAirWeaponMaxRange() {
 
         return super.getAirWeaponMaxRange();
@@ -77,5 +83,11 @@ public class Marine extends MobileUnit implements Organic, Armed {
     public int getAirWeaponDamage() {
 
         return super.getAirWeaponDamage();
+    }
+
+    @Override
+    public int getMaxAirHits() {
+
+        return super.getMaxAirHits();
     }
 }

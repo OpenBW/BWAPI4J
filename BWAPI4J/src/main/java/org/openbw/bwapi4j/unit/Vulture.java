@@ -1,14 +1,12 @@
 package org.openbw.bwapi4j.unit;
 
 import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.type.TechType;
-import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
 import static org.openbw.bwapi4j.type.TechType.Spider_Mines;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Position;
 
-public class Vulture extends MobileUnit implements Mechanical, Armed {
+public class Vulture extends MobileUnit implements Mechanical, GroundAttacker {
 
     private int spiderMineCount;
     
@@ -49,12 +47,8 @@ public class Vulture extends MobileUnit implements Mechanical, Armed {
 
     @Override
     public Weapon getGroundWeapon() {
-        return groundWeapon;
-    }
 
-    @Override
-    public Weapon getAirWeapon() {
-        return airWeapon;
+        return groundWeapon;
     }
 
     @Override
@@ -73,6 +67,12 @@ public class Vulture extends MobileUnit implements Mechanical, Armed {
     public int getGroundWeaponDamage() {
 
         return super.getGroundWeaponDamage();
+    }
+
+    @Override
+    public int getMaxGroundHits() {
+
+        return super.getMaxGroundHits();
     }
 
     @Override

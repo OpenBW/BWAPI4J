@@ -190,14 +190,6 @@ public abstract class MobileUnit extends PlayerUnit {
         return super.getTargetUnit();
     }
 
-    public int getMaxGroundHits() {
-        return this.type.maxGroundHits();
-    }
-
-    public int getMaxAirHits() {
-        return this.type.maxAirHits();
-    }
-
     public int getTurnRadius() {
 
         return this.type.turnRadius();

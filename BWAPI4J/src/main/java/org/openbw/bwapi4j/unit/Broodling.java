@@ -2,7 +2,7 @@ package org.openbw.bwapi4j.unit;
 
 import org.openbw.bwapi4j.type.UnitType;
 
-public class Broodling extends MobileUnit implements Organic, Armed {
+public class Broodling extends MobileUnit implements Organic, GroundAttacker {
 
     protected Broodling(int id) {
         
@@ -11,12 +11,8 @@ public class Broodling extends MobileUnit implements Organic, Armed {
 
     @Override
     public Weapon getGroundWeapon() {
-        return groundWeapon;
-    }
 
-    @Override
-    public Weapon getAirWeapon() {
-        return airWeapon;
+        return groundWeapon;
     }
 
     @Override
@@ -38,20 +34,8 @@ public class Broodling extends MobileUnit implements Organic, Armed {
     }
 
     @Override
-    public int getAirWeaponMaxRange() {
+    public int getMaxGroundHits() {
 
-        return super.getAirWeaponMaxRange();
-    }
-
-    @Override
-    public int getAirWeaponCooldown() {
-
-        return super.getAirWeaponCooldown();
-    }
-
-    @Override
-    public int getAirWeaponDamage() {
-
-        return super.getAirWeaponDamage();
+        return super.getMaxGroundHits();
     }
 }

@@ -1,11 +1,10 @@
 package org.openbw.bwapi4j.unit;
 
-import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
 import static org.openbw.bwapi4j.type.UnitCommandType.Attack_Unit;
 
-public class PhotonCannon extends Building implements Detector, Mechanical, Armed {
+public class PhotonCannon extends Building implements Detector, Mechanical, GroundAttacker, AirAttacker {
 
     protected PhotonCannon(int id, int timeSpotted) {
         
@@ -14,6 +13,7 @@ public class PhotonCannon extends Building implements Detector, Mechanical, Arme
 
     @Override
     public boolean attack(Unit target) {
+
         return attack(target, false);
     }
 
@@ -37,15 +37,20 @@ public class PhotonCannon extends Building implements Detector, Mechanical, Arme
 
     @Override
     public Unit getTargetUnit() {
+
         return super.getTargetUnit();
     }
 
+    @Override
     public int getMaxGroundHits() {
-        return this.type.maxGroundHits();
+
+        return super.getMaxGroundHits();
     }
-    
+
+    @Override
     public int getMaxAirHits() {
-        return this.type.maxAirHits();
+
+        return super.getMaxAirHits();
     }
 
     @Override

@@ -7,7 +7,7 @@ import org.openbw.bwapi4j.type.UnitType;
 import static org.openbw.bwapi4j.type.TechType.Dark_Archon_Meld;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech;
 
-public class DarkTemplar extends MobileUnit implements Organic, Cloakable {
+public class DarkTemplar extends MobileUnit implements Organic, Cloakable, GroundAttacker {
 
     protected DarkTemplar(int id) {
         
@@ -34,5 +34,35 @@ public class DarkTemplar extends MobileUnit implements Organic, Cloakable {
     public boolean decloak() {
         
         return false;
+    }
+
+    @Override
+    public Weapon getGroundWeapon() {
+
+        return groundWeapon;
+    }
+
+    @Override
+    public int getGroundWeaponMaxRange() {
+
+        return super.getGroundWeaponMaxRange();
+    }
+
+    @Override
+    public int getGroundWeaponCooldown() {
+
+        return super.getGroundWeaponCooldown();
+    }
+
+    @Override
+    public int getGroundWeaponDamage() {
+
+        return super.getGroundWeaponDamage();
+    }
+
+    @Override
+    public int getMaxGroundHits() {
+
+        return super.getMaxGroundHits();
     }
 }

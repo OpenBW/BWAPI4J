@@ -1,12 +1,11 @@
 package org.openbw.bwapi4j.unit;
 
 import org.openbw.bwapi4j.TilePosition;
-import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
 import static org.openbw.bwapi4j.type.UnitCommandType.*;
 
-public abstract class Worker extends MobileUnit implements Armed {
+public abstract class Worker extends MobileUnit implements GroundAttacker {
     private boolean isConstructing;
     private boolean isGatheringGas;
     private boolean isGatheringMinerals;
@@ -101,12 +100,6 @@ public abstract class Worker extends MobileUnit implements Armed {
     }
 
     @Override
-    public Weapon getAirWeapon() {
-
-        return airWeapon;
-    }
-
-    @Override
     public int getGroundWeaponMaxRange() {
 
         return super.getGroundWeaponMaxRange();
@@ -125,20 +118,8 @@ public abstract class Worker extends MobileUnit implements Armed {
     }
 
     @Override
-    public int getAirWeaponMaxRange() {
+    public int getMaxGroundHits() {
 
-        return super.getAirWeaponMaxRange();
-    }
-
-    @Override
-    public int getAirWeaponCooldown() {
-
-        return super.getAirWeaponCooldown();
-    }
-
-    @Override
-    public int getAirWeaponDamage() {
-
-        return super.getAirWeaponDamage();
+        return super.getMaxGroundHits();
     }
 }

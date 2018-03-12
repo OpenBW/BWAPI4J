@@ -2,7 +2,7 @@ package org.openbw.bwapi4j.unit;
 
 import org.openbw.bwapi4j.type.UnitType;
 
-public class Archon extends MobileUnit implements Armed {
+public class Archon extends MobileUnit implements GroundAttacker, AirAttacker {
 
     protected Archon(int id) {
         
@@ -11,11 +11,13 @@ public class Archon extends MobileUnit implements Armed {
 
     @Override
     public Weapon getGroundWeapon() {
+
         return groundWeapon;
     }
 
     @Override
     public Weapon getAirWeapon() {
+
         return airWeapon;
     }
 
@@ -38,6 +40,12 @@ public class Archon extends MobileUnit implements Armed {
     }
 
     @Override
+    public int getMaxGroundHits() {
+
+        return super.getMaxGroundHits();
+    }
+
+    @Override
     public int getAirWeaponMaxRange() {
 
         return super.getAirWeaponMaxRange();
@@ -53,5 +61,11 @@ public class Archon extends MobileUnit implements Armed {
     public int getAirWeaponDamage() {
 
         return super.getAirWeaponDamage();
+    }
+
+    @Override
+    public int getMaxAirHits() {
+
+        return super.getMaxAirHits();
     }
 }

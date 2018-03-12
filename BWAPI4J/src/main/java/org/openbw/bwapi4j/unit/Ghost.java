@@ -3,14 +3,12 @@ package org.openbw.bwapi4j.unit;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.type.TechType;
-import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
 import static org.openbw.bwapi4j.type.TechType.*;
 import static org.openbw.bwapi4j.type.UnitCommandType.*;
 
-public class Ghost extends MobileUnit implements SpellCaster, Organic, Armed {
+public class Ghost extends MobileUnit implements SpellCaster, Organic, GroundAttacker, AirAttacker {
 
     private static final Logger logger = LogManager.getLogger();
 
@@ -49,8 +47,7 @@ public class Ghost extends MobileUnit implements SpellCaster, Organic, Armed {
 
     public boolean personnelCloaking() {
         
-        return issueCommand(this.id, Use_Tech, -1, -1, -1,
-                Personnel_Cloaking.getId());
+        return issueCommand(this.id, Use_Tech, -1, -1, -1, Personnel_Cloaking.getId());
     }
 
     /**
@@ -106,6 +103,12 @@ public class Ghost extends MobileUnit implements SpellCaster, Organic, Armed {
     }
 
     @Override
+    public int getMaxGroundHits() {
+
+        return super.getMaxGroundHits();
+    }
+
+    @Override
     public int getAirWeaponMaxRange() {
 
         return super.getAirWeaponMaxRange();
@@ -121,5 +124,11 @@ public class Ghost extends MobileUnit implements SpellCaster, Organic, Armed {
     public int getAirWeaponDamage() {
 
         return super.getAirWeaponDamage();
+    }
+
+    @Override
+    public int getMaxAirHits() {
+
+        return super.getMaxAirHits();
     }
 }

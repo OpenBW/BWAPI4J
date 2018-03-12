@@ -2,7 +2,7 @@ package org.openbw.bwapi4j.unit;
 
 import org.openbw.bwapi4j.type.UnitType;
 
-public class Valkyrie extends MobileUnit implements Mechanical, Armed {
+public class Valkyrie extends MobileUnit implements Mechanical, AirAttacker {
 
     protected Valkyrie(int id) {
         
@@ -10,31 +10,9 @@ public class Valkyrie extends MobileUnit implements Mechanical, Armed {
     }
 
     @Override
-    public Weapon getGroundWeapon() {
-        return groundWeapon;
-    }
-
-    @Override
     public Weapon getAirWeapon() {
+
         return airWeapon;
-    }
-
-    @Override
-    public int getGroundWeaponMaxRange() {
-
-        return super.getGroundWeaponMaxRange();
-    }
-
-    @Override
-    public int getGroundWeaponCooldown() {
-
-        return super.getGroundWeaponCooldown();
-    }
-
-    @Override
-    public int getGroundWeaponDamage() {
-
-        return super.getGroundWeaponDamage();
     }
 
     @Override
@@ -53,5 +31,11 @@ public class Valkyrie extends MobileUnit implements Mechanical, Armed {
     public int getAirWeaponDamage() {
 
         return super.getAirWeaponDamage();
+    }
+
+    @Override
+    public int getMaxAirHits() {
+
+        return super.getMaxAirHits();
     }
 }

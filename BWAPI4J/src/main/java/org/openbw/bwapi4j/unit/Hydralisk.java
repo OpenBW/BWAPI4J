@@ -1,12 +1,11 @@
 package org.openbw.bwapi4j.unit;
 
-import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
 import static org.openbw.bwapi4j.type.UnitCommandType.*;
 import static org.openbw.bwapi4j.type.UnitType.Zerg_Lurker;
 
-public class Hydralisk extends MobileUnit implements Organic, Burrowable, Armed, Morphable {
+public class Hydralisk extends MobileUnit implements Organic, Burrowable, GroundAttacker, AirAttacker, Morphable {
 
     private boolean burrowed;
     
@@ -60,11 +59,13 @@ public class Hydralisk extends MobileUnit implements Organic, Burrowable, Armed,
 
     @Override
     public Weapon getGroundWeapon() {
+
         return groundWeapon;
     }
 
     @Override
     public Weapon getAirWeapon() {
+
         return airWeapon;
     }
 
@@ -87,6 +88,12 @@ public class Hydralisk extends MobileUnit implements Organic, Burrowable, Armed,
     }
 
     @Override
+    public int getMaxGroundHits() {
+
+        return super.getMaxGroundHits();
+    }
+
+    @Override
     public int getAirWeaponMaxRange() {
 
         return super.getAirWeaponMaxRange();
@@ -102,5 +109,11 @@ public class Hydralisk extends MobileUnit implements Organic, Burrowable, Armed,
     public int getAirWeaponDamage() {
 
         return super.getAirWeaponDamage();
+    }
+
+    @Override
+    public int getMaxAirHits() {
+
+        return super.getMaxAirHits();
     }
 }

@@ -1,11 +1,10 @@
 package org.openbw.bwapi4j.unit;
 
-import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
 import static org.openbw.bwapi4j.type.UnitCommandType.Attack_Unit;
 
-public class SunkenColony extends Building implements Organic, Armed {
+public class SunkenColony extends Building implements Organic, GroundAttacker {
 
     protected SunkenColony(int id, int timeSpotted) {
         
@@ -32,15 +31,13 @@ public class SunkenColony extends Building implements Organic, Armed {
 
     @Override
     public Unit getTargetUnit() {
+
         return super.getTargetUnit();
     }
 
     @Override
-    public Weapon getAirWeapon() {
-        return airWeapon;
-    }
-
     public int getMaxGroundHits() {
+
         return this.type.maxGroundHits();
     }
 
@@ -60,23 +57,5 @@ public class SunkenColony extends Building implements Organic, Armed {
     public int getGroundWeaponDamage() {
 
         return super.getGroundWeaponDamage();
-    }
-
-    @Override
-    public int getAirWeaponMaxRange() {
-
-        return super.getAirWeaponMaxRange();
-    }
-
-    @Override
-    public int getAirWeaponCooldown() {
-
-        return super.getAirWeaponCooldown();
-    }
-
-    @Override
-    public int getAirWeaponDamage() {
-
-        return super.getAirWeaponDamage();
     }
 }

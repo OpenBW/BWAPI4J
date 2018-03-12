@@ -2,7 +2,7 @@ package org.openbw.bwapi4j.unit;
 
 import org.openbw.bwapi4j.type.UnitType;
 
-public class Goliath extends MobileUnit implements Mechanical, Armed {
+public class Goliath extends MobileUnit implements Mechanical, GroundAttacker, AirAttacker {
 
     protected Goliath(int id) {
         
@@ -40,6 +40,12 @@ public class Goliath extends MobileUnit implements Mechanical, Armed {
     }
 
     @Override
+    public int getMaxGroundHits() {
+
+        return super.getMaxGroundHits();
+    }
+
+    @Override
     public int getAirWeaponMaxRange() {
 
         return super.getAirWeaponMaxRange();
@@ -55,5 +61,11 @@ public class Goliath extends MobileUnit implements Mechanical, Armed {
     public int getAirWeaponDamage() {
 
         return super.getAirWeaponDamage();
+    }
+
+    @Override
+    public int getMaxAirHits() {
+
+        return super.getMaxAirHits();
     }
 }
