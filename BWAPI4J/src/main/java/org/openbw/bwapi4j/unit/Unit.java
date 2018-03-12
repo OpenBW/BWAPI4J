@@ -177,7 +177,7 @@ public abstract class Unit implements Comparable<Unit> {
     private BW bw;
     private int lastSpotted;
 
-    private final UnitStatCalculator unitStatCalculator;
+    private UnitStatCalculator unitStatCalculator;
 
     protected Unit(int id, UnitType unitType) {
 
@@ -185,7 +185,6 @@ public abstract class Unit implements Comparable<Unit> {
         this.type = unitType;
         this.initialType = unitType;
         this.lastSpotted = 0;
-        this.unitStatCalculator = this.bw.getPlayer(id).getUnitStatCalculator();
     }
 
     final void setBW(BW bw) {
@@ -199,6 +198,8 @@ public abstract class Unit implements Comparable<Unit> {
                 unitData[index + Unit.POSITION_Y_INDEX]);
         this.initialTilePosition = new TilePosition(unitData[index + Unit.TILEPOSITION_X_INDEX],
                 unitData[index + Unit.TILEPOSITION_Y_INDEX]);
+
+        this.unitStatCalculator = this.bw.getPlayer(unitData[index + PLAYER_ID_INDEX]).getUnitStatCalculator();
     }
 
     public void preUpdate() {
