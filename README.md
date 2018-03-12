@@ -67,7 +67,7 @@ The smoke test starts a game and sends the first SCV to the first mineral patch 
 
     git clone https://github.com/OpenBW/BWAPI4J.git
     cd BWAPI4J/BWAPI4J
-    ./gradlew jar sourcesJar javadocJar
+    ./gradlew shadowJar sourcesJar javadocJar
     mvn install:install-file \
         -Dfile=build/libs/BWAPI4J.jar \
         -Djavadoc=build/libs/BWAPI4J-javadoc.jar \
