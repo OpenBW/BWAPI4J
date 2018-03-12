@@ -15,7 +15,7 @@ public class TileImpl implements Tile {
     private Neutral neutral;
     private Altitude lowestAltitude;
     private AreaId areaId;
-    private final MutableInt internalData;
+    private int internalData;
     private Tile.GroundHeight groundHeight;
     private boolean isBuildable;
     private boolean isDoodad;
@@ -25,7 +25,7 @@ public class TileImpl implements Tile {
         this.neutral = null;
         this.lowestAltitude = new Altitude(0);
         this.areaId = new AreaId(0);
-        this.internalData = new MutableInt(0);
+        this.internalData = 0;
         this.groundHeight = GroundHeight.LOW_GROUND;
         this.isBuildable = false;
         this.isDoodad = false;
@@ -141,8 +141,11 @@ public class TileImpl implements Tile {
         this.neutral = null;
     }
 
-    public MutableInt getInternalData() {
+    public int getInternalData() {
         return this.internalData;
     }
 
+    public void setInternalData(int internalData) {
+        this.internalData = internalData;
+    }
 }

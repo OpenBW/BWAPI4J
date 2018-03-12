@@ -137,7 +137,7 @@ public class MapPrinterExample {
         if (mapPrinter.showData)
             for (int y = 0; y < theMap.getData().getMapData().getTileSize().getY(); ++y)
             for (int x = 0; x < theMap.getData().getMapData().getTileSize().getX(); ++x) {
-                int data = ((TileImpl) theMap.getData().getTile(new TilePosition(x, y))).getInternalData().intValue();
+                int data = ((TileImpl) theMap.getData().getTile(new TilePosition(x, y))).getInternalData();
                 int c = (((data / 1) * 1) % 256);
                 Color col = new Color(c, c, c);
                 WalkPosition origin = (new TilePosition(x, y)).toWalkPosition();

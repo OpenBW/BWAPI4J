@@ -206,10 +206,10 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
             final TilePosition current = distanceAndTilePosition.getRight();
             final Tile currentTile = getMap().getData().getTile(current, CheckMode.NO_CHECK);
 //            bwem_assert(currentTile.InternalData() == currentDist);
-            if (!(((TileImpl) currentTile).getInternalData().intValue() == currentDist)) {
-                throw new IllegalStateException("currentTile.InternalData().intValue()=" + ((TileImpl) currentTile).getInternalData().intValue() + ", currentDist=" + currentDist);
+            if (!(((TileImpl) currentTile).getInternalData() == currentDist)) {
+                throw new IllegalStateException("currentTile.InternalData().intValue()=" + ((TileImpl) currentTile).getInternalData() + ", currentDist=" + currentDist);
             }
-            ((TileImpl) currentTile).getInternalData().setValue(0); // resets Tile::m_internalData for future usage
+            ((TileImpl) currentTile).setInternalData(0); // resets Tile::m_internalData for future usage
             ((TileImpl) currentTile).getMarkable().setMarked();
 
             for (int i = 0; i < targets.size(); ++i) {
@@ -235,19 +235,19 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
                 if (getMap().getData().getMapData().isValid(next)) {
                     final Tile nextTile = getMap().getData().getTile(next, CheckMode.NO_CHECK);
                     if (!((TileImpl) nextTile).getMarkable().isMarked()) {
-                        if (((TileImpl) nextTile).getInternalData().intValue() != 0) { // next already in toVisit
-                            if (newNextDist < ((TileImpl) nextTile).getInternalData().intValue()) { // nextNewDist < nextOldDist
+                        if (((TileImpl) nextTile).getInternalData() != 0) { // next already in toVisit
+                            if (newNextDist < ((TileImpl) nextTile).getInternalData()) { // nextNewDist < nextOldDist
                                 // To update next's distance, we need to remove-insert it from toVisit:
 //                                bwem_assert(iNext != range.second);
-                                final boolean removed = toVisit.remove(new ImmutablePair<>(((TileImpl) nextTile).getInternalData().intValue(), next));
+                                final boolean removed = toVisit.remove(new ImmutablePair<>(((TileImpl) nextTile).getInternalData(), next));
                                 if (!removed) {
                                     throw new IllegalStateException();
                                 }
-                                ((TileImpl) nextTile).getInternalData().setValue(newNextDist);
+                                ((TileImpl) nextTile).setInternalData(newNextDist);
                                 toVisit.offer(new ImmutablePair<>(newNextDist, next));
                             }
                         } else if ((nextTile.getAreaId().equals(getId())) || (nextTile.getAreaId().equals(new AreaId(-1)))) {
-                            ((TileImpl) nextTile).getInternalData().setValue(newNextDist);
+                            ((TileImpl) nextTile).setInternalData(newNextDist);
                             toVisit.offer(new ImmutablePair<>(newNextDist, next));
                         }
                     }
@@ -262,7 +262,7 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
 
         for (final ImmutablePair<Integer, TilePosition> distanceAndTilePosition : toVisit) {
             final TileImpl tileToUpdate = ((TileImpl) getMap().getData().getTile(distanceAndTilePosition.getRight(), CheckMode.NO_CHECK));
-            tileToUpdate.getInternalData().setValue(0);
+            tileToUpdate.setInternalData(0);
         }
 
         return distances;
@@ -334,7 +334,7 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
                             }
                             if (tile.getAreaId().equals(getId())) {
                                 // note the additive effect (assume tile.InternalData() is 0 at the beginning)
-                                ((TileImpl) tile).getInternalData().setValue(((TileImpl) tile).getInternalData().intValue() + score);
+                                ((TileImpl) tile).setInternalData(((TileImpl) tile).getInternalData() + score);
                             }
                         }
                     }
@@ -346,7 +346,7 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
                         final TilePosition deltaTilePosition = r.getTopLeft().add(new TilePosition(dx, dy));
                         if (mapAdvancedData.getMapData().isValid(deltaTilePosition)) {
                             final Tile tileToUpdate = mapAdvancedData.getTile(deltaTilePosition, CheckMode.NO_CHECK);
-                            ((TileImpl) tileToUpdate).getInternalData().setValue(-1);
+                            ((TileImpl) tileToUpdate).setInternalData(-1);
                         }
                     }
 
@@ -374,7 +374,7 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
                         final TilePosition deltaTilePosition = r.getTopLeft().add(new TilePosition(dx, dy));
                         if (mapAdvancedData.getMapData().isValid(deltaTilePosition)) {
                             final Tile tileToUpdate = mapAdvancedData.getTile(deltaTilePosition, CheckMode.NO_CHECK);
-                            ((TileImpl) tileToUpdate).getInternalData().setValue(0);
+                            ((TileImpl) tileToUpdate).setInternalData(0);
                         }
                     }
             }
@@ -426,7 +426,7 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
                 if (!tile.isBuildable()) {
                     return -1;
                 }
-                if (((TileImpl) tile).getInternalData().intValue() == -1) {
+                if (((TileImpl) tile).getInternalData() == -1) {
                     // The special value InternalData() == -1 means there is some resource at maximum 3 tiles, which Starcraft rules forbid.
                     // Unfortunately, this is guaranteed only for the resources in this Area, which is the very reason of validateBaseLocation
                     return -1;
@@ -438,7 +438,7 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
                     return -1;
                 }
 
-                sumScore += ((TileImpl) tile).getInternalData().intValue();
+                sumScore += ((TileImpl) tile).getInternalData();
             }
 
         return sumScore;
