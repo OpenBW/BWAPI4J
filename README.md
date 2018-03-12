@@ -106,3 +106,24 @@ Prerequisites:
 Build Steps:
  - Open the complete BWAPI4JBridge solution, including the BWAPI4JBridge project inside the solution from `<your path>/git/BWAPI4J/BWAPI4JBridge/` where <your path> is the path to your git directory.
  - Build the DLL to be used in the Java project via "Build - Rebuild BWAPI4JBridge" with the targets "Release" and "x86"
+
+## Usage
+
+When you want to run your bot, you might need to do following:
+
+### Original BW
+
+Please copy to PATH
+
+    BWAPI4JBridge.dll
+
+You might also need BWTA dlls:
+
+    libgmp-10.dll
+    libmpfr-4.dll
+
+### OpenBW
+
+Pleasy copy to PATH
+
+    OpenBWAPI4JBridge.dll
