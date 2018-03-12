@@ -237,4 +237,9 @@ public abstract class MobileUnit extends PlayerUnit {
 
         return this.isEnsnared;
     }
+
+    public double getTopSpeed() {
+
+        return getUnitStatCalculator().topSpeed(type);
+    }
 }

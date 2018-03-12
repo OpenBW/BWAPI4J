@@ -192,8 +192,14 @@ public abstract class PlayerUnit extends Unit {
         return this.hitPoints;
     }
 
+    protected int getMaxEnergy() {
+
+        return getUnitStatCalculator().maxEnergy(type);
+    }
+
     public int getArmor() {
-        return type.armor();
+
+        return getUnitStatCalculator().armor(type);
     }
 
     public int getShields() {
@@ -243,7 +249,7 @@ public abstract class PlayerUnit extends Unit {
 
     public int getSightRange() {
         
-        return this.type.sightRange();
+        return getUnitStatCalculator().sightRange(type);
     }
 
     public boolean isDetector() {
@@ -266,6 +272,7 @@ public abstract class PlayerUnit extends Unit {
     }
 
     public boolean isInterruptible() {
+
         return isInterruptible;
     }
 
@@ -279,9 +286,9 @@ public abstract class PlayerUnit extends Unit {
         return this.type.tileHeight();
     }
 
-    public double topSpeed() {
+    protected double getTopSpeed() {
         
-        return this.type.topSpeed();
+        return getUnitStatCalculator().topSpeed(type);
     }
 
     public double getVelocityX() {
@@ -353,7 +360,39 @@ public abstract class PlayerUnit extends Unit {
         
         return this.isPowered;
     }
-    
+
+    protected int getGroundWeaponMaxRange() {
+
+        return getUnitStatCalculator().weaponMaxRange(type.groundWeapon());
+    }
+
+    protected int getGroundWeaponCooldown() {
+
+        // Only ground weapons have varied cooldowns.
+        return getUnitStatCalculator().weaponDamageCooldown(type);
+    }
+
+    protected int getGroundWeaponDamage() {
+
+        return getUnitStatCalculator().damage(type.groundWeapon());
+    }
+
+    protected int getAirWeaponMaxRange() {
+
+        return getUnitStatCalculator().weaponMaxRange(type.airWeapon());
+    }
+
+    protected int getAirWeaponCooldown() {
+
+        // Only ground weapons have varied cooldowns.
+        return type.airWeapon().damageCooldown();
+    }
+
+    protected int getAirWeaponDamage() {
+
+        return getUnitStatCalculator().damage(type.airWeapon());
+    }
+
     public int getDamageTo(PlayerUnit to) {
 
         return this.getDamageEvaluator().getDamageTo(to.initialType, this.initialType, to.getPlayer(), this.getPlayer());

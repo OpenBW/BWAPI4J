@@ -55,4 +55,10 @@ public class ScienceVessel extends MobileUnit implements Mechanical, SpellCaster
         
         return this.energy;
     }
+
+    @Override
+    public int getMaxEnergy() {
+
+        return this.energy;
+    }
 }

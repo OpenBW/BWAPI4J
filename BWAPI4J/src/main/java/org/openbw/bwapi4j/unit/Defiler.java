@@ -11,7 +11,7 @@ import org.openbw.bwapi4j.type.UnitType;
 import static org.openbw.bwapi4j.type.TechType.*;
 import static org.openbw.bwapi4j.type.UnitCommandType.*;
 
-public class Defiler extends MobileUnit implements Organic, SpellCaster, Burrowable, Armed {
+public class Defiler extends MobileUnit implements Organic, SpellCaster, Burrowable {
 
     private static final Logger logger = LogManager.getLogger();
 
@@ -44,7 +44,13 @@ public class Defiler extends MobileUnit implements Organic, SpellCaster, Burrowa
         
         return this.energy;
     }
-    
+
+    @Override
+    public int getMaxEnergy() {
+
+        return super.getMaxEnergy();
+    }
+
     /**
      * Consumes target Zerg mobile unit (except larva).
      * @param target Zerg unit (no larva)
@@ -99,15 +105,5 @@ public class Defiler extends MobileUnit implements Organic, SpellCaster, Burrowa
     @Override
     public boolean isBurrowed() {
         return this.burrowed;
-    }
-
-    @Override
-    public Weapon getGroundWeapon() {
-        return groundWeapon;
-    }
-
-    @Override
-    public Weapon getAirWeapon() {
-        return airWeapon;
     }
 }

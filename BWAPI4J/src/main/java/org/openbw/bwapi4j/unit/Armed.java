@@ -13,4 +13,12 @@ public interface Armed {
     Weapon getAirWeapon();
 
     Unit getTargetUnit();
+
+    int getGroundWeaponMaxRange();
+    int getGroundWeaponCooldown();
+    int getGroundWeaponDamage();
+
+    int getAirWeaponMaxRange();
+    int getAirWeaponCooldown();
+    int getAirWeaponDamage();
 }

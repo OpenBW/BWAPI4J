@@ -28,4 +28,10 @@ public class ComsatStation extends Addon implements Mechanical, SpellCaster {
         
         return this.energy;
     }
+
+    @Override
+    public int getMaxEnergy() {
+
+        return super.getMaxEnergy();
+    }
 }
