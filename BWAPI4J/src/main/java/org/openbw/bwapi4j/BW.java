@@ -20,6 +20,7 @@ import org.openbw.bwapi4j.unit.SCV;
 import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.unit.UnitFactory;
 import org.openbw.bwapi4j.unit.VespeneGeyser;
+import org.openbw.bwapi4j.unit.Worker;
 
 public class BW {
 
@@ -371,7 +372,7 @@ public class BW {
     	return this.canBuildHere(position, type, null);
     }
     
-	public boolean canBuildHere(TilePosition position, UnitType type, SCV builder) {
+	public boolean canBuildHere(TilePosition position, UnitType type, Worker builder) {
 
 		// TODO check for creep for zerg buildings
 		
