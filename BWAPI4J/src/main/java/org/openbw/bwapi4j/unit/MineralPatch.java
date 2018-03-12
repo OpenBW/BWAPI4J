@@ -34,21 +34,25 @@ public class MineralPatch extends Unit implements Resource, Gatherable {
         super.update(unitData, index, frame);
     }
 
+    @Override
     public int getResources() {
         
         return this.resources;
     }
 
+    @Override
     public int getInitialResources() {
         
         return this.initialResources;
     }
 
+    @Override
     public int getLastKnownResources() {
         
         return this.lastKnownResources;
     }
 
+    @Override
     public boolean isBeingGathered() {
         
         return this.isBeingGathered;
