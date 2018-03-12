@@ -696,7 +696,7 @@ public final class Graph {
                 continue;
             }
 
-            for (final Area pArea : new Area[]{current.getAreas().getLeft(), current.getAreas().getRight()}) {
+            for (final Area pArea : new Area[]{current.getAreas().getFirst(), current.getAreas().getSecond()}) {
                 for (final ChokePoint next : pArea.getChokePoints()) {
                     if (!next.equals(current)) {
                         final int newNextDist = currentDist + distance(current, next);
