@@ -83,6 +83,10 @@ public abstract class Worker extends MobileUnit implements Armed {
     public boolean gather(Gatherable resource) {
         return issueCommand(this.id, Gather, resource.getId(), -1, -1, 0);
     }
+    
+    public boolean gather(Gatherable resource, boolean shiftQueueCommand) {
+        return issueCommand(this.id, Gather, resource.getId(), -1, -1, shiftQueueCommand ? 1 : 0);
+    }
 
     public boolean build(TilePosition p, UnitType type) {
 
