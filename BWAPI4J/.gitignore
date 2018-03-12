@@ -8,6 +8,7 @@ src/test/resources/mockdata/*.txt
 src/main/java/jsd/
 log4j2-test.xml
 src/test/resources/mockdata/DummyBwemData/
+src/test/resources/mockdata/DummyBwapiData/
 AnyTest.java
 
 # BW
