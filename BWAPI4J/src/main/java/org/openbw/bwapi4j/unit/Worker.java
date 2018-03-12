@@ -80,26 +80,8 @@ public abstract class Worker extends MobileUnit implements Armed {
         return issueCommand(this.id, Return_Cargo, -1, -1, -1, queued ? 1 : 0);
     }
 
-    public boolean gather(GasMiningFacility gasMiningFacility) {
-
-        return issueCommand(this.id, Gather, gasMiningFacility.getId(), -1, -1, 0);
-    }
-
-    public boolean gather(GasMiningFacility gasMiningFacility, boolean shiftQueueCommand) {
-
-        return issueCommand(this.id, Gather, gasMiningFacility.getId(), -1, -1,
-                shiftQueueCommand ? 1 : 0);
-    }
-
-    public boolean gather(MineralPatch mineralPatch) {
-
-        return issueCommand(this.id, Gather, mineralPatch.getId(), -1, -1, 0);
-    }
-
-    public boolean gather(MineralPatch mineralPatch, boolean shiftQueueCommand) {
-
-        return issueCommand(this.id, Gather, mineralPatch.getId(), -1, -1,
-                shiftQueueCommand ? 1 : 0);
+    public boolean gather(Gatherable resource) {
+        return issueCommand(this.id, Gather, resource.getId(), -1, -1, 0);
     }
 
     public boolean build(TilePosition p, UnitType type) {
