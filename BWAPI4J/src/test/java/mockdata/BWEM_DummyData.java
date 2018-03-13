@@ -5,7 +5,6 @@ import bwem.area.typedef.AreaId;
 import bwem.tile.MiniTile;
 import bwem.tile.MiniTileImpl;
 import bwem.typedef.Altitude;
-import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,13 +12,8 @@ import org.junit.Assert;
 import org.openbw.bwapi4j.WalkPosition;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 public abstract class BWEM_DummyData {
 
@@ -40,12 +34,12 @@ public abstract class BWEM_DummyData {
         this.tempAreaList = new ArrayList<>();
 
         final String filenameSuffix = "_" + mapName + "_ORIGINAL";
-        this.miniTileAltitudes = DummyDataUtils.populateIntegerArray("MiniTile_Altitudes" + filenameSuffix, " ");
+        this.miniTileAltitudes = DummyDataUtils.readIntegerArrayFromArchiveFile("MiniTile_Altitudes" + filenameSuffix, null, " "); //TODO: Don't pass null.
 
         {
             final int valuesPerGroup = 3;
 
-            final int[] array = DummyDataUtils.populateIntegerArray("DeltasByAscendingAltitude_sorted" + filenameSuffix, " ");
+            final int[] array = DummyDataUtils.readIntegerArrayFromArchiveFile("DeltasByAscendingAltitude_sorted" + filenameSuffix, null, " "); //TODO: Don't pass null.
 
             Assert.assertTrue("Dummy data file contains invalid number of integers: " + array.length, (array.length >= valuesPerGroup) && (array.length % valuesPerGroup == 0));
 
@@ -62,7 +56,7 @@ public abstract class BWEM_DummyData {
 
         {
             final int valuesPerGroup = 4;
-            final int[] array = DummyDataUtils.populateIntegerArray("MiniTilesByDescendingAltitude_sorted" + filenameSuffix, " ");
+            final int[] array = DummyDataUtils.readIntegerArrayFromArchiveFile("MiniTilesByDescendingAltitude_sorted" + filenameSuffix, null, " "); //TODO: Don't pass null.
             
             Assert.assertTrue("Dummy data file contains invalid number of integers: " + array.length, (array.length >= valuesPerGroup) && (array.length % valuesPerGroup == 0));
 
@@ -87,7 +81,7 @@ public abstract class BWEM_DummyData {
 
         {
             final int valuesPerGroup = 6;
-            final int[] array = DummyDataUtils.populateIntegerArray("TempAreaList" + filenameSuffix, " ");
+            final int[] array = DummyDataUtils.readIntegerArrayFromArchiveFile("TempAreaList" + filenameSuffix, null, " "); //TODO: Don't pass null.
 
             Assert.assertTrue("Dummy data file contains invalid number of integers: " + array.length, (array.length >= valuesPerGroup) && (array.length % valuesPerGroup == 0));
 

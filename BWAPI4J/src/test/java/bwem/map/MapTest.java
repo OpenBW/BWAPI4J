@@ -9,6 +9,7 @@ import java.util.List;
 
 import bwem.ChokePoint;
 import bwem.typedef.CPPath;
+import mockdata.BWAPI_DummyData;
 import mockdata.BWEM_CPPathSamples;
 import mockdata.BWEM_DummyData;
 import mockdata.BWEM_FightingSpirit;
@@ -70,7 +71,7 @@ public class MapTest implements BWEventListener {
 
     @Test
     public void Compare_MiniTile_Altitudes_to_Original_Samples() throws AssertionError {
-    	final BWMap bwMapMock = new BWMapMock();
+    	final BWMap bwMapMock = new BWMapMock("d2f5633cc4bb0fca13cd1250729d5530c82c7451", BWAPI_DummyData.DataSetBwapiVersion.BWAPI_420);
 
     	this.bwemMap = new MapInitializerImpl(bwMapMock, null, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 		((MapInitializer) this.bwemMap).initialize(true);
@@ -115,7 +116,7 @@ public class MapTest implements BWEventListener {
         this.bw.startGame();
 
         final String filename = Paths.get("DummyBwemData", this.bw.getBWMap().mapHash().substring(0, 7) + "_ChokePoints_ORIGINAL.txt").toString();
-        final int[] chokepointCentersVals_ORIGINAL = DummyDataUtils.parseIntegerArray(filename, " ");
+        final int[] chokepointCentersVals_ORIGINAL = DummyDataUtils.readIntegerArrayFromArchiveFile(filename, this.bw.getBWMap().mapHash(), " ");
         final List<WalkPosition> chokepointCenters_ORIGINAL = new ArrayList<>();
         final int chokepointCentersCount_ORIGINAL = (chokepointCentersVals_ORIGINAL.length - 1) / 2;
         for (int i = 1; i < chokepointCentersVals_ORIGINAL.length; i += 2) {

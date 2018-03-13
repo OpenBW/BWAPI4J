@@ -5,31 +5,78 @@ import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.TilePosition;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
+import java.util.List;
 
-public abstract class BWAPI_DummyData {
+public class BWAPI_DummyData {
 
     private static final Logger logger = LogManager.getLogger();
 
-    protected String mapFilename = null;
-    protected String mapHash = null;
-    protected TilePosition mapSize = null;
-    protected TilePosition[] startingLocations = null;
-    protected int[] walkabilityInfo = null;
-    protected int[] groundInfo = null;
-    protected int[] buildableInfo = null;
+    public enum DataSetBwapiVersion {
 
-    protected BWAPI_DummyData() {
-        /* Do nothing. */
+        BWAPI_420("BWAPI-4.2.0");
+
+        private final String str;
+
+        private DataSetBwapiVersion(final String str) {
+            this.str = str;
+        }
+
+        @Override
+        public String toString() {
+            return this.str;
+        }
+
     }
 
-    protected void populateArrays(final String mapName, final int mapTileWidth, final int mapTileHeight) throws IOException, URISyntaxException {
-        this.buildableInfo = new int[mapTileWidth * mapTileHeight];
+    private enum DataSetFilename {
+        getGroundHeight,
+        getStartLocations,
+        isBuildable,
+        isWalkable,
+        MapInfo,
+        Neutrals;
+    }
 
-        final String filenameSuffix = "_" + mapName + "_ORIGINAL";
-        this.walkabilityInfo = DummyDataUtils.populateIntegerArray("walkabilityInfo" + filenameSuffix, " ");
-        this.groundInfo = DummyDataUtils.populateIntegerArray("groundInfo" + filenameSuffix, " ");
-        this.buildableInfo = DummyDataUtils.populateIntegerArray("buildableInfo" + filenameSuffix, " ");
+    private final String mapHash;
+    private final DataSetBwapiVersion dataSetBwapiVersion;
+    protected String mapFilename = null;
+    protected TilePosition mapSize = null;
+    protected TilePosition[] startingLocations = null;
+    protected int[] groundHeightData = null;
+    protected int[] isWalkableData = null;
+    protected int[] isBuildableData = null;
+
+    public BWAPI_DummyData(final String mapHash, final DataSetBwapiVersion dataSetBwapiVersion) throws IOException {
+        this.mapHash = mapHash;
+        this.dataSetBwapiVersion = dataSetBwapiVersion;
+
+        populateArrays();
+    }
+
+    private void populateArrays() throws IOException {
+        final String filenamePrefix = "DummyBwapiData_";
+        final String filenameSuffix = "_" + this.dataSetBwapiVersion.toString();
+
+        System.out.println(filenamePrefix + DataSetFilename.getGroundHeight.toString() + filenameSuffix);
+        this.groundHeightData = DummyDataUtils.readIntegerArrayFromArchiveFile(filenamePrefix + DataSetFilename.getGroundHeight.toString() + filenameSuffix, this.mapHash, " ");
+
+        final List<List<Integer>> startLocations = DummyDataUtils.readMultiLineIntegerArraysFromArchiveFile(filenamePrefix + DataSetFilename.getStartLocations.toString() + filenameSuffix, this.mapHash, " ");
+        this.startingLocations = new TilePosition[startLocations.size()];
+        int startLocationIndex = 0;
+        for (final List<Integer> startLocation : startLocations) {
+            final int x = startLocation.get(0);
+            final int y = startLocation.get(1);
+            this.startingLocations[startLocationIndex++] = new TilePosition(x, y);
+        }
+
+        final List<List<String>> mapInfo = DummyDataUtils.reacMultiLinesAsStringsFromArchiveFile(filenamePrefix + DataSetFilename.MapInfo.toString() + filenameSuffix, this.mapHash, " ");
+        final int tileWidth = Integer.parseInt(mapInfo.get(3).get(0));
+        final int tileHeight = Integer.parseInt(mapInfo.get(3).get(1));
+        this.mapSize = new TilePosition(tileWidth, tileHeight);
+
+        this.isBuildableData = DummyDataUtils.readIntegerArrayFromArchiveFile(filenamePrefix + DataSetFilename.isBuildable.toString() + filenameSuffix, this.mapHash, " ");
+
+        this.isWalkableData = DummyDataUtils.readIntegerArrayFromArchiveFile(filenamePrefix + DataSetFilename.isWalkable.toString() + filenameSuffix, this.mapHash, " ");
     }
 
     public String getMapFilename() {
@@ -48,16 +95,16 @@ public abstract class BWAPI_DummyData {
         return this.startingLocations;
     }
 
-    public int[] getWalkabilityInfo() {
-        return this.walkabilityInfo;
+    public int[] getIsWalkableData() {
+        return this.isWalkableData;
     }
 
-    public int[] getGroundInfo() {
-        return this.groundInfo;
+    public int[] getGroundHeightData() {
+        return this.groundHeightData;
     }
 
-    public int[] getBuildableInfo() {
-        return this.buildableInfo;
+    public int[] getIsBuildableData() {
+        return this.isBuildableData;
     }
 
 }
