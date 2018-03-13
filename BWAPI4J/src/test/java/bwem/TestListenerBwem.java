@@ -7,14 +7,43 @@ import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.BWEventListener;
 import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
+import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.Color;
+import org.openbw.bwapi4j.type.Race;
 import org.openbw.bwapi4j.type.UnitType;
+import org.openbw.bwapi4j.unit.CommandCenter;
+import org.openbw.bwapi4j.unit.MineralPatch;
+import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.unit.Unit;
+import org.openbw.bwapi4j.unit.Worker;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 
 public class TestListenerBwem implements BWEventListener {
 
-    private BW bw;
-    private BWEM bwem;
+    private static final int SCREEN_WIDTH = 640; // only used for optimized shape drawing within the screen area
+    private static final int SCREEN_HEIGHT = 480; // only used for optimized shape drawing within the screen area
+    private static final Position SCREEN_SIZE = new Position(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+    private BW bw; // main game object
+    private BWEM bwem; // main terrain analyzer object
+
+    private Player self;
+    private final List<Worker> workers = new ArrayList<>();
+
+    /**
+     * Tests if the specified position is within the current viewport area.
+     * Useful for ignoring shape drawing calls if the specified position is off screen.
+     */
+    private boolean isOnScreen(final Position position) {
+        final Position topLeftScreenPosition = bw.getInteractionHandler().getScreenPosition();
+        final Position bottomRightScreenPosition = topLeftScreenPosition.add(SCREEN_SIZE);
+        return (position.getX() >= topLeftScreenPosition.getX() && position.getY() >= topLeftScreenPosition.getY()
+                && position.getX() < bottomRightScreenPosition.getX() && position.getY() < bottomRightScreenPosition.getY());
+    }
 
     @Override
     public void onStart() {
@@ -22,53 +51,71 @@ public class TestListenerBwem implements BWEventListener {
             System.out.println("onStart");
 
             // Hello World!
-            this.bw.getInteractionHandler().sendText("hello, world");
+            bw.getInteractionHandler().sendText("hello, world");
 
             // Print the map name.
-            this.bw.getInteractionHandler().printf("The map is " + this.bw.getBWMap().mapName() + "! Size: " + this.bw.getBWMap().mapWidth() + "x" + this.bw.getBWMap().mapHeight());
+            bw.getInteractionHandler().printf("The map is " + bw.getBWMap().mapName() + "! Size: " + bw.getBWMap().mapWidth() + "x" + bw.getBWMap().mapHeight());
 
             // Enable the UserInput flag, which allows us to manually control units and type messages.
-            this.bw.getInteractionHandler().enableUserInput();
+            bw.getInteractionHandler().enableUserInput();
 
             // Uncomment the following line and the bot will know about everything through the fog of war (cheat).
-            //this.bw.getInteractionHandler().enableCompleteMapInformation();
+            //bw.getInteractionHandler().enableCompleteMapInformation();
+
+            self = bw.getInteractionHandler().self();
 
             // Initialize BWEM.
             System.out.println("BWEM initialization started.");
-            this.bwem = new BWEM(this.bw); // Instantiate the BWEM object.
-            this.bwem.initialize(); // Initialize and pre-calculate internal data.
-            this.bwem.getMap().enableAutomaticPathAnalysis(); // This option requires "bwem.getMap().onUnitDestroyed(unit);" in the "onUnitDestroy" callback.
+            bwem = new BWEM(bw); // Instantiate the BWEM object.
+            bwem.initialize(); // Initialize and pre-calculate internal data.
+            bwem.getMap().enableAutomaticPathAnalysis(); // This option requires "bwem.getMap().onUnitDestroyed(unit);" in the "onUnitDestroy" callback.
             try {
-                this.bwem.getMap().assignStartingLocationsToSuitableBases(); // Throws an exception on failure.
+                bwem.getMap().assignStartingLocationsToSuitableBases(); // Throws an exception on failure.
             } catch (final Exception e) {
                 e.printStackTrace();
-                if (this.bwem.getMap().getUnassignedStartingLocations().size() > 0) {
-                    throw new IllegalStateException("Failed to find suitable bases for the following starting locations: " + this.bwem.getMap().getUnassignedStartingLocations().toString());
+                if (bwem.getMap().getUnassignedStartingLocations().size() > 0) {
+                    throw new IllegalStateException("Failed to find suitable bases for the following starting locations: " + bwem.getMap().getUnassignedStartingLocations().toString());
                 }
             }
             System.out.println("BWEM initialization completed.");
 
             // BWEM's map printer example. Generates a "map.bmp" image file.
-            this.bwem.getMap().getMapPrinter().initialize(this.bw, this.bwem.getMap());
-            final MapPrinterExample example = new MapPrinterExample(this.bwem.getMap().getMapPrinter());
-            example.printMap(this.bwem.getMap());
-            example.pathExample(this.bwem.getMap());
+            bwem.getMap().getMapPrinter().initialize(bw, bwem.getMap());
+            final MapPrinterExample example = new MapPrinterExample(bwem.getMap().getMapPrinter());
+            example.printMap(bwem.getMap());
+            example.pathExample(bwem.getMap());
 
-            // Check if this is a replay
-            if (this.bw.getInteractionHandler().isReplay()) {
-                for (final Player player : this.bw.getAllPlayers()) {
-                    // Only print the player if they are not an observer
-                    if (!player.isObserver()) {
-                        this.bw.getInteractionHandler().printf(player.getName() + ", playing as " + player.getRace());
+            /* Print player info to console. */ {
+                final StringBuilder sb = new StringBuilder("Players: ").append(System.lineSeparator());
+                for (final Player player : bw.getAllPlayers()) {
+                    sb.append("  ").append(player.getName()).append(", ID=").append(player.getId()).append(", race=").append(player.getRace()).append(System.lineSeparator());
+                }
+                System.out.println(sb.toString());
+            }
+
+            // Compile list of workers.
+            for (final PlayerUnit u : bw.getUnits(self)) {
+                if (u instanceof Worker) {
+                    final Worker worker = (Worker) u;
+                    if (!workers.contains(worker)) {
+                        workers.add(worker);
                     }
                 }
-            } else {
-                // Retrieve you and your enemy's races. enemy() will just return the first enemy.
-                // If you wish to deal with multiple enemies then you must use enemies().
-                this.bw.getInteractionHandler().printf("The matchup is " + this.bw.getInteractionHandler().self().getRace() + " vs " + this.bw.getInteractionHandler().enemy().getRace());
+            }
+
+            /* Basic gamestart worker auto-mine */ {
+                final List<MineralPatch> unassignedMineralPatches = bw.getMineralPatches();
+                final List<Worker> unassignedWorkers = new ArrayList<>(workers);
+                unassignedMineralPatches.sort(new UnitDistanceComparator(self.getStartLocation().toPosition()));
+                while (!unassignedWorkers.isEmpty() && !unassignedMineralPatches.isEmpty()) {
+                    final Worker unassignedWorker = unassignedWorkers.remove(0);
+                    final MineralPatch unassignedMineralPatch = unassignedMineralPatches.remove(0);
+                    unassignedWorker.gather(unassignedMineralPatch);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
+            System.exit(1);
         }
     }
 
@@ -80,37 +127,84 @@ public class TestListenerBwem implements BWEventListener {
     @Override
     public void onFrame() {
         try {
-            /* Display starting locations and possible base locations. */ {
-                for (final Base base : this.bwem.getMap().getBases()) {
-                    final boolean isStartingLocation = base.isStartingLocation();
-                    final Color highlightColor = isStartingLocation ? Color.GREEN : Color.YELLOW;
-                    final Position location = base.getLocation().toPosition();
-                    final Position resourceDepotSize = UnitType.Terran_Command_Center.tileSize().toPosition();
-                    this.bw.getMapDrawer().drawBoxMap(location.getX(), location.getY(), location.add(resourceDepotSize).getX(), location.add(resourceDepotSize).getY(), highlightColor);
-
-                    /* Display minerals. */
-                    for (final Mineral mineral : base.getMinerals()) {
-                        this.bw.getMapDrawer().drawLineMap(mineral.getCenter(), base.getCenter(), Color.CYAN);
+            // Send idle workers to mine at the closest mineral patch.
+            for (final Worker worker : workers) {
+                if (worker.isIdle()) {
+                    MineralPatch closestMineralPatch = null;
+                    for (final MineralPatch mineralPatch : bw.getMineralPatches()) {
+                        if (closestMineralPatch == null) {
+                            closestMineralPatch = mineralPatch;
+                        } else {
+                            if (mineralPatch.getPosition().getDistance(self.getStartLocation().toPosition())
+                                    < closestMineralPatch.getPosition().getDistance(self.getStartLocation().toPosition())) {
+                                closestMineralPatch = mineralPatch;
+                            }
+                        }
                     }
+                    worker.gather(closestMineralPatch);
+                }
+            }
 
-                    /* Display geysers. */
-                    for (final Geyser geyser : base.getGeysers()) {
-                        this.bw.getMapDrawer().drawLineMap(geyser.getCenter(), base.getCenter(), Color.GREEN);
+            /* Train an SCV at every Command Center. */ {
+                if (self.getRace() == Race.Terran) {
+                    for (final PlayerUnit u : bw.getUnits(self)) {
+                        if (u instanceof CommandCenter) {
+                            final CommandCenter commandCenter = (CommandCenter) u;
+                            if (!commandCenter.isTraining()) {
+                                commandCenter.trainWorker();
+                            }
+                        }
                     }
                 }
             }
 
-            /* Display choke points. */ {
-                final float chokePointRadius = 8.0f;
-//                final float chokePointCrosshairDistance = chokePointRadius * 2.5f;
-                final float chokePointCrosshairDistance = chokePointRadius;
+            /* Highlight starting locations and possible base locations. */ {
+                for (final Base base : bwem.getMap().getBases()) {
+                    final boolean isStartingLocation = base.isStartingLocation();
+                    final Color highlightColor = isStartingLocation ? Color.GREEN : Color.YELLOW;
+                    final Position baseLocation = base.getLocation().toPosition();
+                    final Position resourceDepotSize = UnitType.Terran_Command_Center.tileSize().toPosition();
+                    if (isOnScreen(baseLocation)) {
+                        bw.getMapDrawer().drawBoxMap(baseLocation, baseLocation.add(resourceDepotSize), highlightColor);
+                    }
+
+                    /* Display minerals. */
+                    for (final Mineral mineral : base.getMinerals()) {
+                        if (isOnScreen(mineral.getCenter())) {
+                            bw.getMapDrawer().drawLineMap(mineral.getCenter(), base.getCenter(), Color.CYAN);
+                        }
+                    }
+
+                    /* Display geysers. */
+                    for (final Geyser geyser : base.getGeysers()) {
+                        if (isOnScreen(geyser.getCenter())) {
+                            bw.getMapDrawer().drawLineMap(geyser.getCenter(), base.getCenter(), Color.GREEN);
+                        }
+                    }
+                }
+            }
+
+            /* Highlight choke points. */ {
+                final int chokePointRadius = 8;
                 final Color chokePointColor = Color.RED;
-                for (final ChokePoint chokePoint : this.bwem.getMap().getChokePoints()) {
+                for (final ChokePoint chokePoint : bwem.getMap().getChokePoints()) {
                     final Position center = chokePoint.getCenter().toPosition();
-                    this.bw.getMapDrawer().drawCircleMap(center.getX(), center.getY(), (int) chokePointRadius, chokePointColor);
-//                    this.bw.getMapDrawer().drawCircleMap(center.getX(), center.getY(), (int) (chokePointRadius * 2.5f), chokePointColor);
-                    this.bw.getMapDrawer().drawLineMap(center.getX() - (int)chokePointCrosshairDistance, center.getY(), center.getX() + (int)chokePointCrosshairDistance, center.getY(), chokePointColor);
-                    this.bw.getMapDrawer().drawLineMap(center.getX(), center.getY() - (int)chokePointCrosshairDistance, center.getX(), center.getY() + (int)chokePointCrosshairDistance, chokePointColor);
+                    if (isOnScreen(center)) {
+                        bw.getMapDrawer().drawCircleMap(center, chokePointRadius, chokePointColor);
+                        bw.getMapDrawer().drawLineMap(center.getX() - chokePointRadius, center.getY(), center.getX() + chokePointRadius, center.getY(), chokePointColor);
+                        bw.getMapDrawer().drawLineMap(center.getX(), center.getY() - chokePointRadius, center.getX(), center.getY() + chokePointRadius, chokePointColor);
+                    }
+                }
+            }
+
+            /* Highlight workers. */ {
+                for (final Worker worker : workers) {
+                    final Position tileSize = new TilePosition(worker.tileWidth(), worker.tileHeight()).toPosition();
+                    final Position topLeft = worker.getPosition().subtract(tileSize.divide(new Position(2, 2)));
+                    final Position bottomRight = topLeft.add(tileSize);
+                    if (isOnScreen(topLeft)) {
+                        bw.getMapDrawer().drawBoxMap(topLeft, bottomRight, Color.BROWN);
+                    }
                 }
             }
         } catch (Exception e) {
@@ -123,7 +217,7 @@ public class TestListenerBwem implements BWEventListener {
     public void onSendText(String text) {
         System.out.println("onSendText: " + text);
 
-        this.bw.getInteractionHandler().sendText(text);
+        bw.getInteractionHandler().sendText(text);
     }
 
     @Override
@@ -140,10 +234,10 @@ public class TestListenerBwem implements BWEventListener {
     public void onNukeDetect(Position target) {
         System.out.println("onNukeDetect: " + target);
 
-        if (this.bw.getBWMap().isValidPosition(target)) {
-            this.bw.getInteractionHandler().sendText("Nuclear Launch Detected at " + target.toString());
+        if (bw.getBWMap().isValidPosition(target)) {
+            bw.getInteractionHandler().sendText("Nuclear Launch Detected at " + target.toString());
         } else {
-            this.bw.getInteractionHandler().sendText("Where's the nuke?");
+            bw.getInteractionHandler().sendText("Where's the nuke?");
         }
     }
 
@@ -178,10 +272,15 @@ public class TestListenerBwem implements BWEventListener {
 
         // BWEM's unit tracking for automatic path analysis.
         try {
-            this.bwem.getMap().onUnitDestroyed(unit);
+            bwem.getMap().onUnitDestroyed(unit);
         } catch (final Exception e) {
             e.printStackTrace();
         }
+
+        final Optional<Worker> destroyedWorker = workers.stream()
+                .filter(w -> w.equals(unit))
+                .findAny();
+        destroyedWorker.ifPresent(workers::remove);
     }
 
     @Override
@@ -202,12 +301,15 @@ public class TestListenerBwem implements BWEventListener {
     @Override
     public void onUnitComplete(Unit unit) {
         System.out.println("onUnitComplete: " + unit);
+
+        if (unit instanceof Worker) {
+            final Worker worker = (Worker) unit;
+            if (worker.getPlayer().equals(self) && !workers.contains(worker)) {
+                workers.add(worker);
+            }
+        }
     }
 
-    /**
-     * Test method.
-     * @param args arguments
-     */
     public static void main(String[] args) {
         final TestListenerBwem listener = new TestListenerBwem();
 
@@ -216,4 +318,20 @@ public class TestListenerBwem implements BWEventListener {
 
         bw.startGame();
     }
+
+    private static class UnitDistanceComparator implements Comparator<Unit> {
+
+        private final Position targetPosition;
+
+        public UnitDistanceComparator(final Position targetPosition) {
+            this.targetPosition = targetPosition;
+        }
+
+        @Override
+        public int compare(final Unit u1, final Unit u2) {
+            return Integer.compare(u1.getPosition().getDistance(targetPosition), u2.getPosition().getDistance(targetPosition));
+        }
+
+    }
+
 }
