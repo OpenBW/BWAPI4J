@@ -23,34 +23,54 @@ public final class DummyDataUtils {
 
     private DummyDataUtils() {}
 
-    private static String determineMapShortHash(final String mapHash) {
-        final String mapShortHash;
-        if (mapHash == null) {
-            mapShortHash = "d2f5633cc4bb0fca13cd1250729d5530c82c7451".substring(0, 7);
-        } else {
-            mapShortHash = mapHash.substring(0, 7);
+    public static String compileBwapiDataSetArchiveFilename(final String targetDataSet, final String... versions) {
+        return compileDataSetArchiveFilename("DummyBwapiData", targetDataSet, versions);
+    }
+
+    public static String compileBwemDataSetArchiveFilename(final String targetDataSet, final String... versions) {
+        return compileDataSetArchiveFilename("DummyBwemData", targetDataSet, versions);
+    }
+
+    public static String compileDataSetArchiveFilename(final String prefix, final String targetDataSet, final String... versions) {
+        String compiledVersions = "";
+
+        if (versions != null && versions.length > 0) {
+            compiledVersions = versions[0];
+            for (int i = 1; i < versions.length; ++i) {
+                compiledVersions += "_" + versions[i];
+            }
         }
-        return mapShortHash;
+
+        return (prefix + "_" + targetDataSet + (!compiledVersions.isEmpty() ? "_" + compiledVersions : "") + ".tar.bz2");
+    }
+
+    private static String determineMapShortHash(String mapHash) {
+        return (mapHash == null || (mapHash = mapHash.trim()).isEmpty())
+                ? "d2f5633cc4bb0fca13cd1250729d5530c82c7451".substring(0, 7)
+                : mapHash.substring(0, 7);
     }
 
     private static ArchiveEntry getArchiveEntry(final ArchiveInputStream tarIn, final String startsWith) throws IOException {
         ArchiveEntry nextEntry;
         while ((nextEntry = tarIn.getNextEntry()) != null) {
             if (Paths.get(nextEntry.getName()).getFileName().toString().startsWith(startsWith)) {
-                break;
+                return nextEntry;
             }
         }
-        return nextEntry;
+        throw new IllegalArgumentException("Failed to find target archive entry.");
+    }
+
+    private static InputStream createInputStreamForDummyDataSet(final String archiveFilename) {
+        return DummyDataUtils.class.getResourceAsStream("/mockdata/" + archiveFilename);
     }
 
     public static int[] readIntegerArrayFromArchiveFile(final String archiveFilename, final String mapHash, final String regex) throws IOException {
-        final InputStream inputStream = DummyDataUtils.class.getResourceAsStream("/mockdata/" + archiveFilename + ".tar.bz2");
-
-        final String mapShortHash = determineMapShortHash(mapHash);
+        final InputStream inputStream = createInputStreamForDummyDataSet(archiveFilename);
 
         try (final ArchiveInputStream tarIn = new TarArchiveInputStream(new BZip2CompressorInputStream(inputStream));
                 final BufferedReader buffer = new BufferedReader(new InputStreamReader(tarIn))) {
 
+            final String mapShortHash = determineMapShortHash(mapHash);
             final ArchiveEntry nextEntry = getArchiveEntry(tarIn, mapShortHash);
             Assert.assertNotNull(nextEntry);
 
@@ -65,7 +85,7 @@ public final class DummyDataUtils {
     }
 
     public static List<List<Integer>> readMultiLineIntegerArraysFromArchiveFile(final String archiveFilename, final String mapHash, final String regex) throws IOException {
-        final InputStream inputStream = DummyDataUtils.class.getResourceAsStream("/mockdata/" + archiveFilename + ".tar.bz2");
+        final InputStream inputStream = createInputStreamForDummyDataSet(archiveFilename);
 
         final String mapShortHash = determineMapShortHash(mapHash);
 
@@ -111,8 +131,8 @@ public final class DummyDataUtils {
         }
     }
 
-    public static List<List<String>> reacMultiLinesAsStringsFromArchiveFile(final String archiveFilename, final String mapHash, final String regex) throws IOException {
-        final InputStream inputStream = DummyDataUtils.class.getResourceAsStream("/mockdata/" + archiveFilename + ".tar.bz2");
+    public static List<List<String>> readMultiLinesAsStringTokensFromArchiveFile(final String archiveFilename, final String mapHash, final String regex) throws IOException {
+        final InputStream inputStream = createInputStreamForDummyDataSet(archiveFilename);
 
         final String mapShortHash = determineMapShortHash(mapHash);
 
@@ -156,28 +176,5 @@ public final class DummyDataUtils {
             return data;
         }
     }
-
-//    public static int[] parseIntegerArray(final String filename, final String regex) throws URISyntaxException, IOException {
-//        final MutableInt index = new MutableInt(0);
-//        final URI fileURI = DummyDataUtils.class.getResource(filename).toURI();
-//        final List<Integer> array = new ArrayList<>();
-//        final Stream<String> stream = Files.lines(Paths.get(fileURI));
-//        stream.forEach(l -> {
-//            for (final String s : l.split(regex)) {
-//                array.add(Integer.valueOf(s.trim()));
-//                index.increment();
-//            }
-//        });
-//        stream.close();
-//
-//        logger.debug("Read " + index.intValue() + " values");
-//
-//        final int[] ret = new int[array.size()];
-//        for (int i = 0; i < array.size(); ++i) {
-//            ret[i] = array.get(i);
-//        }
-//
-//        return ret;
-//    }
 
 }

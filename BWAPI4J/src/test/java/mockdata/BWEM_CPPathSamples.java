@@ -34,52 +34,36 @@ public class BWEM_CPPathSamples {
 
     public final List<CPPSample> samples;
 
-    public BWEM_CPPathSamples(final String mapHash) throws IOException, URISyntaxException {
+    public BWEM_CPPathSamples(final String mapHash) throws IOException {
         this.samples = new ArrayList<>();
 
-        final String filename = mapHash.substring(0, 7) + "_CPPathSamples_1_Node_Min_ORIGINAL.txt";
+        final List<List<Integer>> samples = DummyDataUtils.readMultiLineIntegerArraysFromArchiveFile(DummyDataUtils.compileBwemDataSetArchiveFilename("CPPathSamples_1_Node_Min", BWAPI_DummyData.DataSetBwapiVersion.BWAPI_420.toString(), BWEM_DummyData.DataSetBwemVersion.BWEM_141.toString()), mapHash, " ");
 
-        final URI fileURI = DummyDataUtils.class.getResource("DummyBwemData" + File.separator + filename).toURI();
-
-        final FileInputStream fis = new FileInputStream(Paths.get(fileURI).toString());
-        final BufferedReader br = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
-        String line;
-        while ((line = br.readLine()) != null) {
-            if (line.isEmpty()) {
-                continue;
-            }
-
-            final String[] tokens = line.trim().split(" ");
-            final int[] vals = new int[tokens.length];
-            for (int i = 0; i < tokens.length; ++i) {
-                vals[i] = Integer.parseInt(tokens[i]);
-            }
-
+        for (final List<Integer> sample : samples) {
             int index = 0;
 
-            final int x1 = vals[index++];
-            final int y1 = vals[index++];
-            final Position start = new Position(x1, y1);
-            final int x2 = vals[index++];
-            final int y2 = vals[index++];
-            final Position end = new Position(x2, y2);
+            final int startX = sample.get(index++);
+            final int startY = sample.get(index++);
+            final Position start = new Position(startX, startY);
+
+            final int endX = sample.get(index++);
+            final int endY = sample.get(index++);
+            final Position end = new Position(endX, endY);
+
             final ImmutablePair<Position, Position> startAndEnd = new ImmutablePair<>(start, end);
 
-            final int pathLength = vals[index++];
+            final int pathLength = sample.get(index++);
 
             final List<WalkPosition> pathNodes = new ArrayList<>();
-            for (int i = index; i < vals.length; i += 2) {
-                final int x = vals[i];
-                final int y = vals[i + 1];
-                final WalkPosition node = new WalkPosition(x, y);
+            for (int i = index; i < sample.size(); i += 2) {
+                final int nodeX = sample.get(i);
+                final int nodeY = sample.get(i + 1);
+                final WalkPosition node = new WalkPosition(nodeX, nodeY);
                 pathNodes.add(node);
             }
 
-            final CPPSample sample = new CPPSample(startAndEnd, pathLength, pathNodes);
-            this.samples.add(sample);
+            this.samples.add(new CPPSample(startAndEnd, pathLength, pathNodes));
         }
-        br.close();
-        fis.close();
     }
 
 }
