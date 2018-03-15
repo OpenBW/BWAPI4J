@@ -3,8 +3,14 @@ package mockdata;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.TilePosition;
+import org.openbw.bwapi4j.test.BWDataProvider;
+import org.openbw.bwapi4j.type.UnitType;
+import org.openbw.bwapi4j.unit.MineralPatch;
+import org.openbw.bwapi4j.unit.MineralPatchMock;
+import org.openbw.bwapi4j.unit.VespeneGeyser;
+import org.openbw.bwapi4j.unit.VespeneGeyserMock;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -71,8 +77,12 @@ public class BWAPI_DummyData {
     private final int[] groundHeightData;
     private final int[] isWalkableData;
     private final int[] isBuildableData;
+    private final List<MineralPatch> mineralPatches;
+    private final List<VespeneGeyser> vespeneGeysers;
 
-    public BWAPI_DummyData(final String mapHash, final String dataSetBwapiVersion) throws IOException {
+    public BWAPI_DummyData(final String mapHash, final String dataSetBwapiVersion) throws Exception {
+        BWDataProvider.injectValues();
+
         this.mapHash = mapHash;
 
         this.mapInfo = new BWAPI_MapInfo(mapHash, dataSetBwapiVersion);
@@ -91,6 +101,34 @@ public class BWAPI_DummyData {
         this.isBuildableData = DummyDataUtils.readIntegerArrayFromArchiveFile(DummyDataUtils.compileBwapiDataSetArchiveFilename("isBuildable", dataSetBwapiVersion), this.mapHash, " ");
 
         this.isWalkableData = DummyDataUtils.readIntegerArrayFromArchiveFile(DummyDataUtils.compileBwapiDataSetArchiveFilename("isWalkable", dataSetBwapiVersion), this.mapHash, " ");
+
+        final int[] neutralsData = DummyDataUtils.readIntegerArrayFromArchiveFile(DummyDataUtils.compileBwapiDataSetArchiveFilename("Neutrals", dataSetBwapiVersion), this.mapHash, " ");
+        this.mineralPatches = new ArrayList<>();
+        this.vespeneGeysers = new ArrayList<>();
+        final int valuesPerGroup = 6;
+        for (int i = 0; i < neutralsData.length; i += valuesPerGroup) {
+            int offset = i;
+
+            final int unitTypeId = neutralsData[offset++];
+
+            final int initialResources = neutralsData[offset++];
+
+            final int x = neutralsData[offset++];
+            final int y = neutralsData[offset++];
+            final TilePosition tilePosition = new TilePosition(x, y);
+
+            if (unitTypeId == UnitType.Resource_Mineral_Field.getId()) {
+                this.mineralPatches.add(new MineralPatchMock(i, initialResources, tilePosition));
+            } else if (unitTypeId == UnitType.Resource_Vespene_Geyser.getId()) {
+                this.vespeneGeysers.add(new VespeneGeyserMock(i, initialResources, tilePosition));
+            } else {
+                //TODO
+//                /* Treat neutral as a special building. */
+//                this.staticBuildings.add(new SpecialBuildingMock(i, UnitType.valueOf(unitTypeId), tilePosition));
+            }
+        }
+        logger.debug("Added MineralPatches: count=" + this.mineralPatches.size());
+        logger.debug("Added VespeneGeysers: count=" + this.vespeneGeysers.size());
     }
 
     public String getMapDisplayName() {
@@ -127,6 +165,14 @@ public class BWAPI_DummyData {
 
     public int[] getIsBuildableData() {
         return this.isBuildableData;
+    }
+
+    public List<MineralPatch> getMineralPatches() {
+        return this.mineralPatches;
+    }
+
+    public List<VespeneGeyser> getVespeneGeysers() {
+        return this.vespeneGeysers;
     }
 
 }

@@ -1,9 +1,14 @@
 package mockdata;
 
+import bwem.ChokePoint;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openbw.bwapi4j.Position;
+import org.openbw.bwapi4j.WalkPosition;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BWEM_DummyData {
 
@@ -31,6 +36,7 @@ public class BWEM_DummyData {
     private final String dataSetBwemVersion;
 
     private final int[] miniTileAltitudes;
+    private final List<WalkPosition> chokePointCenters;
 
     public BWEM_DummyData(final String mapHash, final String dataSetBwapiVersion, final String dataSetBwemVersion) throws IOException {
         this.mapHash = mapHash;
@@ -42,10 +48,24 @@ public class BWEM_DummyData {
                 mapHash,
                 " "
         );
+
+        this.chokePointCenters = new ArrayList<>();
+        final int[] chokepointCentersVals_ORIGINAL = DummyDataUtils.readIntegerArrayFromArchiveFile(DummyDataUtils.compileBwemDataSetArchiveFilename("ChokePoints", BWAPI_DummyData.DataSetBwapiVersion.BWAPI_420.toString(), BWEM_DummyData.DataSetBwemVersion.BWEM_141.toString()), mapHash, " ");
+        final int valuesPerGroup = 6;
+        for (int i = 0; i < chokepointCentersVals_ORIGINAL.length; i += valuesPerGroup) {
+            final int x = chokepointCentersVals_ORIGINAL[i];
+            final int y = chokepointCentersVals_ORIGINAL[i + 1];
+            final WalkPosition chokepoint = new WalkPosition(x, y);
+            this.chokePointCenters.add(chokepoint);
+        }
     }
 
     public int[] getMiniTileAltitudes() {
         return this.miniTileAltitudes;
+    }
+
+    public List<WalkPosition> getChokePointCenters() {
+        return this.chokePointCenters;
     }
 
 }

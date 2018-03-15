@@ -11,11 +11,15 @@ public class BWMapMock implements BWMap {
 
     private final BWAPI_DummyData data;
 
-	public BWMapMock(final String mapHash, final String dataSetBwapiVersion) throws IOException {
+	public BWMapMock(final String mapHash, final String dataSetBwapiVersion) throws Exception {
         this.data = new BWAPI_DummyData(mapHash, dataSetBwapiVersion);
 	}
 
-	@Override
+    public BWAPI_DummyData getDummyData() {
+        return this.data;
+    }
+
+    @Override
 	public int getGroundHeight(final TilePosition position) {
         return getGroundHeight(position.getX(), position.getY());
     }

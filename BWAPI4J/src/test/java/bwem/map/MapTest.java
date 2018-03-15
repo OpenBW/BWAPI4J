@@ -2,16 +2,10 @@ package bwem.map;
 
 import bwem.BWEM;
 import bwem.ChokePoint;
-import bwem.map.AdvancedData;
-import bwem.map.Map;
-import bwem.map.MapImpl;
-import bwem.map.MapInitializer;
-import bwem.map.MapInitializerImpl;
 import bwem.typedef.CPPath;
 import mockdata.BWAPI_DummyData;
 import mockdata.BWEM_CPPathSamples;
 import mockdata.BWEM_DummyData;
-import mockdata.DummyDataUtils;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 import org.apache.logging.log4j.LogManager;
@@ -45,14 +39,15 @@ public class MapTest implements BWEventListener {
     public void Compare_MiniTile_Altitudes_to_Original_Samples_LIVE() throws AssertionError, IOException {
 		this.bw = new BW(this);
 		this.bw.startGame();
+
         final BWEM_DummyData bwemDummyData = new BWEM_DummyData(this.bw.getBWMap().mapHash(), BWAPI_DummyData.DataSetBwapiVersion.BWAPI_420.toString(), BWEM_DummyData.DataSetBwemVersion.BWEM_141.toString());
 
-		assertEquals_MiniTileAltitudes(this.bwemMap.getData(), bwemDummyData, this.bw.getBWMap().mapWidth() * 4, this.bw.getBWMap().mapHeight() * 4);
+		assertEquals_MiniTileAltitudes(this.bwemMap.getData(), bwemDummyData);
 	}
 
 	@Ignore
     @Test
-    public void Compare_MiniTile_Altitudes_to_Original_Samples() throws AssertionError, IOException {
+    public void Compare_MiniTile_Altitudes_to_Original_Samples() throws Exception {
     	for (final BWAPI_DummyData.MapHash mapHash : BWAPI_DummyData.MapHash.values()) {
     	    logger.debug("Compare_MiniTile_Altitudes_to_Original_Samples: " + mapHash.getMapName() + ": " + mapHash.getMapHash());
 
@@ -60,10 +55,10 @@ public class MapTest implements BWEventListener {
 
             final BWEM_DummyData bwemDummyData = new BWEM_DummyData(mapHash.getMapHash(), BWAPI_DummyData.DataSetBwapiVersion.BWAPI_420.toString(), BWEM_DummyData.DataSetBwemVersion.BWEM_141.toString());
 
-            this.bwemMap = new MapInitializerImpl(bwMapMock, null, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+            this.bwemMap = new MapInitializerImpl(bwMapMock, null, new ArrayList<>(), ((BWMapMock) bwMapMock).getDummyData().getMineralPatches(), ((BWMapMock) bwMapMock).getDummyData().getVespeneGeysers(), new ArrayList<>());
             ((MapInitializer) this.bwemMap).initialize(true);
 
-            assertEquals_MiniTileAltitudes(this.bwemMap.getData(), bwemDummyData, bwMapMock.mapWidth() * 4, bwMapMock.mapHeight() * 4);
+            assertEquals_MiniTileAltitudes(this.bwemMap.getData(), bwemDummyData);
         }
     }
 
@@ -71,14 +66,14 @@ public class MapTest implements BWEventListener {
 	 * Tests that each MiniTile's Altitude for all WalkPositions match between
 	 * the original BWAPI/BWEM in C++ and this Java port.
 	 */
-	private void assertEquals_MiniTileAltitudes(AdvancedData data, BWEM_DummyData dummyBwemData, int walkTileWidth, int walkTileHeight) {
+	private void assertEquals_MiniTileAltitudes(AdvancedData data, BWEM_DummyData dummyBwemData) {
         final List<ImmutableTriple<WalkPosition, Integer, Integer>> wrongAltitudes = new ArrayList<>();
 
-		for (int y = 0; y < walkTileHeight; ++y) {
-			for (int x = 0; x < walkTileWidth; ++x) {
+		for (int y = 0; y < data.getMapData().getWalkSize().getY(); ++y) {
+			for (int x = 0; x < data.getMapData().getWalkSize().getX(); ++x) {
 			    final WalkPosition w = new WalkPosition(x, y);
 
-			    final int expected = dummyBwemData.getMiniTileAltitudes()[walkTileWidth * y + x];
+			    final int expected = dummyBwemData.getMiniTileAltitudes()[data.getMapData().getWalkSize().getX() * y + x];
 			    final int actual = data.getMiniTile(w).getAltitude().intValue();
 
 //				Assert.assertEquals(w + ": mini tile altitude is wrong.", expected, actual);
@@ -99,46 +94,65 @@ public class MapTest implements BWEventListener {
         this.bw = new BW(this);
         this.bw.startGame();
 
-        final int[] chokepointCentersVals_ORIGINAL = DummyDataUtils.readIntegerArrayFromArchiveFile(DummyDataUtils.compileBwemDataSetArchiveFilename("ChokePoints", BWAPI_DummyData.DataSetBwapiVersion.BWAPI_420.toString(), BWEM_DummyData.DataSetBwemVersion.BWEM_141.toString()), this.bw.getBWMap().mapHash(), " ");
-        final List<WalkPosition> chokepointCenters_ORIGINAL = new ArrayList<>();
+        BWEM_DummyData bwemDummyData = new BWEM_DummyData(this.bw.getBWMap().mapHash(), BWAPI_DummyData.DataSetBwapiVersion.BWAPI_420.toString(), BWEM_DummyData.DataSetBwemVersion.BWEM_141.toString());
 
-        final int valuesPerGroup = 6;
-        for (int i = 0; i < chokepointCentersVals_ORIGINAL.length; i += valuesPerGroup) {
-            final int x = chokepointCentersVals_ORIGINAL[i];
-            final int y = chokepointCentersVals_ORIGINAL[i + 1];
-            final WalkPosition chokepoint = new WalkPosition(x, y);
-            chokepointCenters_ORIGINAL.add(chokepoint);
+        assert_ChokePoints(bwemDummyData.getChokePointCenters(), ((MapImpl) this.bwemMap).getGraph().getChokePoints());
+    }
+
+    //TODO: This test will fail until the mock can handle special buildings. The LIVE version should pass, though.
+    @Ignore
+    @Test
+    public void Compare_ChokePoint_Centers_to_Original_Samples() throws Exception {
+        for (final BWAPI_DummyData.MapHash mapHash : BWAPI_DummyData.MapHash.values()) {
+            logger.debug("Compare_ChokePoint_Centers_to_Original_Samples: " + mapHash.getMapName() + ": " + mapHash.getMapHash());
+
+            final BWMap bwMapMock = new BWMapMock(mapHash.getMapHash(), BWAPI_DummyData.DataSetBwapiVersion.BWAPI_420.toString());
+
+            final BWEM_DummyData bwemDummyData = new BWEM_DummyData(mapHash.getMapHash(), BWAPI_DummyData.DataSetBwapiVersion.BWAPI_420.toString(), BWEM_DummyData.DataSetBwemVersion.BWEM_141.toString());
+
+            this.bwemMap = new MapInitializerImpl(bwMapMock, null, new ArrayList<>(), ((BWMapMock) bwMapMock).getDummyData().getMineralPatches(), ((BWMapMock) bwMapMock).getDummyData().getVespeneGeysers(), new ArrayList<>());
+            ((MapInitializer) this.bwemMap).initialize(true);
+
+            assert_ChokePoints(bwemDummyData.getChokePointCenters(), ((MapImpl) this.bwemMap).getGraph().getChokePoints());
+        }
+    }
+
+    /**
+     * Tests that all ChokePoint centers match between the original BWEM in C++ and this Java port.<br/>
+     */
+    private void assert_ChokePoints(final List<WalkPosition> expectedChokePointCenters, final List<ChokePoint> actualChokePoints) {
+        final List<WalkPosition> actualChokepointCenters = new ArrayList<>();
+        for (final ChokePoint actualChokePoint : actualChokePoints) {
+            final WalkPosition actualChokePointCenter = actualChokePoint.getCenter();
+            actualChokepointCenters.add(actualChokePointCenter);
         }
 
-        final List<ChokePoint> chokepoints = ((MapImpl)this.bwemMap).getGraph().getChokePoints();
-        final List<WalkPosition> chokepointCenters = new ArrayList<>();
-        for (final ChokePoint chokepoint : chokepoints) {
-            final WalkPosition center = chokepoint.getCenter();
-            chokepointCenters.add(center);
-        }
-
-        Assert.assertEquals("Chokepoint container sizes do not match. original=" + chokepointCenters_ORIGINAL.size() + ", port=" + chokepointCenters.size(), chokepointCenters_ORIGINAL.size(), chokepointCenters.size());
+        Assert.assertEquals("Chokepoint container sizes do not match. expected=" + expectedChokePointCenters.size() + ", actual=" + actualChokepointCenters.size(), expectedChokePointCenters.size(), actualChokepointCenters.size());
 
         final int tolerance = 20; // If an exact position is not found, search within this radius value.
         final List<WalkPosition> tolerantCenters = new ArrayList<>(); // Keep track of and do not use the same tolerant center more than once.
 
-        for (final WalkPosition center_ORIGINAL : chokepointCenters_ORIGINAL) {
-            boolean found = chokepointCenters.contains(center_ORIGINAL);
+        for (final WalkPosition expectedChokePointCenter : expectedChokePointCenters) {
+            final boolean found = actualChokepointCenters.contains(expectedChokePointCenter);
+
             if (!found) {
-                logger.warn("Did not find original chokepoint: " + center_ORIGINAL.toString() + ". Retrying with a max tolerance of " + tolerance + ".");
-                final int boundsLowerX = center_ORIGINAL.getX() - tolerance;
-                final int boundsUpperX = center_ORIGINAL.getX() + tolerance;
-                final int boundsLowerY = center_ORIGINAL.getY() - tolerance;
-                final int boundsUpperY = center_ORIGINAL.getY() + tolerance;
+                logger.warn("Did not find original chokepoint: " + expectedChokePointCenter.toString() + ". Retrying with a max tolerance of " + tolerance + ".");
+
+                final int boundsLowerX = expectedChokePointCenter.getX() - tolerance;
+                final int boundsUpperX = expectedChokePointCenter.getX() + tolerance;
+                final int boundsLowerY = expectedChokePointCenter.getY() - tolerance;
+                final int boundsUpperY = expectedChokePointCenter.getY() + tolerance;
+
                 boolean foundTolerant = false;
                 for (int y = boundsLowerY; y <= boundsUpperY; ++y) {
                     for (int x = boundsLowerX; x <= boundsUpperX; ++x) {
                         final WalkPosition tolerantCenter = new WalkPosition(x, y);
-                        if (chokepointCenters.contains(tolerantCenter)) {
+
+                        if (actualChokepointCenters.contains(tolerantCenter)) {
                             Assert.assertEquals("Found a tolerant center but it has already been used: " + tolerantCenter.toString(), false, tolerantCenters.contains(tolerantCenter));
                             tolerantCenters.add(tolerantCenter);
                             foundTolerant = true;
-                            logger.debug("Found tolerant center for chokepoint: " + center_ORIGINAL.toString() + ", tolerant_center=" + tolerantCenter.toString() + ", tolerance=" + center_ORIGINAL.subtract(tolerantCenter) + ".");
+                            logger.debug("Found tolerant center for chokepoint: " + expectedChokePointCenter.toString() + ", tolerant_center=" + tolerantCenter.toString() + ", tolerance=" + expectedChokePointCenter.subtract(tolerantCenter) + ".");
                             break;
                         }
                     }
@@ -146,7 +160,7 @@ public class MapTest implements BWEventListener {
                         break;
                     }
                 }
-                Assert.assertEquals("Did not find original chokepoint even with a tolerance value. list=" + chokepointCenters.toString(), true, foundTolerant);
+                Assert.assertEquals("Did not find original chokepoint even with a tolerance value. actualChokepointCenters=" + actualChokepointCenters.toString(), true, foundTolerant);
             }
         }
     }
