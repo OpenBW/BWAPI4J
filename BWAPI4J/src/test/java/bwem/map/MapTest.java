@@ -94,7 +94,7 @@ public class MapTest implements BWEventListener {
         this.bw = new BW(this);
         this.bw.startGame();
 
-        BWEM_DummyData bwemDummyData = new BWEM_DummyData(this.bw.getBWMap().mapHash(), BWAPI_DummyData.DataSetBwapiVersion.BWAPI_420.toString(), BWEM_DummyData.DataSetBwemVersion.BWEM_141.toString());
+        final BWEM_DummyData bwemDummyData = new BWEM_DummyData(this.bw.getBWMap().mapHash(), BWAPI_DummyData.DataSetBwapiVersion.BWAPI_420.toString(), BWEM_DummyData.DataSetBwemVersion.BWEM_141.toString());
 
         assert_ChokePoints(bwemDummyData.getChokePointCenters(), ((MapImpl) this.bwemMap).getGraph().getChokePoints());
     }
@@ -118,7 +118,7 @@ public class MapTest implements BWEventListener {
     }
 
     /**
-     * Tests that all ChokePoint centers match between the original BWEM in C++ and this Java port.<br/>
+     * Tests that all chokepoint centers match between the original BWEM in C++ and this Java port.<br/>
      */
     private void assert_ChokePoints(final List<WalkPosition> expectedChokePointCenters, final List<ChokePoint> actualChokePoints) {
         final List<WalkPosition> actualChokepointCenters = new ArrayList<>();
@@ -129,7 +129,7 @@ public class MapTest implements BWEventListener {
 
         Assert.assertEquals("Chokepoint container sizes do not match. expected=" + expectedChokePointCenters.size() + ", actual=" + actualChokepointCenters.size(), expectedChokePointCenters.size(), actualChokepointCenters.size());
 
-        final int tolerance = 20; // If an exact position is not found, search within this radius value.
+        final int tolerance = 20; // If an exact position is not found, search within this WalkTile radius value.
         final List<WalkPosition> tolerantCenters = new ArrayList<>(); // Keep track of and do not use the same tolerant center more than once.
 
         for (final WalkPosition expectedChokePointCenter : expectedChokePointCenters) {
@@ -175,26 +175,26 @@ public class MapTest implements BWEventListener {
         int pathsCount = 0;
         int differenceSum = 0;
 
-        final BWEM_CPPathSamples cppathSamples = new BWEM_CPPathSamples(this.bw.getBWMap().mapHash());
-        for (final BWEM_CPPathSamples.CPPSample sample : cppathSamples.samples) {
-            final Position sampleStartPosition = sample.startAndEnd.getLeft();
-            final Position sampleEndPosition = sample.startAndEnd.getRight();
-            final int originalPathLength = sample.pathLength;
+        final BWEM_CPPathSamples expectedPathSamples = new BWEM_CPPathSamples(this.bw.getBWMap().mapHash());
+        for (final BWEM_CPPathSamples.CPPSample expectedSample : expectedPathSamples.samples) {
+            final Position sampleStartPosition = expectedSample.startAndEnd.getLeft();
+            final Position sampleEndPosition = expectedSample.startAndEnd.getRight();
+            final int expectedPathLength = expectedSample.pathLength;
 
-            logger.debug("Testing: startPosition=" + sampleStartPosition.toString() + ", endPosition=" + sampleEndPosition.toString() + ", originalPathLength=" + originalPathLength);
+            logger.debug("Testing: startPosition=" + sampleStartPosition.toString() + ", endPosition=" + sampleEndPosition.toString() + ", expectedPathLength=" + expectedPathLength);
 
             ++pathsCount;
             try {
-                final MutableInt portPathLength = new MutableInt();
-                final CPPath path = this.bwemMap.getPath(sampleStartPosition, sampleEndPosition, portPathLength);
+                final MutableInt actualPathLength = new MutableInt();
+                this.bwemMap.getPath(sampleStartPosition, sampleEndPosition, actualPathLength);
 
-                final int difference = portPathLength.intValue() - originalPathLength;
+                final int difference = actualPathLength.intValue() - expectedPathLength;
                 if (difference != 0) {
                     differenceSum += difference;
-                    logger.warn("Path lengths do not match: originalPathLength=" + originalPathLength + ", portPathLength=" + portPathLength + ", difference=" + difference);
+                    logger.warn("Path lengths do not match: expectedPathLength=" + expectedPathLength + ", actualPathLength=" + actualPathLength + ", difference=" + difference);
                 }
             } catch (final Exception e) {
-                logger.warn("Failed to find a path: path error: startPosition=" + sampleStartPosition.toString() + ", endPosition=" + sampleEndPosition.toString() + ", pathLength=" + originalPathLength);
+                logger.warn("Failed to find a path: path error: startPosition=" + sampleStartPosition.toString() + ", endPosition=" + sampleEndPosition.toString() + ", expectedPathLength=" + expectedPathLength);
                 ++pathErrorsCount;
                 e.printStackTrace();
             }
