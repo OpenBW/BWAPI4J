@@ -207,6 +207,14 @@ public class TestListenerBwem implements BWEventListener {
                     }
                 }
             }
+
+            /* Draw mouse position debug info. */ {
+                final Position screenPosition = bw.getInteractionHandler().getScreenPosition();
+                final Position mousePosition = screenPosition.add(bw.getInteractionHandler().getMousePosition());
+                final String mouseText = "T:" + mousePosition.toTilePosition().toString() + "\nW:" + mousePosition.toWalkPosition().toString() + "\nP:" + mousePosition.toString();
+                bw.getMapDrawer().drawBoxMap(mousePosition.toTilePosition().toPosition(), mousePosition.toTilePosition().toPosition().add(new TilePosition(1, 1).toPosition()), Color.WHITE);
+                bw.getMapDrawer().drawTextMap(mousePosition.add(new Position(20, -10)), mouseText);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(0);
