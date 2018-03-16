@@ -524,13 +524,13 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                 } else { // no merge : cur starts or continues the frontier between the two neighboring areas
                     // adds cur to the chosen Area:
                     tempAreaList.get(chooseNeighboringArea(smaller, bigger).intValue()).add(cur);
-                    super.RawFrontier.add(new MutablePair<>(neighboringAreas, pos));
+                    super.rawFrontier.add(new MutablePair<>(neighboringAreas, pos));
                 }
             }
         }
 
         // Remove from the frontier obsolete positions
-        Utils.reallyRemoveIf(RawFrontier, args -> {
+        Utils.reallyRemoveIf(rawFrontier, args -> {
             @SuppressWarnings("unchecked")
             final MutablePair<MutablePair<AreaId, AreaId>, WalkPosition> f
                     = (MutablePair<MutablePair<AreaId, AreaId>, WalkPosition>) args[0];
@@ -566,7 +566,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
 
         // also replaces references of oldAreaId by newAreaId in getRawFrontier:
         if (newAreaId.intValue() > 0) {
-            for (final MutablePair<MutablePair<AreaId, AreaId>, WalkPosition> f : super.RawFrontier) {
+            for (final MutablePair<MutablePair<AreaId, AreaId>, WalkPosition> f : super.rawFrontier) {
                 if (f.getLeft().getLeft().equals(oldAreaId)) {
                     f.getLeft().setLeft(newAreaId);
                 }
