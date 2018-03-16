@@ -132,15 +132,15 @@ public final class BwemExt {
     }
 
     public static int roundedDist(final TilePosition a, final TilePosition b) {
-        return ((int) (Double.valueOf("0.5") + dist(a, b)));
+        return (int) Math.round(dist(a, b));
     }
 
     public static int roundedDist(final WalkPosition a, final WalkPosition b) {
-        return ((int) (Double.valueOf("0.5") + dist(a, b)));
+        return (int) Math.round(dist(a, b));
     }
 
     public static int roundedDist(final Position a, final Position b) {
-        return ((int) (Double.valueOf("0.5") + dist(a, b)));
+        return (int) Math.round(dist(a, b));
     }
 
     public static int distToRectangle(final Position a, final Position topLeft, final Position size) {

@@ -55,7 +55,7 @@ public abstract class MapImpl implements Map {
     private final MutableBoolean automaticPathUpdate = new MutableBoolean(false);
     private final Graph graph;
 
-    protected final List<MutablePair<MutablePair<AreaId, AreaId>, WalkPosition>> RawFrontier = new ArrayList<>();
+    protected final List<MutablePair<MutablePair<AreaId, AreaId>, WalkPosition>> rawFrontier = new ArrayList<>();
 
     private final BWMap bwMap;
     private final MapDrawer mapDrawer;
@@ -114,7 +114,7 @@ public abstract class MapImpl implements Map {
 
     @Override
     public List<MutablePair<MutablePair<AreaId, AreaId>, WalkPosition>> getRawFrontier() {
-        return RawFrontier;
+        return rawFrontier;
     }
 
     @Override

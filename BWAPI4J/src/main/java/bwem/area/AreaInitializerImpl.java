@@ -214,7 +214,7 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
 
             for (int i = 0; i < targets.size(); ++i) {
                 if (current.equals(targets.get(i))) {
-                    distances[i] = (int) (0.5 + (currentDist * 32.0 /10000.0));
+                    distances[i] = (int) Math.round(currentDist * 32.0 /10000.0);
                     --remainingTargets;
                 }
             }
