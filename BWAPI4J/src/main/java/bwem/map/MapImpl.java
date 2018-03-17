@@ -29,6 +29,8 @@ import org.openbw.bwapi4j.unit.VespeneGeyser;
 
 import java.util.*;
 
+import static bwem.area.typedef.AreaId.UNINITIALIZED;
+
 public abstract class MapImpl implements Map {
 
     private final MapPrinter mapPrinter;
@@ -494,7 +496,7 @@ public abstract class MapImpl implements Map {
                     if (tile.getAreaId().intValue() == 0) {
                         ((TileImpl) tile).setAreaId(id);
                     } else if (!tile.getAreaId().equals(id)) {
-                        ((TileImpl) tile).setAreaId(new AreaId(-1));
+                        ((TileImpl) tile).setAreaId(UNINITIALIZED);
                         return;
                     }
                 }

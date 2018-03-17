@@ -24,9 +24,9 @@ public class TempAreaInfo {
 
     public TempAreaInfo() {
         this.isValid = false;
-        this.id = new AreaId(0);
+        this.id = AreaId.ZERO;
         this.walkPositionWithHighestAltitude = new WalkPosition(0, 0);
-        this.highestAltitude = new Altitude(0);
+        this.highestAltitude = Altitude.ZERO;
 
 //        bwem_assert(!valid());
         if (isValid()) {

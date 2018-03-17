@@ -32,6 +32,8 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
+import static bwem.area.typedef.AreaId.UNINITIALIZED;
+
 public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
 
     private static final StaticMarkable staticMarkable = new StaticMarkable();
@@ -246,7 +248,7 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
                                 ((TileImpl) nextTile).setInternalData(newNextDist);
                                 toVisit.offer(new Pair<>(newNextDist, next));
                             }
-                        } else if ((nextTile.getAreaId().equals(getId())) || (nextTile.getAreaId().equals(new AreaId(-1)))) {
+                        } else if ((nextTile.getAreaId().equals(getId())) || (nextTile.getAreaId().equals(UNINITIALIZED))) {
                             ((TileImpl) nextTile).setInternalData(newNextDist);
                             toVisit.offer(new Pair<>(newNextDist, next));
                         }

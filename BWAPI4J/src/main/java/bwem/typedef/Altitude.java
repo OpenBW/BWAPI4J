@@ -10,7 +10,8 @@ import bwem.util.IWrappedInteger;
  * Type of the altitudes in pixels.
  */
 public final class Altitude implements IWrappedInteger<Altitude>, Comparable<Altitude> {
-
+    public static final Altitude UNINITIALIZED = new Altitude(-1);
+    public static final Altitude ZERO = new Altitude(0);
     private final int val;
 
     public Altitude(final int val) {

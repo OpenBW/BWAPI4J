@@ -22,8 +22,8 @@ public class TileImpl implements Tile {
     public TileImpl() {
         this.markable = new Markable(TileImpl.staticMarkable);
         this.neutral = null;
-        this.lowestAltitude = new Altitude(0);
-        this.areaId = new AreaId(0);
+        this.lowestAltitude = Altitude.ZERO;
+        this.areaId = AreaId.ZERO;
         this.internalData = 0;
         this.groundHeight = GroundHeight.LOW_GROUND;
         this.isBuildable = false;
@@ -120,7 +120,7 @@ public class TileImpl implements Tile {
     }
 
     public void resetAreaId() {
-        this.areaId = new AreaId(0);
+        this.areaId = AreaId.ZERO;
     }
 
     public void setLowestAltitude(final Altitude lowestAltitude) {

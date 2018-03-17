@@ -200,7 +200,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
             for (int x = -1; x <= advancedData.getMapData().getWalkSize().getX(); ++x) {
                 final WalkPosition walkPosition = new WalkPosition(x, y);
                 if (!advancedData.getMapData().isValid(walkPosition) || advancedData.isSeaWithNonSeaNeighbors(walkPosition)) {
-                    activeSeaSideList.add(new MutablePair<>(walkPosition, new Altitude(0)));
+                    activeSeaSideList.add(new MutablePair<>(walkPosition, Altitude.ZERO));
                 }
             }
         }

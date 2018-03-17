@@ -3,6 +3,8 @@ package bwem.tile;
 import bwem.area.typedef.AreaId;
 import bwem.typedef.Altitude;
 
+import static bwem.area.typedef.AreaId.UNINITIALIZED;
+
 public class MiniTileImpl implements MiniTile {
 
     private static final AreaId blockingCP = new AreaId(Integer.MIN_VALUE);
@@ -11,8 +13,8 @@ public class MiniTileImpl implements MiniTile {
     private AreaId areaId; // 0 -> unwalkable  ;  > 0 -> index of some Area  ;  < 0 -> some walkable terrain, but too small to be part of an Area
 
     public MiniTileImpl() {
-        this.altitude = new Altitude(-1);
-        this.areaId = new AreaId(-1);
+        this.altitude = Altitude.UNINITIALIZED;
+        this.areaId = UNINITIALIZED;
     }
 
     @Override
@@ -59,7 +61,7 @@ public class MiniTileImpl implements MiniTile {
         if (!(!isWalkable() && isSeaOrLake())) {
             throw new IllegalStateException();
         }
-        this.altitude = new Altitude(0);
+        this.altitude = Altitude.ZERO;
     }
 
     public void setLake() {
@@ -67,7 +69,7 @@ public class MiniTileImpl implements MiniTile {
         if (!(!isWalkable() && isSea())) {
             throw new IllegalStateException();
         }
-        this.altitude = new Altitude(-1);
+        this.altitude = Altitude.UNINITIALIZED;
     }
 
     public boolean isAltitudeMissing() {
