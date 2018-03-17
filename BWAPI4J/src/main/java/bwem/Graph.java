@@ -27,7 +27,6 @@ import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.util.Pair;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -371,8 +370,9 @@ public final class Graph {
                 = createRawFrontierByAreaPairMap(rawFrontier);
 
     	// 3) For each pair of areas (A, B):
-    	for (final MutablePair<AreaId, AreaId> rawleft : rawFrontierByAreaPair.keySet()) {
-    		final List<WalkPosition> rawFrontierAB = rawFrontierByAreaPair.get(rawleft);
+    	for (final java.util.Map.Entry<MutablePair<AreaId, AreaId>, List<WalkPosition>> entry : rawFrontierByAreaPair.entrySet()) {
+            MutablePair<AreaId, AreaId> rawleft = entry.getKey();
+    		final List<WalkPosition> rawFrontierAB = entry.getValue();
 
     		// Because our dispatching preserved order,
     		// and because Map::m_RawFrontier was populated in descending order of the altitude (see Map::computeAreas),
@@ -423,8 +423,8 @@ public final class Graph {
     		}
 
     		// 3.2) Create one Chokepoint for each cluster:
-            final AreaId a = new AreaId(rawleft.getLeft());
-            final AreaId b = new AreaId(rawleft.getRight());
+            final AreaId a = rawleft.getLeft();
+            final AreaId b = rawleft.getRight();
 //            getChokePoints(a, b).reserve(clusters.size() + pseudoChokePointsToCreate);
     		for (final List<WalkPosition> cluster : clusters) {
     			getChokePoints(a, b).add(new ChokePointImpl(this, new Index(newIndex), getArea(a), getArea(b), cluster));
@@ -664,8 +664,6 @@ public final class Graph {
 
         TileImpl.getStaticMarkable().unmarkAll();
 
-//        final MultiValuedMap<Integer, ChokePoint> toVisit = new ArrayListValuedHashMap<>(); // a priority queue holding the getChokePoints to visit ordered by their distance to start.
-                                                                                            //Using ArrayListValuedHashMap to substitute std::multimap since it sorts keys but not values.
         final Queue<Pair<Integer, ChokePoint>> toVisit = new PriorityQueue<>(Comparator.comparingInt(a -> a.first));
         toVisit.offer(new Pair<>(0, start));
 
@@ -676,10 +674,10 @@ public final class Graph {
             final ChokePoint current = distanceAndChokePoint.second;
             final Tile currentTile = getMap().getData().getTile(current.getCenter().toTilePosition(), CheckMode.NO_CHECK);
 //            bwem_assert(currentTile.InternalData() == currentDist);
-            if (!(((TileImpl) currentTile).getInternalData().intValue() == currentDist)) {
+            if (!(((TileImpl) currentTile).getInternalData() == currentDist)) {
                 throw new IllegalStateException();
             }
-            ((TileImpl) currentTile).getInternalData().setValue(0); // resets Tile::m_internalData for future usage
+            ((TileImpl) currentTile).setInternalData(0); // resets Tile::m_internalData for future usage
             ((TileImpl) currentTile).getMarkable().setMarked();
 
             for (int i = 0; i < targets.size(); ++i) {
@@ -696,26 +694,26 @@ public final class Graph {
                 continue;
             }
 
-            for (final Area pArea : new Area[]{current.getAreas().getLeft(), current.getAreas().getRight()}) {
+            for (final Area pArea : new Area[]{current.getAreas().getFirst(), current.getAreas().getSecond()}) {
                 for (final ChokePoint next : pArea.getChokePoints()) {
                     if (!next.equals(current)) {
                         final int newNextDist = currentDist + distance(current, next);
                         final Tile nextTile = getMap().getData().getTile(next.getCenter().toTilePosition(), CheckMode.NO_CHECK);
                         if (!((TileImpl) nextTile).getMarkable().isMarked()) {
-                            if (((TileImpl) nextTile).getInternalData().intValue() != 0) { // next already in toVisit
-                                if (newNextDist < ((TileImpl) nextTile).getInternalData().intValue()) { // nextNewDist < nextOldDist
+                            if (((TileImpl) nextTile).getInternalData() != 0) { // next already in toVisit
+                                if (newNextDist < ((TileImpl) nextTile).getInternalData()) { // nextNewDist < nextOldDist
                                                                                            // To update next's distance, we need to remove-insert it from toVisit:
 //                                    bwem_assert(iNext != range.second);
-                                    final boolean removed = toVisit.remove(new Pair<>(((TileImpl) nextTile).getInternalData().intValue(), next));
+                                    final boolean removed = toVisit.remove(new Pair<>(((TileImpl) nextTile).getInternalData(), next));
                                     if (!removed) {
                                         throw new IllegalStateException();
                                     }
-                                    ((TileImpl) nextTile).getInternalData().setValue(newNextDist);
+                                    ((TileImpl) nextTile).setInternalData(newNextDist);
                                     ((ChokePointImpl) next).setPathBackTrace(current);
                                     toVisit.offer(new Pair<>(newNextDist, next));
                                 }
                             } else {
-                                ((TileImpl) nextTile).getInternalData().setValue(newNextDist);
+                                ((TileImpl) nextTile).setInternalData(newNextDist);
                                 ((ChokePointImpl) next).setPathBackTrace(current);
                                 toVisit.offer(new Pair<>(newNextDist, next));
                             }
@@ -732,7 +730,7 @@ public final class Graph {
 
         // reset Tile::m_internalData for future usage
         for (Pair<Integer, ChokePoint> distanceToChokePoint : toVisit) {
-            ((TileImpl) getMap().getData().getTile(distanceToChokePoint.second.getCenter().toTilePosition(), CheckMode.NO_CHECK)).getInternalData().setValue(0);
+            ((TileImpl) getMap().getData().getTile(distanceToChokePoint.second.getCenter().toTilePosition(), CheckMode.NO_CHECK)).setInternalData(0);
         }
 
         return distances;

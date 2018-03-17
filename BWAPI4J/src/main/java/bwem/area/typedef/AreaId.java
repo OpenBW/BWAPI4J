@@ -15,30 +15,6 @@ public final class AreaId implements IWrappedInteger<AreaId>, Comparable<AreaId>
         this.val = val;
     }
 
-    public AreaId(final AreaId areaId) {
-        this.val = areaId.val;
-    }
-
-    @Override
-    public AreaId add(final AreaId that) {
-        return new AreaId(this.val + that.val);
-    }
-
-    @Override
-    public AreaId add(final int val) {
-        return new AreaId(this.val + val);
-    }
-
-    @Override
-    public AreaId subtract(final AreaId that) {
-        return new AreaId(this.val - that.val);
-    }
-
-    @Override
-    public AreaId subtract(final int val) {
-        return new AreaId(this.val - val);
-    }
-
     @Override
     public int intValue() {
         return this.val;

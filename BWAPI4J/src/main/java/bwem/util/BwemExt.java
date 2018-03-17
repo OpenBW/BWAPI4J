@@ -2,12 +2,12 @@ package bwem.util;
 
 import bwem.CheckMode;
 import bwem.map.MapImpl;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.openbw.bwapi4j.MapDrawer;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.type.Color;
+import org.openbw.bwapi4j.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +50,7 @@ public final class BwemExt {
     }
 
     // Enlarges the bounding box [topLeft, bottomRight] so that it includes A.
-    public static ImmutablePair<TilePosition, TilePosition> makeBoundingBoxIncludePoint(final TilePosition topLeft, final TilePosition bottomRight, final TilePosition point) {
+    public static Pair<TilePosition, TilePosition> makeBoundingBoxIncludePoint(final TilePosition topLeft, final TilePosition bottomRight, final TilePosition point) {
         int topLeftX = topLeft.getX();
         int topLeftY = topLeft.getY();
 
@@ -63,7 +63,7 @@ public final class BwemExt {
         if (point.getY() < topLeftY) topLeftY = point.getY();
         if (point.getY() > bottomRightY) bottomRightY = point.getY();
 
-        return new ImmutablePair<>(new TilePosition(topLeftX, topLeftY), new TilePosition(bottomRightX, bottomRightY));
+        return new Pair<>(new TilePosition(topLeftX, topLeftY), new TilePosition(bottomRightX, bottomRightY));
     }
 
     // Makes the smallest change to A so that it is included in the bounding box [topLeft, bottomRight].
@@ -132,15 +132,15 @@ public final class BwemExt {
     }
 
     public static int roundedDist(final TilePosition a, final TilePosition b) {
-        return ((int) (Double.valueOf("0.5") + dist(a, b)));
+        return (int) Math.round(dist(a, b));
     }
 
     public static int roundedDist(final WalkPosition a, final WalkPosition b) {
-        return ((int) (Double.valueOf("0.5") + dist(a, b)));
+        return (int) Math.round(dist(a, b));
     }
 
     public static int roundedDist(final Position a, final Position b) {
-        return ((int) (Double.valueOf("0.5") + dist(a, b)));
+        return (int) Math.round(dist(a, b));
     }
 
     public static int distToRectangle(final Position a, final Position topLeft, final Position size) {
@@ -161,8 +161,8 @@ public final class BwemExt {
             else                                    return topLeft.getX() - a.getX();                                        // W
     }
 
-    private static List<ImmutablePair<Integer, Integer>> innerBorderDeltas(final int sizeX, final int sizeY, final boolean noCorner) {
-        final List<ImmutablePair<Integer, Integer>> border = new ArrayList<>();
+    private static List<Pair<Integer, Integer>> innerBorderDeltas(final int sizeX, final int sizeY, final boolean noCorner) {
+        final List<Pair<Integer, Integer>> border = new ArrayList<>();
 
         for (int dy = 0; dy < sizeY; ++dy)
         for (int dx = 0; dx < sizeX; ++dx) {
@@ -171,7 +171,7 @@ public final class BwemExt {
                 if (!noCorner ||
                     !(((dx == 0) && (dy == 0)) || ((dx == sizeX - 1) && (dy == sizeY - 1)) ||
                       ((dx == 0) && (dy == sizeY - 1)) || ((dx == sizeX - 1) && (dy == 0)))) {
-                    border.add(new ImmutablePair<>(dx, dy));
+                    border.add(new Pair<>(dx, dy));
                 }
             }
         }
@@ -181,9 +181,9 @@ public final class BwemExt {
 
     public static List<TilePosition> innerBorder(final TilePosition topLeft, final TilePosition size, final boolean noCorner) {
         final List<TilePosition> border = new ArrayList<>();
-        final List<ImmutablePair<Integer, Integer>> deltas = innerBorderDeltas(size.getX(), size.getY(), noCorner);
-        for (final ImmutablePair<Integer, Integer> delta : deltas) {
-            border.add(topLeft.add(new TilePosition(delta.getLeft(), delta.getRight())));
+        final List<Pair<Integer, Integer>> deltas = innerBorderDeltas(size.getX(), size.getY(), noCorner);
+        for (final Pair<Integer, Integer> delta : deltas) {
+            border.add(topLeft.add(new TilePosition(delta.getFirst(), delta.getSecond())));
         }
         return border;
     }
@@ -194,9 +194,9 @@ public final class BwemExt {
 
     public static List<WalkPosition> innerBorder(final WalkPosition topLeft, final WalkPosition size, boolean noCorner) {
         final List<WalkPosition> border = new ArrayList<>();
-        final List<ImmutablePair<Integer, Integer>> deltas = innerBorderDeltas(size.getX(), size.getY(), noCorner);
-        for (final ImmutablePair<Integer, Integer> delta : deltas) {
-            border.add(topLeft.add(new WalkPosition(delta.getLeft(), delta.getRight())));
+        final List<Pair<Integer, Integer>> deltas = innerBorderDeltas(size.getX(), size.getY(), noCorner);
+        for (final Pair<Integer, Integer> delta : deltas) {
+            border.add(topLeft.add(new WalkPosition(delta.getFirst(), delta.getSecond())));
         }
         return border;
     }

@@ -7,9 +7,9 @@ import bwem.tile.MiniTileImpl;
 import bwem.typedef.CPPath;
 import bwem.typedef.Index;
 import bwem.unit.Neutral;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.openbw.bwapi4j.WalkPosition;
+import org.openbw.bwapi4j.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ public class ChokePointImpl implements ChokePoint {
     private final Graph graph;
     private final boolean isPseudo;
     private final Index index;
-    private final ImmutablePair<Area, Area> areas;
+    private final Pair<Area, Area> areas;
     private final WalkPosition[] nodes;
     private final List<MutablePair<WalkPosition, WalkPosition>> nodesInArea;
     private final List<WalkPosition> geometry;
@@ -43,7 +43,7 @@ public class ChokePointImpl implements ChokePoint {
 
         this.graph = graph;
         this.index = index;
-        this.areas = new ImmutablePair<>(area1, area2);
+        this.areas = new Pair<>(area1, area2);
         this.geometry = geometry;
 
         // Ensures that in the case where several neutrals are stacked, blockingNeutral points to the bottom one:
@@ -117,7 +117,7 @@ public class ChokePointImpl implements ChokePoint {
                 final WalkPosition left = nodesInArea.get(n).getLeft();
                 final WalkPosition right = nodesInArea.get(n).getRight();
                 final MutablePair<WalkPosition, WalkPosition> replacementPair = new MutablePair<>(left, right);
-                if (area.equals(this.areas.getLeft())) {
+                if (area.equals(this.areas.getFirst())) {
                     replacementPair.setLeft(nodeInArea);
                 } else {
                     replacementPair.setRight(nodeInArea);
@@ -145,7 +145,7 @@ public class ChokePointImpl implements ChokePoint {
     }
 
     @Override
-    public ImmutablePair<Area, Area> getAreas() {
+    public Pair<Area, Area> getAreas() {
         return this.areas;
     }
 
@@ -166,10 +166,10 @@ public class ChokePointImpl implements ChokePoint {
     @Override
     public WalkPosition getNodePositionInArea(final Node node, final Area area) {
 //        bwem_assert((pArea == areas.getLeft()) || (pArea == areas.getRight()));
-        if (!(area.equals(this.areas.getLeft()) || area.equals(this.areas.getRight()))) {
+        if (!(area.equals(this.areas.getFirst()) || area.equals(this.areas.getSecond()))) {
             throw new IllegalArgumentException();
         }
-        return area.equals(areas.getLeft())
+        return area.equals(areas.getFirst())
                 ? this.nodesInArea.get(node.ordinal()).getLeft()
                 : this.nodesInArea.get(node.ordinal()).getRight();
     }
@@ -242,18 +242,18 @@ public class ChokePointImpl implements ChokePoint {
             return false;
         } else {
             final ChokePointImpl that = (ChokePointImpl) object;
-            final boolean lel = this.areas.getLeft().equals(that.areas.getLeft());
-            final boolean ler = this.areas.getLeft().equals(that.areas.getRight());
-            final boolean rer = this.areas.getRight().equals(that.areas.getRight());
-            final boolean rel = this.areas.getRight().equals(that.areas.getLeft());
+            final boolean lel = this.areas.getFirst().equals(that.areas.getFirst());
+            final boolean ler = this.areas.getFirst().equals(that.areas.getSecond());
+            final boolean rer = this.areas.getSecond().equals(that.areas.getSecond());
+            final boolean rel = this.areas.getSecond().equals(that.areas.getFirst());
             return (((lel && rer) || (ler && rel))); /* true if area pairs are an exact match or if one pair is reversed. */
         }
     }
 
     @Override
     public int hashCode() {
-        int idLeft = areas.getLeft().getId().intValue();
-        int idRight = areas.getRight().getId().intValue();
+        int idLeft = areas.getFirst().getId().intValue();
+        int idRight = areas.getSecond().getId().intValue();
         if (idLeft > idRight) {
             final int idLeftTmp = idLeft;
             idLeft = idRight;

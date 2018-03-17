@@ -160,7 +160,7 @@ public class UnitTypeTest implements BWEventListener {
             Assert_maxGroundHits(1, unitType);
             Assert_airWeapon(WeaponType.Gauss_Rifle, unitType);
             Assert_maxAirHits(1, unitType);
-            Assert_topSpeed(Double.valueOf("4"), unitType);
+            Assert_topSpeed(4.0, unitType);
             Assert_acceleration(1, unitType);
             Assert_haltDistance(1, unitType);
             Assert_turnRadius(40, unitType);
