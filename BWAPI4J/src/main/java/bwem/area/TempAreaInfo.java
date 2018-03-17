@@ -34,14 +34,6 @@ public class TempAreaInfo {
         }
     }
 
-    public TempAreaInfo(final boolean isValid, final AreaId areaId, final WalkPosition walkPositionWithHighestAltitude, final Altitude highestAltitude, final int size) {
-        this.isValid = isValid;
-        this.id = new AreaId(areaId);
-        this.walkPositionWithHighestAltitude = walkPositionWithHighestAltitude;
-        this.highestAltitude = new Altitude(highestAltitude);
-        this.size = size;
-    }
-
     public TempAreaInfo(final AreaId id, final MiniTile miniTile, final WalkPosition walkPositionWithHighestAltitude) {
         this.isValid = true;
         this.id = id;

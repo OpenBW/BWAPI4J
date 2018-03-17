@@ -15,30 +15,6 @@ public final class GroupId implements IWrappedInteger<GroupId>, Comparable<Group
         this.val = val;
     }
 
-    public GroupId(final GroupId groupId) {
-        this.val = groupId.val;
-    }
-
-    @Override
-    public GroupId add(final GroupId that) {
-        return new GroupId(this.val + that.val);
-    }
-
-    @Override
-    public GroupId add(final int val) {
-        return new GroupId(this.val + val);
-    }
-
-    @Override
-    public GroupId subtract(final GroupId that) {
-        return new GroupId(this.val - that.val);
-    }
-
-    @Override
-    public GroupId subtract(final int val) {
-        return new GroupId(this.val - val);
-    }
-
     @Override
     public int intValue() {
         return this.val;

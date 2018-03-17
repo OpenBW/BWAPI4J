@@ -22,26 +22,6 @@ public final class Altitude implements IWrappedInteger<Altitude>, Comparable<Alt
     }
 
     @Override
-    public Altitude add(final Altitude that) {
-        return new Altitude(this.val + that.val);
-    }
-
-    @Override
-    public Altitude add(final int val) {
-        return new Altitude(this.val + val);
-    }
-
-    @Override
-    public Altitude subtract(final Altitude that) {
-        return new Altitude(this.val - that.val);
-    }
-
-    @Override
-    public Altitude subtract(final int val) {
-        return new Altitude(this.val - val);
-    }
-
-    @Override
     public int intValue() {
         return this.val;
     }

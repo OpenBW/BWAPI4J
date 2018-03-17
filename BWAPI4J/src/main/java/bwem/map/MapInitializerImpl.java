@@ -487,12 +487,12 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
             } else if (neighboringAreas.getRight() == null) { // one neighboring area : adds cur to the existing area
                 tempAreaList.get(neighboringAreas.getLeft().intValue()).add(cur);
             } else { // two neighboring areas : adds cur to one of them  &  possible merging
-                AreaId smaller = new AreaId(neighboringAreas.getLeft());
-                AreaId bigger = new AreaId(neighboringAreas.getRight());
+                AreaId smaller = neighboringAreas.getLeft();
+                AreaId bigger = neighboringAreas.getRight();
                 if (tempAreaList.get(smaller.intValue()).getSize() > tempAreaList.get(bigger.intValue()).getSize()) {
-                    AreaId smallerTmp = new AreaId(smaller);
-                    smaller = new AreaId(bigger);
-                    bigger = new AreaId(smallerTmp);
+                    AreaId smallerTmp = smaller;
+                    smaller = bigger;
+                    bigger = smallerTmp;
                 }
 
                 // Condition for the neighboring areas to merge:

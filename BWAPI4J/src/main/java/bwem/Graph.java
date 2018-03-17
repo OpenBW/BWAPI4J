@@ -27,7 +27,6 @@ import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.util.Pair;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -371,8 +370,9 @@ public final class Graph {
                 = createRawFrontierByAreaPairMap(rawFrontier);
 
     	// 3) For each pair of areas (A, B):
-    	for (final MutablePair<AreaId, AreaId> rawleft : rawFrontierByAreaPair.keySet()) {
-    		final List<WalkPosition> rawFrontierAB = rawFrontierByAreaPair.get(rawleft);
+    	for (final java.util.Map.Entry<MutablePair<AreaId, AreaId>, List<WalkPosition>> entry : rawFrontierByAreaPair.entrySet()) {
+            MutablePair<AreaId, AreaId> rawleft = entry.getKey();
+    		final List<WalkPosition> rawFrontierAB = entry.getValue();
 
     		// Because our dispatching preserved order,
     		// and because Map::m_RawFrontier was populated in descending order of the altitude (see Map::computeAreas),
@@ -423,8 +423,8 @@ public final class Graph {
     		}
 
     		// 3.2) Create one Chokepoint for each cluster:
-            final AreaId a = new AreaId(rawleft.getLeft());
-            final AreaId b = new AreaId(rawleft.getRight());
+            final AreaId a = rawleft.getLeft();
+            final AreaId b = rawleft.getRight();
 //            getChokePoints(a, b).reserve(clusters.size() + pseudoChokePointsToCreate);
     		for (final List<WalkPosition> cluster : clusters) {
     			getChokePoints(a, b).add(new ChokePointImpl(this, new Index(newIndex), getArea(a), getArea(b), cluster));
