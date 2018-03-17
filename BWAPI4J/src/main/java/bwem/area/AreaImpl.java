@@ -18,7 +18,7 @@ import java.util.List;
 public abstract class AreaImpl implements Area {
 
     private final AreaId id;
-    protected GroupId groupId = new GroupId(0);
+    protected GroupId groupId = GroupId.ZERO;
     private final WalkPosition walkPositionWithHighestAltitude;
     protected Altitude highestAltitude;
     protected TilePosition topLeft = new TilePosition(Integer.MAX_VALUE, Integer.MAX_VALUE);

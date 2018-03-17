@@ -8,7 +8,7 @@ import bwem.util.IWrappedInteger;
  * area.h:56:typedef int16_t groupId;
  */
 public final class GroupId implements IWrappedInteger<GroupId>, Comparable<GroupId> {
-
+    public static final GroupId ZERO = new GroupId(0);
     private final int val;
 
     public GroupId(final int val) {
