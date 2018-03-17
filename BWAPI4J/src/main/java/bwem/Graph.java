@@ -664,8 +664,6 @@ public final class Graph {
 
         TileImpl.getStaticMarkable().unmarkAll();
 
-//        final MultiValuedMap<Integer, ChokePoint> toVisit = new ArrayListValuedHashMap<>(); // a priority queue holding the getChokePoints to visit ordered by their distance to start.
-                                                                                            //Using ArrayListValuedHashMap to substitute std::multimap since it sorts keys but not values.
         final Queue<Pair<Integer, ChokePoint>> toVisit = new PriorityQueue<>(Comparator.comparingInt(a -> a.first));
         toVisit.offer(new Pair<>(0, start));
 
