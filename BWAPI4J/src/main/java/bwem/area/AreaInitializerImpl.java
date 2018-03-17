@@ -399,15 +399,7 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
 //                    remainingResources.remove(i--);
 //                }
 //            }
-            Utils.reallyRemoveIf(remainingResources, args -> {
-                final Object tresource = args[0];
-                if (tresource instanceof Resource) {
-                    final Resource resource = (Resource) tresource;
-                    return assignedResources.contains(resource);
-                } else {
-                    throw new IllegalStateException();
-                }
-            });
+            remainingResources.removeIf(assignedResources::contains);
 
             if (assignedResources.isEmpty()) {
                 break;

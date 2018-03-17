@@ -88,19 +88,4 @@ public final class Utils {
         Collections.swap(list, index, list.size() - 1);
         list.remove(list.size() - 1);
     }
-
-    /**
-     * Removes elements from the specified list satisfying the specified predicate.
-     *
-     * @param list the specified list
-     * @param pred the specified predicate
-     */
-    public static <T> void reallyRemoveIf(final List<T> list, final Pred pred) {
-        for (int i = 0; i < list.size(); ++i) {
-            if (pred.isTrue(list.get(i))) {
-                list.remove(i--);
-            }
-        }
-    }
-
 }

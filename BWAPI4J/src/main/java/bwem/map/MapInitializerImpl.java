@@ -3,30 +3,14 @@ package bwem.map;
 import bwem.CheckMode;
 import bwem.area.TempAreaInfo;
 import bwem.area.typedef.AreaId;
-import bwem.tile.MiniTile;
-import bwem.tile.MiniTileImpl;
-import bwem.tile.TileData;
-import bwem.tile.TileDataImpl;
-import bwem.tile.TileImpl;
+import bwem.tile.*;
 import bwem.typedef.Altitude;
-import bwem.unit.Mineral;
-import bwem.unit.Neutral;
-import bwem.unit.NeutralDataImpl;
-import bwem.unit.NeutralImpl;
-import bwem.unit.StaticBuilding;
-import bwem.util.BwemExt;
-import bwem.util.PairGenericAltitudeComparator;
-import bwem.util.PairGenericMiniTileAltitudeComparator;
-import bwem.util.Timer;
-import bwem.util.Utils;
+import bwem.unit.*;
+import bwem.util.*;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openbw.bwapi4j.BWMap;
-import org.openbw.bwapi4j.MapDrawer;
-import org.openbw.bwapi4j.Player;
-import org.openbw.bwapi4j.TilePosition;
-import org.openbw.bwapi4j.WalkPosition;
+import org.openbw.bwapi4j.*;
 import org.openbw.bwapi4j.unit.MineralPatch;
 import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.unit.Unit;
@@ -308,12 +292,9 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
 
     @Override
     public List<WalkPosition> trimOuterMiniTileBorder(final List<WalkPosition> border) {
-        Utils.reallyRemoveIf(border, args -> {
-            WalkPosition w = (WalkPosition) args[0];
-            return (!getData().getMapData().isValid(w)
-                    || !getData().getMiniTile(w, CheckMode.NO_CHECK).isWalkable()
-                    || getData().getTile(w.toTilePosition(), CheckMode.NO_CHECK).getNeutral() != null);
-        });
+        border.removeIf(w -> (!getData().getMapData().isValid(w)
+                || !getData().getMiniTile(w, CheckMode.NO_CHECK).isWalkable()
+                || getData().getTile(w.toTilePosition(), CheckMode.NO_CHECK).getNeutral() != null));
         return border;
     }
 
@@ -356,10 +337,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                 }
             }
 
-            Utils.reallyRemoveIf(border, args -> {
-                WalkPosition w = (WalkPosition) args[0];
-                return visited.contains(w);
-            });
+            border.removeIf(visited::contains);
         }
 
         return doors;
@@ -498,13 +476,8 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                 // Condition for the neighboring areas to merge:
 //                any_of(StartingLocations().begin(), StartingLocations().end(), [&pos](const TilePosition & startingLoc)
 //                    { return dist(TilePosition(pos), startingLoc + TilePosition(2, 1)) <= 3;})
-                boolean cppAlgorithmStdAnyOf = false;
-                for (final TilePosition startingLoc : getData().getMapData().getStartingLocations()) {
-                    if (BwemExt.dist(pos.toTilePosition(), startingLoc.add(new TilePosition(2, 1))) <= 3.0) {
-                        cppAlgorithmStdAnyOf = true;
-                        break;
-                    }
-                }
+                boolean cppAlgorithmStdAnyOf = getData().getMapData().getStartingLocations().stream().anyMatch(startingLoc ->
+                        BwemExt.dist(pos.toTilePosition(), startingLoc.add(new TilePosition(2, 1))) <= 3.0);
                 final int curAltitude = cur.getAltitude().intValue();
                 final int biggerHighestAltitude = tempAreaList.get(bigger.intValue()).getHighestAltitude().intValue();
                 final int smallerHighestAltitude = tempAreaList.get(smaller.intValue()).getHighestAltitude().intValue();
@@ -528,12 +501,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
         }
 
         // Remove from the frontier obsolete positions
-        Utils.reallyRemoveIf(rawFrontier, args -> {
-            @SuppressWarnings("unchecked")
-            final MutablePair<MutablePair<AreaId, AreaId>, WalkPosition> f
-                    = (MutablePair<MutablePair<AreaId, AreaId>, WalkPosition>) args[0];
-            return f.getLeft().getLeft().equals(f.getLeft().getRight());
-        });
+        rawFrontier.removeIf(f -> f.getLeft().getLeft().equals(f.getLeft().getRight()));
 
         return tempAreaList;
     }
