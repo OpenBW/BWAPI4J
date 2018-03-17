@@ -51,8 +51,8 @@ public final class Utils {
         s = (-s1Y * (p0X - p2X) + s1X * (p0Y - p2Y)) / (-s2X * s1Y + s1X * s2Y);
         t = ( s2X * (p0Y - p2Y) - s2Y * (p0X - p2X)) / (-s2X * s1Y + s1X * s2Y);
 
-        if (Double.compare(s, 0) >= 0 && Double.compare(s, 1) <= 0
-                && Double.compare(t, 0) >= 0 && Double.compare(t, 1) <= 0) {
+        if (s >= 0 && s <= 1
+                && t >= 0 && t <= 1) {
             // Collision detected
             if (iX != null) iX.setValue(p0X + (t * s1X));
             if (iY != null) iY.setValue(p0Y + (t * s1Y));

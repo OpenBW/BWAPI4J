@@ -500,7 +500,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
 //                    { return dist(TilePosition(pos), startingLoc + TilePosition(2, 1)) <= 3;})
                 boolean cppAlgorithmStdAnyOf = false;
                 for (final TilePosition startingLoc : getData().getMapData().getStartingLocations()) {
-                    if (Double.compare(BwemExt.dist(pos.toTilePosition(), startingLoc.add(new TilePosition(2, 1))), 3.0) <= 0) {
+                    if (BwemExt.dist(pos.toTilePosition(), startingLoc.add(new TilePosition(2, 1))) <= 3.0) {
                         cppAlgorithmStdAnyOf = true;
                         break;
                     }
@@ -510,8 +510,8 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                 final int smallerHighestAltitude = tempAreaList.get(smaller.intValue()).getHighestAltitude().intValue();
                 if ((tempAreaList.get(smaller.intValue()).getSize() < 80)
                         || (smallerHighestAltitude < 80)
-                        || (Double.compare((double) curAltitude / (double) biggerHighestAltitude, 0.90) >= 0)
-                        || (Double.compare((double) curAltitude / (double) smallerHighestAltitude, 0.90) >= 0)
+                        || ((double) curAltitude / (double) biggerHighestAltitude >= 0.90)
+                        || ((double) curAltitude / (double) smallerHighestAltitude >= 0.90)
                         || cppAlgorithmStdAnyOf) {
                     // adds cur to the absorbing area:
                     tempAreaList.get(bigger.intValue()).add(cur);
