@@ -15,10 +15,6 @@ public final class Index implements IWrappedInteger<Index>, Comparable<Index> {
         this.val = val;
     }
 
-    public Index(final Index index) {
-        this.val = index.val;
-    }
-
     public Index add(final int val) {
         return new Index(this.val + val);
     }

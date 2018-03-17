@@ -427,7 +427,7 @@ public final class Graph {
             final AreaId b = rawleft.getRight();
 //            getChokePoints(a, b).reserve(clusters.size() + pseudoChokePointsToCreate);
     		for (final List<WalkPosition> cluster : clusters) {
-    			getChokePoints(a, b).add(new ChokePointImpl(this, new Index(newIndex), getArea(a), getArea(b), cluster));
+    			getChokePoints(a, b).add(new ChokePointImpl(this, newIndex, getArea(a), getArea(b), cluster));
                 newIndex = newIndex.add(1);
             }
     	}
@@ -459,7 +459,7 @@ public final class Graph {
 
                     final List<WalkPosition> list = new ArrayList<>();
                     list.add(center);
-    				getChokePoints(blockedAreaA, blockedAreaB).add(new ChokePointImpl(this, new Index(newIndex), blockedAreaA, blockedAreaB, list, blockingNeutral));
+    				getChokePoints(blockedAreaA, blockedAreaB).add(new ChokePointImpl(this, newIndex, blockedAreaA, blockedAreaB, list, blockingNeutral));
                     newIndex = newIndex.add(1);
     			}
     		}
