@@ -57,7 +57,7 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
             throw new IllegalStateException("assert failed: topMiniTile.AreaId().equals(areaId): expected: " + topMiniTile.getAreaId().intValue() + ", actual: " + areaId.intValue());
         }
 
-        super.highestAltitude = new Altitude(topMiniTile.getAltitude());
+        super.highestAltitude = topMiniTile.getAltitude();
     }
 
     public static StaticMarkable getStaticMarkable() {

@@ -17,10 +17,6 @@ public final class Altitude implements IWrappedInteger<Altitude>, Comparable<Alt
         this.val = val;
     }
 
-    public Altitude(final Altitude altitude) {
-        this.val = altitude.val;
-    }
-
     @Override
     public int intValue() {
         return this.val;

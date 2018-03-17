@@ -380,7 +380,7 @@ public final class Graph {
     		{
     			final List<Altitude> altitudes = new ArrayList<>();
     			for (final WalkPosition w : rawFrontierAB) {
-    				altitudes.add(new Altitude(getMap().getData().getMiniTile(w).getAltitude()));
+    				altitudes.add(getMap().getData().getMiniTile(w).getAltitude());
                 }
 
                 // Check if the altitudes array is sorted in descending order.

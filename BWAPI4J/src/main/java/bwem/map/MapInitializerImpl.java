@@ -220,7 +220,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
             final List<MutablePair<WalkPosition, Altitude>> activeSeaSideList,
             final int altitudeScale
     ) {
-        Altitude updatedHighestAltitude = (currentHighestAltitude != null) ? new Altitude(currentHighestAltitude) : null;
+        Altitude updatedHighestAltitude = currentHighestAltitude;
 
         for (final MutablePair<WalkPosition, Altitude> deltaAltitude : deltasByAscendingAltitude) {
             final WalkPosition d = deltaAltitude.getLeft();
@@ -258,7 +258,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
 
     @Override
     public void setHighestAltitude(final Altitude altitude) {
-        super.highestAltitude = new Altitude(altitude);
+        super.highestAltitude = altitude;
     }
 
     //----------------------------------------------------------------------
@@ -613,9 +613,9 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
 
         for (int dy = 0; dy < 4; ++dy)
             for (int dx = 0; dx < 4; ++dx) {
-                final Altitude altitude = new Altitude(getData().getMiniTile(((t.toPosition()).toWalkPosition()).add(new WalkPosition(dx, dy)), CheckMode.NO_CHECK).getAltitude());
+                final Altitude altitude = getData().getMiniTile(((t.toPosition()).toWalkPosition()).add(new WalkPosition(dx, dy)), CheckMode.NO_CHECK).getAltitude();
                 if (altitude.intValue() < lowestAltitude.intValue()) {
-                    lowestAltitude = new Altitude(altitude);
+                    lowestAltitude = altitude;
                 }
             }
 
