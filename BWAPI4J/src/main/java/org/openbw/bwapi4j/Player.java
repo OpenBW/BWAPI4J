@@ -686,9 +686,13 @@ public class Player {
      * Returns true if the this player can train/build the given type immediately.
      */
     public boolean canMake(UnitType type) {
+        int supplyRequired = type.supplyRequired();
+        if (type == UnitType.Zerg_Zergling) {
+            supplyRequired *= 2;
+        }
         return minerals >= type.mineralPrice()
                 && gas >= type.gasPrice()
-                && (type.supplyRequired() == 0 || supplyUsed + type.supplyRequired() <= supplyTotal)
+                && (type.supplyRequired() == 0 || supplyUsed + supplyRequired <= supplyTotal)
                 && hasResearched(type.requiredTech())
                 && PlayerUnit.getMissingUnits(bw.getUnits(this), type.requiredUnits()).isEmpty();
     }

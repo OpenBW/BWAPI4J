@@ -54,7 +54,6 @@ public abstract class PlayerUnit extends Unit {
     private Position lastKnownPosition;
     private TilePosition lastKnownTilePosition;
     private int lastKnownHitPoints;
-    private int currentFrame;
 
     protected PlayerUnit(int id, UnitType unitType) {
         
