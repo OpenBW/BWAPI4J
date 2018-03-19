@@ -687,7 +687,7 @@ public class Player {
      */
     public boolean canMake(UnitType type) {
         int supplyRequired = type.supplyRequired();
-        if (type == UnitType.Zerg_Zergling) {
+        if (type.isTwoUnitsInOneEgg()) {
             supplyRequired *= 2;
         }
         return minerals >= type.mineralPrice()
