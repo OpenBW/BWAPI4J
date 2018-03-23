@@ -1,7 +1,6 @@
 package org.openbw.bwapi4j.unit;
 
 import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
 import java.util.List;
@@ -26,10 +25,10 @@ public class CommandCenter extends Building implements Mechanical, FlyingBuildin
     }
 
     @Override
-    public void initialize(int[] unitData, int index) {
+    public void initialize(int[] unitData, int index, int frame) {
 
         this.addonId = -1;
-        super.initialize(unitData, index);
+        super.initialize(unitData, index, frame);
     }
 
     @Override

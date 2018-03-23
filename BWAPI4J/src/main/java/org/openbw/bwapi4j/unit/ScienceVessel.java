@@ -1,8 +1,6 @@
 package org.openbw.bwapi4j.unit;
 
 import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.type.TechType;
-import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
 import static org.openbw.bwapi4j.type.TechType.*;
@@ -19,10 +17,10 @@ public class ScienceVessel extends MobileUnit implements Mechanical, SpellCaster
     }
 
     @Override
-    public void initialize(int[] unitData, int index) {
+    public void initialize(int[] unitData, int index, int frame) {
 
         this.energy = 0;
-        super.initialize(unitData, index);
+        super.initialize(unitData, index, frame);
     }
 
     @Override

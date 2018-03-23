@@ -16,10 +16,10 @@ public class Vulture extends MobileUnit implements Mechanical, GroundAttacker {
     }
     
     @Override
-    public void initialize(int[] unitData, int index) {
+    public void initialize(int[] unitData, int index, int frame) {
 
         this.spiderMineCount = 0;
-        super.initialize(unitData, index);
+        super.initialize(unitData, index, frame);
     }
 
     @Override

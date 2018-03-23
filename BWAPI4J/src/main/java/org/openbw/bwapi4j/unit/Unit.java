@@ -5,10 +5,8 @@ import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.*;
 import org.openbw.bwapi4j.type.*;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -157,6 +155,7 @@ public abstract class Unit implements Comparable<Unit> {
     protected UnitType initialType;
     protected Position initialPosition;
     protected TilePosition initialTilePosition;
+    protected int initiallySpotted;
 
     // dynamic
     protected UnitType type;
@@ -191,13 +190,14 @@ public abstract class Unit implements Comparable<Unit> {
         this.bw = bw;
     }
 
-    public void initialize(int[] unitData, int index) {
+    public void initialize(int[] unitData, int index, int frame) {
 
         // TODO this is a workaround because initialTilePosition gives wrong results with OpenBW
         this.initialPosition = new Position(unitData[index + Unit.POSITION_X_INDEX],
                 unitData[index + Unit.POSITION_Y_INDEX]);
         this.initialTilePosition = new TilePosition(unitData[index + Unit.TILEPOSITION_X_INDEX],
                 unitData[index + Unit.TILEPOSITION_Y_INDEX]);
+        this.initiallySpotted = frame;
 
         this.unitStatCalculator = this.bw.getPlayer(unitData[index + PLAYER_ID_INDEX]).getUnitStatCalculator();
     }
@@ -237,6 +237,10 @@ public abstract class Unit implements Comparable<Unit> {
     public int getLastSpotted() {
 
         return this.lastSpotted;
+    }
+
+    public int getInitiallySpotted() {
+        return initiallySpotted;
     }
 
     protected Collection<Unit> getAllUnits() {

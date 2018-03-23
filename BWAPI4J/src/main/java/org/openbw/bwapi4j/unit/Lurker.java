@@ -14,10 +14,10 @@ public class Lurker extends MobileUnit implements Organic, Burrowable, GroundAtt
     }
     
     @Override
-    public void initialize(int[] unitData, int index) {
+    public void initialize(int[] unitData, int index, int frame) {
 
         this.burrowed = false;
-        super.initialize(unitData, index);
+        super.initialize(unitData, index, frame);
     }
 
     @Override

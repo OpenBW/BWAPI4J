@@ -16,7 +16,6 @@ import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.unit.MineralPatch;
 import org.openbw.bwapi4j.unit.PlayerUnit;
-import org.openbw.bwapi4j.unit.SCV;
 import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.unit.UnitFactory;
 import org.openbw.bwapi4j.unit.VespeneGeyser;
@@ -270,7 +269,7 @@ public class BW {
                 	logger.trace("state: {}", unit.exists() ? "completed" : "created");
 
                     this.units.put(unitId, unit);
-                    unit.initialize(unitData, index);
+                    unit.initialize(unitData, index, frame);
                     unit.update(unitData, index, frame);
                     logger.trace("initial pos: {}", unit.getInitialTilePosition());
                     logger.trace("current pos: {}", unit.getTilePosition());

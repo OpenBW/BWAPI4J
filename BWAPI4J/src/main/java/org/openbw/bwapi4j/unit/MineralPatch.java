@@ -16,10 +16,10 @@ public class MineralPatch extends Unit implements Resource, Gatherable {
     }
 
     @Override
-    public void initialize(int[] unitData, int index) {
+    public void initialize(int[] unitData, int index, int frame) {
 
         this.initialResources = unitData[index + Unit.INITIAL_RESOURCES_INDEX];
-        super.initialize(unitData, index);
+        super.initialize(unitData, index, frame);
     }
 
     @Override

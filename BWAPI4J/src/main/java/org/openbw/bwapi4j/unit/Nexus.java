@@ -16,9 +16,9 @@ public class Nexus extends Building implements Mechanical, TrainingFacility, Bas
     }
 
     @Override
-    public void initialize(int[] unitData, int index) {
+    public void initialize(int[] unitData, int index, int frame) {
 
-        super.initialize(unitData, index);
+        super.initialize(unitData, index, frame);
     }
 
     @Override

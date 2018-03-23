@@ -12,10 +12,10 @@ public class Interceptor extends MobileUnit implements Mechanical, GroundAttacke
     }
     
     @Override
-    public void initialize(int[] unitData, int index) {
+    public void initialize(int[] unitData, int index, int frame) {
 
         this.carrierId = unitData[index + Unit.CARRIER_INDEX];
-        super.initialize(unitData, index);
+        super.initialize(unitData, index, frame);
     }
 
     public Unit getCarrier() {
