@@ -1,5 +1,6 @@
 package bwem.map;
 
+import bwem.util.XYCropper;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
@@ -16,6 +17,9 @@ public class MapDataImpl implements MapData {
     private final Position pixelSize;
     private final Position center;
     private final List<TilePosition> startingLocations;
+    private final XYCropper tileSizeCropper;
+    private final XYCropper walkSizeCropper;
+    private final XYCropper pixelSizeCropper;
 
     public MapDataImpl(final int tileWidth, final int tileHeight, final List<TilePosition> startingLocations) {
         this.randomGenerator = new SplittableRandom();
@@ -27,6 +31,10 @@ public class MapDataImpl implements MapData {
         this.center = new Position(this.pixelSize.getX() / 2, this.pixelSize.getY() / 2);
 
         this.startingLocations = new ArrayList<>(startingLocations);
+
+        this.tileSizeCropper = new XYCropper(0, 0, getTileSize().getX() - 1, getTileSize().getY() - 1);
+        this.walkSizeCropper = new XYCropper(0, 0, getWalkSize().getX() - 1, getWalkSize().getY() - 1);
+        this.pixelSizeCropper = new XYCropper(0, 0, getPixelSize().getX() - 1, getPixelSize().getY() - 1);
     }
 
     @Override
@@ -75,33 +83,20 @@ public class MapDataImpl implements MapData {
 
     @Override
     public TilePosition crop(final TilePosition tilePosition) {
-        final int[] ret = crop(tilePosition.getX(), tilePosition.getY(), getTileSize().getX(), getTileSize().getY());
-        return new TilePosition(ret[0], ret[1]);
+        final int[] xy = this.tileSizeCropper.crop(tilePosition.getX(), tilePosition.getY());
+        return new TilePosition(xy[0], xy[1]);
     }
 
     @Override
     public WalkPosition crop(final WalkPosition walkPosition) {
-        final int[] ret = crop(walkPosition.getX(), walkPosition.getY(), getWalkSize().getX(), getWalkSize().getY());
-        return new WalkPosition(ret[0], ret[1]);
+        final int[] xy = this.walkSizeCropper.crop(walkPosition.getX(), walkPosition.getY());
+        return new WalkPosition(xy[0], xy[1]);
     }
 
     @Override
     public Position crop(final Position position) {
-        final int[] ret = crop(position.getX(), position.getY(), getPixelSize().getX(), getPixelSize().getY());
-        return new Position(ret[0], ret[1]);
-    }
-
-    private int[] crop(final int x, final int y, final int maxX, final int maxY) {
-        int retX = x;
-        int retY = y;
-
-        if (retX < 0) retX = 0;
-        else if (retX >= maxX) retX = maxX - 1;
-
-        if (retY < 0) retY = 0;
-        else if (retY >= maxY) retY = maxY - 1;
-
-        return new int[]{retX, retY};
+        final int[] xy = this.pixelSizeCropper.crop(position.getX(), position.getY());
+        return new Position(xy[0], xy[1]);
     }
 
     @Override
