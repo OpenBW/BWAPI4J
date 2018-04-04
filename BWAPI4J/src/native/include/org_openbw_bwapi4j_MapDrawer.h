@@ -25,14 +25,6 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawCircleMap_1native__
 
 /*
  * Class:     org_openbw_bwapi4j_MapDrawer
- * Method:    drawTextScreen_native
- * Signature: (IILjava/lang/String;)V
- */
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawTextScreen_1native
-  (JNIEnv *, jobject, jint, jint, jstring);
-
-/*
- * Class:     org_openbw_bwapi4j_MapDrawer
  * Method:    drawBoxMap_native
  * Signature: (IIIII)V
  */
@@ -69,6 +61,14 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawLineMap_1native
  * Signature: (IILjava/lang/String;)V
  */
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawTextMap_1native
+  (JNIEnv *, jobject, jint, jint, jstring);
+
+/*
+ * Class:     org_openbw_bwapi4j_MapDrawer
+ * Method:    drawTextScreen_native
+ * Signature: (IILjava/lang/String;)V
+ */
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawTextScreen_1native
   (JNIEnv *, jobject, jint, jint, jstring);
 
 #ifdef __cplusplus
