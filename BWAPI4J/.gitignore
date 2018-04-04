@@ -12,11 +12,10 @@ src/test/resources/mockdata/DummyBwapiData/
 AnyTest.java
 
 # BW
-BrooDat.mpq
-Patch_rt.mpq
-StarDat.mpq
+*.mpq
 maps/
 bwapi-data/bwapi.ini
+bwapi-data/AI/
 
 # Gradle
 .gradle/
@@ -24,8 +23,9 @@ gradle.properties
 
 # NetBeans
 .nb-gradle/
+nbproject/
 
 # IntelliJ
-BWAPI4J.iml
+*.iml
 .idea/
 out/
