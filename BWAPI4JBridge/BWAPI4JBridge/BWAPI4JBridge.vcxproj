@@ -139,9 +139,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="..\..\OpenBWAPI4JBridge\BridgeEnum.h" />
     <ClInclude Include="..\..\OpenBWAPI4JBridge\BridgeMap.h" />
     <ClInclude Include="..\..\OpenBWAPI4JBridge\BWTA.h" />
@@ -244,7 +241,7 @@
     <ClCompile Include="..\..\OpenBWAPI4JBridge\Unit.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="dllmain.cpp">
+    <ClCompile Include="Dll.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </PrecompiledHeader>
