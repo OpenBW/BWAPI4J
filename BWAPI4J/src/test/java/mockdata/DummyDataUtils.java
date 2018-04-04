@@ -32,7 +32,7 @@ public final class DummyDataUtils {
             final ArchiveEntry nextEntry = tarIn.getNextEntry();
             Assert.assertNotNull(nextEntry);
             final int[] read = buffer.lines()
-                    .flatMap(line -> Stream.of(line.split(regex)))
+                    .flatMap(line -> (Stream<String>)Stream.of(line.split(regex)))
                     .map(String::trim)
                     .mapToInt(Integer::parseInt)
                     .toArray();
