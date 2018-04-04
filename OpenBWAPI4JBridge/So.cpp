@@ -5,30 +5,30 @@
  *      Author: imp
  */
 
+#include <chrono>
+#include <thread>
+
+#include <stdio.h>
+
+#include "So.h"
+#include "org_openbw_bwapi4j_BW.h"
+
 #ifdef OPENBW
 #include "BWAPI.h"
 #include "BW/BWData.h"
 #include "BWAPI/GameImpl.h"
-#include "So.h"
-#include "org_openbw_bwapi4j_BW.h"
 #include "OpenBridgeModule.h"
-#include <cstdio>
-#include <chrono>
-#include <thread>
 #else
-#include <BWAPI.h>
-#include <BWAPI/Client.h>
-#include <thread>
-#include <chrono>
-#include <jni.h>
-#include <stdio.h>
-#include <Windows.h>
 #define _USE_MATH_DEFINES
 #include <math.h>
-#include "So.h"
+#include <Windows.h>
+
+#include <jni.h>
+#include <BWAPI.h>
+#include <BWAPI/Client.h>
+
 #include "BridgeEnum.h"
 #include "BridgeMap.h"
-#include "org_openbw_bwapi4j_BW.h"
 #endif
 
 #ifndef _WIN32
