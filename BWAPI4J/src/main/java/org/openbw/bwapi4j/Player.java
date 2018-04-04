@@ -124,7 +124,6 @@ public class Player {
         this.race = Race.values()[playerData[index + Player.RACE_INDEX]];
         this.startLocation = new TilePosition(playerData[index + Player.POSITION_X_INDEX],
                 playerData[index + Player.POSITION_Y_INDEX]);
-        System.out.println("color value: " + playerData[index + Player.COLOR_INDEX]);
         this.color = Color.valueOf(playerData[index + Player.COLOR_INDEX]);
         this.textColor = (char) playerData[index + Player.TEXT_COLOR_INDEX];
         this.playerType = PlayerType.values()[playerData[index + Player.TYPE_INDEX]];
@@ -687,9 +686,13 @@ public class Player {
      * Returns true if the this player can train/build the given type immediately.
      */
     public boolean canMake(UnitType type) {
+        int supplyRequired = type.supplyRequired();
+        if (type.isTwoUnitsInOneEgg()) {
+            supplyRequired *= 2;
+        }
         return minerals >= type.mineralPrice()
                 && gas >= type.gasPrice()
-                && (type.supplyRequired() == 0 || supplyUsed + type.supplyRequired() <= supplyTotal)
+                && (type.supplyRequired() == 0 || supplyUsed + supplyRequired <= supplyTotal)
                 && hasResearched(type.requiredTech())
                 && PlayerUnit.getMissingUnits(bw.getUnits(this), type.requiredUnits()).isEmpty();
     }

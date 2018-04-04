@@ -54,7 +54,6 @@ public abstract class PlayerUnit extends Unit {
     private Position lastKnownPosition;
     private TilePosition lastKnownTilePosition;
     private int lastKnownHitPoints;
-    private int currentFrame;
 
     protected PlayerUnit(int id, UnitType unitType) {
         
@@ -62,11 +61,11 @@ public abstract class PlayerUnit extends Unit {
     }
 
     @Override
-    public void initialize(int[] unitData, int index) {
+    public void initialize(int[] unitData, int index, int frame) {
 
         this.initialHitPoints = unitData[index + Unit.INITIAL_HITPOINTS_INDEX];
         this.isInterruptible = unitData[index + Unit.IS_INTERRUPTIBLE_INDEX] == 1;
-        super.initialize(unitData, index);
+        super.initialize(unitData, index, frame);
 
         this.lastKnownPosition = this.initialPosition;
         this.lastKnownTilePosition = this.initialTilePosition;

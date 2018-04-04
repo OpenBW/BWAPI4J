@@ -24,22 +24,14 @@ public class TempAreaInfo {
 
     public TempAreaInfo() {
         this.isValid = false;
-        this.id = new AreaId(0);
+        this.id = AreaId.ZERO;
         this.walkPositionWithHighestAltitude = new WalkPosition(0, 0);
-        this.highestAltitude = new Altitude(0);
+        this.highestAltitude = Altitude.ZERO;
 
 //        bwem_assert(!valid());
         if (isValid()) {
             throw new IllegalStateException();
         }
-    }
-
-    public TempAreaInfo(final boolean isValid, final AreaId areaId, final WalkPosition walkPositionWithHighestAltitude, final Altitude highestAltitude, final int size) {
-        this.isValid = isValid;
-        this.id = new AreaId(areaId);
-        this.walkPositionWithHighestAltitude = walkPositionWithHighestAltitude;
-        this.highestAltitude = new Altitude(highestAltitude);
-        this.size = size;
     }
 
     public TempAreaInfo(final AreaId id, final MiniTile miniTile, final WalkPosition walkPositionWithHighestAltitude) {

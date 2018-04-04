@@ -1,108 +1,71 @@
 package mockdata;
 
-import bwem.area.TempAreaInfo;
-import bwem.area.typedef.AreaId;
-import bwem.tile.MiniTile;
-import bwem.tile.MiniTileImpl;
-import bwem.typedef.Altitude;
-import org.apache.commons.lang3.mutable.MutableInt;
-import org.apache.commons.lang3.tuple.MutablePair;
+import bwem.ChokePoint;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.Assert;
+import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.WalkPosition;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
-public abstract class BWEM_DummyData {
+public class BWEM_DummyData {
 
     private static final Logger logger = LogManager.getLogger();
 
-    public int[] miniTileAltitudes;
-    public List<MutablePair<WalkPosition, Altitude>> deltasByAscendingAltitude;
-    public List<MutablePair<WalkPosition, MiniTile>> miniTilesByDescendingAltitude;
-    public List<TempAreaInfo> tempAreaList;
+    public enum DataSetBwemVersion {
 
-    protected BWEM_DummyData() {
-        /* Do nothing. */
+        BWEM_141("BWEM-1.4.1");
+
+        private final String str;
+
+        private DataSetBwemVersion(final String str) {
+            this.str = str;
+        }
+
+        @Override
+        public String toString() {
+            return this.str;
+        }
+
     }
 
-    protected void populateArrays(final String mapName) throws IOException {
-        this.deltasByAscendingAltitude = new ArrayList<>();
-        this.miniTilesByDescendingAltitude = new ArrayList<>();
-        this.tempAreaList = new ArrayList<>();
+    private final String mapHash;
+    private final String dataSetBwapiVersion;
+    private final String dataSetBwemVersion;
 
-        final String filenameSuffix = "_" + mapName + "_ORIGINAL";
-        this.miniTileAltitudes = DummyDataUtils.populateIntegerArray("MiniTile_Altitudes" + filenameSuffix, " ");
+    private final int[] miniTileAltitudes;
+    private final List<WalkPosition> chokePointCenters;
 
-        {
-            final int valuesPerGroup = 3;
+    public BWEM_DummyData(final String mapHash, final String dataSetBwapiVersion, final String dataSetBwemVersion) throws IOException {
+        this.mapHash = mapHash;
+        this.dataSetBwapiVersion = dataSetBwapiVersion;
+        this.dataSetBwemVersion = dataSetBwemVersion;
 
-            final int[] array = DummyDataUtils.populateIntegerArray("DeltasByAscendingAltitude_sorted" + filenameSuffix, " ");
+        this.miniTileAltitudes = DummyDataUtils.readIntegerArrayFromArchiveFile(
+                DummyDataUtils.compileBwemDataSetArchiveFilename("MiniTileAltitudes", BWAPI_DummyData.DataSetBwapiVersion.BWAPI_420.toString(), DataSetBwemVersion.BWEM_141.toString()),
+                mapHash,
+                " "
+        );
 
-            Assert.assertTrue("Dummy data file contains invalid number of integers: " + array.length, (array.length >= valuesPerGroup) && (array.length % valuesPerGroup == 0));
-
-            for (int i = 0; i < array.length; i += valuesPerGroup) {
-                final int x = array[i];
-                final int y = array[i + 1];
-                final WalkPosition w = new WalkPosition(x, y);
-
-                final int altitude = array[i + 2];
-
-                this.deltasByAscendingAltitude.add(new MutablePair<>(w, new Altitude(altitude)));
-            }
+        this.chokePointCenters = new ArrayList<>();
+        final int[] chokepointCentersVals_ORIGINAL = DummyDataUtils.readIntegerArrayFromArchiveFile(DummyDataUtils.compileBwemDataSetArchiveFilename("ChokePoints", BWAPI_DummyData.DataSetBwapiVersion.BWAPI_420.toString(), BWEM_DummyData.DataSetBwemVersion.BWEM_141.toString()), mapHash, " ");
+        final int valuesPerGroup = 6;
+        for (int i = 0; i < chokepointCentersVals_ORIGINAL.length; i += valuesPerGroup) {
+            final int x = chokepointCentersVals_ORIGINAL[i];
+            final int y = chokepointCentersVals_ORIGINAL[i + 1];
+            final WalkPosition chokepoint = new WalkPosition(x, y);
+            this.chokePointCenters.add(chokepoint);
         }
+    }
 
-        {
-            final int valuesPerGroup = 4;
-            final int[] array = DummyDataUtils.populateIntegerArray("MiniTilesByDescendingAltitude_sorted" + filenameSuffix, " ");
-            
-            Assert.assertTrue("Dummy data file contains invalid number of integers: " + array.length, (array.length >= valuesPerGroup) && (array.length % valuesPerGroup == 0));
+    public int[] getMiniTileAltitudes() {
+        return this.miniTileAltitudes;
+    }
 
-            for (int i = 0; i < array.length; i += valuesPerGroup) {
-                final int x = array[i];
-                final int y = array[i + 1];
-                final WalkPosition w = new WalkPosition(x, y);
-
-                final int areaId = array[i + 2];
-                final int altitude = array[i + 3];
-                final MiniTile miniTile = new MiniTileImpl();
-                if (areaId != -1) {
-                    ((MiniTileImpl) miniTile).setAreaId(new AreaId(areaId));
-                }
-                if (altitude != -1) {
-                    ((MiniTileImpl) miniTile).setAltitude(new Altitude(altitude));
-                }
-
-                this.miniTilesByDescendingAltitude.add(new MutablePair<>(w, miniTile));
-            }
-        }
-
-        {
-            final int valuesPerGroup = 6;
-            final int[] array = DummyDataUtils.populateIntegerArray("TempAreaList" + filenameSuffix, " ");
-
-            Assert.assertTrue("Dummy data file contains invalid number of integers: " + array.length, (array.length >= valuesPerGroup) && (array.length % valuesPerGroup == 0));
-
-            for (int i = 0; i < array.length; i += valuesPerGroup) {
-                final boolean valid = (array[i] == 1);
-                final int id = array[i + 1];
-                final int x = array[i + 2];
-                final int y = array[i + 3];
-                final int highestAltitude = array[i + 4];
-                final int size = array[i + 5];
-                final TempAreaInfo tempAreaInfo = new TempAreaInfo(valid, new AreaId(id), new WalkPosition(x, y), new Altitude(highestAltitude), size);
-
-                this.tempAreaList.add(tempAreaInfo);
-            }
-        }
+    public List<WalkPosition> getChokePointCenters() {
+        return this.chokePointCenters;
     }
 
 }

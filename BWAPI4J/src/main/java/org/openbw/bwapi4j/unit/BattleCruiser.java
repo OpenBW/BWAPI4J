@@ -15,10 +15,10 @@ public class BattleCruiser extends MobileUnit implements Mechanical, SpellCaster
     }
 
     @Override
-    public void initialize(int[] unitData, int index) {
+    public void initialize(int[] unitData, int index, int frame) {
 
         this.energy = 0;
-        super.initialize(unitData, index);
+        super.initialize(unitData, index, frame);
     }
 
     @Override

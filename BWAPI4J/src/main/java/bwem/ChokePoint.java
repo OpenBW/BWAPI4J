@@ -3,8 +3,8 @@ package bwem;
 import bwem.area.Area;
 import bwem.typedef.CPPath;
 import bwem.unit.Neutral;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.openbw.bwapi4j.WalkPosition;
+import org.openbw.bwapi4j.util.Pair;
 
 import java.util.List;
 
@@ -47,7 +47,7 @@ public interface ChokePoint {
     /**
      * Returns the two areas of this ChokePoint.
      */
-    ImmutablePair<Area, Area> getAreas();
+    Pair<Area, Area> getAreas();
 
     /**
      * Returns the center of this ChokePoint.

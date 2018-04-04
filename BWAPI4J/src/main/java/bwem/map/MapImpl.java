@@ -1,12 +1,6 @@
 package bwem.map;
 
-import bwem.Base;
-import bwem.BaseImpl;
-import bwem.CheckMode;
-import bwem.ChokePoint;
-import bwem.ChokePointImpl;
-import bwem.Graph;
-import bwem.MapPrinter;
+import bwem.*;
 import bwem.area.Area;
 import bwem.area.AreaImpl;
 import bwem.area.typedef.AreaId;
@@ -25,24 +19,17 @@ import bwem.util.BwemExt;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.MutablePair;
-import org.openbw.bwapi4j.BWMap;
+import org.openbw.bwapi4j.*;
 import org.openbw.bwapi4j.MapDrawer;
-import org.openbw.bwapi4j.Player;
-import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.TilePosition;
-import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.type.Color;
 import org.openbw.bwapi4j.unit.MineralPatch;
 import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.unit.VespeneGeyser;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
+
+import static bwem.area.typedef.AreaId.UNINITIALIZED;
 
 public abstract class MapImpl implements Map {
 
@@ -55,7 +42,7 @@ public abstract class MapImpl implements Map {
     private final MutableBoolean automaticPathUpdate = new MutableBoolean(false);
     private final Graph graph;
 
-    protected final List<MutablePair<MutablePair<AreaId, AreaId>, WalkPosition>> RawFrontier = new ArrayList<>();
+    protected final List<MutablePair<MutablePair<AreaId, AreaId>, WalkPosition>> rawFrontier = new ArrayList<>();
 
     private final BWMap bwMap;
     private final MapDrawer mapDrawer;
@@ -114,7 +101,7 @@ public abstract class MapImpl implements Map {
 
     @Override
     public List<MutablePair<MutablePair<AreaId, AreaId>, WalkPosition>> getRawFrontier() {
-        return RawFrontier;
+        return rawFrontier;
     }
 
     @Override
@@ -210,7 +197,7 @@ public abstract class MapImpl implements Map {
             if (mineral.getUnit().equals(u)) {
                 onMineralDestroyed(mineral);
                 mineral.simulateCPPObjectDestructor(); /* IMPORTANT! These actions are performed in the "~Neutral" dtor in BWEM 1.4.1 C++. */
-                getNeutralData().getMinerals().remove(i--);
+                getNeutralData().getMinerals().remove(i);
                 return;
             }
         }
@@ -234,7 +221,7 @@ public abstract class MapImpl implements Map {
             StaticBuilding building = getNeutralData().getStaticBuildings().get(i);
             if (building.getUnit().equals(u)) {
                 building.simulateCPPObjectDestructor(); /* IMPORTANT! These actions are performed in the "~Neutral" dtor in BWEM 1.4.1 C++. */
-                getNeutralData().getStaticBuildings().remove(i--);
+                getNeutralData().getStaticBuildings().remove(i);
                 return;
             }
         }
@@ -258,7 +245,7 @@ public abstract class MapImpl implements Map {
         }
 
         // Unblock the miniTiles of pBlocking:
-        AreaId newId = new AreaId(pBlocking.getBlockedAreas().iterator().next().getId());
+        AreaId newId = pBlocking.getBlockedAreas().iterator().next().getId();
         WalkPosition pBlockingW = pBlocking.getSize().toWalkPosition();
         for (int dy = 0; dy < pBlockingW.getY(); ++dy)
         for (int dx = 0; dx < pBlockingW.getX(); ++dx) {
@@ -509,7 +496,7 @@ public abstract class MapImpl implements Map {
                     if (tile.getAreaId().intValue() == 0) {
                         ((TileImpl) tile).setAreaId(id);
                     } else if (!tile.getAreaId().equals(id)) {
-                        ((TileImpl) tile).setAreaId(new AreaId(-1));
+                        ((TileImpl) tile).setAreaId(UNINITIALIZED);
                         return;
                     }
                 }
@@ -544,31 +531,21 @@ public abstract class MapImpl implements Map {
     }
 
     private static class NeighboringAreaChooser {
+        private final BitSet areaPairFlag = new BitSet(800000);
 
-        private final java.util.Map<MutablePair<AreaId, AreaId>, Integer> areaPairCounter;
+        AreaId chooseNeighboringArea(final AreaId a, final AreaId b) {
+            int aId = a.intValue();
+            int bId = b.intValue();
 
-        public NeighboringAreaChooser() {
-            this.areaPairCounter = new HashMap<>();
-        }
-
-        public AreaId chooseNeighboringArea(final AreaId a, final AreaId b) {
-            int a_val = a.intValue();
-            int b_val = b.intValue();
-
-            if (a_val > b_val) {
-                int a_val_tmp = a_val;
-                a_val = b_val;
-                b_val = a_val_tmp;
+            int cantor = (aId + bId) * (aId + bId + 1);
+            if (aId > bId) {
+                cantor += bId;
+            } else {
+                cantor += aId;
             }
 
-            final MutablePair<AreaId, AreaId> pairKey = new MutablePair<>(new AreaId(a_val), new AreaId(b_val));
-            Integer pairVal = this.areaPairCounter.get(pairKey);
-            if (pairVal == null) {
-                pairVal = 0;
-            }
-            this.areaPairCounter.put(pairKey, pairVal + 1);
-
-            return new AreaId((pairVal % 2 == 0) ? a_val : b_val);
+            areaPairFlag.flip(cantor);
+            return areaPairFlag.get(cantor) ? a : b;
         }
 
     }

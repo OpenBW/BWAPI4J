@@ -8,35 +8,11 @@ import bwem.util.IWrappedInteger;
  * area.h:56:typedef int16_t groupId;
  */
 public final class GroupId implements IWrappedInteger<GroupId>, Comparable<GroupId> {
-
+    public static final GroupId ZERO = new GroupId(0);
     private final int val;
 
     public GroupId(final int val) {
         this.val = val;
-    }
-
-    public GroupId(final GroupId groupId) {
-        this.val = groupId.val;
-    }
-
-    @Override
-    public GroupId add(final GroupId that) {
-        return new GroupId(this.val + that.val);
-    }
-
-    @Override
-    public GroupId add(final int val) {
-        return new GroupId(this.val + val);
-    }
-
-    @Override
-    public GroupId subtract(final GroupId that) {
-        return new GroupId(this.val - that.val);
-    }
-
-    @Override
-    public GroupId subtract(final int val) {
-        return new GroupId(this.val - val);
     }
 
     @Override

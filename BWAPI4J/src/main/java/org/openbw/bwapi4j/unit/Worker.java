@@ -18,7 +18,7 @@ public abstract class Worker extends MobileUnit implements GroundAttacker {
     }
 
     @Override
-    public void initialize(int[] unitData, int index) {
+    public void initialize(int[] unitData, int index, int frame) {
         this.isConstructing = false;
         this.isGatheringGas = false;
         this.isGatheringMinerals = false;
@@ -26,7 +26,7 @@ public abstract class Worker extends MobileUnit implements GroundAttacker {
         this.isCarryingMinerals = false;
         this.buildType = UnitType.None;
 
-        super.initialize(unitData, index);
+        super.initialize(unitData, index, frame);
 
     }
 

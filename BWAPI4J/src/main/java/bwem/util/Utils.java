@@ -51,8 +51,8 @@ public final class Utils {
         s = (-s1Y * (p0X - p2X) + s1X * (p0Y - p2Y)) / (-s2X * s1Y + s1X * s2Y);
         t = ( s2X * (p0Y - p2Y) - s2Y * (p0X - p2X)) / (-s2X * s1Y + s1X * s2Y);
 
-        if (Double.compare(s, 0) >= 0 && Double.compare(s, 1) <= 0
-                && Double.compare(t, 0) >= 0 && Double.compare(t, 1) <= 0) {
+        if (s >= 0 && s <= 1
+                && t >= 0 && t <= 1) {
             // Collision detected
             if (iX != null) iX.setValue(p0X + (t * s1X));
             if (iY != null) iY.setValue(p0Y + (t * s1Y));
@@ -88,19 +88,4 @@ public final class Utils {
         Collections.swap(list, index, list.size() - 1);
         list.remove(list.size() - 1);
     }
-
-    /**
-     * Removes elements from the specified list satisfying the specified predicate.
-     *
-     * @param list the specified list
-     * @param pred the specified predicate
-     */
-    public static <T> void reallyRemoveIf(final List<T> list, final Pred pred) {
-        for (int i = 0; i < list.size(); ++i) {
-            if (pred.isTrue(list.get(i))) {
-                list.remove(i--);
-            }
-        }
-    }
-
 }

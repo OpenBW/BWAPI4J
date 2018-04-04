@@ -1,7 +1,6 @@
 package org.openbw.bwapi4j.unit;
 
 import org.openbw.bwapi4j.type.TechType;
-import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
@@ -22,10 +21,10 @@ public class ScienceFacility extends Building implements Mechanical, Researching
     }
 
     @Override
-    public void initialize(int[] unitData, int index) {
+    public void initialize(int[] unitData, int index, int frame) {
 
         this.addonId = -1;
-        super.initialize(unitData, index);
+        super.initialize(unitData, index, frame);
     }
     
     @Override

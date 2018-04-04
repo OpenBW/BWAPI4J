@@ -21,16 +21,18 @@ import bwem.unit.Resource;
 import bwem.unit.StaticBuilding;
 import bwem.util.BwemExt;
 import bwem.util.Utils;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.type.UnitType;
+import org.openbw.bwapi4j.util.Pair;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
+
+import static bwem.area.typedef.AreaId.UNINITIALIZED;
 
 public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
 
@@ -57,7 +59,7 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
             throw new IllegalStateException("assert failed: topMiniTile.AreaId().equals(areaId): expected: " + topMiniTile.getAreaId().intValue() + ", actual: " + areaId.intValue());
         }
 
-        super.highestAltitude = new Altitude(topMiniTile.getAltitude());
+        super.highestAltitude = topMiniTile.getAltitude();
     }
 
     public static StaticMarkable getStaticMarkable() {
@@ -196,25 +198,25 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
 
         TileImpl.getStaticMarkable().unmarkAll();
 
-        final Queue<ImmutablePair<Integer, TilePosition>> toVisit = new PriorityQueue<>(Comparator.comparingInt(ImmutablePair::getLeft)); // a priority queue holding the tiles to visit ordered by their distance to start.
-        toVisit.offer(new ImmutablePair<>(0, start));
+        final Queue<Pair<Integer, TilePosition>> toVisit = new PriorityQueue<>(Comparator.comparingInt(Pair::getFirst)); // a priority queue holding the tiles to visit ordered by their distance to start.
+        toVisit.offer(new Pair<>(0, start));
 
         int remainingTargets = targets.size();
         while (!toVisit.isEmpty()) {
-            final ImmutablePair<Integer, TilePosition> distanceAndTilePosition = toVisit.poll();
-            final int currentDist = distanceAndTilePosition.getLeft();
-            final TilePosition current = distanceAndTilePosition.getRight();
+            final Pair<Integer, TilePosition> distanceAndTilePosition = toVisit.poll();
+            final int currentDist = distanceAndTilePosition.getFirst();
+            final TilePosition current = distanceAndTilePosition.getSecond();
             final Tile currentTile = getMap().getData().getTile(current, CheckMode.NO_CHECK);
 //            bwem_assert(currentTile.InternalData() == currentDist);
-            if (!(((TileImpl) currentTile).getInternalData().intValue() == currentDist)) {
-                throw new IllegalStateException("currentTile.InternalData().intValue()=" + ((TileImpl) currentTile).getInternalData().intValue() + ", currentDist=" + currentDist);
+            if (!(((TileImpl) currentTile).getInternalData() == currentDist)) {
+                throw new IllegalStateException("currentTile.InternalData().intValue()=" + ((TileImpl) currentTile).getInternalData() + ", currentDist=" + currentDist);
             }
-            ((TileImpl) currentTile).getInternalData().setValue(0); // resets Tile::m_internalData for future usage
+            ((TileImpl) currentTile).setInternalData(0); // resets Tile::m_internalData for future usage
             ((TileImpl) currentTile).getMarkable().setMarked();
 
             for (int i = 0; i < targets.size(); ++i) {
                 if (current.equals(targets.get(i))) {
-                    distances[i] = (int) (0.5 + (currentDist * 32.0 /10000.0));
+                    distances[i] = (int) Math.round(currentDist * 32.0 /10000.0);
                     --remainingTargets;
                 }
             }
@@ -235,20 +237,20 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
                 if (getMap().getData().getMapData().isValid(next)) {
                     final Tile nextTile = getMap().getData().getTile(next, CheckMode.NO_CHECK);
                     if (!((TileImpl) nextTile).getMarkable().isMarked()) {
-                        if (((TileImpl) nextTile).getInternalData().intValue() != 0) { // next already in toVisit
-                            if (newNextDist < ((TileImpl) nextTile).getInternalData().intValue()) { // nextNewDist < nextOldDist
+                        if (((TileImpl) nextTile).getInternalData() != 0) { // next already in toVisit
+                            if (newNextDist < ((TileImpl) nextTile).getInternalData()) { // nextNewDist < nextOldDist
                                 // To update next's distance, we need to remove-insert it from toVisit:
 //                                bwem_assert(iNext != range.second);
-                                final boolean removed = toVisit.remove(new ImmutablePair<>(((TileImpl) nextTile).getInternalData().intValue(), next));
+                                final boolean removed = toVisit.remove(new Pair<>(((TileImpl) nextTile).getInternalData(), next));
                                 if (!removed) {
                                     throw new IllegalStateException();
                                 }
-                                ((TileImpl) nextTile).getInternalData().setValue(newNextDist);
-                                toVisit.offer(new ImmutablePair<>(newNextDist, next));
+                                ((TileImpl) nextTile).setInternalData(newNextDist);
+                                toVisit.offer(new Pair<>(newNextDist, next));
                             }
-                        } else if ((nextTile.getAreaId().equals(getId())) || (nextTile.getAreaId().equals(new AreaId(-1)))) {
-                            ((TileImpl) nextTile).getInternalData().setValue(newNextDist);
-                            toVisit.offer(new ImmutablePair<>(newNextDist, next));
+                        } else if ((nextTile.getAreaId().equals(getId())) || (nextTile.getAreaId().equals(UNINITIALIZED))) {
+                            ((TileImpl) nextTile).setInternalData(newNextDist);
+                            toVisit.offer(new Pair<>(newNextDist, next));
                         }
                     }
                 }
@@ -260,9 +262,9 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
             throw new IllegalStateException();
         }
 
-        for (final ImmutablePair<Integer, TilePosition> distanceAndTilePosition : toVisit) {
-            final TileImpl tileToUpdate = ((TileImpl) getMap().getData().getTile(distanceAndTilePosition.getRight(), CheckMode.NO_CHECK));
-            tileToUpdate.getInternalData().setValue(0);
+        for (final Pair<Integer, TilePosition> distanceAndTilePosition : toVisit) {
+            final TileImpl tileToUpdate = ((TileImpl) getMap().getData().getTile(distanceAndTilePosition.getSecond(), CheckMode.NO_CHECK));
+            tileToUpdate.setInternalData(0);
         }
 
         return distances;
@@ -304,13 +306,13 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
             TilePosition topLeftResources = new TilePosition(Integer.MAX_VALUE, Integer.MAX_VALUE);
             TilePosition bottomRightResources = new TilePosition(Integer.MIN_VALUE, Integer.MIN_VALUE);
             for (final Resource r : remainingResources) {
-                final ImmutablePair<TilePosition, TilePosition> pair1 = BwemExt.makeBoundingBoxIncludePoint(topLeftResources, bottomRightResources, r.getTopLeft());
-                topLeftResources = pair1.getLeft();
-                bottomRightResources = pair1.getRight();
+                final Pair<TilePosition, TilePosition> pair1 = BwemExt.makeBoundingBoxIncludePoint(topLeftResources, bottomRightResources, r.getTopLeft());
+                topLeftResources = pair1.getFirst();
+                bottomRightResources = pair1.getSecond();
 
-                final ImmutablePair<TilePosition, TilePosition> pair2 = BwemExt.makeBoundingBoxIncludePoint(topLeftResources, bottomRightResources, r.getBottomRight());
-                topLeftResources = pair2.getLeft();
-                bottomRightResources = pair2.getRight();
+                final Pair<TilePosition, TilePosition> pair2 = BwemExt.makeBoundingBoxIncludePoint(topLeftResources, bottomRightResources, r.getBottomRight());
+                topLeftResources = pair2.getFirst();
+                bottomRightResources = pair2.getSecond();
             }
 
             final TilePosition dimensionsBetweenResourceDepotAndResources = new TilePosition(BwemExt.MAX_TILES_BETWEEN_COMMAND_CENTER_AND_RESOURCES, BwemExt.MAX_TILES_BETWEEN_COMMAND_CENTER_AND_RESOURCES);
@@ -334,7 +336,7 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
                             }
                             if (tile.getAreaId().equals(getId())) {
                                 // note the additive effect (assume tile.InternalData() is 0 at the beginning)
-                                ((TileImpl) tile).getInternalData().setValue(((TileImpl) tile).getInternalData().intValue() + score);
+                                ((TileImpl) tile).setInternalData(((TileImpl) tile).getInternalData() + score);
                             }
                         }
                     }
@@ -346,7 +348,7 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
                         final TilePosition deltaTilePosition = r.getTopLeft().add(new TilePosition(dx, dy));
                         if (mapAdvancedData.getMapData().isValid(deltaTilePosition)) {
                             final Tile tileToUpdate = mapAdvancedData.getTile(deltaTilePosition, CheckMode.NO_CHECK);
-                            ((TileImpl) tileToUpdate).getInternalData().setValue(-1);
+                            ((TileImpl) tileToUpdate).setInternalData(-1);
                         }
                     }
 
@@ -374,7 +376,7 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
                         final TilePosition deltaTilePosition = r.getTopLeft().add(new TilePosition(dx, dy));
                         if (mapAdvancedData.getMapData().isValid(deltaTilePosition)) {
                             final Tile tileToUpdate = mapAdvancedData.getTile(deltaTilePosition, CheckMode.NO_CHECK);
-                            ((TileImpl) tileToUpdate).getInternalData().setValue(0);
+                            ((TileImpl) tileToUpdate).setInternalData(0);
                         }
                     }
             }
@@ -397,15 +399,7 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
 //                    remainingResources.remove(i--);
 //                }
 //            }
-            Utils.reallyRemoveIf(remainingResources, args -> {
-                final Object tresource = args[0];
-                if (tresource instanceof Resource) {
-                    final Resource resource = (Resource) tresource;
-                    return assignedResources.contains(resource);
-                } else {
-                    throw new IllegalStateException();
-                }
-            });
+            remainingResources.removeIf(assignedResources::contains);
 
             if (assignedResources.isEmpty()) {
                 break;
@@ -426,7 +420,7 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
                 if (!tile.isBuildable()) {
                     return -1;
                 }
-                if (((TileImpl) tile).getInternalData().intValue() == -1) {
+                if (((TileImpl) tile).getInternalData() == -1) {
                     // The special value InternalData() == -1 means there is some resource at maximum 3 tiles, which Starcraft rules forbid.
                     // Unfortunately, this is guaranteed only for the resources in this Area, which is the very reason of validateBaseLocation
                     return -1;
@@ -438,7 +432,7 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
                     return -1;
                 }
 
-                sumScore += ((TileImpl) tile).getInternalData().intValue();
+                sumScore += ((TileImpl) tile).getInternalData();
             }
 
         return sumScore;

@@ -12,10 +12,10 @@ public class NuclearSilo extends Addon implements Mechanical {
     }
     
     @Override
-    public void initialize(int[] unitData, int index) {
+    public void initialize(int[] unitData, int index, int frame) {
 
         this.hasNuke = false;
-        super.initialize(unitData, index);
+        super.initialize(unitData, index, frame);
     }
     
     @Override

@@ -8,35 +8,12 @@ import bwem.util.IWrappedInteger;
  * area.h:54:typedef int16_t id;
  */
 public final class AreaId implements IWrappedInteger<AreaId>, Comparable<AreaId> {
-
+    public static final AreaId UNINITIALIZED = new AreaId(-1);
+    public static final AreaId ZERO = new AreaId(0);
     private final int val;
 
     public AreaId(final int val) {
         this.val = val;
-    }
-
-    public AreaId(final AreaId areaId) {
-        this.val = areaId.val;
-    }
-
-    @Override
-    public AreaId add(final AreaId that) {
-        return new AreaId(this.val + that.val);
-    }
-
-    @Override
-    public AreaId add(final int val) {
-        return new AreaId(this.val + val);
-    }
-
-    @Override
-    public AreaId subtract(final AreaId that) {
-        return new AreaId(this.val - that.val);
-    }
-
-    @Override
-    public AreaId subtract(final int val) {
-        return new AreaId(this.val - val);
     }
 
     @Override

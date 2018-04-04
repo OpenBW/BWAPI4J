@@ -5,7 +5,6 @@ import bwem.StaticMarkable;
 import bwem.area.typedef.AreaId;
 import bwem.typedef.Altitude;
 import bwem.unit.Neutral;
-import org.apache.commons.lang3.mutable.MutableInt;
 
 public class TileImpl implements Tile {
 
@@ -15,7 +14,7 @@ public class TileImpl implements Tile {
     private Neutral neutral;
     private Altitude lowestAltitude;
     private AreaId areaId;
-    private final MutableInt internalData;
+    private int internalData;
     private Tile.GroundHeight groundHeight;
     private boolean isBuildable;
     private boolean isDoodad;
@@ -23,9 +22,9 @@ public class TileImpl implements Tile {
     public TileImpl() {
         this.markable = new Markable(TileImpl.staticMarkable);
         this.neutral = null;
-        this.lowestAltitude = new Altitude(0);
-        this.areaId = new AreaId(0);
-        this.internalData = new MutableInt(0);
+        this.lowestAltitude = Altitude.ZERO;
+        this.areaId = AreaId.ZERO;
+        this.internalData = 0;
         this.groundHeight = GroundHeight.LOW_GROUND;
         this.isBuildable = false;
         this.isDoodad = false;
@@ -121,7 +120,7 @@ public class TileImpl implements Tile {
     }
 
     public void resetAreaId() {
-        this.areaId = new AreaId(0);
+        this.areaId = AreaId.ZERO;
     }
 
     public void setLowestAltitude(final Altitude lowestAltitude) {
@@ -141,8 +140,11 @@ public class TileImpl implements Tile {
         this.neutral = null;
     }
 
-    public MutableInt getInternalData() {
+    public int getInternalData() {
         return this.internalData;
     }
 
+    public void setInternalData(int internalData) {
+        this.internalData = internalData;
+    }
 }
