@@ -255,12 +255,6 @@
     <ClInclude Include="..\..\OpenBWAPI4JBridge\So.h">
       <Filter>OpenBWAPI4JBridge</Filter>
     </ClInclude>
-    <ClInclude Include="stdafx.h">
-      <Filter>BWAPI4JBridge</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>BWAPI4JBridge</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\OpenBWAPI4JBridge\BWTA.cpp">
@@ -284,14 +278,11 @@
     <ClCompile Include="..\..\OpenBWAPI4JBridge\Unit.cpp">
       <Filter>OpenBWAPI4JBridge</Filter>
     </ClCompile>
-    <ClCompile Include="BWAPI4JBridge.cpp">
-      <Filter>BWAPI4JBridge</Filter>
-    </ClCompile>
     <ClCompile Include="dllmain.cpp">
       <Filter>BWAPI4JBridge</Filter>
     </ClCompile>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>BWAPI4JBridge</Filter>
+    <ClCompile Include="..\..\OpenBWAPI4JBridge\So.cpp">
+      <Filter>OpenBWAPI4JBridge</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
