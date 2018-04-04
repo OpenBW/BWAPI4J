@@ -1,9 +1,14 @@
 package org.openbw.bwapi4j.test;
-import java.lang.reflect.*;
-import java.util.*;
-import java.util.stream.*;
-import org.openbw.bwapi4j.util.*;
-import org.openbw.bwapi4j.type.*;
+import java.lang.reflect.Field;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import org.openbw.bwapi4j.type.Order;
+import org.openbw.bwapi4j.type.Race;
+import org.openbw.bwapi4j.type.TechType;
+import org.openbw.bwapi4j.type.UnitType;
+import org.openbw.bwapi4j.type.WeaponType;
 
 class TechTypes {
     static void initializeTechType() throws Exception {

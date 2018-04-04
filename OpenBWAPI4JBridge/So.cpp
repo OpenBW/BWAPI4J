@@ -62,6 +62,7 @@ jclass bwMapClass;
 jmethodID bwMapNew;
 
 jmethodID addRequiredUnit;
+jmethodID addUsingUnit;
 
 extern "C" DLLEXPORT void gameInit(BWAPI::Game* game) {
 	BWAPI::BroodwarPtr = game;
@@ -118,6 +119,8 @@ void initializeJavaReferences(JNIEnv *env, jobject caller) {
 
 	addRequiredUnit = env->GetMethodID(unitTypeClass, "addRequiredUnit",
 			"(II)V");
+
+	addUsingUnit = env->GetMethodID(upgradeTypeClass, "addUsingUnit", "(I)V");
 
 	std::cout << "done." << std::endl;
 }
@@ -289,7 +292,11 @@ int addUnitDataToBuffer(Unit &u, int index) {
 	intBuf[index++] = u->getStasisTimer();
 	intBuf[index++] = u->getStimTimer();
 	intBuf[index++] = u->getBuildType().getID();
-	intBuf[index++] = u->getTrainingQueue().size();
+
+	const auto &trainingQueue = u->getTrainingQueue();
+	const auto trainingQueueSize = trainingQueue.size();
+	intBuf[index++] = trainingQueueSize;
+
 	intBuf[index++] = u->getTech().getID();
 	intBuf[index++] = u->getUpgrade().getID();
 	intBuf[index++] = u->getRemainingBuildTime();
@@ -369,6 +376,20 @@ int addUnitDataToBuffer(Unit &u, int index) {
 	intBuf[index++] = u->isVisible() ? 1 : 0;
 	intBuf[index++] = u->isResearching() ? 1 : 0;
 	intBuf[index++] = u->isFlying() ? 1 : 0;
+	intBuf[index++] = u->getOrderTargetPosition().x;
+	intBuf[index++] = u->getOrderTargetPosition().y;
+
+	/* Training Queue */ {
+		const size_t maxTrainingQueueSize = 5;
+		for (size_t i = 0; i < trainingQueueSize; ++i) {
+			const auto &ut = trainingQueue[i];
+			intBuf[index++] = ut.getID();
+		}
+		const size_t remainingInQueue = maxTrainingQueueSize - trainingQueueSize;
+		for (size_t i = 0; i < remainingInQueue; ++i) {
+			intBuf[index++] = -1;
+		}
+	}
 
 	return index;
 }
@@ -381,6 +402,7 @@ int addUnitDataToBuffer(Unit &u, int index) {
 JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllUnitsData(JNIEnv * env, jobject jObject) {
 
 	int index = 0;
+	std::cout << "units length: " << Broodwar->getAllUnits().size() << std::endl;
 	for (Unit unit : Broodwar->getAllUnits()) {
 
 		index = addUnitDataToBuffer(unit, index);
@@ -569,6 +591,9 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getGameData(JNIEnv *env, 
 	intBuf[index++] = Broodwar->getRemainingLatencyFrames();
 	intBuf[index++] = Broodwar->getLatencyFrames();
 	intBuf[index++] = Broodwar->getLatency();
+	intBuf[index++] = Broodwar->getGameType().getID();
+	intBuf[index++] = Broodwar->isReplay();
+	intBuf[index++] = Broodwar->isPaused();
 
 	if (Broodwar->isReplay()) {
 

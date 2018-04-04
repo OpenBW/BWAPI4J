@@ -176,8 +176,6 @@ public abstract class Unit implements Comparable<Unit> {
     private BW bw;
     private int lastSpotted;
 
-    private UnitStatCalculator unitStatCalculator;
-
     protected Unit(int id, UnitType unitType) {
 
         this.id = id;
@@ -198,8 +196,6 @@ public abstract class Unit implements Comparable<Unit> {
         this.initialTilePosition = new TilePosition(unitData[index + Unit.TILEPOSITION_X_INDEX],
                 unitData[index + Unit.TILEPOSITION_Y_INDEX]);
         this.initiallySpotted = frame;
-
-        this.unitStatCalculator = this.bw.getPlayer(unitData[index + PLAYER_ID_INDEX]).getUnitStatCalculator();
     }
 
     public void preUpdate() {
@@ -256,11 +252,6 @@ public abstract class Unit implements Comparable<Unit> {
     protected DamageEvaluator getDamageEvaluator() {
 
         return bw.getDamageEvaluator();
-    }
-
-    protected UnitStatCalculator getUnitStatCalculator() {
-
-        return this.unitStatCalculator;
     }
 
     protected Player getPlayer(int id) {

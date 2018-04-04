@@ -8,6 +8,7 @@ import java.util.List;
 import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
+import org.openbw.bwapi4j.UnitStatCalculator;
 import org.openbw.bwapi4j.type.Order;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
@@ -55,6 +56,8 @@ public abstract class PlayerUnit extends Unit {
     private TilePosition lastKnownTilePosition;
     private int lastKnownHitPoints;
 
+    private UnitStatCalculator unitStatCalculator;
+
     protected PlayerUnit(int id, UnitType unitType) {
         
         super(id, unitType);
@@ -71,6 +74,7 @@ public abstract class PlayerUnit extends Unit {
         this.lastKnownTilePosition = this.initialTilePosition;
         this.lastKnownHitPoints = this.initialHitPoints;
         this.lastCommand = UnitCommandType.None;
+        this.unitStatCalculator = this.getPlayer(unitData[index + PLAYER_ID_INDEX]).getUnitStatCalculator();
     }
 
     @Override
@@ -191,6 +195,11 @@ public abstract class PlayerUnit extends Unit {
         return this.hitPoints;
     }
 
+    protected UnitStatCalculator getUnitStatCalculator() {
+
+        return this.unitStatCalculator;
+    }
+    
     protected int getMaxEnergy() {
 
         return getUnitStatCalculator().maxEnergy(type);
