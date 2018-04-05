@@ -368,29 +368,11 @@ public class BW {
 
     public boolean canBuildHere(TilePosition position, UnitType type) {
     	
-    	return this.canBuildHere(position, type, null);
+    	return bwMap.canBuildHere(position, type);
     }
     
 	public boolean canBuildHere(TilePosition position, UnitType type, Worker builder) {
-
-		// TODO check for creep for zerg buildings
-		
-		if (this.bwMap.canBuildHere(position, type)) {
-			
-			for (Unit unit : this.getAllUnits()) {
-
-				if (unit != builder && !unit.isFlying()
-						&& unit.getTilePosition().getX() + unit.tileWidth() > position.getX()
-						&& unit.getTilePosition().getX() < position.getX() + type.tileWidth()
-						&& unit.getTilePosition().getY() + unit.tileHeight() > position.getY()
-						&& unit.getTilePosition().getY() < position.getY() + type.tileHeight()) {
-
-					return false;
-				}
-			}
-			return true;
-		}
-		return false;
+        return bwMap.canBuildHere(position, type, builder);
 	}
 	
     private void preFrame() {

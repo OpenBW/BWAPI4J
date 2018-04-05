@@ -44,8 +44,16 @@ JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl__1hasPath
  * Method:    _canBuildHere
  * Signature: (III)I
  */
-JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl__1canBuildHere
+JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl__1canBuildHere__III
   (JNIEnv *, jobject, jint, jint, jint);
+
+/*
+ * Class:     org_openbw_bwapi4j_BWMapImpl
+ * Method:    _canBuildHere
+ * Signature: (IIII)I
+ */
+JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl__1canBuildHere__IIII
+  (JNIEnv *, jobject, jint, jint, jint, jint);
 
 #ifdef __cplusplus
 }

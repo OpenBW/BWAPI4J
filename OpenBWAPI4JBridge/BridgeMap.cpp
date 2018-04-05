@@ -115,7 +115,11 @@ JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl__1hasPath (JNIEnv *, jo
 	return Broodwar->hasPath(BWAPI::Position(x1, y1), BWAPI::Position(x2, y2)) ? 1 : 0;
 }
 
-JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl__1canBuildHere (JNIEnv *, jobject, jint x, jint y, jint typeId) {
+JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl__1canBuildHere__III(JNIEnv *, jobject, jint x, jint y, jint typeId) {
+
 	return Broodwar->canBuildHere(BWAPI::TilePosition(x, y), (UnitType)typeId) ? 1 : 0;
 }
 
+JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl__1canBuildHere__IIII(JNIEnv *, jobject, jint x, jint y, jint typeId, jint builderId) {
+	return Broodwar->canBuildHere(BWAPI::TilePosition(x, y), (UnitType)typeId, Broodwar->getUnit(builderId)) ? 1 : 0;
+}

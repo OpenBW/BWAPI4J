@@ -1,6 +1,7 @@
 package org.openbw.bwapi4j;
 
 import org.openbw.bwapi4j.type.UnitType;
+import org.openbw.bwapi4j.unit.PlayerUnit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -132,9 +133,15 @@ class BWMapImpl implements BWMap {
     }
 
     private native int _canBuildHere(int x, int y, int typeId);
+    private native int _canBuildHere(int x, int y, int typeId, int builderId);
 
     public boolean canBuildHere(TilePosition position, UnitType type) {
 
         return _canBuildHere(position.getX(), position.getY(), type.getId()) == 1;
+    }
+
+    public boolean canBuildHere(TilePosition position, UnitType type, PlayerUnit builder) {
+
+        return _canBuildHere(position.getX(), position.getY(), type.getId(), builder.getId()) == 1;
     }
 }
