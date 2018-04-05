@@ -60,3 +60,8 @@ JNIEXPORT jlong JNICALL Java_org_openbw_bwapi4j_InteractionHandler_getRandomSeed
 
 	return (jlong)Broodwar->getRandomSeed();
 }
+
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_setFrameSkip(JNIEnv *env, jobject jObj, jint frameSkip) {
+
+	Broodwar->setFrameSkip(frameSkip);
+}
