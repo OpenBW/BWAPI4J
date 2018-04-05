@@ -214,4 +214,6 @@ public final class InteractionHandler {
 
     public native long getRandomSeed();
 
+    public native void setFrameSkip(int frameSkip);
+
 }
