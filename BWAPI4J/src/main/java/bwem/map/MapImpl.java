@@ -51,7 +51,7 @@ public abstract class MapImpl implements Map {
     protected final List<VespeneGeyser> vespeneGeysers;
     protected final Collection<Unit> units;
     private final NeighboringAreaChooser neighboringAreaChooser;
-    
+
     public MapImpl(
             BWMap bwMap,
             MapDrawer mapDrawer,
@@ -333,7 +333,6 @@ public abstract class MapImpl implements Map {
 //        //----------------------------------------------------------------------
 
 
-
         //----------------------------------------------------------------------
         // Last area.
         //----------------------------------------------------------------------
@@ -365,7 +364,13 @@ public abstract class MapImpl implements Map {
             return start;
         }
 
-        List<TilePosition> visited = new ArrayList<>();
+        final Set<TilePosition> visited = new TreeSet<>((a, b) -> {
+            int result = Integer.compare(a.getX(), b.getX());
+            if (result != 0) {
+                return result;
+            }
+            return Integer.compare(a.getY(), b.getY());
+        });
         Queue<TilePosition> toVisit = new ArrayDeque<>();
 
         toVisit.add(start);
@@ -411,7 +416,13 @@ public abstract class MapImpl implements Map {
             return start;
         }
 
-        final List<WalkPosition> visited = new ArrayList<>();
+        final Set<WalkPosition> visited = new TreeSet<>((a, b) -> {
+            int result = Integer.compare(a.getX(), b.getX());
+            if (result != 0) {
+                return result;
+            }
+            return Integer.compare(a.getY(), b.getY());
+        });
         final Queue<WalkPosition> toVisit = new ArrayDeque<>();
 
         toVisit.add(start);
