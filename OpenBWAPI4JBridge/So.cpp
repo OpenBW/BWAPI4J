@@ -9,14 +9,18 @@
 #include <thread>
 
 #ifdef _WIN32
+#include <Windows.h>
+#define DLLEXPORT __declspec(dllexport)
 #define _USE_MATH_DEFINES
+#else
+#define DLLEXPORT
 #endif
-#include <math.h>
 
-#include <jni.h>
+#include <math.h>
 #include <stdio.h>
 
 #include <BWAPI.h>
+#include <jni.h>
 
 #include "BridgeEnum.h"
 #include "BridgeMap.h"
@@ -31,17 +35,10 @@
 #include <BWAPI/Client.h>
 #endif
 
-#ifdef _WIN32
-#include <Windows.h>
-#define DLLEXPORT __declspec(dllexport)
-#else
-#define DLLEXPORT
-#endif
-
 using namespace BWAPI;
 
-jint *intBuf;
-const int bufferSize = 5000000;
+const size_t bufferSize = 5000000;
+jint intBuf[bufferSize];
 
 bool finished = false;
 
@@ -194,8 +191,10 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
 	jclass jc = env->GetObjectClass(bw);
 #endif
 
-	/* allocate "shared memory" */
-	intBuf = new jint[bufferSize];
+	/* Reset "shared memory". */
+	for (size_t i = 0; i < bufferSize; ++i) {
+		intBuf[i] = (jint)0;
+	}
 
 	initializeJavaReferences(env, bwObject);
 

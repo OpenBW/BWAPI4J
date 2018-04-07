@@ -7,7 +7,8 @@
 
 #include <BWAPI.h>
 #include <BWAPI/Client.h>
-#include "BWTA.h"
+#include <BWTA.h>
+
 #include "bwta_BWTA.h"
 #include "bwta_Polygon.h"
 #include "bwta_BaseLocation.h"
