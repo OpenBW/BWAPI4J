@@ -139,96 +139,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="..\..\OpenBWAPI4JBridge\BridgeEnum.h" />
     <ClInclude Include="..\..\OpenBWAPI4JBridge\BridgeMap.h" />
-    <ClInclude Include="..\..\OpenBWAPI4JBridge\BWTA.h" />
     <ClInclude Include="..\..\OpenBWAPI4JBridge\So.h" />
-    <ClInclude Include="BWAPI.h" />
-    <ClInclude Include="BWAPI\AIModule.h" />
-    <ClInclude Include="BWAPI\ArithmaticFilter.h" />
-    <ClInclude Include="BWAPI\BestFilter.h" />
-    <ClInclude Include="BWAPI\Bullet.h" />
-    <ClInclude Include="BWAPI\Bulletset.h" />
-    <ClInclude Include="BWAPI\BulletType.h" />
-    <ClInclude Include="BWAPI\Client.h" />
-    <ClInclude Include="BWAPI\Client\BulletData.h" />
-    <ClInclude Include="BWAPI\Client\BulletImpl.h" />
-    <ClInclude Include="BWAPI\Client\Client.h" />
-    <ClInclude Include="BWAPI\Client\Command.h" />
-    <ClInclude Include="BWAPI\Client\CommandType.h" />
-    <ClInclude Include="BWAPI\Client\Event.h" />
-    <ClInclude Include="BWAPI\Client\ForceData.h" />
-    <ClInclude Include="BWAPI\Client\ForceImpl.h" />
-    <ClInclude Include="BWAPI\Client\GameData.h" />
-    <ClInclude Include="BWAPI\Client\GameImpl.h" />
-    <ClInclude Include="BWAPI\Client\GameTable.h" />
-    <ClInclude Include="BWAPI\Client\PlayerData.h" />
-    <ClInclude Include="BWAPI\Client\PlayerImpl.h" />
-    <ClInclude Include="BWAPI\Client\RegionData.h" />
-    <ClInclude Include="BWAPI\Client\RegionImpl.h" />
-    <ClInclude Include="BWAPI\Client\Shape.h" />
-    <ClInclude Include="BWAPI\Client\ShapeType.h" />
-    <ClInclude Include="BWAPI\Client\UnitCommand.h" />
-    <ClInclude Include="BWAPI\Client\UnitData.h" />
-    <ClInclude Include="BWAPI\Client\UnitImpl.h" />
-    <ClInclude Include="BWAPI\Color.h" />
-    <ClInclude Include="BWAPI\ComparisonFilter.h" />
-    <ClInclude Include="BWAPI\Constants.h" />
-    <ClInclude Include="BWAPI\CoordinateType.h" />
-    <ClInclude Include="BWAPI\DamageType.h" />
-    <ClInclude Include="BWAPI\Error.h" />
-    <ClInclude Include="BWAPI\Event.h" />
-    <ClInclude Include="BWAPI\EventType.h" />
-    <ClInclude Include="BWAPI\ExplosionType.h" />
-    <ClInclude Include="BWAPI\Filters.h" />
-    <ClInclude Include="BWAPI\Flag.h" />
-    <ClInclude Include="BWAPI\Force.h" />
-    <ClInclude Include="BWAPI\Forceset.h" />
-    <ClInclude Include="BWAPI\Game.h" />
-    <ClInclude Include="BWAPI\GameType.h" />
-    <ClInclude Include="BWAPI\Input.h" />
-    <ClInclude Include="BWAPI\Interface.h" />
-    <ClInclude Include="BWAPI\InterfaceEvent.h" />
-    <ClInclude Include="BWAPI\Latency.h" />
-    <ClInclude Include="BWAPI\Order.h" />
-    <ClInclude Include="BWAPI\Player.h" />
-    <ClInclude Include="BWAPI\Playerset.h" />
-    <ClInclude Include="BWAPI\PlayerType.h" />
-    <ClInclude Include="BWAPI\Position.h" />
-    <ClInclude Include="BWAPI\Race.h" />
-    <ClInclude Include="BWAPI\Region.h" />
-    <ClInclude Include="BWAPI\Regionset.h" />
-    <ClInclude Include="BWAPI\SetContainer.h" />
-    <ClInclude Include="BWAPI\TechType.h" />
-    <ClInclude Include="BWAPI\TournamentAction.h" />
-    <ClInclude Include="BWAPI\Type.h" />
-    <ClInclude Include="BWAPI\UnaryFilter.h" />
-    <ClInclude Include="BWAPI\Unit.h" />
-    <ClInclude Include="BWAPI\UnitCommand.h" />
-    <ClInclude Include="BWAPI\UnitCommandType.h" />
-    <ClInclude Include="BWAPI\Unitset.h" />
-    <ClInclude Include="BWAPI\UnitSizeType.h" />
-    <ClInclude Include="BWAPI\UnitType.h" />
-    <ClInclude Include="BWAPI\UpgradeType.h" />
-    <ClInclude Include="BWAPI\WeaponType.h" />
-    <ClInclude Include="BWAPI\WindowsTypes.h" />
-    <ClInclude Include="BWTA\BaseLocation.h" />
-    <ClInclude Include="BWTA\Chokepoint.h" />
-    <ClInclude Include="BWTA\Polygon.h" />
-    <ClInclude Include="BWTA\RectangleArray.h" />
-    <ClInclude Include="BWTA\Region.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\OpenBWAPI4JBridge\BridgeEnum.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\..\OpenBWAPI4JBridge\BridgeMap.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\..\OpenBWAPI4JBridge\BWTA.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\..\OpenBWAPI4JBridge\DamageEvaluator.cpp">
@@ -258,11 +177,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </PrecompiledHeader>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="BWAPI.lib" />
-    <Library Include="BWAPIClient.lib" />
-    <Library Include="BWTA.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
