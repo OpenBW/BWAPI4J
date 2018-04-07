@@ -24,10 +24,13 @@
     <ClCompile Include="..\src\MapDrawer.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\So.cpp">
+    <ClCompile Include="..\src\Unit.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Unit.cpp">
+    <ClCompile Include="..\src\OpenBridgeModule.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Bridge.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -38,7 +41,10 @@
     <ClInclude Include="..\src\BridgeMap.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\So.h">
+    <ClInclude Include="..\src\OpenBridgeModule.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Bridge.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

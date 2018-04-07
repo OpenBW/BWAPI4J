@@ -25,13 +25,15 @@
     <ClCompile Include="..\src\DamageEvaluator.cpp" />
     <ClCompile Include="..\src\InteractionHandler.cpp" />
     <ClCompile Include="..\src\MapDrawer.cpp" />
-    <ClCompile Include="..\src\So.cpp" />
+    <ClCompile Include="..\src\OpenBridgeModule.cpp" />
+    <ClCompile Include="..\src\Bridge.cpp" />
     <ClCompile Include="..\src\Unit.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\BridgeEnum.h" />
     <ClInclude Include="..\src\BridgeMap.h" />
-    <ClInclude Include="..\src\So.h" />
+    <ClInclude Include="..\src\OpenBridgeModule.h" />
+    <ClInclude Include="..\src\Bridge.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

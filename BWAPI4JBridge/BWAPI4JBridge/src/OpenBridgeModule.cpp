@@ -1,5 +1,5 @@
 #include "OpenBridgeModule.h"
-#include "So.h"
+#include "Bridge.h"
 #include <jni.h>
 #include "BridgeEnum.h"
 #include "BridgeMap.h"

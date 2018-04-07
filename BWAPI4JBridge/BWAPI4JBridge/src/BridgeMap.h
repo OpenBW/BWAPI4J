@@ -5,7 +5,7 @@
  *      Author: imp
  */
 #include <jni.h>
-#include "So.h"
+#include "Bridge.h"
 
 #ifndef BRIDGEMAP_H_
 #define BRIDGEMAP_H_

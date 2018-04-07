@@ -8,7 +8,7 @@
 #include "BridgeEnum.h"
 #include <BWAPI.h>
 #include <BWAPI/Client.h>
-#include "So.h"
+#include "Bridge.h"
 
 using namespace BWAPI;
 

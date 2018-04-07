@@ -1,5 +1,5 @@
 /*
- * So.cpp
+ * Bridge.cpp
  *
  *  Created on: Jun 7, 2017
  *      Author: imp
@@ -24,7 +24,7 @@
 
 #include "BridgeEnum.h"
 #include "BridgeMap.h"
-#include "So.h"
+#include "Bridge.h"
 #include "org_openbw_bwapi4j_BW.h"
 
 #ifdef OPENBW

@@ -1,13 +1,13 @@
 /*
- * So.h
+ * Bridge.h
  *
  *  Created on: Jul 16, 2017
  *      Author: imp
  */
 #include <jni.h>
 
-#ifndef SO_H_
-#define SO_H_
+#ifndef BRIDGE_H_
+#define BRIDGE_H_
 
 extern JNIEnv * globalEnv;
 extern jobject globalBW;
