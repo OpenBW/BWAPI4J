@@ -252,6 +252,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Marine, 0);
         fields.get("race").set(UnitType.Terran_Marine, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Marine, new Pair(UnitType.Terran_Barracks, 1));
+        fields.get("buildsWhat").set(UnitType.Terran_Marine, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Terran_Marine, new ArrayList(Arrays.asList(UnitType.Terran_Barracks)));
         fields.get("requiredTech").set(UnitType.Terran_Marine, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Marine, TechType.None);
@@ -338,6 +339,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Ghost, 1);
         fields.get("race").set(UnitType.Terran_Ghost, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Ghost, new Pair(UnitType.Terran_Barracks, 1));
+        fields.get("buildsWhat").set(UnitType.Terran_Ghost, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Terran_Ghost, new ArrayList(Arrays.asList(UnitType.Terran_Barracks, UnitType.Terran_Academy, UnitType.Terran_Covert_Ops)));
         fields.get("requiredTech").set(UnitType.Terran_Ghost, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Ghost, TechType.Personnel_Cloaking);
@@ -424,6 +426,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Vulture, 2);
         fields.get("race").set(UnitType.Terran_Vulture, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Vulture, new Pair(UnitType.Terran_Factory, 1));
+        fields.get("buildsWhat").set(UnitType.Terran_Vulture, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Terran_Vulture, new ArrayList(Arrays.asList(UnitType.Terran_Factory)));
         fields.get("requiredTech").set(UnitType.Terran_Vulture, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Vulture, TechType.None);
@@ -510,6 +513,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Goliath, 3);
         fields.get("race").set(UnitType.Terran_Goliath, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Goliath, new Pair(UnitType.Terran_Factory, 1));
+        fields.get("buildsWhat").set(UnitType.Terran_Goliath, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Terran_Goliath, new ArrayList(Arrays.asList(UnitType.Terran_Factory, UnitType.Terran_Armory)));
         fields.get("requiredTech").set(UnitType.Terran_Goliath, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Goliath, TechType.None);
@@ -596,6 +600,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Goliath_Turret, 0);
         fields.get("race").set(UnitType.Terran_Goliath_Turret, null);
         fields.get("whatBuilds").set(UnitType.Terran_Goliath_Turret, null);
+        fields.get("buildsWhat").set(UnitType.Terran_Goliath_Turret, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Terran_Goliath_Turret, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Terran_Goliath_Turret, null);
         fields.get("cloakingTech").set(UnitType.Terran_Goliath_Turret, null);
@@ -682,6 +687,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Siege_Tank_Tank_Mode, 5);
         fields.get("race").set(UnitType.Terran_Siege_Tank_Tank_Mode, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Siege_Tank_Tank_Mode, new Pair(UnitType.Terran_Factory, 1));
+        fields.get("buildsWhat").set(UnitType.Terran_Siege_Tank_Tank_Mode, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Terran_Siege_Tank_Tank_Mode, new ArrayList(Arrays.asList(UnitType.Terran_Factory, UnitType.Terran_Machine_Shop)));
         fields.get("requiredTech").set(UnitType.Terran_Siege_Tank_Tank_Mode, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Siege_Tank_Tank_Mode, TechType.None);
@@ -768,6 +774,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Siege_Tank_Tank_Mode_Turret, 0);
         fields.get("race").set(UnitType.Terran_Siege_Tank_Tank_Mode_Turret, null);
         fields.get("whatBuilds").set(UnitType.Terran_Siege_Tank_Tank_Mode_Turret, null);
+        fields.get("buildsWhat").set(UnitType.Terran_Siege_Tank_Tank_Mode_Turret, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Terran_Siege_Tank_Tank_Mode_Turret, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Terran_Siege_Tank_Tank_Mode_Turret, null);
         fields.get("cloakingTech").set(UnitType.Terran_Siege_Tank_Tank_Mode_Turret, null);
@@ -854,6 +861,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_SCV, 7);
         fields.get("race").set(UnitType.Terran_SCV, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_SCV, new Pair(UnitType.Terran_Command_Center, 1));
+        fields.get("buildsWhat").set(UnitType.Terran_SCV, new ArrayList(Arrays.asList(UnitType.Terran_Academy, UnitType.Terran_Armory, UnitType.Terran_Barracks, UnitType.Terran_Bunker, UnitType.Terran_Engineering_Bay, UnitType.Terran_Command_Center, UnitType.Terran_Factory, UnitType.Terran_Missile_Turret, UnitType.Terran_Refinery, UnitType.Terran_Science_Facility, UnitType.Terran_Starport, UnitType.Terran_Supply_Depot)));
         fields.get("requiredUnits").set(UnitType.Terran_SCV, new ArrayList(Arrays.asList(UnitType.Terran_Command_Center)));
         fields.get("requiredTech").set(UnitType.Terran_SCV, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_SCV, TechType.None);
@@ -940,6 +948,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Wraith, 8);
         fields.get("race").set(UnitType.Terran_Wraith, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Wraith, new Pair(UnitType.Terran_Starport, 1));
+        fields.get("buildsWhat").set(UnitType.Terran_Wraith, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Terran_Wraith, new ArrayList(Arrays.asList(UnitType.Terran_Starport)));
         fields.get("requiredTech").set(UnitType.Terran_Wraith, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Wraith, TechType.Cloaking_Field);
@@ -1026,6 +1035,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Science_Vessel, 9);
         fields.get("race").set(UnitType.Terran_Science_Vessel, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Science_Vessel, new Pair(UnitType.Terran_Starport, 1));
+        fields.get("buildsWhat").set(UnitType.Terran_Science_Vessel, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Terran_Science_Vessel, new ArrayList(Arrays.asList(UnitType.Terran_Starport, UnitType.Terran_Control_Tower, UnitType.Terran_Science_Facility)));
         fields.get("requiredTech").set(UnitType.Terran_Science_Vessel, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Science_Vessel, TechType.None);
@@ -1112,6 +1122,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Gui_Montag, 10);
         fields.get("race").set(UnitType.Hero_Gui_Montag, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Hero_Gui_Montag, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Gui_Montag, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Gui_Montag, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Gui_Montag, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Gui_Montag, TechType.None);
@@ -1198,6 +1209,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Dropship, 11);
         fields.get("race").set(UnitType.Terran_Dropship, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Dropship, new Pair(UnitType.Terran_Starport, 1));
+        fields.get("buildsWhat").set(UnitType.Terran_Dropship, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Terran_Dropship, new ArrayList(Arrays.asList(UnitType.Terran_Starport, UnitType.Terran_Control_Tower)));
         fields.get("requiredTech").set(UnitType.Terran_Dropship, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Dropship, TechType.None);
@@ -1284,6 +1296,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Battlecruiser, 12);
         fields.get("race").set(UnitType.Terran_Battlecruiser, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Battlecruiser, new Pair(UnitType.Terran_Starport, 1));
+        fields.get("buildsWhat").set(UnitType.Terran_Battlecruiser, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Terran_Battlecruiser, new ArrayList(Arrays.asList(UnitType.Terran_Starport, UnitType.Terran_Control_Tower, UnitType.Terran_Physics_Lab)));
         fields.get("requiredTech").set(UnitType.Terran_Battlecruiser, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Battlecruiser, TechType.None);
@@ -1370,6 +1383,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Vulture_Spider_Mine, 13);
         fields.get("race").set(UnitType.Terran_Vulture_Spider_Mine, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Vulture_Spider_Mine, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Terran_Vulture_Spider_Mine, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Terran_Vulture_Spider_Mine, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Terran_Vulture_Spider_Mine, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Vulture_Spider_Mine, TechType.None);
@@ -1456,6 +1470,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Nuclear_Missile, 14);
         fields.get("race").set(UnitType.Terran_Nuclear_Missile, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Nuclear_Missile, new Pair(UnitType.Terran_Nuclear_Silo, 1));
+        fields.get("buildsWhat").set(UnitType.Terran_Nuclear_Missile, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Terran_Nuclear_Missile, new ArrayList(Arrays.asList(UnitType.Terran_Nuclear_Silo)));
         fields.get("requiredTech").set(UnitType.Terran_Nuclear_Missile, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Nuclear_Missile, TechType.None);
@@ -1542,6 +1557,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Civilian, 15);
         fields.get("race").set(UnitType.Terran_Civilian, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Civilian, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Terran_Civilian, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Terran_Civilian, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Terran_Civilian, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Civilian, TechType.None);
@@ -1628,6 +1644,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Sarah_Kerrigan, 16);
         fields.get("race").set(UnitType.Hero_Sarah_Kerrigan, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Hero_Sarah_Kerrigan, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Sarah_Kerrigan, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Sarah_Kerrigan, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Sarah_Kerrigan, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Sarah_Kerrigan, TechType.Personnel_Cloaking);
@@ -1714,6 +1731,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Alan_Schezar, 17);
         fields.get("race").set(UnitType.Hero_Alan_Schezar, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Hero_Alan_Schezar, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Alan_Schezar, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Alan_Schezar, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Alan_Schezar, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Alan_Schezar, TechType.None);
@@ -1800,6 +1818,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Alan_Schezar_Turret, 0);
         fields.get("race").set(UnitType.Hero_Alan_Schezar_Turret, null);
         fields.get("whatBuilds").set(UnitType.Hero_Alan_Schezar_Turret, null);
+        fields.get("buildsWhat").set(UnitType.Hero_Alan_Schezar_Turret, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Alan_Schezar_Turret, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Alan_Schezar_Turret, null);
         fields.get("cloakingTech").set(UnitType.Hero_Alan_Schezar_Turret, null);
@@ -1886,6 +1905,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Jim_Raynor_Vulture, 19);
         fields.get("race").set(UnitType.Hero_Jim_Raynor_Vulture, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Hero_Jim_Raynor_Vulture, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Jim_Raynor_Vulture, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Jim_Raynor_Vulture, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Jim_Raynor_Vulture, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Jim_Raynor_Vulture, TechType.None);
@@ -1972,6 +1992,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Jim_Raynor_Marine, 20);
         fields.get("race").set(UnitType.Hero_Jim_Raynor_Marine, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Hero_Jim_Raynor_Marine, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Jim_Raynor_Marine, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Jim_Raynor_Marine, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Jim_Raynor_Marine, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Jim_Raynor_Marine, TechType.None);
@@ -2058,6 +2079,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Tom_Kazansky, 21);
         fields.get("race").set(UnitType.Hero_Tom_Kazansky, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Hero_Tom_Kazansky, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Tom_Kazansky, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Tom_Kazansky, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Tom_Kazansky, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Tom_Kazansky, TechType.Cloaking_Field);
@@ -2144,6 +2166,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Magellan, 22);
         fields.get("race").set(UnitType.Hero_Magellan, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Hero_Magellan, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Magellan, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Magellan, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Magellan, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Magellan, TechType.None);
@@ -2230,6 +2253,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Edmund_Duke_Tank_Mode, 23);
         fields.get("race").set(UnitType.Hero_Edmund_Duke_Tank_Mode, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Hero_Edmund_Duke_Tank_Mode, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Edmund_Duke_Tank_Mode, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Edmund_Duke_Tank_Mode, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Edmund_Duke_Tank_Mode, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Edmund_Duke_Tank_Mode, TechType.None);
@@ -2316,6 +2340,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Edmund_Duke_Tank_Mode_Turret, 0);
         fields.get("race").set(UnitType.Hero_Edmund_Duke_Tank_Mode_Turret, null);
         fields.get("whatBuilds").set(UnitType.Hero_Edmund_Duke_Tank_Mode_Turret, null);
+        fields.get("buildsWhat").set(UnitType.Hero_Edmund_Duke_Tank_Mode_Turret, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Edmund_Duke_Tank_Mode_Turret, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Edmund_Duke_Tank_Mode_Turret, null);
         fields.get("cloakingTech").set(UnitType.Hero_Edmund_Duke_Tank_Mode_Turret, null);
@@ -2402,6 +2427,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Edmund_Duke_Siege_Mode, 25);
         fields.get("race").set(UnitType.Hero_Edmund_Duke_Siege_Mode, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Hero_Edmund_Duke_Siege_Mode, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Edmund_Duke_Siege_Mode, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Edmund_Duke_Siege_Mode, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Edmund_Duke_Siege_Mode, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Edmund_Duke_Siege_Mode, TechType.None);
@@ -2488,6 +2514,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Edmund_Duke_Siege_Mode_Turret, 0);
         fields.get("race").set(UnitType.Hero_Edmund_Duke_Siege_Mode_Turret, null);
         fields.get("whatBuilds").set(UnitType.Hero_Edmund_Duke_Siege_Mode_Turret, null);
+        fields.get("buildsWhat").set(UnitType.Hero_Edmund_Duke_Siege_Mode_Turret, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Edmund_Duke_Siege_Mode_Turret, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Edmund_Duke_Siege_Mode_Turret, null);
         fields.get("cloakingTech").set(UnitType.Hero_Edmund_Duke_Siege_Mode_Turret, null);
@@ -2574,6 +2601,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Arcturus_Mengsk, 27);
         fields.get("race").set(UnitType.Hero_Arcturus_Mengsk, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Hero_Arcturus_Mengsk, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Arcturus_Mengsk, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Arcturus_Mengsk, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Arcturus_Mengsk, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Arcturus_Mengsk, TechType.None);
@@ -2660,6 +2688,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Hyperion, 28);
         fields.get("race").set(UnitType.Hero_Hyperion, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Hero_Hyperion, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Hyperion, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Hyperion, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Hyperion, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Hyperion, TechType.None);
@@ -2746,6 +2775,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Norad_II, 29);
         fields.get("race").set(UnitType.Hero_Norad_II, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Hero_Norad_II, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Norad_II, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Norad_II, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Norad_II, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Norad_II, TechType.None);
@@ -2832,6 +2862,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Siege_Tank_Siege_Mode, 30);
         fields.get("race").set(UnitType.Terran_Siege_Tank_Siege_Mode, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Siege_Tank_Siege_Mode, new Pair(UnitType.Terran_Factory, 1));
+        fields.get("buildsWhat").set(UnitType.Terran_Siege_Tank_Siege_Mode, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Terran_Siege_Tank_Siege_Mode, new ArrayList(Arrays.asList(UnitType.Terran_Factory, UnitType.Terran_Machine_Shop)));
         fields.get("requiredTech").set(UnitType.Terran_Siege_Tank_Siege_Mode, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Siege_Tank_Siege_Mode, TechType.None);
@@ -2918,6 +2949,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Siege_Tank_Siege_Mode_Turret, 0);
         fields.get("race").set(UnitType.Terran_Siege_Tank_Siege_Mode_Turret, null);
         fields.get("whatBuilds").set(UnitType.Terran_Siege_Tank_Siege_Mode_Turret, null);
+        fields.get("buildsWhat").set(UnitType.Terran_Siege_Tank_Siege_Mode_Turret, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Terran_Siege_Tank_Siege_Mode_Turret, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Terran_Siege_Tank_Siege_Mode_Turret, null);
         fields.get("cloakingTech").set(UnitType.Terran_Siege_Tank_Siege_Mode_Turret, null);
@@ -3004,6 +3036,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Firebat, 32);
         fields.get("race").set(UnitType.Terran_Firebat, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Firebat, new Pair(UnitType.Terran_Barracks, 1));
+        fields.get("buildsWhat").set(UnitType.Terran_Firebat, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Terran_Firebat, new ArrayList(Arrays.asList(UnitType.Terran_Barracks, UnitType.Terran_Academy)));
         fields.get("requiredTech").set(UnitType.Terran_Firebat, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Firebat, TechType.None);
@@ -3090,6 +3123,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Spell_Scanner_Sweep, 33);
         fields.get("race").set(UnitType.Spell_Scanner_Sweep, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Spell_Scanner_Sweep, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Spell_Scanner_Sweep, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Spell_Scanner_Sweep, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Spell_Scanner_Sweep, TechType.None);
         fields.get("cloakingTech").set(UnitType.Spell_Scanner_Sweep, TechType.None);
@@ -3176,6 +3210,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Medic, 34);
         fields.get("race").set(UnitType.Terran_Medic, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Medic, new Pair(UnitType.Terran_Barracks, 1));
+        fields.get("buildsWhat").set(UnitType.Terran_Medic, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Terran_Medic, new ArrayList(Arrays.asList(UnitType.Terran_Barracks, UnitType.Terran_Academy)));
         fields.get("requiredTech").set(UnitType.Terran_Medic, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Medic, TechType.None);
@@ -3262,6 +3297,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Larva, 35);
         fields.get("race").set(UnitType.Zerg_Larva, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Larva, new Pair(UnitType.Zerg_Hatchery, 1));
+        fields.get("buildsWhat").set(UnitType.Zerg_Larva, new ArrayList(Arrays.asList(UnitType.Zerg_Hydralisk, UnitType.Zerg_Defiler, UnitType.Zerg_Drone, UnitType.Zerg_Mutalisk, UnitType.Zerg_Overlord, UnitType.Zerg_Zergling, UnitType.Zerg_Queen, UnitType.Zerg_Ultralisk, UnitType.Zerg_Scourge)));
         fields.get("requiredUnits").set(UnitType.Zerg_Larva, new ArrayList(Arrays.asList(UnitType.Zerg_Hatchery)));
         fields.get("requiredTech").set(UnitType.Zerg_Larva, TechType.None);
         fields.get("cloakingTech").set(UnitType.Zerg_Larva, TechType.None);
@@ -3348,6 +3384,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Egg, 36);
         fields.get("race").set(UnitType.Zerg_Egg, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Egg, new Pair(UnitType.Zerg_Larva, 1));
+        fields.get("buildsWhat").set(UnitType.Zerg_Egg, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Zerg_Egg, new ArrayList(Arrays.asList(UnitType.Zerg_Larva)));
         fields.get("requiredTech").set(UnitType.Zerg_Egg, TechType.None);
         fields.get("cloakingTech").set(UnitType.Zerg_Egg, TechType.None);
@@ -3434,6 +3471,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Zergling, 37);
         fields.get("race").set(UnitType.Zerg_Zergling, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Zergling, new Pair(UnitType.Zerg_Larva, 1));
+        fields.get("buildsWhat").set(UnitType.Zerg_Zergling, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Zerg_Zergling, new ArrayList(Arrays.asList(UnitType.Zerg_Larva, UnitType.Zerg_Spawning_Pool)));
         fields.get("requiredTech").set(UnitType.Zerg_Zergling, TechType.None);
         fields.get("cloakingTech").set(UnitType.Zerg_Zergling, TechType.None);
@@ -3520,6 +3558,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Hydralisk, 38);
         fields.get("race").set(UnitType.Zerg_Hydralisk, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Hydralisk, new Pair(UnitType.Zerg_Larva, 1));
+        fields.get("buildsWhat").set(UnitType.Zerg_Hydralisk, new ArrayList(Arrays.asList(UnitType.Zerg_Lurker)));
         fields.get("requiredUnits").set(UnitType.Zerg_Hydralisk, new ArrayList(Arrays.asList(UnitType.Zerg_Larva, UnitType.Zerg_Hydralisk_Den)));
         fields.get("requiredTech").set(UnitType.Zerg_Hydralisk, TechType.None);
         fields.get("cloakingTech").set(UnitType.Zerg_Hydralisk, TechType.None);
@@ -3606,6 +3645,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Ultralisk, 39);
         fields.get("race").set(UnitType.Zerg_Ultralisk, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Ultralisk, new Pair(UnitType.Zerg_Larva, 1));
+        fields.get("buildsWhat").set(UnitType.Zerg_Ultralisk, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Zerg_Ultralisk, new ArrayList(Arrays.asList(UnitType.Zerg_Larva, UnitType.Zerg_Ultralisk_Cavern)));
         fields.get("requiredTech").set(UnitType.Zerg_Ultralisk, TechType.None);
         fields.get("cloakingTech").set(UnitType.Zerg_Ultralisk, TechType.None);
@@ -3692,6 +3732,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Broodling, 40);
         fields.get("race").set(UnitType.Zerg_Broodling, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Broodling, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Zerg_Broodling, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Zerg_Broodling, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Zerg_Broodling, TechType.None);
         fields.get("cloakingTech").set(UnitType.Zerg_Broodling, TechType.None);
@@ -3778,6 +3819,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Drone, 41);
         fields.get("race").set(UnitType.Zerg_Drone, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Drone, new Pair(UnitType.Zerg_Larva, 1));
+        fields.get("buildsWhat").set(UnitType.Zerg_Drone, new ArrayList(Arrays.asList(UnitType.Zerg_Hydralisk_Den, UnitType.Zerg_Creep_Colony, UnitType.Zerg_Defiler_Mound, UnitType.Zerg_Hatchery, UnitType.Zerg_Evolution_Chamber, UnitType.Zerg_Extractor, UnitType.Zerg_Spawning_Pool, UnitType.Zerg_Nydus_Canal, UnitType.Zerg_Queens_Nest, UnitType.Zerg_Spire, UnitType.Zerg_Ultralisk_Cavern)));
         fields.get("requiredUnits").set(UnitType.Zerg_Drone, new ArrayList(Arrays.asList(UnitType.Zerg_Larva)));
         fields.get("requiredTech").set(UnitType.Zerg_Drone, TechType.None);
         fields.get("cloakingTech").set(UnitType.Zerg_Drone, TechType.None);
@@ -3864,6 +3906,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Overlord, 42);
         fields.get("race").set(UnitType.Zerg_Overlord, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Overlord, new Pair(UnitType.Zerg_Larva, 1));
+        fields.get("buildsWhat").set(UnitType.Zerg_Overlord, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Zerg_Overlord, new ArrayList(Arrays.asList(UnitType.Zerg_Larva)));
         fields.get("requiredTech").set(UnitType.Zerg_Overlord, TechType.None);
         fields.get("cloakingTech").set(UnitType.Zerg_Overlord, TechType.None);
@@ -3950,6 +3993,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Mutalisk, 43);
         fields.get("race").set(UnitType.Zerg_Mutalisk, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Mutalisk, new Pair(UnitType.Zerg_Larva, 1));
+        fields.get("buildsWhat").set(UnitType.Zerg_Mutalisk, new ArrayList(Arrays.asList(UnitType.Zerg_Guardian, UnitType.Zerg_Devourer)));
         fields.get("requiredUnits").set(UnitType.Zerg_Mutalisk, new ArrayList(Arrays.asList(UnitType.Zerg_Larva, UnitType.Zerg_Spire)));
         fields.get("requiredTech").set(UnitType.Zerg_Mutalisk, TechType.None);
         fields.get("cloakingTech").set(UnitType.Zerg_Mutalisk, TechType.None);
@@ -4036,6 +4080,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Guardian, 44);
         fields.get("race").set(UnitType.Zerg_Guardian, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Guardian, new Pair(UnitType.Zerg_Mutalisk, 1));
+        fields.get("buildsWhat").set(UnitType.Zerg_Guardian, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Zerg_Guardian, new ArrayList(Arrays.asList(UnitType.Zerg_Mutalisk, UnitType.Zerg_Greater_Spire)));
         fields.get("requiredTech").set(UnitType.Zerg_Guardian, TechType.None);
         fields.get("cloakingTech").set(UnitType.Zerg_Guardian, TechType.None);
@@ -4122,6 +4167,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Queen, 45);
         fields.get("race").set(UnitType.Zerg_Queen, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Queen, new Pair(UnitType.Zerg_Larva, 1));
+        fields.get("buildsWhat").set(UnitType.Zerg_Queen, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Zerg_Queen, new ArrayList(Arrays.asList(UnitType.Zerg_Larva, UnitType.Zerg_Queens_Nest)));
         fields.get("requiredTech").set(UnitType.Zerg_Queen, TechType.None);
         fields.get("cloakingTech").set(UnitType.Zerg_Queen, TechType.None);
@@ -4208,6 +4254,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Defiler, 46);
         fields.get("race").set(UnitType.Zerg_Defiler, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Defiler, new Pair(UnitType.Zerg_Larva, 1));
+        fields.get("buildsWhat").set(UnitType.Zerg_Defiler, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Zerg_Defiler, new ArrayList(Arrays.asList(UnitType.Zerg_Larva, UnitType.Zerg_Defiler_Mound)));
         fields.get("requiredTech").set(UnitType.Zerg_Defiler, TechType.None);
         fields.get("cloakingTech").set(UnitType.Zerg_Defiler, TechType.None);
@@ -4294,6 +4341,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Scourge, 47);
         fields.get("race").set(UnitType.Zerg_Scourge, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Scourge, new Pair(UnitType.Zerg_Larva, 1));
+        fields.get("buildsWhat").set(UnitType.Zerg_Scourge, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Zerg_Scourge, new ArrayList(Arrays.asList(UnitType.Zerg_Larva, UnitType.Zerg_Spire)));
         fields.get("requiredTech").set(UnitType.Zerg_Scourge, TechType.None);
         fields.get("cloakingTech").set(UnitType.Zerg_Scourge, TechType.None);
@@ -4380,6 +4428,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Torrasque, 48);
         fields.get("race").set(UnitType.Hero_Torrasque, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Hero_Torrasque, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Torrasque, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Torrasque, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Torrasque, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Torrasque, TechType.None);
@@ -4466,6 +4515,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Matriarch, 49);
         fields.get("race").set(UnitType.Hero_Matriarch, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Hero_Matriarch, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Matriarch, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Matriarch, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Matriarch, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Matriarch, TechType.None);
@@ -4552,6 +4602,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Infested_Terran, 50);
         fields.get("race").set(UnitType.Zerg_Infested_Terran, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Infested_Terran, new Pair(UnitType.Zerg_Infested_Command_Center, 1));
+        fields.get("buildsWhat").set(UnitType.Zerg_Infested_Terran, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Zerg_Infested_Terran, new ArrayList(Arrays.asList(UnitType.Zerg_Infested_Command_Center)));
         fields.get("requiredTech").set(UnitType.Zerg_Infested_Terran, TechType.None);
         fields.get("cloakingTech").set(UnitType.Zerg_Infested_Terran, TechType.None);
@@ -4638,6 +4689,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Infested_Kerrigan, 51);
         fields.get("race").set(UnitType.Hero_Infested_Kerrigan, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Hero_Infested_Kerrigan, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Infested_Kerrigan, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Infested_Kerrigan, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Infested_Kerrigan, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Infested_Kerrigan, TechType.Personnel_Cloaking);
@@ -4724,6 +4776,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Unclean_One, 52);
         fields.get("race").set(UnitType.Hero_Unclean_One, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Hero_Unclean_One, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Unclean_One, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Unclean_One, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Unclean_One, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Unclean_One, TechType.None);
@@ -4810,6 +4863,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Hunter_Killer, 53);
         fields.get("race").set(UnitType.Hero_Hunter_Killer, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Hero_Hunter_Killer, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Hunter_Killer, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Hunter_Killer, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Hunter_Killer, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Hunter_Killer, TechType.None);
@@ -4896,6 +4950,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Devouring_One, 54);
         fields.get("race").set(UnitType.Hero_Devouring_One, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Hero_Devouring_One, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Devouring_One, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Devouring_One, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Devouring_One, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Devouring_One, TechType.None);
@@ -4982,6 +5037,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Kukulza_Mutalisk, 55);
         fields.get("race").set(UnitType.Hero_Kukulza_Mutalisk, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Hero_Kukulza_Mutalisk, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Kukulza_Mutalisk, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Kukulza_Mutalisk, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Kukulza_Mutalisk, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Kukulza_Mutalisk, TechType.None);
@@ -5068,6 +5124,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Kukulza_Guardian, 56);
         fields.get("race").set(UnitType.Hero_Kukulza_Guardian, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Hero_Kukulza_Guardian, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Kukulza_Guardian, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Kukulza_Guardian, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Kukulza_Guardian, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Kukulza_Guardian, TechType.None);
@@ -5154,6 +5211,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Yggdrasill, 57);
         fields.get("race").set(UnitType.Hero_Yggdrasill, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Hero_Yggdrasill, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Yggdrasill, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Yggdrasill, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Yggdrasill, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Yggdrasill, TechType.None);
@@ -5240,6 +5298,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Valkyrie, 58);
         fields.get("race").set(UnitType.Terran_Valkyrie, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Valkyrie, new Pair(UnitType.Terran_Starport, 1));
+        fields.get("buildsWhat").set(UnitType.Terran_Valkyrie, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Terran_Valkyrie, new ArrayList(Arrays.asList(UnitType.Terran_Starport, UnitType.Terran_Control_Tower, UnitType.Terran_Armory)));
         fields.get("requiredTech").set(UnitType.Terran_Valkyrie, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Valkyrie, TechType.None);
@@ -5326,6 +5385,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Cocoon, 59);
         fields.get("race").set(UnitType.Zerg_Cocoon, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Cocoon, new Pair(UnitType.Zerg_Mutalisk, 1));
+        fields.get("buildsWhat").set(UnitType.Zerg_Cocoon, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Zerg_Cocoon, new ArrayList(Arrays.asList(UnitType.Zerg_Mutalisk, UnitType.Zerg_Greater_Spire)));
         fields.get("requiredTech").set(UnitType.Zerg_Cocoon, TechType.None);
         fields.get("cloakingTech").set(UnitType.Zerg_Cocoon, TechType.None);
@@ -5412,6 +5472,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Protoss_Corsair, 60);
         fields.get("race").set(UnitType.Protoss_Corsair, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Protoss_Corsair, new Pair(UnitType.Protoss_Stargate, 1));
+        fields.get("buildsWhat").set(UnitType.Protoss_Corsair, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Protoss_Corsair, new ArrayList(Arrays.asList(UnitType.Protoss_Stargate)));
         fields.get("requiredTech").set(UnitType.Protoss_Corsair, TechType.None);
         fields.get("cloakingTech").set(UnitType.Protoss_Corsair, TechType.None);
@@ -5498,6 +5559,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Protoss_Dark_Templar, 61);
         fields.get("race").set(UnitType.Protoss_Dark_Templar, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Protoss_Dark_Templar, new Pair(UnitType.Protoss_Gateway, 1));
+        fields.get("buildsWhat").set(UnitType.Protoss_Dark_Templar, new ArrayList(Arrays.asList(UnitType.Protoss_Dark_Archon)));
         fields.get("requiredUnits").set(UnitType.Protoss_Dark_Templar, new ArrayList(Arrays.asList(UnitType.Protoss_Gateway, UnitType.Protoss_Templar_Archives)));
         fields.get("requiredTech").set(UnitType.Protoss_Dark_Templar, TechType.None);
         fields.get("cloakingTech").set(UnitType.Protoss_Dark_Templar, TechType.None);
@@ -5584,6 +5646,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Devourer, 62);
         fields.get("race").set(UnitType.Zerg_Devourer, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Devourer, new Pair(UnitType.Zerg_Mutalisk, 1));
+        fields.get("buildsWhat").set(UnitType.Zerg_Devourer, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Zerg_Devourer, new ArrayList(Arrays.asList(UnitType.Zerg_Mutalisk, UnitType.Zerg_Greater_Spire)));
         fields.get("requiredTech").set(UnitType.Zerg_Devourer, TechType.None);
         fields.get("cloakingTech").set(UnitType.Zerg_Devourer, TechType.None);
@@ -5670,6 +5733,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Protoss_Dark_Archon, 63);
         fields.get("race").set(UnitType.Protoss_Dark_Archon, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Protoss_Dark_Archon, new Pair(UnitType.Protoss_Dark_Templar, 2));
+        fields.get("buildsWhat").set(UnitType.Protoss_Dark_Archon, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Protoss_Dark_Archon, new ArrayList(Arrays.asList(UnitType.Protoss_Dark_Templar)));
         fields.get("requiredTech").set(UnitType.Protoss_Dark_Archon, TechType.None);
         fields.get("cloakingTech").set(UnitType.Protoss_Dark_Archon, TechType.None);
@@ -5756,6 +5820,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Protoss_Probe, 64);
         fields.get("race").set(UnitType.Protoss_Probe, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Protoss_Probe, new Pair(UnitType.Protoss_Nexus, 1));
+        fields.get("buildsWhat").set(UnitType.Protoss_Probe, new ArrayList(Arrays.asList(UnitType.Protoss_Nexus, UnitType.Protoss_Arbiter_Tribunal, UnitType.Protoss_Assimilator, UnitType.Protoss_Citadel_of_Adun, UnitType.Protoss_Cybernetics_Core, UnitType.Protoss_Fleet_Beacon, UnitType.Protoss_Forge, UnitType.Protoss_Gateway, UnitType.Protoss_Observatory, UnitType.Protoss_Photon_Cannon, UnitType.Protoss_Pylon, UnitType.Protoss_Robotics_Facility, UnitType.Protoss_Robotics_Support_Bay, UnitType.Protoss_Shield_Battery, UnitType.Protoss_Stargate, UnitType.Protoss_Templar_Archives)));
         fields.get("requiredUnits").set(UnitType.Protoss_Probe, new ArrayList(Arrays.asList(UnitType.Protoss_Nexus)));
         fields.get("requiredTech").set(UnitType.Protoss_Probe, TechType.None);
         fields.get("cloakingTech").set(UnitType.Protoss_Probe, TechType.None);
@@ -5842,6 +5907,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Protoss_Zealot, 65);
         fields.get("race").set(UnitType.Protoss_Zealot, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Protoss_Zealot, new Pair(UnitType.Protoss_Gateway, 1));
+        fields.get("buildsWhat").set(UnitType.Protoss_Zealot, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Protoss_Zealot, new ArrayList(Arrays.asList(UnitType.Protoss_Gateway)));
         fields.get("requiredTech").set(UnitType.Protoss_Zealot, TechType.None);
         fields.get("cloakingTech").set(UnitType.Protoss_Zealot, TechType.None);
@@ -5928,6 +5994,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Protoss_Dragoon, 66);
         fields.get("race").set(UnitType.Protoss_Dragoon, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Protoss_Dragoon, new Pair(UnitType.Protoss_Gateway, 1));
+        fields.get("buildsWhat").set(UnitType.Protoss_Dragoon, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Protoss_Dragoon, new ArrayList(Arrays.asList(UnitType.Protoss_Gateway, UnitType.Protoss_Cybernetics_Core)));
         fields.get("requiredTech").set(UnitType.Protoss_Dragoon, TechType.None);
         fields.get("cloakingTech").set(UnitType.Protoss_Dragoon, TechType.None);
@@ -6014,6 +6081,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Protoss_High_Templar, 67);
         fields.get("race").set(UnitType.Protoss_High_Templar, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Protoss_High_Templar, new Pair(UnitType.Protoss_Gateway, 1));
+        fields.get("buildsWhat").set(UnitType.Protoss_High_Templar, new ArrayList(Arrays.asList(UnitType.Protoss_Archon)));
         fields.get("requiredUnits").set(UnitType.Protoss_High_Templar, new ArrayList(Arrays.asList(UnitType.Protoss_Gateway, UnitType.Protoss_Templar_Archives)));
         fields.get("requiredTech").set(UnitType.Protoss_High_Templar, TechType.None);
         fields.get("cloakingTech").set(UnitType.Protoss_High_Templar, TechType.None);
@@ -6100,6 +6168,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Protoss_Archon, 68);
         fields.get("race").set(UnitType.Protoss_Archon, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Protoss_Archon, new Pair(UnitType.Protoss_High_Templar, 2));
+        fields.get("buildsWhat").set(UnitType.Protoss_Archon, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Protoss_Archon, new ArrayList(Arrays.asList(UnitType.Protoss_High_Templar)));
         fields.get("requiredTech").set(UnitType.Protoss_Archon, TechType.None);
         fields.get("cloakingTech").set(UnitType.Protoss_Archon, TechType.None);
@@ -6186,6 +6255,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Protoss_Shuttle, 69);
         fields.get("race").set(UnitType.Protoss_Shuttle, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Protoss_Shuttle, new Pair(UnitType.Protoss_Robotics_Facility, 1));
+        fields.get("buildsWhat").set(UnitType.Protoss_Shuttle, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Protoss_Shuttle, new ArrayList(Arrays.asList(UnitType.Protoss_Robotics_Facility)));
         fields.get("requiredTech").set(UnitType.Protoss_Shuttle, TechType.None);
         fields.get("cloakingTech").set(UnitType.Protoss_Shuttle, TechType.None);
@@ -6272,6 +6342,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Protoss_Scout, 70);
         fields.get("race").set(UnitType.Protoss_Scout, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Protoss_Scout, new Pair(UnitType.Protoss_Stargate, 1));
+        fields.get("buildsWhat").set(UnitType.Protoss_Scout, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Protoss_Scout, new ArrayList(Arrays.asList(UnitType.Protoss_Stargate)));
         fields.get("requiredTech").set(UnitType.Protoss_Scout, TechType.None);
         fields.get("cloakingTech").set(UnitType.Protoss_Scout, TechType.None);
@@ -6358,6 +6429,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Protoss_Arbiter, 71);
         fields.get("race").set(UnitType.Protoss_Arbiter, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Protoss_Arbiter, new Pair(UnitType.Protoss_Stargate, 1));
+        fields.get("buildsWhat").set(UnitType.Protoss_Arbiter, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Protoss_Arbiter, new ArrayList(Arrays.asList(UnitType.Protoss_Stargate, UnitType.Protoss_Arbiter_Tribunal)));
         fields.get("requiredTech").set(UnitType.Protoss_Arbiter, TechType.None);
         fields.get("cloakingTech").set(UnitType.Protoss_Arbiter, TechType.None);
@@ -6444,6 +6516,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Protoss_Carrier, 72);
         fields.get("race").set(UnitType.Protoss_Carrier, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Protoss_Carrier, new Pair(UnitType.Protoss_Stargate, 1));
+        fields.get("buildsWhat").set(UnitType.Protoss_Carrier, new ArrayList(Arrays.asList(UnitType.Protoss_Interceptor)));
         fields.get("requiredUnits").set(UnitType.Protoss_Carrier, new ArrayList(Arrays.asList(UnitType.Protoss_Stargate, UnitType.Protoss_Fleet_Beacon)));
         fields.get("requiredTech").set(UnitType.Protoss_Carrier, TechType.None);
         fields.get("cloakingTech").set(UnitType.Protoss_Carrier, TechType.None);
@@ -6530,6 +6603,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Protoss_Interceptor, 73);
         fields.get("race").set(UnitType.Protoss_Interceptor, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Protoss_Interceptor, new Pair(UnitType.Protoss_Carrier, 1));
+        fields.get("buildsWhat").set(UnitType.Protoss_Interceptor, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Protoss_Interceptor, new ArrayList(Arrays.asList(UnitType.Protoss_Carrier)));
         fields.get("requiredTech").set(UnitType.Protoss_Interceptor, TechType.None);
         fields.get("cloakingTech").set(UnitType.Protoss_Interceptor, TechType.None);
@@ -6616,6 +6690,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Dark_Templar, 74);
         fields.get("race").set(UnitType.Hero_Dark_Templar, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Hero_Dark_Templar, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Dark_Templar, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Dark_Templar, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Dark_Templar, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Dark_Templar, TechType.None);
@@ -6702,6 +6777,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Zeratul, 75);
         fields.get("race").set(UnitType.Hero_Zeratul, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Hero_Zeratul, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Zeratul, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Zeratul, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Zeratul, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Zeratul, TechType.None);
@@ -6788,6 +6864,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Tassadar_Zeratul_Archon, 76);
         fields.get("race").set(UnitType.Hero_Tassadar_Zeratul_Archon, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Hero_Tassadar_Zeratul_Archon, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Tassadar_Zeratul_Archon, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Tassadar_Zeratul_Archon, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Tassadar_Zeratul_Archon, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Tassadar_Zeratul_Archon, TechType.None);
@@ -6874,6 +6951,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Fenix_Zealot, 77);
         fields.get("race").set(UnitType.Hero_Fenix_Zealot, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Hero_Fenix_Zealot, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Fenix_Zealot, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Fenix_Zealot, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Fenix_Zealot, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Fenix_Zealot, TechType.None);
@@ -6960,6 +7038,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Fenix_Dragoon, 78);
         fields.get("race").set(UnitType.Hero_Fenix_Dragoon, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Hero_Fenix_Dragoon, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Fenix_Dragoon, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Fenix_Dragoon, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Fenix_Dragoon, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Fenix_Dragoon, TechType.None);
@@ -7046,6 +7125,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Tassadar, 79);
         fields.get("race").set(UnitType.Hero_Tassadar, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Hero_Tassadar, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Tassadar, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Tassadar, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Tassadar, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Tassadar, TechType.None);
@@ -7132,6 +7212,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Mojo, 80);
         fields.get("race").set(UnitType.Hero_Mojo, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Hero_Mojo, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Mojo, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Mojo, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Mojo, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Mojo, TechType.None);
@@ -7218,6 +7299,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Warbringer, 81);
         fields.get("race").set(UnitType.Hero_Warbringer, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Hero_Warbringer, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Warbringer, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Warbringer, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Warbringer, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Warbringer, TechType.None);
@@ -7304,6 +7386,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Gantrithor, 82);
         fields.get("race").set(UnitType.Hero_Gantrithor, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Hero_Gantrithor, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Gantrithor, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Gantrithor, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Gantrithor, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Gantrithor, TechType.None);
@@ -7390,6 +7473,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Protoss_Reaver, 83);
         fields.get("race").set(UnitType.Protoss_Reaver, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Protoss_Reaver, new Pair(UnitType.Protoss_Robotics_Facility, 1));
+        fields.get("buildsWhat").set(UnitType.Protoss_Reaver, new ArrayList(Arrays.asList(UnitType.Protoss_Scarab)));
         fields.get("requiredUnits").set(UnitType.Protoss_Reaver, new ArrayList(Arrays.asList(UnitType.Protoss_Robotics_Facility, UnitType.Protoss_Robotics_Support_Bay)));
         fields.get("requiredTech").set(UnitType.Protoss_Reaver, TechType.None);
         fields.get("cloakingTech").set(UnitType.Protoss_Reaver, TechType.None);
@@ -7476,6 +7560,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Protoss_Observer, 84);
         fields.get("race").set(UnitType.Protoss_Observer, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Protoss_Observer, new Pair(UnitType.Protoss_Robotics_Facility, 1));
+        fields.get("buildsWhat").set(UnitType.Protoss_Observer, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Protoss_Observer, new ArrayList(Arrays.asList(UnitType.Protoss_Robotics_Facility, UnitType.Protoss_Observatory)));
         fields.get("requiredTech").set(UnitType.Protoss_Observer, TechType.None);
         fields.get("cloakingTech").set(UnitType.Protoss_Observer, TechType.None);
@@ -7562,6 +7647,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Protoss_Scarab, 85);
         fields.get("race").set(UnitType.Protoss_Scarab, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Protoss_Scarab, new Pair(UnitType.Protoss_Reaver, 1));
+        fields.get("buildsWhat").set(UnitType.Protoss_Scarab, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Protoss_Scarab, new ArrayList(Arrays.asList(UnitType.Protoss_Reaver)));
         fields.get("requiredTech").set(UnitType.Protoss_Scarab, TechType.None);
         fields.get("cloakingTech").set(UnitType.Protoss_Scarab, TechType.None);
@@ -7648,6 +7734,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Danimoth, 86);
         fields.get("race").set(UnitType.Hero_Danimoth, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Hero_Danimoth, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Danimoth, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Danimoth, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Danimoth, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Danimoth, TechType.None);
@@ -7734,6 +7821,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Aldaris, 87);
         fields.get("race").set(UnitType.Hero_Aldaris, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Hero_Aldaris, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Aldaris, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Aldaris, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Aldaris, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Aldaris, TechType.None);
@@ -7820,6 +7908,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Artanis, 88);
         fields.get("race").set(UnitType.Hero_Artanis, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Hero_Artanis, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Artanis, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Artanis, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Artanis, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Artanis, TechType.None);
@@ -7906,6 +7995,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Critter_Rhynadon, 89);
         fields.get("race").set(UnitType.Critter_Rhynadon, Race.None);
         fields.get("whatBuilds").set(UnitType.Critter_Rhynadon, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Critter_Rhynadon, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Critter_Rhynadon, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Critter_Rhynadon, TechType.None);
         fields.get("cloakingTech").set(UnitType.Critter_Rhynadon, TechType.None);
@@ -7992,6 +8082,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Critter_Bengalaas, 90);
         fields.get("race").set(UnitType.Critter_Bengalaas, Race.None);
         fields.get("whatBuilds").set(UnitType.Critter_Bengalaas, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Critter_Bengalaas, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Critter_Bengalaas, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Critter_Bengalaas, TechType.None);
         fields.get("cloakingTech").set(UnitType.Critter_Bengalaas, TechType.None);
@@ -8078,6 +8169,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Cargo_Ship, 91);
         fields.get("race").set(UnitType.Special_Cargo_Ship, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Special_Cargo_Ship, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Cargo_Ship, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Cargo_Ship, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Cargo_Ship, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Cargo_Ship, TechType.None);
@@ -8164,6 +8256,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Mercenary_Gunship, 92);
         fields.get("race").set(UnitType.Special_Mercenary_Gunship, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Special_Mercenary_Gunship, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Mercenary_Gunship, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Mercenary_Gunship, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Mercenary_Gunship, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Mercenary_Gunship, TechType.None);
@@ -8250,6 +8343,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Critter_Scantid, 93);
         fields.get("race").set(UnitType.Critter_Scantid, Race.None);
         fields.get("whatBuilds").set(UnitType.Critter_Scantid, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Critter_Scantid, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Critter_Scantid, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Critter_Scantid, TechType.None);
         fields.get("cloakingTech").set(UnitType.Critter_Scantid, TechType.None);
@@ -8336,6 +8430,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Critter_Kakaru, 94);
         fields.get("race").set(UnitType.Critter_Kakaru, Race.None);
         fields.get("whatBuilds").set(UnitType.Critter_Kakaru, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Critter_Kakaru, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Critter_Kakaru, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Critter_Kakaru, TechType.None);
         fields.get("cloakingTech").set(UnitType.Critter_Kakaru, TechType.None);
@@ -8422,6 +8517,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Critter_Ragnasaur, 95);
         fields.get("race").set(UnitType.Critter_Ragnasaur, Race.None);
         fields.get("whatBuilds").set(UnitType.Critter_Ragnasaur, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Critter_Ragnasaur, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Critter_Ragnasaur, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Critter_Ragnasaur, TechType.None);
         fields.get("cloakingTech").set(UnitType.Critter_Ragnasaur, TechType.None);
@@ -8508,6 +8604,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Critter_Ursadon, 96);
         fields.get("race").set(UnitType.Critter_Ursadon, Race.None);
         fields.get("whatBuilds").set(UnitType.Critter_Ursadon, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Critter_Ursadon, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Critter_Ursadon, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Critter_Ursadon, TechType.None);
         fields.get("cloakingTech").set(UnitType.Critter_Ursadon, TechType.None);
@@ -8594,6 +8691,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Lurker_Egg, 97);
         fields.get("race").set(UnitType.Zerg_Lurker_Egg, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Lurker_Egg, new Pair(UnitType.Zerg_Hydralisk, 1));
+        fields.get("buildsWhat").set(UnitType.Zerg_Lurker_Egg, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Zerg_Lurker_Egg, new ArrayList(Arrays.asList(UnitType.Zerg_Hydralisk)));
         fields.get("requiredTech").set(UnitType.Zerg_Lurker_Egg, TechType.Lurker_Aspect);
         fields.get("cloakingTech").set(UnitType.Zerg_Lurker_Egg, TechType.None);
@@ -8680,6 +8778,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Raszagal, 98);
         fields.get("race").set(UnitType.Hero_Raszagal, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Hero_Raszagal, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Raszagal, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Raszagal, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Raszagal, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Raszagal, TechType.None);
@@ -8766,6 +8865,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Samir_Duran, 99);
         fields.get("race").set(UnitType.Hero_Samir_Duran, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Hero_Samir_Duran, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Samir_Duran, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Samir_Duran, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Samir_Duran, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Samir_Duran, TechType.Personnel_Cloaking);
@@ -8852,6 +8952,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Alexei_Stukov, 100);
         fields.get("race").set(UnitType.Hero_Alexei_Stukov, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Hero_Alexei_Stukov, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Alexei_Stukov, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Alexei_Stukov, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Alexei_Stukov, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Alexei_Stukov, TechType.Personnel_Cloaking);
@@ -8938,6 +9039,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Map_Revealer, 101);
         fields.get("race").set(UnitType.Special_Map_Revealer, Race.None);
         fields.get("whatBuilds").set(UnitType.Special_Map_Revealer, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Map_Revealer, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Map_Revealer, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Map_Revealer, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Map_Revealer, TechType.None);
@@ -9024,6 +9126,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Gerard_DuGalle, 102);
         fields.get("race").set(UnitType.Hero_Gerard_DuGalle, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Hero_Gerard_DuGalle, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Gerard_DuGalle, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Gerard_DuGalle, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Gerard_DuGalle, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Gerard_DuGalle, TechType.None);
@@ -9110,6 +9213,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Lurker, 103);
         fields.get("race").set(UnitType.Zerg_Lurker, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Lurker, new Pair(UnitType.Zerg_Hydralisk, 1));
+        fields.get("buildsWhat").set(UnitType.Zerg_Lurker, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Zerg_Lurker, new ArrayList(Arrays.asList(UnitType.Zerg_Hydralisk)));
         fields.get("requiredTech").set(UnitType.Zerg_Lurker, TechType.Lurker_Aspect);
         fields.get("cloakingTech").set(UnitType.Zerg_Lurker, TechType.None);
@@ -9196,6 +9300,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Hero_Infested_Duran, 104);
         fields.get("race").set(UnitType.Hero_Infested_Duran, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Hero_Infested_Duran, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Hero_Infested_Duran, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Hero_Infested_Duran, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Hero_Infested_Duran, TechType.None);
         fields.get("cloakingTech").set(UnitType.Hero_Infested_Duran, TechType.Personnel_Cloaking);
@@ -9282,6 +9387,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Spell_Disruption_Web, 105);
         fields.get("race").set(UnitType.Spell_Disruption_Web, Race.None);
         fields.get("whatBuilds").set(UnitType.Spell_Disruption_Web, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Spell_Disruption_Web, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Spell_Disruption_Web, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Spell_Disruption_Web, TechType.None);
         fields.get("cloakingTech").set(UnitType.Spell_Disruption_Web, TechType.None);
@@ -9368,6 +9474,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Command_Center, 106);
         fields.get("race").set(UnitType.Terran_Command_Center, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Command_Center, new Pair(UnitType.Terran_SCV, 1));
+        fields.get("buildsWhat").set(UnitType.Terran_Command_Center, new ArrayList(Arrays.asList(UnitType.Terran_SCV, UnitType.Terran_Comsat_Station, UnitType.Terran_Nuclear_Silo)));
         fields.get("requiredUnits").set(UnitType.Terran_Command_Center, new ArrayList(Arrays.asList(UnitType.Terran_SCV)));
         fields.get("requiredTech").set(UnitType.Terran_Command_Center, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Command_Center, TechType.None);
@@ -9454,6 +9561,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Comsat_Station, 107);
         fields.get("race").set(UnitType.Terran_Comsat_Station, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Comsat_Station, new Pair(UnitType.Terran_Command_Center, 1));
+        fields.get("buildsWhat").set(UnitType.Terran_Comsat_Station, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Terran_Comsat_Station, new ArrayList(Arrays.asList(UnitType.Terran_Command_Center, UnitType.Terran_Academy)));
         fields.get("requiredTech").set(UnitType.Terran_Comsat_Station, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Comsat_Station, TechType.None);
@@ -9540,6 +9648,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Nuclear_Silo, 108);
         fields.get("race").set(UnitType.Terran_Nuclear_Silo, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Nuclear_Silo, new Pair(UnitType.Terran_Command_Center, 1));
+        fields.get("buildsWhat").set(UnitType.Terran_Nuclear_Silo, new ArrayList(Arrays.asList(UnitType.Terran_Nuclear_Missile)));
         fields.get("requiredUnits").set(UnitType.Terran_Nuclear_Silo, new ArrayList(Arrays.asList(UnitType.Terran_Command_Center, UnitType.Terran_Science_Facility, UnitType.Terran_Covert_Ops)));
         fields.get("requiredTech").set(UnitType.Terran_Nuclear_Silo, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Nuclear_Silo, TechType.None);
@@ -9626,6 +9735,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Supply_Depot, 109);
         fields.get("race").set(UnitType.Terran_Supply_Depot, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Supply_Depot, new Pair(UnitType.Terran_SCV, 1));
+        fields.get("buildsWhat").set(UnitType.Terran_Supply_Depot, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Terran_Supply_Depot, new ArrayList(Arrays.asList(UnitType.Terran_SCV)));
         fields.get("requiredTech").set(UnitType.Terran_Supply_Depot, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Supply_Depot, TechType.None);
@@ -9712,6 +9822,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Refinery, 110);
         fields.get("race").set(UnitType.Terran_Refinery, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Refinery, new Pair(UnitType.Terran_SCV, 1));
+        fields.get("buildsWhat").set(UnitType.Terran_Refinery, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Terran_Refinery, new ArrayList(Arrays.asList(UnitType.Terran_SCV)));
         fields.get("requiredTech").set(UnitType.Terran_Refinery, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Refinery, TechType.None);
@@ -9798,6 +9909,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Barracks, 111);
         fields.get("race").set(UnitType.Terran_Barracks, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Barracks, new Pair(UnitType.Terran_SCV, 1));
+        fields.get("buildsWhat").set(UnitType.Terran_Barracks, new ArrayList(Arrays.asList(UnitType.Terran_Firebat, UnitType.Terran_Marine, UnitType.Terran_Medic, UnitType.Terran_Ghost)));
         fields.get("requiredUnits").set(UnitType.Terran_Barracks, new ArrayList(Arrays.asList(UnitType.Terran_SCV, UnitType.Terran_Command_Center)));
         fields.get("requiredTech").set(UnitType.Terran_Barracks, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Barracks, TechType.None);
@@ -9884,6 +9996,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Academy, 112);
         fields.get("race").set(UnitType.Terran_Academy, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Academy, new Pair(UnitType.Terran_SCV, 1));
+        fields.get("buildsWhat").set(UnitType.Terran_Academy, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Terran_Academy, new ArrayList(Arrays.asList(UnitType.Terran_SCV, UnitType.Terran_Barracks)));
         fields.get("requiredTech").set(UnitType.Terran_Academy, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Academy, TechType.None);
@@ -9970,6 +10083,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Factory, 113);
         fields.get("race").set(UnitType.Terran_Factory, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Factory, new Pair(UnitType.Terran_SCV, 1));
+        fields.get("buildsWhat").set(UnitType.Terran_Factory, new ArrayList(Arrays.asList(UnitType.Terran_Vulture, UnitType.Terran_Siege_Tank_Tank_Mode, UnitType.Terran_Goliath, UnitType.Terran_Machine_Shop)));
         fields.get("requiredUnits").set(UnitType.Terran_Factory, new ArrayList(Arrays.asList(UnitType.Terran_SCV, UnitType.Terran_Barracks)));
         fields.get("requiredTech").set(UnitType.Terran_Factory, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Factory, TechType.None);
@@ -10056,6 +10170,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Starport, 114);
         fields.get("race").set(UnitType.Terran_Starport, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Starport, new Pair(UnitType.Terran_SCV, 1));
+        fields.get("buildsWhat").set(UnitType.Terran_Starport, new ArrayList(Arrays.asList(UnitType.Terran_Wraith, UnitType.Terran_Control_Tower, UnitType.Terran_Dropship, UnitType.Terran_Science_Vessel, UnitType.Terran_Battlecruiser, UnitType.Terran_Valkyrie)));
         fields.get("requiredUnits").set(UnitType.Terran_Starport, new ArrayList(Arrays.asList(UnitType.Terran_SCV, UnitType.Terran_Factory)));
         fields.get("requiredTech").set(UnitType.Terran_Starport, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Starport, TechType.None);
@@ -10142,6 +10257,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Control_Tower, 115);
         fields.get("race").set(UnitType.Terran_Control_Tower, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Control_Tower, new Pair(UnitType.Terran_Starport, 1));
+        fields.get("buildsWhat").set(UnitType.Terran_Control_Tower, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Terran_Control_Tower, new ArrayList(Arrays.asList(UnitType.Terran_Starport)));
         fields.get("requiredTech").set(UnitType.Terran_Control_Tower, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Control_Tower, TechType.None);
@@ -10228,6 +10344,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Science_Facility, 116);
         fields.get("race").set(UnitType.Terran_Science_Facility, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Science_Facility, new Pair(UnitType.Terran_SCV, 1));
+        fields.get("buildsWhat").set(UnitType.Terran_Science_Facility, new ArrayList(Arrays.asList(UnitType.Terran_Covert_Ops, UnitType.Terran_Physics_Lab)));
         fields.get("requiredUnits").set(UnitType.Terran_Science_Facility, new ArrayList(Arrays.asList(UnitType.Terran_SCV, UnitType.Terran_Starport)));
         fields.get("requiredTech").set(UnitType.Terran_Science_Facility, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Science_Facility, TechType.None);
@@ -10314,6 +10431,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Covert_Ops, 117);
         fields.get("race").set(UnitType.Terran_Covert_Ops, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Covert_Ops, new Pair(UnitType.Terran_Science_Facility, 1));
+        fields.get("buildsWhat").set(UnitType.Terran_Covert_Ops, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Terran_Covert_Ops, new ArrayList(Arrays.asList(UnitType.Terran_Science_Facility)));
         fields.get("requiredTech").set(UnitType.Terran_Covert_Ops, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Covert_Ops, TechType.None);
@@ -10400,6 +10518,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Physics_Lab, 118);
         fields.get("race").set(UnitType.Terran_Physics_Lab, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Physics_Lab, new Pair(UnitType.Terran_Science_Facility, 1));
+        fields.get("buildsWhat").set(UnitType.Terran_Physics_Lab, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Terran_Physics_Lab, new ArrayList(Arrays.asList(UnitType.Terran_Science_Facility)));
         fields.get("requiredTech").set(UnitType.Terran_Physics_Lab, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Physics_Lab, TechType.None);
@@ -10486,6 +10605,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Unused_Terran1, 0);
         fields.get("race").set(UnitType.Unused_Terran1, null);
         fields.get("whatBuilds").set(UnitType.Unused_Terran1, null);
+        fields.get("buildsWhat").set(UnitType.Unused_Terran1, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Unused_Terran1, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Unused_Terran1, null);
         fields.get("cloakingTech").set(UnitType.Unused_Terran1, null);
@@ -10572,6 +10692,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Machine_Shop, 120);
         fields.get("race").set(UnitType.Terran_Machine_Shop, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Machine_Shop, new Pair(UnitType.Terran_Factory, 1));
+        fields.get("buildsWhat").set(UnitType.Terran_Machine_Shop, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Terran_Machine_Shop, new ArrayList(Arrays.asList(UnitType.Terran_Factory)));
         fields.get("requiredTech").set(UnitType.Terran_Machine_Shop, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Machine_Shop, TechType.None);
@@ -10658,6 +10779,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Unused_Terran2, 0);
         fields.get("race").set(UnitType.Unused_Terran2, null);
         fields.get("whatBuilds").set(UnitType.Unused_Terran2, null);
+        fields.get("buildsWhat").set(UnitType.Unused_Terran2, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Unused_Terran2, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Unused_Terran2, null);
         fields.get("cloakingTech").set(UnitType.Unused_Terran2, null);
@@ -10744,6 +10866,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Engineering_Bay, 122);
         fields.get("race").set(UnitType.Terran_Engineering_Bay, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Engineering_Bay, new Pair(UnitType.Terran_SCV, 1));
+        fields.get("buildsWhat").set(UnitType.Terran_Engineering_Bay, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Terran_Engineering_Bay, new ArrayList(Arrays.asList(UnitType.Terran_SCV, UnitType.Terran_Command_Center)));
         fields.get("requiredTech").set(UnitType.Terran_Engineering_Bay, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Engineering_Bay, TechType.None);
@@ -10830,6 +10953,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Armory, 123);
         fields.get("race").set(UnitType.Terran_Armory, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Armory, new Pair(UnitType.Terran_SCV, 1));
+        fields.get("buildsWhat").set(UnitType.Terran_Armory, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Terran_Armory, new ArrayList(Arrays.asList(UnitType.Terran_SCV, UnitType.Terran_Factory)));
         fields.get("requiredTech").set(UnitType.Terran_Armory, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Armory, TechType.None);
@@ -10916,6 +11040,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Missile_Turret, 124);
         fields.get("race").set(UnitType.Terran_Missile_Turret, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Missile_Turret, new Pair(UnitType.Terran_SCV, 1));
+        fields.get("buildsWhat").set(UnitType.Terran_Missile_Turret, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Terran_Missile_Turret, new ArrayList(Arrays.asList(UnitType.Terran_SCV, UnitType.Terran_Engineering_Bay)));
         fields.get("requiredTech").set(UnitType.Terran_Missile_Turret, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Missile_Turret, TechType.None);
@@ -11002,6 +11127,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Terran_Bunker, 125);
         fields.get("race").set(UnitType.Terran_Bunker, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Terran_Bunker, new Pair(UnitType.Terran_SCV, 1));
+        fields.get("buildsWhat").set(UnitType.Terran_Bunker, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Terran_Bunker, new ArrayList(Arrays.asList(UnitType.Terran_SCV, UnitType.Terran_Barracks)));
         fields.get("requiredTech").set(UnitType.Terran_Bunker, TechType.None);
         fields.get("cloakingTech").set(UnitType.Terran_Bunker, TechType.None);
@@ -11088,6 +11214,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Crashed_Norad_II, 126);
         fields.get("race").set(UnitType.Special_Crashed_Norad_II, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Special_Crashed_Norad_II, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Crashed_Norad_II, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Crashed_Norad_II, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Crashed_Norad_II, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Crashed_Norad_II, TechType.None);
@@ -11174,6 +11301,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Ion_Cannon, 127);
         fields.get("race").set(UnitType.Special_Ion_Cannon, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Special_Ion_Cannon, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Ion_Cannon, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Ion_Cannon, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Ion_Cannon, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Ion_Cannon, TechType.None);
@@ -11260,6 +11388,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Powerup_Uraj_Crystal, 128);
         fields.get("race").set(UnitType.Powerup_Uraj_Crystal, Race.None);
         fields.get("whatBuilds").set(UnitType.Powerup_Uraj_Crystal, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Powerup_Uraj_Crystal, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Powerup_Uraj_Crystal, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Powerup_Uraj_Crystal, TechType.None);
         fields.get("cloakingTech").set(UnitType.Powerup_Uraj_Crystal, TechType.None);
@@ -11346,6 +11475,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Powerup_Khalis_Crystal, 129);
         fields.get("race").set(UnitType.Powerup_Khalis_Crystal, Race.None);
         fields.get("whatBuilds").set(UnitType.Powerup_Khalis_Crystal, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Powerup_Khalis_Crystal, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Powerup_Khalis_Crystal, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Powerup_Khalis_Crystal, TechType.None);
         fields.get("cloakingTech").set(UnitType.Powerup_Khalis_Crystal, TechType.None);
@@ -11432,6 +11562,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Infested_Command_Center, 130);
         fields.get("race").set(UnitType.Zerg_Infested_Command_Center, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Infested_Command_Center, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Zerg_Infested_Command_Center, new ArrayList(Arrays.asList(UnitType.Zerg_Infested_Terran)));
         fields.get("requiredUnits").set(UnitType.Zerg_Infested_Command_Center, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Zerg_Infested_Command_Center, TechType.None);
         fields.get("cloakingTech").set(UnitType.Zerg_Infested_Command_Center, TechType.None);
@@ -11518,6 +11649,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Hatchery, 131);
         fields.get("race").set(UnitType.Zerg_Hatchery, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Hatchery, new Pair(UnitType.Zerg_Drone, 1));
+        fields.get("buildsWhat").set(UnitType.Zerg_Hatchery, new ArrayList(Arrays.asList(UnitType.Zerg_Lair)));
         fields.get("requiredUnits").set(UnitType.Zerg_Hatchery, new ArrayList(Arrays.asList(UnitType.Zerg_Drone)));
         fields.get("requiredTech").set(UnitType.Zerg_Hatchery, TechType.None);
         fields.get("cloakingTech").set(UnitType.Zerg_Hatchery, TechType.None);
@@ -11604,6 +11736,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Lair, 132);
         fields.get("race").set(UnitType.Zerg_Lair, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Lair, new Pair(UnitType.Zerg_Hatchery, 1));
+        fields.get("buildsWhat").set(UnitType.Zerg_Lair, new ArrayList(Arrays.asList(UnitType.Zerg_Hive)));
         fields.get("requiredUnits").set(UnitType.Zerg_Lair, new ArrayList(Arrays.asList(UnitType.Zerg_Hatchery, UnitType.Zerg_Spawning_Pool)));
         fields.get("requiredTech").set(UnitType.Zerg_Lair, TechType.None);
         fields.get("cloakingTech").set(UnitType.Zerg_Lair, TechType.None);
@@ -11690,6 +11823,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Hive, 133);
         fields.get("race").set(UnitType.Zerg_Hive, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Hive, new Pair(UnitType.Zerg_Lair, 1));
+        fields.get("buildsWhat").set(UnitType.Zerg_Hive, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Zerg_Hive, new ArrayList(Arrays.asList(UnitType.Zerg_Lair, UnitType.Zerg_Queens_Nest)));
         fields.get("requiredTech").set(UnitType.Zerg_Hive, TechType.None);
         fields.get("cloakingTech").set(UnitType.Zerg_Hive, TechType.None);
@@ -11776,6 +11910,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Nydus_Canal, 134);
         fields.get("race").set(UnitType.Zerg_Nydus_Canal, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Nydus_Canal, new Pair(UnitType.Zerg_Drone, 1));
+        fields.get("buildsWhat").set(UnitType.Zerg_Nydus_Canal, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Zerg_Nydus_Canal, new ArrayList(Arrays.asList(UnitType.Zerg_Drone, UnitType.Zerg_Hive)));
         fields.get("requiredTech").set(UnitType.Zerg_Nydus_Canal, TechType.None);
         fields.get("cloakingTech").set(UnitType.Zerg_Nydus_Canal, TechType.None);
@@ -11862,6 +11997,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Hydralisk_Den, 135);
         fields.get("race").set(UnitType.Zerg_Hydralisk_Den, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Hydralisk_Den, new Pair(UnitType.Zerg_Drone, 1));
+        fields.get("buildsWhat").set(UnitType.Zerg_Hydralisk_Den, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Zerg_Hydralisk_Den, new ArrayList(Arrays.asList(UnitType.Zerg_Drone, UnitType.Zerg_Spawning_Pool)));
         fields.get("requiredTech").set(UnitType.Zerg_Hydralisk_Den, TechType.None);
         fields.get("cloakingTech").set(UnitType.Zerg_Hydralisk_Den, TechType.None);
@@ -11948,6 +12084,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Defiler_Mound, 136);
         fields.get("race").set(UnitType.Zerg_Defiler_Mound, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Defiler_Mound, new Pair(UnitType.Zerg_Drone, 1));
+        fields.get("buildsWhat").set(UnitType.Zerg_Defiler_Mound, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Zerg_Defiler_Mound, new ArrayList(Arrays.asList(UnitType.Zerg_Drone, UnitType.Zerg_Hive)));
         fields.get("requiredTech").set(UnitType.Zerg_Defiler_Mound, TechType.None);
         fields.get("cloakingTech").set(UnitType.Zerg_Defiler_Mound, TechType.None);
@@ -12034,6 +12171,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Greater_Spire, 137);
         fields.get("race").set(UnitType.Zerg_Greater_Spire, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Greater_Spire, new Pair(UnitType.Zerg_Spire, 1));
+        fields.get("buildsWhat").set(UnitType.Zerg_Greater_Spire, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Zerg_Greater_Spire, new ArrayList(Arrays.asList(UnitType.Zerg_Hive, UnitType.Zerg_Spire)));
         fields.get("requiredTech").set(UnitType.Zerg_Greater_Spire, TechType.None);
         fields.get("cloakingTech").set(UnitType.Zerg_Greater_Spire, TechType.None);
@@ -12120,6 +12258,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Queens_Nest, 138);
         fields.get("race").set(UnitType.Zerg_Queens_Nest, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Queens_Nest, new Pair(UnitType.Zerg_Drone, 1));
+        fields.get("buildsWhat").set(UnitType.Zerg_Queens_Nest, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Zerg_Queens_Nest, new ArrayList(Arrays.asList(UnitType.Zerg_Drone, UnitType.Zerg_Lair)));
         fields.get("requiredTech").set(UnitType.Zerg_Queens_Nest, TechType.None);
         fields.get("cloakingTech").set(UnitType.Zerg_Queens_Nest, TechType.None);
@@ -12206,6 +12345,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Evolution_Chamber, 139);
         fields.get("race").set(UnitType.Zerg_Evolution_Chamber, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Evolution_Chamber, new Pair(UnitType.Zerg_Drone, 1));
+        fields.get("buildsWhat").set(UnitType.Zerg_Evolution_Chamber, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Zerg_Evolution_Chamber, new ArrayList(Arrays.asList(UnitType.Zerg_Drone, UnitType.Zerg_Hatchery)));
         fields.get("requiredTech").set(UnitType.Zerg_Evolution_Chamber, TechType.None);
         fields.get("cloakingTech").set(UnitType.Zerg_Evolution_Chamber, TechType.None);
@@ -12292,6 +12432,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Ultralisk_Cavern, 140);
         fields.get("race").set(UnitType.Zerg_Ultralisk_Cavern, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Ultralisk_Cavern, new Pair(UnitType.Zerg_Drone, 1));
+        fields.get("buildsWhat").set(UnitType.Zerg_Ultralisk_Cavern, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Zerg_Ultralisk_Cavern, new ArrayList(Arrays.asList(UnitType.Zerg_Drone, UnitType.Zerg_Hive)));
         fields.get("requiredTech").set(UnitType.Zerg_Ultralisk_Cavern, TechType.None);
         fields.get("cloakingTech").set(UnitType.Zerg_Ultralisk_Cavern, TechType.None);
@@ -12378,6 +12519,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Spire, 141);
         fields.get("race").set(UnitType.Zerg_Spire, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Spire, new Pair(UnitType.Zerg_Drone, 1));
+        fields.get("buildsWhat").set(UnitType.Zerg_Spire, new ArrayList(Arrays.asList(UnitType.Zerg_Greater_Spire)));
         fields.get("requiredUnits").set(UnitType.Zerg_Spire, new ArrayList(Arrays.asList(UnitType.Zerg_Drone, UnitType.Zerg_Lair)));
         fields.get("requiredTech").set(UnitType.Zerg_Spire, TechType.None);
         fields.get("cloakingTech").set(UnitType.Zerg_Spire, TechType.None);
@@ -12464,6 +12606,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Spawning_Pool, 142);
         fields.get("race").set(UnitType.Zerg_Spawning_Pool, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Spawning_Pool, new Pair(UnitType.Zerg_Drone, 1));
+        fields.get("buildsWhat").set(UnitType.Zerg_Spawning_Pool, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Zerg_Spawning_Pool, new ArrayList(Arrays.asList(UnitType.Zerg_Drone, UnitType.Zerg_Hatchery)));
         fields.get("requiredTech").set(UnitType.Zerg_Spawning_Pool, TechType.None);
         fields.get("cloakingTech").set(UnitType.Zerg_Spawning_Pool, TechType.None);
@@ -12550,6 +12693,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Creep_Colony, 143);
         fields.get("race").set(UnitType.Zerg_Creep_Colony, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Creep_Colony, new Pair(UnitType.Zerg_Drone, 1));
+        fields.get("buildsWhat").set(UnitType.Zerg_Creep_Colony, new ArrayList(Arrays.asList(UnitType.Zerg_Sunken_Colony, UnitType.Zerg_Spore_Colony)));
         fields.get("requiredUnits").set(UnitType.Zerg_Creep_Colony, new ArrayList(Arrays.asList(UnitType.Zerg_Drone)));
         fields.get("requiredTech").set(UnitType.Zerg_Creep_Colony, TechType.None);
         fields.get("cloakingTech").set(UnitType.Zerg_Creep_Colony, TechType.None);
@@ -12636,6 +12780,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Spore_Colony, 144);
         fields.get("race").set(UnitType.Zerg_Spore_Colony, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Spore_Colony, new Pair(UnitType.Zerg_Creep_Colony, 1));
+        fields.get("buildsWhat").set(UnitType.Zerg_Spore_Colony, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Zerg_Spore_Colony, new ArrayList(Arrays.asList(UnitType.Zerg_Evolution_Chamber, UnitType.Zerg_Creep_Colony)));
         fields.get("requiredTech").set(UnitType.Zerg_Spore_Colony, TechType.None);
         fields.get("cloakingTech").set(UnitType.Zerg_Spore_Colony, TechType.None);
@@ -12722,6 +12867,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Unused_Zerg1, 0);
         fields.get("race").set(UnitType.Unused_Zerg1, null);
         fields.get("whatBuilds").set(UnitType.Unused_Zerg1, null);
+        fields.get("buildsWhat").set(UnitType.Unused_Zerg1, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Unused_Zerg1, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Unused_Zerg1, null);
         fields.get("cloakingTech").set(UnitType.Unused_Zerg1, null);
@@ -12808,6 +12954,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Sunken_Colony, 146);
         fields.get("race").set(UnitType.Zerg_Sunken_Colony, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Sunken_Colony, new Pair(UnitType.Zerg_Creep_Colony, 1));
+        fields.get("buildsWhat").set(UnitType.Zerg_Sunken_Colony, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Zerg_Sunken_Colony, new ArrayList(Arrays.asList(UnitType.Zerg_Spawning_Pool, UnitType.Zerg_Creep_Colony)));
         fields.get("requiredTech").set(UnitType.Zerg_Sunken_Colony, TechType.None);
         fields.get("cloakingTech").set(UnitType.Zerg_Sunken_Colony, TechType.None);
@@ -12894,6 +13041,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Overmind_With_Shell, 147);
         fields.get("race").set(UnitType.Special_Overmind_With_Shell, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Special_Overmind_With_Shell, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Overmind_With_Shell, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Overmind_With_Shell, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Overmind_With_Shell, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Overmind_With_Shell, TechType.None);
@@ -12980,6 +13128,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Overmind, 148);
         fields.get("race").set(UnitType.Special_Overmind, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Special_Overmind, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Overmind, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Overmind, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Overmind, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Overmind, TechType.None);
@@ -13066,6 +13215,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Zerg_Extractor, 149);
         fields.get("race").set(UnitType.Zerg_Extractor, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Zerg_Extractor, new Pair(UnitType.Zerg_Drone, 1));
+        fields.get("buildsWhat").set(UnitType.Zerg_Extractor, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Zerg_Extractor, new ArrayList(Arrays.asList(UnitType.Zerg_Drone)));
         fields.get("requiredTech").set(UnitType.Zerg_Extractor, TechType.None);
         fields.get("cloakingTech").set(UnitType.Zerg_Extractor, TechType.None);
@@ -13152,6 +13302,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Mature_Chrysalis, 150);
         fields.get("race").set(UnitType.Special_Mature_Chrysalis, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Special_Mature_Chrysalis, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Mature_Chrysalis, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Mature_Chrysalis, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Mature_Chrysalis, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Mature_Chrysalis, TechType.None);
@@ -13238,6 +13389,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Cerebrate, 151);
         fields.get("race").set(UnitType.Special_Cerebrate, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Special_Cerebrate, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Cerebrate, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Cerebrate, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Cerebrate, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Cerebrate, TechType.None);
@@ -13324,6 +13476,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Cerebrate_Daggoth, 152);
         fields.get("race").set(UnitType.Special_Cerebrate_Daggoth, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Special_Cerebrate_Daggoth, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Cerebrate_Daggoth, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Cerebrate_Daggoth, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Cerebrate_Daggoth, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Cerebrate_Daggoth, TechType.None);
@@ -13410,6 +13563,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Unused_Zerg2, 0);
         fields.get("race").set(UnitType.Unused_Zerg2, null);
         fields.get("whatBuilds").set(UnitType.Unused_Zerg2, null);
+        fields.get("buildsWhat").set(UnitType.Unused_Zerg2, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Unused_Zerg2, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Unused_Zerg2, null);
         fields.get("cloakingTech").set(UnitType.Unused_Zerg2, null);
@@ -13496,6 +13650,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Protoss_Nexus, 154);
         fields.get("race").set(UnitType.Protoss_Nexus, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Protoss_Nexus, new Pair(UnitType.Protoss_Probe, 1));
+        fields.get("buildsWhat").set(UnitType.Protoss_Nexus, new ArrayList(Arrays.asList(UnitType.Protoss_Probe)));
         fields.get("requiredUnits").set(UnitType.Protoss_Nexus, new ArrayList(Arrays.asList(UnitType.Protoss_Probe)));
         fields.get("requiredTech").set(UnitType.Protoss_Nexus, TechType.None);
         fields.get("cloakingTech").set(UnitType.Protoss_Nexus, TechType.None);
@@ -13582,6 +13737,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Protoss_Robotics_Facility, 155);
         fields.get("race").set(UnitType.Protoss_Robotics_Facility, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Protoss_Robotics_Facility, new Pair(UnitType.Protoss_Probe, 1));
+        fields.get("buildsWhat").set(UnitType.Protoss_Robotics_Facility, new ArrayList(Arrays.asList(UnitType.Protoss_Observer, UnitType.Protoss_Reaver, UnitType.Protoss_Shuttle)));
         fields.get("requiredUnits").set(UnitType.Protoss_Robotics_Facility, new ArrayList(Arrays.asList(UnitType.Protoss_Probe, UnitType.Protoss_Cybernetics_Core)));
         fields.get("requiredTech").set(UnitType.Protoss_Robotics_Facility, TechType.None);
         fields.get("cloakingTech").set(UnitType.Protoss_Robotics_Facility, TechType.None);
@@ -13668,6 +13824,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Protoss_Pylon, 156);
         fields.get("race").set(UnitType.Protoss_Pylon, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Protoss_Pylon, new Pair(UnitType.Protoss_Probe, 1));
+        fields.get("buildsWhat").set(UnitType.Protoss_Pylon, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Protoss_Pylon, new ArrayList(Arrays.asList(UnitType.Protoss_Probe)));
         fields.get("requiredTech").set(UnitType.Protoss_Pylon, TechType.None);
         fields.get("cloakingTech").set(UnitType.Protoss_Pylon, TechType.None);
@@ -13754,6 +13911,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Protoss_Assimilator, 157);
         fields.get("race").set(UnitType.Protoss_Assimilator, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Protoss_Assimilator, new Pair(UnitType.Protoss_Probe, 1));
+        fields.get("buildsWhat").set(UnitType.Protoss_Assimilator, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Protoss_Assimilator, new ArrayList(Arrays.asList(UnitType.Protoss_Probe)));
         fields.get("requiredTech").set(UnitType.Protoss_Assimilator, TechType.None);
         fields.get("cloakingTech").set(UnitType.Protoss_Assimilator, TechType.None);
@@ -13840,6 +13998,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Unused_Protoss1, 0);
         fields.get("race").set(UnitType.Unused_Protoss1, null);
         fields.get("whatBuilds").set(UnitType.Unused_Protoss1, null);
+        fields.get("buildsWhat").set(UnitType.Unused_Protoss1, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Unused_Protoss1, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Unused_Protoss1, null);
         fields.get("cloakingTech").set(UnitType.Unused_Protoss1, null);
@@ -13926,6 +14085,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Protoss_Observatory, 159);
         fields.get("race").set(UnitType.Protoss_Observatory, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Protoss_Observatory, new Pair(UnitType.Protoss_Probe, 1));
+        fields.get("buildsWhat").set(UnitType.Protoss_Observatory, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Protoss_Observatory, new ArrayList(Arrays.asList(UnitType.Protoss_Probe, UnitType.Protoss_Robotics_Facility)));
         fields.get("requiredTech").set(UnitType.Protoss_Observatory, TechType.None);
         fields.get("cloakingTech").set(UnitType.Protoss_Observatory, TechType.None);
@@ -14012,6 +14172,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Protoss_Gateway, 160);
         fields.get("race").set(UnitType.Protoss_Gateway, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Protoss_Gateway, new Pair(UnitType.Protoss_Probe, 1));
+        fields.get("buildsWhat").set(UnitType.Protoss_Gateway, new ArrayList(Arrays.asList(UnitType.Protoss_Zealot, UnitType.Protoss_Dragoon, UnitType.Protoss_High_Templar, UnitType.Protoss_Dark_Templar)));
         fields.get("requiredUnits").set(UnitType.Protoss_Gateway, new ArrayList(Arrays.asList(UnitType.Protoss_Probe, UnitType.Protoss_Nexus)));
         fields.get("requiredTech").set(UnitType.Protoss_Gateway, TechType.None);
         fields.get("cloakingTech").set(UnitType.Protoss_Gateway, TechType.None);
@@ -14098,6 +14259,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Unused_Protoss2, 0);
         fields.get("race").set(UnitType.Unused_Protoss2, null);
         fields.get("whatBuilds").set(UnitType.Unused_Protoss2, null);
+        fields.get("buildsWhat").set(UnitType.Unused_Protoss2, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Unused_Protoss2, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Unused_Protoss2, null);
         fields.get("cloakingTech").set(UnitType.Unused_Protoss2, null);
@@ -14184,6 +14346,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Protoss_Photon_Cannon, 162);
         fields.get("race").set(UnitType.Protoss_Photon_Cannon, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Protoss_Photon_Cannon, new Pair(UnitType.Protoss_Probe, 1));
+        fields.get("buildsWhat").set(UnitType.Protoss_Photon_Cannon, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Protoss_Photon_Cannon, new ArrayList(Arrays.asList(UnitType.Protoss_Probe, UnitType.Protoss_Forge)));
         fields.get("requiredTech").set(UnitType.Protoss_Photon_Cannon, TechType.None);
         fields.get("cloakingTech").set(UnitType.Protoss_Photon_Cannon, TechType.None);
@@ -14270,6 +14433,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Protoss_Citadel_of_Adun, 163);
         fields.get("race").set(UnitType.Protoss_Citadel_of_Adun, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Protoss_Citadel_of_Adun, new Pair(UnitType.Protoss_Probe, 1));
+        fields.get("buildsWhat").set(UnitType.Protoss_Citadel_of_Adun, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Protoss_Citadel_of_Adun, new ArrayList(Arrays.asList(UnitType.Protoss_Probe, UnitType.Protoss_Cybernetics_Core)));
         fields.get("requiredTech").set(UnitType.Protoss_Citadel_of_Adun, TechType.None);
         fields.get("cloakingTech").set(UnitType.Protoss_Citadel_of_Adun, TechType.None);
@@ -14356,6 +14520,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Protoss_Cybernetics_Core, 164);
         fields.get("race").set(UnitType.Protoss_Cybernetics_Core, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Protoss_Cybernetics_Core, new Pair(UnitType.Protoss_Probe, 1));
+        fields.get("buildsWhat").set(UnitType.Protoss_Cybernetics_Core, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Protoss_Cybernetics_Core, new ArrayList(Arrays.asList(UnitType.Protoss_Probe, UnitType.Protoss_Gateway)));
         fields.get("requiredTech").set(UnitType.Protoss_Cybernetics_Core, TechType.None);
         fields.get("cloakingTech").set(UnitType.Protoss_Cybernetics_Core, TechType.None);
@@ -14442,6 +14607,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Protoss_Templar_Archives, 165);
         fields.get("race").set(UnitType.Protoss_Templar_Archives, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Protoss_Templar_Archives, new Pair(UnitType.Protoss_Probe, 1));
+        fields.get("buildsWhat").set(UnitType.Protoss_Templar_Archives, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Protoss_Templar_Archives, new ArrayList(Arrays.asList(UnitType.Protoss_Probe, UnitType.Protoss_Citadel_of_Adun)));
         fields.get("requiredTech").set(UnitType.Protoss_Templar_Archives, TechType.None);
         fields.get("cloakingTech").set(UnitType.Protoss_Templar_Archives, TechType.None);
@@ -14528,6 +14694,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Protoss_Forge, 166);
         fields.get("race").set(UnitType.Protoss_Forge, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Protoss_Forge, new Pair(UnitType.Protoss_Probe, 1));
+        fields.get("buildsWhat").set(UnitType.Protoss_Forge, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Protoss_Forge, new ArrayList(Arrays.asList(UnitType.Protoss_Probe, UnitType.Protoss_Nexus)));
         fields.get("requiredTech").set(UnitType.Protoss_Forge, TechType.None);
         fields.get("cloakingTech").set(UnitType.Protoss_Forge, TechType.None);
@@ -14614,6 +14781,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Protoss_Stargate, 167);
         fields.get("race").set(UnitType.Protoss_Stargate, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Protoss_Stargate, new Pair(UnitType.Protoss_Probe, 1));
+        fields.get("buildsWhat").set(UnitType.Protoss_Stargate, new ArrayList(Arrays.asList(UnitType.Protoss_Scout, UnitType.Protoss_Carrier, UnitType.Protoss_Arbiter, UnitType.Protoss_Corsair)));
         fields.get("requiredUnits").set(UnitType.Protoss_Stargate, new ArrayList(Arrays.asList(UnitType.Protoss_Probe, UnitType.Protoss_Cybernetics_Core)));
         fields.get("requiredTech").set(UnitType.Protoss_Stargate, TechType.None);
         fields.get("cloakingTech").set(UnitType.Protoss_Stargate, TechType.None);
@@ -14700,6 +14868,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Stasis_Cell_Prison, 168);
         fields.get("race").set(UnitType.Special_Stasis_Cell_Prison, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Special_Stasis_Cell_Prison, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Stasis_Cell_Prison, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Stasis_Cell_Prison, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Stasis_Cell_Prison, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Stasis_Cell_Prison, TechType.None);
@@ -14786,6 +14955,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Protoss_Fleet_Beacon, 169);
         fields.get("race").set(UnitType.Protoss_Fleet_Beacon, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Protoss_Fleet_Beacon, new Pair(UnitType.Protoss_Probe, 1));
+        fields.get("buildsWhat").set(UnitType.Protoss_Fleet_Beacon, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Protoss_Fleet_Beacon, new ArrayList(Arrays.asList(UnitType.Protoss_Probe, UnitType.Protoss_Stargate)));
         fields.get("requiredTech").set(UnitType.Protoss_Fleet_Beacon, TechType.None);
         fields.get("cloakingTech").set(UnitType.Protoss_Fleet_Beacon, TechType.None);
@@ -14872,6 +15042,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Protoss_Arbiter_Tribunal, 170);
         fields.get("race").set(UnitType.Protoss_Arbiter_Tribunal, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Protoss_Arbiter_Tribunal, new Pair(UnitType.Protoss_Probe, 1));
+        fields.get("buildsWhat").set(UnitType.Protoss_Arbiter_Tribunal, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Protoss_Arbiter_Tribunal, new ArrayList(Arrays.asList(UnitType.Protoss_Probe, UnitType.Protoss_Templar_Archives, UnitType.Protoss_Stargate)));
         fields.get("requiredTech").set(UnitType.Protoss_Arbiter_Tribunal, TechType.None);
         fields.get("cloakingTech").set(UnitType.Protoss_Arbiter_Tribunal, TechType.None);
@@ -14958,6 +15129,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Protoss_Robotics_Support_Bay, 171);
         fields.get("race").set(UnitType.Protoss_Robotics_Support_Bay, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Protoss_Robotics_Support_Bay, new Pair(UnitType.Protoss_Probe, 1));
+        fields.get("buildsWhat").set(UnitType.Protoss_Robotics_Support_Bay, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Protoss_Robotics_Support_Bay, new ArrayList(Arrays.asList(UnitType.Protoss_Probe, UnitType.Protoss_Robotics_Facility)));
         fields.get("requiredTech").set(UnitType.Protoss_Robotics_Support_Bay, TechType.None);
         fields.get("cloakingTech").set(UnitType.Protoss_Robotics_Support_Bay, TechType.None);
@@ -15044,6 +15216,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Protoss_Shield_Battery, 172);
         fields.get("race").set(UnitType.Protoss_Shield_Battery, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Protoss_Shield_Battery, new Pair(UnitType.Protoss_Probe, 1));
+        fields.get("buildsWhat").set(UnitType.Protoss_Shield_Battery, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Protoss_Shield_Battery, new ArrayList(Arrays.asList(UnitType.Protoss_Probe, UnitType.Protoss_Gateway)));
         fields.get("requiredTech").set(UnitType.Protoss_Shield_Battery, TechType.None);
         fields.get("cloakingTech").set(UnitType.Protoss_Shield_Battery, TechType.None);
@@ -15130,6 +15303,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Khaydarin_Crystal_Form, 173);
         fields.get("race").set(UnitType.Special_Khaydarin_Crystal_Form, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Special_Khaydarin_Crystal_Form, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Khaydarin_Crystal_Form, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Khaydarin_Crystal_Form, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Khaydarin_Crystal_Form, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Khaydarin_Crystal_Form, TechType.None);
@@ -15216,6 +15390,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Protoss_Temple, 174);
         fields.get("race").set(UnitType.Special_Protoss_Temple, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Special_Protoss_Temple, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Protoss_Temple, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Protoss_Temple, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Protoss_Temple, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Protoss_Temple, TechType.None);
@@ -15302,6 +15477,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_XelNaga_Temple, 175);
         fields.get("race").set(UnitType.Special_XelNaga_Temple, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Special_XelNaga_Temple, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_XelNaga_Temple, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_XelNaga_Temple, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_XelNaga_Temple, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_XelNaga_Temple, TechType.None);
@@ -15388,6 +15564,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Resource_Mineral_Field, 176);
         fields.get("race").set(UnitType.Resource_Mineral_Field, Race.None);
         fields.get("whatBuilds").set(UnitType.Resource_Mineral_Field, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Resource_Mineral_Field, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Resource_Mineral_Field, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Resource_Mineral_Field, TechType.None);
         fields.get("cloakingTech").set(UnitType.Resource_Mineral_Field, TechType.None);
@@ -15474,6 +15651,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Resource_Mineral_Field_Type_2, 177);
         fields.get("race").set(UnitType.Resource_Mineral_Field_Type_2, Race.None);
         fields.get("whatBuilds").set(UnitType.Resource_Mineral_Field_Type_2, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Resource_Mineral_Field_Type_2, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Resource_Mineral_Field_Type_2, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Resource_Mineral_Field_Type_2, TechType.None);
         fields.get("cloakingTech").set(UnitType.Resource_Mineral_Field_Type_2, TechType.None);
@@ -15560,6 +15738,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Resource_Mineral_Field_Type_3, 178);
         fields.get("race").set(UnitType.Resource_Mineral_Field_Type_3, Race.None);
         fields.get("whatBuilds").set(UnitType.Resource_Mineral_Field_Type_3, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Resource_Mineral_Field_Type_3, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Resource_Mineral_Field_Type_3, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Resource_Mineral_Field_Type_3, TechType.None);
         fields.get("cloakingTech").set(UnitType.Resource_Mineral_Field_Type_3, TechType.None);
@@ -15646,6 +15825,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Unused_Cave, 0);
         fields.get("race").set(UnitType.Unused_Cave, null);
         fields.get("whatBuilds").set(UnitType.Unused_Cave, null);
+        fields.get("buildsWhat").set(UnitType.Unused_Cave, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Unused_Cave, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Unused_Cave, null);
         fields.get("cloakingTech").set(UnitType.Unused_Cave, null);
@@ -15732,6 +15912,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Unused_Cave_In, 0);
         fields.get("race").set(UnitType.Unused_Cave_In, null);
         fields.get("whatBuilds").set(UnitType.Unused_Cave_In, null);
+        fields.get("buildsWhat").set(UnitType.Unused_Cave_In, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Unused_Cave_In, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Unused_Cave_In, null);
         fields.get("cloakingTech").set(UnitType.Unused_Cave_In, null);
@@ -15818,6 +15999,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Unused_Cantina, 0);
         fields.get("race").set(UnitType.Unused_Cantina, null);
         fields.get("whatBuilds").set(UnitType.Unused_Cantina, null);
+        fields.get("buildsWhat").set(UnitType.Unused_Cantina, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Unused_Cantina, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Unused_Cantina, null);
         fields.get("cloakingTech").set(UnitType.Unused_Cantina, null);
@@ -15904,6 +16086,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Unused_Mining_Platform, 0);
         fields.get("race").set(UnitType.Unused_Mining_Platform, null);
         fields.get("whatBuilds").set(UnitType.Unused_Mining_Platform, null);
+        fields.get("buildsWhat").set(UnitType.Unused_Mining_Platform, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Unused_Mining_Platform, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Unused_Mining_Platform, null);
         fields.get("cloakingTech").set(UnitType.Unused_Mining_Platform, null);
@@ -15990,6 +16173,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Unused_Independant_Command_Center, 0);
         fields.get("race").set(UnitType.Unused_Independant_Command_Center, null);
         fields.get("whatBuilds").set(UnitType.Unused_Independant_Command_Center, null);
+        fields.get("buildsWhat").set(UnitType.Unused_Independant_Command_Center, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Unused_Independant_Command_Center, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Unused_Independant_Command_Center, null);
         fields.get("cloakingTech").set(UnitType.Unused_Independant_Command_Center, null);
@@ -16076,6 +16260,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Independant_Starport, 184);
         fields.get("race").set(UnitType.Special_Independant_Starport, Race.None);
         fields.get("whatBuilds").set(UnitType.Special_Independant_Starport, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Independant_Starport, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Independant_Starport, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Independant_Starport, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Independant_Starport, TechType.None);
@@ -16162,6 +16347,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Unused_Independant_Jump_Gate, 0);
         fields.get("race").set(UnitType.Unused_Independant_Jump_Gate, null);
         fields.get("whatBuilds").set(UnitType.Unused_Independant_Jump_Gate, null);
+        fields.get("buildsWhat").set(UnitType.Unused_Independant_Jump_Gate, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Unused_Independant_Jump_Gate, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Unused_Independant_Jump_Gate, null);
         fields.get("cloakingTech").set(UnitType.Unused_Independant_Jump_Gate, null);
@@ -16248,6 +16434,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Unused_Ruins, 0);
         fields.get("race").set(UnitType.Unused_Ruins, null);
         fields.get("whatBuilds").set(UnitType.Unused_Ruins, null);
+        fields.get("buildsWhat").set(UnitType.Unused_Ruins, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Unused_Ruins, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Unused_Ruins, null);
         fields.get("cloakingTech").set(UnitType.Unused_Ruins, null);
@@ -16334,6 +16521,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Unused_Khaydarin_Crystal_Formation, 0);
         fields.get("race").set(UnitType.Unused_Khaydarin_Crystal_Formation, null);
         fields.get("whatBuilds").set(UnitType.Unused_Khaydarin_Crystal_Formation, null);
+        fields.get("buildsWhat").set(UnitType.Unused_Khaydarin_Crystal_Formation, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Unused_Khaydarin_Crystal_Formation, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Unused_Khaydarin_Crystal_Formation, null);
         fields.get("cloakingTech").set(UnitType.Unused_Khaydarin_Crystal_Formation, null);
@@ -16420,6 +16608,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Resource_Vespene_Geyser, 188);
         fields.get("race").set(UnitType.Resource_Vespene_Geyser, Race.None);
         fields.get("whatBuilds").set(UnitType.Resource_Vespene_Geyser, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Resource_Vespene_Geyser, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Resource_Vespene_Geyser, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Resource_Vespene_Geyser, TechType.None);
         fields.get("cloakingTech").set(UnitType.Resource_Vespene_Geyser, TechType.None);
@@ -16506,6 +16695,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Warp_Gate, 189);
         fields.get("race").set(UnitType.Special_Warp_Gate, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Special_Warp_Gate, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Warp_Gate, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Warp_Gate, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Warp_Gate, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Warp_Gate, TechType.None);
@@ -16592,6 +16782,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Psi_Disrupter, 190);
         fields.get("race").set(UnitType.Special_Psi_Disrupter, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Special_Psi_Disrupter, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Psi_Disrupter, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Psi_Disrupter, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Psi_Disrupter, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Psi_Disrupter, TechType.None);
@@ -16678,6 +16869,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Unused_Zerg_Marker, 0);
         fields.get("race").set(UnitType.Unused_Zerg_Marker, null);
         fields.get("whatBuilds").set(UnitType.Unused_Zerg_Marker, null);
+        fields.get("buildsWhat").set(UnitType.Unused_Zerg_Marker, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Unused_Zerg_Marker, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Unused_Zerg_Marker, null);
         fields.get("cloakingTech").set(UnitType.Unused_Zerg_Marker, null);
@@ -16764,6 +16956,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Unused_Terran_Marker, 0);
         fields.get("race").set(UnitType.Unused_Terran_Marker, null);
         fields.get("whatBuilds").set(UnitType.Unused_Terran_Marker, null);
+        fields.get("buildsWhat").set(UnitType.Unused_Terran_Marker, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Unused_Terran_Marker, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Unused_Terran_Marker, null);
         fields.get("cloakingTech").set(UnitType.Unused_Terran_Marker, null);
@@ -16850,6 +17043,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Unused_Protoss_Marker, 0);
         fields.get("race").set(UnitType.Unused_Protoss_Marker, null);
         fields.get("whatBuilds").set(UnitType.Unused_Protoss_Marker, null);
+        fields.get("buildsWhat").set(UnitType.Unused_Protoss_Marker, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Unused_Protoss_Marker, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Unused_Protoss_Marker, null);
         fields.get("cloakingTech").set(UnitType.Unused_Protoss_Marker, null);
@@ -16936,6 +17130,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Zerg_Beacon, 194);
         fields.get("race").set(UnitType.Special_Zerg_Beacon, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Special_Zerg_Beacon, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Zerg_Beacon, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Zerg_Beacon, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Zerg_Beacon, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Zerg_Beacon, TechType.None);
@@ -17022,6 +17217,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Terran_Beacon, 195);
         fields.get("race").set(UnitType.Special_Terran_Beacon, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Special_Terran_Beacon, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Terran_Beacon, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Terran_Beacon, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Terran_Beacon, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Terran_Beacon, TechType.None);
@@ -17108,6 +17304,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Protoss_Beacon, 196);
         fields.get("race").set(UnitType.Special_Protoss_Beacon, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Special_Protoss_Beacon, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Protoss_Beacon, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Protoss_Beacon, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Protoss_Beacon, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Protoss_Beacon, TechType.None);
@@ -17194,6 +17391,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Zerg_Flag_Beacon, 197);
         fields.get("race").set(UnitType.Special_Zerg_Flag_Beacon, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Special_Zerg_Flag_Beacon, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Zerg_Flag_Beacon, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Zerg_Flag_Beacon, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Zerg_Flag_Beacon, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Zerg_Flag_Beacon, TechType.None);
@@ -17280,6 +17478,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Terran_Flag_Beacon, 198);
         fields.get("race").set(UnitType.Special_Terran_Flag_Beacon, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Special_Terran_Flag_Beacon, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Terran_Flag_Beacon, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Terran_Flag_Beacon, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Terran_Flag_Beacon, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Terran_Flag_Beacon, TechType.None);
@@ -17366,6 +17565,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Protoss_Flag_Beacon, 199);
         fields.get("race").set(UnitType.Special_Protoss_Flag_Beacon, Race.Protoss);
         fields.get("whatBuilds").set(UnitType.Special_Protoss_Flag_Beacon, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Protoss_Flag_Beacon, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Protoss_Flag_Beacon, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Protoss_Flag_Beacon, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Protoss_Flag_Beacon, TechType.None);
@@ -17452,6 +17652,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Power_Generator, 200);
         fields.get("race").set(UnitType.Special_Power_Generator, Race.Terran);
         fields.get("whatBuilds").set(UnitType.Special_Power_Generator, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Power_Generator, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Power_Generator, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Power_Generator, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Power_Generator, TechType.None);
@@ -17538,6 +17739,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Overmind_Cocoon, 201);
         fields.get("race").set(UnitType.Special_Overmind_Cocoon, Race.Zerg);
         fields.get("whatBuilds").set(UnitType.Special_Overmind_Cocoon, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Overmind_Cocoon, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Overmind_Cocoon, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Overmind_Cocoon, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Overmind_Cocoon, TechType.None);
@@ -17624,6 +17826,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Spell_Dark_Swarm, 202);
         fields.get("race").set(UnitType.Spell_Dark_Swarm, Race.None);
         fields.get("whatBuilds").set(UnitType.Spell_Dark_Swarm, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Spell_Dark_Swarm, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Spell_Dark_Swarm, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Spell_Dark_Swarm, TechType.None);
         fields.get("cloakingTech").set(UnitType.Spell_Dark_Swarm, TechType.None);
@@ -17710,6 +17913,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Floor_Missile_Trap, 203);
         fields.get("race").set(UnitType.Special_Floor_Missile_Trap, Race.None);
         fields.get("whatBuilds").set(UnitType.Special_Floor_Missile_Trap, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Floor_Missile_Trap, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Floor_Missile_Trap, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Floor_Missile_Trap, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Floor_Missile_Trap, TechType.None);
@@ -17796,6 +18000,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Floor_Hatch, 204);
         fields.get("race").set(UnitType.Special_Floor_Hatch, Race.None);
         fields.get("whatBuilds").set(UnitType.Special_Floor_Hatch, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Floor_Hatch, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Floor_Hatch, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Floor_Hatch, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Floor_Hatch, TechType.None);
@@ -17882,6 +18087,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Upper_Level_Door, 205);
         fields.get("race").set(UnitType.Special_Upper_Level_Door, Race.None);
         fields.get("whatBuilds").set(UnitType.Special_Upper_Level_Door, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Upper_Level_Door, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Upper_Level_Door, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Upper_Level_Door, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Upper_Level_Door, TechType.None);
@@ -17968,6 +18174,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Right_Upper_Level_Door, 206);
         fields.get("race").set(UnitType.Special_Right_Upper_Level_Door, Race.None);
         fields.get("whatBuilds").set(UnitType.Special_Right_Upper_Level_Door, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Right_Upper_Level_Door, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Right_Upper_Level_Door, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Right_Upper_Level_Door, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Right_Upper_Level_Door, TechType.None);
@@ -18054,6 +18261,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Pit_Door, 207);
         fields.get("race").set(UnitType.Special_Pit_Door, Race.None);
         fields.get("whatBuilds").set(UnitType.Special_Pit_Door, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Pit_Door, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Pit_Door, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Pit_Door, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Pit_Door, TechType.None);
@@ -18140,6 +18348,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Right_Pit_Door, 208);
         fields.get("race").set(UnitType.Special_Right_Pit_Door, Race.None);
         fields.get("whatBuilds").set(UnitType.Special_Right_Pit_Door, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Right_Pit_Door, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Right_Pit_Door, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Right_Pit_Door, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Right_Pit_Door, TechType.None);
@@ -18226,6 +18435,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Floor_Gun_Trap, 209);
         fields.get("race").set(UnitType.Special_Floor_Gun_Trap, Race.None);
         fields.get("whatBuilds").set(UnitType.Special_Floor_Gun_Trap, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Floor_Gun_Trap, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Floor_Gun_Trap, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Floor_Gun_Trap, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Floor_Gun_Trap, TechType.None);
@@ -18312,6 +18522,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Wall_Missile_Trap, 210);
         fields.get("race").set(UnitType.Special_Wall_Missile_Trap, Race.None);
         fields.get("whatBuilds").set(UnitType.Special_Wall_Missile_Trap, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Wall_Missile_Trap, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Wall_Missile_Trap, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Wall_Missile_Trap, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Wall_Missile_Trap, TechType.None);
@@ -18398,6 +18609,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Wall_Flame_Trap, 211);
         fields.get("race").set(UnitType.Special_Wall_Flame_Trap, Race.None);
         fields.get("whatBuilds").set(UnitType.Special_Wall_Flame_Trap, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Wall_Flame_Trap, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Wall_Flame_Trap, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Wall_Flame_Trap, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Wall_Flame_Trap, TechType.None);
@@ -18484,6 +18696,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Right_Wall_Missile_Trap, 212);
         fields.get("race").set(UnitType.Special_Right_Wall_Missile_Trap, Race.None);
         fields.get("whatBuilds").set(UnitType.Special_Right_Wall_Missile_Trap, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Right_Wall_Missile_Trap, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Right_Wall_Missile_Trap, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Right_Wall_Missile_Trap, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Right_Wall_Missile_Trap, TechType.None);
@@ -18570,6 +18783,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Right_Wall_Flame_Trap, 213);
         fields.get("race").set(UnitType.Special_Right_Wall_Flame_Trap, Race.None);
         fields.get("whatBuilds").set(UnitType.Special_Right_Wall_Flame_Trap, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Right_Wall_Flame_Trap, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Right_Wall_Flame_Trap, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Right_Wall_Flame_Trap, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Right_Wall_Flame_Trap, TechType.None);
@@ -18656,6 +18870,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Special_Start_Location, 214);
         fields.get("race").set(UnitType.Special_Start_Location, Race.None);
         fields.get("whatBuilds").set(UnitType.Special_Start_Location, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Special_Start_Location, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Special_Start_Location, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Special_Start_Location, TechType.None);
         fields.get("cloakingTech").set(UnitType.Special_Start_Location, TechType.None);
@@ -18742,6 +18957,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Powerup_Flag, 215);
         fields.get("race").set(UnitType.Powerup_Flag, Race.None);
         fields.get("whatBuilds").set(UnitType.Powerup_Flag, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Powerup_Flag, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Powerup_Flag, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Powerup_Flag, TechType.None);
         fields.get("cloakingTech").set(UnitType.Powerup_Flag, TechType.None);
@@ -18828,6 +19044,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Powerup_Young_Chrysalis, 216);
         fields.get("race").set(UnitType.Powerup_Young_Chrysalis, Race.None);
         fields.get("whatBuilds").set(UnitType.Powerup_Young_Chrysalis, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Powerup_Young_Chrysalis, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Powerup_Young_Chrysalis, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Powerup_Young_Chrysalis, TechType.None);
         fields.get("cloakingTech").set(UnitType.Powerup_Young_Chrysalis, TechType.None);
@@ -18914,6 +19131,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Powerup_Psi_Emitter, 217);
         fields.get("race").set(UnitType.Powerup_Psi_Emitter, Race.None);
         fields.get("whatBuilds").set(UnitType.Powerup_Psi_Emitter, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Powerup_Psi_Emitter, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Powerup_Psi_Emitter, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Powerup_Psi_Emitter, TechType.None);
         fields.get("cloakingTech").set(UnitType.Powerup_Psi_Emitter, TechType.None);
@@ -19000,6 +19218,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Powerup_Data_Disk, 218);
         fields.get("race").set(UnitType.Powerup_Data_Disk, Race.None);
         fields.get("whatBuilds").set(UnitType.Powerup_Data_Disk, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Powerup_Data_Disk, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Powerup_Data_Disk, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Powerup_Data_Disk, TechType.None);
         fields.get("cloakingTech").set(UnitType.Powerup_Data_Disk, TechType.None);
@@ -19086,6 +19305,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Powerup_Khaydarin_Crystal, 219);
         fields.get("race").set(UnitType.Powerup_Khaydarin_Crystal, Race.None);
         fields.get("whatBuilds").set(UnitType.Powerup_Khaydarin_Crystal, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Powerup_Khaydarin_Crystal, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Powerup_Khaydarin_Crystal, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Powerup_Khaydarin_Crystal, TechType.None);
         fields.get("cloakingTech").set(UnitType.Powerup_Khaydarin_Crystal, TechType.None);
@@ -19172,6 +19392,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Powerup_Mineral_Cluster_Type_1, 220);
         fields.get("race").set(UnitType.Powerup_Mineral_Cluster_Type_1, Race.None);
         fields.get("whatBuilds").set(UnitType.Powerup_Mineral_Cluster_Type_1, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Powerup_Mineral_Cluster_Type_1, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Powerup_Mineral_Cluster_Type_1, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Powerup_Mineral_Cluster_Type_1, TechType.None);
         fields.get("cloakingTech").set(UnitType.Powerup_Mineral_Cluster_Type_1, TechType.None);
@@ -19258,6 +19479,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Powerup_Mineral_Cluster_Type_2, 221);
         fields.get("race").set(UnitType.Powerup_Mineral_Cluster_Type_2, Race.None);
         fields.get("whatBuilds").set(UnitType.Powerup_Mineral_Cluster_Type_2, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Powerup_Mineral_Cluster_Type_2, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Powerup_Mineral_Cluster_Type_2, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Powerup_Mineral_Cluster_Type_2, TechType.None);
         fields.get("cloakingTech").set(UnitType.Powerup_Mineral_Cluster_Type_2, TechType.None);
@@ -19344,6 +19566,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Powerup_Protoss_Gas_Orb_Type_1, 222);
         fields.get("race").set(UnitType.Powerup_Protoss_Gas_Orb_Type_1, Race.None);
         fields.get("whatBuilds").set(UnitType.Powerup_Protoss_Gas_Orb_Type_1, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Powerup_Protoss_Gas_Orb_Type_1, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Powerup_Protoss_Gas_Orb_Type_1, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Powerup_Protoss_Gas_Orb_Type_1, TechType.None);
         fields.get("cloakingTech").set(UnitType.Powerup_Protoss_Gas_Orb_Type_1, TechType.None);
@@ -19430,6 +19653,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Powerup_Protoss_Gas_Orb_Type_2, 223);
         fields.get("race").set(UnitType.Powerup_Protoss_Gas_Orb_Type_2, Race.None);
         fields.get("whatBuilds").set(UnitType.Powerup_Protoss_Gas_Orb_Type_2, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Powerup_Protoss_Gas_Orb_Type_2, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Powerup_Protoss_Gas_Orb_Type_2, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Powerup_Protoss_Gas_Orb_Type_2, TechType.None);
         fields.get("cloakingTech").set(UnitType.Powerup_Protoss_Gas_Orb_Type_2, TechType.None);
@@ -19516,6 +19740,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Powerup_Zerg_Gas_Sac_Type_1, 224);
         fields.get("race").set(UnitType.Powerup_Zerg_Gas_Sac_Type_1, Race.None);
         fields.get("whatBuilds").set(UnitType.Powerup_Zerg_Gas_Sac_Type_1, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Powerup_Zerg_Gas_Sac_Type_1, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Powerup_Zerg_Gas_Sac_Type_1, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Powerup_Zerg_Gas_Sac_Type_1, TechType.None);
         fields.get("cloakingTech").set(UnitType.Powerup_Zerg_Gas_Sac_Type_1, TechType.None);
@@ -19602,6 +19827,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Powerup_Zerg_Gas_Sac_Type_2, 225);
         fields.get("race").set(UnitType.Powerup_Zerg_Gas_Sac_Type_2, Race.None);
         fields.get("whatBuilds").set(UnitType.Powerup_Zerg_Gas_Sac_Type_2, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Powerup_Zerg_Gas_Sac_Type_2, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Powerup_Zerg_Gas_Sac_Type_2, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Powerup_Zerg_Gas_Sac_Type_2, TechType.None);
         fields.get("cloakingTech").set(UnitType.Powerup_Zerg_Gas_Sac_Type_2, TechType.None);
@@ -19688,6 +19914,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Powerup_Terran_Gas_Tank_Type_1, 226);
         fields.get("race").set(UnitType.Powerup_Terran_Gas_Tank_Type_1, Race.None);
         fields.get("whatBuilds").set(UnitType.Powerup_Terran_Gas_Tank_Type_1, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Powerup_Terran_Gas_Tank_Type_1, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Powerup_Terran_Gas_Tank_Type_1, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Powerup_Terran_Gas_Tank_Type_1, TechType.None);
         fields.get("cloakingTech").set(UnitType.Powerup_Terran_Gas_Tank_Type_1, TechType.None);
@@ -19774,6 +20001,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Powerup_Terran_Gas_Tank_Type_2, 227);
         fields.get("race").set(UnitType.Powerup_Terran_Gas_Tank_Type_2, Race.None);
         fields.get("whatBuilds").set(UnitType.Powerup_Terran_Gas_Tank_Type_2, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.Powerup_Terran_Gas_Tank_Type_2, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Powerup_Terran_Gas_Tank_Type_2, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Powerup_Terran_Gas_Tank_Type_2, TechType.None);
         fields.get("cloakingTech").set(UnitType.Powerup_Terran_Gas_Tank_Type_2, TechType.None);
@@ -19860,6 +20088,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.None, 228);
         fields.get("race").set(UnitType.None, Race.None);
         fields.get("whatBuilds").set(UnitType.None, new Pair(UnitType.None, 0));
+        fields.get("buildsWhat").set(UnitType.None, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.None, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.None, TechType.None);
         fields.get("cloakingTech").set(UnitType.None, TechType.None);
@@ -19946,6 +20175,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.AllUnits, 0);
         fields.get("race").set(UnitType.AllUnits, null);
         fields.get("whatBuilds").set(UnitType.AllUnits, null);
+        fields.get("buildsWhat").set(UnitType.AllUnits, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.AllUnits, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.AllUnits, null);
         fields.get("cloakingTech").set(UnitType.AllUnits, null);
@@ -20032,6 +20262,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Men, 0);
         fields.get("race").set(UnitType.Men, null);
         fields.get("whatBuilds").set(UnitType.Men, null);
+        fields.get("buildsWhat").set(UnitType.Men, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Men, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Men, null);
         fields.get("cloakingTech").set(UnitType.Men, null);
@@ -20118,6 +20349,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Buildings, 0);
         fields.get("race").set(UnitType.Buildings, null);
         fields.get("whatBuilds").set(UnitType.Buildings, null);
+        fields.get("buildsWhat").set(UnitType.Buildings, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Buildings, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Buildings, null);
         fields.get("cloakingTech").set(UnitType.Buildings, null);
@@ -20204,6 +20436,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Factories, 0);
         fields.get("race").set(UnitType.Factories, null);
         fields.get("whatBuilds").set(UnitType.Factories, null);
+        fields.get("buildsWhat").set(UnitType.Factories, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Factories, new ArrayList(Arrays.asList()));
         fields.get("requiredTech").set(UnitType.Factories, null);
         fields.get("cloakingTech").set(UnitType.Factories, null);
@@ -20290,6 +20523,7 @@ class UnitTypes {
         fields.get("id").set(UnitType.Unknown, 233);
         fields.get("race").set(UnitType.Unknown, Race.Unknown);
         fields.get("whatBuilds").set(UnitType.Unknown, new Pair(UnitType.Unknown, 1));
+        fields.get("buildsWhat").set(UnitType.Unknown, new ArrayList(Arrays.asList()));
         fields.get("requiredUnits").set(UnitType.Unknown, new ArrayList(Arrays.asList(UnitType.Unknown)));
         fields.get("requiredTech").set(UnitType.Unknown, TechType.None);
         fields.get("cloakingTech").set(UnitType.Unknown, TechType.None);
