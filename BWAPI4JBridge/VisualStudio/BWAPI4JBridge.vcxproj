@@ -18,6 +18,21 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\BridgeEnum.cpp" />
+    <ClCompile Include="..\src\BridgeMap.cpp" />
+    <ClCompile Include="..\src\BWTA.cpp" />
+    <ClCompile Include="..\src\DamageEvaluator.cpp" />
+    <ClCompile Include="..\src\InteractionHandler.cpp" />
+    <ClCompile Include="..\src\MapDrawer.cpp" />
+    <ClCompile Include="..\src\So.cpp" />
+    <ClCompile Include="..\src\Unit.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\BridgeEnum.h" />
+    <ClInclude Include="..\src\BridgeMap.h" />
+    <ClInclude Include="..\src\So.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{28A9E44A-8028-4197-AD9E-C6E50E8137AD}</ProjectGuid>
@@ -140,33 +155,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\OpenBWAPI4JBridge\BridgeEnum.h" />
-    <ClInclude Include="..\..\OpenBWAPI4JBridge\BridgeMap.h" />
-    <ClInclude Include="..\..\OpenBWAPI4JBridge\So.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\OpenBWAPI4JBridge\BridgeEnum.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\..\OpenBWAPI4JBridge\BridgeMap.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\..\OpenBWAPI4JBridge\BWTA.cpp" />
-    <ClCompile Include="..\..\OpenBWAPI4JBridge\DamageEvaluator.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\..\OpenBWAPI4JBridge\InteractionHandler.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\..\OpenBWAPI4JBridge\MapDrawer.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\..\OpenBWAPI4JBridge\So.cpp" />
-    <ClCompile Include="..\..\OpenBWAPI4JBridge\Unit.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

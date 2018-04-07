@@ -6,40 +6,40 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\OpenBWAPI4JBridge\BridgeEnum.h">
+    <ClCompile Include="..\src\BridgeEnum.cpp">
       <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\OpenBWAPI4JBridge\BridgeMap.h">
+    </ClCompile>
+    <ClCompile Include="..\src\BridgeMap.cpp">
       <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\OpenBWAPI4JBridge\So.h">
+    </ClCompile>
+    <ClCompile Include="..\src\BWTA.cpp">
       <Filter>src</Filter>
-    </ClInclude>
+    </ClCompile>
+    <ClCompile Include="..\src\DamageEvaluator.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\InteractionHandler.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\MapDrawer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\So.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Unit.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\OpenBWAPI4JBridge\BridgeEnum.cpp">
+    <ClInclude Include="..\src\BridgeEnum.h">
       <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\OpenBWAPI4JBridge\BridgeMap.cpp">
+    </ClInclude>
+    <ClInclude Include="..\src\BridgeMap.h">
       <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\OpenBWAPI4JBridge\DamageEvaluator.cpp">
+    </ClInclude>
+    <ClInclude Include="..\src\So.h">
       <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\OpenBWAPI4JBridge\InteractionHandler.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\OpenBWAPI4JBridge\MapDrawer.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\OpenBWAPI4JBridge\Unit.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\OpenBWAPI4JBridge\So.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\OpenBWAPI4JBridge\BWTA.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
+    </ClInclude>
   </ItemGroup>
 </Project>
