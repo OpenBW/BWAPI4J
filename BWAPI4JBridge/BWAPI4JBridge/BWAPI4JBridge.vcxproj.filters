@@ -4,9 +4,6 @@
     <Filter Include="OpenBWAPI4JBridge">
       <UniqueIdentifier>{8739be32-f862-44a0-96f2-1c240e2f9b61}</UniqueIdentifier>
     </Filter>
-    <Filter Include="BWAPI4JBridge">
-      <UniqueIdentifier>{678b5db1-99f2-40f5-834b-cfc814198a9b}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\OpenBWAPI4JBridge\BridgeEnum.h">
@@ -38,11 +35,8 @@
     <ClCompile Include="..\..\OpenBWAPI4JBridge\Unit.cpp">
       <Filter>OpenBWAPI4JBridge</Filter>
     </ClCompile>
-    <ClCompile Include="BWAPI4JBridge.cpp">
-      <Filter>BWAPI4JBridge</Filter>
-    </ClCompile>
-    <ClCompile Include="dllmain.cpp">
-      <Filter>BWAPI4JBridge</Filter>
+    <ClCompile Include="..\..\OpenBWAPI4JBridge\So.cpp">
+      <Filter>OpenBWAPI4JBridge</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
