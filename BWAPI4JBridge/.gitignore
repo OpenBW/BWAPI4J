@@ -1,5 +1,6 @@
 BWAPI4JBridge/NetBeans/
 BWAPI4JBridge.lib
+OpenBWAPI4JBridge.lib
 *.tlog
 
 ## Ignore Visual Studio temporary files, build results, and
