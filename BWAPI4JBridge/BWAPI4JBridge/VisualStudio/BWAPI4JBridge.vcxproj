@@ -130,14 +130,14 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;BWAPI4JBRIDGE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\BWAPI4J\src\native\include;$(ProjectDir)..\JNI\include\win32;$(ProjectDir)..\JNI\include;$(ProjectDir)..\..\OpenBWAPI4JBridge;$(ProjectDir)..\BWAPI\include;$(ProjectDir)..\BWTA\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\BWAPI4J\src\native\include;$(ProjectDir)..\..\JNI\include\win32;$(ProjectDir)..\..\JNI\include;$(ProjectDir)..\..\BWAPI\include;$(ProjectDir)..\..\BWTA\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile />
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>$(ProjectDir)..\BWTA\lib\BWTA.lib;$(ProjectDir)..\BWAPI\lib\BWAPI.lib;$(ProjectDir)..\BWAPI\lib\BWAPIClient.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(ProjectDir)..\..\BWTA\lib\BWTA.lib;$(ProjectDir)..\..\BWAPI\lib\BWAPI.lib;$(ProjectDir)..\..\BWAPI\lib\BWAPIClient.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
