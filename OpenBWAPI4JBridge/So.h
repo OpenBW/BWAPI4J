@@ -11,8 +11,7 @@
 
 extern JNIEnv * globalEnv;
 extern jobject globalBW;
-extern jint *intBuf;
-
+extern jint intBuf[];
 
 extern jclass arrayListClass;
 extern jmethodID arrayListAdd;

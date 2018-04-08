@@ -10,15 +10,12 @@
     <Filter Include="BWAPI\Client">
       <UniqueIdentifier>{9208d0b3-c8e6-43f7-b368-074468d1b068}</UniqueIdentifier>
     </Filter>
-    <Filter Include="OpenBWAPI4JBridge">
-      <UniqueIdentifier>{8739be32-f862-44a0-96f2-1c240e2f9b61}</UniqueIdentifier>
+    <Filter Include="Bridge">
+      <UniqueIdentifier>{772c2df6-b79b-4b53-8075-4f099846e7f1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="BWAPI4JBridge">
-      <UniqueIdentifier>{678b5db1-99f2-40f5-834b-cfc814198a9b}</UniqueIdentifier>
+    <Filter Include="Bridge\Windows">
+      <UniqueIdentifier>{a7844463-398c-4f2e-8385-287b0599d3da}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BWTA\BaseLocation.h">
@@ -247,19 +244,13 @@
       <Filter>BWAPI\Client</Filter>
     </ClInclude>
     <ClInclude Include="..\..\OpenBWAPI4JBridge\BridgeEnum.h">
-      <Filter>OpenBWAPI4JBridge</Filter>
+      <Filter>Bridge</Filter>
     </ClInclude>
     <ClInclude Include="..\..\OpenBWAPI4JBridge\BridgeMap.h">
-      <Filter>OpenBWAPI4JBridge</Filter>
+      <Filter>Bridge</Filter>
     </ClInclude>
     <ClInclude Include="..\..\OpenBWAPI4JBridge\So.h">
-      <Filter>OpenBWAPI4JBridge</Filter>
-    </ClInclude>
-    <ClInclude Include="stdafx.h">
-      <Filter>BWAPI4JBridge</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>BWAPI4JBridge</Filter>
+      <Filter>Bridge</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -267,31 +258,28 @@
       <Filter>BWTA</Filter>
     </ClCompile>
     <ClCompile Include="..\..\OpenBWAPI4JBridge\BridgeEnum.cpp">
-      <Filter>OpenBWAPI4JBridge</Filter>
+      <Filter>Bridge</Filter>
     </ClCompile>
     <ClCompile Include="..\..\OpenBWAPI4JBridge\BridgeMap.cpp">
-      <Filter>OpenBWAPI4JBridge</Filter>
+      <Filter>Bridge</Filter>
     </ClCompile>
     <ClCompile Include="..\..\OpenBWAPI4JBridge\DamageEvaluator.cpp">
-      <Filter>OpenBWAPI4JBridge</Filter>
+      <Filter>Bridge</Filter>
     </ClCompile>
     <ClCompile Include="..\..\OpenBWAPI4JBridge\InteractionHandler.cpp">
-      <Filter>OpenBWAPI4JBridge</Filter>
+      <Filter>Bridge</Filter>
     </ClCompile>
     <ClCompile Include="..\..\OpenBWAPI4JBridge\MapDrawer.cpp">
-      <Filter>OpenBWAPI4JBridge</Filter>
+      <Filter>Bridge</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\OpenBWAPI4JBridge\So.cpp">
+      <Filter>Bridge</Filter>
     </ClCompile>
     <ClCompile Include="..\..\OpenBWAPI4JBridge\Unit.cpp">
-      <Filter>OpenBWAPI4JBridge</Filter>
+      <Filter>Bridge</Filter>
     </ClCompile>
-    <ClCompile Include="BWAPI4JBridge.cpp">
-      <Filter>BWAPI4JBridge</Filter>
-    </ClCompile>
-    <ClCompile Include="dllmain.cpp">
-      <Filter>BWAPI4JBridge</Filter>
-    </ClCompile>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>BWAPI4JBridge</Filter>
+    <ClCompile Include="Dll.cpp">
+      <Filter>Bridge\Windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
