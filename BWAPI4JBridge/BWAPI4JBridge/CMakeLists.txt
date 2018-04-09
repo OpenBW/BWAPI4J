@@ -4,12 +4,16 @@ project(BWAPI4JBridge)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/../Release")
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/../Release")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
 if (MSVC)
-    add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS -DNOMINMAX)
+	
+	set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/..")
+	set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/..")
+else()
+	set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/../Release")
+	set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/../Release")
 endif()
 
 function(if_unset_then_set var val)
@@ -56,11 +60,30 @@ include_directories(${JNI_INC_DIR} ${BWAPI4J_JNI_INC_DIR})
 if (WIN32)
     message("Including WIN32 JNI headers.")
     include_directories(${JNI_INC_DIR}/win32)
-    add_library(OpenBWAPI4JBridge STATIC ${BWAPI4JBRIDGE_SRCS})
 else()
     message("Including Linux JNI headers.")
     include_directories(${JNI_INC_DIR}/linux)
-    add_library(OpenBWAPI4JBridge SHARED ${BWAPI4JBRIDGE_SRCS})
+endif()
+
+add_library(OpenBWAPI4JBridge SHARED ${BWAPI4JBRIDGE_SRCS})
+
+################################################################################
+
+
+
+################################################################################
+# BWTA
+################################################################################
+
+if_unset_then_set(BWTA_INC_DIR ../BWTA/include)
+include_directories(${BWTA_INC_DIR})
+
+if (MSVC)
+	if_unset_then_set(BWTA_LIB_DIR ../BWTA/lib)
+	
+	link_directories(${BWTA_LIB_DIR})
+	
+	target_link_libraries(OpenBWAPI4JBridge ../${BWTA_LIB_DIR}/BWTA)
 endif()
 
 ################################################################################
@@ -87,17 +110,19 @@ if (OPENBW)
         ${OPENBW_BWAPI_DIR}/bwapi/Util/Source
         ${OPENBW_BWAPI_DIR}/bwapi/BWAPICore
     )
+	
+	if (MSVC)
+	    if_unset_then_set(OPENBW_LIB_DIR ../${OPENBW_BWAPI_DIR}/build/lib/Release)
+		
+		link_directories(${OPENBW_LIB_DIR})
+
+		target_link_libraries(OpenBWAPI4JBridge 
+			${OPENBW_LIB_DIR}/OpenBWData
+			${OPENBW_LIB_DIR}/BWAPI
+			${OPENBW_LIB_DIR}/BWAPILIB
+			${OPENBW_LIB_DIR}/openbw_ui
+		)
+	endif()
 endif()
-
-################################################################################
-
-
-
-################################################################################
-# BWTA
-################################################################################
-
-if_unset_then_set(BWTA_INC_DIR ../BWTA/include)
-include_directories(${BWTA_INC_DIR})
 
 ################################################################################
