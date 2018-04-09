@@ -7,13 +7,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
 if (MSVC)
-    add_definitions(-D_CRT_SECURE_NO_WARNINGS -DNOMINMAX)
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS -DNOMINMAX -DWIN32 -D_WINDOWS -D_USRDLL)
 	
-	set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/..")
-	set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/..")
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/..")
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/..")
 else()
-	set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/../Release")
-	set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/../Release")
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/../Release")
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/../Release")
 endif()
 
 function(if_unset_then_set var val)
@@ -79,11 +79,11 @@ if_unset_then_set(BWTA_INC_DIR ../BWTA/include)
 include_directories(${BWTA_INC_DIR})
 
 if (MSVC)
-	if_unset_then_set(BWTA_LIB_DIR ../BWTA/lib)
-	
-	link_directories(${BWTA_LIB_DIR})
-	
-	target_link_libraries(OpenBWAPI4JBridge ../${BWTA_LIB_DIR}/BWTA)
+    if_unset_then_set(BWTA_LIB_DIR ../BWTA/lib)
+
+    link_directories(${BWTA_LIB_DIR})
+
+    target_link_libraries(OpenBWAPI4JBridge ../${BWTA_LIB_DIR}/BWTA)
 endif()
 
 ################################################################################
@@ -111,18 +111,22 @@ if (OPENBW)
         ${OPENBW_BWAPI_DIR}/bwapi/BWAPICore
     )
 	
-	if (MSVC)
-	    if_unset_then_set(OPENBW_LIB_DIR ../${OPENBW_BWAPI_DIR}/build/lib/Release)
-		
-		link_directories(${OPENBW_LIB_DIR})
+    if (MSVC)
+        if_unset_then_set(OPENBW_LIB_DIR ../${OPENBW_BWAPI_DIR}/build/lib/Release)
 
-		target_link_libraries(OpenBWAPI4JBridge 
-			${OPENBW_LIB_DIR}/OpenBWData
-			${OPENBW_LIB_DIR}/BWAPI
-			${OPENBW_LIB_DIR}/BWAPILIB
-			${OPENBW_LIB_DIR}/openbw_ui
-		)
-	endif()
+        link_directories(${OPENBW_LIB_DIR})
+
+        target_link_libraries(OpenBWAPI4JBridge 
+            ${OPENBW_LIB_DIR}/OpenBWData
+            ${OPENBW_LIB_DIR}/BWAPI
+            ${OPENBW_LIB_DIR}/BWAPILIB
+        )
+
+        if (OPENBW_ENABLE_UI)
+            add_definitions(-DOPENBW_ENABLE_UI)
+            target_link_libraries(OpenBWAPI4JBridge ${OPENBW_LIB_DIR}/openbw_ui)
+        endif()
+    endif()
 endif()
 
 ################################################################################
