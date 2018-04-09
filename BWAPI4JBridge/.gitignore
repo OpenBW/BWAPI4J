@@ -1,5 +1,6 @@
 BWAPI4JBridge/NetBeans/
 BWAPI4JBridge.lib
+BWAPI4JBridge/build/
 OpenBWAPI4JBridge.lib
 *.tlog
 
