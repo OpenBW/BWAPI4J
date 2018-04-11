@@ -212,7 +212,7 @@ public abstract class PlayerUnit extends Unit {
 
     public int maxShields() {
 
-        return this.maxShields();
+        return this.type.maxShields();
     }
 
     public int getShields() {
