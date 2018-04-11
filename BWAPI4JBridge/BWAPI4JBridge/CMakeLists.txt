@@ -4,14 +4,14 @@ project(BWAPI4JBridge)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
-
 if (MSVC)
     add_definitions(-D_CRT_SECURE_NO_WARNINGS -DNOMINMAX -DWIN32 -D_WINDOWS -D_USRDLL)
-	
-    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/..")
-    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/..")
+
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "..")
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "..")
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "..")
 else()
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/../Release")
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/../Release")
 endif()
@@ -95,8 +95,13 @@ endif()
 ################################################################################
 
 if (OPENBW)
-    message("C++ preprocessor macro enabled: OPENBW")
     add_definitions(-DOPENBW)
+    message("C++ preprocessor macro enabled: OPENBW")
+
+    if (OPENBW_ENABLE_UI)
+        add_definitions(-DOPENBW_ENABLE_UI)
+        message("C++ preprocessor macro enabled: OPENBW_ENABLE_UI")
+    endif()
 
     if_unset_then_set(OPENBW_DIR ../../../openbw)
 
@@ -110,7 +115,7 @@ if (OPENBW)
         ${OPENBW_BWAPI_DIR}/bwapi/Util/Source
         ${OPENBW_BWAPI_DIR}/bwapi/BWAPICore
     )
-	
+
     if (MSVC)
         if_unset_then_set(OPENBW_LIB_DIR ../${OPENBW_BWAPI_DIR}/build/lib/Release)
 
@@ -123,9 +128,14 @@ if (OPENBW)
         )
 
         if (OPENBW_ENABLE_UI)
-            add_definitions(-DOPENBW_ENABLE_UI)
             target_link_libraries(OpenBWAPI4JBridge ${OPENBW_LIB_DIR}/openbw_ui)
         endif()
+    else()
+        target_link_libraries(OpenBWAPI4JBridge 
+            OpenBWData
+            BWAPI
+            BWAPILIB
+        )
     endif()
 endif()
 
