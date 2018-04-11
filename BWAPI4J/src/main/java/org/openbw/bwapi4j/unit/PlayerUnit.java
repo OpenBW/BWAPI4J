@@ -210,6 +210,11 @@ public abstract class PlayerUnit extends Unit {
         return getUnitStatCalculator().armor(type);
     }
 
+    public int maxShields() {
+
+        return this.maxShields();
+    }
+
     public int getShields() {
     	
     	return this.shields;
