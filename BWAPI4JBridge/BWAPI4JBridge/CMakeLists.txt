@@ -98,9 +98,9 @@ if (OPENBW)
     message("C++ preprocessor macro enabled: OPENBW")
     add_definitions(-DOPENBW)
 
-    if_unset_then_set(OPENBW_DIR ../../../../openbw/openbw)
+    if_unset_then_set(OPENBW_DIR ../../../openbw)
 
-    if_unset_then_set(OPENBW_BWAPI_DIR ../../../../openbw/bwapi)
+    if_unset_then_set(OPENBW_BWAPI_DIR ../../../bwapi)
 
     include_directories(
         ${OPENBW_DIR}
