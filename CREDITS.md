@@ -27,7 +27,7 @@
 * [vjurenka](https://github.com/vjurenka), author of [BWMirror](https://github.com/vjurenka/BWMirror)
 * [BWTA](https://code.google.com/archive/p/bwta/)
 * [Alberto Uriarte](https://bitbucket.org/auriarte/), author of [BWTA2](https://bitbucket.org/auriarte/bwta2) (C++)
-* [Igor Dimitrijevic's](http://bwem.sourceforge.net/about.html), author of [BWEM](http://bwem.sourceforge.net/) (C++).
+* [Igor Dimitrijevic](http://bwem.sourceforge.net/about.html), author of [BWEM](http://bwem.sourceforge.net/) (C++).
 
 ### Contributors
 

@@ -55,11 +55,11 @@ void OpenBridgeModule::onStart()
 {
 	initializeCallbackMethods();
 
-	BridgeEnum *bridgeEnum = new BridgeEnum();
-	BridgeMap *bridgeMap = new BridgeMap();
+	BridgeEnum bridgeEnum;
+	BridgeMap bridgeMap;
 
-	bridgeEnum->initialize();
-	bridgeMap->initialize(globalEnv, globalEnv->GetObjectClass(globalBW), globalBW, bwMapClass);
+	bridgeEnum.initialize();
+	bridgeMap.initialize(globalEnv, globalEnv->GetObjectClass(globalBW), globalBW, bwMapClass);
 
 	globalEnv->CallObjectMethod(globalBW, preFrameCallback);
 //	globalEnv->CallObjectMethod(globalBW, onStartCallback);

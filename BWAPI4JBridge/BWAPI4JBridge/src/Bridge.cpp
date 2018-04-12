@@ -245,8 +245,8 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
 	}
 	finished = true;
 #else
-	BridgeEnum *bridgeEnum = new BridgeEnum();
-	BridgeMap *bridgeMap = new BridgeMap();
+	BridgeEnum bridgeEnum;
+	BridgeMap bridgeMap;
 
 	println("Connecting to Broodwar...");
 	reconnect();
@@ -264,8 +264,8 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
 		}
 		std::cout << "Client version: " << Broodwar->getClientVersion() << std::endl;;
 
-		bridgeEnum->initialize();
-		bridgeMap->initialize(env, env->GetObjectClass(bwObject), bw, bwMapClass);
+		bridgeEnum.initialize();
+		bridgeMap.initialize(env, env->GetObjectClass(bwObject), bw, bwMapClass);
 
 		if (false && Broodwar->isReplay()) { // right now don't treat replays any different
 
