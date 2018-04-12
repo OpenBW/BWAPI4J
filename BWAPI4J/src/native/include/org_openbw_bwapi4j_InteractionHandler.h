@@ -79,6 +79,14 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enableComplete
 JNIEXPORT jlong JNICALL Java_org_openbw_bwapi4j_InteractionHandler_getRandomSeed
   (JNIEnv *, jobject);
 
+/*
+ * Class:     org_openbw_bwapi4j_InteractionHandler
+ * Method:    setFrameSkip
+ * Signature: (I)V
+ */
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_setFrameSkip
+  (JNIEnv *, jobject, jint);
+
 #ifdef __cplusplus
 }
 #endif
