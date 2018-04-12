@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Type of all the Paths used in BWEM (Cf. Map::GetPath).
  *
- * {@code cp.h:68:typedef std::vector<const ChokePoint *> Path;}
+ * cp.h:68:typedef std::vector<const ChokePoint *> Path;
  * cp.h:168:typedef ChokePoint::Path CPPath;
  */
 public class CPPath implements Iterable<ChokePoint> {

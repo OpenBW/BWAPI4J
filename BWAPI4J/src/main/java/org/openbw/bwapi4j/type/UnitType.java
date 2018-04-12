@@ -872,9 +872,11 @@ public enum UnitType {
      * Checks if this unit type is a resource depot. Resource depots must be
      * placed a certain distance from resources. Resource depots are typically
      * the main building for any particular race. Workers will return resources
-     * to the nearest resource depot.
-     *
-     * Returns true if the unit type is a resource depot, false if it is not.
+     * to the nearest resource depot. Example: if ( BWAPI::Broodwar->self() ) {
+     * BWAPI::Unitset myUnits = BWAPI::Broodwar->self()->getUnits(); for ( auto
+     * u : myUnits ) { if ( u->isIdle() && u->getType().isResourceDepot() )
+     * u->train( u->getType().getRace().getWorker() ); } } Returns true if the
+     * unit type is a resource depot, false if it is not.
      */
     public boolean isResourceDepot() {
         return this.isResourceDepot;
@@ -1094,7 +1096,16 @@ public enum UnitType {
 
     /**
      * Checks if this unit type is a neutral critter. Returns true if this unit
-     * type is a critter, and false otherwise.
+     * type is a critter, and false otherwise. Example usage: BWAPI::Position
+     * myBasePosition( BWAPI::Broodwar->self()->getStartLocation() );
+     * BWAPI::UnitSet unitsAroundTheBase =
+     * BWAPI::Broodwar->getUnitsInRadius(myBasePosition, 1024,
+     * !BWAPI::Filter::IsOwned && !BWAPI::Filter::IsParasited); for ( auto u :
+     * unitsAroundTheBase ) { if ( u->getType().isCritter() &&
+     * !u->isInvincible() ) { BWAPI::Unit myQueen =
+     * u->getClosestUnit(BWAPI::Filter::GetType == BWAPI::UnitTypes::Zerg_Queen
+     * && BWAPI::Filter::IsOwned); if ( myQueen )
+     * myQueen->useTech(BWAPI::TechTypes::Parasite, u); } }
      */
     public boolean isCritter() {
         return this.isCritter;

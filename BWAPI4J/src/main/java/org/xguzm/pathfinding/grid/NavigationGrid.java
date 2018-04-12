@@ -38,7 +38,7 @@ public class NavigationGrid<T extends NavigationGridGraphNode> implements Naviga
 	/** 
 	 * Constructs the grid by using the given nodes. 
 	
-	 * This is the old way to biuld the grid, which now just calls #NavigationGrid(T[][] nodes, boolean) with autoAssignXY = false.
+	 * This is the old way to biuld the grid, which now just calls {@link #NavigationGrid(T[][] nodes, boolean)} with autoAssignXY = false.
 	 * Kept only for compatibility with older vesions.
 	 * 
 	 * @param nodes the ready-to-use nodes
