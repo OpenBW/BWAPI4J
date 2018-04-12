@@ -9,8 +9,6 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
-		OpenBWAPI4JBridge|x64 = OpenBWAPI4JBridge|x64
-		OpenBWAPI4JBridge|x86 = OpenBWAPI4JBridge|x86
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
@@ -19,10 +17,6 @@ Global
 		{28A9E44A-8028-4197-AD9E-C6E50E8137AD}.Debug|x64.Build.0 = Debug|x64
 		{28A9E44A-8028-4197-AD9E-C6E50E8137AD}.Debug|x86.ActiveCfg = Debug|Win32
 		{28A9E44A-8028-4197-AD9E-C6E50E8137AD}.Debug|x86.Build.0 = Debug|Win32
-		{28A9E44A-8028-4197-AD9E-C6E50E8137AD}.OpenBWAPI4JBridge|x64.ActiveCfg = OpenBWAPI4JBridge|x64
-		{28A9E44A-8028-4197-AD9E-C6E50E8137AD}.OpenBWAPI4JBridge|x64.Build.0 = OpenBWAPI4JBridge|x64
-		{28A9E44A-8028-4197-AD9E-C6E50E8137AD}.OpenBWAPI4JBridge|x86.ActiveCfg = OpenBWAPI4JBridge|Win32
-		{28A9E44A-8028-4197-AD9E-C6E50E8137AD}.OpenBWAPI4JBridge|x86.Build.0 = OpenBWAPI4JBridge|Win32
 		{28A9E44A-8028-4197-AD9E-C6E50E8137AD}.Release|x64.ActiveCfg = Release|x64
 		{28A9E44A-8028-4197-AD9E-C6E50E8137AD}.Release|x64.Build.0 = Release|x64
 		{28A9E44A-8028-4197-AD9E-C6E50E8137AD}.Release|x86.ActiveCfg = Release|Win32
