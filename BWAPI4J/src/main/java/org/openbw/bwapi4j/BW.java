@@ -122,10 +122,9 @@ public class BW {
 		        logger.debug("DLLs successfully loaded.");
 	        } else {
 	        	System.loadLibrary("OpenBWAPI4JBridge");
+                logger.debug("SO successfully loaded.");
 	        }
-	        logger.debug("SO successfully loaded.");
         } catch (UnsatisfiedLinkError e) {
-        	
         	logger.fatal("Could not load libraries.", e);
         	e.printStackTrace();
         	System.exit(1);
