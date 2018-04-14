@@ -7,10 +7,10 @@ BWAPI4J is compatible with both the original BW on Windows as well as OpenBW on 
 
 This project consists of two main parts:
 
- - The Java project **BWAPI4J** containing all Java classes used by your bot.
- - The C++ project **BWAPI4JBridge** containing C++ code required for your compiled bot to interact with original BW or OpenBW.
-  1. Visual Studio 2017 project files to build the bridge for original BW on Windows.
-  2. CMake to generate the scripts to build the bridge for OpenBW on Windows or Linux.
+1. The Java project **BWAPI4J** containing all Java classes used by your bot.
+2. The C++ project **BWAPI4JBridge** containing C++ code required for your compiled bot to interact with original BW or OpenBW.
+  * Visual Studio 2017 project files to build the bridge for original BW on Windows.
+  * CMake to generate the scripts to build the bridge for OpenBW on Windows or Linux.
 
 *Note: This is a development version, and breaking changes can occur at any time.*
 
@@ -163,14 +163,14 @@ Patch_rt.mpq
 
 ##### OpenBW for Windows
 
-Add the path of the following file to your PATH environment variable:
+* Add the path of the following file to your PATH environment variable:
 ````
 OpenBWAPI4JBridge.dll
 ````
 
 ##### OpenBW for Linux
 
-Add the paths of the following files to your `LD_LIBRARY_PATH` environment variable or copy the files to your `/usr/lib/` or `/usr/local/lib/` directory.
+* Add the paths of the following files to your `LD_LIBRARY_PATH` environment variable or copy the files to your `/usr/lib/` or `/usr/local/lib/` directory.
 ````
 libOpenBWAPI4JBridge.so
 libOpenBWData.so
