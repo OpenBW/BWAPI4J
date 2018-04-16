@@ -26,7 +26,9 @@ import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.unit.Unit;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 public class Player {
 
@@ -118,8 +120,8 @@ public class Player {
     private int deadUnitCount;
     private int killedUnitCount;
 
-    int[] researchStatus;
-    int[] upgradeStatus;
+    Map<TechType, boolean[]> researchStatus;
+    Map<UpgradeType, int[]> upgradeStatus;
 
     private final UnitStatCalculator unitStatCalculator;
 
@@ -147,6 +149,14 @@ public class Player {
         this.color = Color.valueOf(playerData[index + Player.COLOR_INDEX]);
         this.textColor = (char) playerData[index + Player.TEXT_COLOR_INDEX];
         this.playerType = PlayerType.values()[playerData[index + Player.TYPE_INDEX]];
+        researchStatus = new EnumMap<>(TechType.class);
+        for (TechType tech: TechType.values()) {
+            researchStatus.put(tech, new boolean[2]);
+        }
+        upgradeStatus = new EnumMap<>(UpgradeType.class);
+        for (UpgradeType upgrade: UpgradeType.values()) {
+            upgradeStatus.put(upgrade, new int[2]);
+        }
     }
 
     /**
@@ -195,8 +205,16 @@ public class Player {
         this.deadUnitCount = playerData[index + Player.DEAD_UNIT_COUNT_INDEX];
         this.killedUnitCount = playerData[index + Player.KILLED_UNIT_COUNT_INDEX];
 
-        this.researchStatus = researchStatus;
-        this.upgradeStatus = upgradeStatus;
+        for (int i = 0; i < researchStatus.length; i += 3) {
+            boolean[] status = this.researchStatus.get(TechType.withId(researchStatus[i]));
+            status[0] = researchStatus[i + 1] == 1;
+            status[1] = researchStatus[i + 2] == 1;
+        }
+        for (int i = 0; i < upgradeStatus.length; i += 3) {
+            int[] status = this.upgradeStatus.get(UpgradeType.withId(upgradeStatus[i]));
+            status[0] = upgradeStatus[i + 1];
+            status[1] = upgradeStatus[i + 2];
+        }
     }
 
     /**
@@ -587,7 +605,7 @@ public class Player {
      * UnitInterface::upgrade, getMaxUpgradeLevel
      */
     public int getUpgradeLevel(UpgradeType upgrade) {
-        return upgradeStatus[upgrade.ordinal() * 3 + 1];
+        return upgradeStatus.get(upgrade)[0];
     }
 
     /**
@@ -600,7 +618,7 @@ public class Player {
         if (TechType.None.equals(tech)) {
             return true;
         }
-        return researchStatus[tech.ordinal() * 3 + 1] == 1;
+        return researchStatus.get(tech)[0];
     }
 
     /**
@@ -610,7 +628,7 @@ public class Player {
      * UnitInterface::research, hasResearched
      */
     public boolean isResearching(TechType tech) {
-        return researchStatus[tech.ordinal() * 3 + 2] == 1;
+        return researchStatus.get(tech)[1];
     }
 
     /**
@@ -627,7 +645,7 @@ public class Player {
      * UnitInterface::upgrade
      */
     public boolean isUpgrading(UpgradeType upgrade) {
-        return upgradeStatus[upgrade.ordinal() * 3 + 2] == 1;
+        return upgradeStatus.get(upgrade)[1] == 1;
     }
 
     /**
