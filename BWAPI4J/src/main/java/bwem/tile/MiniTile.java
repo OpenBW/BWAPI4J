@@ -13,12 +13,13 @@
 package bwem.tile;
 
 import bwem.area.typedef.AreaId;
+import bwem.map.TerrainData;
 import bwem.typedef.Altitude;
 import org.openbw.bwapi4j.WalkPosition;
 
 /**
  * Corresponds to BWAPI/Starcraft's concept of walk tile (8x8 pixels).<br/>
- * - MiniTiles are accessed using WalkPositions {@link bwem.map.AdvancedData#getMiniTile(WalkPosition)}<br/>
+ * - MiniTiles are accessed using WalkPositions {@link TerrainData#getMiniTile(WalkPosition)}<br/>
  * - A Map holds Map::WalkSize().x * Map::WalkSize().y MiniTiles as its "MiniTile map".<br/>
  * - A MiniTile contains essentialy 3 pieces of information:<br/>
  *   i) its Walkability<br/>

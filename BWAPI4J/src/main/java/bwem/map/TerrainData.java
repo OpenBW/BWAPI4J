@@ -19,7 +19,7 @@ import bwem.tile.TileData;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 
-public interface AdvancedData {
+public interface TerrainData {
 
     MapData getMapData();
 

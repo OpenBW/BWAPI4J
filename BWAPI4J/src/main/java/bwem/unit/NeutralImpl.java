@@ -13,7 +13,7 @@
 package bwem.unit;
 
 import bwem.area.Area;
-import bwem.map.AdvancedDataInitializer;
+import bwem.map.TerrainDataInitializer;
 import bwem.map.Map;
 import bwem.map.MapImpl;
 import bwem.tile.Tile;
@@ -150,7 +150,7 @@ public abstract class NeutralImpl implements Neutral {
 
         for (int dy = 0; dy < getSize().getY(); ++dy)
         for (int dx = 0; dx < getSize().getX(); ++dx) {
-            final Tile deltaTile = ((AdvancedDataInitializer) getMap().getData()).getTile_(getTopLeft().add(new TilePosition(dx, dy)));
+            final Tile deltaTile = ((TerrainDataInitializer) getMap().getData()).getTile_(getTopLeft().add(new TilePosition(dx, dy)));
             if (deltaTile.getNeutral() == null) {
                 ((TileImpl) deltaTile).addNeutral(this);
             } else {
@@ -188,7 +188,7 @@ public abstract class NeutralImpl implements Neutral {
     private void removeFromTiles() {
         for (int dy = 0; dy < getSize().getY(); ++dy)
         for (int dx = 0; dx < getSize().getX(); ++dx) {
-            final Tile tile = ((AdvancedDataInitializer) getMap().getData()).getTile_(getTopLeft().add(new TilePosition(dx, dy)));
+            final Tile tile = ((TerrainDataInitializer) getMap().getData()).getTile_(getTopLeft().add(new TilePosition(dx, dy)));
 //            bwem_assert(tile.GetNeutral());
             if (tile.getNeutral() == null) {
                 throw new IllegalStateException();

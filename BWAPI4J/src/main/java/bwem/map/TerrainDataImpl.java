@@ -19,12 +19,12 @@ import bwem.tile.TileData;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 
-public abstract class AdvancedDataImpl implements AdvancedData {
+public abstract class TerrainDataImpl implements TerrainData {
 
     private final MapData mapData;
     private final TileData tileData;
 
-    protected AdvancedDataImpl(final MapData mapData, final TileData tileData) {
+    protected TerrainDataImpl(final MapData mapData, final TileData tileData) {
         this.mapData = mapData;
         this.tileData = tileData;
     }

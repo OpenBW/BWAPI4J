@@ -2,7 +2,6 @@ package bwem.map;
 
 import bwem.BWEM;
 import bwem.ChokePoint;
-import bwem.typedef.CPPath;
 import mockdata.BWAPI_DummyData;
 import mockdata.BWEM_CPPathSamples;
 import mockdata.BWEM_DummyData;
@@ -66,7 +65,7 @@ public class MapTest implements BWEventListener {
 	 * Tests that each MiniTile's Altitude for all WalkPositions match between
 	 * the original BWAPI/BWEM in C++ and this Java port.
 	 */
-	private void assertEquals_MiniTileAltitudes(AdvancedData data, BWEM_DummyData dummyBwemData) {
+	private void assertEquals_MiniTileAltitudes(TerrainData data, BWEM_DummyData dummyBwemData) {
         final List<ImmutableTriple<WalkPosition, Integer, Integer>> wrongAltitudes = new ArrayList<>();
 
 		for (int y = 0; y < data.getMapData().getWalkSize().getY(); ++y) {

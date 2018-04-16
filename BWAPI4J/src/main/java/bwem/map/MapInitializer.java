@@ -37,7 +37,7 @@ public interface MapInitializer {
     // A good place to do this is in ExampleAIModule::onStart()
     void initialize(boolean enableTimer);
 
-    void initializeAdvancedData(int mapTileWidth, int mapTileHeight, List<TilePosition> startingLocations);
+    void initializeTerrainData(int mapTileWidth, int mapTileHeight, List<TilePosition> startingLocations);
 
     void initializeNeutralData(
             List<MineralPatch> mineralPatches,
@@ -45,12 +45,12 @@ public interface MapInitializer {
             List<PlayerUnit> neutralUnits
     );
 
-    void computeAltitude(AdvancedData advancedData);
+    void computeAltitude(TerrainData terrainData);
     List<MutablePair<WalkPosition, Altitude>> getSortedDeltasByAscendingAltitude(int mapWalkTileWidth, int mapWalkTileHeight, int altitudeScale);
-    List<MutablePair<WalkPosition, Altitude>> getActiveSeaSideList(AdvancedData advancedData);
+    List<MutablePair<WalkPosition, Altitude>> getActiveSeaSideList(TerrainData terrainData);
     Altitude setAltitudesAndGetUpdatedHighestAltitude(
             Altitude currentHighestAltitude,
-            AdvancedData advancedData,
+            TerrainData terrainData,
             List<MutablePair<WalkPosition, Altitude>> deltasByAscendingAltitude,
             List<MutablePair<WalkPosition, Altitude>> activeSeaSideList,
             int altitudeScale

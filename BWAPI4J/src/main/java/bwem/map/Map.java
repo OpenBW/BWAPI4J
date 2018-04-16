@@ -53,7 +53,7 @@ import java.util.List;
 
 public interface Map {
 
-    AdvancedData getData();
+    TerrainData getData();
 
     MapPrinter getMapPrinter();
 

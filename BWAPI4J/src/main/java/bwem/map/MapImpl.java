@@ -47,7 +47,7 @@ public abstract class MapImpl implements Map {
 
     private final MapPrinter mapPrinter;
 
-    protected AdvancedData advancedData = null;
+    protected TerrainData terrainData = null;
     protected NeutralData neutralData = null;
 
     protected Altitude highestAltitude;
@@ -93,8 +93,8 @@ public abstract class MapImpl implements Map {
     }
 
     @Override
-    public AdvancedData getData() {
-        return this.advancedData;
+    public TerrainData getData() {
+        return this.terrainData;
     }
 
     @Override
@@ -104,7 +104,7 @@ public abstract class MapImpl implements Map {
 
     @Override
     public boolean isInitialized() {
-        return (this.advancedData != null);
+        return (this.terrainData != null);
     }
 
     public Graph getGraph() {
@@ -261,7 +261,7 @@ public abstract class MapImpl implements Map {
         WalkPosition pBlockingW = pBlocking.getSize().toWalkPosition();
         for (int dy = 0; dy < pBlockingW.getY(); ++dy)
         for (int dx = 0; dx < pBlockingW.getX(); ++dx) {
-            MiniTile miniTile = ((AdvancedDataInitializer) getData()).getMiniTile_(pBlocking.getTopLeft().toWalkPosition().add(new WalkPosition(dx, dy)));
+            MiniTile miniTile = ((TerrainDataInitializer) getData()).getMiniTile_(pBlocking.getTopLeft().toWalkPosition().add(new WalkPosition(dx, dy)));
             if (miniTile.isWalkable()) {
                 ((MiniTileImpl) miniTile).replaceBlockedAreaId(newId);
             }
@@ -270,7 +270,7 @@ public abstract class MapImpl implements Map {
         // Unblock the Tiles of pBlocking:
         for (int dy = 0; dy < pBlocking.getSize().getY(); ++dy)
         for (int dx = 0; dx < pBlocking.getSize().getX(); ++dx) {
-            ((TileImpl) ((AdvancedDataInitializer) getData()).getTile_(pBlocking.getTopLeft().add(new TilePosition(dx, dy)))).resetAreaId();
+            ((TileImpl) ((TerrainDataInitializer) getData()).getTile_(pBlocking.getTopLeft().add(new TilePosition(dx, dy)))).resetAreaId();
             setAreaIdInTile(pBlocking.getTopLeft().add(new TilePosition(dx, dy)));
         }
 
@@ -506,7 +506,7 @@ public abstract class MapImpl implements Map {
     }
 
     public void setAreaIdInTile(final TilePosition t) {
-        final Tile tile = ((AdvancedDataInitializer) getData()).getTile_(t);
+        final Tile tile = ((TerrainDataInitializer) getData()).getTile_(t);
 //        bwem_assert(tile.AreaId() == 0);	// initialized to 0
         if (!(tile.getAreaId().intValue() == 0)) { // initialized to 0
             throw new IllegalStateException();

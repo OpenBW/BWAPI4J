@@ -15,7 +15,7 @@ package bwem.area;
 import bwem.ChokePoint;
 import bwem.Markable;
 import bwem.area.typedef.GroupId;
-import bwem.map.AdvancedData;
+import bwem.map.TerrainData;
 import bwem.map.Map;
 import bwem.tile.Tile;
 import bwem.unit.Geyser;
@@ -57,20 +57,20 @@ public interface AreaInitializer {
     // When it finds one, the nearby resources are assigned to L, which makes the remaining resources decrease.
     // This causes the algorithm to always terminate due to the lack of remaining resources.
     // To efficiently compute the distances to the resources, with use Potiential Fields in the InternalData() value of the Tiles.
-    void createBases(AdvancedData mapAdvancedData);
+    void createBases(TerrainData terrainData);
 
     // Calculates the score >= 0 corresponding to the placement of a Base Command center at 'location'.
     // The more there are resources nearby, the higher the score is.
     // The function assumes the distance to the nearby resources has already been computed (in InternalData()) for each tile around.
     // The job is therefore made easier : just need to sum the InternalData() values.
     // Returns -1 if the location is impossible.
-    int computeBaseLocationScore(AdvancedData mapAdvancedData, TilePosition location);
+    int computeBaseLocationScore(TerrainData terrainData, TilePosition location);
 
     // Checks if 'location' is a valid location for the placement of a Base Command center.
     // If the location is valid except for the presence of Mineral patches of less than 9 (see Andromeda.scx),
     // the function returns true, and these minerals are reported in blockingMinerals
     // The function is intended to be called after computeBaseLocationScore, as it is more expensive.
     // See also the comments inside computeBaseLocationScore.
-    boolean validateBaseLocation(AdvancedData mapAdvancedData, TilePosition location, List<Mineral> blockingMinerals);
+    boolean validateBaseLocation(TerrainData terrainData, TilePosition location, List<Mineral> blockingMinerals);
 
 }

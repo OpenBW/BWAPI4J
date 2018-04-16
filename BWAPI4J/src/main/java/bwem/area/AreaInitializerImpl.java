@@ -20,19 +20,17 @@ import bwem.Markable;
 import bwem.StaticMarkable;
 import bwem.area.typedef.AreaId;
 import bwem.area.typedef.GroupId;
-import bwem.map.AdvancedData;
+import bwem.map.TerrainData;
 import bwem.map.Map;
 import bwem.tile.MiniTile;
 import bwem.tile.Tile;
 import bwem.tile.TileImpl;
-import bwem.typedef.Altitude;
 import bwem.unit.Geyser;
 import bwem.unit.Mineral;
 import bwem.unit.Neutral;
 import bwem.unit.Resource;
 import bwem.unit.StaticBuilding;
 import bwem.util.BwemExt;
-import bwem.util.Utils;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.type.UnitType;
@@ -296,7 +294,7 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
     }
 
     @Override
-    public void createBases(final AdvancedData mapAdvancedData) {
+    public void createBases(final TerrainData terrainData) {
         final TilePosition resourceDepotDimensions = UnitType.Terran_Command_Center.tileSize();
 
         final List<Resource> remainingResources = new ArrayList<>();
@@ -338,8 +336,8 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
                 for (int dy = -resourceDepotDimensions.getY() - BwemExt.MAX_TILES_BETWEEN_COMMAND_CENTER_AND_RESOURCES; dy < r.getSize().getY() + resourceDepotDimensions.getY() + BwemExt.MAX_TILES_BETWEEN_COMMAND_CENTER_AND_RESOURCES; ++dy)
                     for (int dx = -resourceDepotDimensions.getX() - BwemExt.MAX_TILES_BETWEEN_COMMAND_CENTER_AND_RESOURCES; dx < r.getSize().getX() + resourceDepotDimensions.getX() + BwemExt.MAX_TILES_BETWEEN_COMMAND_CENTER_AND_RESOURCES; ++dx) {
                         final TilePosition deltaTilePosition = r.getTopLeft().add(new TilePosition(dx, dy));
-                        if (mapAdvancedData.getMapData().isValid(deltaTilePosition)) {
-                            final Tile tile = mapAdvancedData.getTile(deltaTilePosition, CheckMode.NO_CHECK);
+                        if (terrainData.getMapData().isValid(deltaTilePosition)) {
+                            final Tile tile = terrainData.getTile(deltaTilePosition, CheckMode.NO_CHECK);
                             int dist = (BwemExt.distToRectangle(BwemExt.center(deltaTilePosition), r.getTopLeft().toPosition(), r.getSize().toPosition()) + (TilePosition.SIZE_IN_PIXELS / 2)) / TilePosition.SIZE_IN_PIXELS;
                             int score = Math.max(BwemExt.MAX_TILES_BETWEEN_COMMAND_CENTER_AND_RESOURCES + 3 - dist, 0);
                             if (r instanceof Geyser) {
@@ -358,8 +356,8 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
                 for (int dy = -3; dy < r.getSize().getY() + 3; ++dy)
                     for (int dx = -3; dx < r.getSize().getX() + 3; ++dx) {
                         final TilePosition deltaTilePosition = r.getTopLeft().add(new TilePosition(dx, dy));
-                        if (mapAdvancedData.getMapData().isValid(deltaTilePosition)) {
-                            final Tile tileToUpdate = mapAdvancedData.getTile(deltaTilePosition, CheckMode.NO_CHECK);
+                        if (terrainData.getMapData().isValid(deltaTilePosition)) {
+                            final Tile tileToUpdate = terrainData.getTile(deltaTilePosition, CheckMode.NO_CHECK);
                             ((TileImpl) tileToUpdate).setInternalData(-1);
                         }
                     }
@@ -372,9 +370,9 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
 
             for (int y = topLeftSearchBoundingBox.getY(); y <= bottomRightSearchBoundingBox.getY(); ++y)
                 for (int x = topLeftSearchBoundingBox.getX(); x <= bottomRightSearchBoundingBox.getX(); ++x) {
-                    final int score = computeBaseLocationScore(mapAdvancedData, new TilePosition(x, y));
+                    final int score = computeBaseLocationScore(terrainData, new TilePosition(x, y));
                     if (score > bestScore) {
-                        if (validateBaseLocation(mapAdvancedData, new TilePosition(x, y), blockingMinerals)) {
+                        if (validateBaseLocation(terrainData, new TilePosition(x, y), blockingMinerals)) {
                             bestScore = score;
                             bestLocation = new TilePosition(x, y);
                         }
@@ -386,8 +384,8 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
                 for (int dy = -resourceDepotDimensions.getY() - BwemExt.MAX_TILES_BETWEEN_COMMAND_CENTER_AND_RESOURCES; dy < r.getSize().getY() + resourceDepotDimensions.getY() + BwemExt.MAX_TILES_BETWEEN_COMMAND_CENTER_AND_RESOURCES; ++dy)
                     for (int dx = -resourceDepotDimensions.getX() - BwemExt.MAX_TILES_BETWEEN_COMMAND_CENTER_AND_RESOURCES; dx < r.getSize().getX() + resourceDepotDimensions.getX() + BwemExt.MAX_TILES_BETWEEN_COMMAND_CENTER_AND_RESOURCES; ++dx) {
                         final TilePosition deltaTilePosition = r.getTopLeft().add(new TilePosition(dx, dy));
-                        if (mapAdvancedData.getMapData().isValid(deltaTilePosition)) {
-                            final Tile tileToUpdate = mapAdvancedData.getTile(deltaTilePosition, CheckMode.NO_CHECK);
+                        if (terrainData.getMapData().isValid(deltaTilePosition)) {
+                            final Tile tileToUpdate = terrainData.getTile(deltaTilePosition, CheckMode.NO_CHECK);
                             ((TileImpl) tileToUpdate).setInternalData(0);
                         }
                     }
@@ -422,13 +420,13 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
     }
 
     @Override
-    public int computeBaseLocationScore(final AdvancedData mapAdvancedData, final TilePosition location) {
+    public int computeBaseLocationScore(final TerrainData terrainData, final TilePosition location) {
         final TilePosition dimCC = UnitType.Terran_Command_Center.tileSize();
 
         int sumScore = 0;
         for (int dy = 0; dy < dimCC.getY(); ++dy)
             for (int dx = 0; dx < dimCC.getX(); ++dx) {
-                final Tile tile = mapAdvancedData.getTile(location.add(new TilePosition(dx, dy)), CheckMode.NO_CHECK);
+                final Tile tile = terrainData.getTile(location.add(new TilePosition(dx, dy)), CheckMode.NO_CHECK);
                 if (!tile.isBuildable()) {
                     return -1;
                 }
@@ -451,7 +449,7 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
     }
 
     @Override
-    public boolean validateBaseLocation(final AdvancedData mapAdvancedData, final TilePosition location, final List<Mineral> blockingMinerals) {
+    public boolean validateBaseLocation(final TerrainData terrainData, final TilePosition location, final List<Mineral> blockingMinerals) {
         final TilePosition dimCC = UnitType.Terran_Command_Center.tileSize();
 
         blockingMinerals.clear();
@@ -459,8 +457,8 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
         for (int dy = -3; dy < dimCC.getY() + 3; ++dy)
             for (int dx = -3; dx < dimCC.getX() + 3; ++dx) {
                 final TilePosition deltaLocation = location.add(new TilePosition(dx, dy));
-                if (mapAdvancedData.getMapData().isValid(deltaLocation)) {
-                    final Tile deltaTile = mapAdvancedData.getTile(deltaLocation, CheckMode.NO_CHECK);
+                if (terrainData.getMapData().isValid(deltaLocation)) {
+                    final Tile deltaTile = terrainData.getTile(deltaLocation, CheckMode.NO_CHECK);
                     final Neutral deltaTileNeutral = deltaTile.getNeutral();
                     if (deltaTileNeutral != null) {
                         if (deltaTileNeutral instanceof Geyser) {

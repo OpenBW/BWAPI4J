@@ -17,7 +17,7 @@ import bwem.area.AreaInitializer;
 import bwem.area.AreaInitializerImpl;
 import bwem.area.typedef.AreaId;
 import bwem.area.typedef.GroupId;
-import bwem.map.AdvancedData;
+import bwem.map.TerrainData;
 import bwem.map.Map;
 import bwem.tile.MiniTile;
 import bwem.tile.Tile;
@@ -581,10 +581,10 @@ public final class Graph {
         }
     }
 
-    public void createBases(final AdvancedData mapAdvancedData) {
+    public void createBases(final TerrainData terrainData) {
         this.bases.clear();
         for (final Area area : this.areas) {
-            ((AreaInitializer) area).createBases(mapAdvancedData);
+            ((AreaInitializer) area).createBases(terrainData);
             this.bases.addAll(area.getBases());
         }
     }

@@ -13,13 +13,14 @@
 package bwem.tile;
 
 import bwem.area.typedef.AreaId;
+import bwem.map.TerrainData;
 import bwem.typedef.Altitude;
 import bwem.unit.Neutral;
 import org.openbw.bwapi4j.TilePosition;
 
 /**
  * Corresponds to BWAPI/Starcraft's concept of tile (32x32 pixels).<br/>
- * - Tiles are accessed using TilePositions (Cf. {@link bwem.map.AdvancedData#getTile(TilePosition)}).<br/>
+ * - Tiles are accessed using TilePositions (Cf. {@link TerrainData#getTile(TilePosition)}).<br/>
  * - A Map holds Map::Size().x * Map::Size().y Tiles as its "Tile map".<br/>
  * <br/>
  * - It should be noted that a Tile exactly overlaps 4 x 4 MiniTiles.<br/>

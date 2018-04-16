@@ -53,17 +53,17 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
         final Timer overallTimer = new Timer();
         final Timer timer = new Timer();
 
-        initializeAdvancedData(getBWMap().mapWidth(), getBWMap().mapHeight(), getBWMap().getStartPositions());
+        initializeTerrainData(getBWMap().mapWidth(), getBWMap().mapHeight(), getBWMap().getStartPositions());
 //    ///	bw << "Map::initialize-resize: " << timer.elapsedMilliseconds() << " ms" << endl; timer.reset();
         if (enableTimer) { logger.info("Map::initialize-resize: " + timer.elapsedMilliseconds() + " ms"); timer.reset(); }
 
         // Computes walkability, buildability and groundHeight and doodad information, using BWAPI corresponding functions
-        ((AdvancedDataInitializer) getData()).markUnwalkableMiniTiles(getBWMap());
-        ((AdvancedDataInitializer) getData()).markBuildableTilesAndGroundHeight(getBWMap());
+        ((TerrainDataInitializer) getData()).markUnwalkableMiniTiles(getBWMap());
+        ((TerrainDataInitializer) getData()).markBuildableTilesAndGroundHeight(getBWMap());
 //    ///	bw << "Map::LoadData: " << timer.elapsedMilliseconds() << " ms" << endl; timer.reset();
         if (enableTimer) { logger.info("Map::LoadData: " + timer.elapsedMilliseconds() + " ms"); timer.reset(); }
 //
-        ((AdvancedDataInitializer) getData()).decideSeasOrLakes(BwemExt.lake_max_miniTiles, BwemExt.lake_max_width_in_miniTiles);
+        ((TerrainDataInitializer) getData()).decideSeasOrLakes(BwemExt.lake_max_miniTiles, BwemExt.lake_max_width_in_miniTiles);
 //    ///	bw << "Map::DecideSeasOrLakes: " << timer.elapsedMilliseconds() << " ms" << endl; timer.reset();
         if (enableTimer) { logger.info("Map::DecideSeasOrLakes: " + timer.elapsedMilliseconds() + " ms"); timer.reset(); }
 
@@ -108,13 +108,13 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
     }
 
     @Override
-    public void initializeAdvancedData(final int mapTileWidth, final int mapTileHeight, final List<TilePosition> startingLocations) {
+    public void initializeTerrainData(final int mapTileWidth, final int mapTileHeight, final List<TilePosition> startingLocations) {
         final MapData mapData = new MapDataImpl(mapTileWidth, mapTileHeight, startingLocations);
         final TileData tileData = new TileDataImpl(
                 mapData.getTileSize().getX() * mapData.getTileSize().getY(),
                 mapData.getWalkSize().getX() * mapData.getWalkSize().getY()
         );
-        super.advancedData = new AdvancedDataInitializerImpl(mapData, tileData);
+        super.terrainData = new TerrainDataInitializerImpl(mapData, tileData);
     }
 
 
@@ -145,18 +145,18 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
     // Altitudes are computed using the straightforward Dijkstra's algorithm : the lower ones are computed first, starting from the seaside-miniTiles neighbors.
     // The point here is to precompute all possible altitudes for all possible tiles, and sort them.
     @Override
-    public void computeAltitude(final AdvancedData advancedData) {
+    public void computeAltitude(final TerrainData terrainData) {
         final int altitudeScale = 8; // 8 provides a pixel definition for altitude_t, since altitudes are computed from miniTiles which are 8x8 pixels
 
         final List<MutablePair<WalkPosition, Altitude>> deltasByAscendingAltitude
                 = getSortedDeltasByAscendingAltitude(
-                advancedData.getMapData().getWalkSize().getX(),
-                advancedData.getMapData().getWalkSize().getY(),
+                terrainData.getMapData().getWalkSize().getX(),
+                terrainData.getMapData().getWalkSize().getY(),
                 altitudeScale);
 
-        final List<MutablePair<WalkPosition, Altitude>> activeSeaSides = getActiveSeaSideList(advancedData);
+        final List<MutablePair<WalkPosition, Altitude>> activeSeaSides = getActiveSeaSideList(terrainData);
 
-        setHighestAltitude(setAltitudesAndGetUpdatedHighestAltitude(getHighestAltitude(), advancedData, deltasByAscendingAltitude, activeSeaSides, altitudeScale));
+        setHighestAltitude(setAltitudesAndGetUpdatedHighestAltitude(getHighestAltitude(), terrainData, deltasByAscendingAltitude, activeSeaSides, altitudeScale));
     }
 
     /**
@@ -189,13 +189,13 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
      *    It also includes extra border-miniTiles which are considered as seaside miniTiles too.
      */
     @Override
-    public List<MutablePair<WalkPosition, Altitude>> getActiveSeaSideList(final AdvancedData advancedData) {
+    public List<MutablePair<WalkPosition, Altitude>> getActiveSeaSideList(final TerrainData terrainData) {
         final List<MutablePair<WalkPosition, Altitude>> activeSeaSideList = new ArrayList<>();
 
-        for (int y = -1; y <= advancedData.getMapData().getWalkSize().getY(); ++y) {
-            for (int x = -1; x <= advancedData.getMapData().getWalkSize().getX(); ++x) {
+        for (int y = -1; y <= terrainData.getMapData().getWalkSize().getY(); ++y) {
+            for (int x = -1; x <= terrainData.getMapData().getWalkSize().getX(); ++x) {
                 final WalkPosition walkPosition = new WalkPosition(x, y);
-                if (!advancedData.getMapData().isValid(walkPosition) || advancedData.isSeaWithNonSeaNeighbors(walkPosition)) {
+                if (!terrainData.getMapData().isValid(walkPosition) || terrainData.isSeaWithNonSeaNeighbors(walkPosition)) {
                     activeSeaSideList.add(new MutablePair<>(walkPosition, Altitude.ZERO));
                 }
             }
@@ -211,7 +211,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
     @Override
     public Altitude setAltitudesAndGetUpdatedHighestAltitude(
             final Altitude currentHighestAltitude,
-            final AdvancedData advancedData,
+            final TerrainData terrainData,
             final List<MutablePair<WalkPosition, Altitude>> deltasByAscendingAltitude,
             final List<MutablePair<WalkPosition, Altitude>> activeSeaSideList,
             final int altitudeScale
@@ -233,8 +233,8 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                                                    new WalkPosition(d.getY(), d.getX()), new WalkPosition(-d.getY(), d.getX()), new WalkPosition(d.getY(), -d.getX()), new WalkPosition(-d.getY(), -d.getX())};
                     for (final WalkPosition delta : deltas) {
                         final WalkPosition w = current.getLeft().add(delta);
-                        if (advancedData.getMapData().isValid(w)) {
-                            final MiniTile miniTile = ((AdvancedDataInitializer) advancedData).getMiniTile_(w, CheckMode.NO_CHECK);
+                        if (terrainData.getMapData().isValid(w)) {
+                            final MiniTile miniTile = ((TerrainDataInitializer) terrainData).getMiniTile_(w, CheckMode.NO_CHECK);
                             if (((MiniTileImpl) miniTile).isAltitudeMissing()) {
                                 if (updatedHighestAltitude != null && updatedHighestAltitude.intValue() > altitude.intValue()) {
                                     throw new IllegalStateException();
@@ -412,7 +412,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
             final WalkPosition pCandidateW = pCandidate.getSize().toWalkPosition();
             for (int dy = 0; dy < pCandidateW.getY(); ++dy) {
                 for (int dx = 0; dx < pCandidateW.getX(); ++dx) {
-                    final MiniTile miniTile = ((AdvancedDataInitializer) getData()).getMiniTile_(((pCandidate.getTopLeft().toPosition()).toWalkPosition()).add(new WalkPosition(dx, dy)));
+                    final MiniTile miniTile = ((TerrainDataInitializer) getData()).getMiniTile_(((pCandidate.getTopLeft().toPosition()).toWalkPosition()).add(new WalkPosition(dx, dy)));
                     if (miniTile.isWalkable()) {
                         ((MiniTileImpl) miniTile).setBlocked();
                     }
@@ -449,7 +449,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
         for (int y = 0; y < getData().getMapData().getWalkSize().getY(); ++y) {
             for (int x = 0; x < getData().getMapData().getWalkSize().getX(); ++x) {
                 final WalkPosition w = new WalkPosition(x, y);
-                final MiniTile miniTile = ((AdvancedDataInitializer) getData()).getMiniTile_(w, CheckMode.NO_CHECK);
+                final MiniTile miniTile = ((TerrainDataInitializer) getData()).getMiniTile_(w, CheckMode.NO_CHECK);
                 if (((MiniTileImpl) miniTile).isAreaIdMissing()) {
                     miniTilesByDescendingAltitude.add(new MutablePair<>(w, miniTile));
                 }
@@ -520,7 +520,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
 
     @Override
     public void replaceAreaIds(final WalkPosition p, final AreaId newAreaId) {
-        final MiniTile origin = ((AdvancedDataInitializer) getData()).getMiniTile_(p, CheckMode.NO_CHECK);
+        final MiniTile origin = ((TerrainDataInitializer) getData()).getMiniTile_(p, CheckMode.NO_CHECK);
         final AreaId oldAreaId = origin.getAreaId();
         ((MiniTileImpl) origin).replaceAreaId(newAreaId);
 
@@ -533,7 +533,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
             for (final WalkPosition delta : deltas) {
                 final WalkPosition next = current.add(delta);
                 if (getData().getMapData().isValid(next)) {
-                    final MiniTile miniTile = ((AdvancedDataInitializer) getData()).getMiniTile_(next, CheckMode.NO_CHECK);
+                    final MiniTile miniTile = ((TerrainDataInitializer) getData()).getMiniTile_(next, CheckMode.NO_CHECK);
                     if (miniTile.getAreaId().equals(oldAreaId)) {
                         toSearch.add(next);
                         ((MiniTileImpl) miniTile).replaceAreaId(newAreaId);
@@ -599,7 +599,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
                 }
             }
 
-        ((TileImpl) ((AdvancedDataInitializer) getData()).getTile_(t)).setLowestAltitude(lowestAltitude);
+        ((TileImpl) ((TerrainDataInitializer) getData()).getTile_(t)).setLowestAltitude(lowestAltitude);
     }
 
     // Renamed from "MapImpl::SetAreaIdInTiles"
