@@ -1,9 +1,5 @@
 group 'org.openbw.bwapi4j'
-version ''
-
-apply plugin: 'java'
-apply plugin: 'application'
-apply plugin: 'com.github.johnrengelman.shadow'
+version '0.8'
 
 mainClassName = 'org.openbw.bwapi4j.BW'
 
@@ -14,9 +10,13 @@ buildscript {
     }
   }
   dependencies {
-    classpath "com.github.jengelman.gradle.plugins:shadow:2.0.2"
+    classpath "com.github.jengelman.gradle.plugins:shadow:2.0.3"
   }
 }
+
+apply plugin: 'java'
+apply plugin: 'java-library'
+apply plugin: 'com.github.johnrengelman.shadow'
 
 repositories {
     mavenCentral()
@@ -42,8 +42,9 @@ jar {
 }
 
 shadowJar {
-    relocate 'org.apache.commons', 'bwapi4j.org.apache.commons'
-	classifier = null
+//    relocate 'org.apache.commons', 'bwapi4j.org.apache.commons'
+    classifier = null
+    from '../BWAPI4JBridge/BWAPI4JBridge/Release'
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
@@ -64,7 +65,15 @@ artifacts {
 task generateJniHeaders(type:Exec) {
     def classpath = sourceSets.main.output.classesDir
     def nativeIncludes = "src/native/include"
-    commandLine "javah", "-jni", "-verbose", "-d", nativeIncludes, "-classpath", classpath, "$mainClassName", "bwta.BWTA", "bwta.Polygon", "bwta.BaseLocation", "org.openbw.bwapi4j.BWMapImpl", "org.openbw.bwapi4j.InteractionHandler", "org.openbw.bwapi4j.MapDrawer", "org.openbw.bwapi4j.DamageEvaluator", "org.openbw.bwapi4j.unit.Unit"
+    commandLine "javah", "-jni", "-verbose", "-d", nativeIncludes, "-classpath", classpath, "$mainClassName",
+            "bwta.BWTA",
+            "bwta.Polygon",
+            "bwta.BaseLocation",
+            "org.openbw.bwapi4j.BWMapImpl",
+            "org.openbw.bwapi4j.InteractionHandler",
+            "org.openbw.bwapi4j.MapDrawer",
+            "org.openbw.bwapi4j.DamageEvaluator",
+            "org.openbw.bwapi4j.unit.Unit"
 
     dependsOn classes
 }
