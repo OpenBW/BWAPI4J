@@ -44,7 +44,10 @@ jar {
 shadowJar {
 //    relocate 'org.apache.commons', 'bwapi4j.org.apache.commons'
     classifier = null
-    from '../BWAPI4JBridge/BWAPI4JBridge/Release'
+    from ('../BWAPI4JBridge/BWAPI4JBridge/Release') {
+        include '*.dll'
+        include '*.so'
+    }
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
@@ -65,7 +68,8 @@ artifacts {
 task generateJniHeaders(type:Exec) {
     def classpath = sourceSets.main.output.classesDir
     def nativeIncludes = "src/native/include"
-    commandLine "javah", "-jni", "-verbose", "-d", nativeIncludes, "-classpath", classpath, "$mainClassName",
+    commandLine "javah", "-jni", "-verbose", "-d", nativeIncludes, "-classpath", classpath,
+            "$mainClassName",
             "bwta.BWTA",
             "bwta.Polygon",
             "bwta.BaseLocation",
