@@ -107,7 +107,7 @@ From the root **BWAPI4J/** directory, copy and paste the following into a termin
 cd BWAPI4JBridge/BWAPI4JBridge/ && \
     mkdir build/ && \
     cd build/ && \
-    cmake .. -DOPENBW=1 -OPENBW_ENABLE_UI=1
+    cmake .. -DOPENBW=1 -DOPENBW_ENABLE_UI=1
 ````
 The above commands will generate the following Visual Studio project files on Windows:
 ````
