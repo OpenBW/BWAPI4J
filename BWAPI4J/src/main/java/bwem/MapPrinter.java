@@ -196,7 +196,7 @@ public class MapPrinter {
     }
 
     public void writeImageToFile(Path file, String imageFormat) throws IOException {
-        ImageIO.write (image, imageFormat, file.toFile());
+        ImageIO.write(image, imageFormat, file.toFile());
     }
 
 }

@@ -107,7 +107,13 @@ public class MapPrinterExample {
         }
     }
 
-    public void printMap(Map theMap) {
+    /**
+     * Draws the specified map data to the internal map printer and generates an image file.
+     *
+     * @param theMap the specified BWEM map data to print
+     * @param filename the specified file without a file extension
+     */
+    public void printMap(Map theMap, String filename) {
         java.util.Map<Integer, Color> mapZoneColor = new HashMap<>();
 
         for (int y = 0; y < theMap.getData().getMapData().getWalkSize().getY(); ++y)
@@ -229,14 +235,20 @@ public class MapPrinterExample {
                 }
         }
 
+        //TODO: Handle exception.
         try {
-            mapPrinter.writeImageToFile(Paths.get("map.png"), "png");
+            mapPrinter.writeImageToFile(Paths.get(filename + ".png"), "png");
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
-
-    public void pathExample(Map theMap) {
+    /**
+     * Draws a path example to the internal map printer and generates an image file.
+     *
+     * @param theMap the specified BWEM map data to print
+     * @param filename the specified file without a file extension
+     */
+    public void pathExample(Map theMap, String filename) {
     	if (theMap.getData().getMapData().getStartingLocations().size() < 2) return;
 
     	Color col = new Color(255, 255, 255);
@@ -292,7 +304,7 @@ public class MapPrinterExample {
 
         //TODO: Handle exception.
         try {
-            mapPrinter.writeImageToFile(Paths.get("map.png"), "png");
+            mapPrinter.writeImageToFile(Paths.get(filename + ".png"), "png");
         } catch (IOException ex) {
             ex.printStackTrace();
         }

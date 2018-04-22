@@ -82,8 +82,8 @@ public class TestListenerBwem implements BWEventListener {
             // BWEM's map printer example. Generates a "map.bmp" image file.
             bwem.getMap().getMapPrinter().initialize(bw, bwem.getMap());
             final MapPrinterExample example = new MapPrinterExample(bwem.getMap().getMapPrinter());
-            example.printMap(bwem.getMap());
-            example.pathExample(bwem.getMap());
+            example.printMap(bwem.getMap(), "bwem_example");
+            example.pathExample(bwem.getMap(), "bwem_example");
 
             /* Print player info to console. */ {
                 final StringBuilder sb = new StringBuilder("Players: ").append(System.lineSeparator());
