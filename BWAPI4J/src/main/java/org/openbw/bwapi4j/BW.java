@@ -54,8 +54,24 @@ public class BW {
     private static final String SYSTEM_PROPERTY_JAVA_LIBRARY_PATH_ID = "java.library.path";
 
     public enum BridgeType {
-        VANILLA,
-        OPEN_BW
+
+        VANILLA("BWAPI4JBridge"),
+        OPEN_BW("OpenBWAPI4JBridge");
+
+        private final String name;
+
+        private BridgeType(final String name) {
+            this.name = name;
+        }
+
+        public String getLibraryName() {
+            return this.name;
+        }
+
+        public String getPlatformLibraryFilename() {
+            return resolvePlatformLibraryFilename(this.name);
+        }
+
     }
 
     private BWEventListener listener;
@@ -74,11 +90,10 @@ public class BW {
     private boolean onStartInitializationDone;
 
     /**
-     * The default {@code BridgeType} is
+     * The default value for {@code BridgeType} is
      * {@link BridgeType#VANILLA} on Windows and
      * {@link BridgeType#OPEN_BW} on Linux.
-     *
-     * @see #BW(BWEventListener, BridgeType)
+     * @see #BW(BWEventListener, BridgeType, boolean)
      */
     public BW(final BWEventListener listener) {
 
@@ -86,13 +101,25 @@ public class BW {
     }
 
     /**
-     * Creates a BW instance required to start a game.
-     * @param listener listener to inform of various game events
-     * @param bridgeType bridge for Vanilla BW or OpenBW
+     * The default value for {@code boolean extractBridgeDependencies} is {@code true}.
+     * @see #BW(BWEventListener, BridgeType, boolean)
      */
     public BW(final BWEventListener listener, final BridgeType bridgeType) {
 
-        extractBridgeDependencies(bridgeType);
+        this(listener, bridgeType, true);
+    }
+
+    /**
+     * Creates a BW instance required to start a game.
+     * @param listener listener to inform of various game events
+     * @param bridgeType bridge for Vanilla BW or OpenBW
+     * @param extractBridgeDependencies whether to auto-extract the bridge dependencies from the running JAR file
+     */
+    public BW(final BWEventListener listener, final BridgeType bridgeType, final boolean extractBridgeDependencies) {
+
+        if (extractBridgeDependencies) {
+            extractBridgeDependencies(bridgeType);
+        }
 
         loadSharedLibraries(bridgeType);
     	
@@ -127,16 +154,10 @@ public class BW {
 
                 final ZipFile jar = new ZipFile(jarFile.toFile());
 
-                final String bridgeLibraryFilename = bridgeType == BridgeType.OPEN_BW
-                        ? resolvePlatformLibraryFilename("OpenBWAPI4JBridge")
-                        : resolvePlatformLibraryFilename("BWAPI4JBridge");
-                jar.extractFile(bridgeLibraryFilename, cwd.toString());
+                jar.extractFile(bridgeType.getPlatformLibraryFilename(), cwd.toString());
 
-                if (isWindowsPlatform()) {
-                    jar.extractFile(resolvePlatformLibraryFilename("libmpfr-4"), cwd.toString());
-                    jar.extractFile(resolvePlatformLibraryFilename("libgmp-10"), cwd.toString());
-                } else {
-                    jar.extractFile(resolvePlatformLibraryFilename("BWTA2"), cwd.toString());
+                for (final String externalLibrary : getExternalLibraryNames()) {
+                    jar.extractFile(resolvePlatformLibraryFilename(externalLibrary), cwd.toString());
                 }
             }
         } catch (final Exception e) {
@@ -160,18 +181,13 @@ public class BW {
 
         logger.debug("bridge type: " + bridgeType.toString());
 
-    	final String bridgeName = (bridgeType == BridgeType.OPEN_BW) ? "OpenBWAPI4JBridge" : "BWAPI4JBridge";
-
-    	final List<String> sharedLibraries = new ArrayList<>();
-    	sharedLibraries.add(bridgeName);
-    	sharedLibraries.addAll(getExternalLibraryNames());
-
         /* this is pretty hacky but required for now to run BWAPI4J on both Windows and Linux without modifying the source.
          *
          * Possible future solutions:
          *  - name BWAPI4JBridge and OpenBWAPI4JBridge the same. This way linux loads <name>.so and windows loads <name>.dll
          *  - build a single bwta.dll rather than libgmp-10 and libmpfr-4 and load bwta.so accordingly on linux.
          */
+        final List<String> sharedLibraries = getSharedLibraryNames(bridgeType);
         try {
             loadLibraries(sharedLibraries);
         } catch (final UnsatisfiedLinkError e1) {
@@ -195,12 +211,23 @@ public class BW {
         }
     }
 
+    private List<String> getSharedLibraryNames(final BridgeType bridgeType) {
+        final List<String> libraries = new ArrayList<>();
+
+        libraries.add(bridgeType.getLibraryName());
+        libraries.addAll(getExternalLibraryNames());
+
+        return libraries;
+    }
+
     private List<String> getExternalLibraryNames() {
         final List<String> libNames = new ArrayList<>();
 
         if (isWindowsPlatform()) {
             libNames.add("libgmp-10");
             libNames.add("libmpfr-4");
+        } else {
+            libNames.add("BWTA2");
         }
 
         return libNames;
