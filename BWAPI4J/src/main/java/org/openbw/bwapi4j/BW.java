@@ -20,17 +20,7 @@
 
 package org.openbw.bwapi4j;
 
-import java.io.File;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.charset.UnsupportedCharsetException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
-
+import net.lingala.zip4j.core.ZipFile;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.type.UnitType;
@@ -41,12 +31,32 @@ import org.openbw.bwapi4j.unit.UnitFactory;
 import org.openbw.bwapi4j.unit.VespeneGeyser;
 import org.openbw.bwapi4j.unit.Worker;
 
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.charset.UnsupportedCharsetException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
+
 public class BW {
 
     private static final Logger logger = LogManager.getLogger();
 
-    public static int TILE_SIZE = TilePosition.SIZE_IN_PIXELS;
-    public static int WALK_SIZE = WalkPosition.SIZE_IN_PIXELS;
+    private static final String SYSTEM_PROPERTY_JAVA_LIBRARY_PATH_ID = "java.library.path";
+
+    public enum BridgeType {
+        VANILLA,
+        OPEN_BW
+    }
 
     private BWEventListener listener;
     private InteractionHandler interactionHandler;
@@ -62,14 +72,29 @@ public class BW {
     private Charset charset;
 
     private boolean onStartInitializationDone;
-    
+
+    /**
+     * The default {@code BridgeType} is
+     * {@link BridgeType#VANILLA} on Windows and
+     * {@link BridgeType#OPEN_BW} on Linux.
+     *
+     * @see #BW(BWEventListener, BridgeType)
+     */
+    public BW(final BWEventListener listener) {
+
+        this(listener, isWindowsPlatform() ? BridgeType.VANILLA : BridgeType.OPEN_BW);
+    }
+
     /**
      * Creates a BW instance required to start a game.
      * @param listener listener to inform of various game events
+     * @param bridgeType bridge for Vanilla BW or OpenBW
      */
-    public BW(BWEventListener listener) {
+    public BW(final BWEventListener listener, final BridgeType bridgeType) {
 
-    	loadDLL();
+        extractBridgeDependencies(bridgeType);
+
+        loadSharedLibraries(bridgeType);
     	
         this.players = new HashMap<>();
         this.units = new ConcurrentHashMap<>();
@@ -82,52 +107,65 @@ public class BW {
         setUnitFactory(new UnitFactory());
         
         try {
-            charset = Charset.forName("Cp949"); // Korean char set
+            this.charset = Charset.forName("Cp949"); // Korean char set
         } catch (UnsupportedCharsetException e) {
             logger.warn("Korean character set not available. Some characters may not be read properly.");
-            charset = StandardCharsets.ISO_8859_1;
+            this.charset = StandardCharsets.ISO_8859_1;
         }
     }
 
-    private void loadDLL() {
+    private void extractBridgeDependencies(final BridgeType bridgeType) {
+
+        try {
+
+            final URL jarURL = BW.class.getProtectionDomain().getCodeSource().getLocation();
+            final Path jarFile = Paths.get(jarURL.toURI());
+            final Path cwd = getCurrentWorkingDirectory();
+
+            if (Files.isRegularFile(jarFile) && !Files.isDirectory(jarFile) && jarFile.toString().endsWith(".jar")) {
+                logger.debug("Extracting dependencies from: " + jarFile.toString());
+
+                final ZipFile jar = new ZipFile(jarFile.toFile());
+
+                final String bridgeLibraryFilename = bridgeType == BridgeType.OPEN_BW
+                        ? resolvePlatformLibraryFilename("OpenBWAPI4JBridge")
+                        : resolvePlatformLibraryFilename("BWAPI4JBridge");
+                jar.extractFile(bridgeLibraryFilename, cwd.toString());
+
+                if (isWindowsPlatform()) {
+                    jar.extractFile(resolvePlatformLibraryFilename("libmpfr-4"), cwd.toString());
+                    jar.extractFile(resolvePlatformLibraryFilename("libgmp-10"), cwd.toString());
+                } else {
+                    jar.extractFile(resolvePlatformLibraryFilename("BWTA2"), cwd.toString());
+                }
+            }
+        } catch (final Exception e) {
+
+            logger.fatal("Failed to extract dependencies from JAR.");
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+
+    private void loadSharedLibraries(final BridgeType bridgeType) {
     	
-    	logger.info("jvm: {} ({}bit).", System.getProperty("java.version"), System.getProperty("sun.arch.data.model") );
+    	logger.info("jvm: {} ({}-bit)", System.getProperty("java.version"), System.getProperty("sun.arch.data.model"));
         logger.info("os: {}", System.getProperty("os.name"));
 
+        logger.debug("cwd: {}", getCurrentWorkingDirectory().toString());
     	logger.debug("user directory: {}", System.getProperty("user.dir"));
         logger.debug("bot directory: {}", BW.class.getProtectionDomain().getCodeSource().getLocation().getPath());
 
-    	String libraryPathProperty = System.getProperty("java.library.path");
+    	logger.debug("library path: " + getJavaLibraryPathProperty());
 
-        boolean dllExists = new File(libraryPathProperty + "\\BWAPI4JBridge.dll").exists();
-        boolean soExists = new File(libraryPathProperty + "/libOpenBWAPI4JBridge.so").exists();
-        
-        logger.debug("DLL exists: {}", dllExists);
-        logger.debug("SO exists: {}", soExists);
-        
-        if (!(dllExists || soExists)) {
-        	
-        	logger.info("Could not find libraries on path {}", System.getProperty("java.library.path"));
+        logger.debug("bridge type: " + bridgeType.toString());
 
-        	try {
-				
-				java.lang.reflect.Field fieldSysPath = ClassLoader.class.getDeclaredField("sys_paths");
-				fieldSysPath.setAccessible(true);
-	            fieldSysPath.set(null, null);
-	            
-	            String path = BW.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-                String decodedPath = java.net.URLDecoder.decode(path, "UTF-8");
-                File file = new File(decodedPath);
-                
-                System.setProperty("java.library.path", file.getParent());
-                logger.info("Changed library path to {}", System.getProperty("java.library.path"));
-			} catch (Exception e) {
-				logger.error("Could not modify library path.", e);
-				e.printStackTrace();
-			}
-        }
-        
-        
+    	final String bridgeName = (bridgeType == BridgeType.OPEN_BW) ? "OpenBWAPI4JBridge" : "BWAPI4JBridge";
+
+    	final List<String> sharedLibraries = new ArrayList<>();
+    	sharedLibraries.add(bridgeName);
+    	sharedLibraries.addAll(getExternalLibraryNames());
+
         /* this is pretty hacky but required for now to run BWAPI4J on both Windows and Linux without modifying the source.
          *
          * Possible future solutions:
@@ -135,34 +173,138 @@ public class BW {
          *  - build a single bwta.dll rather than libgmp-10 and libmpfr-4 and load bwta.so accordingly on linux.
          */
         try {
-	        if (System.getProperty("os.name").contains("Windows")) {
-		        System.loadLibrary("libgmp-10");
-		        System.loadLibrary("libmpfr-4");
-		        System.loadLibrary("BWAPI4JBridge");
-		        logger.debug("DLLs successfully loaded.");
-	        } else {
-	        	System.loadLibrary("OpenBWAPI4JBridge");
-                logger.debug("SO successfully loaded.");
-	        }
-        } catch (UnsatisfiedLinkError e) {
-        	logger.fatal("Could not load libraries.", e);
-        	e.printStackTrace();
-        	System.exit(1);
+            loadLibraries(sharedLibraries);
+        } catch (final UnsatisfiedLinkError e1) {
+            setJavaLibraryPathProperty(getCurrentWorkingDirectory());
+
+            try {
+                loadLibraries(sharedLibraries);
+            } catch (final UnsatisfiedLinkError e2) {
+                logger.fatal("Could not load shared libraries.", e2);
+                e2.printStackTrace();
+                System.exit(1);
+            }
         }
+
+        logger.info("Successfully loaded shared libraries.");
+    }
+
+    private void loadLibraries(final List<String> libraries) {
+        for (final String library : libraries) {
+            System.loadLibrary(library);
+        }
+    }
+
+    private List<String> getExternalLibraryNames() {
+        final List<String> libNames = new ArrayList<>();
+
+        if (isWindowsPlatform()) {
+            libNames.add("libgmp-10");
+            libNames.add("libmpfr-4");
+        }
+
+        return libNames;
+    }
+
+    private static boolean isWindowsPlatform() {
+
+        return System.getProperty("os.name").contains("Windows");
+    }
+
+    private Path getCurrentWorkingDirectory() {
+
+        return Paths.get("").toAbsolutePath();
+    }
+
+    private String getJavaLibraryPathProperty() {
+
+        return System.getProperty(SYSTEM_PROPERTY_JAVA_LIBRARY_PATH_ID);
+    }
+
+    private void setJavaLibraryPathProperty(final Path path) {
+        try {
+
+//            java.lang.reflect.Field fieldSysPath = ClassLoader.class.getDeclaredField("sys_paths");
+//            fieldSysPath.setAccessible(true);
+//            fieldSysPath.set(null, null);
+
+//            final String path = BW.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+//            final String decodedPath = java.net.URLDecoder.decode(path, "UTF-8");
+//            final File file = new File(decodedPath);
+//
+//            System.setProperty("java.library.path", file.getParent());
+//            logger.info("Changed library path to {}", System.getProperty("java.library.path"));
+
+            System.setProperty(SYSTEM_PROPERTY_JAVA_LIBRARY_PATH_ID, path.toString());
+
+            logger.info("Changed library path to {}", getJavaLibraryPathProperty());
+        } catch (Exception e) {
+
+            logger.error("Could not modify library path.", e);
+            e.printStackTrace();
+        }
+    }
+
+    private static String resolvePlatformLibraryFilename(String libraryName) {
+
+        if (isWindowsPlatform()) {
+            if (!libraryName.toLowerCase(Locale.US).endsWith(".dll")) {
+                libraryName += ".dll";
+            }
+        } else {
+            if (!libraryName.startsWith("lib")) {
+                libraryName = "lib" + libraryName;
+            }
+
+            if (!libraryName.toLowerCase(Locale.US).endsWith(".so")) {
+                libraryName += ".so";
+            }
+        }
+
+        return libraryName;
+    }
+
+    private static boolean isFileFoundInPathVariable(final String pathVariable, final String file) {
+
+        final String delim = isWindowsPlatform() ? ";" : ":";
+
+        final String[] paths = pathVariable.split(delim);
+
+        for (final String directory : paths) {
+            final Path targetDirectory;
+            try {
+                targetDirectory = Paths.get(directory);
+            } catch (final Exception e) {
+                continue;
+            }
+
+            final Path targetFile;
+            try {
+                targetFile = Paths.get(targetDirectory.toString(), file);
+            } catch (final Exception e) {
+                continue;
+            }
+
+            if (Files.isRegularFile(targetFile)) {
+                return true;
+            }
+        }
+
+        return false;
     }
     
     public void startGame() {
 
     	this.onStartInitializationDone = false;
-    	BW myBw = this;
-    	Thread thread = new Thread(() -> startGame(myBw));
+    	final BW myBw = this;
+    	final Thread thread = new Thread(() -> startGame(myBw));
 
     	thread.start();
     	logger.trace("calling native mainThread...");
         mainThread();
         try {
 			thread.join();
-		} catch (InterruptedException e) {
+		} catch (final InterruptedException e) {
 			logger.error("error joining thread.", e);
 			e.printStackTrace();
 		}
