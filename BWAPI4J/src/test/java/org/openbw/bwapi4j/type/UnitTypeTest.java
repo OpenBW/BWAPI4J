@@ -1,6 +1,7 @@
 package org.openbw.bwapi4j.type;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.BWEventListener;
@@ -217,6 +218,7 @@ public class UnitTypeTest implements BWEventListener {
         throw new UnsupportedOperationException();
     }
 
+    @Ignore
     @Test
     public void unitTypeTest() {
         this.bw = new BW(this);
