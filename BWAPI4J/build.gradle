@@ -51,6 +51,15 @@ shadowJar {
     }
 }
 
+allprojects {
+    // This is a temporary fix for ignoring incorrect javadocs formatting.
+    // The javadoc formatting should probably be fixed properly.
+    // For now, we'll disable the strict formatting enforcement flag (doclint).
+    tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+    }
+}
+
 task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
     from sourceSets.main.allSource

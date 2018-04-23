@@ -32,8 +32,8 @@ import java.util.List;
 public interface Base {
 
     /**
-     * Tests whether this base is a start location.<br/>
-     * - Note: all players start at locations taken from {@link MapData#getStartingLocations()},<br/>
+     * Tests whether this base is a start location.<br>
+     * - Note: all players start at locations taken from {@link MapData#getStartingLocations()},<br>
      * which doesn't mean all the locations in {@link MapData#getStartingLocations()} are actually used.
      */
     boolean isStartingLocation();
@@ -44,7 +44,7 @@ public interface Base {
     Area getArea();
 
     /**
-     * Returns the position (top-left TilePosition) of the location for a resource depot.<br/>
+     * Returns the position (top-left TilePosition) of the location for a resource depot.<br>
      * - Note: If {@link #isStartingLocation()} == true, it is guaranteed that the location corresponds exactly to one of {@link MapData#getStartingLocations()}.
      */
     TilePosition getLocation();
@@ -55,28 +55,28 @@ public interface Base {
     Position getCenter();
 
     /**
-     * Returns the available minerals.<br/>
-     * - These minerals are assigned to this base (it is guaranteed that no other base provides them).<br/>
+     * Returns the available minerals.<br>
+     * - These minerals are assigned to this base (it is guaranteed that no other base provides them).<br>
      * - Note: The size of the returned list may decrease, as some of the minerals may get destroyed.
      */
     List<Mineral> getMinerals();
 
     /**
-     * Returns the available geysers.<br/>
-     * - These geysers are assigned to this Base (it is guaranteed that no other Base provides them).<br/>
+     * Returns the available geysers.<br>
+     * - These geysers are assigned to this Base (it is guaranteed that no other Base provides them).<br>
      * - Note: The size of the returned list will NOT decrease, as geysers never get destroyed.
      */
     List<Geyser> getGeysers();
 
     /**
-     * Returns the blocking minerals.<br/>
-     * - These are special minerals. They are placed at or near the resource depot location,<br/>
-     * thus blocking the building of a resource depot from being close to the resources.<br/>
-     * - So, before trying to build a resource depot, these minerals must be gathered first.<br/>
-     * - Fortunately, these are guaranteed to have their initialAmount() <= 8.<br/>
-     * - As an example of blocking minerals, see the two islands in Andromeda.scx.<br/>
-     * - Note: if {@link #isStartingLocation()} == true, an empty list is returned.<br/>
-     * - Note: {@link #getBlockingMinerals()} should not be confused with {@link ChokePoint#getBlockingNeutral()} and {@link Neutral#isBlocking()}:<br/>
+     * Returns the blocking minerals.<br>
+     * - These are special minerals. They are placed at or near the resource depot location,<br>
+     * thus blocking the building of a resource depot from being close to the resources.<br>
+     * - So, before trying to build a resource depot, these minerals must be gathered first.<br>
+     * - Fortunately, these are guaranteed to have their initialAmount() <= 8.<br>
+     * - As an example of blocking minerals, see the two islands in Andromeda.scx.<br>
+     * - Note: if {@link #isStartingLocation()} == true, an empty list is returned.<br>
+     * - Note: {@link #getBlockingMinerals()} should not be confused with {@link ChokePoint#getBlockingNeutral()} and {@link Neutral#isBlocking()}:<br>
      * The last two refer to a Neutral blocking a ChokePoint, not a Base.
      */
     List<Mineral> getBlockingMinerals();

@@ -21,20 +21,20 @@ import org.openbw.bwapi4j.util.Pair;
 import java.util.List;
 
 /**
- * ChokePoints are frontiers that BWEM automatically computes from Brood War's maps.<br/>
- * A ChokePoint represents (part of) the frontier between exactly 2 Areas. It has a form of line.<br/>
+ * ChokePoints are frontiers that BWEM automatically computes from Brood War's maps.<br>
+ * A ChokePoint represents (part of) the frontier between exactly 2 Areas. It has a form of line.<br>
  * A ChokePoint doesn't contain any MiniTile: All the MiniTiles whose positions are returned by its Geometry()
- * are just guaranteed to be part of one of the 2 Areas.<br/>
- * Among the MiniTiles of its Geometry, 3 particular ones called nodes can also be accessed using Pos(middle), Pos(end1) and Pos(end2).<br/>
- * ChokePoints play an important role in BWEM:<br/>
- * - they define accessibility between Areas.<br/>
- * - the Paths provided by Map::GetPath are made of ChokePoints.<br/>
- * Like Areas and Bases, the number and the addresses of ChokePoint instances remain unchanged.<br/>
- * <br/>
- * Pseudo ChokePoints:<br/>
- * Some Neutrals can be detected as blocking Neutrals (Cf. Neutral::Blocking).<br/>
+ * are just guaranteed to be part of one of the 2 Areas.<br>
+ * Among the MiniTiles of its Geometry, 3 particular ones called nodes can also be accessed using Pos(middle), Pos(end1) and Pos(end2).<br>
+ * ChokePoints play an important role in BWEM:<br>
+ * - they define accessibility between Areas.<br>
+ * - the Paths provided by Map::GetPath are made of ChokePoints.<br>
+ * Like Areas and Bases, the number and the addresses of ChokePoint instances remain unchanged.<br>
+ * <br>
+ * Pseudo ChokePoints:<br>
+ * Some Neutrals can be detected as blocking Neutrals (Cf. Neutral::Blocking).<br>
  * Because only ChokePoints can serve as frontiers between Areas, BWEM automatically creates a ChokePoint
- * for each blocking Neutral (only one in the case of stacked blocking Neutral).<br/>
+ * for each blocking Neutral (only one in the case of stacked blocking Neutral).<br>
  * Such ChokePoints are called pseudo ChokePoints and they behave differently in several ways.
  */
 public interface ChokePoint {
@@ -67,7 +67,7 @@ public interface ChokePoint {
     WalkPosition getCenter();
 
     /**
-     * Returns the position of one of the 3 nodes of this ChokePoint (Cf. node definition).<br/>
+     * Returns the position of one of the 3 nodes of this ChokePoint (Cf. node definition).<br>
      * - Note: the returned value is contained in geometry()
      */
     WalkPosition getNodePosition(final Node node);
@@ -79,9 +79,9 @@ public interface ChokePoint {
     WalkPosition getNodePositionInArea(final Node node, final Area area);
 
     /**
-     * Returns the set of positions that defines the shape of this ChokePoint.<br/>
+     * Returns the set of positions that defines the shape of this ChokePoint.<br>
      * - Note: none of these miniTiles actually belongs to this ChokePoint (a ChokePoint doesn't contain any MiniTile).
-     * They are however guaranteed to be part of one of the 2 areas.<br/>
+     * They are however guaranteed to be part of one of the 2 areas.<br>
      * - Note: the returned set contains pos(middle), pos(END_1) and pos(END_2).
      * If isPseudo(), returns {p} where p is the position of a walkable MiniTile near from blockingNeutral()->pos().
      */
@@ -110,29 +110,29 @@ public interface ChokePoint {
     /**
      * If accessibleFrom(cp) == false, returns -1.
      * Otherwise, returns the ground distance in pixels between center() and cp->center().
-     * - Note: if this == cp, returns 0.<br/>
-     * - Time complexity: O(1)<br/>
+     * - Note: if this == cp, returns 0.<br>
+     * - Time complexity: O(1)<br>
      * - Note: Corresponds to the length in pixels of getPathTo(cp). So it suffers from the same lack of accuracy.
      * In particular, the value returned tends to be slightly higher than expected when getPathTo(cp).size() is high.
      */
     int distanceFrom(final ChokePoint chokePoint);
 
     /**
-     * Returns whether this ChokePoint is accessible from cp (through a walkable path).<br/>
-     * - Note: the relation is symmetric: this->accessibleFrom(cp) == cp->accessibleFrom(this)<br/>
-     * - Note: if this == cp, returns true.<br/>
-     * - Time complexity: O(1)<br/>
+     * Returns whether this ChokePoint is accessible from cp (through a walkable path).<br>
+     * - Note: the relation is symmetric: this->accessibleFrom(cp) == cp->accessibleFrom(this)<br>
+     * - Note: if this == cp, returns true.<br>
+     * - Time complexity: O(1)<br>
      */
     boolean accessibleFrom(final ChokePoint chokePoint);
 
     /**
      * Returns a list of getChokePoints, which is intended to be the shortest walking path from this ChokePoint to cp.
      * The path always starts with this ChokePoint and ends with cp, unless accessibleFrom(cp) == false.
-     * In this case, an empty list is returned.<br/>
-     * - Note: if this == cp, returns [cp].<br/>
-     * Time complexity: O(1)<br/>
-     * To get the length of the path returned in pixels, use distanceFrom(cp).<br/>
-     * - Note: all the possible Paths are precomputed during Map::initialize().<br/>
+     * In this case, an empty list is returned.<br>
+     * - Note: if this == cp, returns [cp].<br>
+     * Time complexity: O(1)<br>
+     * To get the length of the path returned in pixels, use distanceFrom(cp).<br>
+     * - Note: all the possible Paths are precomputed during Map::initialize().<br>
      * The best one is then stored for each pair of getChokePoints.
      * However, only the center of the getChokePoints is considered.
      * As a consequence, the returned path may not be the shortest one.

@@ -23,9 +23,9 @@ package org.openbw.bwapi4j.unit;
 import org.openbw.bwapi4j.type.UnitType;
 
 /**
- * VespeneGeyser is not Gatherable, it needs a {@link GasMiningFacility)
+ * VespeneGeyser is not Gatherable, it needs a {@link GasMiningFacility}.
  */
-public class VespeneGeyser extends Unit implements Resource  {
+public class VespeneGeyser extends Unit implements Resource {
 
     private int initialResources;
     private int resources;
