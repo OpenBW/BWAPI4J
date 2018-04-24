@@ -41,27 +41,31 @@ public final class InteractionHandler {
     public static int LAST_ERROR_INDEX                  = 0;
     public static int SCREEN_POSITION_X_INDEX           = 1;
     public static int SCREEN_POSITION_Y_INDEX           = 2;
-    public static int MOUSE_POSITION_X_INDEX            = 3;
-    public static int MOUSE_POSITION_Y_INDEX            = 4;
-    public static int FRAMECOUNT_INDEX                  = 5;
-    public static int FPS_INDEX                         = 6;
-    public static int LATCOM_ENABLED_INDEX              = 7;
-    public static int REMAINING_LATENCY_FRAMES_INDEX    = 8;
-    public static int LATENCY_FRAMES_INDEX              = 9;
-    public static int LATENCY_INDEX                     = 10;
-    public static int GAME_TYPE_ID_INDEX                = 11;
-    public static int IS_REPLAY_INDEX                   = 12;
-    public static int IS_PAUSED_INDEX                   = 13;
-    public static int SELF_ID_INDEX                     = 14;
-    public static int ENEMY_ID_INDEX                    = 15;
+    public static int SCREEN_SIZE_X_INDEX               = 3;
+    public static int SCREEN_SIZE_Y_INDEX               = 4;
+    public static int MOUSE_POSITION_X_INDEX            = 5;
+    public static int MOUSE_POSITION_Y_INDEX            = 6;
+    public static int FRAMECOUNT_INDEX                  = 7;
+    public static int FPS_INDEX                         = 8;
+    public static int LATCOM_ENABLED_INDEX              = 9;
+    public static int REMAINING_LATENCY_FRAMES_INDEX    = 10;
+    public static int LATENCY_FRAMES_INDEX              = 11;
+    public static int LATENCY_INDEX                     = 12;
+    public static int GAME_TYPE_ID_INDEX                = 13;
+    public static int IS_REPLAY_INDEX                   = 14;
+    public static int IS_PAUSED_INDEX                   = 15;
+    public static int SELF_ID_INDEX                     = 16;
+    public static int ENEMY_ID_INDEX                    = 17;
 
-    public static int TOTAL_PROPERTIES                  = 16;
+    public static int TOTAL_PROPERTIES                  = 18;
 
     private BW bw;
 
     private BwError lastError;
     private int screenPositionX;
     private int screenPositionY;
+    private int screenSizeX;
+    private int screenSizeY;
     private int mousePositionX;
     private int mousePositionY;
     private int frameCount;
@@ -86,6 +90,8 @@ public final class InteractionHandler {
         this.lastError = BwError.values()[data[LAST_ERROR_INDEX]];
         this.screenPositionX = data[SCREEN_POSITION_X_INDEX];
         this.screenPositionY = data[SCREEN_POSITION_Y_INDEX];
+        this.screenSizeX = data[SCREEN_SIZE_X_INDEX];
+        this.screenSizeY = data[SCREEN_SIZE_Y_INDEX];
         this.mousePositionX = data[MOUSE_POSITION_X_INDEX];
         this.mousePositionY = data[MOUSE_POSITION_Y_INDEX];
         this.frameCount = data[FRAMECOUNT_INDEX];
@@ -148,6 +154,11 @@ public final class InteractionHandler {
     public Position getScreenPosition() {
     	
         return new Position(screenPositionX, screenPositionY);
+    }
+
+    public Position getScreenSize() {
+
+        return new Position(screenSizeX, screenSizeY);
     }
 
     public Position getMousePosition() {

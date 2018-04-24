@@ -836,6 +836,8 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getGameData(JNIEnv *env, 
 	intBuf[index++] = Broodwar->getLastError();
 	intBuf[index++] = Broodwar->getScreenPosition().x;
 	intBuf[index++] = Broodwar->getScreenPosition().y;
+        intBuf[index++] = Broodwar->getScreenSize().x;
+        intBuf[index++] = Broodwar->getScreenSize().y;
 	intBuf[index++] = Broodwar->getMousePosition().x;
 	intBuf[index++] = Broodwar->getMousePosition().y;
 	intBuf[index++] = Broodwar->getFrameCount();
