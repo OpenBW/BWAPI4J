@@ -1,8 +1,10 @@
 cmake_minimum_required(VERSION 3.1)
-project(BWAPI4JBridge)
+project(OpenBWAPI4JBridge)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(OPENBW)
 
 if (MSVC)
     add_definitions(-D_CRT_SECURE_NO_WARNINGS -DNOMINMAX -DWIN32 -D_WINDOWS -D_USRDLL)
