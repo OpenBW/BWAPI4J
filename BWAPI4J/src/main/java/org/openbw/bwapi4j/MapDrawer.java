@@ -27,6 +27,14 @@ import org.openbw.bwapi4j.type.Color;
  */
 public final class MapDrawer {
 
+    public enum TextSize {
+        Small,
+        Default,
+        Large,
+        Huge
+    }
+
+
     private boolean drawingEnabled;
 
     /* default */ MapDrawer() {
@@ -165,4 +173,11 @@ public final class MapDrawer {
             drawTextScreen_native(x, y, text);
         }
     }
+
+    public void setTextSize(TextSize textSize) {
+
+        setTextSize(textSize.ordinal());
+    }
+
+    private native void setTextSize(int textSize);
 }

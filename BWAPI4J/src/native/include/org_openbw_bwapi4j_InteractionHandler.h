@@ -87,14 +87,6 @@ JNIEXPORT jlong JNICALL Java_org_openbw_bwapi4j_InteractionHandler_getRandomSeed
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_setFrameSkip
   (JNIEnv *, jobject, jint);
 
-/*
- * Class:     org_openbw_bwapi4j_InteractionHandler
- * Method:    setTextSize
- * Signature: (I)V
- */
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_setTextSize
-  (JNIEnv *, jobject, jint);
-
 #ifdef __cplusplus
 }
 #endif

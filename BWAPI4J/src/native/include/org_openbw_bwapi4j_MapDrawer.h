@@ -71,6 +71,14 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawTextMap_1native
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawTextScreen_1native
   (JNIEnv *, jobject, jint, jint, jstring);
 
+/*
+ * Class:     org_openbw_bwapi4j_MapDrawer
+ * Method:    setTextSize
+ * Signature: (I)V
+ */
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_setTextSize
+  (JNIEnv *, jobject, jint);
+
 #ifdef __cplusplus
 }
 #endif

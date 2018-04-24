@@ -82,3 +82,27 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawTextMap_1native(JNI
 	Broodwar->drawTextMap(x, y, messagechars);
 }
 
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_setTextSize(JNIEnv *env, jobject jObj, jint bwapi4jTextSize) {
+
+	Text::Size::Enum textSize = Text::Size::Default;
+
+	switch (bwapi4jTextSize) {
+	case 0:
+		textSize = Text::Size::Small;
+		break;
+	case 1:
+		textSize = Text::Size::Default;
+		break;
+	case 2:
+		textSize = Text::Size::Large;
+		break;
+	case 3:
+		textSize = Text::Size::Huge;
+		break;
+	default:
+		textSize = Text::Size::Default;
+		break;
+	}
+
+	Broodwar->setTextSize(textSize);
+}
