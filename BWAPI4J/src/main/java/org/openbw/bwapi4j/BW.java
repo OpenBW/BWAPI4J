@@ -24,12 +24,7 @@ import net.lingala.zip4j.core.ZipFile;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.type.UnitType;
-import org.openbw.bwapi4j.unit.MineralPatch;
-import org.openbw.bwapi4j.unit.PlayerUnit;
-import org.openbw.bwapi4j.unit.Unit;
-import org.openbw.bwapi4j.unit.UnitFactory;
-import org.openbw.bwapi4j.unit.VespeneGeyser;
-import org.openbw.bwapi4j.unit.Worker;
+import org.openbw.bwapi4j.unit.*;
 
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -38,12 +33,7 @@ import java.nio.charset.UnsupportedCharsetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -56,7 +46,7 @@ public class BW {
     public enum BridgeType {
 
         VANILLA("BWAPI4JBridge"),
-        OPEN_BW("OpenBWAPI4JBridge");
+        OPENBW("OpenBWAPI4JBridge");
 
         private final String name;
 
@@ -70,6 +60,34 @@ public class BW {
 
         public String getPlatformLibraryFilename() {
             return resolvePlatformLibraryFilename(this.name);
+        }
+
+        public static BridgeType parseBridgeType(final String str) {
+
+            for (final BridgeType bridgeType : BridgeType.values()) {
+                if (bridgeType.toString().equalsIgnoreCase(str)) {
+                    return bridgeType;
+                }
+            }
+
+            throw new IllegalArgumentException("Unrecognized bridge type: " + str);
+        }
+
+    }
+
+    private enum Property {
+
+        EXTRACT_DEPENDENCIES("bwapi4j.extractDependencies"),
+        BRIDGE_TYPE("bwapi4j.bridgeType");
+
+        private final String property;
+
+        private Property(final String property) {
+            this.property = property;
+        }
+
+        public String toString() {
+            return this.property;
         }
 
     }
@@ -92,12 +110,12 @@ public class BW {
     /**
      * The default value for {@code BridgeType} is
      * {@link BridgeType#VANILLA} on Windows and
-     * {@link BridgeType#OPEN_BW} on Linux.
+     * {@link BridgeType#OPENBW} on Linux.
      * @see #BW(BWEventListener, BridgeType, boolean)
      */
     public BW(final BWEventListener listener) {
 
-        this(listener, isWindowsPlatform() ? BridgeType.VANILLA : BridgeType.OPEN_BW);
+        this(listener, isWindowsPlatform() ? BridgeType.VANILLA : BridgeType.OPENBW);
     }
 
     /**
@@ -115,9 +133,17 @@ public class BW {
      * @param bridgeType bridge for Vanilla BW or OpenBW
      * @param extractBridgeDependencies whether to auto-extract the bridge dependencies from the running JAR file
      */
-    public BW(final BWEventListener listener, final BridgeType bridgeType, final boolean extractBridgeDependencies) {
+    public BW(final BWEventListener listener, BridgeType bridgeType, final boolean extractBridgeDependencies) {
 
-        if (extractBridgeDependencies) {
+        try {
+            bridgeType = BridgeType.parseBridgeType(System.getProperty(Property.BRIDGE_TYPE.toString()));
+        } catch (final Exception e) {
+            /* Do nothing. */
+        }
+
+        if ((extractBridgeDependencies && !systemPropertyEquals(Property.EXTRACT_DEPENDENCIES.toString(), false))
+                || systemPropertyEquals(Property.EXTRACT_DEPENDENCIES.toString(), true)) {
+
             extractBridgeDependencies(bridgeType);
         }
 
@@ -271,6 +297,36 @@ public class BW {
             e.printStackTrace();
         }
     }
+
+    private boolean systemPropertyEquals(final String systemProperty, final boolean status) {
+
+        final String systemPropertyValue = System.getProperty(systemProperty);
+
+        if (systemPropertyValue == null) {
+            return false;
+        }
+
+        final String[] trueValues = {
+                status ? "1" : "0",
+                Boolean.valueOf(status).toString()
+        };
+
+        for (final String trueValue : trueValues) {
+            if (systemPropertyValue.equalsIgnoreCase(trueValue)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean systemPropertyEquals(final String systemProperty, final String targetPropertyValue) {
+
+        final String systemPropertyValue = System.getProperty(systemProperty);
+
+        return (systemPropertyValue != null) && systemPropertyValue.equalsIgnoreCase(targetPropertyValue);
+    }
+
 
     private static String resolvePlatformLibraryFilename(String libraryName) {
 
