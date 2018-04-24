@@ -37,7 +37,14 @@ import org.openbw.bwapi4j.unit.Unit;
 public final class InteractionHandler {
 
 	private static final Logger logger = LogManager.getLogger();
-	
+
+	public enum TextSize {
+	    Small,
+        Default,
+        Large,
+        Huge
+    }
+
     public static int LAST_ERROR_INDEX                  = 0;
     public static int SCREEN_POSITION_X_INDEX           = 1;
     public static int SCREEN_POSITION_Y_INDEX           = 2;
@@ -246,5 +253,12 @@ public final class InteractionHandler {
     public native long getRandomSeed();
 
     public native void setFrameSkip(int frameSkip);
+
+    public void setTextSize(TextSize textSize) {
+
+        setTextSize(textSize.ordinal());
+    }
+
+    private native void setTextSize(int textSize);
 
 }
