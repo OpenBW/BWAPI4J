@@ -49,7 +49,7 @@ Copy `gradle.properties.sample` to `gradle.properties` and add the path to your 
   * If BWAPI4J does not appear, choose `add...` and add `<your path>/git/bwapi4j` where <your path> is the path to your git directory.
   * Select `Import existing Eclipse projects` and click `Next`.
   * Select `BWAPI4J` and click `Finish`.
-3. Execute the gradle target `distribution / assembleDist`.
+2. Execute the gradle target `distribution / assembleDist`.
   * `Windows -> Show View -> Other... -> Gradle/Gradle Tasks`.
   * In the view, click the `Refresh Tasks for All Projects` icon.
   * The BWAPI4J project should appear. Navigate to `distribution` and double-click on `assembleDist`.
@@ -128,7 +128,7 @@ This bridge is only required when running your bot with OpenBW on Windows or Lin
 
 #### Generating the build scripts
 
-You can use the `OpenBWAPI4JBridge_Windows.bat` or `OpenBWAPI4JBridge_Linux.sh` file to automatically generate the build scripts or follow the below steps to generate them yourself.
+You can use the `OpenBWAPI4JBridge_Windows.bat` or `OpenBWAPI4JBridge_Linux.sh` file to automatically generate the build scripts or follow the steps below to generate them yourself.
 
 From the root **BWAPI4J/** directory, copy and paste the following into a terminal:
 ````
