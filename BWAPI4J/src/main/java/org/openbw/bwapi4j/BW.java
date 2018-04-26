@@ -111,20 +111,12 @@ public class BW {
      * The default value for {@code BridgeType} is
      * {@link BridgeType#VANILLA} on Windows and
      * {@link BridgeType#OPENBW} on Linux.
+     * The default value for {@code extractBridgeDependencies} is {@code true}.
      * @see #BW(BWEventListener, BridgeType, boolean)
      */
     public BW(final BWEventListener listener) {
 
-        this(listener, isWindowsPlatform() ? BridgeType.VANILLA : BridgeType.OPENBW);
-    }
-
-    /**
-     * The default value for {@code boolean extractBridgeDependencies} is {@code true}.
-     * @see #BW(BWEventListener, BridgeType, boolean)
-     */
-    public BW(final BWEventListener listener, final BridgeType bridgeType) {
-
-        this(listener, bridgeType, true);
+        this(listener, isWindowsPlatform() ? BridgeType.VANILLA : BridgeType.OPENBW, true);
     }
 
     /**

@@ -8,11 +8,12 @@ BWAPI4J is compatible with both the original BW on Windows as well as OpenBW on 
 This project consists of two main parts:
 
 1. The Java project **BWAPI4J** containing all Java classes used by your bot.
-2. The C++ project **BWAPI4JBridge** containing C++ code required for your compiled bot to interact with original BW or OpenBW.
-  * Visual Studio 2017 project files to build the bridge for original BW on Windows.
-  * CMake to generate the scripts to build the bridge for OpenBW on Windows or Linux.
+2. The C++ project **BWAPI4JBridge** containing C++ code required for BWAPI4J to interact with BW.
 
-*Note: This is a development version, and breaking changes can occur at any time.*
+Notes:
+* This is a development version and breaking changes can occur at any time.
+* To develop a BWAPI4J bot, only the Java project is required.
+* If you want to compile the bridge, you will need a C++ development environment.
 
 ---
 
@@ -31,30 +32,45 @@ Eclipse is recommended because it works seamlessly with Gradle (using the Gradle
 
 JDK 1.8 or later is required. 32-bit is required when using original BW. 64-bit is required when using OpenBW.
 
-### Importing and building BWAPI4J using Eclipse and Gradle
+### Cloning the repository
 
-Clone the repository:
 ````
 git clone https://github.com/OpenBW/BWAPI4J.git
 ````
+
+### Setting up Gradle
+
+Copy `gradle.properties.sample` to `gradle.properties` and add the path to your JDK using the key `org.gradle.java.home=`
+
+### Compiling a JAR using Eclipse and Gradle
 
 1. Import the project as follows:
   * In Eclipse, choose: `File -> Import... -> Git/Projects from Git -> Existing Local Repository`.
   * If BWAPI4J does not appear, choose `add...` and add `<your path>/git/bwapi4j` where <your path> is the path to your git directory.
   * Select `Import existing Eclipse projects` and click `Next`.
   * Select `BWAPI4J` and click `Finish`.
-2. Copy `gradle.properties.sample` to `gradle.properties` and add the path to your JDK at the key `org.gradle.java.home=`
 3. Execute the gradle target `distribution / assembleDist`.
   * `Windows -> Show View -> Other... -> Gradle/Gradle Tasks`.
   * In the view, click the `Refresh Tasks for All Projects` icon.
   * The BWAPI4J project should appear. Navigate to `distribution` and double-click on `assembleDist`.
 
-### Building your own JAR using Gradle and adding it to an existing Maven project
+### Compiling a JAR using Gradle only
+
+Navigate to the `BWAPI4J/BWAPI4J/` directory and run the following command:
 
 ````
-git clone https://github.com/OpenBW/BWAPI4J.git
-cd BWAPI4J/BWAPI4J/
-./gradlew shadowJar sourcesJar javadocJar
+./gradlew clean build sourcesJar javadocJar shadowJar
+````
+
+The resulting JARs will be found in the `BWAPI4J/BWAPI4J/build/libs/` directory.
+
+### Adding the JAR to an existing Maven project
+
+This step is optional. You may manually import the JAR from the previous step into any IDE.
+
+*Note: If a version number is appended to the JAR filename, you must also add it to the JAR filenames in following example command.*
+
+````
 mvn install:install-file \
     -Dfile=build/libs/BWAPI4J.jar \
     -Djavadoc=build/libs/BWAPI4J-javadoc.jar \
@@ -65,35 +81,45 @@ mvn install:install-file \
     -Dpackaging=jar
 ````
 
-### Running the smoke test using Eclipse
+### The Smoke Test
+
+The smoke test will test your setup and display errors or exceptions if something went wrong.
+
+#### Running the Smoke Test with Eclipse
 
 Right-click the project and choose `Run as... -> JUnit Test`.
 
-The smoke test starts a game and sends the first SCV to the first mineral patch it finds.
+#### Running the Smoke Test with another IDE
+
+Navigate to `BWAPI4J/BWAPI4J/src/test/java/org/openbw/bwapi4j/MainTest.java` and run the `smokeTest` manually.
 
 ---
 
 ### BWAPI4JBridge (C++)
 
-The bridge is broken into two parts:
-- Original BW for Windows
+The bridge is broken into two projects that share most of the same code:
+- **BWAPI4JBridge**: original BW for Windows only
   * Uses Visual Studio 2017 project files.
-- OpenBW for Windows or Linux.
+- **OpenBWAPI4JBridge**: OpenBW for Windows or Linux
   * Uses CMake to generate Visual Studio project files on Windows or Makefiles on Linux.
 
-*Note: All bridges are already built and located in the `BWAPI4JBridge/BWAPI4JBridge/Release/` directory. If one of the bridges is not working for you, please try compiling it yourself or submit a GitHub Issue.*
+*Note: All bridges are already built and located in the `BWAPI4JBridge/BWAPI4JBridge/Release/` directory. If one of the bridges is not working for you, please try compiling it yourself with the steps below or submit a GitHub Issue.*
 
-### Original BW bridge for Windows
+### BWAPI4JBridge (Windows only)
+
+This bridge is only required when running your bot with the original BW on Windows.
 
 #### Prerequisites
 - Visual Studio 2017
 
 #### Build Steps:
-- Open the complete project solution file `BWAPI4JBridge/BWAPI4JBridge/VisualStudio/BWAPI4JBridge.sln`.
+- Open the already existing VS project solution file `BWAPI4JBridge/BWAPI4JBridge/VisualStudio/BWAPI4JBridge.sln`.
 - Set the configuration to **Release / x86**.
 - Build the **BWAPI4JBridge.dll** by right-clicking on the **BWAPI4JBridge** project in the project explorer and click **Rebuild**.
 
-### OpenBW bridge for Windows or Linux
+### OpenBWAPI4JBridge (Windows or Linux)
+
+This bridge is only required when running your bot with OpenBW on Windows or Linux.
 
 #### Prerequisites
 
@@ -102,6 +128,8 @@ The bridge is broken into two parts:
 
 #### Generating the build scripts
 
+You can use the `OpenBWAPI4JBridge_Windows.bat` or `OpenBWAPI4JBridge_Linux.sh` file to automatically generate the build scripts or follow the below steps to generate them yourself.
+
 From the root **BWAPI4J/** directory, copy and paste the following into a terminal:
 ````
 cd BWAPI4JBridge/BWAPI4JBridge/ && \
@@ -109,7 +137,7 @@ cd BWAPI4JBridge/BWAPI4JBridge/ && \
     cd build/ && \
     cmake .. -DOPENBW=1 -DOPENBW_ENABLE_UI=1
 ````
-The above commands will generate the following Visual Studio project files on Windows:
+The above commands will generate the following Visual Studio project files on Windows only:
 ````
 BWAPI4JBridge/BWAPI4JBridge/build/ALL_BUILD.vcxproj
 BWAPI4JBridge/BWAPI4JBridge/build/ALL_BUILD.vcxproj.filters
@@ -122,7 +150,11 @@ BWAPI4JBridge/BWAPI4JBridge/build/ZERO_CHECK.vcxproj
 BWAPI4JBridge/BWAPI4JBridge/build/ZERO_CHECK.vcxproj.filters
 ````
 
-#### Building the bridge
+In Linux, more CMake and Makefiles will be generated.
+
+#### Building OpenBWAPI4JBridge with the build scripts
+
+After generating the build scripts in the previous step, you can now build the bridge(s):
 
 * If using Windows:
   * Open the newly generated Visual Studio solution file.
@@ -131,46 +163,32 @@ BWAPI4JBridge/BWAPI4JBridge/build/ZERO_CHECK.vcxproj.filters
 * If using Linux:
   * Run the `make` command.
 
+The OpenBWAPI4JBridge bridge will compile into `OpenBWAPI4JBridge.dll` on Windows and `libOpenBWAPI4JBridge.so` on Linux.
+
 ---
 
-### Dependencies for running your bot
+### Dependencies for running a BWAPI4J bot
 
 #### Original BW on Windows
 
 * BW 1.16.1
 * VC++ Redist 2017
 * Windows 7 or higher
-* Add the path of the following file to your PATH environment variable:
-````
-BWAPI4JBridge.dll
-````
-* You might also need to add the following BWTA2 dependencies:
-````
-libgmp-10.dll
-libmpfr-4.dll
-````
+* The paths of the following files in the `PATH` environment variable: `BWAPI4JBridge.dll`, `libgmp-10.dll`, `libmpfr-4.dll`
 
 #### OpenBW
 
-- BW does not need to be installed. Only the following original BW files are required ([available for free](https://www.battle.net/download/getInstallerForGame?os=win&locale=enUS&version=LIVE&gameProgram=STARCRAFT)). Copy them to your root project directory:
-````
-BrooDat.mpq
-StarDat.mpq
-Patch_rt.mpq
-````
+- BW does not need to be installed. Only the following three BW files are required ([available for free](https://www.battle.net/download/getInstallerForGame?os=win&locale=enUS&version=LIVE&gameProgram=STARCRAFT)). Copy them to your root project directory: `BrooDat.mpq`, `StarDat.mpq`, `Patch_rt.mpq`
 - At least one Melee map. For example, **Fighting Spirit** from the [SSCAIT map pack](https://sscaitournament.com/files/sscai_map_pack.zip).
 - Copy `bwapi-data/bwapi.ini.sample` to `bwapi-data/bwapi.ini` and configure as usual. See [https://github.com/bwapi/bwapi/wiki/Configuration](https://github.com/bwapi/bwapi/wiki/Configuration)
 
 ##### OpenBW for Windows
 
-* Add the path of the following file to your PATH environment variable:
-````
-OpenBWAPI4JBridge.dll
-````
+* The path of the following file to your `PATH` environment variable: `OpenBWAPI4JBridge.dll`, `libgmp-10.dll`, `libmpfr-4.dll`
 
 ##### OpenBW for Linux
 
-* Add the paths of the following files to your `LD_LIBRARY_PATH` environment variable or copy the files to your `/usr/lib/` or `/usr/local/lib/` directory.
+* The paths of the following files in the `LD_LIBRARY_PATH` environment variable or in a system library directory such as `/usr/lib/` or `/usr/local/lib/`
 ````
 libOpenBWAPI4JBridge.so
 libOpenBWData.so
@@ -178,7 +196,11 @@ libBWAPILIB.so
 libBWAPI.so
 libBWTA2.so
 ````
-*Note: For compiling OpenBW libraries, see the [OpenBW / BWAPI](https://github.com/openbw/bwapi) project. For compiling the BWTA2 library, see Adakite's [BWTA2 fork](https://github.com/adakitesystems/bwta2).*
+
+Notes:
+* If any the bridge dependencies are not found in the specified environment variable, the bot will look for them in the current working directory.
+* For compiling OpenBW libraries, see the [OpenBW / BWAPI](https://github.com/openbw/bwapi) project.
+* For compiling the BWTA2 library, see Adakite's [BWTA2 fork](https://github.com/adakitesystems/bwta2).
 
 <!--
 #### Bridge: OpenBW on Windows and/or Linux
@@ -200,3 +222,27 @@ Import and build the project as follows:
   * Select `BWAPI4JBridge` and click `Finish`.
   * Add `<path to JDK>/include` and `<path to JDK>/include/linux` to the include section under `Project -> Properties -> C/C++ Build -> Settings -> Tool Settings -> GCC C++ Compiler -> Includes`
   * Click the `Build release` icon in the Eclipse menubar. -->
+
+---
+
+### JVM options
+
+####  bwapi4j.extractDependencies
+
+By default, BWAPI4J will extract the bridge dependencies to the current working directory. This can be overridden by specifying the value `false` to the JVM. E.g.:
+
+````
+java -Dbwapi4j.extractDependencies=false -jar MyBot.jar
+````
+
+#### bwapi4j.bridgeType
+
+By default, BWAPI4J will use the Vanilla BW bridge on Windows and the OpenBWAPI4JBridge on Linux. This can be overridden by specifying `vanilla` or `openbw` to the JVM. E.g.:
+
+````
+java -Dbwapi4j.bridgeType=vanilla -jar MyBot.jar
+````
+or
+````
+java -Dbwapi4j.bridgeType=openbw -jar MyBot.jar
+````
