@@ -86,6 +86,10 @@ if (MSVC)
     link_directories(${BWTA_LIB_DIR})
 
     target_link_libraries(OpenBWAPI4JBridge ../${BWTA_LIB_DIR}/BWTA)
+else()
+    target_link_libraries(OpenBWAPI4JBridge
+        BWTA2
+    )
 endif()
 
 ################################################################################
