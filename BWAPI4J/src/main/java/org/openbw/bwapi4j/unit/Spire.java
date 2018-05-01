@@ -27,14 +27,19 @@ import org.openbw.bwapi4j.type.UpgradeType;
 
 import static org.openbw.bwapi4j.type.UnitCommandType.Morph;
 import static org.openbw.bwapi4j.type.UnitType.Zerg_Greater_Spire;
+import static org.openbw.bwapi4j.type.UnitType.Zerg_Spire;
 
 public class Spire extends Building implements Organic, ResearchingFacility, Morphable {
 
     private Researcher researcher;
     
     protected Spire(int id, int timeSpotted) {
-        
-        super(id, UnitType.Zerg_Spire, timeSpotted);
+        this(id, Zerg_Spire, timeSpotted);
+    }
+
+    protected Spire(int id, UnitType type, int timeSpotted) {
+
+        super(id, type, timeSpotted);
         this.researcher = new Researcher();
     }
 
