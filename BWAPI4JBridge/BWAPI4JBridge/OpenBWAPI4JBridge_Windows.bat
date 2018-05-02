@@ -4,6 +4,7 @@ echo Generating build scripts for OpenBWAPI4JBridge...
 echo.
 
 IF EXIST build (
+echo Deleting build/ directory...
 rmdir /s /q build
 )
 mkdir build

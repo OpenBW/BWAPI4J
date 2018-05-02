@@ -58,10 +58,6 @@ public class BW {
             return this.name;
         }
 
-        public String getPlatformLibraryFilename() {
-            return resolvePlatformLibraryFilename(this.name);
-        }
-
         public static BridgeType parseBridgeType(final String str) {
 
             for (final BridgeType bridgeType : BridgeType.values()) {
@@ -172,7 +168,7 @@ public class BW {
 
                 final ZipFile jar = new ZipFile(jarFile.toFile());
 
-                jar.extractFile(bridgeType.getPlatformLibraryFilename(), cwd.toString());
+                jar.extractFile(resolvePlatformLibraryFilename(bridgeType.getLibraryName()), cwd.toString());
 
                 for (final String externalLibrary : getExternalLibraryNames()) {
                     jar.extractFile(resolvePlatformLibraryFilename(externalLibrary), cwd.toString());
@@ -242,8 +238,8 @@ public class BW {
         final List<String> libNames = new ArrayList<>();
 
         if (isWindowsPlatform()) {
-            libNames.add("libgmp-10");
-            libNames.add("libmpfr-4");
+//            libNames.add("libgmp-10");
+//            libNames.add("libmpfr-4");
         } else {
             libNames.add("BWTA2");
         }
