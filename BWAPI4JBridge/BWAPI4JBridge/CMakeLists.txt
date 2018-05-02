@@ -31,7 +31,6 @@ endfunction()
 ################################################################################
 
 if_unset_then_set(BWAPI4JBRIDGE_SRC_DIR src)
-message("BWAPI4JBridge source dir: ${BWAPI4JBRIDGE_SRC_DIR}")
 set(BWAPI4JBRIDGE_SRCS 
     ${BWAPI4JBRIDGE_SRC_DIR}/Bridge.cpp
     ${BWAPI4JBRIDGE_SRC_DIR}/BridgeEnum.cpp
@@ -53,17 +52,13 @@ set(BWAPI4JBRIDGE_SRCS
 ################################################################################
 
 if_unset_then_set(JNI_INC_DIR ../JNI/include)
-message("JNI include dir: ${JNI_INC_DIR}")
 
 if_unset_then_set(BWAPI4J_JNI_INC_DIR ../../BWAPI4J/src/native/include)
-message("BWAPI4J JNI include dir: ${BWAPI4J_JNI_INC_DIR}")
 
 include_directories(${JNI_INC_DIR} ${BWAPI4J_JNI_INC_DIR})
 if (WIN32)
-    message("Including WIN32 JNI headers.")
     include_directories(${JNI_INC_DIR}/win32)
 else()
-    message("Including Linux JNI headers.")
     include_directories(${JNI_INC_DIR}/linux)
 endif()
 
@@ -100,11 +95,9 @@ endif()
 
 if (OPENBW)
     add_definitions(-DOPENBW)
-    message("C++ preprocessor macro enabled: OPENBW")
 
     if (OPENBW_ENABLE_UI)
         add_definitions(-DOPENBW_ENABLE_UI)
-        message("C++ preprocessor macro enabled: OPENBW_ENABLE_UI")
     endif()
 
     if_unset_then_set(OPENBW_DIR ../../../openbw)
