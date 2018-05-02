@@ -169,28 +169,37 @@ The OpenBWAPI4JBridge bridge will compile into `OpenBWAPI4JBridge.dll` on Window
 
 ### Dependencies for running a BWAPI4J bot
 
+* The bridge should be accessible via a library path known by the system.
+  * On Windows, the path to the bridge can be added to the `PATH` environment variable.
+  * On Linux, the path to the bridge can added to the `LD_LIBRARY_PATH` environment variable.
+* If the bridge is not found in a known library path, the bot will search the current working directory.
+
 #### Original BW on Windows
 
 * BW 1.16.1
+* BWAPI 4.2.0
 * VC++ Redist 2017
 * Windows 7 or higher
-* The paths of the following files in the `PATH` environment variable: `BWAPI4JBridge.dll`, `libgmp-10.dll`, `libmpfr-4.dll`
 
 #### OpenBW
 
-- BW does not need to be installed. Only the following three BW files are required ([available for free](https://www.battle.net/download/getInstallerForGame?os=win&locale=enUS&version=LIVE&gameProgram=STARCRAFT)). Copy them to your root project directory: `BrooDat.mpq`, `StarDat.mpq`, `Patch_rt.mpq`
+- A compiled and working version of OpenBW.
+- The original BW does not need to be installed. Only the following three BW files are required ([available for free](https://www.battle.net/download/getInstallerForGame?os=win&locale=enUS&version=LIVE&gameProgram=STARCRAFT)). Copy them to your root project directory: `BrooDat.mpq`, `StarDat.mpq`, `Patch_rt.mpq`
 - At least one Melee map. For example, **Fighting Spirit** from the [SSCAIT map pack](https://sscaitournament.com/files/sscai_map_pack.zip).
 - Copy `bwapi-data/bwapi.ini.sample` to `bwapi-data/bwapi.ini` and configure as usual. See [https://github.com/bwapi/bwapi/wiki/Configuration](https://github.com/bwapi/bwapi/wiki/Configuration)
-
-##### OpenBW for Windows
-
-* The path of the following file to your `PATH` environment variable: `OpenBWAPI4JBridge.dll`, `libgmp-10.dll`, `libmpfr-4.dll`
+- Set the `ai = ` variable in `bwapi.ini` to point to the BWAPI4J bridge module. E.g.
+````
+ai = ..\BWAPI4JBridge\BWAPI4JBridge\Release\OpenBWAPI4JBridge.dll
+````
+or
+````
+ai = ../BWAPI4JBridge/BWAPI4JBridge/Release/libOpenBWAPI4JBridge.so
+````
 
 ##### OpenBW for Linux
 
-* The paths of the following files in the `LD_LIBRARY_PATH` environment variable or in a system library directory such as `/usr/lib/` or `/usr/local/lib/`
+* In addition to `libOpenBWAPI4JBridge.so`, add the paths of the following files to the `LD_LIBRARY_PATH` environment variable or copy them to a system library directory such as `/usr/lib/` or `/usr/local/lib/`
 ````
-libOpenBWAPI4JBridge.so
 libOpenBWData.so
 libBWAPILIB.so
 libBWAPI.so
@@ -198,9 +207,8 @@ libBWTA2.so
 ````
 
 Notes:
-* If any the bridge dependencies are not found in the specified environment variable, the bot will look for them in the current working directory.
 * For compiling OpenBW libraries, see the [OpenBW / BWAPI](https://github.com/openbw/bwapi) project.
-* For compiling the BWTA2 library, see Adakite's [BWTA2 fork](https://github.com/adakitesystems/bwta2).
+* For compiling the BWTA2 library on Linux, see Adakite's [BWTA2 fork](https://github.com/adakitesystems/bwta2).
 
 <!--
 #### Bridge: OpenBW on Windows and/or Linux
