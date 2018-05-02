@@ -1,0 +1,16 @@
+language: java
+jdk:
+- oraclejdk8
+addons:
+#  sonarcloud:
+#    branches:
+#      - dev
+#      - master
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'
+    - '$HOME/.gradle'
+    - '.gradle'
+script:
+- ./BWAPI4J/gradlew clean build sourcesJar javadocJar shadowJar --stacktrace
