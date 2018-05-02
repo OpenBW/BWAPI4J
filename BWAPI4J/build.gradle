@@ -4,8 +4,6 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 group 'org.openbw.bwapi4j'
 version '0.8'
 
-mainClassName = 'org.openbw.bwapi4j.BW'
-
 buildscript {
     repositories {
         maven {
@@ -37,12 +35,6 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.apache.commons:commons-compress:1.16.1'
-}
-
-jar {
-	manifest {
-		attributes 'Main-Class': mainClassName
-    }
 }
 
 shadowJar {
@@ -119,10 +111,10 @@ task generateJniHeaders(type:Exec) {
     def classpath = sourceSets.main.output.classesDir
     def nativeIncludes = "src/native/include"
     commandLine "javah", "-jni", "-verbose", "-d", nativeIncludes, "-classpath", classpath,
-            "$mainClassName",
             "bwta.BWTA",
             "bwta.Polygon",
             "bwta.BaseLocation",
+            "org.openbw.bwapi4j.BW",
             "org.openbw.bwapi4j.BWMapImpl",
             "org.openbw.bwapi4j.InteractionHandler",
             "org.openbw.bwapi4j.MapDrawer",
