@@ -13,4 +13,4 @@ cache:
     - '$HOME/.gradle'
     - '.gradle'
 script:
-- ./BWAPI4J/gradlew clean build sourcesJar javadocJar shadowJar --stacktrace
+- ./BWAPI4J/gradlew build sourcesJar javadocJar shadowJar --stacktrace
