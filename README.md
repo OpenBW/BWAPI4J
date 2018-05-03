@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/OpenBW/BWAPI4J.svg?branch=master)]
+![Build Status](https://travis-ci.com/OpenBW/BWAPI4J.svg?branch=master)
 
 # BWAPI4J
 
