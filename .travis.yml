@@ -12,5 +12,7 @@ cache:
     - '$HOME/.sonar/cache'
     - '$HOME/.gradle'
     - '.gradle'
+env:
+- TERM=dumb
 script:
 - cd BWAPI4J && ./gradlew clean build sourcesJar javadocJar shadowJar --stacktrace
