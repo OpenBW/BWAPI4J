@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/OpenBW/BWAPI4J.svg?branch=master)]
+
 # BWAPI4J
 
 This is a Java wrapper for [BWAPI 4.2.0](https://github.com/bwapi/bwapi/).
