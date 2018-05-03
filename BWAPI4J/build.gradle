@@ -39,7 +39,7 @@ dependencies {
 }
 
 shadowJar {
-    relocate 'org.apache', 'org.openbw.bwapi4j.org.apache'
+    relocate 'org.apache.commons', 'org.openbw.bwapi4j.org.apache.commons'
     relocate 'org.xguzm', 'org.openbw.bwapi4j.org.xguzm'
     relocate 'net.lingala.zip4j', 'org.openbw.bwapi4j.net.lingala.zip4j'
     classifier = null
