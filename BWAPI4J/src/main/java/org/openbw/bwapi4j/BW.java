@@ -26,6 +26,7 @@ import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.unit.*;
 
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -275,6 +276,10 @@ public class BW {
 //
 //            System.setProperty("java.library.path", file.getParent());
 //            logger.info("Changed library path to {}", System.getProperty("java.library.path"));
+
+            final Field sysPathsField = ClassLoader.class.getDeclaredField("sys_paths");
+            sysPathsField.setAccessible(true);
+            sysPathsField.set(null, null);
 
             System.setProperty(SYSTEM_PROPERTY_JAVA_LIBRARY_PATH_ID, path.toString());
 
