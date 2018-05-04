@@ -21,6 +21,7 @@
 package org.openbw.bwapi4j;
 
 import net.lingala.zip4j.core.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.type.UnitType;
@@ -122,7 +123,7 @@ public class BW {
      * @param bridgeType bridge for Vanilla BW or OpenBW
      * @param extractBridgeDependencies whether to auto-extract the bridge dependencies from the running JAR file
      */
-    public BW(final BWEventListener listener, BridgeType bridgeType, final boolean extractBridgeDependencies) {
+    public BW(final BWEventListener listener, BridgeType bridgeType, boolean extractBridgeDependencies) {
 
         try {
             bridgeType = BridgeType.parseBridgeType(System.getProperty(Property.BRIDGE_TYPE.toString()));
@@ -130,13 +131,10 @@ public class BW {
             /* Do nothing. */
         }
 
-        if ((extractBridgeDependencies && !systemPropertyEquals(Property.EXTRACT_DEPENDENCIES.toString(), false))
-                || systemPropertyEquals(Property.EXTRACT_DEPENDENCIES.toString(), true)) {
+        extractBridgeDependencies = ((extractBridgeDependencies && !systemPropertyEquals(Property.EXTRACT_DEPENDENCIES.toString(), false))
+                || systemPropertyEquals(Property.EXTRACT_DEPENDENCIES.toString(), true));
 
-            extractBridgeDependencies(bridgeType);
-        }
-
-        loadSharedLibraries(bridgeType);
+        loadSharedLibraries(bridgeType, extractBridgeDependencies);
     	
         this.players = new HashMap<>();
         this.units = new ConcurrentHashMap<>();
@@ -169,10 +167,10 @@ public class BW {
 
                 final ZipFile jar = new ZipFile(jarFile.toFile());
 
-                jar.extractFile(resolvePlatformLibraryFilename(bridgeType.getLibraryName()), cwd.toString());
+                extractFileIfNotExists(jar, resolvePlatformLibraryFilename(bridgeType.getLibraryName()), cwd.toString());
 
                 for (final String externalLibrary : getExternalLibraryNames()) {
-                    jar.extractFile(resolvePlatformLibraryFilename(externalLibrary), cwd.toString());
+                    extractFileIfNotExists(jar, resolvePlatformLibraryFilename(externalLibrary), cwd.toString());
                 }
             }
         } catch (final Exception e) {
@@ -183,7 +181,14 @@ public class BW {
         }
     }
 
-    private void loadSharedLibraries(final BridgeType bridgeType) {
+    private static void extractFileIfNotExists(final ZipFile zipFile, final String sourceFilename, final String targetDirectory) throws ZipException {
+        final Path targetFile = Paths.get(targetDirectory, sourceFilename);
+        if (!Files.isRegularFile(targetFile) && !Files.isDirectory(targetFile) && !Files.exists(targetFile)) {
+            zipFile.extractFile(sourceFilename, targetDirectory);
+        }
+    }
+
+    private void loadSharedLibraries(final BridgeType bridgeType, final boolean extractBridgeDependencies) {
     	
     	logger.info("jvm: {} ({}-bit)", System.getProperty("java.version"), System.getProperty("sun.arch.data.model"));
         logger.info("os: {}", System.getProperty("os.name"));
@@ -207,6 +212,10 @@ public class BW {
             loadLibraries(sharedLibraries);
         } catch (final UnsatisfiedLinkError e1) {
             setJavaLibraryPathProperty(getCurrentWorkingDirectory());
+
+            if (extractBridgeDependencies) {
+                extractBridgeDependencies(bridgeType);
+            }
 
             try {
                 loadLibraries(sharedLibraries);
@@ -291,7 +300,7 @@ public class BW {
         }
     }
 
-    private boolean systemPropertyEquals(final String systemProperty, final boolean status) {
+    private static boolean systemPropertyEquals(final String systemProperty, final boolean status) {
 
         final String systemPropertyValue = System.getProperty(systemProperty);
 
@@ -313,7 +322,7 @@ public class BW {
         return false;
     }
 
-    private boolean systemPropertyEquals(final String systemProperty, final String targetPropertyValue) {
+    private static boolean systemPropertyEquals(final String systemProperty, final String targetPropertyValue) {
 
         final String systemPropertyValue = System.getProperty(systemProperty);
 
