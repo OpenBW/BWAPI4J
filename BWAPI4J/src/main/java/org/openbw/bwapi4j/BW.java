@@ -196,7 +196,7 @@ public class BW {
     	logger.debug("user directory: {}", System.getProperty("user.dir"));
         logger.debug("bot directory: {}", BW.class.getProtectionDomain().getCodeSource().getLocation().getPath());
 
-    	logger.debug("library path: " + getJavaLibraryPathProperty());
+    	logger.debug("library path: " + getLibraryPath());
 
         logger.debug("bridge type: " + bridgeType.toString());
 
@@ -208,8 +208,10 @@ public class BW {
          */
         final List<String> sharedLibraries = getSharedLibraryNames(bridgeType);
         try {
+
             loadLibraries(sharedLibraries);
         } catch (final UnsatisfiedLinkError e1) {
+
             addLibraryPath(getCurrentWorkingDirectory().toAbsolutePath().toString());
 
             if (extractBridgeDependencies) {
@@ -256,6 +258,11 @@ public class BW {
         return libNames;
     }
 
+    private static String getLibraryPathDelimiter() {
+
+        return isWindowsPlatform() ? ";" : ":";
+    }
+
     private static boolean isWindowsPlatform() {
 
         return System.getProperty("os.name").contains("Windows");
@@ -266,11 +273,6 @@ public class BW {
         return Paths.get("").toAbsolutePath();
     }
 
-    private String getJavaLibraryPathProperty() {
-
-        return System.getProperty(SYSTEM_PROPERTY_JAVA_LIBRARY_PATH_ID);
-    }
-
     private static void forceLibraryPathReload() throws NoSuchFieldException, IllegalAccessException {
 
         final java.lang.reflect.Field sysPathsField = ClassLoader.class.getDeclaredField("sys_paths");
@@ -278,14 +280,19 @@ public class BW {
         sysPathsField.set(null, null);
     }
 
-    private void setLibraryPath(final Path path) {
+    private String getLibraryPath() {
+
+        return System.getProperty(SYSTEM_PROPERTY_JAVA_LIBRARY_PATH_ID);
+    }
+
+    private void setLibraryPath(final String path) {
         try {
 
             forceLibraryPathReload();
 
-            System.setProperty(SYSTEM_PROPERTY_JAVA_LIBRARY_PATH_ID, path.toString());
+            System.setProperty(SYSTEM_PROPERTY_JAVA_LIBRARY_PATH_ID, path);
 
-            logger.info("Changed library path to {}", getJavaLibraryPathProperty());
+            logger.info("Changed library path to: {}", getLibraryPath());
         } catch (Exception e) {
 
             logger.error("Could not modify library path to: " + path, e);
@@ -297,23 +304,32 @@ public class BW {
 
         try {
 
-            forceLibraryPathReload();
+//            final java.lang.reflect.Field usrPathsField = ClassLoader.class.getDeclaredField("usr_paths");
+//            usrPathsField.setAccessible(true);
+//
+//            final String[] libraryPaths = (String[]) usrPathsField.get(null);
+//            for (final String libraryPath : libraryPaths) {
+//                if (libraryPath.equals(path)) {
+//                    return;
+//                }
+//            }
+//
+//            final String[] newLibraryPaths = Arrays.copyOf(libraryPaths, libraryPaths.length + 1);
+//            newLibraryPaths[newLibraryPaths.length - 1] = path;
+//            usrPathsField.set(null, newLibraryPaths);
 
-            final java.lang.reflect.Field usrPathsField = ClassLoader.class.getDeclaredField("usr_paths");
-            usrPathsField.setAccessible(true);
+            final String currentLibraryPath = getLibraryPath();
 
-            final String[] libraryPaths = (String[]) usrPathsField.get(null);
-            for (final String libraryPath : libraryPaths) {
-                if (libraryPath.equals(path)) {
-                    return;
-                }
+            if (isPathFoundInPathVariable(currentLibraryPath, path)) {
+                logger.warn("The specified path already exists in library path: " + path);
+                return;
             }
 
-            final String[] newLibraryPaths = Arrays.copyOf(libraryPaths, libraryPaths.length + 1);
-            newLibraryPaths[newLibraryPaths.length - 1] = path;
-            usrPathsField.set(null, newLibraryPaths);
+            logger.info("Adding library path: {}", path);
 
-            logger.info("Added library path: {}", path);
+            final String libraryPathDelimiter = getLibraryPathDelimiter();
+            final String newLibraryPath = currentLibraryPath + (!currentLibraryPath.endsWith(libraryPathDelimiter) ? libraryPathDelimiter : "") + path;
+            setLibraryPath(newLibraryPath);
         } catch (final Exception e) {
 
             logger.error("Could not add library path: " + path, e);
@@ -370,7 +386,7 @@ public class BW {
         return libraryName;
     }
 
-    private static boolean isFileFoundInPathVariable(final String pathVariable, final String file) {
+    private static boolean isPathFoundInPathVariable(final String pathVariable, final String path) {
 
         final String delim = isWindowsPlatform() ? ";" : ":";
 
@@ -384,14 +400,14 @@ public class BW {
                 continue;
             }
 
-            final Path targetFile;
+            final Path targetPath;
             try {
-                targetFile = Paths.get(targetDirectory.toString(), file);
+                targetPath = Paths.get(targetDirectory.toString(), path);
             } catch (final Exception e) {
                 continue;
             }
 
-            if (Files.isRegularFile(targetFile)) {
+            if (Files.isRegularFile(targetPath) || Files.isDirectory(targetPath)) {
                 return true;
             }
         }
