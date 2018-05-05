@@ -27,7 +27,6 @@ import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.unit.*;
 
-import java.lang.reflect.Field;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -211,7 +210,7 @@ public class BW {
         try {
             loadLibraries(sharedLibraries);
         } catch (final UnsatisfiedLinkError e1) {
-            setJavaLibraryPathProperty(getCurrentWorkingDirectory());
+            addLibraryPath(getCurrentWorkingDirectory().toAbsolutePath().toString());
 
             if (extractBridgeDependencies) {
                 extractBridgeDependencies(bridgeType);
@@ -272,30 +271,52 @@ public class BW {
         return System.getProperty(SYSTEM_PROPERTY_JAVA_LIBRARY_PATH_ID);
     }
 
-    private void setJavaLibraryPathProperty(final Path path) {
+    private static void forceLibraryPathReload() throws NoSuchFieldException, IllegalAccessException {
+
+        final java.lang.reflect.Field sysPathsField = ClassLoader.class.getDeclaredField("sys_paths");
+        sysPathsField.setAccessible(true);
+        sysPathsField.set(null, null);
+    }
+
+    private void setLibraryPath(final Path path) {
         try {
 
-//            java.lang.reflect.Field fieldSysPath = ClassLoader.class.getDeclaredField("sys_paths");
-//            fieldSysPath.setAccessible(true);
-//            fieldSysPath.set(null, null);
-
-//            final String path = BW.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-//            final String decodedPath = java.net.URLDecoder.decode(path, "UTF-8");
-//            final File file = new File(decodedPath);
-//
-//            System.setProperty("java.library.path", file.getParent());
-//            logger.info("Changed library path to {}", System.getProperty("java.library.path"));
-
-            final Field sysPathsField = ClassLoader.class.getDeclaredField("sys_paths");
-            sysPathsField.setAccessible(true);
-            sysPathsField.set(null, null);
-
             System.setProperty(SYSTEM_PROPERTY_JAVA_LIBRARY_PATH_ID, path.toString());
+
+            forceLibraryPathReload();
 
             logger.info("Changed library path to {}", getJavaLibraryPathProperty());
         } catch (Exception e) {
 
-            logger.error("Could not modify library path.", e);
+            logger.error("Could not modify library path to: " + path, e);
+            e.printStackTrace();
+        }
+    }
+
+    private void addLibraryPath(final String path) {
+
+        try {
+
+            final java.lang.reflect.Field usrPathsField = ClassLoader.class.getDeclaredField("usr_paths");
+            usrPathsField.setAccessible(true);
+
+            final String[] libraryPaths = (String[]) usrPathsField.get(null);
+            for (final String libraryPath : libraryPaths) {
+                if (libraryPath.equals(path)) {
+                    return;
+                }
+            }
+
+            final String[] newLibraryPaths = Arrays.copyOf(libraryPaths, libraryPaths.length + 1);
+            newLibraryPaths[newLibraryPaths.length - 1] = path;
+            usrPathsField.set(null, newLibraryPaths);
+
+            forceLibraryPathReload();
+
+            logger.info("Added library path: {}", path);
+        } catch (final Exception e) {
+
+            logger.error("Could not add library path: " + path, e);
             e.printStackTrace();
         }
     }
