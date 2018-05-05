@@ -281,9 +281,9 @@ public class BW {
     private void setLibraryPath(final Path path) {
         try {
 
-            System.setProperty(SYSTEM_PROPERTY_JAVA_LIBRARY_PATH_ID, path.toString());
-
             forceLibraryPathReload();
+
+            System.setProperty(SYSTEM_PROPERTY_JAVA_LIBRARY_PATH_ID, path.toString());
 
             logger.info("Changed library path to {}", getJavaLibraryPathProperty());
         } catch (Exception e) {
@@ -296,6 +296,8 @@ public class BW {
     private void addLibraryPath(final String path) {
 
         try {
+
+            forceLibraryPathReload();
 
             final java.lang.reflect.Field usrPathsField = ClassLoader.class.getDeclaredField("usr_paths");
             usrPathsField.setAccessible(true);
@@ -310,8 +312,6 @@ public class BW {
             final String[] newLibraryPaths = Arrays.copyOf(libraryPaths, libraryPaths.length + 1);
             newLibraryPaths[newLibraryPaths.length - 1] = path;
             usrPathsField.set(null, newLibraryPaths);
-
-            forceLibraryPathReload();
 
             logger.info("Added library path: {}", path);
         } catch (final Exception e) {
