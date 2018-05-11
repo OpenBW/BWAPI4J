@@ -122,7 +122,8 @@ task generateJniHeaders(type:Exec) {
             "org.openbw.bwapi4j.InteractionHandler",
             "org.openbw.bwapi4j.MapDrawer",
             "org.openbw.bwapi4j.DamageEvaluator",
-            "org.openbw.bwapi4j.unit.Unit"
+            "org.openbw.bwapi4j.unit.Unit",
+            "net.lingala.zip4j.core.ZipFile" //javah complains if this is not specified
 
     dependsOn classes
 }
