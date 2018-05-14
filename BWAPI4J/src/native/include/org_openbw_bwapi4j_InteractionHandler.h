@@ -9,6 +9,22 @@ extern "C" {
 #endif
 /*
  * Class:     org_openbw_bwapi4j_InteractionHandler
+ * Method:    allies_native
+ * Signature: ()[I
+ */
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_InteractionHandler_allies_1native
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     org_openbw_bwapi4j_InteractionHandler
+ * Method:    enemies_native
+ * Signature: ()[I
+ */
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enemies_1native
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     org_openbw_bwapi4j_InteractionHandler
  * Method:    getKeyState
  * Signature: (I)Z
  */

@@ -85,3 +85,77 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_setFrameSkip(J
 
 	Broodwar->setFrameSkip(frameSkip);
 }
+
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_InteractionHandler_allies_1native(JNIEnv *env, jobject jObj) {
+
+	const size_t predictedMaxAllyIds = 16;
+	const auto actualMaxAllyIds = Broodwar->allies().size();
+
+	if (predictedMaxAllyIds < actualMaxAllyIds) {
+		std::cout << "error: predicted number of ally IDs is less than actual number of ally IDs\n";
+		return NULL;
+	}
+
+	jint allyIds[predictedMaxAllyIds];
+
+	for (size_t i = 0; i < predictedMaxAllyIds; ++i) {
+		allyIds[i] = -1;
+	}
+
+	size_t allyIdsIndex = 0;
+	for (const auto &ally : Broodwar->allies()) {
+		if (ally) {
+			allyIds[allyIdsIndex++] = ally->getID();
+		}
+	}
+
+	jintArray ret = env->NewIntArray(predictedMaxAllyIds);
+
+	if (ret == NULL) {
+		/* Probably out of memory error. */
+		std::cout << "error: failed to create jintArray for ally IDs array\n";
+		return NULL;
+	}
+
+	env->SetIntArrayRegion(ret, 0, predictedMaxAllyIds, allyIds);
+
+	return ret;
+}
+
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enemies_1native(JNIEnv *env, jobject jObj) {
+
+	const auto &enemies = Broodwar->enemies();
+
+	const size_t predictedMaxEnemyIds = 16;
+	const auto actualMaxEnemyIds = enemies.size();
+
+	if (predictedMaxEnemyIds < actualMaxEnemyIds) {
+		std::cout << "error: predicted number of enemy IDs is less than actual number of enemy IDs\n";
+		return NULL;
+	}
+
+	jint enemyIds[predictedMaxEnemyIds];
+
+	for (size_t i = 0; i < predictedMaxEnemyIds; ++i) {
+		enemyIds[i] = -1;
+	}
+
+	size_t enemyIdsIndex = 0;
+	for (const auto &enemy : enemies) {
+		if (enemy) {
+			enemyIds[enemyIdsIndex++] = enemy->getID();
+		}
+	}
+
+	jintArray ret = env->NewIntArray(predictedMaxEnemyIds);
+
+	if (ret == NULL) {
+		/* Probably out of memory error. */
+		std::cout << "error: failed to create jintArray for enemy IDs array\n";
+		return NULL;
+	}
+
+	env->SetIntArrayRegion(ret, 0, predictedMaxEnemyIds, enemyIds);
+
+	return ret;
+}

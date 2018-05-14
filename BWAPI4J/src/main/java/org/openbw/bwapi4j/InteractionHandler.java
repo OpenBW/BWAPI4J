@@ -20,6 +20,7 @@
 
 package org.openbw.bwapi4j;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -145,6 +146,52 @@ public final class InteractionHandler {
     	
         return this.bw.getPlayer(this.enemyId);
     }
+
+    public List<Player> allies() {
+
+        final List<Player> allies = new ArrayList<>();
+
+        final int[] allyIds = allies_native();
+
+        if (allyIds == null) {
+            throw new IllegalStateException("Failed to create allies list.");
+        }
+
+        for (int id = 0; id < allyIds.length; ++id) {
+            final int allyId = allyIds[id];
+            if (allyId >= 0) {
+                final Player ally = this.bw.getPlayer(allyId);
+                allies.add(ally);
+            }
+        }
+
+        return allies;
+    }
+
+    private native int[] allies_native();
+
+    public List<Player> enemies() {
+
+        final List<Player> enemies = new ArrayList<>();
+
+        final int[] enemyIds = enemies_native();
+
+        if (enemyIds == null) {
+            throw new IllegalStateException("Failed to create enemies list.");
+        }
+
+        for (int id = 0; id < enemyIds.length; ++id) {
+            final int enemyId = enemyIds[id];
+            if (enemyId >= 0) {
+                final Player enemy = this.bw.getPlayer(enemyId);
+                enemies.add(enemy);
+            }
+        }
+
+        return enemies;
+    }
+
+    private native int[] enemies_native();
 
     public BwError getLastError() {
     	
