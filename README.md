@@ -5,7 +5,7 @@
 This is a Java wrapper for [BWAPI 4.2.0](https://github.com/bwapi/bwapi/).
 It is intended to replace older projects such as BWMirror and JNIBWAPI.
 
-BWAPI4J is compatible with both the original BW on Windows as well as OpenBW on Windows or Linux.
+BWAPI4J is compatible with the official BW 1.16.1 on Windows as well as OpenBW on Windows or Linux.
 
 This project consists of two main parts:
 
@@ -99,73 +99,68 @@ Navigate to `BWAPI4J/BWAPI4J/src/test/java/org/openbw/bwapi4j/MainTest.java` and
 
 ### BWAPI4JBridge (C++)
 
-The bridge is broken into two projects that share most of the same code:
-- **BWAPI4JBridge**: original BW for Windows only
-  * Uses Visual Studio 2017 project files.
-- **OpenBWAPI4JBridge**: OpenBW for Windows or Linux
-  * Uses CMake to generate Visual Studio project files on Windows or Makefiles on Linux.
+The bridge is separated into three **types** that share most of the same code:
+
+| Type Name | BW Version | Platform | Binary Name |
+|-|-|-|-|
+| vanilla | BW 1.16.1 | Windows | BWAPI4JBridge.dll |
+| openbw | OpenBW | Windows | OpenBWAPI4JBridge.dll |
+| openbw | OpenBW | Linux | libOpenBWAPI4JBridge.so |
 
 *Note: All bridges are already built and located in the `BWAPI4JBridge/BWAPI4JBridge/Release/` directory. If one of the bridges is not working for you, please try compiling it yourself with the steps below or submit a GitHub Issue.*
 
-### BWAPI4JBridge (Windows only)
+### Bridge Type: Vanilla BW for Windows
 
-This bridge is only required when running your bot with the original BW on Windows.
+This bridge is only required when running your bot with Vanilla BW on Windows.
 
 #### Prerequisites
 - Visual Studio 2017
+- CMake 3.1 or higher
 
-#### Build Steps:
-- Open the already existing VS project solution file `BWAPI4JBridge/BWAPI4JBridge/VisualStudio/BWAPI4JBridge.sln`.
-- Set the configuration to **Release / x86**.
-- Build the **BWAPI4JBridge.dll** by right-clicking on the **BWAPI4JBridge** project in the project explorer and click **Rebuild**.
+#### Generating the Visual Studio project files
 
-### OpenBWAPI4JBridge (Windows or Linux)
+- Run the batch file: `bridge_type_vanilla_windows.bat`
 
-This bridge is only required when running your bot with OpenBW on Windows or Linux.
+#### Build Steps
+
+- Open `build_vanilla_windows/BWAPI4JBridge.sln`
+- Set the configuration to **Release / Win32**.
+- Build by right-clicking on the **BWAPI4JBridge** project in the project explorer and select **Rebuild**.
+
+### Bridge Type: OpenBW for Windows
+
+This bridge is only required when running your bot with OpenBW on Windows.
 
 #### Prerequisites
 
+- A compiled and working version of OpenBW (see the [OpenBW / BWAPI](https://github.com/openbw/bwapi) project)
+- Visual Studio 2017
+- CMake 3.1 or higher
+
+#### Generating the Visual Studio project files
+
+- Run the batch file: `bridge_type_openbw_windows.bat`
+
+#### Build Steps
+
+- Open `build_openbw_windows/OpenBWAPI4JBridge.sln`
+- Set the configuration to **Release / Win32**.
+- Build by right-clicking on the **OpenBWAPI4JBridge** project in the project explorer and select **Rebuild**.
+
+### Bridge Type: OpenBW for Linux
+
+This bridge is only required when running your bot with OpenBW on Linux.
+
+#### Prerequisites
+
+- A compiled and working version of OpenBW (see the [OpenBW / BWAPI](https://github.com/openbw/bwapi) project)
+- A compiled BWTA2 library for OpenBW's BWAPI on Linux (see Adakite's [BWTA2 Linux fork](https://github.com/adakitesystems/bwta2))
 - CMake 3.1 or higher
 - g++ 5.x or higher (needs to support most C++14 features)
 
-#### Generating the build scripts
+#### Generating the Makefiles and automatically building the bridge
 
-You can use the `OpenBWAPI4JBridge_Windows.bat` or `OpenBWAPI4JBridge_Linux.sh` file to automatically generate the build scripts or follow the steps below to generate them yourself.
-
-From the root **BWAPI4J/** directory, copy and paste the following into a terminal:
-````
-cd BWAPI4JBridge/BWAPI4JBridge/ && \
-    mkdir build/ && \
-    cd build/ && \
-    cmake .. -DOPENBW=1 -DOPENBW_ENABLE_UI=1
-````
-The above commands will generate the following Visual Studio project files on Windows only:
-````
-BWAPI4JBridge/BWAPI4JBridge/build/ALL_BUILD.vcxproj
-BWAPI4JBridge/BWAPI4JBridge/build/ALL_BUILD.vcxproj.filters
-BWAPI4JBridge/BWAPI4JBridge/build/BWAPI4JBridge.sln
-BWAPI4JBridge/BWAPI4JBridge/build/cmake_install.cmake
-BWAPI4JBridge/BWAPI4JBridge/build/CMakeCache.txt
-BWAPI4JBridge/BWAPI4JBridge/build/OpenBWAPI4JBridge.vcxproj
-BWAPI4JBridge/BWAPI4JBridge/build/OpenBWAPI4JBridge.vcxproj.filters
-BWAPI4JBridge/BWAPI4JBridge/build/ZERO_CHECK.vcxproj
-BWAPI4JBridge/BWAPI4JBridge/build/ZERO_CHECK.vcxproj.filters
-````
-
-In Linux, more CMake and Makefiles will be generated.
-
-#### Building OpenBWAPI4JBridge with the build scripts
-
-After generating the build scripts in the previous step, you can now build the bridge(s):
-
-* If using Windows:
-  * Open the newly generated Visual Studio solution file.
-  * Set the configuration to **Release / Win32**.
-  * Right-click on **OpenBWAPI4JBridge** and click **Rebuild**.
-* If using Linux:
-  * Run the `make` command.
-
-The OpenBWAPI4JBridge bridge will compile into `OpenBWAPI4JBridge.dll` on Windows and `libOpenBWAPI4JBridge.so` on Linux.
+- Run the bash script: `bridge_type_openbw_linux.sh`
 
 ---
 
@@ -207,33 +202,6 @@ libBWAPILIB.so
 libBWAPI.so
 libBWTA2.so
 ````
-
-Notes:
-* For compiling OpenBW libraries, see the [OpenBW / BWAPI](https://github.com/openbw/bwapi) project.
-* For compiling the BWTA2 library on Linux, see Adakite's [BWTA2 fork](https://github.com/adakitesystems/bwta2).
-
-<!--
-#### Bridge: OpenBW on Windows and/or Linux
-
-##### Prerequisites:
-
-- Eclipse is optional. However, it is recommended, since it allows to develop both the Java project and the C++ project within the same IDE. Ensure Eclipse CDT installed.
-- Visual Studio 2017 (on Windows).
-- g++ compiler supporting C++14 (on Linux).
-- CMake -->
-
-<!-- You can choose to build the bridge using one of the two following ways: -->
-
-<!-- #### 1. Building with Eclipse:
-Import and build the project as follows:
-  * In eclipse, choose: `File -> Import... -> Git/Projects from Git -> Existing Local Repository`.
-  * If BWAPI4J does not appear, choose `add...` and add `<your path>/git/bwapi4j` where <your path> is the path to your git directory.
-  * Select `Import existing Eclipse projects` and click `Next`.
-  * Select `BWAPI4JBridge` and click `Finish`.
-  * Add `<path to JDK>/include` and `<path to JDK>/include/linux` to the include section under `Project -> Properties -> C/C++ Build -> Settings -> Tool Settings -> GCC C++ Compiler -> Includes`
-  * Click the `Build release` icon in the Eclipse menubar. -->
-
----
 
 ### JVM options
 
