@@ -3,12 +3,12 @@
 echo Generating build scripts for OpenBWAPI4JBridge...
 echo.
 
-IF EXIST build (
-echo Deleting build/ directory...
-rmdir /s /q build
+IF EXIST build_openbw_windows (
+echo Deleting build_openbw_windows/ directory...
+rmdir /s /q build_openbw_windows
 )
-mkdir build
-cd build
+mkdir build_openbw_windows
+cd build_openbw_windows
 cmake .. -DOPENBW=1 -DOPENBW_ENABLE_UI=1
 
 echo.

@@ -3,12 +3,12 @@
 echo Generating build scripts for BWAPI4JBridge...
 echo.
 
-IF EXIST build (
-echo Deleting build/ directory...
-rmdir /s /q build
+IF EXIST build_vanilla_windows (
+echo Deleting build_vanilla_windows/ directory...
+rmdir /s /q build_vanilla_windows
 )
-mkdir build
-cd build
+mkdir build_vanilla_windows
+cd build_vanilla_windows
 cmake ..
 
 echo.
