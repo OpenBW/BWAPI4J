@@ -20,16 +20,42 @@
 
 package org.openbw.bwapi4j.unit;
 
-import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
 import static org.openbw.bwapi4j.type.UnitCommandType.Right_Click_Unit;
 
 public class ShieldBattery extends Building implements Mechanical {
 
+    private int energy;
+
     protected ShieldBattery(int id, int timeSpotted) {
         
         super(id, UnitType.Protoss_Shield_Battery, timeSpotted);
+    }
+
+    @Override
+    public void initialize(int[] unitData, int index, int frame) {
+
+        this.energy = 0;
+        super.initialize(unitData, index, frame);
+    }
+
+    @Override
+    public void update(int[] unitData, int index, int frame) {
+
+        this.energy = unitData[index + Unit.ENERGY_INDEX];
+        super.update(unitData, index, frame);
+    }
+
+    public int getEnergy() {
+
+        return this.energy;
+    }
+
+    @Override
+    public int getMaxEnergy() {
+
+        return super.getMaxEnergy();
     }
     
     /**
@@ -39,7 +65,7 @@ public class ShieldBattery extends Building implements Mechanical {
      * @param queued true if command is queued, false else
      * @return true if successful, false else
      */
-    protected boolean recharge(Unit target, boolean queued) {
+    public boolean recharge(Unit target, boolean queued) {
         
     	return issueCommand(target.id, Right_Click_Unit, this.getId(), -1, -1, queued ? 1 : 0);
     }
