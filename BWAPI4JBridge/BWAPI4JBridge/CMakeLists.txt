@@ -36,16 +36,10 @@ endfunction()
 ################################################################################
 
 if_unset_then_set(BWAPI4JBRIDGE_SRC_DIR src)
-set(BWAPI4JBRIDGE_SRCS 
-    ${BWAPI4JBRIDGE_SRC_DIR}/Bridge.cpp
-    ${BWAPI4JBRIDGE_SRC_DIR}/BridgeEnum.cpp
-    ${BWAPI4JBRIDGE_SRC_DIR}/BridgeMap.cpp
-    ${BWAPI4JBRIDGE_SRC_DIR}/BWTA.cpp
-    ${BWAPI4JBRIDGE_SRC_DIR}/DamageEvaluator.cpp
-    ${BWAPI4JBRIDGE_SRC_DIR}/InteractionHandler.cpp
-    ${BWAPI4JBRIDGE_SRC_DIR}/MapDrawer.cpp
-    ${BWAPI4JBRIDGE_SRC_DIR}/OpenBridgeModule.cpp
-    ${BWAPI4JBRIDGE_SRC_DIR}/Unit.cpp
+
+file(GLOB_RECURSE BWAPI4JBRIDGE_SRCS
+    ${BWAPI4JBRIDGE_SRC_DIR}/*.h
+    ${BWAPI4JBRIDGE_SRC_DIR}/*.cpp
 )
 
 add_library(${PROJECT_NAME} SHARED ${BWAPI4JBRIDGE_SRCS})
