@@ -2,7 +2,6 @@
 
 if [ -f ../../../BWTA2/Makefile ]; then
     cd ../../../BWTA2/ && \
-	make clean && \
 	make && \
 	cp -f Release/*.so ../BWAPI4J/BWAPI4JBridge/BWAPI4JBridge/Release/ && \
 	cd ../BWAPI4J/BWAPI4JBridge/BWAPI4JBridge/
