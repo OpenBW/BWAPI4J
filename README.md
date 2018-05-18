@@ -17,6 +17,17 @@ Notes:
 * To develop a BWAPI4J bot, only the Java project is required.
 * If you want to compile the bridge, you will need a C++ development environment.
 
+### Why BWAPI4J?
+
+BWAPI4J was inspired by both bwmirror and jnibwapi. It strives to combine the advantages of both while eliminating some weaknesses.
+
+The main advantages of BWAPI4J are:
+* speed: BWAPI4J minimizes the amount of JNI calls and caches data likely to be queried every frame on the Java-side using a single large array copy
+* ease of debugging: automatically generated code is hard to debug, especially if c++ pointers are cached Java-side and there is no way to look up the values from a Java debugger. BWAPI4J is coded manually and caches relevant game data Java-side, rather than just pointers.
+* feature-completeness: other bridges either do not contain the full set of features or are prone to nasty bugs that lead to JVM crashes, in particular in conjunction with libraries such as BWTA. BWAPI4J aims to provide at least a rudimentary exception handling even for the c++ routines, such that bugs can be investigated
+
+the fact that BWAPI4J is typed may or may not be seen as an advantage. Future version will provide a typed and a non-typed interface.
+
 ---
 
 ## BWAPI4J (Java)
