@@ -298,7 +298,6 @@ public abstract class Building extends PlayerUnit {
 
     protected int probableConstructionStart;
     protected int remainingBuildTime;
-    protected int builderId;
 
     protected Building(int id, UnitType type, int timeSpotted) {
 
@@ -309,22 +308,9 @@ public abstract class Building extends PlayerUnit {
     @Override
     public void update(int[] unitData, int index, int frame) {
 
-        this.builderId = unitData[index + Unit.BUILD_UNIT_ID_INDEX];
         this.remainingBuildTime = unitData[index + Unit.REMAINING_BUILD_TIME_INDEX];
 
         super.update(unitData, index, frame);
-    }
-
-    public SCV getBuildUnit() {
-
-        Unit unit = this.getUnit(builderId);
-        if (unit instanceof SCV) {
-            return (SCV) unit;
-        } else {
-
-            logger.error("build unit for {} should be SCV but is {}.", this, unit);
-            return null;
-        }
     }
 
     public int getBuildTime() {

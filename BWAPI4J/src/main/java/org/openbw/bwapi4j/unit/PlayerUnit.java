@@ -68,6 +68,7 @@ public abstract class PlayerUnit extends Unit {
     private boolean isUnderAttack;
     private boolean isPowered;
     private boolean isInterruptible;
+    protected int builderId;
 
     protected int playerId;
 
@@ -127,6 +128,8 @@ public abstract class PlayerUnit extends Unit {
         this.lastCommand = UnitCommandType.values()[unitData[index + Unit.LAST_COMMAND_TYPE_ID_INDEX]];
         this.lastCommandFrame = unitData[index + Unit.LAST_COMMAND_FRAME_INDEX];
 
+        this.builderId = unitData[index + Unit.BUILD_UNIT_ID_INDEX];
+
         super.update(unitData, index, frame);
 
         this.groundWeapon.update(type.groundWeapon(), unitData[index + Unit.GROUND_WEAPON_COOLDOWN_INDEX]);
@@ -144,6 +147,20 @@ public abstract class PlayerUnit extends Unit {
         HashSet<UnitType> result = new HashSet<>(types);
         group.stream().filter(u -> u.isCompleted).map(u -> u.type).forEach(result::remove);
         return result;
+    }
+
+    public PlayerUnit getBuildUnit() {
+
+        final Unit unit = this.getUnit(builderId);
+        if (unit == null) {
+            return null;
+        } else {
+            if (unit instanceof PlayerUnit) {
+                return (PlayerUnit) unit;
+            } else {
+                throw new IllegalStateException("build unit for " + this.toString() + " should be PlayerUnit but is " + unit.toString() + ".");
+            }
+        }
     }
 
     protected Unit getTargetUnit() {

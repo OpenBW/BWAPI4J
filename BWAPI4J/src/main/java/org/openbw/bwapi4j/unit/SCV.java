@@ -31,7 +31,6 @@ public class SCV extends Worker implements Mechanical {
 	private static final Logger logger = LogManager.getLogger();
 	
     private boolean isRepairing;
-    private int builderId;
 
     protected SCV(int id) {
         
@@ -49,7 +48,6 @@ public class SCV extends Worker implements Mechanical {
     public void update(int[] unitData, int index, int frame) {
 
         this.isRepairing = unitData[index + Unit.IS_REPAIRING_INDEX] == 1;
-        this.builderId = unitData[index + Unit.BUILD_UNIT_ID_INDEX];
         super.update(unitData, index, frame);
     }
 
@@ -59,18 +57,6 @@ public class SCV extends Worker implements Mechanical {
 
     public boolean repair(Mechanical target) {
         return issueCommand(id, Repair, ((Unit) target).id, -1, -1, -1);
-    }
-
-    public Building getBuildUnit() {
-    
-    	Unit unit = this.getUnit(builderId);
-    	if (unit instanceof Building) {
-    		return (Building) unit;
-    	} else {
-    		
-    		logger.error("build unit for {} should be Building but is {}.", this, unit);
-    		return null;
-    	}
     }
 
     public boolean haltConstruction() {
