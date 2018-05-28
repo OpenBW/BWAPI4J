@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -29,10 +29,9 @@
 #ifndef BRIDGE_H_
 #define BRIDGE_H_
 
-extern JNIEnv * globalEnv;
+extern JNIEnv* globalEnv;
 extern jobject globalBW;
 extern jint intBuf[];
-
 
 extern jclass arrayListClass;
 extern jmethodID arrayListAdd;
@@ -47,7 +46,7 @@ extern jclass weaponTypeClass;
 extern jclass techTypeClass;
 extern jclass unitTypeClass;
 extern jclass upgradeTypeClass;
-extern jclass damageTypeClass ;
+extern jclass damageTypeClass;
 extern jclass explosionTypeClass;
 extern jclass raceClass;
 extern jclass unitSizeTypeClass;
@@ -61,6 +60,5 @@ extern jmethodID bwMapNew;
 
 extern jmethodID addRequiredUnit;
 extern jmethodID addUsingUnit;
-
 
 #endif /* SO_H_ */

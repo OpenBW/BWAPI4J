@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -29,21 +29,19 @@
 
 using namespace BWAPI;
 
-JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_Unit_issueCommand(JNIEnv * env, jobject jObj, jint unitID, jint unitCommandTypeID, jint targetUnitID, jint x, jint y, jint extra) {
-
-//	std::cout << "issuing command " << unitCommandTypeID << " to " << unitID << std::endl;
-	Unit unit = Broodwar->getUnit(unitID);
-	if (unit != NULL) {
-		UnitCommand c = BWAPI::UnitCommand();
-		c.unit = unit;
-		c.type = unitCommandTypeID;
-		c.target = Broodwar->getUnit(targetUnitID);
-		c.x = x;
-		c.y = y;
-		c.extra = extra;
-		return c.unit->issueCommand(c);
-	}
-	return JNI_FALSE;
+JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_Unit_issueCommand(JNIEnv* env, jobject jObj, jint unitID, jint unitCommandTypeID, jint targetUnitID,
+                                                                          jint x, jint y, jint extra) {
+  //	std::cout << "issuing command " << unitCommandTypeID << " to " << unitID << std::endl;
+  Unit unit = Broodwar->getUnit(unitID);
+  if (unit != NULL) {
+    UnitCommand c = BWAPI::UnitCommand();
+    c.unit = unit;
+    c.type = unitCommandTypeID;
+    c.target = Broodwar->getUnit(targetUnitID);
+    c.x = x;
+    c.y = y;
+    c.extra = extra;
+    return c.unit->issueCommand(c);
+  }
+  return JNI_FALSE;
 }
-
-

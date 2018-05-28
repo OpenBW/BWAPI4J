@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -30,132 +30,110 @@
 using namespace BWAPI;
 
 JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_InteractionHandler_getKeyState(JNIEnv *env, jobject jObj, jint keyValue) {
+  jboolean result = Broodwar->getKeyState((Key)keyValue);
 
-	jboolean result = Broodwar->getKeyState((Key)keyValue);
-
-	return result;
+  return result;
 }
 
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enableLatCom(JNIEnv *, jobject jObj, jboolean enabled) {
-
-	std::cout << "enable latency compensation: " << (enabled != JNI_FALSE) << std::endl;
-	Broodwar->setLatCom(enabled != JNI_FALSE);
+  std::cout << "enable latency compensation: " << (enabled != JNI_FALSE) << std::endl;
+  Broodwar->setLatCom(enabled != JNI_FALSE);
 }
 
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_leaveGame(JNIEnv *env, jobject jObj) {
-
-	Broodwar->leaveGame();
-}
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_leaveGame(JNIEnv *env, jobject jObj) { Broodwar->leaveGame(); }
 
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_printf(JNIEnv *env, jobject jObj, jstring message) {
-
-	const char* messagechars = env->GetStringUTFChars(message, 0);
-	Broodwar->printf(messagechars);
-	env->ReleaseStringUTFChars(message, messagechars);
+  const char *messagechars = env->GetStringUTFChars(message, 0);
+  Broodwar->printf(messagechars);
+  env->ReleaseStringUTFChars(message, messagechars);
 }
 
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_sendText(JNIEnv *env, jobject jObj, jstring message) {
-
-	const char* messagechars = env->GetStringUTFChars(message, 0);
-	Broodwar->sendText("%s", messagechars);
-	env->ReleaseStringUTFChars(message, messagechars);
+  const char *messagechars = env->GetStringUTFChars(message, 0);
+  Broodwar->sendText("%s", messagechars);
+  env->ReleaseStringUTFChars(message, messagechars);
 }
 
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_setLocalSpeed(JNIEnv *env, jobject jObj, jint speed) {
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_setLocalSpeed(JNIEnv *env, jobject jObj, jint speed) { Broodwar->setLocalSpeed(speed); }
 
-	Broodwar->setLocalSpeed(speed);
-}
-
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enableUserInput(JNIEnv *env, jobject jObj) {
-
-	Broodwar->enableFlag(Flag::UserInput);
-}
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enableUserInput(JNIEnv *env, jobject jObj) { Broodwar->enableFlag(Flag::UserInput); }
 
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enableCompleteMapInformation(JNIEnv *env, jobject jObj) {
-
-	Broodwar->enableFlag(Flag::CompleteMapInformation);
+  Broodwar->enableFlag(Flag::CompleteMapInformation);
 }
 
-JNIEXPORT jlong JNICALL Java_org_openbw_bwapi4j_InteractionHandler_getRandomSeed(JNIEnv *env, jobject jObj) {
+JNIEXPORT jlong JNICALL Java_org_openbw_bwapi4j_InteractionHandler_getRandomSeed(JNIEnv *env, jobject jObj) { return (jlong)Broodwar->getRandomSeed(); }
 
-	return (jlong)Broodwar->getRandomSeed();
-}
-
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_setFrameSkip(JNIEnv *env, jobject jObj, jint frameSkip) {
-
-	Broodwar->setFrameSkip(frameSkip);
-}
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_setFrameSkip(JNIEnv *env, jobject jObj, jint frameSkip) { Broodwar->setFrameSkip(frameSkip); }
 
 JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_InteractionHandler_allies_1native(JNIEnv *env, jobject jObj) {
+  const size_t predictedMaxAllyIds = 16;
+  const auto actualMaxAllyIds = Broodwar->allies().size();
 
-	const size_t predictedMaxAllyIds = 16;
-	const auto actualMaxAllyIds = Broodwar->allies().size();
+  if (predictedMaxAllyIds < actualMaxAllyIds) {
+    std::cout << "error: predicted number of ally IDs is less than actual number of ally IDs\n";
+    return NULL;
+  }
 
-	if (predictedMaxAllyIds < actualMaxAllyIds) {
-		std::cout << "error: predicted number of ally IDs is less than actual number of ally IDs\n";
-		return NULL;
-	}
+  jint allyIds[predictedMaxAllyIds];
 
-	jint allyIds[predictedMaxAllyIds];
+  for (size_t i = 0; i < predictedMaxAllyIds; ++i) {
+    allyIds[i] = -1;
+  }
 
-	for (size_t i = 0; i < predictedMaxAllyIds; ++i) {
-		allyIds[i] = -1;
-	}
+  size_t allyIdsIndex = 0;
+  for (const auto &ally : Broodwar->allies()) {
+    if (ally) {
+      allyIds[allyIdsIndex++] = ally->getID();
+    }
+  }
 
-	size_t allyIdsIndex = 0;
-	for (const auto &ally : Broodwar->allies()) {
-		if (ally) {
-			allyIds[allyIdsIndex++] = ally->getID();
-		}
-	}
+  jintArray ret = env->NewIntArray(predictedMaxAllyIds);
 
-	jintArray ret = env->NewIntArray(predictedMaxAllyIds);
+  if (ret == NULL) {
+    /* Probably out of memory error. */
+    std::cout << "error: failed to create jintArray for ally IDs array\n";
+    return NULL;
+  }
 
-	if (ret == NULL) {
-		/* Probably out of memory error. */
-		std::cout << "error: failed to create jintArray for ally IDs array\n";
-		return NULL;
-	}
+  env->SetIntArrayRegion(ret, 0, predictedMaxAllyIds, allyIds);
 
-	env->SetIntArrayRegion(ret, 0, predictedMaxAllyIds, allyIds);
-
-	return ret;
+  return ret;
 }
 
 JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enemies_1native(JNIEnv *env, jobject jObj) {
+  const auto &enemies = Broodwar->enemies();
 
-	const auto &enemies = Broodwar->enemies();
+  const size_t predictedMaxEnemyIds = 16;
+  const auto actualMaxEnemyIds = enemies.size();
 
-	const size_t predictedMaxEnemyIds = 16;
-	const auto actualMaxEnemyIds = enemies.size();
+  if (predictedMaxEnemyIds < actualMaxEnemyIds) {
+    std::cout << "error: predicted number of enemy IDs is less than actual number of enemy IDs\n";
+    return NULL;
+  }
 
-	if (predictedMaxEnemyIds < actualMaxEnemyIds) {
-		std::cout << "error: predicted number of enemy IDs is less than actual number of enemy IDs\n";
-		return NULL;
-	}
+  jint enemyIds[predictedMaxEnemyIds];
 
-	jint enemyIds[predictedMaxEnemyIds];
+  for (size_t i = 0; i < predictedMaxEnemyIds; ++i) {
+    enemyIds[i] = -1;
+  }
 
-	for (size_t i = 0; i < predictedMaxEnemyIds; ++i) {
-		enemyIds[i] = -1;
-	}
+  size_t enemyIdsIndex = 0;
+  for (const auto &enemy : enemies) {
+    if (enemy) {
+      enemyIds[enemyIdsIndex++] = enemy->getID();
+    }
+  }
 
-	size_t enemyIdsIndex = 0;
-	for (const auto &enemy : enemies) {
-		if (enemy) {
-			enemyIds[enemyIdsIndex++] = enemy->getID();
-		}
-	}
+  jintArray ret = env->NewIntArray(predictedMaxEnemyIds);
 
-	jintArray ret = env->NewIntArray(predictedMaxEnemyIds);
+  if (ret == NULL) {
+    /* Probably out of memory error. */
+    std::cout << "error: failed to create jintArray for enemy IDs array\n";
+    return NULL;
+  }
 
-	if (ret == NULL) {
-		/* Probably out of memory error. */
-		std::cout << "error: failed to create jintArray for enemy IDs array\n";
-		return NULL;
-	}
+  env->SetIntArrayRegion(ret, 0, predictedMaxEnemyIds, enemyIds);
 
-	env->SetIntArrayRegion(ret, 0, predictedMaxEnemyIds, enemyIds);
-
-	return ret;
+  return ret;
 }
