@@ -28,6 +28,7 @@ The main advantages of BWAPI4J are:
 
 the fact that BWAPI4J is typed may or may not be seen as an advantage. Future version will provide a typed and a non-typed interface.
 
+Last but not least: BWAPI4J is **fully compatible with OpenBW** and therefore can be run on Linux (natively, no Wine required) at much greater speeds than the original BW.
 ---
 
 ## BWAPI4J (Java)
