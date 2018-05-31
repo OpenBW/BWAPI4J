@@ -18,27 +18,12 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-/*
- * BridgeEnum.cpp
- *
- *  Created on: Jul 18, 2017
- *      Author: imp
- */
-
 #include "BridgeEnum.h"
 #include <BWAPI.h>
 #include <BWAPI/Client.h>
 #include "Bridge.h"
 
 using namespace BWAPI;
-
-BridgeEnum::BridgeEnum() {
-  // TODO Auto-generated constructor stub
-}
-
-BridgeEnum::~BridgeEnum() {
-  // TODO Auto-generated destructor stub
-}
 
 void BridgeEnum::initialize() {
   createUpgradeTypeEnum();

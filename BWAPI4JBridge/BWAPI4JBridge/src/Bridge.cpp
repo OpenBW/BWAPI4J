@@ -18,13 +18,6 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-/*
- * Bridge.cpp
- *
- *  Created on: Jun 7, 2017
- *      Author: imp
- */
-
 #include <chrono>
 #include <thread>
 
@@ -63,8 +56,8 @@ jint intBuf[bufferSize];
 bool finished = false;
 
 // conversion ratios
-double TO_DEGREES = 180.0 / M_PI;
-double fixedScale = 100.0;
+const double TO_DEGREES = 180.0 / M_PI;
+const double fixedScale = 100.0;
 
 JNIEnv *globalEnv;
 jobject globalBW;

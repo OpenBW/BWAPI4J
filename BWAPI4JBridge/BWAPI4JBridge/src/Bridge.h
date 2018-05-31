@@ -18,19 +18,14 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-/*
- * Bridge.h
- *
- *  Created on: Jul 16, 2017
- *      Author: imp
- */
+#pragma once
+
 #include <jni.h>
 
-#ifndef BRIDGE_H_
-#define BRIDGE_H_
-
-extern JNIEnv* globalEnv;
+extern JNIEnv *globalEnv;
 extern jobject globalBW;
+
+extern const size_t bufferSize;
 extern jint intBuf[];
 
 extern jclass arrayListClass;
@@ -60,5 +55,3 @@ extern jmethodID bwMapNew;
 
 extern jmethodID addRequiredUnit;
 extern jmethodID addUsingUnit;
-
-#endif /* SO_H_ */

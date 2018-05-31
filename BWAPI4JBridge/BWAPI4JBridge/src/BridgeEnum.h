@@ -18,20 +18,10 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-/*
- * BridgeEnum.h
- *
- *  Created on: Jul 18, 2017
- *      Author: imp
- */
-
-#ifndef BRIDGEENUM_H_
-#define BRIDGEENUM_H_
+#pragma once
 
 class BridgeEnum {
  public:
-  BridgeEnum();
-  virtual ~BridgeEnum();
   void initialize();
 
  private:
@@ -39,7 +29,4 @@ class BridgeEnum {
   void createTechTypeEnum();
   void createWeaponTypeEnum();
   void createUnitTypeEnum();
-  void createRaceEnum();
 };
-
-#endif /* BRIDGEENUM_H_ */

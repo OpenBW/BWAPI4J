@@ -18,20 +18,9 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-/*
- * BridgeMap.cpp
- *
- *  Created on: Jul 16, 2017
- *      Author: imp
- */
-
 #include "BridgeMap.h"
 #include <BWAPI.h>
 #include "org_openbw_bwapi4j_BWMapImpl.h"
-
-BridgeMap::BridgeMap() {}
-
-BridgeMap::~BridgeMap() {}
 
 using namespace BWAPI;
 
@@ -107,11 +96,6 @@ void BridgeMap::initialize(JNIEnv *env, jclass jc, jobject bwObject, jclass bwMa
   std::cout << "done." << std::endl;
 }
 
-/*
-//
-//	BWMap
-//
-*/
 JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl__1isBuildable(JNIEnv *, jobject, jint tileX, jint tileY, jboolean considerBuildings) {
   return Broodwar->isBuildable(tileX, tileY, considerBuildings) ? 1 : 0;
 }
