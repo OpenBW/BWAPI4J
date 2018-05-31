@@ -24,8 +24,6 @@
 #include "BridgeEnum.h"
 #include "BridgeMap.h"
 
-using namespace OpenBridge;
-
 jmethodID onStartCallback;
 jmethodID onFrameCallback;
 jmethodID onEndCallback;
@@ -68,6 +66,8 @@ void initializeCallbackMethods() {
 
   preFrameCallback = globalEnv->GetMethodID(jc, "preFrame", "()V");
 }
+
+namespace OpenBridge {
 
 // This gets called when the bot starts!
 void OpenBridgeModule::onStart() {
@@ -224,3 +224,5 @@ void OpenBridgeModule::onUnitComplete(BWAPI::Unit unit) {
   //	std::cout << "onUnitComplete..." << std::endl;
   //	globalEnv->CallObjectMethod(globalBW, onUnitCompleteCallback, unit->getID());
 }
+
+}  // namespace OpenBridge

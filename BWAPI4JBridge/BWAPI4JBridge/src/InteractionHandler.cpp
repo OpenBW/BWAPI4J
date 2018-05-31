@@ -27,48 +27,52 @@
 #include <BWAPI/Client.h>
 #include "org_openbw_bwapi4j_InteractionHandler.h"
 
-using namespace BWAPI;
-
 JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_InteractionHandler_getKeyState(JNIEnv *env, jobject jObj, jint keyValue) {
-  jboolean result = Broodwar->getKeyState((Key)keyValue);
+  jboolean result = BWAPI::Broodwar->getKeyState((BWAPI::Key)keyValue);
 
   return result;
 }
 
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enableLatCom(JNIEnv *, jobject jObj, jboolean enabled) {
   std::cout << "enable latency compensation: " << (enabled != JNI_FALSE) << std::endl;
-  Broodwar->setLatCom(enabled != JNI_FALSE);
+  BWAPI::Broodwar->setLatCom(enabled != JNI_FALSE);
 }
 
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_leaveGame(JNIEnv *env, jobject jObj) { Broodwar->leaveGame(); }
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_leaveGame(JNIEnv *env, jobject jObj) { BWAPI::Broodwar->leaveGame(); }
 
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_printf(JNIEnv *env, jobject jObj, jstring message) {
   const char *messagechars = env->GetStringUTFChars(message, 0);
-  Broodwar->printf(messagechars);
+  BWAPI::Broodwar->printf(messagechars);
   env->ReleaseStringUTFChars(message, messagechars);
 }
 
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_sendText(JNIEnv *env, jobject jObj, jstring message) {
   const char *messagechars = env->GetStringUTFChars(message, 0);
-  Broodwar->sendText("%s", messagechars);
+  BWAPI::Broodwar->sendText("%s", messagechars);
   env->ReleaseStringUTFChars(message, messagechars);
 }
 
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_setLocalSpeed(JNIEnv *env, jobject jObj, jint speed) { Broodwar->setLocalSpeed(speed); }
-
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enableUserInput(JNIEnv *env, jobject jObj) { Broodwar->enableFlag(Flag::UserInput); }
-
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enableCompleteMapInformation(JNIEnv *env, jobject jObj) {
-  Broodwar->enableFlag(Flag::CompleteMapInformation);
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_setLocalSpeed(JNIEnv *env, jobject jObj, jint speed) {
+  BWAPI::Broodwar->setLocalSpeed(speed);
 }
 
-JNIEXPORT jlong JNICALL Java_org_openbw_bwapi4j_InteractionHandler_getRandomSeed(JNIEnv *env, jobject jObj) { return (jlong)Broodwar->getRandomSeed(); }
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enableUserInput(JNIEnv *env, jobject jObj) {
+  BWAPI::Broodwar->enableFlag(BWAPI::Flag::UserInput);
+}
 
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_setFrameSkip(JNIEnv *env, jobject jObj, jint frameSkip) { Broodwar->setFrameSkip(frameSkip); }
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enableCompleteMapInformation(JNIEnv *env, jobject jObj) {
+  BWAPI::Broodwar->enableFlag(BWAPI::Flag::CompleteMapInformation);
+}
+
+JNIEXPORT jlong JNICALL Java_org_openbw_bwapi4j_InteractionHandler_getRandomSeed(JNIEnv *env, jobject jObj) { return (jlong)BWAPI::Broodwar->getRandomSeed(); }
+
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_setFrameSkip(JNIEnv *env, jobject jObj, jint frameSkip) {
+  BWAPI::Broodwar->setFrameSkip(frameSkip);
+}
 
 JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_InteractionHandler_allies_1native(JNIEnv *env, jobject jObj) {
   const size_t predictedMaxAllyIds = 16;
-  const auto actualMaxAllyIds = Broodwar->allies().size();
+  const auto actualMaxAllyIds = BWAPI::Broodwar->allies().size();
 
   if (predictedMaxAllyIds < actualMaxAllyIds) {
     std::cout << "error: predicted number of ally IDs is less than actual number of ally IDs\n";
@@ -82,7 +86,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_InteractionHandler_allies_1n
   }
 
   size_t allyIdsIndex = 0;
-  for (const auto &ally : Broodwar->allies()) {
+  for (const auto &ally : BWAPI::Broodwar->allies()) {
     if (ally) {
       allyIds[allyIdsIndex++] = ally->getID();
     }
@@ -102,7 +106,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_InteractionHandler_allies_1n
 }
 
 JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enemies_1native(JNIEnv *env, jobject jObj) {
-  const auto &enemies = Broodwar->enemies();
+  const auto &enemies = BWAPI::Broodwar->enemies();
 
   const size_t predictedMaxEnemyIds = 16;
   const auto actualMaxEnemyIds = enemies.size();

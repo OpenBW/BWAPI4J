@@ -25,7 +25,7 @@
 extern JNIEnv *globalEnv;
 extern jobject globalBW;
 
-extern const size_t bufferSize;
+extern const size_t intBufSize;
 extern jint intBuf[];
 
 extern jclass arrayListClass;

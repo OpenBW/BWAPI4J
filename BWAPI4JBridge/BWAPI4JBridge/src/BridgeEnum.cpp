@@ -23,8 +23,6 @@
 #include <BWAPI/Client.h>
 #include "Bridge.h"
 
-using namespace BWAPI;
-
 void BridgeEnum::initialize() {
   createUpgradeTypeEnum();
   createTechTypeEnum();
@@ -35,7 +33,7 @@ void BridgeEnum::initialize() {
 void BridgeEnum::createUpgradeTypeEnum() {
   // read static data: UpgradeType
   std::cout << "reading upgrade types..." << std::endl;
-  for (UpgradeType upgradeType : UpgradeTypes::allUpgradeTypes()) {
+  for (BWAPI::UpgradeType upgradeType : BWAPI::UpgradeTypes::allUpgradeTypes()) {
     if (upgradeType.getName().empty()) {
       return;
     }
@@ -100,7 +98,7 @@ void BridgeEnum::createUpgradeTypeEnum() {
 void BridgeEnum::createTechTypeEnum() {
   // read static data: TechType
   std::cout << "reading tech types..." << std::endl;
-  for (TechType techType : TechTypes::allTechTypes()) {
+  for (BWAPI::TechType techType : BWAPI::TechTypes::allTechTypes()) {
     if (techType.getName().empty()) {
       return;
     }
@@ -143,7 +141,7 @@ void BridgeEnum::createTechTypeEnum() {
 void BridgeEnum::createWeaponTypeEnum() {
   // read static data: WeaponType
   std::cout << "reading weapon types..." << std::endl;
-  for (WeaponType weaponType : WeaponTypes::allWeaponTypes()) {
+  for (BWAPI::WeaponType weaponType : BWAPI::WeaponTypes::allWeaponTypes()) {
     if (weaponType.getName().empty()) {
       return;
     }
@@ -200,7 +198,7 @@ void BridgeEnum::createWeaponTypeEnum() {
 
 void BridgeEnum::createUnitTypeEnum() {
   std::cout << "reading unit types..." << std::endl;
-  for (UnitType unitType : UnitTypes::allUnitTypes()) {
+  for (BWAPI::UnitType unitType : BWAPI::UnitTypes::allUnitTypes()) {
     if (unitType.getName().empty()) {
       return;
     }
@@ -309,7 +307,7 @@ void BridgeEnum::createUnitTypeEnum() {
 
     // set complex values
     jobject upgradesList = globalEnv->GetObjectField(CurrentUnitType, globalEnv->GetFieldID(unitTypeClass, "upgrades", "Ljava/util/ArrayList;"));
-    for (UpgradeType upgradeType : unitType.upgrades()) {
+    for (BWAPI::UpgradeType upgradeType : unitType.upgrades()) {
       jobject upgradesMemberType = globalEnv->GetStaticObjectField(
           upgradeTypeClass, globalEnv->GetStaticFieldID(upgradeTypeClass, upgradeType.getName().c_str(), "Lorg/openbw/bwapi4j/type/UpgradeType;"));
       globalEnv->CallObjectMethod(upgradesList, arrayListAdd, upgradesMemberType);
@@ -318,7 +316,7 @@ void BridgeEnum::createUnitTypeEnum() {
     globalEnv->DeleteLocalRef(upgradesList);
 
     jobject upgradesWhatList = globalEnv->GetObjectField(CurrentUnitType, globalEnv->GetFieldID(unitTypeClass, "upgradesWhat", "Ljava/util/ArrayList;"));
-    for (UpgradeType upgradeType : unitType.upgradesWhat()) {
+    for (BWAPI::UpgradeType upgradeType : unitType.upgradesWhat()) {
       jobject upgradesWhatMemberType = globalEnv->GetStaticObjectField(
           upgradeTypeClass, globalEnv->GetStaticFieldID(upgradeTypeClass, upgradeType.getName().c_str(), "Lorg/openbw/bwapi4j/type/UpgradeType;"));
       globalEnv->CallObjectMethod(upgradesWhatList, arrayListAdd, upgradesWhatMemberType);
@@ -327,7 +325,7 @@ void BridgeEnum::createUnitTypeEnum() {
     globalEnv->DeleteLocalRef(upgradesWhatList);
 
     jobject abilitiesList = globalEnv->GetObjectField(CurrentUnitType, globalEnv->GetFieldID(unitTypeClass, "abilities", "Ljava/util/ArrayList;"));
-    for (TechType techType : unitType.abilities()) {
+    for (BWAPI::TechType techType : unitType.abilities()) {
       jobject abilitiesMemberType = globalEnv->GetStaticObjectField(
           techTypeClass, globalEnv->GetStaticFieldID(techTypeClass, techType.getName().c_str(), "Lorg/openbw/bwapi4j/type/TechType;"));
       globalEnv->CallObjectMethod(abilitiesList, arrayListAdd, abilitiesMemberType);
@@ -336,7 +334,7 @@ void BridgeEnum::createUnitTypeEnum() {
     globalEnv->DeleteLocalRef(abilitiesList);
 
     jobject researchesWhatList = globalEnv->GetObjectField(CurrentUnitType, globalEnv->GetFieldID(unitTypeClass, "researchesWhat", "Ljava/util/ArrayList;"));
-    for (TechType techType : unitType.researchesWhat()) {
+    for (BWAPI::TechType techType : unitType.researchesWhat()) {
       jobject researchesWhatMemberType = globalEnv->GetStaticObjectField(
           techTypeClass, globalEnv->GetStaticFieldID(techTypeClass, techType.getName().c_str(), "Lorg/openbw/bwapi4j/type/TechType;"));
       globalEnv->CallObjectMethod(researchesWhatList, arrayListAdd, researchesWhatMemberType);
@@ -345,7 +343,7 @@ void BridgeEnum::createUnitTypeEnum() {
     globalEnv->DeleteLocalRef(researchesWhatList);
 
     jobject buildsWhatList = globalEnv->GetObjectField(CurrentUnitType, globalEnv->GetFieldID(unitTypeClass, "buildsWhat", "Ljava/util/ArrayList;"));
-    for (UnitType unitType : unitType.buildsWhat()) {
+    for (BWAPI::UnitType unitType : unitType.buildsWhat()) {
       jobject buildsWhatMemberType = globalEnv->GetStaticObjectField(
           unitTypeClass, globalEnv->GetStaticFieldID(unitTypeClass, unitType.getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;"));
       globalEnv->CallObjectMethod(buildsWhatList, arrayListAdd, buildsWhatMemberType);
