@@ -1,0 +1,9 @@
+[submodule "BWAPI4JBridge/externals/openbw/bwapi"]
+	path = BWAPI4JBridge/externals/openbw/bwapi
+	url = https://github.com/OpenBW/bwapi
+[submodule "BWAPI4JBridge/externals/openbw/openbw"]
+	path = BWAPI4JBridge/externals/openbw/openbw
+	url = https://github.com/OpenBW/openbw
+[submodule "BWAPI4JBridge/externals/bwapi"]
+	path = BWAPI4JBridge/externals/bwapi
+	url = https://github.com/bwapi/bwapi
