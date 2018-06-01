@@ -84,18 +84,18 @@ endif()
 # BWTA
 ################################################################################
 
-if_unset_then_set(BWTA_INC_DIR ../BWTA/include)
-include_directories(${BWTA_INC_DIR})
-
-if (MSVC)
-	if_unset_then_set(BWTA_LIB_DIR ../BWTA/lib)
-
-	link_directories(${BWTA_LIB_DIR})
-
-	target_link_libraries(${PROJECT_NAME} ../${BWTA_LIB_DIR}/BWTA)
-else()
-	target_link_libraries(${PROJECT_NAME} BWTA2)
-endif()
+#if_unset_then_set(BWTA_INC_DIR ../BWTA/include)
+#include_directories(${BWTA_INC_DIR})
+#
+#if (MSVC)
+#	if_unset_then_set(BWTA_LIB_DIR ../BWTA/lib)
+#
+#	link_directories(${BWTA_LIB_DIR})
+#
+#	target_link_libraries(${PROJECT_NAME} ../${BWTA_LIB_DIR}/BWTA)
+#else()
+#	target_link_libraries(${PROJECT_NAME} BWTA2)
+#endif()
 
 ################################################################################
 

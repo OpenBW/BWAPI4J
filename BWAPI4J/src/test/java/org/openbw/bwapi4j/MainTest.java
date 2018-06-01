@@ -17,10 +17,6 @@ import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.unit.SCV;
 import org.openbw.bwapi4j.unit.Unit;
 
-import bwta.BWTA;
-import bwta.Chokepoint;
-import bwta.Region;
-
 public class MainTest implements BWEventListener {
 
     private static final Logger logger = LogManager.getLogger();
@@ -42,24 +38,6 @@ public class MainTest implements BWEventListener {
         logger.info("test done.");
     }
 
-    private void testBWTA() throws AssertionError {
-    	
-    	BWTA bwta = new BWTA();
-    	bwta.analyze();
-    	for (Region region : bwta.getRegions()) {
-    		System.out.println(region);
-    		for (Chokepoint choke : region.getChokepoints()) {
-    			System.out.println("   " + choke);
-    		}
-    	}
-    	
-    	TilePosition startLocation = this.bw.getInteractionHandler().self().getStartLocation();
-    	logger.debug("start location tile: {}", startLocation);
-    	Region startRegion = bwta.getRegion(startLocation);
-    	logger.debug("start region: {}", startRegion);
-    	
-    }
-    
     private void testMapInfo() throws AssertionError {
     
         BWMap map = bw.getBWMap();
@@ -111,7 +89,6 @@ public class MainTest implements BWEventListener {
         
         logger.info("onStart");
         testMapInfo();
-        testBWTA();
         testNumberOfScvs();
         testMineralMining();
         

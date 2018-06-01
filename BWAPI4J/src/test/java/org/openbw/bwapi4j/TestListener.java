@@ -3,14 +3,9 @@ package org.openbw.bwapi4j;
 import org.openbw.bwapi4j.type.Key;
 import org.openbw.bwapi4j.unit.Unit;
 
-import bwta.BWTA;
-import bwta.BaseLocation;
-import bwta.Chokepoint;
-
 public class TestListener implements BWEventListener {
 
     private BW bw;
-    private BWTA bwta;
     private int frame;
 
     @Override
@@ -19,8 +14,6 @@ public class TestListener implements BWEventListener {
         System.out.println("onStart");
         this.bw.getInteractionHandler().enableUserInput();
         
-        this.bwta = new BWTA();
-        this.bwta.analyze();
         System.out.println("analysis done.");
         
         this.frame = 0;
@@ -34,23 +27,6 @@ public class TestListener implements BWEventListener {
     @Override
     public void onFrame() {
 
-        if (frame == 5) {
-            
-            System.out.println(this.bwta.getBaseLocations().size() + " base locations found.");
-            for (BaseLocation base : this.bwta.getBaseLocations()) {
-                
-                System.out.println("location at " + base.getPosition().getX() + ", " + base.getPosition().getY());
-            }
-            
-            System.out.println(this.bwta.getChokepoints().size() + " chokepoints found.");
-            for (Chokepoint choke : this.bwta.getChokepoints()) {
-                
-                System.out.println("choke side 1: " + choke.getRegions().first + ", side 2: " + choke.getRegions().second);
-            }
-            
-            System.out.println(this.bwta.getRegions().size() + " regions found.");
-        }
-        
         if (bw.getInteractionHandler().isKeyPressed(Key.K_D)) {
             System.out.println("D");
         }
