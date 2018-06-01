@@ -45,10 +45,19 @@ endfunction()
 
 
 ################################################################################
+# BWAPI4J (Java)
+################################################################################
+
+if_unset_then_set(BWAPI4J_DIR ../BWAPI4J)
+
+
+
+################################################################################
 # BWAPI4JBridge
 ################################################################################
 
 if_unset_then_set(BWAPI4JBRIDGE_SRC_DIR src)
+if_unset_then_set(BWAPI4JBRIDGE_EXT_DIR externals)
 
 file(GLOB_RECURSE BWAPI4JBRIDGE_SRCS
     ${BWAPI4JBRIDGE_SRC_DIR}/*.h
@@ -65,9 +74,9 @@ add_library(${PROJECT_NAME} SHARED ${BWAPI4JBRIDGE_SRCS})
 # JNI
 ################################################################################
 
-if_unset_then_set(JNI_INC_DIR ../JNI/include)
+if_unset_then_set(JNI_INC_DIR ${BWAPI4JBRIDGE_EXT_DIR}/jni/include)
 
-if_unset_then_set(BWAPI4J_JNI_INC_DIR ../../BWAPI4J/src/native/include)
+if_unset_then_set(BWAPI4J_JNI_INC_DIR ${BWAPI4J_DIR}/src/native/include)
 
 include_directories(${JNI_INC_DIR} ${BWAPI4J_JNI_INC_DIR})
 if (WIN32)
@@ -113,7 +122,7 @@ if (OPENBW)
         add_definitions(-DOPENBW_ENABLE_UI)
     endif()
 
-	if_unset_then_set(OPENBW_UPPER_DIR ../../..)
+	if_unset_then_set(OPENBW_UPPER_DIR ${BWAPI4JBRIDGE_EXT_DIR}/openbw)
     if_unset_then_set(OPENBW_DIR ${OPENBW_UPPER_DIR}/openbw)
     if_unset_then_set(OPENBW_BWAPI_DIR ${OPENBW_UPPER_DIR}/bwapi)
 
@@ -152,7 +161,7 @@ else()
 
 	# Vanilla BW
 
-	if_unset_then_set(BWAPI_DIR ../BWAPI)
+	if_unset_then_set(BWAPI_DIR ${BWAPI4JBRIDGE_EXT_DIR}/bwapi/bwapi)
 	if_unset_then_set(BWAPI_INC_DIR ${BWAPI_DIR}/include)
 	if_unset_then_set(BWAPI_LIB_DIR ${BWAPI_DIR}/lib)
 	
