@@ -1,11 +1,11 @@
 #!/bin/bash
 
-if [ -f ../../../BWTA2/Makefile ]; then
-    cd ../../../BWTA2/ && \
-	make && \
-	cp -f Release/*.so ../BWAPI4J/BWAPI4JBridge/BWAPI4JBridge/Release/ && \
-	cd ../BWAPI4J/BWAPI4JBridge/BWAPI4JBridge/
-fi
+#if [ -f ../../../BWTA2/Makefile ]; then
+#    cd ../../../BWTA2/ && \
+#	make && \
+#	cp -f Release/*.so ../BWAPI4J/BWAPI4JBridge/BWAPI4JBridge/Release/ && \
+#	cd ../BWAPI4J/BWAPI4JBridge/BWAPI4JBridge/
+#fi
 
 rm -rf build_openbw_linux/ && \
 	mkdir build_openbw_linux/ && \

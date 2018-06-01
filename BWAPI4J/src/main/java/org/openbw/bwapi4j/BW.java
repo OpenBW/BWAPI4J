@@ -266,7 +266,7 @@ public class BW {
 //            libNames.add("libgmp-10");
 //            libNames.add("libmpfr-4");
         } else {
-            libNames.add("BWTA2");
+//            libNames.add("BWTA2");
         }
 
         return libNames;
