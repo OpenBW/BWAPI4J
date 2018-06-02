@@ -79,6 +79,12 @@ public class InfestedTerran extends MobileUnit implements Organic, Burrowable, G
     }
 
     @Override
+    public int getGroundWeaponMaxCooldown() {
+
+        return super.getGroundWeaponMaxCooldown();
+    }
+
+    @Override
     public int getGroundWeaponCooldown() {
 
         return super.getGroundWeaponCooldown();

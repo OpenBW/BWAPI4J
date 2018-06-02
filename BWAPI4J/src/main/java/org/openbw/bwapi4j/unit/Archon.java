@@ -48,6 +48,12 @@ public class Archon extends MobileUnit implements GroundAttacker, AirAttacker {
     }
 
     @Override
+    public int getGroundWeaponMaxCooldown() {
+
+        return super.getGroundWeaponMaxCooldown();
+    }
+
+    @Override
     public int getGroundWeaponCooldown() {
 
         return super.getGroundWeaponCooldown();
@@ -69,6 +75,12 @@ public class Archon extends MobileUnit implements GroundAttacker, AirAttacker {
     public int getAirWeaponMaxRange() {
 
         return super.getAirWeaponMaxRange();
+    }
+
+    @Override
+    public int getAirWeaponMaxCooldown() {
+
+        return super.getAirWeaponMaxCooldown();
     }
 
     @Override

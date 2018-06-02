@@ -29,6 +29,8 @@ public interface GroundAttacker extends Attacker {
 
     int getGroundWeaponMaxRange();
 
+    int getGroundWeaponMaxCooldown();
+
     int getGroundWeaponCooldown();
 
     int getGroundWeaponDamage();

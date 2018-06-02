@@ -116,7 +116,7 @@ public class UnitStatCalculator {
      * Retrieves the weapon max cooldown of a unit type, taking the player's attack speed
      * upgrades into consideration.
      */
-    public int weaponDamageMaxCooldown(UnitType unitType) {
+    public int groundWeaponDamageMaxCooldown(UnitType unitType) {
         int cooldown = unitType.groundWeapon().damageCooldown();
         if (unitType == UnitType.Zerg_Zergling && this.player.getUpgradeLevel(UpgradeType.Adrenal_Glands) > 0) {
             // Divide cooldown by 2
@@ -130,9 +130,9 @@ public class UnitStatCalculator {
     /**
      * Retrieves the weapon cooldown of a unit.
      */
-    public int weaponDamageCooldown(Unit unit) {
+    public int groundWeaponDamageCooldown(Unit unit) {
 
-        return ((GroundAttacker)unit).getGroundWeapon().cooldown();
+        return ((GroundAttacker) unit).getGroundWeapon().cooldown();
     }
 
     /**

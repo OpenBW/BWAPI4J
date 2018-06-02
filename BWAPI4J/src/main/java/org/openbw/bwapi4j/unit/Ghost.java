@@ -111,6 +111,12 @@ public class Ghost extends MobileUnit implements SpellCaster, Organic, GroundAtt
     }
 
     @Override
+    public int getGroundWeaponMaxCooldown() {
+
+        return super.getGroundWeaponMaxCooldown();
+    }
+
+    @Override
     public int getGroundWeaponCooldown() {
 
         return super.getGroundWeaponCooldown();
@@ -132,6 +138,12 @@ public class Ghost extends MobileUnit implements SpellCaster, Organic, GroundAtt
     public int getAirWeaponMaxRange() {
 
         return super.getAirWeaponMaxRange();
+    }
+
+    @Override
+    public int getAirWeaponMaxCooldown() {
+
+        return super.getAirWeaponMaxCooldown();
     }
 
     @Override

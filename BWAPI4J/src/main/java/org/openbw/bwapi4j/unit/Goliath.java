@@ -48,6 +48,12 @@ public class Goliath extends MobileUnit implements Mechanical, GroundAttacker, A
     }
 
     @Override
+    public int getGroundWeaponMaxCooldown() {
+
+        return super.getGroundWeaponMaxCooldown();
+    }
+
+    @Override
     public int getGroundWeaponCooldown() {
 
         return super.getGroundWeaponCooldown();
@@ -69,6 +75,12 @@ public class Goliath extends MobileUnit implements Mechanical, GroundAttacker, A
     public int getAirWeaponMaxRange() {
 
         return super.getAirWeaponMaxRange();
+    }
+
+    @Override
+    public int getAirWeaponMaxCooldown() {
+
+        return super.getAirWeaponMaxCooldown();
     }
 
     @Override

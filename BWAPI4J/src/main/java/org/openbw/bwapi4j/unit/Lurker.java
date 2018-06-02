@@ -78,6 +78,12 @@ public class Lurker extends MobileUnit implements Organic, Burrowable, GroundAtt
     }
 
     @Override
+    public int getGroundWeaponMaxCooldown() {
+
+        return super.getGroundWeaponMaxCooldown();
+    }
+
+    @Override
     public int getGroundWeaponCooldown() {
 
         return super.getGroundWeaponCooldown();

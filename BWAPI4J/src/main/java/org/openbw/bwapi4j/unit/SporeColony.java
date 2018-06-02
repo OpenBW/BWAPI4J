@@ -64,6 +64,12 @@ public class SporeColony extends Building implements Organic, AirAttacker {
     }
 
     @Override
+    public int getAirWeaponMaxCooldown() {
+
+        return super.getAirWeaponMaxCooldown();
+    }
+
+    @Override
     public int getAirWeaponCooldown() {
 
         return super.getAirWeaponCooldown();

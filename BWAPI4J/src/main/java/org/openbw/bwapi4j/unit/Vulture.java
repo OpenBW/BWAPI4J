@@ -78,6 +78,12 @@ public class Vulture extends MobileUnit implements Mechanical, GroundAttacker {
     }
 
     @Override
+    public int getGroundWeaponMaxCooldown() {
+
+        return super.getGroundWeaponMaxCooldown();
+    }
+
+    @Override
     public int getGroundWeaponCooldown() {
 
         return super.getGroundWeaponCooldown();

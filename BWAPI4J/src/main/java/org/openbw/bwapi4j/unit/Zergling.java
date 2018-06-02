@@ -79,6 +79,12 @@ public class Zergling extends MobileUnit implements Organic, Burrowable, GroundA
     }
 
     @Override
+    public int getGroundWeaponMaxCooldown() {
+
+        return super.getGroundWeaponMaxCooldown();
+    }
+
+    @Override
     public int getGroundWeaponCooldown() {
 
         return super.getGroundWeaponCooldown();

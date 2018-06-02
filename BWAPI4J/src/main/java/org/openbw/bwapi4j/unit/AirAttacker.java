@@ -29,6 +29,8 @@ public interface AirAttacker extends Attacker {
 
     int getAirWeaponMaxRange();
 
+    int getAirWeaponMaxCooldown();
+
     int getAirWeaponCooldown();
 
     int getAirWeaponDamage();

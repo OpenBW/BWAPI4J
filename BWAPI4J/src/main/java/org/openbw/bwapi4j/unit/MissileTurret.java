@@ -62,6 +62,12 @@ public class MissileTurret extends Building implements Mechanical, Detector, Air
     }
 
     @Override
+    public int getAirWeaponMaxCooldown() {
+
+        return super.getAirWeaponMaxCooldown();
+    }
+
+    @Override
     public int getAirWeaponCooldown() {
 
         return super.getAirWeaponCooldown();

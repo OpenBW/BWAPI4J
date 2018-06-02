@@ -70,6 +70,12 @@ public class Marine extends MobileUnit implements Organic, GroundAttacker, AirAt
     }
 
     @Override
+    public int getGroundWeaponMaxCooldown() {
+
+        return super.getGroundWeaponMaxCooldown();
+    }
+
+    @Override
     public int getGroundWeaponCooldown() {
 
         return super.getGroundWeaponCooldown();
@@ -91,6 +97,12 @@ public class Marine extends MobileUnit implements Organic, GroundAttacker, AirAt
     public int getAirWeaponMaxRange() {
 
         return super.getAirWeaponMaxRange();
+    }
+
+    @Override
+    public int getAirWeaponMaxCooldown() {
+
+        return super.getAirWeaponMaxCooldown();
     }
 
     @Override

@@ -87,6 +87,12 @@ public class Corsair extends MobileUnit implements Mechanical, SpellCaster, AirA
     }
 
     @Override
+    public int getAirWeaponMaxCooldown() {
+
+        return super.getAirWeaponMaxCooldown();
+    }
+
+    @Override
     public int getAirWeaponCooldown() {
 
         return super.getAirWeaponCooldown();

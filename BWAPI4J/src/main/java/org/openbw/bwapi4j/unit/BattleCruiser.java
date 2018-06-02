@@ -85,6 +85,12 @@ public class BattleCruiser extends MobileUnit implements Mechanical, SpellCaster
     }
 
     @Override
+    public int getGroundWeaponMaxCooldown() {
+
+        return super.getGroundWeaponMaxCooldown();
+    }
+
+    @Override
     public int getGroundWeaponCooldown() {
 
         return super.getGroundWeaponCooldown();
@@ -106,6 +112,12 @@ public class BattleCruiser extends MobileUnit implements Mechanical, SpellCaster
     public int getAirWeaponMaxRange() {
 
         return super.getAirWeaponMaxRange();
+    }
+
+    @Override
+    public int getAirWeaponMaxCooldown() {
+
+        return super.getAirWeaponMaxCooldown();
     }
 
     @Override

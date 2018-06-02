@@ -90,6 +90,12 @@ public class Wraith extends MobileUnit implements Mechanical, Cloakable, GroundA
     }
 
     @Override
+    public int getGroundWeaponMaxCooldown() {
+
+        return super.getGroundWeaponMaxCooldown();
+    }
+
+    @Override
     public int getGroundWeaponCooldown() {
 
         return super.getGroundWeaponCooldown();
@@ -111,6 +117,12 @@ public class Wraith extends MobileUnit implements Mechanical, Cloakable, GroundA
     public int getAirWeaponMaxRange() {
 
         return super.getAirWeaponMaxRange();
+    }
+
+    @Override
+    public int getAirWeaponMaxCooldown() {
+
+        return super.getAirWeaponMaxCooldown();
     }
 
     @Override
