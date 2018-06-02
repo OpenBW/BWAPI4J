@@ -23,6 +23,8 @@ package org.openbw.bwapi4j;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 import org.openbw.bwapi4j.type.WeaponType;
+import org.openbw.bwapi4j.unit.GroundAttacker;
+import org.openbw.bwapi4j.unit.Unit;
 
 public class UnitStatCalculator {
 
@@ -111,10 +113,10 @@ public class UnitStatCalculator {
     }
 
     /**
-     * Retrieves the weapon cooldown of a unit type, taking the player's attack speed
+     * Retrieves the weapon max cooldown of a unit type, taking the player's attack speed
      * upgrades into consideration.
      */
-    public int weaponDamageCooldown(UnitType unitType) {
+    public int weaponDamageMaxCooldown(UnitType unitType) {
         int cooldown = unitType.groundWeapon().damageCooldown();
         if (unitType == UnitType.Zerg_Zergling && this.player.getUpgradeLevel(UpgradeType.Adrenal_Glands) > 0) {
             // Divide cooldown by 2
@@ -123,6 +125,14 @@ public class UnitStatCalculator {
             cooldown = Math.min(Math.max(cooldown,5), 250);
         }
         return cooldown;
+    }
+
+    /**
+     * Retrieves the weapon cooldown of a unit.
+     */
+    public int weaponDamageCooldown(Unit unit) {
+
+        return ((GroundAttacker)unit).getGroundWeapon().cooldown();
     }
 
     /**

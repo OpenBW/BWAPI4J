@@ -428,10 +428,15 @@ public abstract class PlayerUnit extends Unit {
         return getUnitStatCalculator().weaponMaxRange(type.groundWeapon());
     }
 
+    protected int getGroundWeaponMaxCooldown() {
+
+        return getUnitStatCalculator().weaponDamageMaxCooldown(type);
+    }
+
     protected int getGroundWeaponCooldown() {
 
         // Only ground weapons have varied cooldowns.
-        return getUnitStatCalculator().weaponDamageCooldown(type);
+        return getUnitStatCalculator().weaponDamageCooldown(this);
     }
 
     protected int getGroundWeaponDamage() {
