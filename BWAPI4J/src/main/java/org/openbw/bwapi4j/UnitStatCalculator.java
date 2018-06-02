@@ -25,7 +25,6 @@ import org.openbw.bwapi4j.type.UpgradeType;
 import org.openbw.bwapi4j.type.WeaponType;
 import org.openbw.bwapi4j.unit.GroundAttacker;
 import org.openbw.bwapi4j.unit.Unit;
-import org.openbw.bwapi4j.unit.Zergling;
 
 public class UnitStatCalculator {
 
