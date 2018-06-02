@@ -78,7 +78,7 @@ public class Marine extends MobileUnit implements Organic, GroundAttacker, AirAt
     @Override
     public int getGroundWeaponCooldown() {
 
-        return super.getGroundWeaponCooldown();
+        return super.getGroundWeaponCooldown(this);
     }
 
     @Override

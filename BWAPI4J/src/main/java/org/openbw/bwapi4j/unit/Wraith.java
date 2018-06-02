@@ -98,7 +98,7 @@ public class Wraith extends MobileUnit implements Mechanical, Cloakable, GroundA
     @Override
     public int getGroundWeaponCooldown() {
 
-        return super.getGroundWeaponCooldown();
+        return super.getGroundWeaponCooldown(this);
     }
 
     @Override

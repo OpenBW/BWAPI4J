@@ -70,7 +70,7 @@ public class Interceptor extends MobileUnit implements Mechanical, GroundAttacke
     @Override
     public int getGroundWeaponCooldown() {
 
-        return super.getGroundWeaponCooldown();
+        return super.getGroundWeaponCooldown(this);
     }
 
     @Override

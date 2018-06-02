@@ -78,7 +78,7 @@ public class SiegeTank extends MobileUnit implements Mechanical, GroundAttacker 
     @Override
     public int getGroundWeaponCooldown() {
 
-        return super.getGroundWeaponCooldown();
+        return super.getGroundWeaponCooldown(this);
     }
 
     @Override

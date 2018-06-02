@@ -93,7 +93,7 @@ public class BattleCruiser extends MobileUnit implements Mechanical, SpellCaster
     @Override
     public int getGroundWeaponCooldown() {
 
-        return super.getGroundWeaponCooldown();
+        return super.getGroundWeaponCooldown(this);
     }
 
     @Override

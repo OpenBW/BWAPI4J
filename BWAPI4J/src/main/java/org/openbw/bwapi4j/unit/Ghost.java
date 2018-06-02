@@ -119,7 +119,7 @@ public class Ghost extends MobileUnit implements SpellCaster, Organic, GroundAtt
     @Override
     public int getGroundWeaponCooldown() {
 
-        return super.getGroundWeaponCooldown();
+        return super.getGroundWeaponCooldown(this);
     }
 
     @Override

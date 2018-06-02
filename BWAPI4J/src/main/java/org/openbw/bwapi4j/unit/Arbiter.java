@@ -110,7 +110,7 @@ public class Arbiter extends MobileUnit implements Mechanical, SpellCaster, Grou
     @Override
     public int getGroundWeaponCooldown() {
 
-        return super.getGroundWeaponCooldown();
+        return super.getGroundWeaponCooldown(this);
     }
 
     @Override

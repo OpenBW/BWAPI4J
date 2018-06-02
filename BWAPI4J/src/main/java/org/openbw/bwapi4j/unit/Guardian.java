@@ -50,7 +50,7 @@ public class Guardian extends MobileUnit implements Organic, GroundAttacker {
     @Override
     public int getGroundWeaponCooldown() {
 
-        return super.getGroundWeaponCooldown();
+        return super.getGroundWeaponCooldown(this);
     }
 
     @Override

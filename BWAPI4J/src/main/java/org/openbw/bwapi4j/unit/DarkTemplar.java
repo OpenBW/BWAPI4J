@@ -77,7 +77,7 @@ public class DarkTemplar extends MobileUnit implements Organic, Cloakable, Groun
     @Override
     public int getGroundWeaponCooldown() {
 
-        return super.getGroundWeaponCooldown();
+        return super.getGroundWeaponCooldown(this);
     }
 
     @Override

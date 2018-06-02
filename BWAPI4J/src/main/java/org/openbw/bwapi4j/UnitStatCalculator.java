@@ -24,6 +24,7 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 import org.openbw.bwapi4j.type.WeaponType;
 import org.openbw.bwapi4j.unit.GroundAttacker;
+import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.unit.Unit;
 
 public class UnitStatCalculator {
@@ -130,9 +131,9 @@ public class UnitStatCalculator {
     /**
      * Retrieves the weapon cooldown of a unit.
      */
-    public int groundWeaponDamageCooldown(Unit unit) {
+    public int groundWeaponDamageCooldown(GroundAttacker unit) {
 
-        return ((GroundAttacker) unit).getGroundWeapon().cooldown();
+        return unit.getGroundWeapon().cooldown();
     }
 
     /**

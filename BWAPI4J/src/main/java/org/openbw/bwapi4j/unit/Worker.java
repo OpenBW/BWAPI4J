@@ -134,7 +134,7 @@ public abstract class Worker extends MobileUnit implements GroundAttacker {
     @Override
     public int getGroundWeaponCooldown() {
 
-        return super.getGroundWeaponCooldown();
+        return super.getGroundWeaponCooldown(this);
     }
 
     @Override
