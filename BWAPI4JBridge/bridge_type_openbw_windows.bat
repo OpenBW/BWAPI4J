@@ -9,7 +9,7 @@ rmdir /s /q build_openbw_windows
 )
 mkdir build_openbw_windows
 cd build_openbw_windows
-cmake .. -DOPENBW=1 -DOPENBW_ENABLE_UI=1
+cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENBW=1 -DOPENBW_DIR=../externals/openbw/openbw -DOPENBW_ENABLE_UI=1 -DSDL2_INCLUDE_DIR=%SDL2_INCLUDE_DIR% -DSDL2_LIBRARY=%SDL2_LIB%
 
 echo.
 echo Done.
