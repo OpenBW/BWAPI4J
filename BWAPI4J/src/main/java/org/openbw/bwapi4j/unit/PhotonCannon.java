@@ -112,7 +112,7 @@ public class PhotonCannon extends Building implements Detector, Mechanical, Grou
     @Override
     public int getAirWeaponCooldown() {
 
-        return super.getAirWeaponCooldown();
+        return super.getAirWeaponCooldown(this);
     }
 
     @Override

@@ -454,10 +454,9 @@ public abstract class PlayerUnit extends Unit {
         return type.airWeapon().damageCooldown();
     }
 
-    protected int getAirWeaponCooldown() {
+    protected int getAirWeaponCooldown(AirAttacker unit) {
 
-        // Only ground weapons have varied cooldowns.
-        return getAirWeaponMaxCooldown();
+        return getUnitStatCalculator().airWeaponDamageCooldown(unit);
     }
 
     protected int getAirWeaponDamage() {

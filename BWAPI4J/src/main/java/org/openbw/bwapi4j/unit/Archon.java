@@ -86,7 +86,7 @@ public class Archon extends MobileUnit implements GroundAttacker, AirAttacker {
     @Override
     public int getAirWeaponCooldown() {
 
-        return super.getAirWeaponCooldown();
+        return super.getAirWeaponCooldown(this);
     }
 
     @Override

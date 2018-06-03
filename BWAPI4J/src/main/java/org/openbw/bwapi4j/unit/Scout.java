@@ -85,7 +85,7 @@ public class Scout extends MobileUnit implements Mechanical, GroundAttacker, Air
     @Override
     public int getAirWeaponCooldown() {
 
-        return super.getAirWeaponCooldown();
+        return super.getAirWeaponCooldown(this);
     }
 
     @Override

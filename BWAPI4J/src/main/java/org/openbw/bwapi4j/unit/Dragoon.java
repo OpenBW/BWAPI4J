@@ -86,7 +86,7 @@ public class Dragoon extends MobileUnit implements Mechanical, GroundAttacker, A
     @Override
     public int getAirWeaponCooldown() {
 
-        return super.getAirWeaponCooldown();
+        return super.getAirWeaponCooldown(this);
     }
 
     @Override

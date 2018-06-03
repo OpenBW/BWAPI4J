@@ -50,7 +50,7 @@ public class Devourer extends MobileUnit implements Organic, AirAttacker {
     @Override
     public int getAirWeaponCooldown() {
 
-        return super.getAirWeaponCooldown();
+        return super.getAirWeaponCooldown(this);
     }
 
     @Override

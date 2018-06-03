@@ -134,7 +134,7 @@ public class Hydralisk extends MobileUnit implements Organic, Burrowable, Ground
     @Override
     public int getAirWeaponCooldown() {
 
-        return super.getAirWeaponCooldown();
+        return super.getAirWeaponCooldown(this);
     }
 
     @Override

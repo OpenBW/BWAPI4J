@@ -106,7 +106,7 @@ public class Mutalisk extends MobileUnit implements Organic, GroundAttacker, Air
     @Override
     public int getAirWeaponCooldown() {
 
-        return super.getAirWeaponCooldown();
+        return super.getAirWeaponCooldown(this);
     }
 
     @Override

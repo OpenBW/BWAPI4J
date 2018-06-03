@@ -50,7 +50,7 @@ public class Valkyrie extends MobileUnit implements Mechanical, AirAttacker {
     @Override
     public int getAirWeaponCooldown() {
 
-        return super.getAirWeaponCooldown();
+        return super.getAirWeaponCooldown(this);
     }
 
     @Override
