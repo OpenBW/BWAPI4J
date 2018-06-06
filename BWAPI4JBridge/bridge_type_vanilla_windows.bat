@@ -1,25 +1,15 @@
-@echo off
+set DEV_CMD_BAT="..\\VsDevCmd.bat"
+set TARGET_BUILD_DIR=build_vanilla_windows
+set TARGET_BUILD_SOLUTION=BWAPI4JBridge.sln
 
-echo Generating build scripts for BWAPI4JBridge...
-echo.
-
-IF EXIST build_vanilla_windows (
-echo Deleting build_vanilla_windows/ directory...
-rmdir /s /q build_vanilla_windows
+IF NOT EXIST %TARGET_BUILD_DIR% (
+mkdir %TARGET_BUILD_DIR%
 )
-mkdir build_vanilla_windows
-cd build_vanilla_windows
+
+cd %TARGET_BUILD_DIR%
 cmake ..
 
-echo.
-echo Done.
-echo.
-
-IF EXIST BWAPI4JBridge.sln (
-echo A Visual Studio solution has been generated.
-echo Open the solution and build the bridge with the "Release / Win32" configuration.
+IF EXIST %TARGET_BUILD_SOLUTION% (
+%DEV_CMD_BAT%
+MSBuild.exe %TARGET_BUILD_SOLUTION% /p:Configuration=Release
 )
-
-@pause
-
-@echo on

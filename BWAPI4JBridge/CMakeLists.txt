@@ -5,8 +5,10 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 #set(CMAKE_CXX_FLAGS "-Wall -Wextra")
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -g")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O3")
+if (NOT MSCV)
+	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -g")
+	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O3")
+endif()
 
 
 if (OPENBW)
@@ -126,8 +128,6 @@ if (OPENBW)
     if_unset_then_set(OPENBW_DIR ${OPENBW_UPPER_DIR}/openbw)
     if_unset_then_set(OPENBW_BWAPI_DIR ${OPENBW_UPPER_DIR}/bwapi)
 
-	add_subdirectory(${OPENBW_BWAPI_DIR})
-	
     include_directories(
         ${OPENBW_DIR}
         ${OPENBW_BWAPI_DIR}/bwapi/OpenBWData
@@ -138,7 +138,7 @@ if (OPENBW)
     )
 
     if (MSVC)
-        if_unset_then_set(OPENBW_LIB_DIR lib/Release)
+        if_unset_then_set(OPENBW_LIB_DIR ../${OPENBW_BWAPI_DIR}/build/lib/Release)
 
         link_directories(${OPENBW_LIB_DIR})
 
@@ -167,10 +167,7 @@ else()
 	if_unset_then_set(BWAPI_DIR ${BWAPI_ROOT_DIR}/bwapi)
 	if_unset_then_set(BWAPI_INC_DIR ${BWAPI_DIR}/include)
 	if_unset_then_set(BWAPI_LIB_DIR ${BWAPI_DIR}/lib)
-		
-	add_subdirectory(${BWAPI_ROOT_DIR}/CMake/BWAPI)
-	add_subdirectory(${BWAPI_ROOT_DIR}/CMake/Client)
-	
+			
 	include_directories(${BWAPI_INC_DIR})
 	
 	link_directories(${BWAPI_LIB_DIR})
