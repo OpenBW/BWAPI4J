@@ -5,7 +5,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 #set(CMAKE_CXX_FLAGS "-Wall -Wextra")
-if (NOT MSCV)
+if (NOT MSVC)
 	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -g")
 	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O3")
 endif()
@@ -22,8 +22,12 @@ project(${PROJECT_NAME})
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+if (BWAPI4JBRIDGE_ENABLE_LOGGER)
+	add_definitions(-DBWAPI4JBRIDGE_ENABLE_LOGGER)
+endif()
+
 if (MSVC)
-    add_definitions(-D_CRT_SECURE_NO_WARNINGS -DNOMINMAX -DWIN32 -D_WINDOWS -D_USRDLL)
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS -DNOMINMAX -DWIN32 -D_WIN32 -D_WINDOWS -D_USRDLL)
 	
 	if (NOT OPENBW AND CMAKE_BUILD_TYPE MATCHES Release)
 		set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /LTCG")
@@ -69,6 +73,15 @@ file(GLOB_RECURSE BWAPI4JBRIDGE_SRCS
 add_library(${PROJECT_NAME} SHARED ${BWAPI4JBRIDGE_SRCS})
 
 ################################################################################
+
+
+
+################################################################################
+# spdlog
+################################################################################
+
+if_unset_then_set(SPDLOG_INC_DIR ${BWAPI4JBRIDGE_EXT_DIR}/spdlog/include)
+include_directories(${SPDLOG_INC_DIR})
 
 
 

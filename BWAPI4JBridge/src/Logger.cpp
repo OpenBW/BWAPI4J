@@ -18,44 +18,29 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#pragma once
-
-#include <jni.h>
-
 #include "Logger.h"
 
-extern BWAPI4JBridge::Logger logger;
+#include <iostream>
 
-extern JNIEnv *globalEnv;
-extern jobject globalBW;
+namespace BWAPI4JBridge {
+Logger::Logger(const std::string &name) {
+  spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%f] [%n] [%P:%t] [%l] %v");
 
-extern const size_t intBufSize;
-extern jint intBuf[];
+  try {
+    const std::string filePath = "bwapi-data/write/" + name + ".log";
+    _logger = spdlog::basic_logger_mt(name, filePath.c_str());
+  } catch (const spdlog::spdlog_ex &basicLoggerException) {
+    std::cout << "failed to create basic_logger_mt: " << basicLoggerException.what() << std::endl;
 
-extern jclass arrayListClass;
-extern jmethodID arrayListAdd;
+    try {
+      _logger = spdlog::stdout_logger_mt(name);
+    } catch (const spdlog::spdlog_ex &stdoutLoggerException) {
+      std::cout << "failed to create stdout_logger_mt: " << stdoutLoggerException.what() << std::endl;
 
-extern jclass integerClass;
-extern jmethodID integerNew;
+      throw stdoutLoggerException;
+    }
+  }
 
-extern jclass tilePositionClass;
-extern jmethodID tilePositionNew;
-
-extern jclass weaponTypeClass;
-extern jclass techTypeClass;
-extern jclass unitTypeClass;
-extern jclass upgradeTypeClass;
-extern jclass damageTypeClass;
-extern jclass explosionTypeClass;
-extern jclass raceClass;
-extern jclass unitSizeTypeClass;
-extern jclass orderClass;
-
-extern jclass pairClass;
-extern jmethodID pairNew;
-
-extern jclass bwMapClass;
-extern jmethodID bwMapNew;
-
-extern jmethodID addRequiredUnit;
-extern jmethodID addUsingUnit;
+  _logger->set_level(spdlog::level::debug);
+}
+}  // namespace BWAPI4JBridge

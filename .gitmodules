@@ -7,3 +7,6 @@
 [submodule "BWAPI4JBridge/externals/bwapi"]
 	path = BWAPI4JBridge/externals/bwapi
 	url = https://github.com/bwapi/bwapi
+[submodule "BWAPI4JBridge/externals/spdlog"]
+	path = BWAPI4JBridge/externals/spdlog
+	url = https://github.com/gabime/spdlog
