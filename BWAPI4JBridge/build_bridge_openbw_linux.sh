@@ -7,8 +7,12 @@
 #	cd ../BWAPI4J/BWAPI4JBridge/BWAPI4JBridge/
 #fi
 
-rm -rf build_openbw_linux/ && \
-	mkdir build_openbw_linux/ && \
-	cd build_openbw_linux/ && \
+TARGET_BUILD_DIRECTORY="build_openbw_linux"
+
+if [ ! -d $TARGET_BUILD_DIRECTORY ]; then
+    mkdir $TARGET_BUILD_DIRECTORY
+fi
+
+cd $TARGET_BUILD_DIRECTORY && \
 	cmake .. -DOPENBW=1 -DOPENBW_ENABLE_UI=1 && \
 	make
