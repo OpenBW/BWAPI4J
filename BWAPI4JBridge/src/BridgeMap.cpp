@@ -24,7 +24,7 @@
 
 void BridgeMap::initialize(JNIEnv *env, jclass jc, jobject bwObject, jclass bwMapClass) {
   // read map information
-  std::cout << "reading map information..." << std::endl;
+  LOGGER("reading map information...");
   jfieldID bwMapField = env->GetFieldID(jc, "bwMap", "Lorg/openbw/bwapi4j/BWMapImpl;");
   jobject bwMap = env->GetObjectField(bwObject, bwMapField);
 
@@ -92,7 +92,7 @@ void BridgeMap::initialize(JNIEnv *env, jclass jc, jobject bwObject, jclass bwMa
     env->ExceptionDescribe();
     return;
   }
-  std::cout << "done." << std::endl;
+  LOGGER("done");
 }
 
 JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl__1isBuildable(JNIEnv *, jobject, jint tileX, jint tileY, jboolean considerBuildings) {

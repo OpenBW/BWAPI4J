@@ -84,7 +84,7 @@ void OpenBridgeModule::onStart() {
 }
 
 void OpenBridgeModule::onEnd(bool isWinner) {
-  std::cout << "c winner: " << isWinner << " / " << (isWinner ? "true" : "false") << std::endl;
+  LOGGER(fmt::format("isWinner: {} / {}", isWinner, (isWinner ? "true" : "false")));
   //	globalEnv->CallObjectMethod(globalBW, onEndCallback, (jboolean)isWinner);
 }
 
@@ -99,7 +99,7 @@ void OpenBridgeModule::onFrame() {
         globalEnv->CallObjectMethod(globalBW, onStartCallback);
       } break;
       case BWAPI::EventType::MatchEnd: {
-        std::cout << "winner: " << e.isWinner() << " / " << (e.isWinner() ? "true" : "false") << std::endl;
+        LOGGER(fmt::format("isWinner: {} / {}", e.isWinner(), (e.isWinner() ? "true" : "false")));
         globalEnv->CallObjectMethod(globalBW, onEndCallback, e.isWinner() ? JNI_TRUE : JNI_FALSE);
       } break;
       case BWAPI::EventType::SendText: {

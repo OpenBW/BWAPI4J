@@ -20,6 +20,7 @@
 
 #pragma once
 
+#include <iostream>
 #include <memory>
 #include <string>
 
@@ -44,10 +45,11 @@ class Logger {
 #endif
 
 #ifdef BWAPI4JBRIDGE_ENABLE_LOGGER
-#define LOGGER(str)                                                                  \
-  {                                                                                  \
-    logger.get()->debug("{}:{}:{} - {}", __FILENAME__, __FUNCTION__, __LINE__, str); \
-    logger.get()->flush();                                                           \
+#define LOGGER(str)                                                                                   \
+  {                                                                                                   \
+    std::cout << __FILENAME__ << ":" << __FUNCTION__ << ":" << __LINE__ << " - " << str << std::endl; \
+    logger.get()->debug("{}:{}:{} - {}", __FILENAME__, __FUNCTION__, __LINE__, str);                  \
+    logger.get()->flush();                                                                            \
   }
 #else
 #define LOGGER(str) \

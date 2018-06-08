@@ -25,6 +25,7 @@
  *      Author: imp
  */
 #include <BWAPI/Client.h>
+#include "Bridge.h"
 #include "org_openbw_bwapi4j_InteractionHandler.h"
 
 JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_InteractionHandler_getKeyState(JNIEnv *env, jobject jObj, jint keyValue) {
@@ -34,7 +35,7 @@ JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_InteractionHandler_getKeyStat
 }
 
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enableLatCom(JNIEnv *, jobject jObj, jboolean enabled) {
-  std::cout << "enable latency compensation: " << (enabled != JNI_FALSE) << std::endl;
+  LOGGER(fmt::format("enable latency compensation: {}", (enabled != JNI_FALSE)));
   BWAPI::Broodwar->setLatCom(enabled != JNI_FALSE);
 }
 
@@ -75,7 +76,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_InteractionHandler_allies_1n
   const auto actualMaxAllyIds = BWAPI::Broodwar->allies().size();
 
   if (predictedMaxAllyIds < actualMaxAllyIds) {
-    std::cout << "error: predicted number of ally IDs is less than actual number of ally IDs\n";
+    LOGGER("error: predicted number of ally IDs is less than actual number of ally IDs");
     return NULL;
   }
 
@@ -96,7 +97,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_InteractionHandler_allies_1n
 
   if (ret == NULL) {
     /* Probably out of memory error. */
-    std::cout << "error: failed to create jintArray for ally IDs array\n";
+    LOGGER("error: failed to create jintArray for ally IDs array");
     return NULL;
   }
 
@@ -112,7 +113,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enemies_1
   const auto actualMaxEnemyIds = enemies.size();
 
   if (predictedMaxEnemyIds < actualMaxEnemyIds) {
-    std::cout << "error: predicted number of enemy IDs is less than actual number of enemy IDs\n";
+    LOGGER("error: predicted number of enemy IDs is less than actual number of enemy IDs");
     return NULL;
   }
 
@@ -133,7 +134,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enemies_1
 
   if (ret == NULL) {
     /* Probably out of memory error. */
-    std::cout << "error: failed to create jintArray for enemy IDs array\n";
+    LOGGER("error: failed to create jintArray for enemy IDs array");
     return NULL;
   }
 

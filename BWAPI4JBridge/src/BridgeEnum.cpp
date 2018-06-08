@@ -32,7 +32,7 @@ void BridgeEnum::initialize() {
 
 void BridgeEnum::createUpgradeTypeEnum() {
   // read static data: UpgradeType
-  std::cout << "reading upgrade types..." << std::endl;
+  LOGGER("reading upgrade types...");
   for (BWAPI::UpgradeType upgradeType : BWAPI::UpgradeTypes::allUpgradeTypes()) {
     if (upgradeType.getName().empty()) {
       return;
@@ -92,12 +92,12 @@ void BridgeEnum::createUpgradeTypeEnum() {
         unitTypeClass, globalEnv->GetStaticFieldID(unitTypeClass, upgradeType.whatUpgrades().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;"));
     globalEnv->SetObjectField(CurrentUpgradeType, globalEnv->GetFieldID(upgradeTypeClass, "whatUpgrades", "Lorg/openbw/bwapi4j/type/UnitType;"), whatUpgrades);
   }
-  std::cout << "done." << std::endl;
+  LOGGER("done");
 }
 
 void BridgeEnum::createTechTypeEnum() {
   // read static data: TechType
-  std::cout << "reading tech types..." << std::endl;
+  LOGGER("reading tech types...");
   for (BWAPI::TechType techType : BWAPI::TechTypes::allTechTypes()) {
     if (techType.getName().empty()) {
       return;
@@ -135,12 +135,12 @@ void BridgeEnum::createTechTypeEnum() {
         unitTypeClass, globalEnv->GetStaticFieldID(unitTypeClass, techType.requiredUnit().getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;"));
     globalEnv->SetObjectField(CurrentTechType, globalEnv->GetFieldID(techTypeClass, "requiredUnit", "Lorg/openbw/bwapi4j/type/UnitType;"), requiredUnit);
   }
-  std::cout << "done." << std::endl;
+  LOGGER("done");
 }
 
 void BridgeEnum::createWeaponTypeEnum() {
   // read static data: WeaponType
-  std::cout << "reading weapon types..." << std::endl;
+  LOGGER("reading weapon types...");
   for (BWAPI::WeaponType weaponType : BWAPI::WeaponTypes::allWeaponTypes()) {
     if (weaponType.getName().empty()) {
       return;
@@ -193,11 +193,11 @@ void BridgeEnum::createWeaponTypeEnum() {
     globalEnv->SetObjectField(CurrentWeaponType, globalEnv->GetFieldID(weaponTypeClass, "explosionType", "Lorg/openbw/bwapi4j/type/ExplosionType;"),
                               explosionType);
   }
-  std::cout << "done." << std::endl;
+  LOGGER("done");
 }
 
 void BridgeEnum::createUnitTypeEnum() {
-  std::cout << "reading unit types..." << std::endl;
+  LOGGER("reading unit types...");
   for (BWAPI::UnitType unitType : BWAPI::UnitTypes::allUnitTypes()) {
     if (unitType.getName().empty()) {
       return;
@@ -364,5 +364,5 @@ void BridgeEnum::createUnitTypeEnum() {
     }
     globalEnv->DeleteLocalRef(CurrentUnitType);
   }
-  std::cout << "done." << std::endl;
+  LOGGER("done");
 }

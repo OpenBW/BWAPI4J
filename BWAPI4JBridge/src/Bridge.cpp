@@ -103,7 +103,8 @@ extern "C" DLLEXPORT BWAPI::AIModule *newAIModule() { return new OpenBridge::Ope
  * Finds and stores references to Java classes and methods globally.
  */
 void initializeJavaReferences(JNIEnv *env, jobject caller) {
-  std::cout << "initializing Java references..." << std::endl;
+  LOGGER("initializing Java references...");
+
   arrayListClass = env->FindClass("java/util/ArrayList");
   arrayListAdd = env->GetMethodID(arrayListClass, "add", "(Ljava/lang/Object;)Z");
 
@@ -131,7 +132,7 @@ void initializeJavaReferences(JNIEnv *env, jobject caller) {
 
   addUsingUnit = env->GetMethodID(upgradeTypeClass, "addUsingUnit", "(I)V");
 
-  std::cout << "done." << std::endl;
+  LOGGER("done")
 }
 
 #ifndef OPENBW
@@ -139,16 +140,6 @@ void reconnect() {
   while (!BWAPI::BWAPIClient.connect()) {
     std::this_thread::sleep_for(std::chrono::milliseconds{1000});
   }
-}
-
-void flushPrint(const char *text) {
-  printf(text);
-  fflush(stdout);
-}
-
-void println(const char *text) {
-  printf(text);
-  flushPrint("\n");
 }
 #endif
 
@@ -167,7 +158,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_killUnit(JNIEnv *, jobject, ji
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_exit(JNIEnv *, jobject) {
 #ifndef OPENBW
   finished = true;
-  printf("exiting after current game.");
+  LOGGER("exiting after current game");
 #endif
 }
 
@@ -240,20 +231,20 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
   BridgeEnum bridgeEnum;
   BridgeMap bridgeMap;
 
-  println("Connecting to Broodwar...");
+  LOGGER("Connecting to Broodwar...");
   reconnect();
 
-  println("Connection successful, starting match...");
+  LOGGER("Connection successful, starting match...");
 
   while (!finished) {
     while (!BWAPI::Broodwar->isInGame()) {
       BWAPI::BWAPIClient.update();
       if (!BWAPI::BWAPIClient.isConnected()) {
-        println("Reconnecting...");
+        LOGGER("Reconnecting...");
         reconnect();
       }
     }
-    std::cout << "Client version: " << BWAPI::Broodwar->getClientVersion() << std::endl;
+    LOGGER(fmt::format("Client version: {}", BWAPI::Broodwar->getClientVersion()));
 
     bridgeEnum.initialize();
     bridgeMap.initialize(env, env->GetObjectClass(bwObject), bw, bwMapClass);
@@ -261,7 +252,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
     if (false && BWAPI::Broodwar->isReplay()) {  // right now don't treat replays any different
 
     } else {
-      std::cout << "calling onStart callback..." << std::endl;
+      LOGGER("calling onStart callback...");
       env->CallObjectMethod(bw, env->GetMethodID(jc, "onStart", "()V"));
 
       // this is a hack to ensure the Java-side onStart gets enough time to finish initialization before the event callbacks trigger.
@@ -286,7 +277,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
       jmethodID onSaveGameCallback = env->GetMethodID(jc, "onSaveGame", "(Ljava/lang/String;)V");
       jmethodID onUnitCompleteCallback = env->GetMethodID(jc, "onUnitComplete", "(I)V");
 
-      std::cout << "entering in-game event loop..." << std::endl;
+      LOGGER("entering in-game event loop...");
 
       while (BWAPI::Broodwar->isInGame()) {
         env->CallObjectMethod(bw, preFrameCallback);
@@ -367,11 +358,11 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
               // std::cout << "done." << std::endl;
             } break;
             case BWAPI::EventType::SaveGame: {
-              // std::cout << "calling onSaveGame..." << std::endl;
+              LOGGER("calling onSaveGame...");
               jstring string = env->NewStringUTF(e.getText().c_str());
               env->CallObjectMethod(bw, onSaveGameCallback, string);
               env->DeleteLocalRef(string);
-              std::cout << "done." << std::endl;
+              LOGGER("done");
             } break;
             case BWAPI::EventType::UnitComplete: {
               // std::cout << "calling onUnitComplete..." << std::endl;
@@ -385,11 +376,11 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
         BWAPI::BWAPIClient.update();
         // std::cout << "done." << std::endl;
         if (!BWAPI::BWAPIClient.isConnected()) {
-          std::cout << "reconnecting..." << std::endl;
+          LOGGER("Reconnecting...");
           reconnect();
         }
       }
-      std::cout << "game over." << std::endl;
+      LOGGER("game over");
     }
   }
 #endif
