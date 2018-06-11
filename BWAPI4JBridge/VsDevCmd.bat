@@ -1,5 +1,14 @@
 @echo Setting up VS2018 Development Environment...
 
-IF EXIST "C:\\Program Files\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\VsDevCmd.bat" (
-"C:\\Program Files\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\VsDevCmd.bat"
+SET PARTIAL_VSDEVCMD_BAT_PATH=Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\VsDevCmd.bat
+
+SET FULL_VSDEVCMD_BAT_PATH="%PROGRAMFILES%\\%PARTIAL_VSDEVCMD_BAT_PATH%"
+IF EXIST %FULL_VSDEVCMD_BAT_PATH% (
+%FULL_VSDEVCMD_BAT_PATH%
+
+) ELSE (
+SET FULL_VSDEVCMD_BAT_PATH="%PROGRAMFILES% \(x86\)\\%PARTIAL_VSDEVCMD_BAT_PATH%"
+IF EXIST %FULL_VSDEVCMD_BAT_PATH% (
+%FULL_VSDEVCMD_BAT_PATH%
+)
 )
