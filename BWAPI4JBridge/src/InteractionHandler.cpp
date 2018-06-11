@@ -26,6 +26,7 @@
  */
 #include <BWAPI/Client.h>
 #include "Bridge.h"
+#include "Logger.h"
 #include "org_openbw_bwapi4j_InteractionHandler.h"
 
 JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_InteractionHandler_getKeyState(JNIEnv *env, jobject jObj, jint keyValue) {

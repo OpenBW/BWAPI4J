@@ -38,6 +38,8 @@ class Logger {
  private:
   std::shared_ptr<spdlog::logger> _logger;
 };
+
+extern Logger logger;
 }  // namespace BWAPI4JBridge
 
 #if defined(_WIN32) || defined(WIN32)
@@ -49,8 +51,8 @@ class Logger {
 #define LOGGER(str)                                                                                   \
   {                                                                                                   \
     std::cout << __FILENAME__ << ":" << __FUNCTION__ << ":" << __LINE__ << " - " << str << std::endl; \
-    logger.get()->debug("{}:{}:{} - {}", __FILENAME__, __FUNCTION__, __LINE__, str);                  \
-    logger.get()->flush();                                                                            \
+    BWAPI4JBridge::logger.get()->debug("{}:{}:{} - {}", __FILENAME__, __FUNCTION__, __LINE__, str);   \
+    BWAPI4JBridge::logger.get()->flush();                                                             \
   }
 
 #else

@@ -20,6 +20,7 @@
 
 #include "BridgeMap.h"
 #include <BWAPI.h>
+#include "Logger.h"
 #include "org_openbw_bwapi4j_BWMapImpl.h"
 
 void BridgeMap::initialize(JNIEnv *env, jclass jc, jobject bwObject, jclass bwMapClass) {

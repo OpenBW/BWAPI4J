@@ -22,12 +22,6 @@
 
 #include <jni.h>
 
-#include "Logger.h"
-
-#ifdef BWAPI4JBRIDGE_ENABLE_LOGGER
-extern BWAPI4JBridge::Logger logger;
-#endif
-
 extern JNIEnv *globalEnv;
 extern jobject globalBW;
 

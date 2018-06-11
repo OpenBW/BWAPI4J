@@ -38,6 +38,7 @@
 #include "Bridge.h"
 #include "BridgeEnum.h"
 #include "BridgeMap.h"
+#include "Logger.h"
 #include "org_openbw_bwapi4j_BW.h"
 
 #ifdef OPENBW
@@ -46,10 +47,6 @@
 #include "OpenBridgeModule.h"
 #else
 #include <BWAPI/Client.h>
-#endif
-
-#ifdef BWAPI4JBRIDGE_ENABLE_LOGGER
-BWAPI4JBridge::Logger logger("BWAPI4JBridge");
 #endif
 
 const size_t intBufSize = 5000000;

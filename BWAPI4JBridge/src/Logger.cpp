@@ -47,6 +47,8 @@ Logger::Logger(const std::string &name) {
   _logger->set_level(spdlog::level::debug);
 #endif
 }
+
+Logger logger("BWAPI4JBridge");
 }  // namespace BWAPI4JBridge
 
 #endif

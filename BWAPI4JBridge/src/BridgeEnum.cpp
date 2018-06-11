@@ -22,6 +22,7 @@
 #include <BWAPI.h>
 #include <BWAPI/Client.h>
 #include "Bridge.h"
+#include "Logger.h"
 
 void BridgeEnum::initialize() {
   createUpgradeTypeEnum();

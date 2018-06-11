@@ -23,6 +23,7 @@
 #include "Bridge.h"
 #include "BridgeEnum.h"
 #include "BridgeMap.h"
+#include "Logger.h"
 
 jmethodID onStartCallback;
 jmethodID onFrameCallback;
