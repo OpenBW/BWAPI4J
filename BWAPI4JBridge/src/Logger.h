@@ -20,6 +20,8 @@
 
 #pragma once
 
+#ifdef BWAPI4JBRIDGE_ENABLE_LOGGER
+
 #include <iostream>
 #include <memory>
 #include <string>
@@ -44,13 +46,13 @@ class Logger {
 #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 #endif
 
-#ifdef BWAPI4JBRIDGE_ENABLE_LOGGER
 #define LOGGER(str)                                                                                   \
   {                                                                                                   \
     std::cout << __FILENAME__ << ":" << __FUNCTION__ << ":" << __LINE__ << " - " << str << std::endl; \
     logger.get()->debug("{}:{}:{} - {}", __FILENAME__, __FUNCTION__, __LINE__, str);                  \
     logger.get()->flush();                                                                            \
   }
+
 #else
 #define LOGGER(str) \
   {}

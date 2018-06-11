@@ -48,7 +48,9 @@
 #include <BWAPI/Client.h>
 #endif
 
+#ifdef BWAPI4JBRIDGE_ENABLE_LOGGER
 BWAPI4JBridge::Logger logger("BWAPI4JBridge");
+#endif
 
 const size_t intBufSize = 5000000;
 jint intBuf[intBufSize];

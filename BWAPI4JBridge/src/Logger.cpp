@@ -18,12 +18,15 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifdef BWAPI4JBRIDGE_ENABLE_LOGGER
+
 #include "Logger.h"
 
 #include <iostream>
 
 namespace BWAPI4JBridge {
 Logger::Logger(const std::string &name) {
+#ifdef BWAPI4JBRIDGE_ENABLE_LOGGER
   spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%f] [%n] [%P:%t] [%l] %v");
 
   try {
@@ -42,5 +45,8 @@ Logger::Logger(const std::string &name) {
   }
 
   _logger->set_level(spdlog::level::debug);
+#endif
 }
 }  // namespace BWAPI4JBridge
+
+#endif
