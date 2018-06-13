@@ -33,12 +33,12 @@ Logger::Logger(const std::string &name) {
     const std::string filePath = "bwapi-data/write/" + name + ".log";
     _logger = spdlog::basic_logger_mt(name, filePath.c_str());
   } catch (const spdlog::spdlog_ex &basicLoggerException) {
-    std::cout << "failed to create basic_logger_mt: " << basicLoggerException.what() << std::endl;
+    std::cerr << "error: failed to create basic_logger_mt: " << basicLoggerException.what() << std::endl;
 
     try {
       _logger = spdlog::stdout_logger_mt(name);
     } catch (const spdlog::spdlog_ex &stdoutLoggerException) {
-      std::cout << "failed to create stdout_logger_mt: " << stdoutLoggerException.what() << std::endl;
+      std::cerr << "error: failed to create stdout_logger_mt: " << stdoutLoggerException.what() << std::endl;
 
       throw stdoutLoggerException;
     }

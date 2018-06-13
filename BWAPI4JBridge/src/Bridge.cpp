@@ -210,7 +210,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
         handle->bwgame.nextFrame();
 
         if (!handle->externalModuleConnected) {
-          std::cout << "No module loaded, exiting" << std::endl;
+          std::cerr << "error: no module loaded, exiting" << std::endl;
           if (env->ExceptionOccurred()) {
             env->ExceptionDescribe();
           }
