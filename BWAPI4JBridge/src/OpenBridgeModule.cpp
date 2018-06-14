@@ -25,6 +25,8 @@
 #include "BridgeMap.h"
 #include "Logger.h"
 
+namespace OpenBridge {
+
 jmethodID onStartCallback;
 jmethodID onFrameCallback;
 jmethodID onEndCallback;
@@ -67,8 +69,6 @@ void initializeCallbackMethods() {
 
   preFrameCallback = globalEnv->GetMethodID(jc, "preFrame", "()V");
 }
-
-namespace OpenBridge {
 
 // This gets called when the bot starts!
 void OpenBridgeModule::onStart() {
