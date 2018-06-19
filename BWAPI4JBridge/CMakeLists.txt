@@ -1,16 +1,5 @@
 cmake_minimum_required(VERSION 3.1)
 
-if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Release)
-endif()
-
-#set(CMAKE_CXX_FLAGS "-Wall -Wextra")
-if (NOT MSVC)
-	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -g")
-	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O3")
-endif()
-
-
 if (OPENBW)
 	set(PROJECT_NAME OpenBWAPI4JBridge)
 else()
@@ -21,6 +10,16 @@ project(${PROJECT_NAME})
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release)
+endif()
+
+#set(CMAKE_CXX_FLAGS "-Wall -Wextra")
+if (NOT MSVC)
+	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -g")
+	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O3")
+endif()
 
 if (BWAPI4JBRIDGE_ENABLE_LOGGER)
 	add_definitions(-DBWAPI4JBRIDGE_ENABLE_LOGGER)
