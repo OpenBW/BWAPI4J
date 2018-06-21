@@ -52,10 +52,9 @@ public class Medic extends MobileUnit implements SpellCaster, Organic {
         super.update(unitData, index, frame);
     }
 
-    public boolean healing(PlayerUnit unit) {
+    public boolean heal(PlayerUnit unit) {
         
-        return issueCommand(this.id, Use_Tech_Unit, unit.getId(), -1, -1,
-                Healing.getId());
+        return issueCommand(this.id, Use_Tech_Unit, unit.getId(), -1, -1, Healing.getId());
     }
 
     public boolean healMove(Position position) {
