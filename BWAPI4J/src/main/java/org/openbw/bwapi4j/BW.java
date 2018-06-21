@@ -639,7 +639,10 @@ public class BW {
      */
     public List<PlayerUnit> getUnits(Player player) {
 
-        return this.getUnitsFromPlayerCache.get().get(player);
+        final List<PlayerUnit> units = this.getUnitsFromPlayerCache.get().get(player);
+        return units == null
+                ? new ArrayList<>()
+                : units;
     }
 
     /**
