@@ -25,9 +25,13 @@ import net.lingala.zip4j.exception.ZipException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.type.UnitType;
-import org.openbw.bwapi4j.unit.*;
+import org.openbw.bwapi4j.unit.MineralPatch;
+import org.openbw.bwapi4j.unit.PlayerUnit;
+import org.openbw.bwapi4j.unit.Unit;
+import org.openbw.bwapi4j.unit.UnitFactory;
+import org.openbw.bwapi4j.unit.VespeneGeyser;
+import org.openbw.bwapi4j.unit.Worker;
 import org.openbw.bwapi4j.util.Cache;
-import org.openbw.bwapi4j.util.GetUnitsFromPlayerCache;
 
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -36,7 +40,12 @@ import java.nio.charset.UnsupportedCharsetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -104,7 +113,7 @@ public class BW {
     private int frame;
     private Charset charset;
 
-    private GetUnitsFromPlayerCache getUnitsFromPlayerCache;
+    private Cache<Map<Player, List<PlayerUnit>>> getUnitsFromPlayerCache;
     private Cache<List<MineralPatch>> getMineralPatchesCache;
     private Cache<List<VespeneGeyser>> getVespeneGeysersCache;
 
@@ -158,7 +167,7 @@ public class BW {
             this.charset = StandardCharsets.ISO_8859_1;
         }
 
-        this.getUnitsFromPlayerCache = new GetUnitsFromPlayerCache(this.units, this.interactionHandler);
+        this.getUnitsFromPlayerCache = new Cache<>(() -> this.units.values().stream().filter(u -> u instanceof PlayerUnit).map(u -> (PlayerUnit) u).collect(Collectors.groupingBy(PlayerUnit::getPlayer)), this.interactionHandler);
         this.getMineralPatchesCache = new Cache<>(() -> this.units.values().stream().filter(u -> u instanceof MineralPatch).map(u -> (MineralPatch) u).collect(Collectors.toList()), this.interactionHandler);
         this.getVespeneGeysersCache = new Cache<>(() -> this.units.values().stream().filter(u -> u instanceof VespeneGeyser).map(u -> (VespeneGeyser) u).collect(Collectors.toList()), this.interactionHandler);
     }
@@ -630,7 +639,7 @@ public class BW {
      */
     public List<PlayerUnit> getUnits(Player player) {
 
-        return this.getUnitsFromPlayerCache.get(player);
+        return this.getUnitsFromPlayerCache.get().get(player);
     }
 
     /**
