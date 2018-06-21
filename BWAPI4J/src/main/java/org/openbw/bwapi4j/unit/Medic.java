@@ -25,8 +25,6 @@ import org.openbw.bwapi4j.type.UnitType;
 
 import static org.openbw.bwapi4j.type.TechType.*;
 import static org.openbw.bwapi4j.type.UnitCommandType.Attack_Move;
-import static org.openbw.bwapi4j.type.UnitCommandType.Attack_Unit;
-import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Position;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Unit;
 
 public class Medic extends MobileUnit implements SpellCaster, Organic {
@@ -57,12 +55,12 @@ public class Medic extends MobileUnit implements SpellCaster, Organic {
         return issueCommand(this.id, Use_Tech_Unit, unit.getId(), -1, -1, Healing.getId());
     }
 
-    public boolean healMove(Position position) {
+    public boolean heal(Position position) {
 
-        return healMove(position, false);
+        return heal(position, false);
     }
 
-    public boolean healMove(Position position, boolean queued) {
+    public boolean heal(Position position, boolean queued) {
 
         return issueCommand(this.id, Attack_Move, -1, position.getX(), position.getY(), queued ? 1 : 0);
     }
