@@ -26,6 +26,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.unit.*;
+import org.openbw.bwapi4j.util.GetUnitsFromPlayerCache;
 
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -102,6 +103,8 @@ public class BW {
     private int frame;
     private Charset charset;
 
+    private GetUnitsFromPlayerCache getUnitsFromPlayerCache;
+
     private boolean onStartInitializationDone;
 
     /**
@@ -151,6 +154,8 @@ public class BW {
             logger.warn("Korean character set not available. Some characters may not be read properly.");
             this.charset = StandardCharsets.ISO_8859_1;
         }
+
+        this.getUnitsFromPlayerCache = new GetUnitsFromPlayerCache(this.units, this.interactionHandler);
     }
 
     private void extractBridgeDependencies(final BridgeType bridgeType) {
@@ -252,7 +257,7 @@ public class BW {
 //            libNames.add("libgmp-10");
 //            libNames.add("libmpfr-4");
         } else {
-            libNames.add("BWTA2");
+//            libNames.add("BWTA2");
         }
 
         return libNames;
@@ -532,8 +537,8 @@ public class BW {
 
         for (int index = 0; index < unitData.length; index += Unit.TOTAL_PROPERTIES) {
 
-            int unitId = unitData[index + 0];
-            int typeId = unitData[index + 3];
+            int unitId = unitData[index + 0]; //TODO: Use the enum from the Unit class.
+            int typeId = unitData[index + 3]; //TODO: Use the enum from the Unit class.
             Unit unit = this.units.get(unitId);
             if (unit == null || typeChanged(unit.getInitialType(), UnitType.values()[typeId])) {
 
@@ -572,7 +577,7 @@ public class BW {
 
         for (int index = 0; index < playerData.length; index += Player.TOTAL_PROPERTIES) {
 
-            int playerId = playerData[index + 0];
+            int playerId = playerData[index + 0]; //TODO: Use the enum from the Player class.
             Player player = this.players.get(playerId);
             if (player == null) {
 
@@ -612,7 +617,7 @@ public class BW {
     	
     	return this.bullets.get(bulletId);
     }
-    
+
     /**
      * Gets all units for given player.
      * @param player player whose units to return
@@ -620,8 +625,7 @@ public class BW {
      */
     public List<PlayerUnit> getUnits(Player player) {
 
-        return this.units.values().stream().filter(u -> u instanceof PlayerUnit
-                && ((PlayerUnit)u).getPlayer().equals(player)).map(u -> (PlayerUnit)u).collect(Collectors.toList());
+        return this.getUnitsFromPlayerCache.get(player);
     }
 
     /**
