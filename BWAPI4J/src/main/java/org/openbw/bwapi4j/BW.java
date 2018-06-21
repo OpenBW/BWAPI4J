@@ -26,6 +26,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.unit.*;
+import org.openbw.bwapi4j.util.Cache;
 import org.openbw.bwapi4j.util.GetUnitsFromPlayerCache;
 
 import java.net.URL;
@@ -104,6 +105,8 @@ public class BW {
     private Charset charset;
 
     private GetUnitsFromPlayerCache getUnitsFromPlayerCache;
+    private Cache<List<MineralPatch>> getMineralPatchesCache;
+    private Cache<List<VespeneGeyser>> getVespeneGeysersCache;
 
     private boolean onStartInitializationDone;
 
@@ -156,6 +159,8 @@ public class BW {
         }
 
         this.getUnitsFromPlayerCache = new GetUnitsFromPlayerCache(this.units, this.interactionHandler);
+        this.getMineralPatchesCache = new Cache<>(() -> this.units.values().stream().filter(u -> u instanceof MineralPatch).map(u -> (MineralPatch) u).collect(Collectors.toList()), this.interactionHandler);
+        this.getVespeneGeysersCache = new Cache<>(() -> this.units.values().stream().filter(u -> u instanceof VespeneGeyser).map(u -> (VespeneGeyser) u).collect(Collectors.toList()), this.interactionHandler);
     }
 
     private void extractBridgeDependencies(final BridgeType bridgeType) {
@@ -634,8 +639,7 @@ public class BW {
      */
     public List<MineralPatch> getMineralPatches() {
 
-        return this.units.values().stream().filter(u -> u instanceof MineralPatch)
-                .map(u -> (MineralPatch)u).collect(Collectors.toList());
+        return this.getMineralPatchesCache.get();
     }
 
     /**
@@ -644,8 +648,7 @@ public class BW {
      */
     public List<VespeneGeyser> getVespeneGeysers() {
 
-        return this.units.values().stream().filter(u -> u instanceof VespeneGeyser)
-                .map(u -> (VespeneGeyser)u).collect(Collectors.toList());
+        return this.getVespeneGeysersCache.get();
     }
 
     public Collection<Unit> getAllUnits() {
