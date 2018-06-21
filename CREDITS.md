@@ -43,5 +43,6 @@ The following people have contributed to BWAPI4J in at least one of the followin
 * [michalsustr](https://github.com/michalsustr)
 * [JasperGeurtz](https://github.com/JasperGeurtz)
 * [Jabbo16](https://github.com/Jabbo16)
+* [MasterFocus](https://github.com/MasterFocus)
 
 If you have contributed in some way and are not on the list, let us know or add yourself with a pull request.
