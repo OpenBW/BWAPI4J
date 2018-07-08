@@ -22,7 +22,7 @@ public class Cache<T> {
     public T get() {
         final int currentFrameCount = this.interactionHandler.getFrameCount();
 
-        if (this.lastFrameUpdate + this.refreshPeriod < currentFrameCount + 1) {
+        if (this.lastFrameUpdate + this.refreshPeriod < currentFrameCount + 1 || this.lastFrameUpdate > currentFrameCount) {
             try {
                 this.data = this.updateFunction.call();
             } catch (Exception e) {
