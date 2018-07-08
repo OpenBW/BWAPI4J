@@ -319,8 +319,6 @@ public abstract class Unit implements Comparable<Unit> {
         this.lastKnownPosition = this.initialPosition;
         this.lastKnownTilePosition = this.initialTilePosition;
         this.lastKnownHitPoints = this.initialHitPoints;
-        this.lastCommand = UnitCommandType.None;
-        this.buildType = UnitType.values()[unitData[index + Unit.BUILDTYPE_ID_INDEX]];
         this.initialResources = unitData[index + Unit.INITIAL_RESOURCES_INDEX];
         this.carrierId = unitData[index + Unit.CARRIER_INDEX];
         this.hatcheryId = unitData[index + Unit.HATCHERY_INDEX];
@@ -341,13 +339,6 @@ public abstract class Unit implements Comparable<Unit> {
                 unitData[index + Unit.TILEPOSITION_Y_INDEX]);
         this.angle = unitData[index + Unit.ANGLE_INDEX] * Math.PI / 180.0;
         this.isVisible = unitData[index + Unit.IS_VISIBLE_INDEX] == 1;
-        if (this.isVisible) {
-            this.lastSpotted = frame;
-            this.lastKnownPosition = this.position;
-            this.lastKnownTilePosition = this.tilePosition;
-            this.lastKnownHitPoints = this.hitPoints;
-            this.lastKnownResources = this.resources;
-        }
         this.exists = unitData[index + Unit.EXISTS_INDEX] == 1;
         this.isSelected = unitData[index + Unit.IS_SELECTED_INDEX] == 1;
         this.isFlying = unitData[index + Unit.IS_FLYING_INDEX] == 1;
@@ -458,6 +449,15 @@ public abstract class Unit implements Comparable<Unit> {
         this.isGatheringMinerals = unitData[index + Unit.IS_GATHERING_MINERALS_INDEX] == 1;
         this.isCarryingGas = unitData[index + Unit.IS_CARRYING_GAS_INDEX] == 1;
         this.isCarryingMinerals = unitData[index + Unit.IS_CARRYING_MINERALS_INDEX] == 1;
+        this.buildType = UnitType.values()[unitData[index + Unit.BUILDTYPE_ID_INDEX]];
+
+        if (this.isVisible) {
+            this.lastSpotted = frame;
+            this.lastKnownPosition = this.position;
+            this.lastKnownTilePosition = this.tilePosition;
+            this.lastKnownHitPoints = this.hitPoints;
+            this.lastKnownResources = this.resources;
+        }
     }
 
     public int getLastSpotted() {
