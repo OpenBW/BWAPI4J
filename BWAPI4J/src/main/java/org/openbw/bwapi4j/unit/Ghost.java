@@ -32,25 +32,9 @@ public class Ghost extends MobileUnit implements SpellCaster, Organic, GroundAtt
 
     private static final Logger logger = LogManager.getLogger();
 
-    private int energy;
-
     protected Ghost(int id) {
         
         super(id, UnitType.Terran_Ghost);
-    }
-
-    @Override
-    public void initialize(int[] unitData, int index, int frame) {
-
-        this.energy = 0;
-        super.initialize(unitData, index, frame);
-    }
-
-    @Override
-    public void update(int[] unitData, int index, int frame) {
-
-        this.energy = unitData[index + Unit.ENERGY_INDEX];
-        super.update(unitData, index, frame);
     }
 
     @Override

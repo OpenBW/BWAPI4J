@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.openbw.bwapi4j.type.TechType;
-import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
@@ -33,12 +32,9 @@ import static org.openbw.bwapi4j.type.UnitType.Zerg_Lair;
 
 public class Hatchery extends Building implements Organic, ResearchingFacility, Base, Morphable {
 
-    protected Researcher researcher;
-    
     protected Hatchery(int id, UnitType type, int timeSpotted) {
         
         super(id, type, timeSpotted);
-        this.researcher = new Researcher();
     }
     
     protected Hatchery(int id, int timeSpotted) {
@@ -46,13 +42,6 @@ public class Hatchery extends Building implements Organic, ResearchingFacility, 
         this(id, UnitType.Zerg_Hatchery, timeSpotted);
     }
 
-    @Override
-    public void update(int[] unitData, int index, int frame) {
-
-        this.researcher.update(unitData, index);
-        super.update(unitData, index, frame);
-    }
-    
     /**
      * Retrieves a list of larvae present at this hatchery.
      * @return list of larvae
@@ -66,31 +55,31 @@ public class Hatchery extends Building implements Organic, ResearchingFacility, 
 
     public boolean researchBurrowing() {
         
-        return this.researcher.research(TechType.Burrowing);
+        return super.research(TechType.Burrowing);
     }
     
     @Override
     public boolean isUpgrading() {
         
-        return this.researcher.isUpgrading();
+        return isUpgrading;
     }
 
     @Override
     public boolean isResearching() {
         
-        return this.researcher.isResearching();
+        return isResearching;
     }
 
     @Override
     public boolean cancelResearch() {
         
-        return this.researcher.cancelResearch();
+        return super.cancelResearch();
     }
 
     @Override
     public boolean cancelUpgrade() {
         
-        return this.researcher.cancelUpgrade();
+        return super.cancelUpgrade();
     }
 
     @Override
@@ -108,32 +97,32 @@ public class Hatchery extends Building implements Organic, ResearchingFacility, 
 
     @Override
     public boolean canResearch(TechType techType) {
-        return this.researcher.canResearch(techType);
+        return super.canResearch(techType);
     }
 
     @Override
     public boolean canUpgrade(UpgradeType upgradeType) {
-        return this.researcher.canUpgrade(upgradeType);
+        return super.canUpgrade(upgradeType);
     }
 
     @Override
     public boolean research(TechType techType) {
-        return this.researcher.research(techType);
+        return super.research(techType);
     }
 
     @Override
     public boolean upgrade(UpgradeType upgradeType) {
-        return this.researcher.upgrade(upgradeType);
+        return super.upgrade(upgradeType);
     }
 
     @Override
     public UpgradeInProgress getUpgradeInProgress() {
-        return researcher.getUpgradeInProgress();
+        return super.getUpgradeInProgress();
     }
 
     @Override
     public ResearchInProgress getResearchInProgress() {
-        return researcher.getResearchInProgress();
+        return super.getResearchInProgress();
     }
 
     @Override

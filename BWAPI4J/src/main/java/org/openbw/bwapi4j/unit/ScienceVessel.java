@@ -29,25 +29,9 @@ import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Unit;
 
 public class ScienceVessel extends MobileUnit implements Mechanical, SpellCaster, Detector {
 
-    private int energy;
-
     protected ScienceVessel(int id) {
         
         super(id, UnitType.Terran_Science_Vessel);
-    }
-
-    @Override
-    public void initialize(int[] unitData, int index, int frame) {
-
-        this.energy = 0;
-        super.initialize(unitData, index, frame);
-    }
-
-    @Override
-    public void update(int[] unitData, int index, int frame) {
-
-        this.energy = unitData[index + Unit.ENERGY_INDEX];
-        super.update(unitData, index, frame);
     }
 
     public boolean defensiveMatrix(PlayerUnit unit) {

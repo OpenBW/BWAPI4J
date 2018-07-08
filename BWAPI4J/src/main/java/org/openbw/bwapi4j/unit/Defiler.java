@@ -34,30 +34,11 @@ public class Defiler extends MobileUnit implements Organic, SpellCaster, Burrowa
 
     private static final Logger logger = LogManager.getLogger();
 
-    private int energy;
-    private boolean burrowed;
-
     protected Defiler(int id) {
         
         super(id, UnitType.Zerg_Defiler);
     }
     
-    @Override
-    public void initialize(int[] unitData, int index, int frame) {
-
-        this.energy = 0;
-        this.burrowed = false;
-        super.initialize(unitData, index, frame);
-    }
-
-    @Override
-    public void update(int[] unitData, int index, int frame) {
-
-        this.burrowed = unitData[index + Unit.IS_BURROWED_INDEX] == 1;
-        this.energy = unitData[index + Unit.ENERGY_INDEX];
-        super.update(unitData, index, frame);
-    }
-
     @Override
     public int getEnergy() {
         

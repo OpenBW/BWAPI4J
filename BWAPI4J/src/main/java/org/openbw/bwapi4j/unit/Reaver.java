@@ -27,25 +27,9 @@ import static org.openbw.bwapi4j.type.UnitType.Protoss_Scarab;
 
 public class Reaver extends MobileUnit implements Mechanical {
 
-    private int scarabCount;
-    
     protected Reaver(int id) {
         
         super(id, UnitType.Protoss_Reaver);
-    }
-    
-    @Override
-    public void initialize(int[] unitData, int index, int frame) {
-
-        this.scarabCount = 0;
-        super.initialize(unitData, index, frame);
-    }
-
-    @Override
-    public void update(int[] unitData, int index, int frame) {
-
-        this.scarabCount = unitData[index + Unit.SCARAB_COUNT_INDEX];
-        super.update(unitData, index, frame);
     }
     
     public int getScarabCount() {

@@ -34,24 +34,8 @@ public class Queen extends MobileUnit implements Organic, SpellCaster {
 
     private static final Logger logger = LogManager.getLogger();
 
-    private int energy;
-
     protected Queen(int id) {
         super(id, UnitType.Zerg_Queen);
-    }
-    
-    @Override
-    public void initialize(int[] unitData, int index, int frame) {
-
-        this.energy = 0;
-        super.initialize(unitData, index, frame);
-    }
-
-    @Override
-    public void update(int[] unitData, int index, int frame) {
-
-        this.energy = unitData[index + Unit.ENERGY_INDEX];
-        super.update(unitData, index, frame);
     }
 
     @Override

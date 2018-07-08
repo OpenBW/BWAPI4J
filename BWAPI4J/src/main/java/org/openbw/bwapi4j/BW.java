@@ -40,12 +40,7 @@ import java.nio.charset.UnsupportedCharsetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -639,10 +634,7 @@ public class BW {
      */
     public List<PlayerUnit> getUnits(Player player) {
 
-        final List<PlayerUnit> units = this.getUnitsFromPlayerCache.get().get(player);
-        return units == null
-                ? new ArrayList<>()
-                : units;
+        return this.getUnitsFromPlayerCache.get().getOrDefault(player, Collections.emptyList());
     }
 
     /**

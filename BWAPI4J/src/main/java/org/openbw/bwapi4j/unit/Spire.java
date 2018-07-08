@@ -31,8 +31,6 @@ import static org.openbw.bwapi4j.type.UnitType.Zerg_Spire;
 
 public class Spire extends Building implements Organic, ResearchingFacility, Morphable {
 
-    private Researcher researcher;
-    
     protected Spire(int id, int timeSpotted) {
         this(id, Zerg_Spire, timeSpotted);
     }
@@ -40,48 +38,40 @@ public class Spire extends Building implements Organic, ResearchingFacility, Mor
     protected Spire(int id, UnitType type, int timeSpotted) {
 
         super(id, type, timeSpotted);
-        this.researcher = new Researcher();
     }
 
-    @Override
-    public void update(int[] unitData, int index, int frame) {
-
-        super.update(unitData, index, frame);
-        this.researcher.update(unitData, index);
-    }
-    
     public boolean upgradeFlyerAttacks() {
         
-        return this.researcher.upgrade(UpgradeType.Zerg_Flyer_Attacks);
+        return super.upgrade(UpgradeType.Zerg_Flyer_Attacks);
     }
     
     public boolean upgradeFlyerCarapace() {
         
-        return this.researcher.upgrade(UpgradeType.Zerg_Flyer_Carapace);
+        return super.upgrade(UpgradeType.Zerg_Flyer_Carapace);
     }
     
     @Override
     public boolean isUpgrading() {
         
-        return this.researcher.isUpgrading();
+        return isUpgrading;
     }
 
     @Override
     public boolean isResearching() {
         
-        return this.researcher.isResearching();
+        return isResearching;
     }
 
     @Override
     public boolean cancelResearch() {
         
-        return this.researcher.cancelResearch();
+        return super.cancelResearch();
     }
 
     @Override
     public boolean cancelUpgrade() {
         
-        return this.researcher.cancelUpgrade();
+        return super.cancelUpgrade();
     }
 
     @Override
@@ -94,31 +84,31 @@ public class Spire extends Building implements Organic, ResearchingFacility, Mor
 
     @Override
     public boolean canResearch(TechType techType) {
-        return this.researcher.canResearch(techType);
+        return super.canResearch(techType);
     }
 
     @Override
     public boolean canUpgrade(UpgradeType upgradeType) {
-        return this.researcher.canUpgrade(upgradeType);
+        return super.canUpgrade(upgradeType);
     }
 
     @Override
     public boolean research(TechType techType) {
-        return this.researcher.research(techType);
+        return super.research(techType);
     }
 
     @Override
     public boolean upgrade(UpgradeType upgradeType) {
-        return this.researcher.upgrade(upgradeType);
+        return super.upgrade(upgradeType);
     }
 
     @Override
     public UpgradeInProgress getUpgradeInProgress() {
-        return researcher.getUpgradeInProgress();
+        return super.getUpgradeInProgress();
     }
 
     @Override
     public ResearchInProgress getResearchInProgress() {
-        return researcher.getResearchInProgress();
+        return super.getResearchInProgress();
     }
 }

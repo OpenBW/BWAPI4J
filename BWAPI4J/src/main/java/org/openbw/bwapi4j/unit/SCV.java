@@ -30,25 +30,9 @@ public class SCV extends Worker implements Mechanical {
 
 	private static final Logger logger = LogManager.getLogger();
 	
-    private boolean isRepairing;
-
     protected SCV(int id) {
         
         super(id, UnitType.Terran_SCV);
-    }
-
-    @Override
-    public void initialize(int[] unitData, int index, int frame) {
-
-        this.isRepairing = false;
-        super.initialize(unitData, index, frame);
-    }
-
-    @Override
-    public void update(int[] unitData, int index, int frame) {
-
-        this.isRepairing = unitData[index + Unit.IS_REPAIRING_INDEX] == 1;
-        super.update(unitData, index, frame);
     }
 
     public boolean isRepairing() {

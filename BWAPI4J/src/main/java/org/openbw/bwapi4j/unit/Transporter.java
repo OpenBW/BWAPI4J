@@ -32,16 +32,8 @@ public abstract class Transporter extends MobileUnit implements Loadable {
 
     private static final Logger logger = LogManager.getLogger();
 
-    protected boolean isLoaded;
-
     protected Transporter(final int id, final UnitType unitType) {
         super(id, unitType);
-    }
-
-    @Override
-    public void update(final int[] unitData, final int index, final int frame) {
-        this.isLoaded = unitData[index + Unit.IS_LOADED_INDEX] == 1;
-        super.update(unitData, index, frame);
     }
 
     @Override

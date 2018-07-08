@@ -28,55 +28,9 @@ import static org.openbw.bwapi4j.type.UnitCommandType.*;
 
 public abstract class MobileUnit extends PlayerUnit {
 
-    private boolean isFollowing;
-    private boolean isHoldingPosition;
-    private boolean isStuck;
-    private boolean isStasised;
-    private boolean isUnderDarkSwarm;
-    private boolean isUnderDisruptionWeb;
-    private boolean isUnderStorm;
-    private boolean isMoving;
-    private boolean isParasited;
-    private boolean isPatrolling;
-    private boolean isPlagued;
-    private Position targetPosition;
-    private int transportId;
-    private int acidSporeCount;
-    private boolean isHallucination;
-    private boolean isBlind;
-    private boolean isBraking;
-    private boolean isDefenseMatrixed;
-    private boolean isEnsnared;
-
     protected MobileUnit(int id, UnitType unitType) {
 
         super(id, unitType);
-    }
-
-    @Override
-    public void update(int[] unitData, int index, int frame) {
-
-        this.isFollowing = unitData[index + Unit.IS_FOLLOWING_INDEX] == 1;
-        this.isHoldingPosition = unitData[index + Unit.IS_HOLDING_POSITION_INDEX] == 1;
-        this.isStuck = unitData[index + Unit.IS_STUCK_INDEX] == 1;
-        this.isStasised = unitData[index + Unit.IS_STASISED_INDEX] == 1;
-        this.isUnderDarkSwarm = unitData[index + Unit.IS_UNDER_DARK_SWARM_INDEX] == 1;
-        this.isUnderDisruptionWeb = unitData[index + Unit.IS_UNDER_DISRUPTION_WEB_INDEX] == 1;
-        this.isUnderStorm = unitData[index + Unit.IS_UNDER_STORM_INDEX] == 1;
-        this.isMoving = unitData[index + Unit.IS_MOVING_INDEX] == 1;
-        this.isParasited = unitData[index + Unit.IS_PARASITED_INDEX] == 1;
-        this.isPatrolling = unitData[index + Unit.IS_PATROLLING_INDEX] == 1;
-        this.isPlagued = unitData[index + Unit.IS_PLAGUED_INDEX] == 1;
-        this.targetPosition = new Position(unitData[index + Unit.TARGET_POSITION_X_INDEX],
-                unitData[index + Unit.TARGET_POSITION_Y_INDEX]);
-        this.transportId = unitData[index + Unit.TRANSPORT_INDEX];
-        this.acidSporeCount = unitData[index + Unit.ACID_SPORE_COUNT_INDEX];
-        this.isHallucination = unitData[index + Unit.IS_HALLUCINATION_INDEX] == 1;
-        this.isBlind = unitData[index + Unit.IS_BLIND_INDEX] == 1;
-        this.isBraking = unitData[index + Unit.IS_BRAKING_INDEX] == 1;
-        this.isDefenseMatrixed = unitData[index + Unit.IS_DEFENSE_MATRIXED_INDEX] == 1;
-        this.isEnsnared = unitData[index + Unit.IS_ENSNARED_INDEX] == 1;
-        super.update(unitData, index, frame);
     }
 
     public boolean attack(Position p) {

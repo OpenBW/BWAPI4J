@@ -25,7 +25,7 @@ package org.openbw.bwapi4j.unit;
  */
 public interface SpellCaster {
 
-    public int getEnergy();
+    int getEnergy();
 
-    public int getMaxEnergy();
+    int getMaxEnergy();
 }

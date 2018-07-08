@@ -26,25 +26,9 @@ import static org.openbw.bwapi4j.type.UnitCommandType.Right_Click_Unit;
 
 public class ShieldBattery extends Building implements Mechanical {
 
-    private int energy;
-
     protected ShieldBattery(int id, int timeSpotted) {
         
         super(id, UnitType.Protoss_Shield_Battery, timeSpotted);
-    }
-
-    @Override
-    public void initialize(int[] unitData, int index, int frame) {
-
-        this.energy = 0;
-        super.initialize(unitData, index, frame);
-    }
-
-    @Override
-    public void update(int[] unitData, int index, int frame) {
-
-        this.energy = unitData[index + Unit.ENERGY_INDEX];
-        super.update(unitData, index, frame);
     }
 
     public int getEnergy() {

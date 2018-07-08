@@ -27,24 +27,8 @@ import static org.openbw.bwapi4j.type.UnitType.Zerg_Lurker;
 
 public class Hydralisk extends MobileUnit implements Organic, Burrowable, GroundAttacker, AirAttacker, Morphable {
 
-    private boolean burrowed;
-    
     protected Hydralisk(int id) {
         super(id, UnitType.Zerg_Hydralisk);
-    }
-    
-    @Override
-    public void initialize(int[] unitData, int index, int frame) {
-
-        this.burrowed = false;
-        super.initialize(unitData, index, frame);
-    }
-
-    @Override
-    public void update(int[] unitData, int index, int frame) {
-
-        this.burrowed = unitData[index + Unit.IS_BURROWED_INDEX] == 1;
-        super.update(unitData, index, frame);
     }
     
     @Override

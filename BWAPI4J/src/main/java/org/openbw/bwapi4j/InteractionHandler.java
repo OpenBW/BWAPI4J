@@ -260,7 +260,7 @@ public final class InteractionHandler {
 
     public List<Unit> getSelectedUnits() {
     	
-        return bw.getAllUnits().stream().filter(u -> u.isSelected()).collect(Collectors.toList());
+        return bw.getAllUnits().stream().filter(Unit::isSelected).collect(Collectors.toList());
     }
 
     public boolean isKeyPressed(Key key) {

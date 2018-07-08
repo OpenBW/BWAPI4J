@@ -29,25 +29,9 @@ import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Unit;
 
 public class Medic extends MobileUnit implements SpellCaster, Organic {
 
-    private int energy;
-
     protected Medic(int id) {
         
         super(id, UnitType.Terran_Medic);
-    }
-
-    @Override
-    public void initialize(int[] unitData, int index, int frame) {
-
-        this.energy = 0;
-        super.initialize(unitData, index, frame);
-    }
-
-    @Override
-    public void update(int[] unitData, int index, int frame) {
-
-        this.energy = unitData[index + Unit.ENERGY_INDEX];
-        super.update(unitData, index, frame);
     }
 
     public boolean heal(PlayerUnit unit) {

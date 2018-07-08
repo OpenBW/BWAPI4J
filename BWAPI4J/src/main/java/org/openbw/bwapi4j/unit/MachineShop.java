@@ -26,91 +26,82 @@ import org.openbw.bwapi4j.type.UpgradeType;
 
 public class MachineShop extends Addon implements Mechanical, ResearchingFacility {
 
-    private Researcher researcher;
-
     protected MachineShop(int id, int timeSpotted) {
         
         super(id, UnitType.Terran_Machine_Shop, timeSpotted);
-        this.researcher = new Researcher();
     }
 
-    @Override
-    public void update(int[] unitData, int index, int frame) {
-
-        this.researcher.update(unitData, index);
-        super.update(unitData, index, frame);
-    }
 
     public boolean researchSiegeMode() {
         
-        return this.researcher.research(TechType.Tank_Siege_Mode);
+        return super.research(TechType.Tank_Siege_Mode);
     }
 
     public boolean researchSpiderMines() {
         
-        return this.researcher.research(TechType.Spider_Mines);
+        return super.research(TechType.Spider_Mines);
     }
 
     public boolean upgradeIonThrusters() {
         
-        return this.researcher.upgrade(UpgradeType.Ion_Thrusters);
+        return super.upgrade(UpgradeType.Ion_Thrusters);
     }
 
     public boolean upgradeCharonBoosters() {
-        return this.researcher.upgrade(UpgradeType.Charon_Boosters);
+        return super.upgrade(UpgradeType.Charon_Boosters);
     }
 
     @Override
     public boolean isUpgrading() {
         
-        return this.researcher.isUpgrading();
+        return isUpgrading;
     }
 
     @Override
     public boolean isResearching() {
         
-        return this.researcher.isResearching();
+        return isResearching;
     }
 
     @Override
     public boolean cancelResearch() {
         
-        return this.researcher.cancelResearch();
+        return super.cancelResearch();
     }
 
     @Override
     public boolean cancelUpgrade() {
         
-        return this.researcher.cancelUpgrade();
+        return super.cancelUpgrade();
     }
 
     @Override
     public boolean canResearch(TechType techType) {
-        return this.researcher.canResearch(techType);
+        return super.canResearch(techType);
     }
 
     @Override
     public boolean canUpgrade(UpgradeType upgradeType) {
-        return this.researcher.canUpgrade(upgradeType);
+        return super.canUpgrade(upgradeType);
     }
 
     @Override
     public boolean research(TechType techType) {
-        return this.researcher.research(techType);
+        return super.research(techType);
     }
 
     @Override
     public boolean upgrade(UpgradeType upgradeType) {
-        return this.researcher.upgrade(upgradeType);
+        return super.upgrade(upgradeType);
     }
 
     @Override
     public UpgradeInProgress getUpgradeInProgress() {
-        return researcher.getUpgradeInProgress();
+        return super.getUpgradeInProgress();
     }
 
     @Override
     public ResearchInProgress getResearchInProgress() {
-        return researcher.getResearchInProgress();
+        return super.getResearchInProgress();
     }
 }

@@ -27,95 +27,85 @@ import java.util.List;
 
 public class Gateway extends Building implements Mechanical, TrainingFacility {
 
-    private Trainer trainer;
-
     protected Gateway(int id, int timeSpotted) {
         
         super(id, UnitType.Protoss_Gateway, timeSpotted);
-        this.trainer = new Trainer();
-    }
-
-    @Override
-    public void update(int[] unitData, int index, int frame) {
-
-        this.trainer.update(unitData, index);
-        super.update(unitData, index, frame);
     }
 
     public boolean trainZealot() {
         
-        return trainer.train(UnitType.Protoss_Zealot);
+        return super.train(UnitType.Protoss_Zealot);
     }
 
     public boolean trainDragoon() {
         
-        return trainer.train(UnitType.Protoss_Dragoon);
+        return super.train(UnitType.Protoss_Dragoon);
     }
 
     public boolean trainHighTemplar() {
         
-        return trainer.train(UnitType.Protoss_High_Templar);
+        return super.train(UnitType.Protoss_High_Templar);
     }
 
     public boolean trainDarkTemplar() {
         
-        return trainer.train(UnitType.Protoss_Dark_Templar);
+        return super.train(UnitType.Protoss_Dark_Templar);
     }
 
     @Override
     public boolean canTrain(UnitType type) {
-        return this.trainer.canTrain(type);
+        return super.canTrain(type);
     }
 
     @Override
     public boolean train(UnitType type) {
-        return this.trainer.train(type);
+        return super.train(type);
     }
 
     @Override
     public boolean isTraining() {
         
-        return this.trainer.isTraining();
+        return isTraining;
     }
 
     @Override
     public int getTrainingQueueSize() {
         
-        return this.trainer.getTrainingQueueSize();
+        return trainingQueueSize;
     }
 
     @Override
     public List<TrainingSlot> getTrainingQueue() {
 
-        return this.trainer.getTrainingQueue();
+        return trainingQueue;
     }
 
     @Override
     public boolean cancelTrain(int slot) {
         
-        return this.trainer.cancelTrain(slot);
+        return super.cancelTrain(slot);
     }
 
     @Override
     public boolean cancelTrain() {
         
-        return this.trainer.cancelTrain();
+        return super.cancelTrain();
     }
 
     @Override
     public boolean setRallyPoint(Position p) {
         
-        return this.trainer.setRallyPoint(p);
+        return super.setRallyPoint(p);
     }
 
     @Override
     public boolean setRallyPoint(Unit target) {
         
-        return this.trainer.setRallyPoint(target);
+        return super.setRallyPoint(target);
     }
 
     @Override
     public int getRemainingTrainTime() {
-        return trainer.getRemainingTrainingTime();
+        return remainingTrainTime;
     }
 }

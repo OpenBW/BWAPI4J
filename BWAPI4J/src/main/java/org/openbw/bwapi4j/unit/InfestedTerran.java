@@ -27,25 +27,9 @@ import static org.openbw.bwapi4j.type.UnitCommandType.Unburrow;
 
 public class InfestedTerran extends MobileUnit implements Organic, Burrowable, GroundAttacker {
 
-    private boolean burrowed;
-    
     protected InfestedTerran(int id) {
         
         super(id, UnitType.Zerg_Infested_Terran);
-    }
-    
-    @Override
-    public void initialize(int[] unitData, int index, int frame) {
-
-        this.burrowed = false;
-        super.initialize(unitData, index, frame);
-    }
-
-    @Override
-    public void update(int[] unitData, int index, int frame) {
-
-        this.burrowed = unitData[index + Unit.IS_BURROWED_INDEX] == 1;
-        super.update(unitData, index, frame);
     }
     
     @Override

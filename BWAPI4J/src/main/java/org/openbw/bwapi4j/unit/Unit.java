@@ -25,148 +25,148 @@ import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.*;
 import org.openbw.bwapi4j.type.*;
 
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static org.openbw.bwapi4j.type.UnitCommandType.*;
 
 public abstract class Unit implements Comparable<Unit> {
 
     private static final Logger logger = LogManager.getLogger();
 
-    protected static int ID_INDEX = 0;
-    protected static int REPLAY_ID_INDEX = 1;
-    protected static int PLAYER_ID_INDEX = 2;
-    protected static int TYPE_ID_INDEX = 3;
-    protected static int POSITION_X_INDEX = 4;
-    protected static int POSITION_Y_INDEX = 5;
-    protected static int TILEPOSITION_X_INDEX = 6;
-    protected static int TILEPOSITION_Y_INDEX = 7;
-    protected static int ANGLE_INDEX = 8;
-    protected static int VELOCITY_X_INDEX = 9;
-    protected static int VELOCITY_Y_INDEX = 10;
-    protected static int HITPOINTS_INDEX = 11;
-    protected static int SHIELDS_INDEX = 12;
-    protected static int ENERGY_INDEX = 13;
-    protected static int RESOURCES_INDEX = 14;
-    protected static int RESOURCE_GROUP_INDEX = 15;
-    protected static int LAST_COMMAND_FRAME_INDEX = 16;
-    protected static int LAST_COMMAND_TYPE_ID_INDEX = 17;
-    protected static int LAST_ATTACKING_PLAYER_INDEX = 18;
-    protected static int INITIAL_TYPE_ID_INDEX = 19;
-    protected static int INITIAL_POSITION_X_INDEX = 20;
-    protected static int INITIAL_POSITION_Y_INDEX = 21;
-    protected static int INITIAL_TILEPOSITION_X_INDEX = 22;
-    protected static int INITIAL_TILEPOSITION_Y_INDEX = 23;
-    protected static int INITIAL_HITPOINTS_INDEX = 24;
-    protected static int INITIAL_RESOURCES_INDEX = 25;
-    protected static int KILLCOUNT_INDEX = 26;
-    protected static int ACID_SPORE_COUNT_INDEX = 27;
-    protected static int INTERCEPTOR_COUNT_INDEX = 28;
-    protected static int SCARAB_COUNT_INDEX = 29;
-    protected static int SPIDERMINE_COUNT_INDEX = 30;
-    protected static int GROUND_WEAPON_COOLDOWN_INDEX = 31;
-    protected static int AIR_WEAPON_COOLDOWN_INDEX = 32;
-    protected static int SPELL_COOLDOWN_INDEX = 33;
-    protected static int DEFENSE_MATRIX_POINTS_INDEX = 34;
-    protected static int DEFENSE_MATRIX_TIMER_INDEX = 35;
-    protected static int ENSNARE_TIMER_INDEX = 36;
-    protected static int IRRADIATE_TIMER_INDEX = 37;
-    protected static int LOCKDOWN_TIMER_INDEX = 38;
-    protected static int MAELSTROM_TIMER_INDEX = 39;
-    protected static int ORDER_TIMER_INDEX = 40;
-    protected static int PLAGUE_TIMER_INDEX = 41;
-    protected static int REMOVE_TIMER_INDEX = 42;
-    protected static int STASIS_TIMER_INDEX = 43;
-    protected static int STOM_TIMER_INDEX = 44;
-    protected static int BUILDTYPE_ID_INDEX = 45;
-    protected static int TRAINING_QUEUE_SIZE_INDEX = 46;
-    protected static int TECH_ID_INDEX = 47;
-    protected static int UPGRADE_ID_INDEX = 48;
-    protected static int REMAINING_BUILD_TIME_INDEX = 49;
-    protected static int REMAINING_TRAIN_TIME_INDEX = 50;
-    protected static int REMAINING_RESEARCH_TIME_INDEX = 51;
-    protected static int REMAINING_UPGRADE_TIME_INDEX = 52;
-    protected static int BUILD_UNIT_ID_INDEX = 53;
-    protected static int TARGET_ID_INDEX = 54;
-    protected static int TARGET_POSITION_X_INDEX = 55;
-    protected static int TARGET_POSITION_Y_INDEX = 56;
-    protected static int ORDER_ID_INDEX = 57;
-    protected static int ORDER_TARGET_ID_INDEX = 58;
-    protected static int SECONDARY_ORDER_ID_INDEX = 59;
-    protected static int RALLY_POSITION_X_INDEX = 60;
-    protected static int RALLY_POSITION_Y_INDEX = 61;
-    protected static int RALLY_UNIT_INDEX = 62;
-    protected static int ADDON_INDEX = 63;
-    protected static int NYDUS_EXIT_INDEX = 64;
-    protected static int TRANSPORT_INDEX = 65;
-    protected static int LOADED_UNITS_SIZE_INDEX = 66;
-    protected static int CARRIER_INDEX = 67;
-    protected static int HATCHERY_INDEX = 68;
-    protected static int LARVA_SIZE_INDEX = 69;
-    protected static int POWERUP_ID_INDEX = 70;
-    protected static int EXISTS_INDEX = 71;
-    protected static int HAS_NUKE_INDEX = 72;
-    protected static int IS_ACCELERATING_INDEX = 73;
-    protected static int IS_ATTACKING_INDEX = 74;
-    protected static int IS_ATTACK_FRAME_INDEX = 75;
-    protected static int IS_BEING_CONSTRUCTED_INDEX = 76;
-    protected static int IS_BEING_GATHERED_INDEX = 77;
-    protected static int IS_BEING_HEALED_INDEX = 78;
-    protected static int IS_BLIND_INDEX = 79;
-    protected static int IS_BRAKING_INDEX = 80;
-    protected static int IS_BURROWED_INDEX = 81;
-    protected static int IS_CARRYING_GAS_INDEX = 82;
-    protected static int IS_CARRYING_MINERALS_INDEX = 83;
-    protected static int IS_CLOAKED_INDEX = 84;
-    protected static int IS_COMPLETED_INDEX = 85;
-    protected static int IS_CONSTRUCTING_INDEX = 86;
-    protected static int IS_DEFENSE_MATRIXED_INDEX = 87;
-    protected static int IS_DETECTED_INDEX = 88;
-    protected static int IS_ENSNARED_INDEX = 89;
-    protected static int IS_FOLLOWING_INDEX = 90;
-    protected static int IS_GATHERING_GAS_INDEX = 91;
-    protected static int IS_GATHERING_MINERALS_INDEX = 92;
-    protected static int IS_HALLUCINATION_INDEX = 93;
-    protected static int IS_HOLDING_POSITION_INDEX = 94;
-    protected static int IS_IDLE_INDEX = 95;
-    protected static int IS_INTERRUPTIBLE_INDEX = 96;
-    protected static int IS_INVINCIBLE_INDEX = 97;
-    protected static int IS_IRRADIATED_INDEX = 98;
-    protected static int IS_LIFTED_INDEX = 99;
-    protected static int IS_LOADED_INDEX = 100;
-    protected static int IS_LOCKED_DOWN_INDEX = 101;
-    protected static int IS_MAELSTROMMED_INDEX = 102;
-    protected static int IS_MORPHING_INDEX = 103;
-    protected static int IS_MOVING_INDEX = 104;
-    protected static int IS_PARASITED_INDEX = 105;
-    protected static int IS_PATROLLING_INDEX = 106;
-    protected static int IS_PLAGUED_INDEX = 107;
-    protected static int IS_REPAIRING_INDEX = 108;
-    protected static int IS_SELECTED_INDEX = 109;
-    protected static int IS_SIEGED_INDEX = 110;
-    protected static int IS_STARTING_ATTACK_INDEX = 111;
-    protected static int IS_STASISED_INDEX = 112;
-    protected static int IS_STIMMED_INDEX = 113;
-    protected static int IS_STUCK_INDEX = 114;
-    protected static int IS_TRAINING_INDEX = 115;
-    protected static int IS_UNDER_ATTACK_INDEX = 116;
-    protected static int IS_UNDER_DARK_SWARM_INDEX = 117;
-    protected static int IS_UNDER_DISRUPTION_WEB_INDEX = 118;
-    protected static int IS_UNDER_STORM_INDEX = 119;
-    protected static int IS_POWERED_INDEX = 120;
-    protected static int IS_UPGRADING_INDEX = 121;
-    protected static int IS_VISIBLE_INDEX = 122;
-    protected static int IS_RESEARCHING_INDEX = 123;
-    protected static int IS_FLYING_INDEX = 124;
-    protected static int ORDER_TARGET_POSITION_X_INDEX = 125;
-    protected static int ORDER_TARGET_POSITION_Y_INDEX = 126;
-    protected static int TRAINING_QUEUE_SLOT_0_INDEX = 127;
-    protected static int TRAINING_QUEUE_SLOT_1_INDEX = 128;
-    protected static int TRAINING_QUEUE_SLOT_2_INDEX = 129;
-    protected static int TRAINING_QUEUE_SLOT_3_INDEX = 130;
-    protected static int TRAINING_QUEUE_SLOT_4_INDEX = 131;
-    protected static int MAX_TRAINING_QUEUE_SIZE = 5;
+    private static int ID_INDEX = 0;
+    private static int REPLAY_ID_INDEX = 1;
+    private static int PLAYER_ID_INDEX = 2;
+    private static int TYPE_ID_INDEX = 3;
+    private static int POSITION_X_INDEX = 4;
+    private static int POSITION_Y_INDEX = 5;
+    private static int TILEPOSITION_X_INDEX = 6;
+    private static int TILEPOSITION_Y_INDEX = 7;
+    private static int ANGLE_INDEX = 8;
+    private static int VELOCITY_X_INDEX = 9;
+    private static int VELOCITY_Y_INDEX = 10;
+    private static int HITPOINTS_INDEX = 11;
+    private static int SHIELDS_INDEX = 12;
+    private static int ENERGY_INDEX = 13;
+    private static int RESOURCES_INDEX = 14;
+    private static int RESOURCE_GROUP_INDEX = 15;
+    private static int LAST_COMMAND_FRAME_INDEX = 16;
+    private static int LAST_COMMAND_TYPE_ID_INDEX = 17;
+    private static int LAST_ATTACKING_PLAYER_INDEX = 18;
+    private static int INITIAL_TYPE_ID_INDEX = 19;
+    private static int INITIAL_POSITION_X_INDEX = 20;
+    private static int INITIAL_POSITION_Y_INDEX = 21;
+    private static int INITIAL_TILEPOSITION_X_INDEX = 22;
+    private static int INITIAL_TILEPOSITION_Y_INDEX = 23;
+    private static int INITIAL_HITPOINTS_INDEX = 24;
+    private static int INITIAL_RESOURCES_INDEX = 25;
+    private static int KILLCOUNT_INDEX = 26;
+    private static int ACID_SPORE_COUNT_INDEX = 27;
+    private static int INTERCEPTOR_COUNT_INDEX = 28;
+    private static int SCARAB_COUNT_INDEX = 29;
+    private static int SPIDERMINE_COUNT_INDEX = 30;
+    private static int GROUND_WEAPON_COOLDOWN_INDEX = 31;
+    private static int AIR_WEAPON_COOLDOWN_INDEX = 32;
+    private static int SPELL_COOLDOWN_INDEX = 33;
+    private static int DEFENSE_MATRIX_POINTS_INDEX = 34;
+    private static int DEFENSE_MATRIX_TIMER_INDEX = 35;
+    private static int ENSNARE_TIMER_INDEX = 36;
+    private static int IRRADIATE_TIMER_INDEX = 37;
+    private static int LOCKDOWN_TIMER_INDEX = 38;
+    private static int MAELSTROM_TIMER_INDEX = 39;
+    private static int ORDER_TIMER_INDEX = 40;
+    private static int PLAGUE_TIMER_INDEX = 41;
+    private static int REMOVE_TIMER_INDEX = 42;
+    private static int STASIS_TIMER_INDEX = 43;
+    private static int STOM_TIMER_INDEX = 44;
+    private static int BUILDTYPE_ID_INDEX = 45;
+    private static int TRAINING_QUEUE_SIZE_INDEX = 46;
+    private static int TECH_ID_INDEX = 47;
+    private static int UPGRADE_ID_INDEX = 48;
+    private static int REMAINING_BUILD_TIME_INDEX = 49;
+    private static int REMAINING_TRAIN_TIME_INDEX = 50;
+    private static int REMAINING_RESEARCH_TIME_INDEX = 51;
+    private static int REMAINING_UPGRADE_TIME_INDEX = 52;
+    private static int BUILD_UNIT_ID_INDEX = 53;
+    private static int TARGET_ID_INDEX = 54;
+    private static int TARGET_POSITION_X_INDEX = 55;
+    private static int TARGET_POSITION_Y_INDEX = 56;
+    private static int ORDER_ID_INDEX = 57;
+    private static int ORDER_TARGET_ID_INDEX = 58;
+    private static int SECONDARY_ORDER_ID_INDEX = 59;
+    private static int RALLY_POSITION_X_INDEX = 60;
+    private static int RALLY_POSITION_Y_INDEX = 61;
+    private static int RALLY_UNIT_INDEX = 62;
+    private static int ADDON_INDEX = 63;
+    private static int NYDUS_EXIT_INDEX = 64;
+    private static int TRANSPORT_INDEX = 65;
+    private static int LOADED_UNITS_SIZE_INDEX = 66;
+    private static int CARRIER_INDEX = 67;
+    private static int HATCHERY_INDEX = 68;
+    private static int LARVA_SIZE_INDEX = 69;
+    private static int POWERUP_ID_INDEX = 70;
+    private static int EXISTS_INDEX = 71;
+    private static int HAS_NUKE_INDEX = 72;
+    private static int IS_ACCELERATING_INDEX = 73;
+    private static int IS_ATTACKING_INDEX = 74;
+    private static int IS_ATTACK_FRAME_INDEX = 75;
+    private static int IS_BEING_CONSTRUCTED_INDEX = 76;
+    private static int IS_BEING_GATHERED_INDEX = 77;
+    private static int IS_BEING_HEALED_INDEX = 78;
+    private static int IS_BLIND_INDEX = 79;
+    private static int IS_BRAKING_INDEX = 80;
+    private static int IS_BURROWED_INDEX = 81;
+    private static int IS_CARRYING_GAS_INDEX = 82;
+    private static int IS_CARRYING_MINERALS_INDEX = 83;
+    private static int IS_CLOAKED_INDEX = 84;
+    private static int IS_COMPLETED_INDEX = 85;
+    private static int IS_CONSTRUCTING_INDEX = 86;
+    private static int IS_DEFENSE_MATRIXED_INDEX = 87;
+    private static int IS_DETECTED_INDEX = 88;
+    private static int IS_ENSNARED_INDEX = 89;
+    private static int IS_FOLLOWING_INDEX = 90;
+    private static int IS_GATHERING_GAS_INDEX = 91;
+    private static int IS_GATHERING_MINERALS_INDEX = 92;
+    private static int IS_HALLUCINATION_INDEX = 93;
+    private static int IS_HOLDING_POSITION_INDEX = 94;
+    private static int IS_IDLE_INDEX = 95;
+    private static int IS_INTERRUPTIBLE_INDEX = 96;
+    private static int IS_INVINCIBLE_INDEX = 97;
+    private static int IS_IRRADIATED_INDEX = 98;
+    private static int IS_LIFTED_INDEX = 99;
+    private static int IS_LOADED_INDEX = 100;
+    private static int IS_LOCKED_DOWN_INDEX = 101;
+    private static int IS_MAELSTROMMED_INDEX = 102;
+    private static int IS_MORPHING_INDEX = 103;
+    private static int IS_MOVING_INDEX = 104;
+    private static int IS_PARASITED_INDEX = 105;
+    private static int IS_PATROLLING_INDEX = 106;
+    private static int IS_PLAGUED_INDEX = 107;
+    private static int IS_REPAIRING_INDEX = 108;
+    private static int IS_SELECTED_INDEX = 109;
+    private static int IS_SIEGED_INDEX = 110;
+    private static int IS_STARTING_ATTACK_INDEX = 111;
+    private static int IS_STASISED_INDEX = 112;
+    private static int IS_STIMMED_INDEX = 113;
+    private static int IS_STUCK_INDEX = 114;
+    private static int IS_TRAINING_INDEX = 115;
+    private static int IS_UNDER_ATTACK_INDEX = 116;
+    private static int IS_UNDER_DARK_SWARM_INDEX = 117;
+    private static int IS_UNDER_DISRUPTION_WEB_INDEX = 118;
+    private static int IS_UNDER_STORM_INDEX = 119;
+    private static int IS_POWERED_INDEX = 120;
+    private static int IS_UPGRADING_INDEX = 121;
+    private static int IS_VISIBLE_INDEX = 122;
+    private static int IS_RESEARCHING_INDEX = 123;
+    private static int IS_FLYING_INDEX = 124;
+    private static int ORDER_TARGET_POSITION_X_INDEX = 125;
+    private static int ORDER_TARGET_POSITION_Y_INDEX = 126;
+    private static int TRAINING_QUEUE_SLOT_0_INDEX = 127;
+    private static int TRAINING_QUEUE_SLOT_1_INDEX = 128;
+    private static int TRAINING_QUEUE_SLOT_2_INDEX = 129;
+    private static int TRAINING_QUEUE_SLOT_3_INDEX = 130;
+    private static int TRAINING_QUEUE_SLOT_4_INDEX = 131;
+    private static int MAX_TRAINING_QUEUE_SIZE = 5;
 
     public static int TOTAL_PROPERTIES = 132;
 
@@ -192,6 +192,104 @@ public abstract class Unit implements Comparable<Unit> {
     protected boolean isSelected;
     protected boolean isFlying;
 
+    boolean isUpgrading;
+    boolean isResearching;
+    private int remainingResearchTime;
+    private int remainingUpgradeTime;
+    private UpgradeType currentUpgrade;
+    private TechType currentResearch;
+
+    // static
+    int initialHitPoints;
+
+    // dynamic
+    int hitPoints;
+    int shields;
+    int killCount;
+    boolean isCloaked;
+    boolean isDetected;
+    double velocityX;
+    double velocityY;
+    boolean isIdle;
+    boolean isCompleted;
+    Weapon groundWeapon = new Weapon(WeaponType.None, 0);
+    Weapon airWeapon = new Weapon(WeaponType.None, 0);
+    int spellCooldown;
+    int targetId;
+    boolean isAccelerating;
+    boolean isAttacking;
+    boolean isAttackFrame;
+    boolean isBeingConstructed;
+    boolean isBeingHealed;
+    boolean isIrradiated;
+    boolean isLockedDown;
+    boolean isMaelstrommed;
+    boolean isStartingAttack;
+    boolean isUnderAttack;
+    boolean isPowered;
+    boolean isInterruptible;
+    int builderId;
+    int playerId;
+    int energy;
+    boolean isTraining;
+    int trainingQueueSize;
+    int remainingTrainTime;
+    private int rallyPositionX;
+    private int rallyPositionY;
+    private int rallyUnitId;
+    private int[] trainingQueueUnitTypeIds = new int[MAX_TRAINING_QUEUE_SIZE];
+    List<TrainingSlot> trainingQueue = new ArrayList<>();
+    boolean isLoaded;
+    int interceptorCount;
+    boolean isFollowing;
+    boolean isHoldingPosition;
+    boolean isStuck;
+    boolean isStasised;
+    boolean isUnderDarkSwarm;
+    boolean isUnderDisruptionWeb;
+    boolean isUnderStorm;
+    boolean isMoving;
+    boolean isParasited;
+    boolean isPatrolling;
+    boolean isPlagued;
+    Position targetPosition;
+    int transportId;
+    int acidSporeCount;
+    boolean isHallucination;
+    boolean isBlind;
+    boolean isBraking;
+    boolean isDefenseMatrixed;
+    boolean isEnsnared;
+    int addonId;
+    int remainingBuildTime;
+    boolean isLifted;
+    boolean burrowed;
+    int remainingMorphTime;
+    UnitType buildType;
+    boolean isStimmed;
+    int initialResources;
+    int resources;
+    boolean isBeingGathered;
+    int carrierId;
+    int hatcheryId;
+    int lastKnownResources;
+    boolean hasNuke;
+    int nydusExitId;
+    int scarabCount;
+    boolean isRepairing;
+    boolean sieged;
+    int spiderMineCount;
+    boolean isConstructing;
+    boolean isGatheringGas;
+    boolean isGatheringMinerals;
+    boolean isCarryingGas;
+    boolean isCarryingMinerals;
+
+    // other
+    Position lastKnownPosition;
+    TilePosition lastKnownTilePosition;
+    int lastKnownHitPoints;
+
     // internal
     private BW bw;
     private int lastSpotted;
@@ -216,6 +314,16 @@ public abstract class Unit implements Comparable<Unit> {
         this.initialTilePosition = new TilePosition(unitData[index + Unit.TILEPOSITION_X_INDEX],
                 unitData[index + Unit.TILEPOSITION_Y_INDEX]);
         this.initiallySpotted = frame;
+        this.initialHitPoints = unitData[index + Unit.INITIAL_HITPOINTS_INDEX];
+        this.isInterruptible = unitData[index + Unit.IS_INTERRUPTIBLE_INDEX] == 1;
+        this.lastKnownPosition = this.initialPosition;
+        this.lastKnownTilePosition = this.initialTilePosition;
+        this.lastKnownHitPoints = this.initialHitPoints;
+        this.lastCommand = UnitCommandType.None;
+        this.buildType = UnitType.values()[unitData[index + Unit.BUILDTYPE_ID_INDEX]];
+        this.initialResources = unitData[index + Unit.INITIAL_RESOURCES_INDEX];
+        this.carrierId = unitData[index + Unit.CARRIER_INDEX];
+        this.hatcheryId = unitData[index + Unit.HATCHERY_INDEX];
     }
 
     public void preUpdate() {
@@ -235,6 +343,10 @@ public abstract class Unit implements Comparable<Unit> {
         this.isVisible = unitData[index + Unit.IS_VISIBLE_INDEX] == 1;
         if (this.isVisible) {
             this.lastSpotted = frame;
+            this.lastKnownPosition = this.position;
+            this.lastKnownTilePosition = this.tilePosition;
+            this.lastKnownHitPoints = this.hitPoints;
+            this.lastKnownResources = this.resources;
         }
         this.exists = unitData[index + Unit.EXISTS_INDEX] == 1;
         this.isSelected = unitData[index + Unit.IS_SELECTED_INDEX] == 1;
@@ -248,6 +360,104 @@ public abstract class Unit implements Comparable<Unit> {
         this.orderTargetPosition = new Position(orderTargetPositionX, orderTargetPositionY);
 
         this.secondaryOrder = Order.values()[unitData[index + Unit.SECONDARY_ORDER_ID_INDEX]];
+        this.isUpgrading = unitData[index + Unit.IS_UPGRADING_INDEX] == 1;
+        this.isResearching = unitData[index + Unit.IS_RESEARCHING_INDEX] == 1;
+        this.remainingResearchTime = unitData[index + Unit.REMAINING_RESEARCH_TIME_INDEX];
+        this.remainingUpgradeTime = unitData[index + Unit.REMAINING_UPGRADE_TIME_INDEX];
+        this.currentUpgrade = UpgradeType.withId(unitData[index + Unit.UPGRADE_ID_INDEX]);
+        this.currentResearch = TechType.withId(unitData[index + Unit.TECH_ID_INDEX]);
+
+        this.playerId = unitData[index + Unit.PLAYER_ID_INDEX];
+        this.hitPoints = unitData[index + Unit.HITPOINTS_INDEX];
+        this.shields = unitData[index + Unit.SHIELDS_INDEX];
+        this.killCount = unitData[index + Unit.KILLCOUNT_INDEX];
+        this.isCloaked = unitData[index + Unit.IS_CLOAKED_INDEX] == 1;
+        this.isDetected = unitData[index + Unit.IS_DETECTED_INDEX] == 1;
+        this.velocityX = unitData[index + Unit.VELOCITY_X_INDEX] / 100.0;
+        this.velocityY = unitData[index + Unit.VELOCITY_Y_INDEX] / 100.0;
+        this.isIdle = unitData[index + Unit.IS_IDLE_INDEX] == 1;
+        this.isCompleted = unitData[index + Unit.IS_COMPLETED_INDEX] == 1;
+        this.spellCooldown = unitData[index + Unit.SPELL_COOLDOWN_INDEX];
+        this.isAccelerating = unitData[index + Unit.IS_ACCELERATING_INDEX] == 1;
+        this.isAttacking = unitData[index + Unit.IS_ATTACKING_INDEX] == 1;
+        this.isAttackFrame = unitData[index + Unit.IS_ATTACK_FRAME_INDEX] == 1;
+        this.isBeingConstructed = unitData[index + Unit.IS_BEING_CONSTRUCTED_INDEX] == 1;
+        this.isBeingHealed = unitData[index + Unit.IS_BEING_HEALED_INDEX] == 1;
+        this.isIrradiated = unitData[index + Unit.IS_IRRADIATED_INDEX] == 1;
+        this.isLockedDown = unitData[index + Unit.IS_LOCKED_DOWN_INDEX] == 1;
+        this.isMaelstrommed = unitData[index + Unit.IS_MAELSTROMMED_INDEX] == 1;
+        this.isStartingAttack = unitData[index + Unit.IS_STARTING_ATTACK_INDEX] == 1;
+        this.isUnderAttack = unitData[index + Unit.IS_UNDER_ATTACK_INDEX] == 1;
+        this.isPowered = unitData[index + Unit.IS_POWERED_INDEX] == 1;
+        this.targetId = unitData[index + Unit.TARGET_ID_INDEX];
+        this.isInterruptible = unitData[index + Unit.IS_INTERRUPTIBLE_INDEX] == 1;
+        this.lastCommand = UnitCommandType.values()[unitData[index + Unit.LAST_COMMAND_TYPE_ID_INDEX]];
+        this.lastCommandFrame = unitData[index + Unit.LAST_COMMAND_FRAME_INDEX];
+
+        this.builderId = unitData[index + Unit.BUILD_UNIT_ID_INDEX];
+        this.groundWeapon.update(type.groundWeapon(), unitData[index + Unit.GROUND_WEAPON_COOLDOWN_INDEX]);
+        this.airWeapon.update(type.airWeapon(), unitData[index + Unit.AIR_WEAPON_COOLDOWN_INDEX]);
+        this.energy = unitData[index + Unit.ENERGY_INDEX];
+        this.isTraining = unitData[index + Unit.IS_TRAINING_INDEX] == 1;
+        this.trainingQueueSize = unitData[index + Unit.TRAINING_QUEUE_SIZE_INDEX];
+
+        this.trainingQueueUnitTypeIds[0] = unitData[index + Unit.TRAINING_QUEUE_SLOT_0_INDEX];
+        this.trainingQueueUnitTypeIds[1] = unitData[index + Unit.TRAINING_QUEUE_SLOT_1_INDEX];
+        this.trainingQueueUnitTypeIds[2] = unitData[index + Unit.TRAINING_QUEUE_SLOT_2_INDEX];
+        this.trainingQueueUnitTypeIds[3] = unitData[index + Unit.TRAINING_QUEUE_SLOT_3_INDEX];
+        this.trainingQueueUnitTypeIds[4] = unitData[index + Unit.TRAINING_QUEUE_SLOT_4_INDEX];
+        this.trainingQueue.clear();
+        for (int i = 0; i < this.trainingQueueSize; ++i) {
+            this.trainingQueue.add(new TrainingSlot(i, UnitType.values()[this.trainingQueueUnitTypeIds[i]]));
+        }
+
+        this.remainingTrainTime = unitData[index + Unit.REMAINING_TRAIN_TIME_INDEX];
+        this.rallyUnitId = unitData[index + Unit.RALLY_UNIT_INDEX];
+        this.rallyPositionX = unitData[index + Unit.RALLY_POSITION_X_INDEX];
+        this.rallyPositionY = unitData[index + Unit.RALLY_POSITION_Y_INDEX];
+
+        this.isLoaded = unitData[index + Unit.IS_LOADED_INDEX] == 1;
+        this.interceptorCount = unitData[index + Unit.INTERCEPTOR_COUNT_INDEX];
+
+        this.isFollowing = unitData[index + Unit.IS_FOLLOWING_INDEX] == 1;
+        this.isHoldingPosition = unitData[index + Unit.IS_HOLDING_POSITION_INDEX] == 1;
+        this.isStuck = unitData[index + Unit.IS_STUCK_INDEX] == 1;
+        this.isStasised = unitData[index + Unit.IS_STASISED_INDEX] == 1;
+        this.isUnderDarkSwarm = unitData[index + Unit.IS_UNDER_DARK_SWARM_INDEX] == 1;
+        this.isUnderDisruptionWeb = unitData[index + Unit.IS_UNDER_DISRUPTION_WEB_INDEX] == 1;
+        this.isUnderStorm = unitData[index + Unit.IS_UNDER_STORM_INDEX] == 1;
+        this.isMoving = unitData[index + Unit.IS_MOVING_INDEX] == 1;
+        this.isParasited = unitData[index + Unit.IS_PARASITED_INDEX] == 1;
+        this.isPatrolling = unitData[index + Unit.IS_PATROLLING_INDEX] == 1;
+        this.isPlagued = unitData[index + Unit.IS_PLAGUED_INDEX] == 1;
+        this.targetPosition = new Position(unitData[index + Unit.TARGET_POSITION_X_INDEX],
+                unitData[index + Unit.TARGET_POSITION_Y_INDEX]);
+        this.transportId = unitData[index + Unit.TRANSPORT_INDEX];
+        this.acidSporeCount = unitData[index + Unit.ACID_SPORE_COUNT_INDEX];
+        this.isHallucination = unitData[index + Unit.IS_HALLUCINATION_INDEX] == 1;
+        this.isBlind = unitData[index + Unit.IS_BLIND_INDEX] == 1;
+        this.isBraking = unitData[index + Unit.IS_BRAKING_INDEX] == 1;
+        this.isDefenseMatrixed = unitData[index + Unit.IS_DEFENSE_MATRIXED_INDEX] == 1;
+        this.isEnsnared = unitData[index + Unit.IS_ENSNARED_INDEX] == 1;
+        this.addonId = unitData[index + Unit.ADDON_INDEX];
+        this.remainingBuildTime = unitData[index + Unit.REMAINING_BUILD_TIME_INDEX];
+        this.isLifted = unitData[index + Unit.IS_LIFTED_INDEX] == 1;
+        this.burrowed = unitData[index + Unit.IS_BURROWED_INDEX] == 1;
+        this.remainingMorphTime = unitData[index + Unit.REMAINING_BUILD_TIME_INDEX];
+        this.isStimmed = unitData[index + Unit.IS_STIMMED_INDEX] == 1;
+        this.resources = unitData[index + Unit.RESOURCES_INDEX];
+        this.isBeingGathered = unitData[index + Unit.IS_BEING_GATHERED_INDEX] == 1;
+        this.hasNuke = unitData[index + Unit.HAS_NUKE_INDEX] == 1;
+        this.nydusExitId = unitData[index + Unit.NYDUS_EXIT_INDEX];
+        this.scarabCount = unitData[index + Unit.SCARAB_COUNT_INDEX];
+        this.isRepairing = unitData[index + Unit.IS_REPAIRING_INDEX] == 1;
+        this.sieged = unitData[index + Unit.IS_SIEGED_INDEX] == 1;
+        this.spiderMineCount = unitData[index + Unit.SPIDERMINE_COUNT_INDEX];
+        this.isConstructing = unitData[index + Unit.IS_CONSTRUCTING_INDEX] == 1;
+        this.isGatheringGas = unitData[index + Unit.IS_GATHERING_GAS_INDEX] == 1;
+        this.isGatheringMinerals = unitData[index + Unit.IS_GATHERING_MINERALS_INDEX] == 1;
+        this.isCarryingGas = unitData[index + Unit.IS_CARRYING_GAS_INDEX] == 1;
+        this.isCarryingMinerals = unitData[index + Unit.IS_CARRYING_MINERALS_INDEX] == 1;
     }
 
     public int getLastSpotted() {
@@ -415,19 +625,19 @@ public abstract class Unit implements Comparable<Unit> {
         return new Position(0, 0).getDistance(new Position(xDist, yDist));
     }
 
-    public boolean isFlying() {
+    boolean lift() {
 
-        return this.isFlying;
+        return issueCommand(id, Lift, -1, -1, -1, -1);
     }
 
-    public boolean isVisible() {
+    boolean land(Position p) {
 
-        return this.isVisible;
+        return issueCommand(id, Land, -1, p.getX(), p.getY(), -1);
     }
 
-    public boolean isSelected() {
+    boolean move(Position p) {
 
-        return this.isSelected;
+        return issueCommand(id, Move, -1, p.getX(), p.getY(), -1);
     }
 
     public boolean exists() {
@@ -474,6 +684,105 @@ public abstract class Unit implements Comparable<Unit> {
 
     protected int getCurrentFrame() {
         return bw.getInteractionHandler().getFrameCount();
+    }
+
+    protected boolean cancelResearch() {
+
+        return issueCommand(id, Cancel_Research, -1, -1, -1, -1);
+    }
+
+    protected boolean cancelUpgrade() {
+
+        return issueCommand(id, Cancel_Upgrade, -1, -1, -1, -1);
+    }
+
+    protected boolean canResearch(TechType techType) {
+        return type.equals(techType.whatResearches())
+                && getPlayer(playerId).canResearch(techType);
+    }
+
+    protected boolean canUpgrade(UpgradeType upgradeType) {
+        return type.equals(upgradeType.whatUpgrades())
+                && getPlayer(playerId).canUpgrade(upgradeType);
+    }
+
+    protected boolean research(TechType techType) {
+
+        return issueCommand(id, Research, -1, -1, -1, techType.getId());
+    }
+
+    protected boolean upgrade(UpgradeType upgrade) {
+
+        return issueCommand(id, Upgrade, -1, -1, -1, upgrade.getId());
+    }
+
+    protected ResearchingFacility.UpgradeInProgress getUpgradeInProgress() {
+        if (currentUpgrade == UpgradeType.None) {
+            return ResearchingFacility.UpgradeInProgress.NONE;
+        }
+        return new ResearchingFacility.UpgradeInProgress(currentUpgrade, remainingUpgradeTime);
+    }
+
+    protected ResearchingFacility.ResearchInProgress getResearchInProgress() {
+        if (currentResearch == TechType.None) {
+            return ResearchingFacility.ResearchInProgress.NONE;
+        }
+        return new ResearchingFacility.ResearchInProgress(currentResearch, remainingResearchTime);
+    }
+
+    protected boolean canTrain(UnitType type) {
+        return this.type.equals(type.whatBuilds().first)
+                && getPlayer(playerId).canMake(type)
+                && type.requiredUnits().stream().allMatch(ut ->
+                !ut.isAddon() || (addonId >= 0 && getUnit(addonId).type == ut));
+    }
+
+    protected boolean train(UnitType type) {
+
+        return issueCommand(id, Train, -1, -1, -1, type.getId());
+    }
+
+    protected boolean cancelTrain(int slot) {
+
+        return issueCommand(id, Cancel_Train_Slot, -1, -1, -1, slot);
+    }
+
+    protected boolean cancelTrain() {
+
+        return issueCommand(id, Cancel_Train, -1, -1, -1, -1);
+    }
+
+    protected boolean setRallyPoint(Position p) {
+
+        return issueCommand(id, Set_Rally_Position, -1, p.getX(), p.getY(), -1);
+    }
+
+    protected boolean setRallyPoint(Unit target) {
+
+        return issueCommand(id, Set_Rally_Unit, target.getId(), -1, -1, -1);
+    }
+
+    protected Position getRallyPosition() {
+
+        return new Position(rallyPositionX, rallyPositionY);
+    }
+
+    protected Unit getRallyUnit() {
+
+        return getUnit(this.rallyUnitId);
+    }
+
+    public boolean isFlying() {
+        return isFlying;
+    }
+
+    public boolean isVisible() {
+
+        return isVisible;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
     }
 
     @Override
@@ -533,7 +842,6 @@ public abstract class Unit implements Comparable<Unit> {
     private int removeTimer;
     private int stasisTimer;
     private int stimTimer;
-    private UnitType buildType;
     private TechType tech;
     private UpgradeType uppgrade;
 
@@ -547,4 +855,47 @@ public abstract class Unit implements Comparable<Unit> {
     private boolean isTargetable;
     private boolean isInvincible;
     private boolean isInWeaponRange;
+
+    public class TrainingSlot {
+
+        private final int slotIndex;
+        private final UnitType unitType;
+
+        protected TrainingSlot(final int slotIndex, final UnitType unitType) {
+
+            this.slotIndex = slotIndex;
+            this.unitType = unitType;
+        }
+
+        public UnitType getUnitType() {
+
+            return this.unitType;
+        }
+
+        public boolean cancel() {
+
+            return issueCommand(id, Cancel_Train_Slot, -1, -1, -1, this.slotIndex);
+        }
+
+        @Override
+        public boolean equals(final Object object) {
+
+            if (this == object) {
+                return true;
+            } else if (!(object instanceof TrainingSlot)) {
+                return false;
+            } else {
+                final TrainingSlot trainingSlot = (TrainingSlot) object;
+                return (this.slotIndex == trainingSlot.slotIndex
+                        && this.unitType == trainingSlot.unitType);
+            }
+        }
+
+        @Override
+        public int hashCode() {
+
+            return Objects.hash(this.slotIndex, this.unitType);
+        }
+
+    }
 }

@@ -27,18 +27,9 @@ import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech;
 
 public class Marine extends MobileUnit implements Organic, GroundAttacker, AirAttacker {
 
-    private boolean isStimmed;
-
     protected Marine(int id) {
         
         super(id, UnitType.Terran_Marine);
-    }
-
-    @Override
-    public void update(int[] unitData, int index, int frame) {
-
-        this.isStimmed = unitData[index + Unit.IS_STIMMED_INDEX] == 1;
-        super.update(unitData, index, frame);
     }
 
     public boolean isStimmed() {

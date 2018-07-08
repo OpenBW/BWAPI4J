@@ -26,21 +26,12 @@ import static org.openbw.bwapi4j.type.UnitCommandType.Siege;
 import static org.openbw.bwapi4j.type.UnitCommandType.Unsiege;
 
 public class SiegeTank extends MobileUnit implements Mechanical, GroundAttacker {
-
-    private boolean sieged;
-
     protected SiegeTank(int id, boolean sieged) {
         
         super(id, sieged ? UnitType.Terran_Siege_Tank_Siege_Mode : UnitType.Terran_Siege_Tank_Tank_Mode);
         this.sieged = sieged;
     }
 
-    @Override
-    public void update(int[] unitData, int index, int frame) {
-
-        this.sieged = unitData[index + Unit.IS_SIEGED_INDEX] == 1;
-        super.update(unitData, index, frame);
-    }
 
     public boolean siege() {
         

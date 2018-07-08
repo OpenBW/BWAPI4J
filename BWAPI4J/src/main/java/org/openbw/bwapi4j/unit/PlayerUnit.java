@@ -39,43 +39,6 @@ import static org.openbw.bwapi4j.type.UnitCommandType.Right_Click_Unit;
 
 public abstract class PlayerUnit extends Unit {
 
-    // static
-    protected int initialHitPoints;
-
-    // dynamic
-    protected int hitPoints;
-    protected int shields;
-    protected int killCount;
-    protected boolean isCloaked;
-    protected boolean isDetected;
-    protected double velocityX;
-    protected double velocityY;
-    protected boolean isIdle;
-    protected boolean isCompleted;
-    protected Weapon groundWeapon = new Weapon(WeaponType.None, 0);
-    protected Weapon airWeapon = new Weapon(WeaponType.None, 0);
-    protected int spellCooldown;
-    protected int targetId;
-    private boolean isAccelerating;
-    private boolean isAttacking;
-    private boolean isAttackFrame;
-    private boolean isBeingConstructed;
-    private boolean isBeingHealed;
-    private boolean isIrradiated;
-    private boolean isLockedDown;
-    private boolean isMaelstrommed;
-    private boolean isStartingAttack;
-    private boolean isUnderAttack;
-    private boolean isPowered;
-    private boolean isInterruptible;
-    protected int builderId;
-
-    protected int playerId;
-
-    // other
-    private Position lastKnownPosition;
-    private TilePosition lastKnownTilePosition;
-    private int lastKnownHitPoints;
 
     private UnitStatCalculator unitStatCalculator;
 
@@ -87,60 +50,8 @@ public abstract class PlayerUnit extends Unit {
     @Override
     public void initialize(int[] unitData, int index, int frame) {
 
-        this.initialHitPoints = unitData[index + Unit.INITIAL_HITPOINTS_INDEX];
-        this.isInterruptible = unitData[index + Unit.IS_INTERRUPTIBLE_INDEX] == 1;
         super.initialize(unitData, index, frame);
-
-        this.lastKnownPosition = this.initialPosition;
-        this.lastKnownTilePosition = this.initialTilePosition;
-        this.lastKnownHitPoints = this.initialHitPoints;
-        this.lastCommand = UnitCommandType.None;
-        this.unitStatCalculator = this.getPlayer(unitData[index + PLAYER_ID_INDEX]).getUnitStatCalculator();
-    }
-
-    @Override
-    public void update(int[] unitData, int index, int frame) {
-
-        this.playerId = unitData[index + Unit.PLAYER_ID_INDEX];
-        this.hitPoints = unitData[index + Unit.HITPOINTS_INDEX];
-        this.shields = unitData[index + Unit.SHIELDS_INDEX];
-        this.killCount = unitData[index + Unit.KILLCOUNT_INDEX];
-        this.isCloaked = unitData[index + Unit.IS_CLOAKED_INDEX] == 1;
-        this.isDetected = unitData[index + Unit.IS_DETECTED_INDEX] == 1;
-        this.velocityX = unitData[index + Unit.VELOCITY_X_INDEX] / 100.0;
-        this.velocityY = unitData[index + Unit.VELOCITY_Y_INDEX] / 100.0;
-        this.isIdle = unitData[index + Unit.IS_IDLE_INDEX] == 1;
-        this.isCompleted = unitData[index + Unit.IS_COMPLETED_INDEX] == 1;
-        this.spellCooldown = unitData[index + Unit.SPELL_COOLDOWN_INDEX];
-        this.isAccelerating = unitData[index + Unit.IS_ACCELERATING_INDEX] == 1;
-        this.isAttacking = unitData[index + Unit.IS_ATTACKING_INDEX] == 1;
-        this.isAttackFrame = unitData[index + Unit.IS_ATTACK_FRAME_INDEX] == 1;
-        this.isBeingConstructed = unitData[index + Unit.IS_BEING_CONSTRUCTED_INDEX] == 1;
-        this.isBeingHealed = unitData[index + Unit.IS_BEING_HEALED_INDEX] == 1;
-        this.isIrradiated = unitData[index + Unit.IS_IRRADIATED_INDEX] == 1;
-        this.isLockedDown = unitData[index + Unit.IS_LOCKED_DOWN_INDEX] == 1;
-        this.isMaelstrommed = unitData[index + Unit.IS_MAELSTROMMED_INDEX] == 1;
-        this.isStartingAttack = unitData[index + Unit.IS_STARTING_ATTACK_INDEX] == 1;
-        this.isUnderAttack = unitData[index + Unit.IS_UNDER_ATTACK_INDEX] == 1;
-        this.isPowered = unitData[index + Unit.IS_POWERED_INDEX] == 1;
-        this.targetId = unitData[index + Unit.TARGET_ID_INDEX];
-        this.isInterruptible = unitData[index + Unit.IS_INTERRUPTIBLE_INDEX] == 1;
-        this.lastCommand = UnitCommandType.values()[unitData[index + Unit.LAST_COMMAND_TYPE_ID_INDEX]];
-        this.lastCommandFrame = unitData[index + Unit.LAST_COMMAND_FRAME_INDEX];
-
-        this.builderId = unitData[index + Unit.BUILD_UNIT_ID_INDEX];
-
-        super.update(unitData, index, frame);
-
-        this.groundWeapon.update(type.groundWeapon(), unitData[index + Unit.GROUND_WEAPON_COOLDOWN_INDEX]);
-        this.airWeapon.update(type.airWeapon(), unitData[index + Unit.AIR_WEAPON_COOLDOWN_INDEX]);
-
-        if (this.isVisible) {
-        	
-            this.lastKnownPosition = this.position;
-            this.lastKnownTilePosition = this.tilePosition;
-            this.lastKnownHitPoints = this.hitPoints;
-        }
+        this.unitStatCalculator = this.getPlayer(playerId).getUnitStatCalculator();
     }
 
     public static Collection<UnitType> getMissingUnits(Collection<? extends PlayerUnit> group, Collection<UnitType> types) {

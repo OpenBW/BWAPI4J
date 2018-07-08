@@ -26,40 +26,9 @@ import org.openbw.bwapi4j.type.UnitType;
 import static org.openbw.bwapi4j.type.UnitCommandType.*;
 
 public abstract class Worker extends MobileUnit implements GroundAttacker {
-    private boolean isConstructing;
-    private boolean isGatheringGas;
-    private boolean isGatheringMinerals;
-    private boolean isCarryingGas;
-    private boolean isCarryingMinerals;
-    private UnitType buildType;
 
     protected Worker(int id, UnitType unitType) {
         super(id, unitType);
-    }
-
-    @Override
-    public void initialize(int[] unitData, int index, int frame) {
-        this.isConstructing = false;
-        this.isGatheringGas = false;
-        this.isGatheringMinerals = false;
-        this.isCarryingGas = false;
-        this.isCarryingMinerals = false;
-        this.buildType = UnitType.None;
-
-        super.initialize(unitData, index, frame);
-
-    }
-
-    @Override
-    public void update(int[] unitData, int index, int frame) {
-        this.isConstructing = unitData[index + Unit.IS_CONSTRUCTING_INDEX] == 1;
-        this.isGatheringGas = unitData[index + Unit.IS_GATHERING_GAS_INDEX] == 1;
-        this.isGatheringMinerals = unitData[index + Unit.IS_GATHERING_MINERALS_INDEX] == 1;
-        this.isCarryingGas = unitData[index + Unit.IS_CARRYING_GAS_INDEX] == 1;
-        this.isCarryingMinerals = unitData[index + Unit.IS_CARRYING_MINERALS_INDEX] == 1;
-        this.buildType = UnitType.values()[unitData[index + Unit.BUILDTYPE_ID_INDEX]];
-
-        super.update(unitData, index, frame);
     }
 
     public UnitType getBuildType() {

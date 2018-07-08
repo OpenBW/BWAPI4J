@@ -30,27 +30,11 @@ import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Position;
 
 public class Arbiter extends MobileUnit implements Mechanical, SpellCaster, GroundAttacker, AirAttacker {
 
-    private int energy;
-
     protected Arbiter(int id) {
         
         super(id, UnitType.Protoss_Arbiter);
     }
     
-    @Override
-    public void initialize(int[] unitData, int index, int frame) {
-
-        this.energy = 0;
-        super.initialize(unitData, index, frame);
-    }
-
-    @Override
-    public void update(int[] unitData, int index, int frame) {
-
-        this.energy = unitData[index + Unit.ENERGY_INDEX];
-        super.update(unitData, index, frame);
-    }
-
     @Override
     public int getEnergy() {
         

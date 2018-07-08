@@ -41,17 +41,17 @@ public class Lair extends Hatchery {
 
     public boolean upgradeVentralSacs() {
 
-        return this.researcher.upgrade(UpgradeType.Ventral_Sacs);
+        return super.upgrade(UpgradeType.Ventral_Sacs);
     }
 
     public boolean upgradeAntennae() {
 
-        return this.researcher.upgrade(UpgradeType.Antennae);
+        return super.upgrade(UpgradeType.Antennae);
     }
 
     public boolean upgradePneumatizedCarapace() {
 
-        return this.researcher.upgrade(UpgradeType.Pneumatized_Carapace);
+        return super.upgrade(UpgradeType.Pneumatized_Carapace);
     }
 
     @Override

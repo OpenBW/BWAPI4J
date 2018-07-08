@@ -29,20 +29,12 @@ import static org.openbw.bwapi4j.type.UnitType.Zerg_Nydus_Canal;
 
 public class NydusCanal extends Building implements Organic {
 
-    private int nydusExitId;
-    
+
     protected NydusCanal(int id, int timeSpotted) {
         
         super(id, UnitType.Zerg_Nydus_Canal, timeSpotted);
     }
 
-    @Override
-    public void update(int[] unitData, int index, int frame) {
-        
-        this.nydusExitId = unitData[index + Unit.NYDUS_EXIT_INDEX];
-        super.update(unitData, index, frame);
-    }
-    
     public Unit getNydusExit() {
         
         return super.getUnit(nydusExitId);

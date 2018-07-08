@@ -24,20 +24,12 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class Interceptor extends MobileUnit implements Mechanical, GroundAttacker, AirAttacker {
 
-    private int carrierId;
-    
+
     protected Interceptor(int id) {
         
         super(id, UnitType.Protoss_Interceptor);
     }
     
-    @Override
-    public void initialize(int[] unitData, int index, int frame) {
-
-        this.carrierId = unitData[index + Unit.CARRIER_INDEX];
-        super.initialize(unitData, index, frame);
-    }
-
     public Unit getCarrier() {
         
         return super.getUnit(carrierId);

@@ -28,25 +28,9 @@ import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Position;
 
 public class Vulture extends MobileUnit implements Mechanical, GroundAttacker {
 
-    private int spiderMineCount;
-    
     protected Vulture(int id) {
         
         super(id, UnitType.Terran_Vulture);
-    }
-    
-    @Override
-    public void initialize(int[] unitData, int index, int frame) {
-
-        this.spiderMineCount = 0;
-        super.initialize(unitData, index, frame);
-    }
-
-    @Override
-    public void update(int[] unitData, int index, int frame) {
-
-        this.spiderMineCount = unitData[index + Unit.SPIDERMINE_COUNT_INDEX];
-        super.update(unitData, index, frame);
     }
     
     public int getSpiderMineCount() {

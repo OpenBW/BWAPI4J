@@ -25,7 +25,7 @@ package org.openbw.bwapi4j.unit;
  */
 public interface Cloakable {
 
-    public boolean cloak();
+    boolean cloak();
 
-    public boolean decloak();
+    boolean decloak();
 }

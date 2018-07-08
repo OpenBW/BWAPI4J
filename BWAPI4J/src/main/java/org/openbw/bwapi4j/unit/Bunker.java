@@ -31,16 +31,8 @@ public class Bunker extends Building implements Mechanical, Loadable {
 
     private static final Logger logger = LogManager.getLogger();
 
-    private boolean isLoaded;
-
     protected Bunker(final int id, final int timeSpotted) {
         super(id, UnitType.Terran_Bunker, timeSpotted);
-    }
-
-    @Override
-    public void update(final int[] unitData, final int index, final int frame) {
-        this.isLoaded = unitData[index + Unit.IS_LOADED_INDEX] == 1;
-        super.update(unitData, index, frame);
     }
 
     public boolean isLoaded() {
