@@ -128,7 +128,7 @@ public class UnitFactory {
      * @param timeSpotted time stamp when unit first appeared
      * @return the created unit
      */
-    public final Unit createUnit(int unitId, UnitType unitType, int timeSpotted) {
+    public Unit createUnit(int unitId, UnitType unitType, int timeSpotted) {
 
         Unit unit;
         switch (unitType) {

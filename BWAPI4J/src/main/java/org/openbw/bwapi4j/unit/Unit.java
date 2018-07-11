@@ -172,10 +172,10 @@ public abstract class Unit implements Comparable<Unit> {
 
     // static
     protected int id;
-    protected UnitType initialType;
-    protected Position initialPosition;
-    protected TilePosition initialTilePosition;
-    protected int initiallySpotted;
+    UnitType initialType;
+    private Position initialPosition;
+    private TilePosition initialTilePosition;
+    private int initiallySpotted;
 
     // dynamic
     protected UnitType type;
@@ -183,14 +183,14 @@ public abstract class Unit implements Comparable<Unit> {
     protected int y;
     protected Position position;
     protected TilePosition tilePosition;
-    protected double angle;
-    protected int lastCommandFrame;
-    protected UnitCommandType lastCommand;
+    private double angle;
+    int lastCommandFrame;
+    UnitCommandType lastCommand;
 
-    protected boolean isVisible;
-    protected boolean exists;
-    protected boolean isSelected;
-    protected boolean isFlying;
+    private boolean isVisible;
+    private boolean exists;
+    private boolean isSelected;
+    private boolean isFlying;
 
     boolean isUpgrading;
     boolean isResearching;
@@ -458,6 +458,10 @@ public abstract class Unit implements Comparable<Unit> {
             this.lastKnownHitPoints = this.hitPoints;
             this.lastKnownResources = this.resources;
         }
+    }
+
+    public int getKillCount() {
+        return killCount;
     }
 
     public int getLastSpotted() {
