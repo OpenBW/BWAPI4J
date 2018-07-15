@@ -173,9 +173,9 @@ public abstract class Unit implements Comparable<Unit> {
     // static
     protected int id;
     UnitType initialType;
-    private Position initialPosition;
-    private TilePosition initialTilePosition;
-    private int initiallySpotted;
+    Position initialPosition;
+    TilePosition initialTilePosition;
+    int initiallySpotted;
 
     // dynamic
     protected UnitType type;
@@ -183,7 +183,7 @@ public abstract class Unit implements Comparable<Unit> {
     protected int y;
     protected Position position;
     protected TilePosition tilePosition;
-    private double angle;
+    double angle;
     int lastCommandFrame;
     UnitCommandType lastCommand;
 
