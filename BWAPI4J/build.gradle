@@ -124,3 +124,114 @@ task generateJniHeaders(type:Exec) {
 
     dependsOn classes
 }
+
+class Constants {
+    private static String BUILD_PREFIX = "build";
+    private static String FILENAME_WORD_SEPARATOR = "_";
+
+    private class Utils {
+        static String concatenateWith(final String separator, final String firstString, final String... remainingStrings) {
+            if (firstString == null) {
+                throw new IllegalArgumentException();
+            }
+            String result = firstString;
+            if (remainingStrings != null) {
+                for (final String remainingString : remainingStrings) {
+                    result += separator + remainingString;
+                }
+            }
+            return result;
+        }
+    }
+
+    enum Directory {
+        Bridge("../BWAPI4JBridge");
+
+        private final String path;
+
+        private Directory(final String path) {
+            this.path = path;
+        }
+
+        @Override
+        String toString() {
+            return this.path;
+        }
+    }
+
+    enum Project { bridge, bwapi }
+
+    enum BridgeType { vanilla, openbw }
+
+    enum OS { windows, linux }
+
+    enum ScriptType {
+        WindowsBatch("bat"),
+        LinuxBash("sh");
+
+        private final String fileExtension;
+
+        private ScriptType(final String fileExtension) {
+            this.fileExtension = fileExtension;
+        }
+
+        String getFileExtension() {
+            return this.fileExtension;
+        }
+
+        String appendFileExtension(final String path) {
+            return (path + "." + this.fileExtension);
+        }
+    }
+
+    enum Script {
+        VANILLA_WINDOWS(BridgeType.vanilla, OS.windows, ScriptType.WindowsBatch),
+        OPENBW_WINDOWS(BridgeType.openbw, OS.windows, ScriptType.WindowsBatch);
+
+        private final BridgeType bridgeType;
+        private final OS os;
+        private final ScriptType scriptType;
+        
+        private Script(final BridgeType bridgeType, final OS os, final ScriptType scriptType) {
+            this.bridgeType = bridgeType;
+            this.os = os;
+            this.scriptType = scriptType;
+        }
+
+        private String getFilename(final String project) {
+            return scriptType.appendFileExtension(Constants.Utils.concatenateWith(Constants.FILENAME_WORD_SEPARATOR, Constants.BUILD_PREFIX, project, bridgeType.toString(), os.toString()));
+        }
+
+        String getBuildBridgeFilename() {
+            return getFilename(Constants.Project.bridge.toString());
+        }
+
+        String getBuildBwapiFilename() {
+            return getFilename(Constants.Project.bwapi.toString());
+        }
+    }
+}
+
+def bridgeDir = Constants.Directory.Bridge.toString();
+
+task buildVanillaBwapiForWindows(type:Exec) {
+    workingDir "$bridgeDir"
+    commandLine 'cmd', '/c', Constants.Script.VANILLA_WINDOWS.getBuildBwapiFilename();
+}
+
+task buildVanillaBridgeForWindows(type:Exec) {
+    workingDir "$bridgeDir"
+    commandLine 'cmd', '/c', Constants.Script.VANILLA_WINDOWS.getBuildBridgeFilename();
+    dependsOn generateJniHeaders, buildVanillaBwapiForWindows
+}
+
+task buildOpenBWBwapiForWindows(type:Exec) {
+    workingDir "$bridgeDir"
+    commandLine 'cmd', '/c', Constants.Script.OPENBW_WINDOWS.getBuildBwapiFilename();
+}
+
+task buildOpenBWBridgeForWindows(type:Exec) {
+    workingDir "$bridgeDir"
+    commandLine 'cmd', '/c', Constants.Script.OPENBW_WINDOWS.getBuildBridgeFilename();
+    dependsOn generateJniHeaders, buildOpenBWBwapiForWindows
+}
