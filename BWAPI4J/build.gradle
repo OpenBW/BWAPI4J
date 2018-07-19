@@ -186,7 +186,8 @@ class Constants {
 
     enum Script {
         VANILLA_WINDOWS(BridgeType.vanilla, OS.windows, ScriptType.WindowsBatch),
-        OPENBW_WINDOWS(BridgeType.openbw, OS.windows, ScriptType.WindowsBatch);
+        OPENBW_WINDOWS(BridgeType.openbw, OS.windows, ScriptType.WindowsBatch),
+        OPENBW_LINUX(BridgeType.openbw, OS.linux, ScriptType.LinuxBash);
 
         private final BridgeType bridgeType;
         private final OS os;
@@ -234,4 +235,15 @@ task buildOpenBWBridgeForWindows(type:Exec) {
     workingDir "$bridgeDir"
     commandLine 'cmd', '/c', Constants.Script.OPENBW_WINDOWS.getBuildBridgeFilename();
     dependsOn generateJniHeaders, buildOpenBWBwapiForWindows
+}
+
+task buildOpenBWBwapiForLinux(type:Exec) {
+    workingDir "$bridgeDir"
+    commandLine 'bash', Constants.Script.OPENBW_LINUX.getBuildBwapiFilename();
+}
+
+task buildOpenBWBridgeForLinux(type:Exec) {
+    workingDir "$bridgeDir"
+    commandLine 'bash', Constants.Script.OPENBW_LINUX.getBuildBridgeFilename();
+    dependsOn generateJniHeaders, buildOpenBWBwapiForLinux
 }
