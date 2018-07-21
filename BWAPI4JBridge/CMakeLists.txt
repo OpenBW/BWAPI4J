@@ -88,16 +88,11 @@ include_directories(${SPDLOG_INC_DIR})
 # JNI
 ################################################################################
 
-if_unset_then_set(JNI_INC_DIR ${BWAPI4JBRIDGE_EXT_DIR}/jni/include)
-
 if_unset_then_set(BWAPI4J_JNI_INC_DIR ${BWAPI4J_DIR}/src/native/include)
+include_directories(${BWAPI4J_JNI_INC_DIR})
 
-include_directories(${JNI_INC_DIR} ${BWAPI4J_JNI_INC_DIR})
-if (WIN32)
-    include_directories(${JNI_INC_DIR}/win32)
-else()
-    include_directories(${JNI_INC_DIR}/linux)
-endif()
+find_package(JNI REQUIRED)
+include_directories(${JNI_INCLUDE_DIRS})
 
 ################################################################################
 
