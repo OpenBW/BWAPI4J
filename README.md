@@ -152,7 +152,6 @@ ai = ../BWAPI4JBridge/BWAPI4JBridge/Release/libOpenBWAPI4JBridge.so
 libOpenBWData.so
 libBWAPILIB.so
 libBWAPI.so
-libBWTA2.so
 ````
 
 ---
@@ -161,63 +160,44 @@ libBWTA2.so
 
 The bridge is separated into three **types** that share most of the same code:
 
-| Type Name | BW Version | Platform | Binary Name |
+| Type | BW Version | Platform | Binary Name
 |-|-|-|-|
 | vanilla | BW 1.16.1 | Windows | BWAPI4JBridge.dll |
 | openbw | OpenBW | Windows | OpenBWAPI4JBridge.dll |
 | openbw | OpenBW | Linux | libOpenBWAPI4JBridge.so |
 
-*Note: All bridges are already built and located in the `BWAPI4JBridge/BWAPI4JBridge/Release/` directory. If one of the bridges is not working for you, please try compiling it yourself with the steps below or submit a GitHub Issue.*
+*Note: Binaries have been removed from this repository and will be shipped with official releases. If one of the bridges is not working for you, please try compiling it yourself with the steps below or submit a GitHub Issue.*
 
-### Bridge Type: Vanilla BW for Windows
+### Prerequisites
 
-This bridge is only required when running your bot with Vanilla BW on Windows.
+- CMake 3.1 or higher
 
-#### Prerequisites
+##### Windows-specific
+
 - Visual Studio 2017
-- CMake 3.1 or higher
 
-#### Generating the Visual Studio project files
+##### Linux-specific
 
-- Run the batch file: `bridge_type_vanilla_windows.bat`
-
-#### Build Steps
-
-- Open `build_vanilla_windows/BWAPI4JBridge.sln`
-- Set the configuration to **Release / Win32**.
-- Build by right-clicking on the **BWAPI4JBridge** project in the project explorer and select **Rebuild**.
-
-### Bridge Type: OpenBW for Windows
-
-This bridge is only required when running your bot with OpenBW on Windows.
-
-#### Prerequisites
-
-- A compiled and working version of OpenBW (see the [OpenBW / BWAPI](https://github.com/openbw/bwapi) project)
-- Visual Studio 2017
-- CMake 3.1 or higher
-
-#### Generating the Visual Studio project files
-
-- Run the batch file: `bridge_type_openbw_windows.bat`
-
-#### Build Steps
-
-- Open `build_openbw_windows/OpenBWAPI4JBridge.sln`
-- Set the configuration to **Release / Win32**.
-- Build by right-clicking on the **OpenBWAPI4JBridge** project in the project explorer and select **Rebuild**.
-
-### Bridge Type: OpenBW for Linux
-
-This bridge is only required when running your bot with OpenBW on Linux.
-
-#### Prerequisites
-
-- A compiled and working version of OpenBW (see the [OpenBW / BWAPI](https://github.com/openbw/bwapi) project)
-- A compiled BWTA2 library for OpenBW's BWAPI on Linux (see Adakite's [BWTA2 Linux fork](https://github.com/adakitesystems/bwta2))
-- CMake 3.1 or higher
 - g++ 5.x or higher (needs to support most C++14 features)
+- A working version of OpenBW (will be compiled automatically with an OpenBW bridge)
 
-#### Generating the Makefiles and automatically building the bridge
+### Gradle Tasks for building the bridges
 
-- Run the bash script: `bridge_type_openbw_linux.sh`
+The following table outlines the Gradle tasks used for building a specific bridge.
+
+| Type | Platform | Gradle Task
+|-|-|-|
+| vanilla | Windows | buildVanillaBridgeForWindows |
+| openbw | Windows | buildOpenBWBridgeForWindows |
+| openbw | Linux | buildOpenBWBridgeForLinux |
+
+Examples:
+```
+./gradlew buildVanillaBridgeForWindows
+```
+```
+./gradlew buildOpenBWBridgeForWindows
+```
+```
+./gradlew buildOpenBWBridgeForLinux
+```
