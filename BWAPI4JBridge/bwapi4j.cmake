@@ -1,0 +1,1 @@
+if_unset_then_set(BWAPI4J_DIR ${CMAKE_CURRENT_LIST_DIR}/../BWAPI4J)
