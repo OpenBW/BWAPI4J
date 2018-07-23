@@ -180,8 +180,10 @@ else()
 	find_library(BWAPI_LIB NAMES BWAPI PATHS ${BWAPI_LIB_DIR} NO_DEFAULT_PATH)
 	find_library(BWAPIClient_LIB NAMES BWAPIClient PATHS ${BWAPI_LIB_DIR} NO_DEFAULT_PATH)
 	
-	target_link_libraries(${PROJECT_NAME} ${BWAPI_LIB})
-	target_link_libraries(${PROJECT_NAME} ${BWAPIClient_LIB})
+	target_link_libraries(${PROJECT_NAME} 
+		${BWAPI_LIB} 
+		${BWAPIClient_LIB}
+	)
 
 endif()
 
