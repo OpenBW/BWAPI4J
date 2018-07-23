@@ -1,3 +1,5 @@
+################################################################################
+
 cmake_minimum_required(VERSION 3.1)
 
 if (OPENBW)
@@ -15,12 +17,6 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
 
-#set(CMAKE_CXX_FLAGS "-Wall -Wextra")
-if (NOT MSVC)
-	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -g")
-	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O3")
-endif()
-
 if (BWAPI4JBRIDGE_ENABLE_LOGGER)
 	add_definitions(-DBWAPI4JBRIDGE_ENABLE_LOGGER)
 endif()
@@ -36,6 +32,9 @@ if (MSVC)
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "..")
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "..")
 else()
+	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -g")
+	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O3")
+
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/../Release")
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/../Release")
@@ -47,13 +46,15 @@ function(if_unset_then_set var val)
     endif()
 endfunction()
 
+################################################################################
+
 
 
 ################################################################################
 # BWAPI4J (Java)
 ################################################################################
 
-if_unset_then_set(BWAPI4J_DIR ../BWAPI4J)
+if_unset_then_set(BWAPI4J_DIR ${CMAKE_SOURCE_DIR}/../BWAPI4J)
 
 
 
@@ -61,8 +62,8 @@ if_unset_then_set(BWAPI4J_DIR ../BWAPI4J)
 # BWAPI4JBridge
 ################################################################################
 
-if_unset_then_set(BWAPI4JBRIDGE_SRC_DIR src)
-if_unset_then_set(BWAPI4JBRIDGE_EXT_DIR externals)
+if_unset_then_set(BWAPI4JBRIDGE_SRC_DIR ${CMAKE_SOURCE_DIR}/src)
+if_unset_then_set(BWAPI4JBRIDGE_EXT_DIR ${CMAKE_SOURCE_DIR}/externals)
 
 file(GLOB_RECURSE BWAPI4JBRIDGE_SRCS
     ${BWAPI4JBRIDGE_SRC_DIR}/*.h
@@ -81,6 +82,8 @@ add_library(${PROJECT_NAME} SHARED ${BWAPI4JBRIDGE_SRCS})
 
 if_unset_then_set(SPDLOG_INC_DIR ${BWAPI4JBRIDGE_EXT_DIR}/spdlog/include)
 include_directories(${SPDLOG_INC_DIR})
+
+################################################################################
 
 
 
@@ -145,30 +148,27 @@ if (OPENBW)
     )
 
     if (MSVC)
-        if_unset_then_set(OPENBW_LIB_DIR ../${OPENBW_BWAPI_DIR}/build/lib/Release)
-
-        link_directories(${OPENBW_LIB_DIR})
-
-        target_link_libraries(${PROJECT_NAME} 
-            ${OPENBW_LIB_DIR}/OpenBWData
-            ${OPENBW_LIB_DIR}/BWAPI
-            ${OPENBW_LIB_DIR}/BWAPILIB
-        )
-
-        if (OPENBW_ENABLE_UI)
-            target_link_libraries(${PROJECT_NAME} ${OPENBW_LIB_DIR}/openbw_ui)
-        endif()
-    else()
-        target_link_libraries(${PROJECT_NAME} 
-            OpenBWData
-            BWAPI
-            BWAPILIB
-        )
+        if_unset_then_set(OPENBW_LIB_DIR ${OPENBW_BWAPI_DIR}/build/lib/Release)
+	else()
+		if_unset_then_set(OPENBW_LIB_DIR ${OPENBW_BWAPI_DIR}/build/lib)
     endif()
 	
+	find_library(OpenBWData_LIB NAMES OpenBWData PATHS ${OPENBW_LIB_DIR} NO_DEFAULT_PATH)
+	find_library(BWAPI_LIB NAMES BWAPI PATHS ${OPENBW_LIB_DIR} NO_DEFAULT_PATH)
+	find_library(BWAPILIB_LIB NAMES BWAPILIB PATHS ${OPENBW_LIB_DIR} NO_DEFAULT_PATH)
+	
+	target_link_libraries(${PROJECT_NAME} 
+		${OpenBWData_LIB}
+		${BWAPI_LIB}
+		${BWAPILIB_LIB}
+	)
+	
+	if (OPENBW_ENABLE_UI)
+		find_library(openbw_ui_LIB NAMES openbw_ui PATHS ${OPENBW_LIB_DIR} NO_DEFAULT_PATH)
+		target_link_libraries(${PROJECT_NAME} ${openbw_ui_LIB})
+	endif()
+	
 else()
-
-	# Vanilla BW
 
 	if_unset_then_set(BWAPI_ROOT_DIR ${BWAPI4JBRIDGE_EXT_DIR}/bwapi)
 	if_unset_then_set(BWAPI_DIR ${BWAPI_ROOT_DIR}/bwapi)
@@ -177,10 +177,11 @@ else()
 			
 	include_directories(${BWAPI_INC_DIR})
 	
-	link_directories(${BWAPI_LIB_DIR})
+	find_library(BWAPI_LIB NAMES BWAPI PATHS ${BWAPI_LIB_DIR} NO_DEFAULT_PATH)
+	find_library(BWAPIClient_LIB NAMES BWAPIClient PATHS ${BWAPI_LIB_DIR} NO_DEFAULT_PATH)
 	
-	target_link_libraries(${PROJECT_NAME} ../${BWAPI_LIB_DIR}/BWAPI)
-	target_link_libraries(${PROJECT_NAME} ../${BWAPI_LIB_DIR}/BWAPIClient)
+	target_link_libraries(${PROJECT_NAME} ${BWAPI_LIB})
+	target_link_libraries(${PROJECT_NAME} ${BWAPIClient_LIB})
 
 endif()
 
