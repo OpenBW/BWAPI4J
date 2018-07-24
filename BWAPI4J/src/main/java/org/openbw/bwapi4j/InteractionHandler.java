@@ -39,26 +39,26 @@ public final class InteractionHandler {
 
 	private static final Logger logger = LogManager.getLogger();
 
-    public static int LAST_ERROR_INDEX                  = 0;
-    public static int SCREEN_POSITION_X_INDEX           = 1;
-    public static int SCREEN_POSITION_Y_INDEX           = 2;
-    public static int SCREEN_SIZE_X_INDEX               = 3;
-    public static int SCREEN_SIZE_Y_INDEX               = 4;
-    public static int MOUSE_POSITION_X_INDEX            = 5;
-    public static int MOUSE_POSITION_Y_INDEX            = 6;
-    public static int FRAMECOUNT_INDEX                  = 7;
-    public static int FPS_INDEX                         = 8;
-    public static int LATCOM_ENABLED_INDEX              = 9;
-    public static int REMAINING_LATENCY_FRAMES_INDEX    = 10;
-    public static int LATENCY_FRAMES_INDEX              = 11;
-    public static int LATENCY_INDEX                     = 12;
-    public static int GAME_TYPE_ID_INDEX                = 13;
-    public static int IS_REPLAY_INDEX                   = 14;
-    public static int IS_PAUSED_INDEX                   = 15;
-    public static int SELF_ID_INDEX                     = 16;
-    public static int ENEMY_ID_INDEX                    = 17;
+    public static final int LAST_ERROR_INDEX                  = 0;
+    public static final int SCREEN_POSITION_X_INDEX           = 1;
+    public static final int SCREEN_POSITION_Y_INDEX           = 2;
+    public static final int SCREEN_SIZE_X_INDEX               = 3;
+    public static final int SCREEN_SIZE_Y_INDEX               = 4;
+    public static final int MOUSE_POSITION_X_INDEX            = 5;
+    public static final int MOUSE_POSITION_Y_INDEX            = 6;
+    public static final int FRAMECOUNT_INDEX                  = 7;
+    public static final int FPS_INDEX                         = 8;
+    public static final int LATCOM_ENABLED_INDEX              = 9;
+    public static final int REMAINING_LATENCY_FRAMES_INDEX    = 10;
+    public static final int LATENCY_FRAMES_INDEX              = 11;
+    public static final int LATENCY_INDEX                     = 12;
+    public static final int GAME_TYPE_ID_INDEX                = 13;
+    public static final int IS_REPLAY_INDEX                   = 14;
+    public static final int IS_PAUSED_INDEX                   = 15;
+    public static final int SELF_ID_INDEX                     = 16;
+    public static final int ENEMY_ID_INDEX                    = 17;
 
-    public static int TOTAL_PROPERTIES                  = 18;
+    public static final int TOTAL_PROPERTIES                  = 18;
 
     private BW bw;
 

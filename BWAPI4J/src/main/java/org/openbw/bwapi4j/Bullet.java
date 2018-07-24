@@ -25,23 +25,23 @@ import org.openbw.bwapi4j.unit.Unit;
 
 public class Bullet {
 
-	public static int EXISTS_INDEX = 0;
-    public static int ANGLE_INDEX = 1;
-    public static int ID_INDEX = 2;
-    public static int PLAYER_INDEX = 3;
-    public static int POSITION_X_INDEX = 4;
-    public static int POSITION_Y_INDEX = 5;
-    public static int REMOVE_TIMER_INDEX = 6;
-    public static int SOURCE_INDEX = 7;
-    public static int TARGET_INDEX = 8;
-    public static int TARGET_POSITION_X_INDEX = 9;
-    public static int TARGET_POSITION_Y_INDEX = 10;
-    public static int TYPE_INDEX = 11;
-    public static int VELOCITY_X_INDEX = 12;
-    public static int VELOCITY_Y_INDEX = 13;
-    public static int VISIBLE_INDEX = 14;
+	public static final int EXISTS_INDEX = 0;
+    public static final int ANGLE_INDEX = 1;
+    public static final int ID_INDEX = 2;
+    public static final int PLAYER_INDEX = 3;
+    public static final int POSITION_X_INDEX = 4;
+    public static final int POSITION_Y_INDEX = 5;
+    public static final int REMOVE_TIMER_INDEX = 6;
+    public static final int SOURCE_INDEX = 7;
+    public static final int TARGET_INDEX = 8;
+    public static final int TARGET_POSITION_X_INDEX = 9;
+    public static final int TARGET_POSITION_Y_INDEX = 10;
+    public static final int TYPE_INDEX = 11;
+    public static final int VELOCITY_X_INDEX = 12;
+    public static final int VELOCITY_Y_INDEX = 13;
+    public static final int VISIBLE_INDEX = 14;
     
-    public static int TOTAL_PROPERTIES = 15;
+    public static final int TOTAL_PROPERTIES = 15;
     
 	private boolean exists;
 	private double angle;
