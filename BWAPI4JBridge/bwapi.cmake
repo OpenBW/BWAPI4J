@@ -1,3 +1,6 @@
+if (NOT BWAPI_CMAKE_INCLUDE)
+set(BWAPI_CMAKE_INCLUDE 1)
+
 if (OPENBW)
 
     add_definitions(-DOPENBW)
@@ -56,5 +59,7 @@ else()
 		${BWAPI_LIB} 
 		${BWAPIClient_LIB}
 	)
+
+endif()
 
 endif()
