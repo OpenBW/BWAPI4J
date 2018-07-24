@@ -2,6 +2,7 @@ if (NOT BWAPI_INC_CMAKE_INCLUDE)
 set(BWAPI_INC_CMAKE_INCLUDE 1)
 
 include(${CMAKE_CURRENT_LIST_DIR}/func.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/externals.cmake)
 
 if (OPENBW)
 
