@@ -8,16 +8,17 @@ endif()
 
 project(${PROJECT_NAME})
 
-include(${CMAKE_CURRENT_LIST_DIR}/compilerflags.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/flags.cmake)
 
 if (BWAPI4JBRIDGE_ENABLE_LOGGER)
 	add_definitions(-DBWAPI4JBRIDGE_ENABLE_LOGGER)
 endif()
 
 include(${CMAKE_CURRENT_LIST_DIR}/func.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/bwapi4j.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/externals.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/bwapi4j.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/bwapi4jbridge.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/spdlog.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/jni.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/bwapi.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/spdlog_inc.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/jni_inc.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/bwapi_inc.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/bwapi_lib.cmake)

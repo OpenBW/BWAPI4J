@@ -1,6 +1,8 @@
 if (NOT BWAPI4J_CMAKE_INCLUDE)
 set(BWAPI4J_CMAKE_INCLUDE 1)
 
+include(${CMAKE_CURRENT_LIST_DIR}/func.cmake)
+
 if_unset_then_set(BWAPI4J_DIR ${CMAKE_CURRENT_LIST_DIR}/../BWAPI4J)
 
 endif()
