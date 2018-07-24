@@ -15,12 +15,6 @@ if (OPENBW)
 	if_unset_then_set(OPENBW_UPPER_DIR ${BWAPI4JBRIDGE_EXT_DIR}/openbw)
 	if_unset_then_set(OPENBW_DIR ${OPENBW_UPPER_DIR}/openbw)
 	if_unset_then_set(OPENBW_BWAPI_DIR ${OPENBW_UPPER_DIR}/bwapi)
-	
-	check_dir_exists(${OPENBW_BWAPI_DIR}/bwapi/OpenBWData)
-	check_dir_exists(${OPENBW_BWAPI_DIR}/bwapi/include)
-	check_dir_exists(${OPENBW_BWAPI_DIR}/bwapi/BWAPI/Source)
-	check_dir_exists(${OPENBW_BWAPI_DIR}/bwapi/Util/Source)
-	check_dir_exists(${OPENBW_BWAPI_DIR}/bwapi/BWAPICore)
 
     include_directories(
         ${OPENBW_DIR}
