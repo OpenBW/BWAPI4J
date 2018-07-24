@@ -10,3 +10,6 @@
 [submodule "BWAPI4JBridge/externals/spdlog"]
 	path = BWAPI4JBridge/externals/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "BWAPI4JBridge/externals/bwem/BWEM-community"]
+	path = BWAPI4JBridge/externals/bwem/BWEM-community
+	url = https://github.com/n00byedge/bwem-community
