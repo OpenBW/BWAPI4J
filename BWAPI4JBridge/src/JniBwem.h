@@ -20,42 +20,16 @@
 
 #pragma once
 
-#include <jni.h>
+#include <bwem.h>
 
-#include "JniBwem.h"
+namespace BWAPI4JBridge {
+class JniBwem {
+ public:
+  JniBwem();
 
-extern JNIEnv *globalEnv;
-extern jobject globalBW;
+  void initialize(BWAPI::Game *game);
+  BWEM::Map &getMap();
 
-extern const size_t intBufSize;
-extern jint intBuf[];
-
-extern jclass arrayListClass;
-extern jmethodID arrayListAdd;
-
-extern jclass integerClass;
-extern jmethodID integerNew;
-
-extern jclass tilePositionClass;
-extern jmethodID tilePositionNew;
-
-extern jclass weaponTypeClass;
-extern jclass techTypeClass;
-extern jclass unitTypeClass;
-extern jclass upgradeTypeClass;
-extern jclass damageTypeClass;
-extern jclass explosionTypeClass;
-extern jclass raceClass;
-extern jclass unitSizeTypeClass;
-extern jclass orderClass;
-
-extern jclass pairClass;
-extern jmethodID pairNew;
-
-extern jclass bwMapClass;
-extern jmethodID bwMapNew;
-
-extern jmethodID addRequiredUnit;
-extern jmethodID addUsingUnit;
-
-extern BWAPI4JBridge::JniBwem bwem;
+ private:
+};
+}  // namespace BWAPI4JBridge
