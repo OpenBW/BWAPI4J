@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.1)
 
-set(PROJECT_NAME BWEM)
+if (OPENBW)
+	set(PROJECT_NAME OpenBWEM)
+else()
+	set(PROJECT_NAME BWEM)
+endif()
 
 project(${PROJECT_NAME})
 

@@ -159,7 +159,7 @@ class Constants {
         }
     }
 
-    enum Project { bridge, bwapi }
+    enum Project { bridge, bwapi, bwem }
 
     enum BridgeType { vanilla, openbw }
 
@@ -199,16 +199,8 @@ class Constants {
             this.scriptType = scriptType;
         }
 
-        private String getFilename(final String project) {
+        String getFilename(final String project) {
             return scriptType.appendFileExtension(Constants.Utils.concatenateWith(Constants.FILENAME_WORD_SEPARATOR, Constants.BUILD_PREFIX, project, bridgeType.toString(), os.toString()));
-        }
-
-        String getBuildBridgeFilename() {
-            return getFilename(Constants.Project.bridge.toString());
-        }
-
-        String getBuildBwapiFilename() {
-            return getFilename(Constants.Project.bwapi.toString());
         }
     }
 }
@@ -217,33 +209,51 @@ def bridgeDir = Constants.Directory.Bridge.toString();
 
 task buildVanillaBwapiForWindows(type:Exec) {
     workingDir "$bridgeDir"
-    commandLine 'cmd', '/c', Constants.Script.VANILLA_WINDOWS.getBuildBwapiFilename();
+    commandLine 'cmd', '/c', Constants.Script.VANILLA_WINDOWS.getFilename(Constants.Project.bwapi.toString())
+}
+
+task buildVanillaBwemForWindows(type:Exec) {
+    workingDir "$bridgeDir"
+    commandLine 'cmd', '/c', Constants.Script.VANILLA_WINDOWS.getFilename(Constants.Project.bwem.toString())
+    dependsOn buildVanillaBwapiForWindows
 }
 
 task buildVanillaBridgeForWindows(type:Exec) {
     workingDir "$bridgeDir"
-    commandLine 'cmd', '/c', Constants.Script.VANILLA_WINDOWS.getBuildBridgeFilename();
-    dependsOn generateJniHeaders, buildVanillaBwapiForWindows
+    commandLine 'cmd', '/c', Constants.Script.VANILLA_WINDOWS.getFilename(Constants.Project.bridge.toString())
+    dependsOn generateJniHeaders, buildVanillaBwapiForWindows, buildVanillaBwemForWindows
 }
 
 task buildOpenBWBwapiForWindows(type:Exec) {
     workingDir "$bridgeDir"
-    commandLine 'cmd', '/c', Constants.Script.OPENBW_WINDOWS.getBuildBwapiFilename();
+    commandLine 'cmd', '/c', Constants.Script.OPENBW_WINDOWS.getFilename(Constants.Project.bwapi.toString())
+}
+
+task buildOpenBWBwemForWindows(type:Exec) {
+    workingDir "$bridgeDir"
+    commandLine 'cmd', '/c', Constants.Script.OPENBW_WINDOWS.getFilename(Constants.Project.bwem.toString())
+    dependsOn buildOpenBWBwapiForWindows
 }
 
 task buildOpenBWBridgeForWindows(type:Exec) {
     workingDir "$bridgeDir"
-    commandLine 'cmd', '/c', Constants.Script.OPENBW_WINDOWS.getBuildBridgeFilename();
-    dependsOn generateJniHeaders, buildOpenBWBwapiForWindows
+    commandLine 'cmd', '/c', Constants.Script.OPENBW_WINDOWS.getFilename(Constants.Project.bridge.toString())
+    dependsOn generateJniHeaders, buildOpenBWBwapiForWindows, buildOpenBWBwemForWindows
 }
 
 task buildOpenBWBwapiForLinux(type:Exec) {
     workingDir "$bridgeDir"
-    commandLine 'bash', Constants.Script.OPENBW_LINUX.getBuildBwapiFilename();
+    commandLine 'bash', Constants.Script.OPENBW_LINUX.getFilename(Constants.Project.bwapi.toString())
+}
+
+task buildOpenBWBwemForLinux(type:Exec) {
+    workingDir "$bridgeDir"
+    commandLine 'cmd', '/c', Constants.Script.OPENBW_LINUX.getFilename(Constants.Project.bwem.toString())
+    dependsOn buildOpenBWBwapiForLinux
 }
 
 task buildOpenBWBridgeForLinux(type:Exec) {
     workingDir "$bridgeDir"
-    commandLine 'bash', Constants.Script.OPENBW_LINUX.getBuildBridgeFilename();
-    dependsOn generateJniHeaders, buildOpenBWBwapiForLinux
+    commandLine 'bash', Constants.Script.OPENBW_LINUX.getFilename(Constants.Project.bridge.toString())
+    dependsOn generateJniHeaders, buildOpenBWBwapiForLinux, buildOpenBWBwemForLinux
 }
