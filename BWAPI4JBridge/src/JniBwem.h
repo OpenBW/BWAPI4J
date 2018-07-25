@@ -22,6 +22,8 @@
 
 #include <bwem.h>
 
+#include "bwem_map_MapInitializerImpl.h"
+
 namespace BWAPI4JBridge {
 class JniBwem {
  public:
@@ -32,4 +34,7 @@ class JniBwem {
 
  private:
 };
+
+extern JniBwem bwem;
 }  // namespace BWAPI4JBridge
+

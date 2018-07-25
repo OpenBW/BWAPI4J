@@ -48,8 +48,12 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
         super(bwMap, mapDrawer, players, mineralPatches, vespeneGeysers, units);
     }
 
+    private native void initialize_native();
+
     @Override
     public void initialize(final boolean enableTimer) {
+        initialize_native();
+
         final Timer overallTimer = new Timer();
         final Timer timer = new Timer();
 

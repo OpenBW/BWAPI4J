@@ -114,6 +114,7 @@ task generateJniHeaders(type:Exec) {
     def classpath = sourceSets.main.output.classesDir
     def nativeIncludes = "src/native/include"
     commandLine "javah", "-jni", "-verbose", "-d", nativeIncludes, "-classpath", classpath,
+            "bwem.map.MapInitializerImpl",
             "org.openbw.bwapi4j.BW",
             "org.openbw.bwapi4j.BWMapImpl",
             "org.openbw.bwapi4j.InteractionHandler",

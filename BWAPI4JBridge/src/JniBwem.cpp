@@ -30,4 +30,10 @@ void JniBwem::initialize(BWAPI::Game *game) {
 BWEM::Map &JniBwem::getMap() {
 	return BWEM::Map::Instance();
 }
+
+JniBwem bwem;
 }  // namespace BWAPI4JBridge
+
+JNIEXPORT void JNICALL Java_bwem_map_MapInitializerImpl_initialize_1native(JNIEnv *, jobject) {
+	BWAPI4JBridge::bwem.initialize(BWAPI::BroodwarPtr);
+}

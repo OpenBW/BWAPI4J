@@ -22,8 +22,6 @@
 
 #include <jni.h>
 
-#include "JniBwem.h"
-
 extern JNIEnv *globalEnv;
 extern jobject globalBW;
 
@@ -57,5 +55,3 @@ extern jmethodID bwMapNew;
 
 extern jmethodID addRequiredUnit;
 extern jmethodID addUsingUnit;
-
-extern BWAPI4JBridge::JniBwem bwem;
