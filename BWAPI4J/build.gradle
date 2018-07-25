@@ -248,7 +248,7 @@ task buildOpenBWBwapiForLinux(type:Exec) {
 
 task buildOpenBWBwemForLinux(type:Exec) {
     workingDir "$bridgeDir"
-    commandLine 'cmd', '/c', Constants.Script.OPENBW_LINUX.getFilename(Constants.Project.bwem.toString())
+    commandLine 'bash', Constants.Script.OPENBW_LINUX.getFilename(Constants.Project.bwem.toString())
     dependsOn buildOpenBWBwapiForLinux
 }
 
