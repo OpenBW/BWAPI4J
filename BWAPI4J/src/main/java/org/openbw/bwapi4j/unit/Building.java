@@ -139,7 +139,7 @@ public abstract class Building extends PlayerUnit {
         return (int) Math.sqrt(distX * distX + distY * distY);
     }
 
-    public double getLasKnownDistance(Unit target) {
+    public double getLastKnownDistance(Unit target) {
 
         if (this == target) {
             return 0;
