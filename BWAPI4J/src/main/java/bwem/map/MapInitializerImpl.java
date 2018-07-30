@@ -52,7 +52,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
 
     @Override
     public void initialize(final boolean enableTimer) {
-        initialize_native();
+//        initialize_native();
 
         final Timer overallTimer = new Timer();
         final Timer timer = new Timer();
