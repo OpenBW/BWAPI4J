@@ -32,7 +32,9 @@ import org.openbw.bwapi4j.unit.UnitFactory;
 import org.openbw.bwapi4j.unit.VespeneGeyser;
 import org.openbw.bwapi4j.unit.Worker;
 import org.openbw.bwapi4j.util.Cache;
+import org.openbw.bwapi4j.util.OSType;
 
+import java.awt.image.ColorModel;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -213,6 +215,13 @@ public class BW {
     	logger.debug("library path: " + getLibraryPath());
 
         logger.debug("bridge type: " + bridgeType.toString());
+
+        OSType osType = OSType.computeType();
+        if (osType.equals(OSType.MAC)) {
+            // static code in ColorModel loads AWT native library
+            // if this isn't loaded before SDL2, the ui doesn't show up on MacOS
+            ColorModel.getRGBdefault();
+        }
 
         /* this is pretty hacky but required for now to run BWAPI4J on both Windows and Linux without modifying the source.
          *
