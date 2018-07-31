@@ -593,7 +593,7 @@ public class BW {
 
         int[] playerData = this.getAllPlayersData();
 
-        for (int index = 0; index < playerData.length; index += Player.TOTAL_PROPERTIES) {
+        for (int index = 0; index < playerData.length; index += Player.CacheIndex.values().length) {
 
             int playerId = playerData[index + 0]; //TODO: Use the enum from the Player class.
             Player player = this.players.get(playerId);

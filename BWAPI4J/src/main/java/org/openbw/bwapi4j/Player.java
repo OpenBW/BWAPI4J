@@ -32,50 +32,50 @@ import java.util.Map;
 
 public class Player {
 
-    public static final int ID_INDEX = 0;
-    public static final int RACE_INDEX = 1;
-    public static final int POSITION_X_INDEX = 2;
-    public static final int POSITION_Y_INDEX = 3;
-    public static final int COLOR_INDEX = 4;
-    public static final int TEXT_COLOR_INDEX = 5;
-    public static final int TYPE_INDEX = 6;
-    public static final int FORCE_ID_INDEX = 7;
-    public static final int IS_NEUTRAL_INDEX = 8;
-    public static final int IS_VICTORIOUS_INDEX = 9;
-    public static final int IS_DEFEATED_INDEX = 10;
-    public static final int LEFT_GAME_INDEX = 11;
-    public static final int MINERALS_INDEX = 12;
-    public static final int GAS_INDEX = 13;
-    public static final int GATHERED_MINERALS_INDEX = 14;
-    public static final int GATHERED_GAS_INDEX = 15;
-    public static final int REPAIRED_MINERALS_INDEX = 16;
-    public static final int REPAIRED_GAS_INDEX = 17;
-    public static final int REFUNDED_MINERALS_INDEX = 18;
-    public static final int REFUNDED_GAS_INDEX = 19;
-    public static final int SPENT_MINERALS_INDEX = 20;
-    public static final int SPENT_GAS_INDEX = 21;
-    public static final int SUPPLY_TOTAL_INDEX = 22;
-    public static final int UNIT_SCORE_INDEX = 23;
-    public static final int KILL_SCORE_INDEX = 24;
-    public static final int BUILDING_SCORE_INDEX = 25;
-    public static final int RAZING_SCORE_INDEX = 26;
-    public static final int CUSTOM_SCORE_INDEX = 27;
-    public static final int IS_OBSERVER_INDEX = 28;
-    public static final int SUPPLY_USED_INDEX = 29;
-    public static final int SUPPLY_TOTAL_ZERG_INDEX = 30;
-    public static final int SUPPLY_TOTAL_TERRAN_INDEX = 31;
-    public static final int SUPPLY_TOTAL_PROTOSS_INDEX = 32;
-    public static final int SUPPLY_USED_ZERG_INDEX = 33;
-    public static final int SUPPLY_USED_TERRAN_INDEX = 34;
-    public static final int SUPPLY_USED_PROTOSS_INDEX = 35;
-    public static final int ALL_UNIT_COUNT_INDEX = 36;
-    public static final int VISIBLE_UNIT_COUNT_INDEX = 37;
-    public static final int COMPLETED_UNIT_COUNT_INDEX = 38;
-    public static final int INCOMPLETE_UNIT_COUNT_INDEX = 39;
-    public static final int DEAD_UNIT_COUNT_INDEX = 40;
-    public static final int KILLED_UNIT_COUNT_INDEX = 41;
-
-    public static final int TOTAL_PROPERTIES = 42;
+    enum CacheIndex {
+        ID,
+        RACE,
+        POSITION_X,
+        POSITION_Y,
+        COLOR,
+        TEXT_COLOR,
+        TYPE,
+        FORCE_ID,
+        IS_NEUTRAL,
+        IS_VICTORIOUS,
+        IS_DEFEATED,
+        LEFT_GAME,
+        MINERALS,
+        GAS,
+        GATHERED_MINERALS,
+        GATHERED_GAS,
+        REPAIRED_MINERALS,
+        REPAIRED_GAS,
+        REFUNDED_MINERALS,
+        REFUNDED_GAS,
+        SPENT_MINERALS,
+        SPENT_GAS,
+        SUPPLY_TOTAL,
+        UNIT_SCORE,
+        KILL_SCORE,
+        BUILDING_SCORE,
+        RAZING_SCORE,
+        CUSTOM_SCORE,
+        IS_OBSERVER,
+        SUPPLY_USED,
+        SUPPLY_TOTAL_ZERG,
+        SUPPLY_TOTAL_TERRAN,
+        SUPPLY_TOTAL_PROTOSS,
+        SUPPLY_USED_ZERG,
+        SUPPLY_USED_TERRAN,
+        SUPPLY_USED_PROTOSS,
+        ALL_UNIT_COUNT,
+        VISIBLE_UNIT_COUNT,
+        COMPLETED_UNIT_COUNT,
+        INCOMPLETE_UNIT_COUNT,
+        DEAD_UNIT_COUNT,
+        KILLED_UNIT_COUNT,
+    }
 
     // constant
     private int id;
@@ -143,12 +143,12 @@ public class Player {
      */
     public void initialize(int[] playerData, int index) {
 
-        this.race = Race.values()[playerData[index + Player.RACE_INDEX]];
-        this.startLocation = new TilePosition(playerData[index + Player.POSITION_X_INDEX],
-                playerData[index + Player.POSITION_Y_INDEX]);
-        this.color = Color.valueOf(playerData[index + Player.COLOR_INDEX]);
-        this.textColor = (char) playerData[index + Player.TEXT_COLOR_INDEX];
-        this.playerType = PlayerType.values()[playerData[index + Player.TYPE_INDEX]];
+        this.race = Race.values()[playerData[index + CacheIndex.RACE.ordinal()]];
+        this.startLocation = new TilePosition(playerData[index + CacheIndex.POSITION_X.ordinal()],
+                playerData[index + CacheIndex.POSITION_Y.ordinal()]);
+        this.color = Color.valueOf(playerData[index + CacheIndex.COLOR.ordinal()]);
+        this.textColor = (char) playerData[index + CacheIndex.TEXT_COLOR.ordinal()];
+        this.playerType = PlayerType.values()[playerData[index + CacheIndex.TYPE.ordinal()]];
         researchStatus = new EnumMap<>(TechType.class);
         for (TechType tech: TechType.values()) {
             researchStatus.put(tech, new boolean[2]);
@@ -169,41 +169,41 @@ public class Player {
      */
     public void update(int[] playerData, int index, int[] researchStatus, int[] upgradeStatus) {
 
-        this.forceId = playerData[index + Player.FORCE_ID_INDEX];
-        this.isNeutral = playerData[index + Player.IS_NEUTRAL_INDEX] == 1;
-        this.isVictorious = playerData[index + Player.IS_VICTORIOUS_INDEX] == 1;
-        this.isDefeated = playerData[index + Player.IS_DEFEATED_INDEX] == 1;
-        this.leftGame = playerData[index + Player.LEFT_GAME_INDEX] == 1;
-        this.minerals = playerData[index + Player.MINERALS_INDEX];
-        this.gas = playerData[index + Player.GAS_INDEX];
-        this.gatheredMinerals = playerData[index + Player.GATHERED_MINERALS_INDEX];
-        this.gatheredGas = playerData[index + Player.GATHERED_GAS_INDEX];
-        this.repairedMinerals = playerData[index + Player.REPAIRED_MINERALS_INDEX];
-        this.repairedGas = playerData[index + Player.REPAIRED_GAS_INDEX];
-        this.refundedMinerals = playerData[index + Player.REFUNDED_MINERALS_INDEX];
-        this.refundedGas = playerData[index + Player.REFUNDED_GAS_INDEX];
-        this.spentMinerals = playerData[index + Player.SPENT_MINERALS_INDEX];
-        this.spentGas = playerData[index + Player.SPENT_GAS_INDEX];
-        this.supplyTotal = playerData[index + Player.SUPPLY_TOTAL_INDEX];
-        this.unitScore = playerData[index + Player.UNIT_SCORE_INDEX];
-        this.killScore = playerData[index + Player.KILL_SCORE_INDEX];
-        this.buildingScore = playerData[index + Player.BUILDING_SCORE_INDEX];
-        this.razingScore = playerData[index + Player.RAZING_SCORE_INDEX];
-        this.customScore = playerData[index + Player.CUSTOM_SCORE_INDEX];
-        this.isObserver = playerData[index + Player.IS_OBSERVER_INDEX] == 1;
-        this.supplyUsed = playerData[index + Player.SUPPLY_USED_INDEX];
-        this.supplyTotalRace[0] = playerData[index + Player.SUPPLY_TOTAL_ZERG_INDEX];
-        this.supplyTotalRace[1] = playerData[index + Player.SUPPLY_TOTAL_TERRAN_INDEX];
-        this.supplyTotalRace[2] = playerData[index + Player.SUPPLY_TOTAL_PROTOSS_INDEX];
-        this.supplyUsedRace[0] = playerData[index + Player.SUPPLY_USED_ZERG_INDEX];
-        this.supplyUsedRace[1] = playerData[index + Player.SUPPLY_USED_TERRAN_INDEX];
-        this.supplyUsedRace[2] = playerData[index + Player.SUPPLY_USED_PROTOSS_INDEX];
-        this.allUnitCount = playerData[index + Player.SUPPLY_USED_PROTOSS_INDEX];
-        this.visibleUnitCount = playerData[index + Player.VISIBLE_UNIT_COUNT_INDEX];
-        this.completedUnitCount = playerData[index + Player.COMPLETED_UNIT_COUNT_INDEX];
-        this.incompleteUnitCount = playerData[index + Player.INCOMPLETE_UNIT_COUNT_INDEX];
-        this.deadUnitCount = playerData[index + Player.DEAD_UNIT_COUNT_INDEX];
-        this.killedUnitCount = playerData[index + Player.KILLED_UNIT_COUNT_INDEX];
+        this.forceId = playerData[index + CacheIndex.FORCE_ID.ordinal()];
+        this.isNeutral = playerData[index + CacheIndex.IS_NEUTRAL.ordinal()] == 1;
+        this.isVictorious = playerData[index + CacheIndex.IS_VICTORIOUS.ordinal()] == 1;
+        this.isDefeated = playerData[index + CacheIndex.IS_DEFEATED.ordinal()] == 1;
+        this.leftGame = playerData[index + CacheIndex.LEFT_GAME.ordinal()] == 1;
+        this.minerals = playerData[index + CacheIndex.MINERALS.ordinal()];
+        this.gas = playerData[index + CacheIndex.GAS.ordinal()];
+        this.gatheredMinerals = playerData[index + CacheIndex.GATHERED_MINERALS.ordinal()];
+        this.gatheredGas = playerData[index + CacheIndex.GATHERED_GAS.ordinal()];
+        this.repairedMinerals = playerData[index + CacheIndex.REPAIRED_MINERALS.ordinal()];
+        this.repairedGas = playerData[index + CacheIndex.REPAIRED_GAS.ordinal()];
+        this.refundedMinerals = playerData[index + CacheIndex.REFUNDED_MINERALS.ordinal()];
+        this.refundedGas = playerData[index + CacheIndex.REFUNDED_GAS.ordinal()];
+        this.spentMinerals = playerData[index + CacheIndex.SPENT_MINERALS.ordinal()];
+        this.spentGas = playerData[index + CacheIndex.SPENT_GAS.ordinal()];
+        this.supplyTotal = playerData[index + CacheIndex.SUPPLY_TOTAL.ordinal()];
+        this.unitScore = playerData[index + CacheIndex.UNIT_SCORE.ordinal()];
+        this.killScore = playerData[index + CacheIndex.KILL_SCORE.ordinal()];
+        this.buildingScore = playerData[index + CacheIndex.BUILDING_SCORE.ordinal()];
+        this.razingScore = playerData[index + CacheIndex.RAZING_SCORE.ordinal()];
+        this.customScore = playerData[index + CacheIndex.CUSTOM_SCORE.ordinal()];
+        this.isObserver = playerData[index + CacheIndex.IS_OBSERVER.ordinal()] == 1;
+        this.supplyUsed = playerData[index + CacheIndex.SUPPLY_USED.ordinal()];
+        this.supplyTotalRace[0] = playerData[index + CacheIndex.SUPPLY_TOTAL_ZERG.ordinal()];
+        this.supplyTotalRace[1] = playerData[index + CacheIndex.SUPPLY_TOTAL_TERRAN.ordinal()];
+        this.supplyTotalRace[2] = playerData[index + CacheIndex.SUPPLY_TOTAL_PROTOSS.ordinal()];
+        this.supplyUsedRace[0] = playerData[index + CacheIndex.SUPPLY_USED_ZERG.ordinal()];
+        this.supplyUsedRace[1] = playerData[index + CacheIndex.SUPPLY_USED_TERRAN.ordinal()];
+        this.supplyUsedRace[2] = playerData[index + CacheIndex.SUPPLY_USED_PROTOSS.ordinal()];
+        this.allUnitCount = playerData[index + CacheIndex.SUPPLY_USED_PROTOSS.ordinal()];
+        this.visibleUnitCount = playerData[index + CacheIndex.VISIBLE_UNIT_COUNT.ordinal()];
+        this.completedUnitCount = playerData[index + CacheIndex.COMPLETED_UNIT_COUNT.ordinal()];
+        this.incompleteUnitCount = playerData[index + CacheIndex.INCOMPLETE_UNIT_COUNT.ordinal()];
+        this.deadUnitCount = playerData[index + CacheIndex.DEAD_UNIT_COUNT.ordinal()];
+        this.killedUnitCount = playerData[index + CacheIndex.KILLED_UNIT_COUNT.ordinal()];
 
         for (int i = 0; i < researchStatus.length; i += 3) {
             boolean[] status = this.researchStatus.get(TechType.withId(researchStatus[i]));
