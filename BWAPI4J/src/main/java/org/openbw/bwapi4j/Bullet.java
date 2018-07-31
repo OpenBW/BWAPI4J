@@ -25,23 +25,23 @@ import org.openbw.bwapi4j.unit.Unit;
 
 public class Bullet {
 
-	public static final int EXISTS_INDEX = 0;
-    public static final int ANGLE_INDEX = 1;
-    public static final int ID_INDEX = 2;
-    public static final int PLAYER_INDEX = 3;
-    public static final int POSITION_X_INDEX = 4;
-    public static final int POSITION_Y_INDEX = 5;
-    public static final int REMOVE_TIMER_INDEX = 6;
-    public static final int SOURCE_INDEX = 7;
-    public static final int TARGET_INDEX = 8;
-    public static final int TARGET_POSITION_X_INDEX = 9;
-    public static final int TARGET_POSITION_Y_INDEX = 10;
-    public static final int TYPE_INDEX = 11;
-    public static final int VELOCITY_X_INDEX = 12;
-    public static final int VELOCITY_Y_INDEX = 13;
-    public static final int VISIBLE_INDEX = 14;
-    
-    public static final int TOTAL_PROPERTIES = 15;
+    public enum CacheIndex {
+		EXISTS,
+		ANGLE,
+		ID,
+		PLAYER,
+		POSITION_X,
+		POSITION_Y,
+		REMOVE_TIMER,
+		SOURCE,
+		TARGET,
+		TARGET_POSITION_X,
+		TARGET_POSITION_Y,
+		TYPE,
+		VELOCITY_X,
+		VELOCITY_Y,
+		VISIBLE
+	}
     
 	private boolean exists;
 	private double angle;
@@ -71,11 +71,11 @@ public class Bullet {
      */
     public void initialize(int[] bulletData, int index) {
 
-    	this.id = bulletData[index + Bullet.ID_INDEX];
-    	this.playerId = bulletData[index + Bullet.PLAYER_INDEX];
-    	this.sourceId = bulletData[index + Bullet.SOURCE_INDEX];
-        this.type = BulletType.valueOf(bulletData[index + Bullet.TYPE_INDEX]);
-    	this.playerId = bulletData[index + Bullet.PLAYER_INDEX];
+    	this.id = bulletData[index + CacheIndex.ID.ordinal()];
+    	this.playerId = bulletData[index + CacheIndex.PLAYER.ordinal()];
+    	this.sourceId = bulletData[index + CacheIndex.SOURCE.ordinal()];
+        this.type = BulletType.valueOf(bulletData[index + CacheIndex.TYPE.ordinal()]);
+    	this.playerId = bulletData[index + CacheIndex.PLAYER.ordinal()];
     }
 
     /**
@@ -85,19 +85,19 @@ public class Bullet {
      */
     public void update(int[] bulletData, int index) {
 
-    	this.exists = bulletData[index + Bullet.EXISTS_INDEX] == 1;
-    	this.angle = bulletData[index + Bullet.ANGLE_INDEX] / 100.0;
-    	int x = bulletData[index + Bullet.POSITION_X_INDEX];
-        int y = bulletData[index + Bullet.POSITION_Y_INDEX];
+    	this.exists = bulletData[index + CacheIndex.EXISTS.ordinal()] == 1;
+    	this.angle = bulletData[index + CacheIndex.ANGLE.ordinal()] / 100.0;
+    	int x = bulletData[index + CacheIndex.POSITION_X.ordinal()];
+        int y = bulletData[index + CacheIndex.POSITION_Y.ordinal()];
         this.position = new Position(x, y);
-        this.removeTimer = bulletData[index + Bullet.REMOVE_TIMER_INDEX];
-        this.targetId = bulletData[index + Bullet.TARGET_INDEX];
-        int tx = bulletData[index + Bullet.TARGET_POSITION_X_INDEX];
-        int ty = bulletData[index + Bullet.TARGET_POSITION_Y_INDEX];
+        this.removeTimer = bulletData[index + CacheIndex.REMOVE_TIMER.ordinal()];
+        this.targetId = bulletData[index + CacheIndex.TARGET.ordinal()];
+        int tx = bulletData[index + CacheIndex.TARGET_POSITION_X.ordinal()];
+        int ty = bulletData[index + CacheIndex.TARGET_POSITION_Y.ordinal()];
         this.targetPosition = new Position(tx, ty);
-    	this.velocityX = bulletData[index + Bullet.VELOCITY_X_INDEX] / 100.0;
-        this.velocityY = bulletData[index + Bullet.VELOCITY_Y_INDEX] / 100.0;
-        this.visible = bulletData[index + Bullet.VISIBLE_INDEX] == 1;
+    	this.velocityX = bulletData[index + CacheIndex.VELOCITY_X.ordinal()] / 100.0;
+        this.velocityY = bulletData[index + CacheIndex.VELOCITY_Y.ordinal()] / 100.0;
+        this.visible = bulletData[index + CacheIndex.VISIBLE.ordinal()] == 1;
     }
     
     public Player getPlayer() {

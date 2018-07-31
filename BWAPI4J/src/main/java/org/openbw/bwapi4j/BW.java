@@ -528,9 +528,9 @@ public class BW {
     	
     	int[] bulletData = this.getAllBulletsData();
     	
-    	for (int index = 0; index < bulletData.length; index += Bullet.TOTAL_PROPERTIES) {
+    	for (int index = 0; index < bulletData.length; index += Bullet.CacheIndex.values().length) {
     		
-    		int bulletId = bulletData[index + Bullet.ID_INDEX];
+    		int bulletId = bulletData[index + Bullet.CacheIndex.ID.ordinal()];
     		Bullet bullet = this.bullets.get(bulletId);
     		if (bullet == null) {
     			bullet = new Bullet(this);
