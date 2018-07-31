@@ -39,26 +39,26 @@ public final class InteractionHandler {
 
 	private static final Logger logger = LogManager.getLogger();
 
-    public static final int LAST_ERROR_INDEX                  = 0;
-    public static final int SCREEN_POSITION_X_INDEX           = 1;
-    public static final int SCREEN_POSITION_Y_INDEX           = 2;
-    public static final int SCREEN_SIZE_X_INDEX               = 3;
-    public static final int SCREEN_SIZE_Y_INDEX               = 4;
-    public static final int MOUSE_POSITION_X_INDEX            = 5;
-    public static final int MOUSE_POSITION_Y_INDEX            = 6;
-    public static final int FRAMECOUNT_INDEX                  = 7;
-    public static final int FPS_INDEX                         = 8;
-    public static final int LATCOM_ENABLED_INDEX              = 9;
-    public static final int REMAINING_LATENCY_FRAMES_INDEX    = 10;
-    public static final int LATENCY_FRAMES_INDEX              = 11;
-    public static final int LATENCY_INDEX                     = 12;
-    public static final int GAME_TYPE_ID_INDEX                = 13;
-    public static final int IS_REPLAY_INDEX                   = 14;
-    public static final int IS_PAUSED_INDEX                   = 15;
-    public static final int SELF_ID_INDEX                     = 16;
-    public static final int ENEMY_ID_INDEX                    = 17;
-
-    public static final int TOTAL_PROPERTIES                  = 18;
+	private enum CacheIndex {
+        LAST_ERROR,
+        SCREEN_POSITION_X,
+        SCREEN_POSITION_Y,
+        SCREEN_SIZE_X,
+        SCREEN_SIZE_Y,
+        MOUSE_POSITION_X,
+        MOUSE_POSITION_Y,
+        FRAME_COUNT,
+        FPS,
+        LATCOM_ENABLED,
+        REMAINING_LATENCY_FRAMES,
+        LATENCY_FRAMES,
+        LATENCY,
+        GAME_TYPE_ID,
+        IS_REPLAY,
+        IS_PAUSED,
+        SELF_ID,
+        ENEMY_ID_INDEX
+	}
 
     private BW bw;
 
@@ -88,24 +88,24 @@ public final class InteractionHandler {
 
     void update(int[] data) {
 
-        this.lastError = BwError.values()[data[LAST_ERROR_INDEX]];
-        this.screenPositionX = data[SCREEN_POSITION_X_INDEX];
-        this.screenPositionY = data[SCREEN_POSITION_Y_INDEX];
-        this.screenSizeX = data[SCREEN_SIZE_X_INDEX];
-        this.screenSizeY = data[SCREEN_SIZE_Y_INDEX];
-        this.mousePositionX = data[MOUSE_POSITION_X_INDEX];
-        this.mousePositionY = data[MOUSE_POSITION_Y_INDEX];
-        this.frameCount = data[FRAMECOUNT_INDEX];
-        this.fps = data[FPS_INDEX];
-        this.latComEnabled = data[LATCOM_ENABLED_INDEX] == 1;
-        this.remainingLatencyFrames = data[REMAINING_LATENCY_FRAMES_INDEX];
-        this.latencyFrames = data[LATENCY_FRAMES_INDEX];
-        this.latency = data[LATENCY_FRAMES_INDEX];
-        this.selfId = data[SELF_ID_INDEX];
-        this.enemyId = data[ENEMY_ID_INDEX];
-        this.gameTypeId = data[GAME_TYPE_ID_INDEX];
-        this.isReplay = data[IS_REPLAY_INDEX] == 1;
-        this.isPaused = data[IS_PAUSED_INDEX] == 1;
+        this.lastError = BwError.values()[data[CacheIndex.LAST_ERROR.ordinal()]];
+        this.screenPositionX = data[CacheIndex.SCREEN_POSITION_X.ordinal()];
+        this.screenPositionY = data[CacheIndex.SCREEN_POSITION_Y.ordinal()];
+        this.screenSizeX = data[CacheIndex.SCREEN_SIZE_X.ordinal()];
+        this.screenSizeY = data[CacheIndex.SCREEN_SIZE_Y.ordinal()];
+        this.mousePositionX = data[CacheIndex.MOUSE_POSITION_X.ordinal()];
+        this.mousePositionY = data[CacheIndex.MOUSE_POSITION_Y.ordinal()];
+        this.frameCount = data[CacheIndex.FRAME_COUNT.ordinal()];
+        this.fps = data[CacheIndex.FPS.ordinal()];
+        this.latComEnabled = data[CacheIndex.LATCOM_ENABLED.ordinal()] == 1;
+        this.remainingLatencyFrames = data[CacheIndex.REMAINING_LATENCY_FRAMES.ordinal()];
+        this.latencyFrames = data[CacheIndex.LATENCY_FRAMES.ordinal()];
+        this.latency = data[CacheIndex.LATENCY_FRAMES.ordinal()];
+        this.selfId = data[CacheIndex.SELF_ID.ordinal()];
+        this.enemyId = data[CacheIndex.ENEMY_ID_INDEX.ordinal()];
+        this.gameTypeId = data[CacheIndex.GAME_TYPE_ID.ordinal()];
+        this.isReplay = data[CacheIndex.IS_REPLAY.ordinal()] == 1;
+        this.isPaused = data[CacheIndex.IS_PAUSED.ordinal()] == 1;
     }
 
     /**

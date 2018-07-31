@@ -25,7 +25,7 @@ import org.openbw.bwapi4j.unit.Unit;
 
 public class Bullet {
 
-    public enum CacheIndex {
+    enum CacheIndex {
 		EXISTS,
 		ANGLE,
 		ID,
