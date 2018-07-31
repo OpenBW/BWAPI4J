@@ -1,4 +1,8 @@
-![Build Status](https://travis-ci.com/OpenBW/BWAPI4J.svg?branch=master)
+### Build Status
+
+| | BWAPI4J | BWAPI4JBridge |
+|-|-|-|
+| **master** | [![Build Status](https://travis-ci.com/OpenBW/BWAPI4J.svg?branch=master)](https://travis-ci.com/OpenBW/BWAPI4J) | N/A |
 
 # BWAPI4J
 
