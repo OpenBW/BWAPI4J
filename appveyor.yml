@@ -11,7 +11,7 @@ install:
  
 before_build:
 - ps: >-
-    .\appveyor_prebuild.ps
+    .\BWAPI4JBridge\appveyor_prebuild.ps
 
 configuration: 
   - Release
