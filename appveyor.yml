@@ -19,7 +19,7 @@ build_script:
     gradlew.bat sourcesJar javadocJar shadowJar
 
 cache:
-  - %USERPROFILE%\.gradle
+  - '%USERPROFILE%\.gradle'
     
 artifacts:
   - path: 'BWAPI4J\build\libs\*.*'
