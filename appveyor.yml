@@ -22,4 +22,4 @@ build_script:
 
 artifacts:
   - path: 'BWAPI4J\build\libs\*.*'
-  - name: BWAPI4J
+    name: BWAPI4J
