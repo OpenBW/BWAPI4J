@@ -23,6 +23,7 @@ AnyTest.java
 
 /src/test/resources/mockdata/DummyBwemData/
 /src/test/resources/mockdata/DummyBwapiData/
+/src/native/
 
 # Compiled class file
 *.class
