@@ -15,7 +15,7 @@ build_script:
     cd BWAPI4J
     
     ./gradlew clean buildVanillaBridgeForWindows
-- cmd: -> -
+- cmd: >-
     cd BWAPI4J
     
     ./gradlew sourcesJar javadocJar shadowJar
