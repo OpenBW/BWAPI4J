@@ -16,8 +16,6 @@ build_script:
     
     gradlew.bat clean buildVanillaBridgeForWindows
     
-    cd ..\..\BWAPI4J
-    
     gradlew.bat sourcesJar javadocJar shadowJar
 
 artifacts:
