@@ -14,11 +14,11 @@ build_script:
 - cmd: >-
     cd BWAPI4J
     
-    ./gradlew clean buildVanillaBridgeForWindows
+    gradlew.bat clean buildVanillaBridgeForWindows
     
     cd ..\..\BWAPI4J
     
-    ./gradlew sourcesJar javadocJar shadowJar
+    gradlew.bat sourcesJar javadocJar shadowJar
 
 artifacts:
   - path: 'BWAPI4J\build\libs\*.*'
