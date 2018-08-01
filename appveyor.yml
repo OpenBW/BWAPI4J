@@ -12,17 +12,17 @@ install:
 before_build:
 - ps: >-
     echo %cd%
-    & msbuild /m "/t:BWAPI,BWAPIClient" /p:Configuration=Release_Pipeline BWAPI4JBridge/externals/bwapi/bwapi/bwapi.sln
+    msbuild /m "/t:BWAPI,BWAPIClient" /p:Configuration=Release_Pipeline BWAPI4JBridge/externals/bwapi/bwapi/bwapi.sln
 
-    & mkdir BWAPI4JBridge/externals/bwem/build
-    & cd BWAPI4JBridge/externals/bwem/build
-    & cmake -G "Visual Studio 15 2017" ..
-    & msbuild /m /p:Configuration=Release BWEM.sln
-    & cd ../../../
+    mkdir BWAPI4JBridge/externals/bwem/build
+    cd BWAPI4JBridge/externals/bwem/build
+    cmake -G "Visual Studio 15 2017" ..
+    msbuild /m /p:Configuration=Release BWEM.sln
+    cd ../../../
     
-    & mkdir build
-    & cd build
-    & cmake -G "Visual Studio 15 2017" -DBWAPI4JBRIDGE_ENABLE_LOGGER=1 ..
+    mkdir build
+    cd build
+    cmake -G "Visual Studio 15 2017" -DBWAPI4JBRIDGE_ENABLE_LOGGER=1 ..
 
 configuration: 
   - Release
