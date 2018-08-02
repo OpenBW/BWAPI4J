@@ -1,18 +1,37 @@
 language: java
+
 jdk:
 - oraclejdk8
+
+os:
+- linux
+#- osx
+
 addons:
 #  sonarcloud:
 #    branches:
 #      - dev
 #      - master
+
 cache:
   directories:
     - '$HOME/.m2/repository'
     - '$HOME/.sonar/cache'
     - '$HOME/.gradle'
     - '.gradle'
+    
 env:
 - TERM=dumb
+
+before_script:
+- 'if [ ${TRAVIS_OS_NAME} = "linux" ]; then
+     sudo apt-get -y install libsdl2-dev;
+   elif [ ${TRAVIS_OS_NAME} = "osx" ]; then
+     echo "OSX not yet supported";
+     exit 1;
+   fi'
+
 script:
-- cd BWAPI4J && ./gradlew clean build sourcesJar javadocJar shadowJar --stacktrace
+- ROOT_PROJ_DIR=$(pwd)
+- BWAPI4J_DIR=$ROOT_PROJ_DIR/BWAPI4J
+- cd $BWAPI4J_DIR && ./gradlew clean buildOpenBWBridgeForLinux --stacktrace && cd $BWAPI4J_DIR && ./gradlew sourcesJar javadocJar shadowJar --stacktrace
