@@ -25,7 +25,7 @@ env:
 
 before_script:
 - 'if [ ${TRAVIS_OS_NAME} = "linux" ]; then
-     sudo apt-get -y install libsdl2-dev;
+     sudo apt-get -y install libsdl2-dev libegl1-mesa-dev libgles2-mesa-dev;
    elif [ ${TRAVIS_OS_NAME} = "osx" ]; then
      echo "OSX not yet supported";
      exit 1;
