@@ -1,9 +1,9 @@
 ### Build Status
 
-| | BWAPI4J | Bridge (Vanilla)
-|-|-|-|
-| **master** | [![Build Status](https://travis-ci.com/OpenBW/BWAPI4J.svg?branch=master)](https://travis-ci.com/OpenBW/BWAPI4J) | N/A |
-| **develop** | [![Build Status](https://travis-ci.com/OpenBW/BWAPI4J.svg?branch=master)](https://travis-ci.com/OpenBW/BWAPI4J) | [![Build status](https://ci.appveyor.com/api/projects/status/uby2l601herytp47/branch/develop?svg=true)](https://ci.appveyor.com/project/adakitesystems/bwapi4j/branch/develop) |
+| | BWAPI4J + Vanilla Bridge | BWAPI4J + OpenBW Bridge |
+|-|:-:|:-:|
+| **master** | N/A | [![Build Status](https://travis-ci.com/OpenBW/BWAPI4J.svg?branch=master)](https://travis-ci.com/OpenBW/BWAPI4J) |
+| **develop** | [![Build status](https://ci.appveyor.com/api/projects/status/uby2l601herytp47/branch/develop?svg=true)](https://ci.appveyor.com/project/adakitesystems/bwapi4j/branch/develop) | [![Build Status](https://travis-ci.com/OpenBW/BWAPI4J.svg?branch=master)](https://travis-ci.com/OpenBW/BWAPI4J) |
 
 # BWAPI4J
 
