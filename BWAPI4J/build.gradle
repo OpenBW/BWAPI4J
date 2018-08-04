@@ -2,7 +2,7 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 group 'org.openbw.bwapi4j'
-version '0.8'
+version '0.8.1b'
 
 buildscript {
     repositories {
