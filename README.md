@@ -5,6 +5,14 @@
 | **master** | N/A | [![Build Status](https://travis-ci.com/OpenBW/BWAPI4J.svg?branch=master)](https://travis-ci.com/OpenBW/BWAPI4J) |
 | **develop** | [![Build status](https://ci.appveyor.com/api/projects/status/uby2l601herytp47/branch/develop?svg=true)](https://ci.appveyor.com/project/adakitesystems/bwapi4j/branch/develop) | [![Build Status](https://travis-ci.com/OpenBW/BWAPI4J.svg?branch=master)](https://travis-ci.com/OpenBW/BWAPI4J) |
 
+SHA-256 checksums for official v0.8.1b:
+
+```
+ea8d6a7c07fc4b3d77feebf983bd5aee446392bfaab6ac4485c8059a39bd9391  BWAPI4J-0.8.1b.jar
+af64af4659f1be307c2b697a3f975d4b5143bd5d207bb456d6b6c222f81da1d5  BWAPI4J-0.8.1b-javadoc.jar
+6ed30ab5e8449100e382a24814bbf9e0d9878ebb30276d3cab0fffd7c379b7bc  BWAPI4J-0.8.1b-sources.jar
+```
+
 # BWAPI4J
 
 This is a Java wrapper for [BWAPI 4.2.0](https://github.com/bwapi/bwapi/).
