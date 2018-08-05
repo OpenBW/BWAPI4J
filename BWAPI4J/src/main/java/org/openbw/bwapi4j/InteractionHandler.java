@@ -310,4 +310,6 @@ public final class InteractionHandler {
 
     public native void setFrameSkip(int frameSkip);
 
+    public native void pauseGame();
+
 }
