@@ -47,6 +47,11 @@ public class Hatchery extends Building implements Organic, ResearchingFacility, 
         return isCompleted;
     }
 
+    @Override
+    public boolean trainWorker() {
+        return super.train(UnitType.Zerg_Drone);
+    }
+
     /**
      * Retrieves a list of larvae present at this hatchery.
      * @return list of larvae

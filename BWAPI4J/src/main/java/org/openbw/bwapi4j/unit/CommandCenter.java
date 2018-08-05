@@ -96,6 +96,7 @@ public class CommandCenter extends Building implements Mechanical, FlyingBuildin
         return issueCommand(this.id, Build_Addon, -1, -1, -1, addon.getId());
     }
 
+    @Override
     public boolean trainWorker() {
         
         return super.train(UnitType.Terran_SCV);

@@ -37,6 +37,7 @@ public class Nexus extends Building implements Mechanical, TrainingFacility, Res
         return isCompleted;
     }
 
+    @Override
     public boolean trainWorker() {
         
         return super.train(UnitType.Protoss_Probe);
