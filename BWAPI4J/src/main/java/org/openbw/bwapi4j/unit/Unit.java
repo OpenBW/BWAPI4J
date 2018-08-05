@@ -735,7 +735,7 @@ public abstract class Unit implements Comparable<Unit> {
     }
 
     protected boolean canTrain(UnitType type) {
-        return this.type.equals(type.whatBuilds().first)
+        return this.type.equals(type.whatBuilds().getFirst())
                 && getPlayer(playerId).canMake(type)
                 && type.requiredUnits().stream().allMatch(ut ->
                 !ut.isAddon() || (addonId >= 0 && getUnit(addonId).type == ut));

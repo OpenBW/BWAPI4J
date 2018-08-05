@@ -22,8 +22,8 @@ package org.openbw.bwapi4j.util;
 
 public class Pair<K, V> {
 
-    public final K first;
-    public final V second;
+    private final K first;
+    private final V second;
 
     public Pair(K first, V second) {
         this.first = first;

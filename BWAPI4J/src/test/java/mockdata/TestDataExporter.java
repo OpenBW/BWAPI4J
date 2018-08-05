@@ -120,7 +120,7 @@ public class TestDataExporter implements BWEventListener {
             value = value.getClass().getSimpleName() + "." + ((Enum) value).name();
         } else if (value instanceof Pair<?, ?>) {
             Pair pair = (Pair) value;
-            value = "new Pair(" + toValue(pair.first) + ", " + toValue(pair.second) + ")";
+            value = "new Pair(" + toValue(pair.getFirst()) + ", " + toValue(pair.getSecond()) + ")";
         } else if (value instanceof ArrayList<?>) {
             List<?> list = (List<?>) value;
             value = "new ArrayList(Arrays.asList(" + list.stream().map(this::toValue).collect(Collectors.joining(", ")) + "))";

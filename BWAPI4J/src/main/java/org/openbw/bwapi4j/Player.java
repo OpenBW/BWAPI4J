@@ -736,7 +736,7 @@ public class Player {
     }
 
     public boolean canMake(Unit builder, UnitType type) {
-        if (!canMake(type) || !builder.isA(type.whatBuilds().first)) {
+        if (!canMake(type) || !builder.isA(type.whatBuilds().getFirst())) {
             return false;
         }
         return type.requiredUnits().stream().filter(UnitType::isAddon).findAny()

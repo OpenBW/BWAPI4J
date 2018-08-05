@@ -676,14 +676,14 @@ public final class Graph {
 
         TileImpl.getStaticMarkable().unmarkAll();
 
-        final Queue<Pair<Integer, ChokePoint>> toVisit = new PriorityQueue<>(Comparator.comparingInt(a -> a.first));
+        final Queue<Pair<Integer, ChokePoint>> toVisit = new PriorityQueue<>(Comparator.comparingInt(a -> a.getFirst()));
         toVisit.offer(new Pair<>(0, start));
 
         int remainingTargets = targets.size();
         while (!toVisit.isEmpty()) {
             final Pair<Integer, ChokePoint> distanceAndChokePoint = toVisit.poll();
-            final int currentDist = distanceAndChokePoint.first;
-            final ChokePoint current = distanceAndChokePoint.second;
+            final int currentDist = distanceAndChokePoint.getFirst();
+            final ChokePoint current = distanceAndChokePoint.getSecond();
             final Tile currentTile = getMap().getData().getTile(current.getCenter().toTilePosition(), CheckMode.NO_CHECK);
 //            bwem_assert(currentTile.InternalData() == currentDist);
             if (!(((TileImpl) currentTile).getInternalData() == currentDist)) {
@@ -742,7 +742,7 @@ public final class Graph {
 
         // reset Tile::m_internalData for future usage
         for (Pair<Integer, ChokePoint> distanceToChokePoint : toVisit) {
-            ((TileImpl) getMap().getData().getTile(distanceToChokePoint.second.getCenter().toTilePosition(), CheckMode.NO_CHECK)).setInternalData(0);
+            ((TileImpl) getMap().getData().getTile(distanceToChokePoint.getSecond().getCenter().toTilePosition(), CheckMode.NO_CHECK)).setInternalData(0);
         }
 
         return distances;

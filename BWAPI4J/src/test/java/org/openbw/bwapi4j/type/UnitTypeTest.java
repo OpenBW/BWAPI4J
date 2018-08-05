@@ -37,7 +37,7 @@ public class UnitTypeTest implements BWEventListener {
 
     private void Assert_getName(final String expectedName, final UnitType unitType) { Assert.assertEquals(expectedName, unitType.toString()); }
     private void Assert_getRace(final Race expectedRace, final UnitType unitType) { Assert.assertEquals(expectedRace, unitType.getRace()); }
-    private void Assert_whatBuilds(final UnitType expectedUnitType, final UnitType unitType) { Assert.assertEquals(expectedUnitType, unitType.whatBuilds().first); }
+    private void Assert_whatBuilds(final UnitType expectedUnitType, final UnitType unitType) { Assert.assertEquals(expectedUnitType, unitType.whatBuilds().getFirst()); }
     private void Assert_requiredUnits(final List<UnitType> expectedUnitTypes, final UnitType unitType) { Assert.assertTrue(isUnorderedListEqual(expectedUnitTypes, unitType.requiredUnits())); }
     private void Assert_requiredTech(final TechType expectedTechType, final UnitType unitType) { Assert.assertEquals(expectedTechType, unitType.requiredTech()); }
     private void Assert_cloakingTech(final TechType expectedTechType, final UnitType unitType) { Assert.assertEquals(expectedTechType, unitType.cloakingTech()); }
