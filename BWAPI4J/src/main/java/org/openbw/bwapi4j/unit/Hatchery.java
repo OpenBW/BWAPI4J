@@ -30,7 +30,7 @@ import org.openbw.bwapi4j.type.UpgradeType;
 import static org.openbw.bwapi4j.type.UnitCommandType.Morph;
 import static org.openbw.bwapi4j.type.UnitType.Zerg_Lair;
 
-public class Hatchery extends Building implements Organic, ResearchingFacility, Base, Morphable {
+public class Hatchery extends Building implements Organic, ResearchingFacility, ResourceDepot, Morphable {
 
     protected Hatchery(int id, UnitType type, int timeSpotted) {
         
