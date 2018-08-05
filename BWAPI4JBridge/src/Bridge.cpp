@@ -764,6 +764,8 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getGameData(JNIEnv *env, 
   intBuf[index++] = BWAPI::Broodwar->getGameType().getID();
   intBuf[index++] = BWAPI::Broodwar->isReplay();
   intBuf[index++] = BWAPI::Broodwar->isPaused();
+  intBuf[index++] = BWAPI::Broodwar->getAPM(false);
+  intBuf[index++] = BWAPI::Broodwar->getAPM(true);
 
   if (BWAPI::Broodwar->isReplay()) {
     for (BWAPI::Player player : BWAPI::Broodwar->getPlayers()) {

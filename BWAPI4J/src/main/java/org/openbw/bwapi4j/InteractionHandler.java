@@ -56,8 +56,10 @@ public final class InteractionHandler {
         GAME_TYPE_ID,
         IS_REPLAY,
         IS_PAUSED,
+        APM,
+        APM_INCLUDING_SELECTS,
         SELF_ID,
-        ENEMY_ID_INDEX
+        ENEMY_ID
 	}
 
     private BW bw;
@@ -80,6 +82,8 @@ public final class InteractionHandler {
     private int gameTypeId;
     private boolean isReplay;
     private boolean isPaused;
+    private int apm;
+    private int apm_including_selects;
     
     /* default */ InteractionHandler(BW bw) {
         
@@ -102,10 +106,12 @@ public final class InteractionHandler {
         this.latencyFrames = data[CacheIndex.LATENCY_FRAMES.ordinal()];
         this.latency = data[CacheIndex.LATENCY_FRAMES.ordinal()];
         this.selfId = data[CacheIndex.SELF_ID.ordinal()];
-        this.enemyId = data[CacheIndex.ENEMY_ID_INDEX.ordinal()];
+        this.enemyId = data[CacheIndex.ENEMY_ID.ordinal()];
         this.gameTypeId = data[CacheIndex.GAME_TYPE_ID.ordinal()];
         this.isReplay = data[CacheIndex.IS_REPLAY.ordinal()] == 1;
         this.isPaused = data[CacheIndex.IS_PAUSED.ordinal()] == 1;
+        this.apm = data[CacheIndex.APM.ordinal()];
+        this.apm_including_selects = data[CacheIndex.APM_INCLUDING_SELECTS.ordinal()];
     }
 
     /**
@@ -256,6 +262,16 @@ public final class InteractionHandler {
     public boolean isPaused() {
 
         return this.isPaused;
+    }
+
+    public int getAPM() {
+
+        return this.apm;
+    }
+
+    public int getAPM(final boolean includeSelects) {
+
+        return (includeSelects ? this.apm_including_selects : this.apm);
     }
 
     public List<Unit> getSelectedUnits() {
