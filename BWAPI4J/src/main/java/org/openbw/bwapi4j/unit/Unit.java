@@ -190,7 +190,7 @@ public abstract class Unit implements Comparable<Unit> {
     private boolean isVisible;
     private boolean exists;
     private boolean isSelected;
-    private boolean isFlying;
+    boolean isFlying;
 
     boolean isUpgrading;
     boolean isResearching;

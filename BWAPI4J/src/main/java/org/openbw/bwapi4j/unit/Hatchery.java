@@ -42,6 +42,11 @@ public class Hatchery extends Building implements Organic, ResearchingFacility, 
         this(id, UnitType.Zerg_Hatchery, timeSpotted);
     }
 
+    @Override
+    public boolean isReadyForResources() {
+        return isCompleted;
+    }
+
     /**
      * Retrieves a list of larvae present at this hatchery.
      * @return list of larvae

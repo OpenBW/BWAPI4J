@@ -66,6 +66,11 @@ public class CommandCenter extends Building implements Mechanical, FlyingBuildin
     }
 
     @Override
+    public boolean isReadyForResources() {
+        return isCompleted && !isFlying;
+    }
+
+    @Override
     public Addon getAddon() {
         return (Addon) getUnit(addonId);
     }
