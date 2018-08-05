@@ -1,10 +1,6 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
-import java.nio.charset.StandardCharsets
-import java.nio.file.Files
-import java.nio.file.Paths
-
 group 'org.openbw.bwapi4j'
 version '0.8.2b'
 
@@ -210,127 +206,40 @@ class Constants {
     }
 }
 
-class VsDevCmdGenerator {
-    private static final Map<String, String> SYSTEM_ENVIRONMENT_VARIABLES = System.getenv();
-    private static final String PROGRAM_FILES_KEY = "ProgramFiles";
-
-    private static final String PREFIX = "Microsoft Visual Studio\\2017";
-    private static final String SUFFIX = "Common7\\Tools\\VsDevCmd.bat";
-
-    private static boolean doesDirectoryExist(final String directory) {
-        if (directory == null || directory.isEmpty()) {
-            return false;
-        }
-
-        final File path = new File(directory);
-
-        return (path.exists() && path.isDirectory());
-    }
-
-    private static boolean doesFileExist(final String filePath) {
-        if (filePath == null || filePath.isEmpty()) {
-            return false;
-        }
-
-        final File file = new File(filePath);
-
-        return (file.exists() && !file.isDirectory());
-    }
-
-    static String getProgramFilesDirectory() {
-        final String programFilesDirectory = SYSTEM_ENVIRONMENT_VARIABLES.get(PROGRAM_FILES_KEY);
-
-        if (doesDirectoryExist(programFilesDirectory)) {
-            return programFilesDirectory;
-        } else if (doesDirectoryExist(programFilesDirectory + " (x86)")) {
-            return programFilesDirectory + " (x86)";
-        } else {
-            throw new IllegalStateException("Failed to determine Program Files directory from environment variable: " + PROGRAM_FILES_KEY);
-        }
-    }
-
-    enum VisualStudioVersion {
-        Enterprise,
-        Professional,
-        Community
-    }
-
-    static String getVsDevCmdPath() {
-        final String programFilesDirectory = getProgramFilesDirectory();
-
-        for (final VisualStudioVersion version : VisualStudioVersion.values()) {
-            String path = programFilesDirectory + "\\" + PREFIX + "\\" + version.toString() + "\\" + SUFFIX;
-            if (doesFileExist(path)) {
-                return path;
-            }
-        }
-
-        throw new IllegalStateException("Failed to find file: VsDevCmd.bat");
-    }
-
-    static void generateVsDevCmdBatch() {
-        final File batchFile = new File("..\\BWAPI4JBridge\\VsDevCmd.bat");
-
-        if (doesFileExist(batchFile.toString())) {
-            return;
-        }
-
-        final String vsDevCmdFile = getVsDevCmdPath();
-
-        final FileOutputStream fos = new FileOutputStream(batchFile);
-        final BufferedWriter br = new BufferedWriter(new OutputStreamWriter(fos, StandardCharsets.UTF_8));
-
-        br.writeLine("@echo Setting up VS2017 Development Environment...");
-        br.writeLine("");
-        br.writeLine("IF EXIST \"" + vsDevCmdFile + "\" (");
-        br.writeLine("\"" + vsDevCmdFile + "\"");
-        br.writeLine(")");
-
-        br.close();
-        fos.close();
-    }
-}
-
-task generateVsDevCmdBatch << {
-    VsDevCmdGenerator.generateVsDevCmdBatch();
-}
-
 def bridgeDir = Constants.Directory.Bridge.toString();
 
 task buildVanillaBwapiForWindows(type:Exec) {
     workingDir "$bridgeDir"
     commandLine 'cmd', '/c', Constants.Script.VANILLA_WINDOWS.getFilename(Constants.Project.bwapi.toString())
-    dependsOn generateVsDevCmdBatch
 }
 
 task buildVanillaBwemForWindows(type:Exec) {
     workingDir "$bridgeDir"
     commandLine 'cmd', '/c', Constants.Script.VANILLA_WINDOWS.getFilename(Constants.Project.bwem.toString())
-    dependsOn generateVsDevCmdBatch, buildVanillaBwapiForWindows
+    dependsOn buildVanillaBwapiForWindows
 }
 
 task buildVanillaBridgeForWindows(type:Exec) {
     workingDir "$bridgeDir"
     commandLine 'cmd', '/c', Constants.Script.VANILLA_WINDOWS.getFilename(Constants.Project.bridge.toString())
-    dependsOn generateVsDevCmdBatch, generateJniHeaders, buildVanillaBwapiForWindows, buildVanillaBwemForWindows
+    dependsOn generateJniHeaders, buildVanillaBwapiForWindows, buildVanillaBwemForWindows
 }
 
 task buildOpenBWBwapiForWindows(type:Exec) {
     workingDir "$bridgeDir"
     commandLine 'cmd', '/c', Constants.Script.OPENBW_WINDOWS.getFilename(Constants.Project.bwapi.toString())
-    dependsOn generateVsDevCmdBatch
 }
 
 task buildOpenBWBwemForWindows(type:Exec) {
     workingDir "$bridgeDir"
     commandLine 'cmd', '/c', Constants.Script.OPENBW_WINDOWS.getFilename(Constants.Project.bwem.toString())
-    dependsOn generateVsDevCmdBatch, buildOpenBWBwapiForWindows
+    dependsOn buildOpenBWBwapiForWindows
 }
 
 task buildOpenBWBridgeForWindows(type:Exec) {
     workingDir "$bridgeDir"
     commandLine 'cmd', '/c', Constants.Script.OPENBW_WINDOWS.getFilename(Constants.Project.bridge.toString())
-    dependsOn generateVsDevCmdBatch, generateJniHeaders, buildOpenBWBwapiForWindows, buildOpenBWBwemForWindows
+    dependsOn generateJniHeaders, buildOpenBWBwapiForWindows, buildOpenBWBwemForWindows
 }
 
 task buildOpenBWBwapiForLinux(type:Exec) {
