@@ -656,6 +656,11 @@ public abstract class Unit implements Comparable<Unit> {
 
         return this.exists;
     }
+    
+    public UnitType getType() {
+
+        return type;
+    }
 
     public UnitType getInitialType() {
 
