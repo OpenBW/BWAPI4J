@@ -71,6 +71,6 @@ public class Pair<K, V> {
         final int first = this.first == null ? 0 : this.first.hashCode();
         final int second = this.second == null ? 0 : this.second.hashCode();
 
-        return Objects.hash(new int[]{first, second});
+        return Objects.hashCode(new int[]{first, second});
     }
 }
