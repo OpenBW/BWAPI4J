@@ -56,6 +56,7 @@ public class Bullet {
 	private double velocityX;
 	private double velocityY;
 	private boolean visible;
+	private Player player;
 	
 	private BW bw;
 	
@@ -73,9 +74,9 @@ public class Bullet {
 
     	this.id = bulletData[index + CacheIndex.ID.ordinal()];
     	this.playerId = bulletData[index + CacheIndex.PLAYER.ordinal()];
+		this.player = bw.getPlayer(this.playerId);
     	this.sourceId = bulletData[index + CacheIndex.SOURCE.ordinal()];
         this.type = BulletType.valueOf(bulletData[index + CacheIndex.TYPE.ordinal()]);
-    	this.playerId = bulletData[index + CacheIndex.PLAYER.ordinal()];
     }
 
     /**
@@ -102,7 +103,7 @@ public class Bullet {
     
     public Player getPlayer() {
 		
-		return bw.getPlayer(playerId);
+		return this.player;
 	}
     
     public Unit getSource() {

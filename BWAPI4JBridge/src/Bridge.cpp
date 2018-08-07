@@ -641,6 +641,8 @@ int addPlayerDataToBuffer(BWAPI::Player &player, int index) {
   intBuf[index++] = player->getType();
   intBuf[index++] = player->getForce()->getID();
   intBuf[index++] = player->isNeutral() ? 1 : 0;
+  intBuf[index++] = (player->getID() == BWAPI::Broodwar->self()->getID() || player->isAlly(BWAPI::Broodwar->self())) ? 1 : 0;
+  intBuf[index++] = (player->getID() != BWAPI::Broodwar->self()->getID() && player->isEnemy(BWAPI::Broodwar->self())) ? 1 : 0;
   intBuf[index++] = player->isVictorious() ? 1 : 0;
   intBuf[index++] = player->isDefeated() ? 1 : 0;
   intBuf[index++] = player->leftGame() ? 1 : 0;

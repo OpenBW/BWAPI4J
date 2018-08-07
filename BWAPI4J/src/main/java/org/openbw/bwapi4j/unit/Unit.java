@@ -230,6 +230,7 @@ public abstract class Unit implements Comparable<Unit> {
     boolean isInterruptible;
     int builderId;
     int playerId;
+    Player player;
     int energy;
     boolean isTraining;
     int trainingQueueSize;
@@ -359,6 +360,8 @@ public abstract class Unit implements Comparable<Unit> {
         this.currentResearch = TechType.withId(unitData[index + Unit.TECH_ID_INDEX]);
 
         this.playerId = unitData[index + Unit.PLAYER_ID_INDEX];
+        this.player = bw.getPlayer(this.playerId);
+
         this.hitPoints = unitData[index + Unit.HITPOINTS_INDEX];
         this.shields = unitData[index + Unit.SHIELDS_INDEX];
         this.killCount = unitData[index + Unit.KILLCOUNT_INDEX];
@@ -486,6 +489,10 @@ public abstract class Unit implements Comparable<Unit> {
     protected DamageEvaluator getDamageEvaluator() {
 
         return bw.getDamageEvaluator();
+    }
+
+    protected Player getPlayer() {
+        return this.player;
     }
 
     protected Player getPlayer(int id) {

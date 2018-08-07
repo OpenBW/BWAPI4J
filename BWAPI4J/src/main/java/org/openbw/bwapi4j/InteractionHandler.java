@@ -31,6 +31,7 @@ import org.openbw.bwapi4j.type.GameType;
 import org.openbw.bwapi4j.type.Key;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.unit.Unit;
+import org.openbw.bwapi4j.util.Cache;
 
 /**
  * Contains all interaction-related bwapi functionality.
@@ -84,10 +85,15 @@ public final class InteractionHandler {
     private boolean isPaused;
     private int apm;
     private int apm_including_selects;
+
+    private Cache<List<Player>> getAlliesCache;
+    private Cache<List<Player>> getEnemiesCache;
     
     /* default */ InteractionHandler(BW bw) {
         
         this.bw = bw;
+        this.getAlliesCache = new Cache<>(this::allies_from_native, this);
+        this.getEnemiesCache = new Cache<>(this::enemies_from_native, this);
     }
 
     void update(int[] data) {
@@ -155,49 +161,48 @@ public final class InteractionHandler {
 
     public List<Player> allies() {
 
-        final List<Player> allies = new ArrayList<>();
-
-        final int[] allyIds = allies_native();
-
-        if (allyIds == null) {
-            throw new IllegalStateException("Failed to create allies list.");
-        }
-
-        for (int id = 0; id < allyIds.length; ++id) {
-            final int allyId = allyIds[id];
-            if (allyId >= 0) {
-                final Player ally = this.bw.getPlayer(allyId);
-                allies.add(ally);
-            }
-        }
-
-        return allies;
+        return this.getAlliesCache.get();
     }
 
     private native int[] allies_native();
 
+    private List<Player> allies_from_native() {
+
+        final int[] data = allies_native();
+
+        return parsePlayers(data);
+    }
+
     public List<Player> enemies() {
 
-        final List<Player> enemies = new ArrayList<>();
-
-        final int[] enemyIds = enemies_native();
-
-        if (enemyIds == null) {
-            throw new IllegalStateException("Failed to create enemies list.");
-        }
-
-        for (int id = 0; id < enemyIds.length; ++id) {
-            final int enemyId = enemyIds[id];
-            if (enemyId >= 0) {
-                final Player enemy = this.bw.getPlayer(enemyId);
-                enemies.add(enemy);
-            }
-        }
-
-        return enemies;
+        return getEnemiesCache.get();
     }
 
     private native int[] enemies_native();
+
+    private List<Player> enemies_from_native() {
+
+        final int[] data = enemies_native();
+
+        return parsePlayers(data);
+    }
+
+    private List<Player> parsePlayers(final int[] data) {
+        final List<Player> players = new ArrayList<>();
+
+        int index = 0;
+
+        final int playerCount = data[index++];
+
+        for (int i = 0; i < playerCount; ++i) {
+            final int playerId = data[index++];
+
+            final Player player = bw.getPlayer(playerId);
+            players.add(player);
+        }
+
+        return players;
+    }
 
     public BwError getLastError() {
     	

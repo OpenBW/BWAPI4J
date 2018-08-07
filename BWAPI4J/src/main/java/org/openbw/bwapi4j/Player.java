@@ -42,6 +42,8 @@ public class Player {
         TYPE,
         FORCE_ID,
         IS_NEUTRAL,
+        IS_ALLY,
+        IS_ENEMY,
         IS_VICTORIOUS,
         IS_DEFEATED,
         LEFT_GAME,
@@ -74,7 +76,7 @@ public class Player {
         COMPLETED_UNIT_COUNT,
         INCOMPLETE_UNIT_COUNT,
         DEAD_UNIT_COUNT,
-        KILLED_UNIT_COUNT,
+        KILLED_UNIT_COUNT
     }
 
     // constant
@@ -119,6 +121,8 @@ public class Player {
     private int incompleteUnitCount;
     private int deadUnitCount;
     private int killedUnitCount;
+    private boolean isAlly;
+    private boolean isEnemy;
 
     Map<TechType, boolean[]> researchStatus;
     Map<UpgradeType, int[]> upgradeStatus;
@@ -171,6 +175,8 @@ public class Player {
 
         this.forceId = playerData[index + CacheIndex.FORCE_ID.ordinal()];
         this.isNeutral = playerData[index + CacheIndex.IS_NEUTRAL.ordinal()] == 1;
+        this.isAlly = playerData[index + CacheIndex.IS_ALLY.ordinal()] == 1;
+        this.isEnemy = playerData[index + CacheIndex.IS_ENEMY.ordinal()] == 1;
         this.isVictorious = playerData[index + CacheIndex.IS_VICTORIOUS.ordinal()] == 1;
         this.isDefeated = playerData[index + CacheIndex.IS_DEFEATED.ordinal()] == 1;
         this.leftGame = playerData[index + CacheIndex.LEFT_GAME.ordinal()] == 1;
@@ -307,6 +313,14 @@ public class Player {
      */
     public boolean isNeutral() {
         return this.isNeutral;
+    }
+
+    public boolean isAlly() {
+        return this.isAlly;
+    }
+
+    public boolean isEnemy() {
+        return this.isEnemy;
     }
 
     /**
