@@ -64,18 +64,23 @@ JNIEnv *globalEnv;
 jobject globalBW;
 
 jclass arrayListClass;
-jmethodID arrayListAdd;
+jmethodID arrayListClass_add;
 
 jclass integerClass;
-jmethodID integerNew;
+jmethodID integerClassConstructor;
 
 jclass tilePositionClass;
-jmethodID tilePositionNew;
+jmethodID tilePositionConstructor;
 
 jclass weaponTypeClass;
 jclass techTypeClass;
+
 jclass unitTypeClass;
+jmethodID unitTypeClass_addRequiredUnit;
+
 jclass upgradeTypeClass;
+jmethodID upgradeTypeClass_addUsingUnit;
+
 jclass damageTypeClass;
 jclass explosionTypeClass;
 jclass raceClass;
@@ -83,13 +88,10 @@ jclass unitSizeTypeClass;
 jclass orderClass;
 
 jclass pairClass;
-jmethodID pairNew;
+jmethodID pairClassConstructor;
 
 jclass bwMapClass;
 jmethodID bwMapNew;
-
-jmethodID addRequiredUnit;
-jmethodID addUsingUnit;
 
 #ifdef _WIN32
 BOOL APIENTRY DllMain(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved) { return TRUE; }
@@ -107,31 +109,33 @@ void initializeJavaReferences(JNIEnv *env, jobject caller) {
   LOGGER("initializing Java references...");
 
   arrayListClass = env->FindClass("java/util/ArrayList");
-  arrayListAdd = env->GetMethodID(arrayListClass, "add", "(Ljava/lang/Object;)Z");
+  arrayListClass_add = env->GetMethodID(arrayListClass, "add", "(Ljava/lang/Object;)Z");
 
   integerClass = env->FindClass("java/lang/Integer");
-  integerNew = env->GetMethodID(integerClass, "<init>", "(I)V");
+  integerClassConstructor = env->GetMethodID(integerClass, "<init>", "(I)V");
 
   tilePositionClass = env->FindClass("org/openbw/bwapi4j/TilePosition");
-  tilePositionNew = env->GetMethodID(tilePositionClass, "<init>", "(II)V");
+  tilePositionConstructor = env->GetMethodID(tilePositionClass, "<init>", "(II)V");
 
   weaponTypeClass = env->FindClass("org/openbw/bwapi4j/type/WeaponType");
   techTypeClass = env->FindClass("org/openbw/bwapi4j/type/TechType");
+
   unitTypeClass = env->FindClass("org/openbw/bwapi4j/type/UnitType");
+  unitTypeClass_addRequiredUnit = env->GetMethodID(unitTypeClass, "addRequiredUnit", "(II)V");
+
   upgradeTypeClass = env->FindClass("org/openbw/bwapi4j/type/UpgradeType");
+  upgradeTypeClass_addUsingUnit = env->GetMethodID(upgradeTypeClass, "addUsingUnit", "(I)V");
+
   damageTypeClass = env->FindClass("org/openbw/bwapi4j/type/DamageType");
   explosionTypeClass = env->FindClass("org/openbw/bwapi4j/type/ExplosionType");
   raceClass = env->FindClass("org/openbw/bwapi4j/type/Race");
   unitSizeTypeClass = env->FindClass("org/openbw/bwapi4j/type/UnitSizeType");
   orderClass = env->FindClass("org/openbw/bwapi4j/type/Order");
+
   pairClass = env->FindClass("org/openbw/bwapi4j/util/Pair");
-  pairNew = env->GetMethodID(pairClass, "<init>", "(Ljava/lang/Object;Ljava/lang/Object;)V");
+  pairClassConstructor = env->GetMethodID(pairClass, "<init>", "(Ljava/lang/Object;Ljava/lang/Object;)V");
 
-  bwMapClass = env->FindClass("org/openbw/bwapi4j/BWMapImpl");
-
-  addRequiredUnit = env->GetMethodID(unitTypeClass, "addRequiredUnit", "(II)V");
-
-  addUsingUnit = env->GetMethodID(upgradeTypeClass, "addUsingUnit", "(I)V");
+  bwMapClass = env->FindClass("org/openbw/bwapi4j/BWMapImpl"); 
 
   LOGGER("done")
 }
