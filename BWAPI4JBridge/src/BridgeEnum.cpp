@@ -356,7 +356,8 @@ void BridgeEnum::createUnitTypeEnum() {
     jfieldID whatBuildsField = globalEnv->GetStaticFieldID(unitTypeClass, unitType.whatBuilds().first.getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;");
     jobject whatBuildsType = globalEnv->GetStaticObjectField(unitTypeClass, whatBuildsField);
 
-    jobject pairObject = globalEnv->NewObject(pairClass, pairClassConstructor, whatBuildsType, globalEnv->NewObject(integerClass, integerClassConstructor, unitType.whatBuilds().second));
+    jobject pairObject = globalEnv->NewObject(pairClass, pairClassConstructor, whatBuildsType,
+                                              globalEnv->NewObject(integerClass, integerClassConstructor, unitType.whatBuilds().second));
     globalEnv->SetObjectField(CurrentUnitType, globalEnv->GetFieldID(unitTypeClass, "whatBuilds", "Lorg/openbw/bwapi4j/util/Pair;"), pairObject);
 
     // read existing requiredUnits map and put <UnitType,Integer> entries

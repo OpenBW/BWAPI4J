@@ -134,7 +134,7 @@ void initializeJavaReferences(JNIEnv *env, jobject caller) {
   pairClass = env->FindClass("org/openbw/bwapi4j/util/Pair");
   pairClassConstructor = env->GetMethodID(pairClass, "<init>", "(Ljava/lang/Object;Ljava/lang/Object;)V");
 
-  bwMapClass = env->FindClass("org/openbw/bwapi4j/BWMapImpl"); 
+  bwMapClass = env->FindClass("org/openbw/bwapi4j/BWMapImpl");
 
   LOGGER("done")
 }
