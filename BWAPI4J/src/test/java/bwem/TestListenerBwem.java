@@ -122,6 +122,8 @@ public class TestListenerBwem implements BWEventListener {
     @Override
     public void onEnd(boolean isWinner) {
         System.out.println("onEnd: winner: " + isWinner);
+
+        bw.exit();
     }
 
     @Override
