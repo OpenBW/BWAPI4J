@@ -7,9 +7,11 @@
 BrooDat.mpq
 Patch_rt.mpq
 StarDat.mpq
-maps/
-bwapi-data/bwapi.ini
-bwapi-data/AI/
+[Mm]aps/
+/bwapi-data/bwapi.ini
+/bwapi-data/AI/
+/bwapi-data/read/
+/bwapi-data/write/
 
 bin/
 lib/
