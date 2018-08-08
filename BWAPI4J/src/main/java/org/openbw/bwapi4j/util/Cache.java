@@ -1,10 +1,14 @@
 package org.openbw.bwapi4j.util;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.InteractionHandler;
 
 import java.util.concurrent.Callable;
 
 public class Cache<T> {
+
+    private static final Logger logger = LogManager.getLogger();
 
     private T data;
     private int lastFrameUpdate;
@@ -25,8 +29,10 @@ public class Cache<T> {
         if (this.lastFrameUpdate + this.refreshPeriod < currentFrameCount + 1 || this.lastFrameUpdate > currentFrameCount) {
             try {
                 this.data = this.updateFunction.call();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+            } catch (final Exception e) {
+                logger.warn("Update function failed. Returning null.");
+                logger.throwing(e);
+                return null;
             }
 
             this.lastFrameUpdate = currentFrameCount;
