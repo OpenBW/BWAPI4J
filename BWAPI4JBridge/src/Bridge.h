@@ -56,4 +56,3 @@ extern jclass pairClass;
 extern jmethodID pairClassConstructor;
 
 extern jclass bwMapClass;
-extern jmethodID bwMapNew;
