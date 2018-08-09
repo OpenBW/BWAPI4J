@@ -56,9 +56,12 @@ jint intBuf[intBufSize];
 
 bool finished = false;
 
-// conversion ratios
-const double TO_DEGREES = 180.0 / M_PI;
-const double fixedScale = 100.0;
+const double RADIANS_TO_DEGREES = 180.0 / M_PI;
+const double DECIMAL_PRESERVATION_SCALE = 100.0;
+
+double toDegrees(const double radians) { return radians * RADIANS_TO_DEGREES; }
+
+int toPreservedDouble(const double d) { return static_cast<int>(DECIMAL_PRESERVATION_SCALE * d); }
 
 JNIEnv *globalEnv;
 jobject globalBW;
@@ -392,7 +395,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
 
 int addBulletDataToBuffer(BWAPI::Bullet &b, int index) {
   intBuf[index++] = b->exists() ? 1 : 0;
-  intBuf[index++] = static_cast<int>(TO_DEGREES * b->getAngle());
+  intBuf[index++] = toPreservedDouble(toDegrees(b->getAngle()));
   intBuf[index++] = b->getID();
   intBuf[index++] = b->getPlayer() == NULL ? -1 : b->getPlayer()->getID();
   intBuf[index++] = b->getPosition().x;
@@ -403,8 +406,8 @@ int addBulletDataToBuffer(BWAPI::Bullet &b, int index) {
   intBuf[index++] = b->getTargetPosition().x;
   intBuf[index++] = b->getTargetPosition().y;
   intBuf[index++] = b->getType();
-  intBuf[index++] = static_cast<int>(fixedScale * b->getVelocityX());
-  intBuf[index++] = static_cast<int>(fixedScale * b->getVelocityY());
+  intBuf[index++] = toPreservedDouble(b->getVelocityX());
+  intBuf[index++] = toPreservedDouble(b->getVelocityY());
   intBuf[index++] = b->isVisible() ? 1 : 0;
 
   return index;
@@ -435,9 +438,9 @@ int addUnitDataToBuffer(BWAPI::Unit &u, int index) {
   intBuf[index++] = u->getPosition().y;
   intBuf[index++] = u->getTilePosition().x;
   intBuf[index++] = u->getTilePosition().y;
-  intBuf[index++] = static_cast<int>(TO_DEGREES * u->getAngle());
-  intBuf[index++] = static_cast<int>(fixedScale * u->getVelocityX());
-  intBuf[index++] = static_cast<int>(fixedScale * u->getVelocityY());
+  intBuf[index++] = toPreservedDouble(toDegrees(u->getAngle()));
+  intBuf[index++] = toPreservedDouble(u->getVelocityX());
+  intBuf[index++] = toPreservedDouble(u->getVelocityY());
   intBuf[index++] = u->getHitPoints();
   intBuf[index++] = u->getShields();
   intBuf[index++] = u->getEnergy();
