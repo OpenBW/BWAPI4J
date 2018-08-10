@@ -317,4 +317,5 @@ public final class InteractionHandler {
 
     public native void pauseGame();
 
+    public native void setGUI(boolean enabled);
 }
