@@ -237,10 +237,17 @@ class VsDevCmdGenerator {
         return (file.exists() && !file.isDirectory());
     }
 
+    private static boolean isAppVeyor() {
+        final String appVeyorValue = SYSTEM_ENVIRONMENT_VARIABLES.get("APPVEYOR");
+        return (appVeyorValue != null && appVeyorValue.equals("yes"));
+    }
+
     static String getProgramFilesDirectory() {
         final String programFilesDirectory = SYSTEM_ENVIRONMENT_VARIABLES.get(PROGRAM_FILES_KEY);
 
-        if (doesDirectoryExist(programFilesDirectory)) {
+        if (isAppVeyor()) {
+            return programFilesDirectory + " (x86)";
+        } else if (doesDirectoryExist(programFilesDirectory)) {
             return programFilesDirectory;
         } else if (doesDirectoryExist(programFilesDirectory + " (x86)")) {
             return programFilesDirectory + " (x86)";
