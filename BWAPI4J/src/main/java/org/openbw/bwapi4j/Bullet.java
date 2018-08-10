@@ -122,9 +122,6 @@ public class Bullet {
 		return exists;
 	}
 
-	/**
-	 * Returns the angle in degrees.
-	 */
 	public double getAngle() {
 		
 		return angle;

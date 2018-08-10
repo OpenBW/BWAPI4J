@@ -537,9 +537,6 @@ public abstract class Unit implements Comparable<Unit> {
         return new Position(x + dx / 2, y + dy / 2);
     }
 
-    /**
-     * Returns the angle in degrees.
-     */
     public double getAngle() {
 
         return this.angle;
