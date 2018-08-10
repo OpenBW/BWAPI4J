@@ -88,7 +88,7 @@ public class Bullet {
     public void update(int[] bulletData, int index) {
 
     	this.exists = bulletData[index + CacheIndex.EXISTS.ordinal()] == 1;
-    	this.angle = BridgeUtils.parsePreservedDouble(bulletData[index + CacheIndex.ANGLE.ordinal()]);
+    	this.angle = BridgeUtils.parsePreservedBwapiAngle(BridgeUtils.parsePreservedDouble(bulletData[index + CacheIndex.ANGLE.ordinal()]));
     	int x = bulletData[index + CacheIndex.POSITION_X.ordinal()];
         int y = bulletData[index + CacheIndex.POSITION_Y.ordinal()];
         this.position = new Position(x, y);
@@ -122,9 +122,6 @@ public class Bullet {
 		return exists;
 	}
 
-	/**
-	 * Returns the angle in degrees.
-	 */
 	public double getAngle() {
 		
 		return angle;
