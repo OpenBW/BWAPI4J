@@ -339,7 +339,7 @@ public abstract class Unit implements Comparable<Unit> {
         this.position = new Position(x, y);
         this.tilePosition = new TilePosition(unitData[index + Unit.TILEPOSITION_X_INDEX],
                 unitData[index + Unit.TILEPOSITION_Y_INDEX]);
-        this.angle = BridgeUtils.parsePreservedDouble(unitData[index + Unit.ANGLE_INDEX]);
+        this.angle = BridgeUtils.parsePreservedBwapiAngle(BridgeUtils.parsePreservedDouble(unitData[index + Unit.ANGLE_INDEX]));
         this.isVisible = unitData[index + Unit.IS_VISIBLE_INDEX] == 1;
         this.exists = unitData[index + Unit.EXISTS_INDEX] == 1;
         this.isSelected = unitData[index + Unit.IS_SELECTED_INDEX] == 1;

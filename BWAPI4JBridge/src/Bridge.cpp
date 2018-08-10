@@ -63,6 +63,11 @@ double toDegrees(const double radians) { return radians * RADIANS_TO_DEGREES; }
 
 int toPreservedDouble(const double d) { return static_cast<int>(DECIMAL_PRESERVATION_SCALE * d); }
 
+// BWAPI 4.2.0:
+// https://github.com/bwapi/bwapi/blob/59b14af21b3c881ce06af8b1ea1d63fa3c8b2df0/bwapi/BWAPI/Source/BWAPI/UnitUpdate.cpp#L206-L212
+// https://github.com/bwapi/bwapi/blob/59b14af21b3c881ce06af8b1ea1d63fa3c8b2df0/bwapi/BWAPI/Source/BWAPI/BulletImpl.cpp#L93-L97
+double toPreservedBwapiAngle(const double angle) { return (angle * 128.0 / M_PI); }
+
 JNIEnv *globalEnv;
 jobject globalBW;
 
@@ -395,7 +400,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
 
 int addBulletDataToBuffer(BWAPI::Bullet &b, int index) {
   intBuf[index++] = b->exists() ? 1 : 0;
-  intBuf[index++] = toPreservedDouble(toDegrees(b->getAngle()));
+  intBuf[index++] = toPreservedDouble(toPreservedBwapiAngle(b->getAngle()));
   intBuf[index++] = b->getID();
   intBuf[index++] = b->getPlayer() == NULL ? -1 : b->getPlayer()->getID();
   intBuf[index++] = b->getPosition().x;
@@ -438,7 +443,7 @@ int addUnitDataToBuffer(BWAPI::Unit &u, int index) {
   intBuf[index++] = u->getPosition().y;
   intBuf[index++] = u->getTilePosition().x;
   intBuf[index++] = u->getTilePosition().y;
-  intBuf[index++] = toPreservedDouble(toDegrees(u->getAngle()));
+  intBuf[index++] = toPreservedDouble(toPreservedBwapiAngle(u->getAngle()));
   intBuf[index++] = toPreservedDouble(u->getVelocityX());
   intBuf[index++] = toPreservedDouble(u->getVelocityY());
   intBuf[index++] = u->getHitPoints();
