@@ -32,7 +32,7 @@ public class TestListenerBwem implements BWEventListener {
     private BWEM bwem; // main terrain analyzer object
 
     private Player self;
-    private final List<Worker> workers = new ArrayList<>();
+    private List<Worker> workers;
 
     /**
      * Tests if the specified position is within the current viewport area.
@@ -48,6 +48,8 @@ public class TestListenerBwem implements BWEventListener {
     @Override
     public void onStart() {
         try {
+            workers = new ArrayList<>();
+
             System.out.println("onStart");
 
             // Hello World!
