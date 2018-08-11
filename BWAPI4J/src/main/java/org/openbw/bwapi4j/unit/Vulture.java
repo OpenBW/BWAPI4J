@@ -26,7 +26,7 @@ import org.openbw.bwapi4j.type.UnitType;
 import static org.openbw.bwapi4j.type.TechType.Spider_Mines;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Position;
 
-public class Vulture extends MobileUnit implements Mechanical, GroundAttacker {
+public class Vulture extends MobileUnitImpl implements Mechanical, GroundAttacker {
 
     protected Vulture(int id) {
         
