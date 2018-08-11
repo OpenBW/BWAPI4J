@@ -22,6 +22,7 @@ package org.openbw.bwapi4j;
 
 import org.openbw.bwapi4j.type.BulletType;
 import org.openbw.bwapi4j.unit.Unit;
+import org.openbw.bwapi4j.util.BridgeUtils;
 
 public class Bullet {
 
@@ -56,6 +57,7 @@ public class Bullet {
 	private double velocityX;
 	private double velocityY;
 	private boolean visible;
+	private Player player;
 	
 	private BW bw;
 	
@@ -73,9 +75,9 @@ public class Bullet {
 
     	this.id = bulletData[index + CacheIndex.ID.ordinal()];
     	this.playerId = bulletData[index + CacheIndex.PLAYER.ordinal()];
+		this.player = bw.getPlayer(this.playerId);
     	this.sourceId = bulletData[index + CacheIndex.SOURCE.ordinal()];
         this.type = BulletType.valueOf(bulletData[index + CacheIndex.TYPE.ordinal()]);
-    	this.playerId = bulletData[index + CacheIndex.PLAYER.ordinal()];
     }
 
     /**
@@ -86,7 +88,7 @@ public class Bullet {
     public void update(int[] bulletData, int index) {
 
     	this.exists = bulletData[index + CacheIndex.EXISTS.ordinal()] == 1;
-    	this.angle = bulletData[index + CacheIndex.ANGLE.ordinal()] / 100.0;
+    	this.angle = BridgeUtils.parsePreservedBwapiAngle(BridgeUtils.parsePreservedDouble(bulletData[index + CacheIndex.ANGLE.ordinal()]));
     	int x = bulletData[index + CacheIndex.POSITION_X.ordinal()];
         int y = bulletData[index + CacheIndex.POSITION_Y.ordinal()];
         this.position = new Position(x, y);
@@ -95,14 +97,14 @@ public class Bullet {
         int tx = bulletData[index + CacheIndex.TARGET_POSITION_X.ordinal()];
         int ty = bulletData[index + CacheIndex.TARGET_POSITION_Y.ordinal()];
         this.targetPosition = new Position(tx, ty);
-    	this.velocityX = bulletData[index + CacheIndex.VELOCITY_X.ordinal()] / 100.0;
-        this.velocityY = bulletData[index + CacheIndex.VELOCITY_Y.ordinal()] / 100.0;
+    	this.velocityX = BridgeUtils.parsePreservedDouble(bulletData[index + CacheIndex.VELOCITY_X.ordinal()]);
+        this.velocityY = BridgeUtils.parsePreservedDouble(bulletData[index + CacheIndex.VELOCITY_Y.ordinal()]);
         this.visible = bulletData[index + CacheIndex.VISIBLE.ordinal()] == 1;
     }
     
     public Player getPlayer() {
 		
-		return bw.getPlayer(playerId);
+		return this.player;
 	}
     
     public Unit getSource() {

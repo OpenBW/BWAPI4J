@@ -37,4 +37,3 @@ class JniBwem {
 
 extern JniBwem bwem;
 }  // namespace BWAPI4JBridge
-

@@ -24,6 +24,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.*;
 import org.openbw.bwapi4j.type.*;
+import org.openbw.bwapi4j.util.BridgeUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -190,7 +191,7 @@ public abstract class Unit implements Comparable<Unit> {
     private boolean isVisible;
     private boolean exists;
     private boolean isSelected;
-    private boolean isFlying;
+    boolean isFlying;
 
     boolean isUpgrading;
     boolean isResearching;
@@ -230,6 +231,7 @@ public abstract class Unit implements Comparable<Unit> {
     boolean isInterruptible;
     int builderId;
     int playerId;
+    Player player;
     int energy;
     boolean isTraining;
     int trainingQueueSize;
@@ -337,7 +339,7 @@ public abstract class Unit implements Comparable<Unit> {
         this.position = new Position(x, y);
         this.tilePosition = new TilePosition(unitData[index + Unit.TILEPOSITION_X_INDEX],
                 unitData[index + Unit.TILEPOSITION_Y_INDEX]);
-        this.angle = unitData[index + Unit.ANGLE_INDEX] * Math.PI / 180.0;
+        this.angle = BridgeUtils.parsePreservedBwapiAngle(BridgeUtils.parsePreservedDouble(unitData[index + Unit.ANGLE_INDEX]));
         this.isVisible = unitData[index + Unit.IS_VISIBLE_INDEX] == 1;
         this.exists = unitData[index + Unit.EXISTS_INDEX] == 1;
         this.isSelected = unitData[index + Unit.IS_SELECTED_INDEX] == 1;
@@ -359,13 +361,15 @@ public abstract class Unit implements Comparable<Unit> {
         this.currentResearch = TechType.withId(unitData[index + Unit.TECH_ID_INDEX]);
 
         this.playerId = unitData[index + Unit.PLAYER_ID_INDEX];
+        this.player = bw.getPlayer(this.playerId);
+
         this.hitPoints = unitData[index + Unit.HITPOINTS_INDEX];
         this.shields = unitData[index + Unit.SHIELDS_INDEX];
         this.killCount = unitData[index + Unit.KILLCOUNT_INDEX];
         this.isCloaked = unitData[index + Unit.IS_CLOAKED_INDEX] == 1;
         this.isDetected = unitData[index + Unit.IS_DETECTED_INDEX] == 1;
-        this.velocityX = unitData[index + Unit.VELOCITY_X_INDEX] / 100.0;
-        this.velocityY = unitData[index + Unit.VELOCITY_Y_INDEX] / 100.0;
+        this.velocityX = BridgeUtils.parsePreservedDouble(unitData[index + Unit.VELOCITY_X_INDEX]);
+        this.velocityY = BridgeUtils.parsePreservedDouble(unitData[index + Unit.VELOCITY_Y_INDEX]);
         this.isIdle = unitData[index + Unit.IS_IDLE_INDEX] == 1;
         this.isCompleted = unitData[index + Unit.IS_COMPLETED_INDEX] == 1;
         this.spellCooldown = unitData[index + Unit.SPELL_COOLDOWN_INDEX];
@@ -486,6 +490,10 @@ public abstract class Unit implements Comparable<Unit> {
     protected DamageEvaluator getDamageEvaluator() {
 
         return bw.getDamageEvaluator();
+    }
+
+    protected Player getPlayer() {
+        return this.player;
     }
 
     protected Player getPlayer(int id) {

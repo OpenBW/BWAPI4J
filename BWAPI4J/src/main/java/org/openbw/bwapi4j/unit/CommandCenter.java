@@ -66,6 +66,11 @@ public class CommandCenter extends Building implements Mechanical, FlyingBuildin
     }
 
     @Override
+    public boolean isReadyForResources() {
+        return isCompleted && !isFlying;
+    }
+
+    @Override
     public Addon getAddon() {
         return (Addon) getUnit(addonId);
     }
@@ -91,6 +96,7 @@ public class CommandCenter extends Building implements Mechanical, FlyingBuildin
         return issueCommand(this.id, Build_Addon, -1, -1, -1, addon.getId());
     }
 
+    @Override
     public boolean trainWorker() {
         
         return super.train(UnitType.Terran_SCV);

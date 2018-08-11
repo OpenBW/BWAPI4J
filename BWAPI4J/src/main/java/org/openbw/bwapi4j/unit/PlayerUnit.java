@@ -175,7 +175,7 @@ public abstract class PlayerUnit extends Unit {
 
     public Player getPlayer() {
         
-        return this.getPlayer(this.playerId);
+        return super.getPlayer();
     }
 
     public int getInitialHitPoints() {

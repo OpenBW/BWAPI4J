@@ -20,6 +20,8 @@
 
 package org.openbw.bwapi4j.util;
 
+import java.util.Objects;
+
 public class Pair<K, V> {
 
     private final K first;
@@ -66,8 +68,9 @@ public class Pair<K, V> {
 
     @Override
     public int hashCode() {
-        int result = first != null ? first.hashCode() : 0;
-        result = 31 * result + (second != null ? second.hashCode() : 0);
-        return result;
+        final int first = this.first == null ? 0 : this.first.hashCode();
+        final int second = this.second == null ? 0 : this.second.hashCode();
+
+        return Objects.hashCode(new int[]{first, second});
     }
 }

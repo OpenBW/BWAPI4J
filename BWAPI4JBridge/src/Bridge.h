@@ -29,18 +29,23 @@ extern const size_t intBufSize;
 extern jint intBuf[];
 
 extern jclass arrayListClass;
-extern jmethodID arrayListAdd;
+extern jmethodID arrayListClass_add;
 
 extern jclass integerClass;
-extern jmethodID integerNew;
+extern jmethodID integerClassConstructor;
 
 extern jclass tilePositionClass;
-extern jmethodID tilePositionNew;
+extern jmethodID tilePositionConstructor;
 
 extern jclass weaponTypeClass;
 extern jclass techTypeClass;
+
 extern jclass unitTypeClass;
+extern jmethodID unitTypeClass_addRequiredUnit;
+
 extern jclass upgradeTypeClass;
+extern jmethodID upgradeTypeClass_addUsingUnit;
+
 extern jclass damageTypeClass;
 extern jclass explosionTypeClass;
 extern jclass raceClass;
@@ -48,10 +53,6 @@ extern jclass unitSizeTypeClass;
 extern jclass orderClass;
 
 extern jclass pairClass;
-extern jmethodID pairNew;
+extern jmethodID pairClassConstructor;
 
 extern jclass bwMapClass;
-extern jmethodID bwMapNew;
-
-extern jmethodID addRequiredUnit;
-extern jmethodID addUsingUnit;

@@ -31,6 +31,7 @@ import org.openbw.bwapi4j.type.GameType;
 import org.openbw.bwapi4j.type.Key;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.unit.Unit;
+import org.openbw.bwapi4j.util.Cache;
 
 /**
  * Contains all interaction-related bwapi functionality.
@@ -56,8 +57,10 @@ public final class InteractionHandler {
         GAME_TYPE_ID,
         IS_REPLAY,
         IS_PAUSED,
+        APM,
+        APM_INCLUDING_SELECTS,
         SELF_ID,
-        ENEMY_ID_INDEX
+        ENEMY_ID
 	}
 
     private BW bw;
@@ -80,10 +83,17 @@ public final class InteractionHandler {
     private int gameTypeId;
     private boolean isReplay;
     private boolean isPaused;
+    private int apm;
+    private int apm_including_selects;
+
+    private Cache<List<Player>> getAlliesCache;
+    private Cache<List<Player>> getEnemiesCache;
     
     /* default */ InteractionHandler(BW bw) {
         
         this.bw = bw;
+        this.getAlliesCache = new Cache<>(this::allies_from_native, this);
+        this.getEnemiesCache = new Cache<>(this::enemies_from_native, this);
     }
 
     void update(int[] data) {
@@ -102,10 +112,12 @@ public final class InteractionHandler {
         this.latencyFrames = data[CacheIndex.LATENCY_FRAMES.ordinal()];
         this.latency = data[CacheIndex.LATENCY_FRAMES.ordinal()];
         this.selfId = data[CacheIndex.SELF_ID.ordinal()];
-        this.enemyId = data[CacheIndex.ENEMY_ID_INDEX.ordinal()];
+        this.enemyId = data[CacheIndex.ENEMY_ID.ordinal()];
         this.gameTypeId = data[CacheIndex.GAME_TYPE_ID.ordinal()];
         this.isReplay = data[CacheIndex.IS_REPLAY.ordinal()] == 1;
         this.isPaused = data[CacheIndex.IS_PAUSED.ordinal()] == 1;
+        this.apm = data[CacheIndex.APM.ordinal()];
+        this.apm_including_selects = data[CacheIndex.APM_INCLUDING_SELECTS.ordinal()];
     }
 
     /**
@@ -149,49 +161,48 @@ public final class InteractionHandler {
 
     public List<Player> allies() {
 
-        final List<Player> allies = new ArrayList<>();
-
-        final int[] allyIds = allies_native();
-
-        if (allyIds == null) {
-            throw new IllegalStateException("Failed to create allies list.");
-        }
-
-        for (int id = 0; id < allyIds.length; ++id) {
-            final int allyId = allyIds[id];
-            if (allyId >= 0) {
-                final Player ally = this.bw.getPlayer(allyId);
-                allies.add(ally);
-            }
-        }
-
-        return allies;
+        return this.getAlliesCache.get();
     }
 
     private native int[] allies_native();
 
+    private List<Player> allies_from_native() {
+
+        final int[] data = allies_native();
+
+        return parsePlayers(data);
+    }
+
     public List<Player> enemies() {
 
-        final List<Player> enemies = new ArrayList<>();
-
-        final int[] enemyIds = enemies_native();
-
-        if (enemyIds == null) {
-            throw new IllegalStateException("Failed to create enemies list.");
-        }
-
-        for (int id = 0; id < enemyIds.length; ++id) {
-            final int enemyId = enemyIds[id];
-            if (enemyId >= 0) {
-                final Player enemy = this.bw.getPlayer(enemyId);
-                enemies.add(enemy);
-            }
-        }
-
-        return enemies;
+        return getEnemiesCache.get();
     }
 
     private native int[] enemies_native();
+
+    private List<Player> enemies_from_native() {
+
+        final int[] data = enemies_native();
+
+        return parsePlayers(data);
+    }
+
+    private List<Player> parsePlayers(final int[] data) {
+        final List<Player> players = new ArrayList<>();
+
+        int index = 0;
+
+        final int playerCount = data[index++];
+
+        for (int i = 0; i < playerCount; ++i) {
+            final int playerId = data[index++];
+
+            final Player player = bw.getPlayer(playerId);
+            players.add(player);
+        }
+
+        return players;
+    }
 
     public BwError getLastError() {
     	
@@ -258,6 +269,16 @@ public final class InteractionHandler {
         return this.isPaused;
     }
 
+    public int getAPM() {
+
+        return this.apm;
+    }
+
+    public int getAPM(final boolean includeSelects) {
+
+        return (includeSelects ? this.apm_including_selects : this.apm);
+    }
+
     public List<Unit> getSelectedUnits() {
     	
         return bw.getAllUnits().stream().filter(Unit::isSelected).collect(Collectors.toList());
@@ -293,5 +314,7 @@ public final class InteractionHandler {
     public native long getRandomSeed();
 
     public native void setFrameSkip(int frameSkip);
+
+    public native void pauseGame();
 
 }

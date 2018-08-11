@@ -81,7 +81,7 @@ void BridgeEnum::createUpgradeTypeEnum() {
 
     // read existing whatUses set and put UnitType entries
     for (auto const &use : upgradeType.whatUses()) {
-      globalEnv->CallObjectMethod(CurrentUpgradeType, addUsingUnit, (jint)use.getID());
+      globalEnv->CallObjectMethod(CurrentUpgradeType, upgradeTypeClass_addUsingUnit, (jint)use.getID());
     }
 
     // set enum fields
@@ -311,7 +311,7 @@ void BridgeEnum::createUnitTypeEnum() {
     for (BWAPI::UpgradeType upgradeType : unitType.upgrades()) {
       jobject upgradesMemberType = globalEnv->GetStaticObjectField(
           upgradeTypeClass, globalEnv->GetStaticFieldID(upgradeTypeClass, upgradeType.getName().c_str(), "Lorg/openbw/bwapi4j/type/UpgradeType;"));
-      globalEnv->CallObjectMethod(upgradesList, arrayListAdd, upgradesMemberType);
+      globalEnv->CallObjectMethod(upgradesList, arrayListClass_add, upgradesMemberType);
       globalEnv->DeleteLocalRef(upgradesMemberType);
     }
     globalEnv->DeleteLocalRef(upgradesList);
@@ -320,7 +320,7 @@ void BridgeEnum::createUnitTypeEnum() {
     for (BWAPI::UpgradeType upgradeType : unitType.upgradesWhat()) {
       jobject upgradesWhatMemberType = globalEnv->GetStaticObjectField(
           upgradeTypeClass, globalEnv->GetStaticFieldID(upgradeTypeClass, upgradeType.getName().c_str(), "Lorg/openbw/bwapi4j/type/UpgradeType;"));
-      globalEnv->CallObjectMethod(upgradesWhatList, arrayListAdd, upgradesWhatMemberType);
+      globalEnv->CallObjectMethod(upgradesWhatList, arrayListClass_add, upgradesWhatMemberType);
       globalEnv->DeleteLocalRef(upgradesWhatMemberType);
     }
     globalEnv->DeleteLocalRef(upgradesWhatList);
@@ -329,7 +329,7 @@ void BridgeEnum::createUnitTypeEnum() {
     for (BWAPI::TechType techType : unitType.abilities()) {
       jobject abilitiesMemberType = globalEnv->GetStaticObjectField(
           techTypeClass, globalEnv->GetStaticFieldID(techTypeClass, techType.getName().c_str(), "Lorg/openbw/bwapi4j/type/TechType;"));
-      globalEnv->CallObjectMethod(abilitiesList, arrayListAdd, abilitiesMemberType);
+      globalEnv->CallObjectMethod(abilitiesList, arrayListClass_add, abilitiesMemberType);
       globalEnv->DeleteLocalRef(abilitiesMemberType);
     }
     globalEnv->DeleteLocalRef(abilitiesList);
@@ -338,7 +338,7 @@ void BridgeEnum::createUnitTypeEnum() {
     for (BWAPI::TechType techType : unitType.researchesWhat()) {
       jobject researchesWhatMemberType = globalEnv->GetStaticObjectField(
           techTypeClass, globalEnv->GetStaticFieldID(techTypeClass, techType.getName().c_str(), "Lorg/openbw/bwapi4j/type/TechType;"));
-      globalEnv->CallObjectMethod(researchesWhatList, arrayListAdd, researchesWhatMemberType);
+      globalEnv->CallObjectMethod(researchesWhatList, arrayListClass_add, researchesWhatMemberType);
       globalEnv->DeleteLocalRef(researchesWhatMemberType);
     }
     globalEnv->DeleteLocalRef(researchesWhatList);
@@ -347,7 +347,7 @@ void BridgeEnum::createUnitTypeEnum() {
     for (BWAPI::UnitType unitType : unitType.buildsWhat()) {
       jobject buildsWhatMemberType = globalEnv->GetStaticObjectField(
           unitTypeClass, globalEnv->GetStaticFieldID(unitTypeClass, unitType.getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;"));
-      globalEnv->CallObjectMethod(buildsWhatList, arrayListAdd, buildsWhatMemberType);
+      globalEnv->CallObjectMethod(buildsWhatList, arrayListClass_add, buildsWhatMemberType);
       globalEnv->DeleteLocalRef(buildsWhatMemberType);
     }
     globalEnv->DeleteLocalRef(buildsWhatList);
@@ -356,12 +356,13 @@ void BridgeEnum::createUnitTypeEnum() {
     jfieldID whatBuildsField = globalEnv->GetStaticFieldID(unitTypeClass, unitType.whatBuilds().first.getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;");
     jobject whatBuildsType = globalEnv->GetStaticObjectField(unitTypeClass, whatBuildsField);
 
-    jobject pairObject = globalEnv->NewObject(pairClass, pairNew, whatBuildsType, globalEnv->NewObject(integerClass, integerNew, unitType.whatBuilds().second));
+    jobject pairObject = globalEnv->NewObject(pairClass, pairClassConstructor, whatBuildsType,
+                                              globalEnv->NewObject(integerClass, integerClassConstructor, unitType.whatBuilds().second));
     globalEnv->SetObjectField(CurrentUnitType, globalEnv->GetFieldID(unitTypeClass, "whatBuilds", "Lorg/openbw/bwapi4j/util/Pair;"), pairObject);
 
     // read existing requiredUnits map and put <UnitType,Integer> entries
     for (auto const &req : unitType.requiredUnits()) {
-      globalEnv->CallObjectMethod(CurrentUnitType, addRequiredUnit, (jint)req.first.getID(), (jint)req.second);
+      globalEnv->CallObjectMethod(CurrentUnitType, unitTypeClass_addRequiredUnit, (jint)req.first.getID(), (jint)req.second);
     }
     globalEnv->DeleteLocalRef(CurrentUnitType);
   }

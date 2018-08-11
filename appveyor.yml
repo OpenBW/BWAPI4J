@@ -9,6 +9,7 @@ image:
 
 install:
   - git submodule update --init --recursive
+  - cmd: set appveyor=yes
  
 build_script:
 - cmd: >-

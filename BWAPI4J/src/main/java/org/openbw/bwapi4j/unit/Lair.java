@@ -39,6 +39,11 @@ public class Lair extends Hatchery {
         super(id, type, timeSpotted);
     }
 
+    @Override
+    public boolean isReadyForResources() {
+        return true;
+    }
+
     public boolean upgradeVentralSacs() {
 
         return super.upgrade(UpgradeType.Ventral_Sacs);

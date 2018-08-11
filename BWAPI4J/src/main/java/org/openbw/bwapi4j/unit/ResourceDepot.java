@@ -24,4 +24,10 @@ package org.openbw.bwapi4j.unit;
  * Marker interface for main bases and expansions.
  */
 public interface ResourceDepot extends SupplyProvider {
+    /**
+     * Returns true if workers can deliver resources. Ie. it's completed, not flying, ...
+     */
+    boolean isReadyForResources();
+
+    boolean trainWorker();
 }

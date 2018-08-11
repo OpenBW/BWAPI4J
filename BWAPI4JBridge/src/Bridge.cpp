@@ -56,26 +56,39 @@ jint intBuf[intBufSize];
 
 bool finished = false;
 
-// conversion ratios
-const double TO_DEGREES = 180.0 / M_PI;
-const double fixedScale = 100.0;
+const double RADIANS_TO_DEGREES = 180.0 / M_PI;
+const double DECIMAL_PRESERVATION_SCALE = 100.0;
+
+double toDegrees(const double radians) { return radians * RADIANS_TO_DEGREES; }
+
+int toPreservedDouble(const double d) { return static_cast<int>(DECIMAL_PRESERVATION_SCALE * d); }
+
+// BWAPI 4.2.0:
+// https://github.com/bwapi/bwapi/blob/59b14af21b3c881ce06af8b1ea1d63fa3c8b2df0/bwapi/BWAPI/Source/BWAPI/UnitUpdate.cpp#L206-L212
+// https://github.com/bwapi/bwapi/blob/59b14af21b3c881ce06af8b1ea1d63fa3c8b2df0/bwapi/BWAPI/Source/BWAPI/BulletImpl.cpp#L93-L97
+double toPreservedBwapiAngle(const double angle) { return (angle * 128.0 / M_PI); }
 
 JNIEnv *globalEnv;
 jobject globalBW;
 
 jclass arrayListClass;
-jmethodID arrayListAdd;
+jmethodID arrayListClass_add;
 
 jclass integerClass;
-jmethodID integerNew;
+jmethodID integerClassConstructor;
 
 jclass tilePositionClass;
-jmethodID tilePositionNew;
+jmethodID tilePositionConstructor;
 
 jclass weaponTypeClass;
 jclass techTypeClass;
+
 jclass unitTypeClass;
+jmethodID unitTypeClass_addRequiredUnit;
+
 jclass upgradeTypeClass;
+jmethodID upgradeTypeClass_addUsingUnit;
+
 jclass damageTypeClass;
 jclass explosionTypeClass;
 jclass raceClass;
@@ -83,13 +96,9 @@ jclass unitSizeTypeClass;
 jclass orderClass;
 
 jclass pairClass;
-jmethodID pairNew;
+jmethodID pairClassConstructor;
 
 jclass bwMapClass;
-jmethodID bwMapNew;
-
-jmethodID addRequiredUnit;
-jmethodID addUsingUnit;
 
 #ifdef _WIN32
 BOOL APIENTRY DllMain(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved) { return TRUE; }
@@ -107,31 +116,33 @@ void initializeJavaReferences(JNIEnv *env, jobject caller) {
   LOGGER("initializing Java references...");
 
   arrayListClass = env->FindClass("java/util/ArrayList");
-  arrayListAdd = env->GetMethodID(arrayListClass, "add", "(Ljava/lang/Object;)Z");
+  arrayListClass_add = env->GetMethodID(arrayListClass, "add", "(Ljava/lang/Object;)Z");
 
   integerClass = env->FindClass("java/lang/Integer");
-  integerNew = env->GetMethodID(integerClass, "<init>", "(I)V");
+  integerClassConstructor = env->GetMethodID(integerClass, "<init>", "(I)V");
 
   tilePositionClass = env->FindClass("org/openbw/bwapi4j/TilePosition");
-  tilePositionNew = env->GetMethodID(tilePositionClass, "<init>", "(II)V");
+  tilePositionConstructor = env->GetMethodID(tilePositionClass, "<init>", "(II)V");
 
   weaponTypeClass = env->FindClass("org/openbw/bwapi4j/type/WeaponType");
   techTypeClass = env->FindClass("org/openbw/bwapi4j/type/TechType");
+
   unitTypeClass = env->FindClass("org/openbw/bwapi4j/type/UnitType");
+  unitTypeClass_addRequiredUnit = env->GetMethodID(unitTypeClass, "addRequiredUnit", "(II)V");
+
   upgradeTypeClass = env->FindClass("org/openbw/bwapi4j/type/UpgradeType");
+  upgradeTypeClass_addUsingUnit = env->GetMethodID(upgradeTypeClass, "addUsingUnit", "(I)V");
+
   damageTypeClass = env->FindClass("org/openbw/bwapi4j/type/DamageType");
   explosionTypeClass = env->FindClass("org/openbw/bwapi4j/type/ExplosionType");
   raceClass = env->FindClass("org/openbw/bwapi4j/type/Race");
   unitSizeTypeClass = env->FindClass("org/openbw/bwapi4j/type/UnitSizeType");
   orderClass = env->FindClass("org/openbw/bwapi4j/type/Order");
+
   pairClass = env->FindClass("org/openbw/bwapi4j/util/Pair");
-  pairNew = env->GetMethodID(pairClass, "<init>", "(Ljava/lang/Object;Ljava/lang/Object;)V");
+  pairClassConstructor = env->GetMethodID(pairClass, "<init>", "(Ljava/lang/Object;Ljava/lang/Object;)V");
 
   bwMapClass = env->FindClass("org/openbw/bwapi4j/BWMapImpl");
-
-  addRequiredUnit = env->GetMethodID(unitTypeClass, "addRequiredUnit", "(II)V");
-
-  addUsingUnit = env->GetMethodID(upgradeTypeClass, "addUsingUnit", "(I)V");
 
   LOGGER("done")
 }
@@ -389,7 +400,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
 
 int addBulletDataToBuffer(BWAPI::Bullet &b, int index) {
   intBuf[index++] = b->exists() ? 1 : 0;
-  intBuf[index++] = static_cast<int>(TO_DEGREES * b->getAngle());
+  intBuf[index++] = toPreservedDouble(toPreservedBwapiAngle(b->getAngle()));
   intBuf[index++] = b->getID();
   intBuf[index++] = b->getPlayer() == NULL ? -1 : b->getPlayer()->getID();
   intBuf[index++] = b->getPosition().x;
@@ -400,8 +411,8 @@ int addBulletDataToBuffer(BWAPI::Bullet &b, int index) {
   intBuf[index++] = b->getTargetPosition().x;
   intBuf[index++] = b->getTargetPosition().y;
   intBuf[index++] = b->getType();
-  intBuf[index++] = static_cast<int>(fixedScale * b->getVelocityX());
-  intBuf[index++] = static_cast<int>(fixedScale * b->getVelocityY());
+  intBuf[index++] = toPreservedDouble(b->getVelocityX());
+  intBuf[index++] = toPreservedDouble(b->getVelocityY());
   intBuf[index++] = b->isVisible() ? 1 : 0;
 
   return index;
@@ -432,9 +443,9 @@ int addUnitDataToBuffer(BWAPI::Unit &u, int index) {
   intBuf[index++] = u->getPosition().y;
   intBuf[index++] = u->getTilePosition().x;
   intBuf[index++] = u->getTilePosition().y;
-  intBuf[index++] = static_cast<int>(TO_DEGREES * u->getAngle());
-  intBuf[index++] = static_cast<int>(fixedScale * u->getVelocityX());
-  intBuf[index++] = static_cast<int>(fixedScale * u->getVelocityY());
+  intBuf[index++] = toPreservedDouble(toPreservedBwapiAngle(u->getAngle()));
+  intBuf[index++] = toPreservedDouble(u->getVelocityX());
+  intBuf[index++] = toPreservedDouble(u->getVelocityY());
   intBuf[index++] = u->getHitPoints();
   intBuf[index++] = u->getShields();
   intBuf[index++] = u->getEnergy();
@@ -641,6 +652,8 @@ int addPlayerDataToBuffer(BWAPI::Player &player, int index) {
   intBuf[index++] = player->getType();
   intBuf[index++] = player->getForce()->getID();
   intBuf[index++] = player->isNeutral() ? 1 : 0;
+  intBuf[index++] = (player->getID() == BWAPI::Broodwar->self()->getID() || player->isAlly(BWAPI::Broodwar->self())) ? 1 : 0;
+  intBuf[index++] = (player->getID() != BWAPI::Broodwar->self()->getID() && player->isEnemy(BWAPI::Broodwar->self())) ? 1 : 0;
   intBuf[index++] = player->isVictorious() ? 1 : 0;
   intBuf[index++] = player->isDefeated() ? 1 : 0;
   intBuf[index++] = player->leftGame() ? 1 : 0;
@@ -764,6 +777,8 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getGameData(JNIEnv *env, 
   intBuf[index++] = BWAPI::Broodwar->getGameType().getID();
   intBuf[index++] = BWAPI::Broodwar->isReplay();
   intBuf[index++] = BWAPI::Broodwar->isPaused();
+  intBuf[index++] = BWAPI::Broodwar->getAPM(false);
+  intBuf[index++] = BWAPI::Broodwar->getAPM(true);
 
   if (BWAPI::Broodwar->isReplay()) {
     for (BWAPI::Player player : BWAPI::Broodwar->getPlayers()) {
