@@ -29,7 +29,7 @@ import static org.openbw.bwapi4j.type.UnitCommandType.Build_Addon;
 import static org.openbw.bwapi4j.type.UnitCommandType.Cancel_Addon;
 import static org.openbw.bwapi4j.type.UnitType.Terran_Control_Tower;
 
-public class Starport extends Building implements Mechanical, FlyingBuilding, TrainingFacility, ExtendibleByAddon {
+public class Starport extends BuildingImpl implements Mechanical, FlyingBuilding, TrainingFacility, ExtendibleByAddon {
 
     protected Starport(int id, int timeSpotted) {
         

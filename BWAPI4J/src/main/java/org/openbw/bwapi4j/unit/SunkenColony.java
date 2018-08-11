@@ -24,7 +24,7 @@ import org.openbw.bwapi4j.type.UnitType;
 
 import static org.openbw.bwapi4j.type.UnitCommandType.Attack_Unit;
 
-public class SunkenColony extends Building implements Organic, GroundAttacker {
+public class SunkenColony extends BuildingImpl implements Organic, GroundAttacker {
 
     protected SunkenColony(int id, int timeSpotted) {
         

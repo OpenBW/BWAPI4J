@@ -40,7 +40,7 @@ public class SCV extends Worker implements Mechanical {
     }
 
     public boolean repair(Mechanical target) {
-        return issueCommand(id, Repair, ((Unit) target).id, -1, -1, -1);
+        return issueCommand(id, Repair, target.getId(), -1, -1, -1);
     }
 
     public boolean haltConstruction() {

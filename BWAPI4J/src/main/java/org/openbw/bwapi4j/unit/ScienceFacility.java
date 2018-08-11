@@ -29,7 +29,7 @@ import static org.openbw.bwapi4j.type.UnitCommandType.Cancel_Addon;
 import static org.openbw.bwapi4j.type.UnitType.Terran_Covert_Ops;
 import static org.openbw.bwapi4j.type.UnitType.Terran_Physics_Lab;
 
-public class ScienceFacility extends Building implements Mechanical, ResearchingFacility, ExtendibleByAddon {
+public class ScienceFacility extends BuildingImpl implements Mechanical, ResearchingFacility, ExtendibleByAddon {
 
     protected ScienceFacility(int id, int timeSpotted) {
         

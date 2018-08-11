@@ -24,7 +24,7 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
-public class UltraliskCavern extends Building implements Organic, ResearchingFacility {
+public class UltraliskCavern extends BuildingImpl implements Organic, ResearchingFacility {
 
     protected UltraliskCavern(int id, int timeSpotted) {
         

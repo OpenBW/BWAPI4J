@@ -130,7 +130,7 @@ public class UnitFactory {
      */
     public Unit createUnit(int unitId, UnitType unitType, int timeSpotted) {
 
-        Unit unit;
+        UnitImpl unit;
         switch (unitType) {
         case Terran_Academy:
             unit = new Academy(unitId, timeSpotted);
