@@ -25,7 +25,7 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
-public class EngineeringBay extends Building implements Mechanical, FlyingBuilding, ResearchingFacility {
+public class EngineeringBay extends BuildingImpl implements Mechanical, FlyingBuilding, ResearchingFacility {
 
     protected EngineeringBay(int id, int timeSpotted) {
         

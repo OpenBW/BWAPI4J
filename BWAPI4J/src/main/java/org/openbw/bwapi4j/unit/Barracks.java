@@ -25,7 +25,7 @@ import org.openbw.bwapi4j.type.UnitType;
 
 import java.util.List;
 
-public class Barracks extends Building implements Mechanical, FlyingBuilding, TrainingFacility {
+public class Barracks extends BuildingImpl implements Mechanical, FlyingBuilding, TrainingFacility {
     protected Barracks(int id, int timeSpotted) {
         
         super(id, UnitType.Terran_Barracks, timeSpotted);

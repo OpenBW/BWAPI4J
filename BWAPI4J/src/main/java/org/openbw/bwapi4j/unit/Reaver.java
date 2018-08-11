@@ -25,7 +25,7 @@ import org.openbw.bwapi4j.type.UnitType;
 import static org.openbw.bwapi4j.type.UnitCommandType.Train;
 import static org.openbw.bwapi4j.type.UnitType.Protoss_Scarab;
 
-public class Reaver extends MobileUnit implements Mechanical {
+public class Reaver extends MobileUnitImpl implements Mechanical {
 
     protected Reaver(int id) {
         

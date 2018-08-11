@@ -24,7 +24,7 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
-public class Forge extends Building implements Mechanical, ResearchingFacility {
+public class Forge extends BuildingImpl implements Mechanical, ResearchingFacility {
 
     protected Forge(int id, int timeSpotted) {
         

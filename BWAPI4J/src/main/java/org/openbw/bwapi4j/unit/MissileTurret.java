@@ -24,7 +24,7 @@ import org.openbw.bwapi4j.type.UnitType;
 
 import static org.openbw.bwapi4j.type.UnitCommandType.Attack_Unit;
 
-public class MissileTurret extends Building implements Mechanical, Detector, AirAttacker {
+public class MissileTurret extends BuildingImpl implements Mechanical, Detector, AirAttacker {
 
     protected MissileTurret(int id, int timeSpotted) {
         

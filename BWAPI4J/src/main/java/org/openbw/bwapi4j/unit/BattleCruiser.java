@@ -25,7 +25,7 @@ import org.openbw.bwapi4j.type.UnitType;
 import static org.openbw.bwapi4j.type.TechType.Yamato_Gun;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Unit;
 
-public class BattleCruiser extends MobileUnit implements Mechanical, SpellCaster, GroundAttacker, AirAttacker {
+public class BattleCruiser extends MobileUnitImpl implements Mechanical, SpellCaster, GroundAttacker, AirAttacker {
 
     protected BattleCruiser(int id) {
         

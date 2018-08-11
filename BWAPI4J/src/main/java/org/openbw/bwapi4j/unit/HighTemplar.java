@@ -27,7 +27,7 @@ import org.openbw.bwapi4j.type.UnitType;
 import static org.openbw.bwapi4j.type.TechType.*;
 import static org.openbw.bwapi4j.type.UnitCommandType.*;
 
-public class HighTemplar extends MobileUnit implements Organic, SpellCaster {
+public class HighTemplar extends MobileUnitImpl implements Organic, SpellCaster {
 
 
     protected HighTemplar(int id) {

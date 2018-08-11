@@ -22,7 +22,7 @@ package org.openbw.bwapi4j.unit;
 
 import org.openbw.bwapi4j.type.UnitType;
 
-public class Observer extends MobileUnit implements Robotic, Detector, Mechanical, Cloakable {
+public class Observer extends MobileUnitImpl implements Robotic, Detector, Mechanical, Cloakable {
 
     protected Observer(int id) {
         

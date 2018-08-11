@@ -28,7 +28,7 @@ import static org.openbw.bwapi4j.type.TechType.Recall;
 import static org.openbw.bwapi4j.type.TechType.Stasis_Field;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Position;
 
-public class Arbiter extends MobileUnit implements Mechanical, SpellCaster, GroundAttacker, AirAttacker {
+public class Arbiter extends MobileUnitImpl implements Mechanical, SpellCaster, GroundAttacker, AirAttacker {
 
     protected Arbiter(int id) {
         

@@ -22,7 +22,7 @@ package org.openbw.bwapi4j.unit;
 
 import org.openbw.bwapi4j.type.UnitType;
 
-public class Dragoon extends MobileUnit implements Mechanical, GroundAttacker, AirAttacker {
+public class Dragoon extends MobileUnitImpl implements Mechanical, GroundAttacker, AirAttacker {
 
     protected Dragoon(int id) {
         

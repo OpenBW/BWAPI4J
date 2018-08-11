@@ -24,7 +24,7 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
-public class Observatory extends Building implements Mechanical, ResearchingFacility {
+public class Observatory extends BuildingImpl implements Mechanical, ResearchingFacility {
 
     protected Observatory(int id, int timeSpotted) {
         

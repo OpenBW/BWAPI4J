@@ -27,7 +27,7 @@ import org.openbw.bwapi4j.type.UnitType;
 import static org.openbw.bwapi4j.type.TechType.Disruption_Web;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Position;
 
-public class Corsair extends MobileUnit implements Mechanical, SpellCaster, AirAttacker {
+public class Corsair extends MobileUnitImpl implements Mechanical, SpellCaster, AirAttacker {
 
 
     protected Corsair(int id) {

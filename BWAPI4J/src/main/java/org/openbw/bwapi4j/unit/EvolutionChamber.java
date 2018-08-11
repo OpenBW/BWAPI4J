@@ -24,7 +24,7 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
-public class EvolutionChamber extends Building implements Organic, ResearchingFacility {
+public class EvolutionChamber extends BuildingImpl implements Organic, ResearchingFacility {
 
     protected EvolutionChamber(int id, int timeSpotted) {
         

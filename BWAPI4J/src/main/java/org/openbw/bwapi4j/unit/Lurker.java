@@ -25,7 +25,7 @@ import org.openbw.bwapi4j.type.UnitType;
 import static org.openbw.bwapi4j.type.UnitCommandType.Burrow;
 import static org.openbw.bwapi4j.type.UnitCommandType.Unburrow;
 
-public class Lurker extends MobileUnit implements Organic, Burrowable, GroundAttacker {
+public class Lurker extends MobileUnitImpl implements Organic, Burrowable, GroundAttacker {
 
     protected Lurker(int id) {
         super(id, UnitType.Zerg_Lurker);

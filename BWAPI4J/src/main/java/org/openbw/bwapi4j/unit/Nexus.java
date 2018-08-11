@@ -25,7 +25,7 @@ import org.openbw.bwapi4j.type.UnitType;
 
 import java.util.List;
 
-public class Nexus extends Building implements Mechanical, TrainingFacility, ResourceDepot {
+public class Nexus extends BuildingImpl implements Mechanical, TrainingFacility, ResourceDepot {
 
     protected Nexus(int id, int timeSpotted) {
         

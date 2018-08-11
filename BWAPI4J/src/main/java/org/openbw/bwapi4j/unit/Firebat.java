@@ -25,7 +25,7 @@ import org.openbw.bwapi4j.type.UnitType;
 import static org.openbw.bwapi4j.type.TechType.Stim_Packs;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech;
 
-public class Firebat extends MobileUnit implements Organic, GroundAttacker {
+public class Firebat extends MobileUnitImpl implements Organic, GroundAttacker {
 
     protected Firebat(int id) {
         

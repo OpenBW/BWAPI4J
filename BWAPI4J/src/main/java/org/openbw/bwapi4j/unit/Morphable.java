@@ -25,7 +25,7 @@ import org.openbw.bwapi4j.type.UnitType;
 /**
  * Interface for units that can morph (many Zerg units can).
  */
-public interface Morphable {
+public interface Morphable extends PlayerUnit {
     /**
      * Morphs this unit into the given unit type.
      * Be aware that "this" object will be obsolete after the call and a new object with the same {@link Unit#getId()}

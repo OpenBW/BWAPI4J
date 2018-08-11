@@ -1,211 +1,77 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//    Copyright (C) 2017-2018 OpenBW Team
-//
-//    This file is part of BWAPI4J.
-//
-//    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
-//    by the Free Software Foundation, version 3 only.
-//
-//    BWAPI4J is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU General Public License for more details.
-//
-//    You should have received a copy of the GNU General Public License
-//    along with BWAPI4J.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-
 package org.openbw.bwapi4j.unit;
 
 import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.type.UnitCommandType;
-import org.openbw.bwapi4j.type.UnitType;
 
-import static org.openbw.bwapi4j.type.UnitCommandType.*;
+public interface MobileUnit extends PlayerUnit {
 
-public abstract class MobileUnit extends PlayerUnit {
+	boolean attack(Position p);
 
-    protected MobileUnit(int id, UnitType unitType) {
+	boolean attack(Position p, boolean queued);
 
-        super(id, unitType);
-    }
+	boolean attack(Unit target);
 
-    public boolean attack(Position p) {
+	boolean attack(Unit target, boolean queued);
 
-        return attack(p, false);
-    }
+	boolean move(Position p);
 
-    public boolean attack(Position p, boolean queued) {
+	boolean move(Position p, boolean queued);
 
-        return issueCommand(this.id, Attack_Move, -1, p.getX(), p.getY(), queued ? 1 : 0);
-    }
+	boolean patrol(Position p);
 
-    public boolean attack(Unit target) {
+	boolean patrol(Position p, boolean queued);
 
-        return attack(target, false);
-    }
+	boolean holdPosition();
 
-    public boolean attack(Unit target, boolean queued) {
+	boolean holdPosition(boolean queued);
 
-        return issueCommand(this.id, Attack_Unit, target.getId(), -1, -1, queued ? 1 : 0);
-    }
+	boolean stop(boolean queued);
 
-    public boolean move(Position p) {
+	boolean follow(Unit target, boolean queued);
 
-        return move(p, false);
-    }
+	int getAcidSporeCount();
 
-    public boolean move(Position p, boolean queued) {
+	Unit getTransport();
 
-        return issueCommand(this.id, Move, -1, p.getX(), p.getY(), queued ? 1 : 0);
-    }
+	boolean isFollowing();
 
-    public boolean patrol(Position p) {
+	boolean isHoldingPosition();
 
-        return patrol(p, false);
-    }
+	boolean isStasised();
 
-    public boolean patrol(Position p, boolean queued) {
+	boolean isUnderDarkSwarm();
 
-        return issueCommand(this.id, Patrol, -1, p.getX(), p.getY(), queued ? 1 : 0);
-    }
+	boolean isUnderDisruptionWeb();
 
-    public boolean holdPosition() {
+	boolean isUnderStorm();
 
-        return holdPosition(false);
-    }
+	boolean isParasited();
 
-    public boolean holdPosition(boolean queued) {
+	boolean isPatrolling();
 
-        return issueCommand(this.id, Hold_Position, -1, -1, -1, queued ? 1 : 0);
-    }
+	boolean isPlagued();
 
-    public boolean stop(boolean queued) {
+	boolean isMoving();
 
-        return issueCommand(this.id, Stop, -1, -1, -1, queued ? 1 : 0);
-    }
+	Position getTargetPosition();
 
-    public boolean follow(Unit target, boolean queued) {
+	Unit getTargetUnit();
 
-        return issueCommand(this.id, Follow, target.getId(), -1, -1, queued ? 1 : 0);
-    }
+	int getTurnRadius();
 
-    public int getAcidSporeCount() {
+	boolean isStuck();
 
-        return this.acidSporeCount;
-    }
+	int getSupplyRequired();
 
-    public Unit getTransport() {
+	boolean isHallucination();
 
-        return this.getUnit(this.transportId);
-    }
+	boolean isBlind();
 
-    public boolean isFollowing() {
+	boolean isBraking();
 
-        return isFollowing;
-    }
+	boolean isDefenseMatrixed();
 
-    public boolean isHoldingPosition() {
+	boolean isEnsnared();
 
-        return isHoldingPosition;
-    }
+	double getTopSpeed();
 
-    public boolean isStasised() {
-
-        return isStasised;
-    }
-
-    public boolean isUnderDarkSwarm() {
-
-        return isUnderDarkSwarm;
-    }
-
-    public boolean isUnderDisruptionWeb() {
-
-        return isUnderDisruptionWeb;
-    }
-
-    public boolean isUnderStorm() {
-
-        return isUnderStorm;
-    }
-
-    public boolean isParasited() {
-
-        return isParasited;
-    }
-
-    public boolean isPatrolling() {
-
-        return isPatrolling;
-    }
-
-    public boolean isPlagued() {
-
-        return isPlagued;
-    }
-
-    public boolean isMoving() {
-
-        return this.isMoving;
-    }
-
-    public Position getTargetPosition() {
-
-        return this.targetPosition;
-    }
-
-    @Override
-    public Unit getTargetUnit() {
-
-        return super.getTargetUnit();
-    }
-
-    public int getTurnRadius() {
-
-        return this.type.turnRadius();
-    }
-
-    public boolean isStuck() {
-
-        return this.isStuck;
-    }
-
-    public int getSupplyRequired() {
-
-        return this.type.supplyRequired();
-    }
-
-    public boolean isHallucination() {
-
-        return this.isHallucination;
-    }
-
-    public boolean isBlind() {
-
-        return this.isBlind;
-    }
-
-    public boolean isBraking() {
-
-        return this.isBraking;
-    }
-
-    public boolean isDefenseMatrixed() {
-
-        return this.isDefenseMatrixed;
-    }
-
-    public boolean isEnsnared() {
-
-        return this.isEnsnared;
-    }
-
-    public double getTopSpeed() {
-
-        return getUnitStatCalculator().topSpeed(type);
-    }
 }

@@ -25,7 +25,7 @@ import org.openbw.bwapi4j.type.UnitType;
 import static org.openbw.bwapi4j.type.UnitCommandType.*;
 import static org.openbw.bwapi4j.type.UnitType.Zerg_Lurker;
 
-public class Hydralisk extends MobileUnit implements Organic, Burrowable, GroundAttacker, AirAttacker, Morphable {
+public class Hydralisk extends MobileUnitImpl implements Organic, Burrowable, GroundAttacker, AirAttacker, Morphable {
 
     protected Hydralisk(int id) {
         super(id, UnitType.Zerg_Hydralisk);

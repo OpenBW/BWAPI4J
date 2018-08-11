@@ -27,7 +27,7 @@ import static org.openbw.bwapi4j.type.UnitCommandType.Morph;
 import static org.openbw.bwapi4j.type.UnitType.Zerg_Spore_Colony;
 import static org.openbw.bwapi4j.type.UnitType.Zerg_Sunken_Colony;
 
-public class CreepColony extends Building implements Organic, Morphable {
+public class CreepColony extends BuildingImpl implements Organic, Morphable {
 
     protected CreepColony(int id, int timeSpotted) {
         

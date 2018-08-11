@@ -28,7 +28,7 @@ import org.openbw.bwapi4j.type.UnitType;
 import static org.openbw.bwapi4j.type.TechType.*;
 import static org.openbw.bwapi4j.type.UnitCommandType.*;
 
-public class Ghost extends MobileUnit implements SpellCaster, Organic, GroundAttacker, AirAttacker {
+public class Ghost extends MobileUnitImpl implements SpellCaster, Organic, GroundAttacker, AirAttacker {
 
     private static final Logger logger = LogManager.getLogger();
 
