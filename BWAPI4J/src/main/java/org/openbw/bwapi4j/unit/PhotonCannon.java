@@ -24,7 +24,7 @@ import org.openbw.bwapi4j.type.UnitType;
 
 import static org.openbw.bwapi4j.type.UnitCommandType.Attack_Unit;
 
-public class PhotonCannon extends Building implements Detector, Mechanical, GroundAttacker, AirAttacker {
+public class PhotonCannon extends BuildingImpl implements Detector, Mechanical, GroundAttacker, AirAttacker {
 
     protected PhotonCannon(int id, int timeSpotted) {
         

@@ -22,7 +22,7 @@ package org.openbw.bwapi4j.unit;
 
 import org.openbw.bwapi4j.type.UnitType;
 
-public class Interceptor extends MobileUnit implements Mechanical, GroundAttacker, AirAttacker {
+public class Interceptor extends MobileUnitImpl implements Mechanical, GroundAttacker, AirAttacker {
 
 
     protected Interceptor(int id) {

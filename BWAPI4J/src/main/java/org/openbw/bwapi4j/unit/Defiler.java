@@ -30,7 +30,7 @@ import org.openbw.bwapi4j.type.UnitType;
 import static org.openbw.bwapi4j.type.TechType.*;
 import static org.openbw.bwapi4j.type.UnitCommandType.*;
 
-public class Defiler extends MobileUnit implements Organic, SpellCaster, Burrowable {
+public class Defiler extends MobileUnitImpl implements Organic, SpellCaster, Burrowable {
 
     private static final Logger logger = LogManager.getLogger();
 
@@ -61,7 +61,7 @@ public class Defiler extends MobileUnit implements Organic, SpellCaster, Burrowa
         if (this.energy < TechType.Spawn_Broodlings.energyCost()) {
             
             return false;
-        } else if (target.type.getRace() != Race.Zerg || target.type == UnitType.Zerg_Larva) {
+        } else if (target.getType().getRace() != Race.Zerg || target.getType() == UnitType.Zerg_Larva) {
             
             logger.info("Consume spell does not work on {} (only non-larva Zerg units can be consumed)", target);
             return false;

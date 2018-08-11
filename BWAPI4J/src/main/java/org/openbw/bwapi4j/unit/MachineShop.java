@@ -24,7 +24,7 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
-public class MachineShop extends Addon implements Mechanical, ResearchingFacility {
+public class MachineShop extends AddonImpl implements Mechanical, ResearchingFacility {
 
     protected MachineShop(int id, int timeSpotted) {
         

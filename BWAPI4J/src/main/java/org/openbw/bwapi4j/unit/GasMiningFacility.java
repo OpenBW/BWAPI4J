@@ -20,27 +20,11 @@
 
 package org.openbw.bwapi4j.unit;
 
-import org.openbw.bwapi4j.type.UnitType;
+public interface GasMiningFacility extends Building, Gatherable {
 
-public abstract class GasMiningFacility extends Building implements Gatherable {
+    public int getResources();
 
-	protected GasMiningFacility(int id, UnitType type, int timeSpotted) {
-		
-		super(id, type, timeSpotted);
-	}
+    public int getInitialResources(); 
 
-    public int getResources() {
-        
-        return this.resources;
-    }
-
-    public int getInitialResources() {
-        
-        return this.initialResources;
-    }
-
-    public boolean isBeingGathered() {
-        
-        return this.isBeingGathered;
-    }
+    public boolean isBeingGathered();
 }

@@ -28,7 +28,7 @@ import org.openbw.bwapi4j.type.UnitType;
 import static org.openbw.bwapi4j.type.UnitCommandType.Train;
 import static org.openbw.bwapi4j.type.UnitType.Protoss_Interceptor;
 
-public class Carrier extends MobileUnit implements Mechanical {
+public class Carrier extends MobileUnitImpl implements Mechanical {
 
 
     protected Carrier(int id) {

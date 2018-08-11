@@ -25,7 +25,7 @@ import org.openbw.bwapi4j.type.UnitType;
 
 import static org.openbw.bwapi4j.type.UnitCommandType.*;
 
-public abstract class Worker extends MobileUnit implements GroundAttacker {
+public abstract class Worker extends MobileUnitImpl implements GroundAttacker {
 
     protected Worker(int id, UnitType unitType) {
         super(id, unitType);

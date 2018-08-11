@@ -27,7 +27,7 @@ import static org.openbw.bwapi4j.type.TechType.*;
 import static org.openbw.bwapi4j.type.UnitCommandType.Attack_Move;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Unit;
 
-public class Medic extends MobileUnit implements SpellCaster, Organic {
+public class Medic extends MobileUnitImpl implements SpellCaster, Organic {
 
     protected Medic(int id) {
         

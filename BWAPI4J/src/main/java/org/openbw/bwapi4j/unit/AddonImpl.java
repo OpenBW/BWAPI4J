@@ -20,20 +20,17 @@
 
 package org.openbw.bwapi4j.unit;
 
-import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
-import static org.openbw.bwapi4j.type.UnitCommandType.Cancel_Morph;
+public abstract class AddonImpl extends BuildingImpl implements Addon {
 
-public class Cocoon extends PlayerUnitImpl implements Organic {
-
-    protected Cocoon(int id) {
+    protected AddonImpl(int id, UnitType unitType, int timeSpotted) {
         
-        super(id, UnitType.Zerg_Cocoon);
+        super(id, unitType, timeSpotted);
     }
     
-    public boolean cancelMorph() {
+    public Building getMainBuilding() {
         
-        return issueCommand(this.id, Cancel_Morph, -1, -1, -1, -1);
+        return (Building) this.getUnit(builderId);
     }
 }

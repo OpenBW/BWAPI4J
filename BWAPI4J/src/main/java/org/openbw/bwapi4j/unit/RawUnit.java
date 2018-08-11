@@ -8,7 +8,7 @@ import org.openbw.bwapi4j.type.*;
 
 import java.util.List;
 
-public class RawUnit extends Unit {
+public class RawUnit extends UnitImpl {
     protected RawUnit(int id, UnitType unitType) {
         super(id, unitType);
     }
