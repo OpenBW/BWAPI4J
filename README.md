@@ -55,9 +55,13 @@ JDK 1.8 or later is required. 32-bit is required when using original BW. 64-bit 
 
 ````
 git clone https://github.com/OpenBW/BWAPI4J.git
+cd BWAPI4J
+git submodule update --init --recursive
 ````
 
 ### Compiling the BWAPI4J library JAR using Gradle
+
+*Note: This step will not build the bridge. See the BWAPI4JBridge section for more details.*
 
 #### Gradle Setup
 
@@ -151,11 +155,11 @@ java -Dbwapi4j.bridgeType=openbw -jar MyBot.jar
 - Copy `bwapi-data/bwapi.ini.sample` to `bwapi-data/bwapi.ini` and configure as usual. See [https://github.com/bwapi/bwapi/wiki/Configuration](https://github.com/bwapi/bwapi/wiki/Configuration)
 - Set the `ai = ` variable in `bwapi.ini` to point to the BWAPI4J bridge module. E.g.
 ````
-ai = ..\BWAPI4JBridge\BWAPI4JBridge\Release\OpenBWAPI4JBridge.dll
+ai = ..\BWAPI4JBridge\Release\OpenBWAPI4JBridge.dll
 ````
 or
 ````
-ai = ../BWAPI4JBridge/BWAPI4JBridge/Release/libOpenBWAPI4JBridge.so
+ai = ../BWAPI4JBridge/Release/libOpenBWAPI4JBridge.so
 ````
 
 #### OpenBW for Linux
@@ -213,4 +217,11 @@ Examples:
 ```
 ```
 ./gradlew buildOpenBWBridgeForLinux
+```
+
+### Including the bridge with the BWAPI4J library JAR
+
+The bridge needs to be built before it is packaged via `shadowJar`. Use one of the appropriate Gradle tasks to build the bridge, then use the following command:
+```
+./gradlew shadowJar
 ```
