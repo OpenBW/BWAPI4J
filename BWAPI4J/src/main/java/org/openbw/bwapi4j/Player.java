@@ -802,7 +802,7 @@ public class Player {
     
     public static Collection<UnitType> getMissingUnits(Collection<? extends PlayerUnit> group, Collection<UnitType> types) {
         HashSet<UnitType> result = new HashSet<>(types);
-        group.stream().filter(u -> u.isCompleted()).map(u -> u.getInitialType()).forEach(result::remove);
+        group.stream().filter(u -> u.isCompleted()).map(u -> u.getType()).forEach(result::remove);
         return result;
     }
 
