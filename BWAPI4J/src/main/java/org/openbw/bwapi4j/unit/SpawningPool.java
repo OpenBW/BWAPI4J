@@ -24,7 +24,7 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
-public class SpawningPool extends Building implements Organic, ResearchingFacility {
+public class SpawningPool extends BuildingImpl implements Organic, ResearchingFacility {
     protected SpawningPool(int id, int timeSpotted) {
         
         super(id, UnitType.Zerg_Spawning_Pool, timeSpotted);

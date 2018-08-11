@@ -25,7 +25,7 @@ import org.openbw.bwapi4j.type.UnitType;
 
 import java.util.List;
 
-public class RoboticsFacility extends Building implements Mechanical, TrainingFacility {
+public class RoboticsFacility extends BuildingImpl implements Mechanical, TrainingFacility {
 
     protected RoboticsFacility(int id, int timeSpotted) {
         

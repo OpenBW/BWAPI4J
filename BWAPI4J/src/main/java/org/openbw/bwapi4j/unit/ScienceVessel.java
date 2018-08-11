@@ -27,7 +27,7 @@ import static org.openbw.bwapi4j.type.TechType.*;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Position;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Unit;
 
-public class ScienceVessel extends MobileUnit implements Mechanical, SpellCaster, Detector {
+public class ScienceVessel extends MobileUnitImpl implements Mechanical, SpellCaster, Detector {
 
     protected ScienceVessel(int id) {
         

@@ -25,7 +25,7 @@ import org.openbw.bwapi4j.type.UnitType;
 import static org.openbw.bwapi4j.type.UnitCommandType.Cloak;
 import static org.openbw.bwapi4j.type.UnitCommandType.Decloak;
 
-public class Wraith extends MobileUnit implements Mechanical, Cloakable, GroundAttacker, AirAttacker {
+public class Wraith extends MobileUnitImpl implements Mechanical, Cloakable, GroundAttacker, AirAttacker {
 
     protected Wraith(int id) {
         
