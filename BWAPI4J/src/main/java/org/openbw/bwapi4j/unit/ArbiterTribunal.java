@@ -24,7 +24,7 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
-public class ArbiterTribunal extends Building implements Mechanical, ResearchingFacility {
+public class ArbiterTribunal extends BuildingImpl implements Mechanical, ResearchingFacility {
 
     protected ArbiterTribunal(int id, int timeSpotted) {
         

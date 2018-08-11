@@ -28,7 +28,7 @@ import org.openbw.bwapi4j.type.UnitType;
 
 import static org.openbw.bwapi4j.type.UnitCommandType.*;
 
-public abstract class Transporter extends MobileUnit implements Loadable {
+public abstract class Transporter extends MobileUnitImpl implements Loadable {
 
     private static final Logger logger = LogManager.getLogger();
 

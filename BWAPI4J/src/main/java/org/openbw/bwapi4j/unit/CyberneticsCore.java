@@ -24,7 +24,7 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
-public class CyberneticsCore extends Building implements Mechanical, ResearchingFacility {
+public class CyberneticsCore extends BuildingImpl implements Mechanical, ResearchingFacility {
 
     protected CyberneticsCore(int id, int timeSpotted) {
         

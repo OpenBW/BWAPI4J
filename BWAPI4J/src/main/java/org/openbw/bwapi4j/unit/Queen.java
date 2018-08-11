@@ -30,7 +30,7 @@ import static org.openbw.bwapi4j.type.TechType.*;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Position;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Unit;
 
-public class Queen extends MobileUnit implements Organic, SpellCaster {
+public class Queen extends MobileUnitImpl implements Organic, SpellCaster {
 
     private static final Logger logger = LogManager.getLogger();
 

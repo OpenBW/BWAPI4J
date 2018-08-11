@@ -24,7 +24,7 @@ import org.openbw.bwapi4j.type.UnitType;
 
 import static org.openbw.bwapi4j.type.UnitCommandType.Morph;
 
-public class Mutalisk extends MobileUnit implements Organic, GroundAttacker, AirAttacker, Morphable {
+public class Mutalisk extends MobileUnitImpl implements Organic, GroundAttacker, AirAttacker, Morphable {
 
     protected Mutalisk(int id) {
 

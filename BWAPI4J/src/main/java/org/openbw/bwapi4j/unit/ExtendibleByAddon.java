@@ -25,11 +25,11 @@ import org.openbw.bwapi4j.type.UnitType;
 /**
  * Units implementing this can have an addon.
  */
-public interface ExtendibleByAddon {
+public interface ExtendibleByAddon extends Building {
     boolean build(UnitType addon);
     boolean cancelAddon();
     Addon getAddon();
     default boolean isBuildingAddon() {
-        return getAddon() != null && !getAddon().isCompleted;
+        return getAddon() != null && !getAddon().isCompleted();
     }
 }

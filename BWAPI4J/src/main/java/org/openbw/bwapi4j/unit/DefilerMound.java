@@ -24,7 +24,7 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
-public class DefilerMound extends Building implements Organic, ResearchingFacility {
+public class DefilerMound extends BuildingImpl implements Organic, ResearchingFacility {
 
     protected DefilerMound(int id, int timeSpotted) {
         

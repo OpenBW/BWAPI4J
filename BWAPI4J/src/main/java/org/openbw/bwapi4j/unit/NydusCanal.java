@@ -27,7 +27,7 @@ import org.openbw.bwapi4j.type.UnitType;
 import static org.openbw.bwapi4j.type.UnitCommandType.Build;
 import static org.openbw.bwapi4j.type.UnitType.Zerg_Nydus_Canal;
 
-public class NydusCanal extends Building implements Organic {
+public class NydusCanal extends BuildingImpl implements Organic {
 
 
     protected NydusCanal(int id, int timeSpotted) {

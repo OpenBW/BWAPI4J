@@ -24,7 +24,7 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
-public class HydraliskDen extends Building implements Organic, ResearchingFacility {
+public class HydraliskDen extends BuildingImpl implements Organic, ResearchingFacility {
 
     protected HydraliskDen(int id, int timeSpotted) {
         

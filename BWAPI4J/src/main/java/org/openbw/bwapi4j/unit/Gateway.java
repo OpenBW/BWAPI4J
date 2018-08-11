@@ -25,7 +25,7 @@ import org.openbw.bwapi4j.type.UnitType;
 
 import java.util.List;
 
-public class Gateway extends Building implements Mechanical, TrainingFacility {
+public class Gateway extends BuildingImpl implements Mechanical, TrainingFacility {
 
     protected Gateway(int id, int timeSpotted) {
         

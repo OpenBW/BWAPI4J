@@ -29,7 +29,7 @@ import static org.openbw.bwapi4j.type.UnitCommandType.Build_Addon;
 import static org.openbw.bwapi4j.type.UnitCommandType.Cancel_Addon;
 import static org.openbw.bwapi4j.type.UnitType.Terran_Machine_Shop;
 
-public class Factory extends Building implements Mechanical, FlyingBuilding, TrainingFacility, ExtendibleByAddon {
+public class Factory extends BuildingImpl implements Mechanical, FlyingBuilding, TrainingFacility, ExtendibleByAddon {
 
     protected Factory(int id, int timeSpotted) {
         
