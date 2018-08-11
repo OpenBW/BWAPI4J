@@ -32,3 +32,4 @@ public interface Building extends PlayerUnit {
 	double getLastKnownDistance(Unit target);
 
 }
+
