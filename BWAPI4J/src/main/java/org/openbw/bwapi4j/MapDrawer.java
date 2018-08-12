@@ -180,4 +180,14 @@ public final class MapDrawer {
     }
 
     private native void setTextSize(int textSize);
+
+    private native void drawLineScreen_native(final int x1, final int y1, final int x2, final int y2, final int colorValue);
+
+    public void drawLineScreen(final int x1, final int y1, final int x2, final int y2, final Color color) {
+        drawLineScreen_native(x1, y1, x2, y2, color.getValue());
+    }
+
+    public void drawLineScreen(final Position a, final Position b, final Color color) {
+        drawLineScreen(a.getX(), a.getY(), b.getX(), b.getY(), color);
+    }
 }

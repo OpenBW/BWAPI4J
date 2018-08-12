@@ -88,3 +88,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_setTextSize(JNIEnv *env
 
   BWAPI::Broodwar->setTextSize(textSize);
 }
+
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawLineScreen_1native (JNIEnv *, jobject, jint x1, jint y1, jint x2, jint y2, jint colorValue) {
+	BWAPI::Broodwar->drawLineScreen(BWAPI::Position(x1, y1), BWAPI::Position(x2, y2), BWAPI::Color(colorValue));
+}
