@@ -20,6 +20,9 @@
 
 #pragma once
 
+#include <list>
+
+#include <BWAPI.h>
 #include <jni.h>
 
 extern JNIEnv *globalEnv;
@@ -56,3 +59,30 @@ extern jclass pairClass;
 extern jmethodID pairClassConstructor;
 
 extern jclass bwMapClass;
+
+struct Callbacks {
+  jmethodID preFrameCallback;
+  jmethodID onStartCallback;
+  jmethodID onEndCallback;
+  jmethodID onFrameCallback;
+  jmethodID onSendTextCallback;
+  jmethodID onReceiveTextCallback;
+  jmethodID onPlayerLeftCallback;
+  jmethodID onNukeDetectCallback;
+  jmethodID onUnitDiscoverCallback;
+  jmethodID onUnitEvadeCallback;
+  jmethodID onUnitShowCallback;
+  jmethodID onUnitHideCallback;
+  jmethodID onUnitCreateCallback;
+  jmethodID onUnitDestroyCallback;
+  jmethodID onUnitMorphCallback;
+  jmethodID onUnitRenegadeCallback;
+  jmethodID onUnitCompleteCallback;
+  jmethodID onSaveGameCallback;
+
+  void initialize(JNIEnv *, jclass);
+
+  void processEvents(JNIEnv *, jobject, const std::list<BWAPI::Event> &);
+};
+
+extern Callbacks callbacks;

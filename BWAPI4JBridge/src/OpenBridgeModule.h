@@ -26,7 +26,6 @@
 #include "org_openbw_bwapi4j_BW.h"
 
 namespace OpenBridge {
-
 class OpenBridgeModule : public BWAPI::AIModule {
  public:
   virtual void onStart() override;
@@ -47,5 +46,4 @@ class OpenBridgeModule : public BWAPI::AIModule {
   virtual void onSaveGame(std::string gameName) override;
   virtual void onUnitComplete(BWAPI::Unit unit) override;
 };
-
 }  // namespace OpenBridge

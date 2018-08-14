@@ -69,6 +69,99 @@ int toPreservedDouble(const double d) { return static_cast<int>(DECIMAL_PRESERVA
 // https://github.com/bwapi/bwapi/blob/59b14af21b3c881ce06af8b1ea1d63fa3c8b2df0/bwapi/BWAPI/Source/BWAPI/BulletImpl.cpp#L93-L97
 double toPreservedBwapiAngle(const double angle) { return (angle * 128.0 / M_PI); }
 
+Callbacks callbacks;
+
+void Callbacks::initialize(JNIEnv *env, jclass jc) {
+  preFrameCallback = env->GetMethodID(jc, "preFrame", "()V");
+  onStartCallback = globalEnv->GetMethodID(jc, "onStart", "()V");
+  onEndCallback = env->GetMethodID(jc, "onEnd", "(Z)V");
+  onFrameCallback = env->GetMethodID(jc, "onFrame", "()V");
+  onSendTextCallback = env->GetMethodID(jc, "onSendText", "(Ljava/lang/String;)V");
+  onReceiveTextCallback = env->GetMethodID(jc, "onReceiveText", "(ILjava/lang/String;)V");
+  onPlayerLeftCallback = env->GetMethodID(jc, "onPlayerLeft", "(I)V");
+  onNukeDetectCallback = env->GetMethodID(jc, "onNukeDetect", "(II)V");
+  onUnitDiscoverCallback = env->GetMethodID(jc, "onUnitDiscover", "(I)V");
+  onUnitEvadeCallback = env->GetMethodID(jc, "onUnitEvade", "(I)V");
+  onUnitShowCallback = env->GetMethodID(jc, "onUnitShow", "(I)V");
+  onUnitHideCallback = env->GetMethodID(jc, "onUnitHide", "(I)V");
+  onUnitCreateCallback = env->GetMethodID(jc, "onUnitCreate", "(I)V");
+  onUnitDestroyCallback = env->GetMethodID(jc, "onUnitDestroy", "(I)V");
+  onUnitMorphCallback = env->GetMethodID(jc, "onUnitMorph", "(I)V");
+  onUnitRenegadeCallback = env->GetMethodID(jc, "onUnitRenegade", "(I)V");
+  onUnitCompleteCallback = env->GetMethodID(jc, "onUnitComplete", "(I)V");
+  onSaveGameCallback = env->GetMethodID(jc, "onSaveGame", "(Ljava/lang/String;)V");
+}
+
+void Callbacks::processEvents(JNIEnv *env, jobject bw, const std::list<BWAPI::Event> &events) {
+  env->CallObjectMethod(bw, callbacks.preFrameCallback);
+
+  for (const auto &event : events) {
+    switch (event.getType()) {
+#ifdef OPENBW
+      case BWAPI::EventType::MatchStart: {
+        globalEnv->CallObjectMethod(globalBW, onStartCallback);
+      } break;
+#endif
+      case BWAPI::EventType::MatchEnd: {
+        env->CallObjectMethod(bw, callbacks.onEndCallback, event.isWinner() ? JNI_TRUE : JNI_FALSE);
+      } break;
+#ifndef OPENBW
+      case BWAPI::EventType::MatchFrame: {
+        env->CallObjectMethod(bw, callbacks.onFrameCallback);
+      } break;
+#endif
+      case BWAPI::EventType::SendText: {
+        jstring string = env->NewStringUTF(event.getText().c_str());
+        env->CallObjectMethod(bw, callbacks.onSendTextCallback, string);
+        env->DeleteLocalRef(string);
+      } break;
+      case BWAPI::EventType::ReceiveText: {
+        jstring string = env->NewStringUTF(event.getText().c_str());
+        env->CallObjectMethod(bw, callbacks.onReceiveTextCallback, event.getPlayer()->getID(), string);
+        env->DeleteLocalRef(string);
+      } break;
+      case BWAPI::EventType::PlayerLeft: {
+        env->CallObjectMethod(bw, callbacks.onPlayerLeftCallback, event.getPlayer()->getID());
+      } break;
+      case BWAPI::EventType::NukeDetect: {
+        env->CallObjectMethod(bw, callbacks.onNukeDetectCallback, event.getPosition().x, event.getPosition().y);
+      } break;
+      case BWAPI::EventType::UnitDiscover: {
+        env->CallObjectMethod(bw, callbacks.onUnitDiscoverCallback, event.getUnit()->getID());
+      } break;
+      case BWAPI::EventType::UnitEvade: {
+        env->CallObjectMethod(bw, callbacks.onUnitEvadeCallback, event.getUnit()->getID());
+      } break;
+      case BWAPI::EventType::UnitShow: {
+        env->CallObjectMethod(bw, callbacks.onUnitShowCallback, event.getUnit()->getID());
+      } break;
+      case BWAPI::EventType::UnitHide: {
+        env->CallObjectMethod(bw, callbacks.onUnitHideCallback, event.getUnit()->getID());
+      } break;
+      case BWAPI::EventType::UnitCreate: {
+        env->CallObjectMethod(bw, callbacks.onUnitCreateCallback, event.getUnit()->getID());
+      } break;
+      case BWAPI::EventType::UnitDestroy: {
+        env->CallObjectMethod(bw, callbacks.onUnitDestroyCallback, event.getUnit()->getID());
+      } break;
+      case BWAPI::EventType::UnitMorph: {
+        env->CallObjectMethod(bw, callbacks.onUnitMorphCallback, event.getUnit()->getID());
+      } break;
+      case BWAPI::EventType::UnitRenegade: {
+        env->CallObjectMethod(bw, callbacks.onUnitRenegadeCallback, event.getUnit()->getID());
+      } break;
+      case BWAPI::EventType::SaveGame: {
+        jstring string = env->NewStringUTF(event.getText().c_str());
+        env->CallObjectMethod(bw, callbacks.onSaveGameCallback, string);
+        env->DeleteLocalRef(string);
+      } break;
+      case BWAPI::EventType::UnitComplete: {
+        env->CallObjectMethod(bw, callbacks.onUnitCompleteCallback, event.getUnit()->getID());
+      } break;
+    }
+  }
+}
+
 JNIEnv *globalEnv;
 jobject globalBW;
 
@@ -275,86 +368,12 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
       }
       LOGGER("Waiting for Java onStart initialization to finish... done");
 
-      jmethodID preFrameCallback = env->GetMethodID(jc, "preFrame", "()V");
-      jmethodID onEndCallback = env->GetMethodID(jc, "onEnd", "(Z)V");
-      jmethodID onFrameCallback = env->GetMethodID(jc, "onFrame", "()V");
-      jmethodID onSendCallback = env->GetMethodID(jc, "onSendText", "(Ljava/lang/String;)V");
-      jmethodID onReceiveCallback = env->GetMethodID(jc, "onReceiveText", "(ILjava/lang/String;)V");
-      jmethodID onPlayerLeftCallback = env->GetMethodID(jc, "onPlayerLeft", "(I)V");
-      jmethodID onNukeDetectCallback = env->GetMethodID(jc, "onNukeDetect", "(II)V");
-      jmethodID onUnitDiscoverCallback = env->GetMethodID(jc, "onUnitDiscover", "(I)V");
-      jmethodID onUnitEvadeCallback = env->GetMethodID(jc, "onUnitEvade", "(I)V");
-      jmethodID onUnitShowCallback = env->GetMethodID(jc, "onUnitShow", "(I)V");
-      jmethodID onUnitHideCallback = env->GetMethodID(jc, "onUnitHide", "(I)V");
-      jmethodID onUnitCreateCallback = env->GetMethodID(jc, "onUnitCreate", "(I)V");
-      jmethodID onUnitDestroyCallback = env->GetMethodID(jc, "onUnitDestroy", "(I)V");
-      jmethodID onUnitMorphCallback = env->GetMethodID(jc, "onUnitMorph", "(I)V");
-      jmethodID onUnitRenegadeCallback = env->GetMethodID(jc, "onUnitRenegade", "(I)V");
-      jmethodID onSaveGameCallback = env->GetMethodID(jc, "onSaveGame", "(Ljava/lang/String;)V");
-      jmethodID onUnitCompleteCallback = env->GetMethodID(jc, "onUnitComplete", "(I)V");
+      callbacks.initialize(env, jc);
 
       LOGGER("Entering in-game event loop...");
 
       while (BWAPI::Broodwar->isInGame()) {
-        env->CallObjectMethod(bw, preFrameCallback);
-        for (auto &e : BWAPI::Broodwar->getEvents()) {
-          switch (e.getType()) {
-            case BWAPI::EventType::MatchEnd: {
-              env->CallObjectMethod(bw, onEndCallback, e.isWinner() ? JNI_TRUE : JNI_FALSE);
-            } break;
-            case BWAPI::EventType::MatchFrame: {
-              env->CallObjectMethod(bw, onFrameCallback);
-            } break;
-            case BWAPI::EventType::SendText: {
-              jstring string = env->NewStringUTF(e.getText().c_str());
-              env->CallObjectMethod(bw, onSendCallback, string);
-              env->DeleteLocalRef(string);
-            } break;
-            case BWAPI::EventType::ReceiveText: {
-              jstring string = env->NewStringUTF(e.getText().c_str());
-              env->CallObjectMethod(bw, onReceiveCallback, e.getPlayer()->getID(), string);
-              env->DeleteLocalRef(string);
-            } break;
-            case BWAPI::EventType::PlayerLeft: {
-              env->CallObjectMethod(bw, onPlayerLeftCallback, e.getPlayer()->getID());
-            } break;
-            case BWAPI::EventType::NukeDetect: {
-              env->CallObjectMethod(bw, onNukeDetectCallback, e.getPosition().x, e.getPosition().y);
-            } break;
-            case BWAPI::EventType::UnitDiscover: {
-              env->CallObjectMethod(bw, onUnitDiscoverCallback, e.getUnit()->getID());
-            } break;
-            case BWAPI::EventType::UnitEvade: {
-              env->CallObjectMethod(bw, onUnitEvadeCallback, e.getUnit()->getID());
-            } break;
-            case BWAPI::EventType::UnitShow: {
-              env->CallObjectMethod(bw, onUnitShowCallback, e.getUnit()->getID());
-            } break;
-            case BWAPI::EventType::UnitHide: {
-              env->CallObjectMethod(bw, onUnitHideCallback, e.getUnit()->getID());
-            } break;
-            case BWAPI::EventType::UnitCreate: {
-              env->CallObjectMethod(bw, onUnitCreateCallback, e.getUnit()->getID());
-            } break;
-            case BWAPI::EventType::UnitDestroy: {
-              env->CallObjectMethod(bw, onUnitDestroyCallback, e.getUnit()->getID());
-            } break;
-            case BWAPI::EventType::UnitMorph: {
-              env->CallObjectMethod(bw, onUnitMorphCallback, e.getUnit()->getID());
-            } break;
-            case BWAPI::EventType::UnitRenegade: {
-              env->CallObjectMethod(bw, onUnitRenegadeCallback, e.getUnit()->getID());
-            } break;
-            case BWAPI::EventType::SaveGame: {
-              jstring string = env->NewStringUTF(e.getText().c_str());
-              env->CallObjectMethod(bw, onSaveGameCallback, string);
-              env->DeleteLocalRef(string);
-            } break;
-            case BWAPI::EventType::UnitComplete: {
-              env->CallObjectMethod(bw, onUnitCompleteCallback, e.getUnit()->getID());
-            } break;
-          }
-        }
+        callbacks.processEvents(env, bw, BWAPI::Broodwar->getEvents());
 
         BWAPI::BWAPIClient.update();  // Update to next frame.
 
