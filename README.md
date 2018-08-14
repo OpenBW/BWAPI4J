@@ -1,11 +1,11 @@
 ### Build Status
 
-| | BWAPI4J + Vanilla Bridge | BWAPI4J + OpenBW Bridge |
-|-|:-:|:-:|
-| **master** | N/A | [![Build Status](https://travis-ci.com/OpenBW/BWAPI4J.svg?branch=master)](https://travis-ci.com/OpenBW/BWAPI4J) |
-| **develop** | [![Build status](https://ci.appveyor.com/api/projects/status/uby2l601herytp47/branch/develop?svg=true)](https://ci.appveyor.com/project/adakitesystems/bwapi4j/branch/develop) | [![Build Status](https://travis-ci.com/OpenBW/BWAPI4J.svg?branch=master)](https://travis-ci.com/OpenBW/BWAPI4J) |
+| | Windows | Linux | Download |
+|-|:-:|:-:|:-:|
+| **master** | [![AppVeyor master](https://ci.appveyor.com/api/projects/status/uby2l601herytp47/branch/master?svg=true)](https://ci.appveyor.com/project/adakitesystems/bwapi4j/branch/master) | [![Travis CI master](https://travis-ci.com/OpenBW/BWAPI4J.svg?branch=master)](https://travis-ci.com/OpenBW/BWAPI4J) | [![download](https://img.shields.io/badge/master-v0.8.1b-blue.svg)](https://github.com/OpenBW/BWAPI4J/releases/tag/v0.8.1b) |
+| **develop** | [![AppVeyor develop](https://ci.appveyor.com/api/projects/status/uby2l601herytp47/branch/develop?svg=true)](https://ci.appveyor.com/project/adakitesystems/bwapi4j/branch/develop) | [![Travis CI develop](https://travis-ci.com/OpenBW/BWAPI4J.svg?branch=develop)](https://travis-ci.com/OpenBW/BWAPI4J) | [![download](https://img.shields.io/badge/develop-v0.8.2b-orange.svg)](https://github.com/OpenBW/BWAPI4J/releases/tag/v0.8.1b) |
 
-SHA-256 checksums for official v0.8.1b:
+SHA-256 checksums for official version 0.8.1b:
 
 ```
 ea8d6a7c07fc4b3d77feebf983bd5aee446392bfaab6ac4485c8059a39bd9391  BWAPI4J-0.8.1b.jar
