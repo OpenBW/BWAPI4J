@@ -25,15 +25,27 @@
 #include <BWAPI.h>
 #include <jni.h>
 
-#include "Callbacks.h"
-#include "JavaRefs.h"
+struct Callbacks {
+  jmethodID preFrameCallback;
+  jmethodID onStartCallback;
+  jmethodID onEndCallback;
+  jmethodID onFrameCallback;
+  jmethodID onSendTextCallback;
+  jmethodID onReceiveTextCallback;
+  jmethodID onPlayerLeftCallback;
+  jmethodID onNukeDetectCallback;
+  jmethodID onUnitDiscoverCallback;
+  jmethodID onUnitEvadeCallback;
+  jmethodID onUnitShowCallback;
+  jmethodID onUnitHideCallback;
+  jmethodID onUnitCreateCallback;
+  jmethodID onUnitDestroyCallback;
+  jmethodID onUnitMorphCallback;
+  jmethodID onUnitRenegadeCallback;
+  jmethodID onUnitCompleteCallback;
+  jmethodID onSaveGameCallback;
 
-extern JNIEnv *globalEnv;
-extern jobject globalBW;
+  void initialize(JNIEnv *, jclass);
 
-extern const size_t intBufSize;
-extern jint intBuf[];
-
-extern JavaRefs javaRefs;
-
-extern Callbacks callbacks;
+  void processEvents(JNIEnv *, jobject, const std::list<BWAPI::Event> &);
+};

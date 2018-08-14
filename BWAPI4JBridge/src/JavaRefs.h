@@ -20,20 +20,37 @@
 
 #pragma once
 
-#include <list>
-
-#include <BWAPI.h>
 #include <jni.h>
 
-#include "Callbacks.h"
-#include "JavaRefs.h"
+struct JavaRefs {
+  jclass arrayListClass;
+  jmethodID arrayListClass_add;
 
-extern JNIEnv *globalEnv;
-extern jobject globalBW;
+  jclass integerClass;
+  jmethodID integerClassConstructor;
 
-extern const size_t intBufSize;
-extern jint intBuf[];
+  jclass tilePositionClass;
+  jmethodID tilePositionConstructor;
 
-extern JavaRefs javaRefs;
+  jclass weaponTypeClass;
+  jclass techTypeClass;
 
-extern Callbacks callbacks;
+  jclass unitTypeClass;
+  jmethodID unitTypeClass_addRequiredUnit;
+
+  jclass upgradeTypeClass;
+  jmethodID upgradeTypeClass_addUsingUnit;
+
+  jclass damageTypeClass;
+  jclass explosionTypeClass;
+  jclass raceClass;
+  jclass unitSizeTypeClass;
+  jclass orderClass;
+
+  jclass pairClass;
+  jmethodID pairClassConstructor;
+
+  jclass bwMapClass;
+
+  void initialize(JNIEnv *);
+};
