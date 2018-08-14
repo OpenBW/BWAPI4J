@@ -20,11 +20,9 @@ build_script:
     gradlew.bat sourcesJar javadocJar shadowJar
 
 on_success:
-  - ps: Invoke-RestMethod https://github.com/OpenBW/BWAPI4J/blob/develop/webhooks/appveyor_discord.ps1 -o appveyor_discord.ps1
-  - ps: ./appveyor_discord.ps1 success $env:APPVEYOR_DISCORD_WEBHOOK_URL
+  - ps: ../webhooks/appveyor_discord.ps1 success $env:APPVEYOR_DISCORD_WEBHOOK_URL
 on_failure:
-  - ps: Invoke-RestMethod https://github.com/OpenBW/BWAPI4J/blob/develop/webhooks/appveyor_discord.ps1 -o appveyor_discord.ps1
-  - ps: ./appveyor_discord.ps1 failure $env:APPVEYOR_DISCORD_WEBHOOK_URL
+  - ps: ../webhooks/appveyor_discord.ps1 failure $env:APPVEYOR_DISCORD_WEBHOOK_URL
 
 cache:
   - '%USERPROFILE%\.gradle'
