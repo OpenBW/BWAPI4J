@@ -32,8 +32,8 @@ void BridgeEnum::initialize() {
 }
 
 void BridgeEnum::createUpgradeTypeEnum() {
-  // read static data: UpgradeType
-  LOGGER("reading upgrade types...");
+  LOGGER("Reading upgrade types...");
+
   for (BWAPI::UpgradeType upgradeType : BWAPI::UpgradeTypes::allUpgradeTypes()) {
     if (upgradeType.getName().empty()) {
       return;
@@ -93,12 +93,13 @@ void BridgeEnum::createUpgradeTypeEnum() {
         unitTypeClass, globalEnv->GetStaticFieldID(unitTypeClass, upgradeType.whatUpgrades().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;"));
     globalEnv->SetObjectField(CurrentUpgradeType, globalEnv->GetFieldID(upgradeTypeClass, "whatUpgrades", "Lorg/openbw/bwapi4j/type/UnitType;"), whatUpgrades);
   }
-  LOGGER("done");
+
+  LOGGER("Reading upgrade types... done");
 }
 
 void BridgeEnum::createTechTypeEnum() {
-  // read static data: TechType
-  LOGGER("reading tech types...");
+  LOGGER("Reading tech types...");
+
   for (BWAPI::TechType techType : BWAPI::TechTypes::allTechTypes()) {
     if (techType.getName().empty()) {
       return;
@@ -136,12 +137,13 @@ void BridgeEnum::createTechTypeEnum() {
         unitTypeClass, globalEnv->GetStaticFieldID(unitTypeClass, techType.requiredUnit().getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;"));
     globalEnv->SetObjectField(CurrentTechType, globalEnv->GetFieldID(techTypeClass, "requiredUnit", "Lorg/openbw/bwapi4j/type/UnitType;"), requiredUnit);
   }
-  LOGGER("done");
+
+  LOGGER("Reading tech types... done");
 }
 
 void BridgeEnum::createWeaponTypeEnum() {
-  // read static data: WeaponType
-  LOGGER("reading weapon types...");
+  LOGGER("Reading weapon types...");
+
   for (BWAPI::WeaponType weaponType : BWAPI::WeaponTypes::allWeaponTypes()) {
     if (weaponType.getName().empty()) {
       return;
@@ -194,11 +196,13 @@ void BridgeEnum::createWeaponTypeEnum() {
     globalEnv->SetObjectField(CurrentWeaponType, globalEnv->GetFieldID(weaponTypeClass, "explosionType", "Lorg/openbw/bwapi4j/type/ExplosionType;"),
                               explosionType);
   }
-  LOGGER("done");
+
+  LOGGER("Reading weapon types... done");
 }
 
 void BridgeEnum::createUnitTypeEnum() {
-  LOGGER("reading unit types...");
+  LOGGER("Reading unit types...");
+
   for (BWAPI::UnitType unitType : BWAPI::UnitTypes::allUnitTypes()) {
     if (unitType.getName().empty()) {
       return;
@@ -366,5 +370,6 @@ void BridgeEnum::createUnitTypeEnum() {
     }
     globalEnv->DeleteLocalRef(CurrentUnitType);
   }
-  LOGGER("done");
+
+  LOGGER("Reading unit types... done");
 }

@@ -24,8 +24,8 @@
 #include "org_openbw_bwapi4j_BWMapImpl.h"
 
 void BridgeMap::initialize(JNIEnv *env, jclass jc, jobject bwObject, jclass bwMapClass) {
-  // read map information
-  LOGGER("reading map information...");
+  LOGGER("Reading map information...");
+
   jfieldID bwMapField = env->GetFieldID(jc, "bwMap", "Lorg/openbw/bwapi4j/BWMapImpl;");
   jobject bwMap = env->GetObjectField(bwObject, bwMapField);
 
@@ -93,9 +93,11 @@ void BridgeMap::initialize(JNIEnv *env, jclass jc, jobject bwObject, jclass bwMa
     env->ExceptionDescribe();
     return;
   }
-  LOGGER("done");
+
+  LOGGER("Reading map information... done");
 }
 
+// TODO: Check if "isBuildable" is static. If yes, move this into a native init method such as "int[] getIsBuildableData()" and call from Java during onStart.
 JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl__1isBuildable(JNIEnv *, jobject, jint tileX, jint tileY, jboolean considerBuildings) {
   return BWAPI::Broodwar->isBuildable(tileX, tileY, considerBuildings) ? 1 : 0;
 }

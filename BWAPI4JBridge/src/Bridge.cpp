@@ -114,7 +114,7 @@ extern "C" DLLEXPORT BWAPI::AIModule *newAIModule() { return new OpenBridge::Ope
  * Finds and stores references to Java classes and methods globally.
  */
 void initializeJavaReferences(JNIEnv *env, jobject caller) {
-  LOGGER("initializing Java references...");
+  LOGGER("Initializing Java references...");
 
   arrayListClass = env->FindClass("java/util/ArrayList");
   arrayListClass_add = env->GetMethodID(arrayListClass, "add", "(Ljava/lang/Object;)Z");
@@ -145,7 +145,7 @@ void initializeJavaReferences(JNIEnv *env, jobject caller) {
 
   bwMapClass = env->FindClass("org/openbw/bwapi4j/BWMapImpl");
 
-  LOGGER("done")
+  LOGGER("Initializing Java references... done");
 }
 
 #ifndef OPENBW
@@ -171,7 +171,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_killUnit(JNIEnv *, jobject, ji
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_exit(JNIEnv *, jobject) {
 #ifndef OPENBW
   finished = true;
-  LOGGER("exiting after current game");
+  LOGGER("Exiting after current game.");
 #endif
 }
 
@@ -180,7 +180,6 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_mainThread(JNIEnv *, jobject) 
   BW::sacrificeThreadForUI([] {
     while (!finished) std::this_thread::sleep_for(std::chrono::seconds(5));
   });
-  // std::cout << "thread done." << std::endl;
 #endif
 }
 
@@ -250,6 +249,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
   LOGGER("Connection successful, starting match...");
 
   while (!finished) {
+    // TODO: Determine if we need all these different "connect/reconnect" calls. Can it not be just one?
     while (!BWAPI::Broodwar->isInGame()) {
       BWAPI::BWAPIClient.update();
       if (!BWAPI::BWAPIClient.isConnected()) {
@@ -265,14 +265,15 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
     if (false && BWAPI::Broodwar->isReplay()) {  // right now don't treat replays any different
 
     } else {
-      LOGGER("calling onStart callback...");
+      LOGGER("Calling onStart callback...");
       env->CallObjectMethod(bw, env->GetMethodID(jc, "onStart", "()V"));
+      LOGGER("Calling onStart callback... done");
 
-      LOGGER("waiting for Java onStart initialization to finish...");
+      LOGGER("Waiting for Java onStart initialization to finish...");
       while (!onStartInitializationIsDone) {
         /* Do nothing. Just wait. */
       }
-      LOGGER("waiting for Java onStart initialization to finish... done");
+      LOGGER("Waiting for Java onStart initialization to finish... done");
 
       jmethodID preFrameCallback = env->GetMethodID(jc, "preFrame", "()V");
       jmethodID onEndCallback = env->GetMethodID(jc, "onEnd", "(Z)V");
@@ -292,110 +293,77 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
       jmethodID onSaveGameCallback = env->GetMethodID(jc, "onSaveGame", "(Ljava/lang/String;)V");
       jmethodID onUnitCompleteCallback = env->GetMethodID(jc, "onUnitComplete", "(I)V");
 
-      LOGGER("entering in-game event loop...");
+      LOGGER("Entering in-game event loop...");
 
       while (BWAPI::Broodwar->isInGame()) {
         env->CallObjectMethod(bw, preFrameCallback);
         for (auto &e : BWAPI::Broodwar->getEvents()) {
           switch (e.getType()) {
             case BWAPI::EventType::MatchEnd: {
-              //  std::cout << "calling onEnd..." << std::endl;
               env->CallObjectMethod(bw, onEndCallback, e.isWinner() ? JNI_TRUE : JNI_FALSE);
-              // std::cout << "done." << std::endl;
             } break;
             case BWAPI::EventType::MatchFrame: {
-              // std::cout << "calling onFrame..." << std::endl;
               env->CallObjectMethod(bw, onFrameCallback);
-              // std::cout << "done." << std::endl;
             } break;
             case BWAPI::EventType::SendText: {
-              // std::cout << "calling onSend..." << std::endl;
               jstring string = env->NewStringUTF(e.getText().c_str());
               env->CallObjectMethod(bw, onSendCallback, string);
               env->DeleteLocalRef(string);
-              // std::cout << "done." << std::endl;
             } break;
             case BWAPI::EventType::ReceiveText: {
-              // std::cout << "calling onReceive..." << std::endl;
               jstring string = env->NewStringUTF(e.getText().c_str());
               env->CallObjectMethod(bw, onReceiveCallback, e.getPlayer()->getID(), string);
               env->DeleteLocalRef(string);
-              // std::cout << "done." << std::endl;
             } break;
             case BWAPI::EventType::PlayerLeft: {
-              // std::cout << "calling onPlayerLeft..." << std::endl;
               env->CallObjectMethod(bw, onPlayerLeftCallback, e.getPlayer()->getID());
-              // std::cout << "done." << std::endl;
             } break;
             case BWAPI::EventType::NukeDetect: {
-              // std::cout << "calling onNukeDetect..." << std::endl;
               env->CallObjectMethod(bw, onNukeDetectCallback, e.getPosition().x, e.getPosition().y);
-              // std::cout << "done." << std::endl;
             } break;
             case BWAPI::EventType::UnitDiscover: {
-              // std::cout << "calling onUnitDiscover..." << std::endl;
               env->CallObjectMethod(bw, onUnitDiscoverCallback, e.getUnit()->getID());
-              // std::cout << "done." << std::endl;
             } break;
             case BWAPI::EventType::UnitEvade: {
-              // std::cout << "calling onUnitEvade..." << std::endl;
               env->CallObjectMethod(bw, onUnitEvadeCallback, e.getUnit()->getID());
-              // std::cout << "done." << std::endl;
             } break;
             case BWAPI::EventType::UnitShow: {
-              // std::cout << "calling onUnitShow..." << std::endl;
               env->CallObjectMethod(bw, onUnitShowCallback, e.getUnit()->getID());
-              // std::cout << "done." << std::endl;
             } break;
             case BWAPI::EventType::UnitHide: {
-              // std::cout << "calling onUnitHide..." << std::endl;
               env->CallObjectMethod(bw, onUnitHideCallback, e.getUnit()->getID());
-              // std::cout << "done." << std::endl;
             } break;
             case BWAPI::EventType::UnitCreate: {
-              // std::cout << "calling onUnitCreate..." << std::endl;
               env->CallObjectMethod(bw, onUnitCreateCallback, e.getUnit()->getID());
-              // std::cout << "done." << std::endl;
             } break;
             case BWAPI::EventType::UnitDestroy: {
-              // std::cout << "calling onUnitDestroy..." << std::endl;
               env->CallObjectMethod(bw, onUnitDestroyCallback, e.getUnit()->getID());
-              // std::cout << "done." << std::endl;
             } break;
             case BWAPI::EventType::UnitMorph: {
-              // std::cout << "calling onUnitMorph..." << std::endl;
               env->CallObjectMethod(bw, onUnitMorphCallback, e.getUnit()->getID());
-              // std::cout << "done." << std::endl;
             } break;
             case BWAPI::EventType::UnitRenegade: {
-              // std::cout << "calling onUnitRenegade..." << std::endl;
               env->CallObjectMethod(bw, onUnitRenegadeCallback, e.getUnit()->getID());
-              // std::cout << "done." << std::endl;
             } break;
             case BWAPI::EventType::SaveGame: {
-              LOGGER("calling onSaveGame...");
               jstring string = env->NewStringUTF(e.getText().c_str());
               env->CallObjectMethod(bw, onSaveGameCallback, string);
               env->DeleteLocalRef(string);
-              LOGGER("done");
             } break;
             case BWAPI::EventType::UnitComplete: {
-              // std::cout << "calling onUnitComplete..." << std::endl;
               env->CallObjectMethod(bw, onUnitCompleteCallback, e.getUnit()->getID());
-              // std::cout << "done." << std::endl;
             } break;
           }
         }
 
-        // std::cout << "updating to next frame..." << std::endl;
-        BWAPI::BWAPIClient.update();
-        // std::cout << "done." << std::endl;
+        BWAPI::BWAPIClient.update();  // Update to next frame.
+
         if (!BWAPI::BWAPIClient.isConnected()) {
           LOGGER("Reconnecting...");
           reconnect();
         }
       }
-      LOGGER("game over");
+      LOGGER("Game over.");
     }
   }
 #endif
@@ -405,12 +373,12 @@ int addBulletDataToBuffer(BWAPI::Bullet &b, int index) {
   intBuf[index++] = b->exists() ? 1 : 0;
   intBuf[index++] = toPreservedDouble(toPreservedBwapiAngle(b->getAngle()));
   intBuf[index++] = b->getID();
-  intBuf[index++] = b->getPlayer() == NULL ? -1 : b->getPlayer()->getID();
+  intBuf[index++] = b->getPlayer() ? b->getPlayer()->getID() : -1;
   intBuf[index++] = b->getPosition().x;
   intBuf[index++] = b->getPosition().y;
   intBuf[index++] = b->getRemoveTimer();
-  intBuf[index++] = b->getSource() == NULL ? -1 : b->getSource()->getID();
-  intBuf[index++] = b->getTarget() == NULL ? -1 : b->getTarget()->getID();
+  intBuf[index++] = b->getSource() ? b->getSource()->getID() : -1;
+  intBuf[index++] = b->getTarget() ? b->getTarget()->getID() : -1;
   intBuf[index++] = b->getTargetPosition().x;
   intBuf[index++] = b->getTargetPosition().y;
   intBuf[index++] = b->getType();
@@ -456,9 +424,9 @@ int addUnitDataToBuffer(BWAPI::Unit &u, int index) {
   intBuf[index++] = u->getResourceGroup();
   intBuf[index++] = u->getLastCommandFrame();
   intBuf[index++] = u->getLastCommand().getType().getID();
-  // getLastAttackingPlayer doesn't work as documented, have to check for "None" player
-  intBuf[index++] =
-      (u->getLastAttackingPlayer() != NULL && u->getLastAttackingPlayer()->getType() != BWAPI::PlayerTypes::None) ? u->getLastAttackingPlayer()->getID() : -1;
+  intBuf[index++] = (u->getLastAttackingPlayer() && u->getLastAttackingPlayer()->getType() != BWAPI::PlayerTypes::None)
+                        ? u->getLastAttackingPlayer()->getID()
+                        : -1;  // getLastAttackingPlayer doesn't work as documented, have to check for "None" player
   intBuf[index++] = u->getInitialType().getID();
   intBuf[index++] = u->getInitialPosition().x;
   intBuf[index++] = u->getInitialPosition().y;
@@ -497,25 +465,24 @@ int addUnitDataToBuffer(BWAPI::Unit &u, int index) {
   intBuf[index++] = u->getRemainingTrainTime();
   intBuf[index++] = u->getRemainingResearchTime();
   intBuf[index++] = u->getRemainingUpgradeTime();
-  intBuf[index++] = (u->getBuildUnit() != NULL) ? u->getBuildUnit()->getID() : -1;
-  intBuf[index++] = (u->getTarget() != NULL) ? u->getTarget()->getID() : -1;
+  intBuf[index++] = u->getBuildUnit() ? u->getBuildUnit()->getID() : -1;
+  intBuf[index++] = u->getTarget() ? u->getTarget()->getID() : -1;
   intBuf[index++] = u->getTargetPosition().x;
   intBuf[index++] = u->getTargetPosition().y;
   intBuf[index++] = u->getOrder().getID();
-  intBuf[index++] = (u->getOrderTarget() != NULL) ? u->getOrderTarget()->getID() : -1;
+  intBuf[index++] = u->getOrderTarget() ? u->getOrderTarget()->getID() : -1;
   intBuf[index++] = u->getSecondaryOrder().getID();
   intBuf[index++] = u->getRallyPosition().x;
   intBuf[index++] = u->getRallyPosition().y;
-  intBuf[index++] = (u->getRallyUnit() != NULL) ? u->getRallyUnit()->getID() : -1;
-  intBuf[index++] = (u->getAddon() != NULL) ? u->getAddon()->getID() : -1;
-  intBuf[index++] = (u->getNydusExit() != NULL) ? u->getNydusExit()->getID() : -1;
-  intBuf[index++] = (u->getTransport() != NULL) ? u->getTransport()->getID() : -1;
-  intBuf[index++] = u->getLoadedUnits().size();  // see separate getLoadedUnits method
-  intBuf[index++] = (u->getCarrier() != NULL) ? u->getCarrier()->getID() : -1;
-  // see getInterceptorCount and separate getInterceptors method
-  intBuf[index++] = (u->getHatchery() != NULL) ? u->getHatchery()->getID() : -1;
+  intBuf[index++] = u->getRallyUnit() ? u->getRallyUnit()->getID() : -1;
+  intBuf[index++] = u->getAddon() ? u->getAddon()->getID() : -1;
+  intBuf[index++] = u->getNydusExit() ? u->getNydusExit()->getID() : -1;
+  intBuf[index++] = u->getTransport() ? u->getTransport()->getID() : -1;
+  intBuf[index++] = u->getLoadedUnits().size();                       // see separate getLoadedUnits method
+  intBuf[index++] = u->getCarrier() ? u->getCarrier()->getID() : -1;  // see getInterceptorCount and separate getInterceptors method
+  intBuf[index++] = u->getHatchery() ? u->getHatchery()->getID() : -1;
   intBuf[index++] = u->getLarva().size();  // see separate getLarva method
-  intBuf[index++] = (u->getPowerUp() != NULL) ? u->getPowerUp()->getID() : -1;
+  intBuf[index++] = u->getPowerUp() ? u->getPowerUp()->getID() : -1;
   intBuf[index++] = u->exists() ? 1 : 0;
   intBuf[index++] = u->hasNuke() ? 1 : 0;
   intBuf[index++] = u->isAccelerating() ? 1 : 0;
@@ -692,7 +659,7 @@ int addPlayerDataToBuffer(BWAPI::Player &player, int index) {
   return index;
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllPlayersData(JNIEnv *env, jobject jObject) {
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllPlayersData(JNIEnv *env, jobject) {
   int index = 0;
 
   for (BWAPI::Player player : BWAPI::Broodwar->getPlayers()) {
@@ -711,9 +678,9 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllPlayersData(JNIEnv 
   return result;
 }
 
-JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BW_getClientVersion(JNIEnv *env, jobject jObj) { return (jint)BWAPI::Broodwar->getClientVersion(); }
+JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BW_getClientVersion(JNIEnv *, jobject) { return (jint)BWAPI::Broodwar->getClientVersion(); }
 
-JNIEXPORT jstring JNICALL Java_org_openbw_bwapi4j_BW_getPlayerName(JNIEnv *env, jobject jObj, jint playerID) {
+JNIEXPORT jstring JNICALL Java_org_openbw_bwapi4j_BW_getPlayerName(JNIEnv *env, jobject, jint playerID) {
   // NewStringUTF can cause issues with unusual characters like Korean symbols
   return env->NewStringUTF(BWAPI::Broodwar->getPlayer(playerID)->getName().c_str());
   /* alternatively, use byte array:
@@ -725,7 +692,7 @@ JNIEXPORT jstring JNICALL Java_org_openbw_bwapi4j_BW_getPlayerName(JNIEnv *env, 
   */
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getResearchStatus(JNIEnv *env, jobject jObj, jint playerID) {
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getResearchStatus(JNIEnv *env, jobject, jint playerID) {
   int index = 0;
   BWAPI::Player p = BWAPI::Broodwar->getPlayer(playerID);
 
@@ -755,7 +722,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUpgradeStatus(JNIEnv *
   return result;
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getGameData(JNIEnv *env, jobject jObj) {
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getGameData(JNIEnv *env, jobject) {
   int index = 0;
   intBuf[index++] = BWAPI::Broodwar->getLastError();
   intBuf[index++] = BWAPI::Broodwar->getScreenPosition().x;
