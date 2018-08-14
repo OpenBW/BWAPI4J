@@ -55,6 +55,7 @@ const size_t intBufSize = 5000000;
 jint intBuf[intBufSize];
 
 bool finished = false;
+bool onStartInitializationIsDone = false;
 
 const double RADIANS_TO_DEGREES = 180.0 / M_PI;
 const double DECIMAL_PRESERVATION_SCALE = 100.0;
@@ -267,9 +268,11 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
       LOGGER("calling onStart callback...");
       env->CallObjectMethod(bw, env->GetMethodID(jc, "onStart", "()V"));
 
-      // this is a hack to ensure the Java-side onStart gets enough time to finish initialization before the event callbacks trigger.
-      // TODO ideally, this should be solved via a callback from Java to c++ once Java-side onStart has finished initialization.
-      std::this_thread::sleep_for(std::chrono::milliseconds{40});
+      LOGGER("waiting for Java onStart initialization to finish...");
+      while (!onStartInitializationIsDone) {
+        /* Do nothing. Just wait. */
+      }
+      LOGGER("waiting for Java onStart initialization to finish... done");
 
       jmethodID preFrameCallback = env->GetMethodID(jc, "preFrame", "()V");
       jmethodID onEndCallback = env->GetMethodID(jc, "onEnd", "(Z)V");
@@ -585,14 +588,7 @@ int addUnitDataToBuffer(BWAPI::Unit &u, int index) {
   return index;
 }
 
-/**
- * Returns the list of active units in the game.
- *
- * Each unit takes up a fixed number of integer values. Currently: 125
- */
 JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllUnitsData(JNIEnv *env, jobject jObject) {
-  // std::cout << "units length: " << BWAPI::Broodwar->getAllUnits().size() << std::endl;
-
   int index = 0;
   for (BWAPI::Unit unit : BWAPI::Broodwar->getAllUnits()) {
     index = addUnitDataToBuffer(unit, index);
@@ -798,4 +794,8 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getGameData(JNIEnv *env, 
   env->SetIntArrayRegion(result, 0, index, intBuf);
 
   return result;
+}
+
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_setOnStartInitializationIsDone_1native(JNIEnv *, jobject, jboolean isDone) {
+  onStartInitializationIsDone = isDone;
 }

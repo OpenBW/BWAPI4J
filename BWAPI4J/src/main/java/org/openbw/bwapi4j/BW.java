@@ -114,8 +114,6 @@ public class BW {
     private Cache<List<MineralPatch>> getMineralPatchesCache;
     private Cache<List<VespeneGeyser>> getVespeneGeysersCache;
 
-    private boolean onStartInitializationDone;
-
     /**
      * The default value for {@code BridgeType} is
      * {@link BridgeType#VANILLA} on Windows and
@@ -457,7 +455,7 @@ public class BW {
     
     public void startGame() {
 
-    	this.onStartInitializationDone = false;
+    	setOnStartInitializationIsDone(false);
     	final BW myBw = this;
     	final Thread thread = new Thread(() -> startGame(myBw));
 
@@ -711,6 +709,8 @@ public class BW {
     private void onStart() {
 
     	try {
+            setOnStartInitializationIsDone(false);
+
 	    	logger.trace(" --- onStart called.");
 	        this.frame = 0;
 	        this.players.clear();
@@ -722,12 +722,17 @@ public class BW {
 	        logger.trace("done.");
 	        listener.onStart();
     	} catch (Exception e) {
-    		
     		logger.error("exception during onStart.", e);
     		throw e;
     	} finally {
-    		this.onStartInitializationDone = true;
+            setOnStartInitializationIsDone(true);
     	}
+    }
+
+    private native void setOnStartInitializationIsDone_native(boolean isDone);
+
+    private void setOnStartInitializationIsDone(final boolean isDone) {
+        setOnStartInitializationIsDone_native(isDone);
     }
 
     private void onEnd(boolean isWinner) {
