@@ -31,34 +31,40 @@ extern jobject globalBW;
 extern const size_t intBufSize;
 extern jint intBuf[];
 
-extern jclass arrayListClass;
-extern jmethodID arrayListClass_add;
+struct JavaRefs {
+  jclass arrayListClass;
+  jmethodID arrayListClass_add;
 
-extern jclass integerClass;
-extern jmethodID integerClassConstructor;
+  jclass integerClass;
+  jmethodID integerClassConstructor;
 
-extern jclass tilePositionClass;
-extern jmethodID tilePositionConstructor;
+  jclass tilePositionClass;
+  jmethodID tilePositionConstructor;
 
-extern jclass weaponTypeClass;
-extern jclass techTypeClass;
+  jclass weaponTypeClass;
+  jclass techTypeClass;
 
-extern jclass unitTypeClass;
-extern jmethodID unitTypeClass_addRequiredUnit;
+  jclass unitTypeClass;
+  jmethodID unitTypeClass_addRequiredUnit;
 
-extern jclass upgradeTypeClass;
-extern jmethodID upgradeTypeClass_addUsingUnit;
+  jclass upgradeTypeClass;
+  jmethodID upgradeTypeClass_addUsingUnit;
 
-extern jclass damageTypeClass;
-extern jclass explosionTypeClass;
-extern jclass raceClass;
-extern jclass unitSizeTypeClass;
-extern jclass orderClass;
+  jclass damageTypeClass;
+  jclass explosionTypeClass;
+  jclass raceClass;
+  jclass unitSizeTypeClass;
+  jclass orderClass;
 
-extern jclass pairClass;
-extern jmethodID pairClassConstructor;
+  jclass pairClass;
+  jmethodID pairClassConstructor;
 
-extern jclass bwMapClass;
+  jclass bwMapClass;
+
+  void initialize(JNIEnv *);
+};
+
+extern JavaRefs javaRefs;
 
 struct Callbacks {
   jmethodID preFrameCallback;

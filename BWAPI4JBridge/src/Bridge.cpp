@@ -162,51 +162,9 @@ void Callbacks::processEvents(JNIEnv *env, jobject bw, const std::list<BWAPI::Ev
   }
 }
 
-JNIEnv *globalEnv;
-jobject globalBW;
+JavaRefs javaRefs;
 
-jclass arrayListClass;
-jmethodID arrayListClass_add;
-
-jclass integerClass;
-jmethodID integerClassConstructor;
-
-jclass tilePositionClass;
-jmethodID tilePositionConstructor;
-
-jclass weaponTypeClass;
-jclass techTypeClass;
-
-jclass unitTypeClass;
-jmethodID unitTypeClass_addRequiredUnit;
-
-jclass upgradeTypeClass;
-jmethodID upgradeTypeClass_addUsingUnit;
-
-jclass damageTypeClass;
-jclass explosionTypeClass;
-jclass raceClass;
-jclass unitSizeTypeClass;
-jclass orderClass;
-
-jclass pairClass;
-jmethodID pairClassConstructor;
-
-jclass bwMapClass;
-
-#ifdef _WIN32
-BOOL APIENTRY DllMain(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved) { return TRUE; }
-#endif
-
-#ifdef OPENBW
-extern "C" DLLEXPORT void gameInit(BWAPI::Game *game) { BWAPI::BroodwarPtr = game; }
-extern "C" DLLEXPORT BWAPI::AIModule *newAIModule() { return new OpenBridge::OpenBridgeModule(); }
-#endif
-
-/*
- * Finds and stores references to Java classes and methods globally.
- */
-void initializeJavaReferences(JNIEnv *env, jobject caller) {
+void JavaRefs::initialize(JNIEnv *env) {
   LOGGER("Initializing Java references...");
 
   arrayListClass = env->FindClass("java/util/ArrayList");
@@ -240,6 +198,18 @@ void initializeJavaReferences(JNIEnv *env, jobject caller) {
 
   LOGGER("Initializing Java references... done");
 }
+
+JNIEnv *globalEnv;
+jobject globalBW;
+
+#ifdef _WIN32
+BOOL APIENTRY DllMain(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved) { return TRUE; }
+#endif
+
+#ifdef OPENBW
+extern "C" DLLEXPORT void gameInit(BWAPI::Game *game) { BWAPI::BroodwarPtr = game; }
+extern "C" DLLEXPORT BWAPI::AIModule *newAIModule() { return new OpenBridge::OpenBridgeModule(); }
+#endif
 
 #ifndef OPENBW
 void reconnect() {
@@ -290,7 +260,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
     intBuf[i] = (jint)0;
   }
 
-  initializeJavaReferences(env, bwObject);
+  javaRefs.initialize(env);
 
 #ifdef OPENBW
   try {
@@ -353,7 +323,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
     LOGGER(fmt::format("Client version: {}", BWAPI::Broodwar->getClientVersion()));
 
     bridgeEnum.initialize();
-    bridgeMap.initialize(env, env->GetObjectClass(bwObject), bw, bwMapClass);
+    bridgeMap.initialize(env, env->GetObjectClass(bwObject), bw, javaRefs.bwMapClass);
 
     if (false && BWAPI::Broodwar->isReplay()) {  // right now don't treat replays any different
 
