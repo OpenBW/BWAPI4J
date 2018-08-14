@@ -40,9 +40,9 @@ public class ScienceVessel extends MobileUnit implements Mechanical, SpellCaster
                 Defensive_Matrix.getId());
     }
 
-    public boolean irradiate(Organic unit) {
+    public boolean irradiate(PlayerUnit unit) {
         
-        return issueCommand(this.id, Use_Tech_Unit, ((Unit) unit).getId(), -1, -1,
+        return issueCommand(this.id, Use_Tech_Unit, unit.getId(), -1, -1,
                 Irradiate.getId());
     }
 
