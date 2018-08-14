@@ -19,8 +19,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "Callbacks.h"
+#include "Logger.h"
 
 void Callbacks::initialize(JNIEnv *env, jclass jc) {
+  LOGGER("Initializing callbacks...");
+
   preFrameCallback = env->GetMethodID(jc, "preFrame", "()V");
   onStartCallback = env->GetMethodID(jc, "onStart", "()V");
   onEndCallback = env->GetMethodID(jc, "onEnd", "(Z)V");
@@ -39,6 +42,8 @@ void Callbacks::initialize(JNIEnv *env, jclass jc) {
   onUnitRenegadeCallback = env->GetMethodID(jc, "onUnitRenegade", "(I)V");
   onUnitCompleteCallback = env->GetMethodID(jc, "onUnitComplete", "(I)V");
   onSaveGameCallback = env->GetMethodID(jc, "onSaveGame", "(Ljava/lang/String;)V");
+
+  LOGGER("Initializing callbacks... done");
 }
 
 void Callbacks::processEvents(JNIEnv *env, jobject bw, const std::list<BWAPI::Event> &events) {
