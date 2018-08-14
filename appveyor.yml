@@ -1,15 +1,15 @@
-version: 0.8.{build}
+version: 0.8.2b build {build}
 
-branches:
-  only:
-  - develop
-  
 image: 
   - Visual Studio 2017
 
 install:
   - git submodule update --init --recursive
   - cmd: set appveyor=yes
+ 
+environment:
+  APPVEYOR_DISCORD_WEBHOOK_URL:
+    secure: X51MbqvQdttlu+D/AvPqOmCFRJGTAk594CXQA9Cv6wqkV+6wn5I4OzHtc2HInZ1sqdfZobFhJSEVnL6d+jedfaNPrqDUbOHWXLJLZIbcBzU2e9IT7zJMbh0t4R9U3rZl0t3QveeZ3I+PNTgnNcq45ZFeZ3o2AjDm+mlskjIFUbg=
  
 build_script:
 - cmd: >-
@@ -18,6 +18,13 @@ build_script:
     gradlew.bat clean buildVanillaBridgeForWindows
     
     gradlew.bat sourcesJar javadocJar shadowJar
+
+on_success:
+  - ps: Invoke-RestMethod https://github.com/OpenBW/BWAPI4J/blob/develop/webhooks/appveyor_discord.ps1 -o appveyor_discord.ps1
+  - ps: ./appveyor_discord.ps1 success $env:APPVEYOR_DISCORD_WEBHOOK_URL
+on_failure:
+  - ps: Invoke-RestMethod https://github.com/OpenBW/BWAPI4J/blob/develop/webhooks/appveyor_discord.ps1 -o appveyor_discord.ps1
+  - ps: ./appveyor_discord.ps1 failure $env:APPVEYOR_DISCORD_WEBHOOK_URL
 
 cache:
   - '%USERPROFILE%\.gradle'
