@@ -20,7 +20,7 @@
 
 package org.openbw.bwapi4j;
 
-import static java.lang.Math.abs;
+import static org.openbw.bwapi4j.util.MathUtil.estimateDistanceBetween;
 
 public class Position {
 
@@ -55,19 +55,7 @@ public class Position {
      * This is ported from BWAPI's getApproxDistance method.
      */
     public int getDistance(final Position position) {
-    	int min = abs(getX() - position.getX());
-    	int max = abs(getY() - position.getY());
-
-        if (max < min) {
-            int t = max;
-            max = min;
-            min = t;
-        }
-
-        if (min < (max >> 2)) return max;
-
-        int minCalc = (3 * min) >> 3;
-        return (minCalc >> 5) + minCalc + max - (max >> 4) - (max >> 6);
+        return estimateDistanceBetween(getX(), getY(), position.getX(), position.getY());
     }
 
     public TilePosition toTilePosition() {
