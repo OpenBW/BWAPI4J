@@ -38,6 +38,7 @@ dependencies {
     compile 'com.github.xaguzman:pathfinding:0.2.6'
     compile 'net.lingala.zip4j:zip4j:1.3.2'
 
+    testCompile 'com.google.truth:truth:0.42'
     testCompile 'junit:junit:4.12'
     testCompile 'org.apache.commons:commons-compress:1.16.1'
 }

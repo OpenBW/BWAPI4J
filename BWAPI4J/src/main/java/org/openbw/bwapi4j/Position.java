@@ -20,14 +20,20 @@
 
 package org.openbw.bwapi4j;
 
+import org.openbw.bwapi4j.annotation.Px;
+import org.openbw.bwapi4j.annotation.Tile;
+
 import static java.lang.Math.abs;
 
+/**
+ * Represents the {@link Position} in {@link Px} space.
+ */
 public class Position {
 
-    private final int x;
-    private final int y;
+    @Px private final int x;
+    @Px private final int y;
 
-    public Position(final int x, final int y) {
+    public Position(final @Px int x, final @Px int y) {
         this.x = x;
         this.y = y;
     }
@@ -42,21 +48,17 @@ public class Position {
         this.y = walkPosition.getY() * WalkPosition.SIZE_IN_PIXELS;
     }
 
-    public int getX() {
-        return this.x;
-    }
-
-    public int getY() {
-        return this.y;
-    }
-
     /**
      * Returns the distance as BW would.
      * This is ported from BWAPI's getApproxDistance method.
+     *
+     * @param dx The difference in x between the two points of interest.
+     * @param dy The difference in y between the two points of interest.
      */
-    public int getDistance(final Position position) {
-    	int min = abs(getX() - position.getX());
-    	int max = abs(getY() - position.getY());
+    @Px
+    public static int getApproxDistance(@Px int dx, @Px int dy) {
+        int min = abs(dx);
+        int max = abs(dy);
 
         if (max < min) {
             int t = max;
@@ -70,9 +72,32 @@ public class Position {
         return (minCalc >> 5) + minCalc + max - (max >> 4) - (max >> 6);
     }
 
+    @Px
+    public int getX() {
+        return this.x;
+    }
+
+    @Px
+    public int getY() {
+        return this.y;
+    }
+
+    /**
+     * Gets the distance between two {@link Position}s.
+     * <p>
+     * See {@link #getApproxDistance} for the exact calculation.
+     *
+     * @param position The {@link Position} to compare with.
+     * @return The distance.
+     */
+    @Px
+    public int getDistance(final Position position) {
+        return getApproxDistance(getX() - position.getX(), getY() - position.getY());
+    }
+
     public TilePosition toTilePosition() {
-        final int x = getX() / TilePosition.SIZE_IN_PIXELS;
-        final int y = getY() / TilePosition.SIZE_IN_PIXELS;
+        final @Tile int x = getX() / TilePosition.SIZE_IN_PIXELS;
+        final @Tile int y = getY() / TilePosition.SIZE_IN_PIXELS;
         return new TilePosition(x, y);
     }
 
@@ -136,5 +161,4 @@ public class Position {
     public int hashCode() {
         return (getX() * 2048 * TilePosition.SIZE_IN_PIXELS + getY());
     }
-
 }

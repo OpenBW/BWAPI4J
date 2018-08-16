@@ -20,6 +20,8 @@
 
 package org.openbw.bwapi4j;
 
+import org.openbw.bwapi4j.annotation.Tile;
+
 public class TilePosition {
 
     public static final int SIZE_IN_PIXELS = 32;
@@ -27,7 +29,7 @@ public class TilePosition {
     private final int x;
     private final int y;
 
-    public TilePosition(final int x, final int y) {
+    public TilePosition(final @Tile int x, final @Tile int y) {
         this.x = x;
         this.y = y;
     }
@@ -42,14 +44,17 @@ public class TilePosition {
         this.y = position.getY() / TilePosition.SIZE_IN_PIXELS;
     }
 
+    @Tile
     public int getX() {
         return this.x;
     }
 
+    @Tile
     public int getY() {
         return this.y;
     }
 
+    @Tile
     public double getDistance(final TilePosition position) {
         double dx = getX() - position.getX();
         double dy = getY() - position.getY();

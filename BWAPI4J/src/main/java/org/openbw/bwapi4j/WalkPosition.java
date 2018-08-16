@@ -20,6 +20,8 @@
 
 package org.openbw.bwapi4j;
 
+import org.openbw.bwapi4j.annotation.Walk;
+
 public class WalkPosition {
 
     public static final int SIZE_IN_PIXELS = 8;
@@ -27,7 +29,7 @@ public class WalkPosition {
     private final int x;
     private final int y;
 
-    public WalkPosition(final int x, final int y) {
+    public WalkPosition(@Walk final int x, @Walk final int y) {
         this.x = x;
         this.y = y;
     }
@@ -42,10 +44,12 @@ public class WalkPosition {
         this.y = position.getY() / WalkPosition.SIZE_IN_PIXELS;
     }
 
+    @Walk
     public int getX() {
         return this.x;
     }
 
+    @Walk
     public int getY() {
         return this.y;
     }
