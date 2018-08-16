@@ -71,4 +71,6 @@ public interface BWMap {
     public boolean hasPath(Position source, Position destination);
 
     public boolean canBuildHere(TilePosition position, UnitType type);
+
+    public boolean hasCreep(TilePosition tilePosition);
 }

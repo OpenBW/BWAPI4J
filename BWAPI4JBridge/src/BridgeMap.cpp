@@ -121,3 +121,19 @@ JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl__1canBuildHere__III(JNI
 JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl__1canBuildHere__IIII(JNIEnv *, jobject, jint x, jint y, jint typeId, jint builderId) {
   return BWAPI::Broodwar->canBuildHere(BWAPI::TilePosition(x, y), (BWAPI::UnitType)typeId, BWAPI::Broodwar->getUnit(builderId)) ? 1 : 0;
 }
+
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BWMapImpl_getCreepData_1native(JNIEnv *env, jobject) {
+	int index = 0;
+
+	for (int tileX = 0; tileX < BWAPI::Broodwar->mapWidth(); ++tileX) {
+		for (int tileY = 0; tileY < BWAPI::Broodwar->mapHeight(); ++tileY) {
+			const auto currentTilePosition = BWAPI::TilePosition(tileX, tileY);
+
+			intBuf[index++] = BWAPI::Broodwar->hasCreep(currentTilePosition);
+		}
+	}
+	
+	jintArray result = env->NewIntArray(index);
+	env->SetIntArrayRegion(result, 0, index, intBuf);
+	return result;
+}

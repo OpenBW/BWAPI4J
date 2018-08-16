@@ -152,7 +152,7 @@ public class BW {
         this.interactionHandler = new InteractionHandler(this);
         this.mapDrawer = new MapDrawer();
         this.damageEvaluator = new DamageEvaluator();
-        this.bwMap = new BWMapImpl();
+        this.bwMap = new BWMapImpl(this.interactionHandler);
         setUnitFactory(new UnitFactory());
         
         try {
@@ -689,11 +689,12 @@ public class BW {
         return this.units.values();
     }
 
+    //TODO: Remove "canBuildHere" functions from this class. It should only be in bwMap
     public boolean canBuildHere(TilePosition position, UnitType type) {
-    	
+
     	return bwMap.canBuildHere(position, type);
     }
-    
+
 	public boolean canBuildHere(TilePosition position, UnitType type, Worker builder) {
         return bwMap.canBuildHere(position, type, builder);
 	}

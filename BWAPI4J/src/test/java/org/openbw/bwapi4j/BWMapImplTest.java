@@ -12,7 +12,7 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(Theories.class)
 public class BWMapImplTest {
-    private final BWMapImpl sut = new BWMapImpl();
+    private final BWMapImpl sut = new BWMapImpl(null);
 
     @Before
     public void setup() {

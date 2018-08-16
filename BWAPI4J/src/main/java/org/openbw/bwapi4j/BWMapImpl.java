@@ -22,6 +22,7 @@ package org.openbw.bwapi4j;
 
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.unit.PlayerUnit;
+import org.openbw.bwapi4j.util.Cache;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,18 +33,25 @@ class BWMapImpl implements BWMap {
     private String mapFileName;
     private String mapName;
 
+    final private InteractionHandler interactionHandler;
+
     // Walk resolution
     private int[][] walkabilityInfo;
 
     // Tile resolution
     private int[][] groundInfo;
+    private Cache<boolean[][]> getCreepDataCache;
     int width;
     int height;
     private ArrayList<TilePosition> startLocations;
 
-    BWMapImpl() {
 
+    BWMapImpl(final InteractionHandler interactionHandler) {
+
+        this.interactionHandler = interactionHandler;
         this.startLocations = new ArrayList<>();
+
+        this.getCreepDataCache = new Cache<>(this::getCreepData, this.interactionHandler);
     }
 
     public String mapHash() {
@@ -163,5 +171,35 @@ class BWMapImpl implements BWMap {
     public boolean canBuildHere(TilePosition position, UnitType type, PlayerUnit builder) {
 
         return _canBuildHere(position.getX(), position.getY(), type.getId(), builder.getId()) == 1;
+    }
+
+    private native int[] getCreepData_native();
+
+    private boolean[][] getCreepData() {
+        final int[] data = getCreepData_native();
+
+        final int mapTileWidth = mapWidth();
+        final int mapTileHeight = mapHeight();
+
+        final boolean[][] creepData = new boolean[mapTileWidth][mapTileHeight];
+
+        int index = 0;
+
+        for (int tileX = 0; tileX < mapTileWidth; ++tileX) {
+            for (int tileY = 0; tileY < mapTileHeight; ++tileY) {
+                creepData[tileX][tileY] = data[index++] == 1;
+            }
+        }
+
+        return creepData;
+    }
+
+    public boolean hasCreep(final int tileX, final int tileY) {
+        return this.getCreepDataCache.get()[tileX][tileY];
+    }
+
+    @Override
+    public boolean hasCreep(final TilePosition tilePosition) {
+        return hasCreep(tilePosition.getX(), tilePosition.getY());
     }
 }
