@@ -137,3 +137,16 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BWMapImpl_getCreepData_1nati
 	env->SetIntArrayRegion(result, 0, index, intBuf);
 	return result;
 }
+
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_InteractionHandler_getNukeDotsData_1native(JNIEnv *env, jobject) {
+	int index = 0;
+
+	for (const auto nukeDotPosition : BWAPI::Broodwar->getNukeDots()) {
+		intBuf[index++] = nukeDotPosition.x;
+		intBuf[index++] = nukeDotPosition.y;
+	}
+
+	jintArray result = env->NewIntArray(index);
+	env->SetIntArrayRegion(result, 0, index, intBuf);
+	return result;
+}

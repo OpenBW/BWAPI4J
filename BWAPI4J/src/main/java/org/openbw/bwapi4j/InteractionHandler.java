@@ -88,12 +88,15 @@ public final class InteractionHandler {
 
     private Cache<List<Player>> getAlliesCache;
     private Cache<List<Player>> getEnemiesCache;
+
+    private Cache<List<Position>> getNukeDotsCache;
     
     /* default */ InteractionHandler(BW bw) {
         
         this.bw = bw;
         this.getAlliesCache = new Cache<>(this::allies_from_native, this);
         this.getEnemiesCache = new Cache<>(this::enemies_from_native, this);
+        this.getNukeDotsCache = new Cache<>(this::getNukeDotsData, this);
     }
 
     void update(int[] data) {
@@ -318,4 +321,29 @@ public final class InteractionHandler {
     public native void pauseGame();
 
     public native void setGUI(boolean enabled);
+
+    private native int[] getNukeDotsData_native();
+
+    private List<Position> getNukeDotsData() {
+        final List<Position> nukeDotPositions = new ArrayList<>();
+
+        final int[] data = getNukeDotsData_native();
+
+        int index = 0;
+
+        while (index < data.length) {
+            final int x = data[index++];
+            final int y = data[index++];
+
+            final Position nukeDotPosition = new Position(x, y);
+
+            nukeDotPositions.add(nukeDotPosition);
+        }
+
+        return nukeDotPositions;
+    }
+
+    public List<Position> getNukeDots() {
+        return this.getNukeDotsCache.get();
+    }
 }
