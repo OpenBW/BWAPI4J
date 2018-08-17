@@ -20,7 +20,7 @@
 
 package org.openbw.bwapi4j;
 
-import static org.openbw.bwapi4j.util.MathUtil.estimateDistanceBetween;
+import static org.openbw.bwapi4j.util.MathUtils.estimateDistanceBetween;
 
 public class Position {
 

@@ -25,8 +25,8 @@ import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.UnitType;
 
 import static org.openbw.bwapi4j.type.UnitCommandType.Cancel_Construction;
-import static org.openbw.bwapi4j.util.MathUtil.distanceBetween;
-import static org.openbw.bwapi4j.util.MathUtil.estimateDistanceBetween;
+import static org.openbw.bwapi4j.util.MathUtils.distanceBetween;
+import static org.openbw.bwapi4j.util.MathUtils.estimateDistanceBetween;
 
 public abstract class Building extends PlayerUnit {
 
