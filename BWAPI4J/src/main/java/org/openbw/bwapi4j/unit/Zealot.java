@@ -22,7 +22,7 @@ package org.openbw.bwapi4j.unit;
 
 import org.openbw.bwapi4j.type.UnitType;
 
-public class Zealot extends MobileUnit implements Organic, GroundAttacker {
+public class Zealot extends MobileUnitImpl implements Organic, GroundAttacker {
 
     protected Zealot(int id) {
         

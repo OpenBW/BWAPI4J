@@ -24,7 +24,7 @@ import org.openbw.bwapi4j.type.UnitType;
 
 import static org.openbw.bwapi4j.type.UnitCommandType.Morph;
 
-public class Larva extends PlayerUnit implements Organic, Morphable {
+public class Larva extends PlayerUnitImpl implements Organic, Morphable {
 
     protected Larva(int id) {
         

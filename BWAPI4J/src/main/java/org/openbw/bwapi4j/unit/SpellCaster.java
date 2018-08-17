@@ -23,7 +23,7 @@ package org.openbw.bwapi4j.unit;
 /**
  * Marker interface for spell casters.
  */
-public interface SpellCaster {
+public interface SpellCaster extends PlayerUnit {
 
     int getEnergy();
 

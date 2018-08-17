@@ -25,13 +25,13 @@ import org.openbw.bwapi4j.type.UnitType;
 
 import java.util.List;
 
-public interface TrainingFacility {
+public interface TrainingFacility extends Building {
 
     boolean isTraining();
 
     int getTrainingQueueSize();
 
-    List<Building.TrainingSlot> getTrainingQueue();
+    List<BuildingImpl.TrainingSlot> getTrainingQueue();
 
     int getRemainingTrainTime();
 

@@ -25,7 +25,7 @@ import org.openbw.bwapi4j.type.UnitType;
 
 import java.util.List;
 
-public class Stargate extends Building implements Mechanical, TrainingFacility {
+public class Stargate extends BuildingImpl implements Mechanical, TrainingFacility {
 
     protected Stargate(int id, int timeSpotted) {
         

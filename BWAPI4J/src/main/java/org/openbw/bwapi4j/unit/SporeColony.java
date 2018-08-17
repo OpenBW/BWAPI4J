@@ -26,7 +26,7 @@ import org.openbw.bwapi4j.type.WeaponType;
 
 import static org.openbw.bwapi4j.type.UnitCommandType.Attack_Unit;
 
-public class SporeColony extends Building implements Organic, AirAttacker {
+public class SporeColony extends BuildingImpl implements Organic, AirAttacker {
 
     protected SporeColony(int id, int timeSpotted) {
         

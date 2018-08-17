@@ -22,7 +22,7 @@ package org.openbw.bwapi4j.unit;
 
 import org.openbw.bwapi4j.type.UnitType;
 
-public class Archon extends MobileUnit implements GroundAttacker, AirAttacker {
+public class Archon extends MobileUnitImpl implements GroundAttacker, AirAttacker {
 
     protected Archon(int id) {
         

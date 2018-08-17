@@ -27,7 +27,7 @@ import org.openbw.bwapi4j.type.UnitType;
 
 import static org.openbw.bwapi4j.type.UnitCommandType.*;
 
-public class Bunker extends Building implements Mechanical, Loadable {
+public class Bunker extends BuildingImpl implements Mechanical, Loadable {
 
     private static final Logger logger = LogManager.getLogger();
 

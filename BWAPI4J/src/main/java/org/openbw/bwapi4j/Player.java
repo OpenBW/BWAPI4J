@@ -26,7 +26,9 @@ import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.unit.Unit;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.EnumMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -746,7 +748,7 @@ public class Player {
                 && gas >= type.gasPrice()
                 && (type.supplyRequired() == 0 || supplyUsed + supplyRequired <= supplyTotal)
                 && hasResearched(type.requiredTech())
-                && PlayerUnit.getMissingUnits(bw.getUnits(this), type.requiredUnits()).isEmpty();
+                && getMissingUnits(bw.getUnits(this), type.requiredUnits()).isEmpty();
     }
 
     public boolean canMake(Unit builder, UnitType type) {
@@ -779,7 +781,7 @@ public class Player {
         }
         return minerals >= type.mineralPrice()
                 && gas >= type.gasPrice()
-                && PlayerUnit.getMissingUnits(bw.getUnits(this), requiredUnits).isEmpty();
+                && getMissingUnits(bw.getUnits(this), requiredUnits).isEmpty();
     }
 
     public boolean canUpgrade(UpgradeType type) {
@@ -795,7 +797,13 @@ public class Player {
         requiredUnits.add(type.whatUpgrades());
         return minerals >= type.mineralPrice(upgradeLevel)
                 && gas >= type.gasPrice(upgradeLevel)
-                && PlayerUnit.getMissingUnits(bw.getUnits(this), requiredUnits).isEmpty();
+                && getMissingUnits(bw.getUnits(this), requiredUnits).isEmpty();
+    }
+    
+    public static Collection<UnitType> getMissingUnits(Collection<? extends PlayerUnit> group, Collection<UnitType> types) {
+        HashSet<UnitType> result = new HashSet<>(types);
+        group.stream().filter(u -> u.isCompleted()).map(u -> u.getType()).forEach(result::remove);
+        return result;
     }
 
     // /**

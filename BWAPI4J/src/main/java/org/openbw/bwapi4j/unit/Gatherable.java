@@ -20,6 +20,6 @@
 
 package org.openbw.bwapi4j.unit;
 
-public interface Gatherable {
+public interface Gatherable extends Unit {
     int getId();
 }

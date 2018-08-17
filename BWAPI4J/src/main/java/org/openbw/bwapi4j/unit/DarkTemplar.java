@@ -27,7 +27,7 @@ import org.openbw.bwapi4j.type.UnitType;
 import static org.openbw.bwapi4j.type.TechType.Dark_Archon_Meld;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech;
 
-public class DarkTemplar extends MobileUnit implements Organic, Cloakable, GroundAttacker {
+public class DarkTemplar extends MobileUnitImpl implements Organic, Cloakable, GroundAttacker {
 
     protected DarkTemplar(int id) {
         

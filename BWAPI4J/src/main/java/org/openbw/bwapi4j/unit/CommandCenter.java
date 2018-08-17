@@ -30,7 +30,7 @@ import static org.openbw.bwapi4j.type.UnitCommandType.Cancel_Addon;
 import static org.openbw.bwapi4j.type.UnitType.Terran_Comsat_Station;
 import static org.openbw.bwapi4j.type.UnitType.Terran_Nuclear_Silo;
 
-public class CommandCenter extends Building implements Mechanical, FlyingBuilding, TrainingFacility, ExtendibleByAddon, ResourceDepot {
+public class CommandCenter extends BuildingImpl implements Mechanical, FlyingBuilding, TrainingFacility, ExtendibleByAddon, ResourceDepot {
 
     protected CommandCenter(int id, int timeSpotted) {
         

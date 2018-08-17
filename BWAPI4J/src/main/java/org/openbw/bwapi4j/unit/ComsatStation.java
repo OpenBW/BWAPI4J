@@ -26,7 +26,7 @@ import org.openbw.bwapi4j.type.UnitType;
 import static org.openbw.bwapi4j.type.TechType.Scanner_Sweep;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Position;
 
-public class ComsatStation extends Addon implements Mechanical, SpellCaster {
+public class ComsatStation extends AddonImpl implements Mechanical, SpellCaster {
 
 
     protected ComsatStation(int id, int timeSpotted) {

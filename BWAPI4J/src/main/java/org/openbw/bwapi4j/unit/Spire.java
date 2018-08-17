@@ -29,7 +29,7 @@ import static org.openbw.bwapi4j.type.UnitCommandType.Morph;
 import static org.openbw.bwapi4j.type.UnitType.Zerg_Greater_Spire;
 import static org.openbw.bwapi4j.type.UnitType.Zerg_Spire;
 
-public class Spire extends Building implements Organic, ResearchingFacility, Morphable {
+public class Spire extends BuildingImpl implements Organic, ResearchingFacility, Morphable {
 
     protected Spire(int id, int timeSpotted) {
         this(id, Zerg_Spire, timeSpotted);

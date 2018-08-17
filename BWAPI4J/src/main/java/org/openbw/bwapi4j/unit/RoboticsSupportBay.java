@@ -24,7 +24,7 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
-public class RoboticsSupportBay extends Building implements Mechanical, ResearchingFacility {
+public class RoboticsSupportBay extends BuildingImpl implements Mechanical, ResearchingFacility {
 
     protected RoboticsSupportBay(int id, int timeSpotted) {
         

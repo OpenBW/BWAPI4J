@@ -25,7 +25,7 @@ import org.openbw.bwapi4j.type.UnitType;
 
 import java.util.List;
 
-public class InfestedCommandCenter extends Building implements Organic, FlyingBuilding, TrainingFacility {
+public class InfestedCommandCenter extends BuildingImpl implements Organic, FlyingBuilding, TrainingFacility {
 
     protected InfestedCommandCenter(int id, int timeSpotted) {
         super(id, UnitType.Zerg_Infested_Command_Center, timeSpotted);

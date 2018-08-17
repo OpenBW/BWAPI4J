@@ -20,7 +20,7 @@
 
 package org.openbw.bwapi4j.unit;
 
-public interface Loadable {
+public interface Loadable extends PlayerUnit {
 
     boolean isLoaded();
 
