@@ -81,7 +81,7 @@ public abstract class Building extends PlayerUnit {
         int tileX = tilePosition.getX();
         int top = getLastKnownTilePosition().getY();
         int tileY = tilePosition.getY();
-        return (int) distanceBetween(top, top + type.tileHeight(), left, left + type.tileWidth(), tileY, tileY, tileX, tileX);
+        return (int) distanceBetween(left, top, left + type.tileWidth(), top + type.tileHeight(), tileX, tileY, tileX, tileY);
     }
 
     /**
@@ -96,8 +96,8 @@ public abstract class Building extends PlayerUnit {
         int centerY = getLastKnownPosition().getY();
         int posY = position.getY();
         return (int) distanceBetween(
-                centerY - type.dimensionUp(), centerY + type.dimensionDown(), centerX - type.dimensionLeft(), centerX + type.dimensionRight(),
-                posY - 1, posY + 1, posX - 1, posX + 1);
+                centerX - type.dimensionLeft(), centerY - type.dimensionUp(), centerX + type.dimensionRight(), centerY + type.dimensionDown(),
+                posX - 1, posY - 1, posX + 1, posY + 1);
     }
 
     public double getLastKnownDistance(Unit target) {
@@ -109,7 +109,7 @@ public abstract class Building extends PlayerUnit {
         int centerX = getLastKnownPosition().getX();
         int centerY = getLastKnownPosition().getY();
         return estimateDistanceBetween(
-                centerY - type.dimensionUp(), centerY + type.dimensionDown(), centerX - type.dimensionLeft(), centerX + type.dimensionRight(),
-                target.getTop() - 1, target.getBottom() + 1, target.getLeft() - 1, target.getRight() + 1);
+                centerX - type.dimensionLeft(), centerY - type.dimensionUp(), centerX + type.dimensionRight(), centerY + type.dimensionDown(),
+                target.getLeft() - 1, target.getTop() - 1, target.getRight() + 1, target.getBottom() + 1);
     }
 }
