@@ -38,4 +38,4 @@ before_install:
 script:
 - ROOT_PROJ_DIR=$(pwd)
 - BWAPI4J_DIR=$ROOT_PROJ_DIR/BWAPI4J
-- cd $BWAPI4J_DIR && ./gradlew clean buildOpenBWBridgeForLinux --stacktrace && cd $BWAPI4J_DIR && ./gradlew sourcesJar javadocJar shadowJar --stacktrace
+- cd $BWAPI4J_DIR && ./gradlew clean build buildOpenBWBridgeForLinux --stacktrace && cd $BWAPI4J_DIR && ./gradlew sourcesJar javadocJar shadowJar --stacktrace
