@@ -20,17 +20,15 @@
 
 package org.openbw.bwapi4j.unit;
 
-import static org.openbw.bwapi4j.type.UnitCommandType.*;
+import static org.openbw.bwapi4j.type.UnitCommandType.Cancel_Construction;
+import static org.openbw.bwapi4j.util.MathUtils.distanceBetween;
+import static org.openbw.bwapi4j.util.MathUtils.estimateDistanceBetween;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.UnitType;
 
 public abstract class BuildingImpl extends PlayerUnitImpl implements Building {
-  private static final Logger logger = LogManager.getLogger();
-
   public boolean cancelConstruction() {
     return issueCommand(this.id, Cancel_Construction, -1, -1, -1, -1);
   }
@@ -68,28 +66,24 @@ public abstract class BuildingImpl extends PlayerUnitImpl implements Building {
    * Returns the distance to given position from where this unit was located when it last was
    * visible.
    *
-   * @param position tile position to measure distance to
+   * @param tilePosition tile position to measure distance to
    * @return distance in tiles
    */
-  public int getLastKnownDistance(TilePosition position) {
-    // compute x distance
-    int distX = this.getLastKnownTilePosition().getX() - position.getX();
-    if (distX < 0) {
-      distX = position.getX() - (this.getLastKnownTilePosition().getX() + this.type.tileWidth());
-      if (distX < 0) {
-        distX = 0;
-      }
-    }
-
-    // compute y distance
-    int distY = this.getLastKnownTilePosition().getY() - position.getY();
-    if (distY < 0) {
-      distY = position.getY() - (this.getLastKnownTilePosition().getY() + this.type.tileHeight());
-      if (distY < 0) {
-        distY = 0;
-      }
-    }
-    return (int) Math.sqrt(distX * distX + distY * distY);
+  public int getLastKnownDistance(TilePosition tilePosition) {
+    int left = getLastKnownTilePosition().getX();
+    int tileX = tilePosition.getX();
+    int top = getLastKnownTilePosition().getY();
+    int tileY = tilePosition.getY();
+    return (int)
+        distanceBetween(
+            left,
+            top,
+            left + type.tileWidth(),
+            top + type.tileHeight(),
+            tileX,
+            tileY,
+            tileX,
+            tileY);
   }
 
   /**
@@ -100,29 +94,20 @@ public abstract class BuildingImpl extends PlayerUnitImpl implements Building {
    * @return distance in pixels
    */
   public double getLastKnownDistance(Position position) {
-    int left = position.getX() - 1;
-    int top = position.getY() - 1;
-    int right = position.getX() + 1;
-    int bottom = position.getY() + 1;
-
-    // compute x distance
-    int distX = (this.getLastKnownPosition().getX() - this.type.dimensionLeft()) - right;
-    if (distX < 0) {
-      distX = left - (this.getLastKnownPosition().getX() + this.type.dimensionRight());
-      if (distX < 0) {
-        distX = 0;
-      }
-    }
-
-    // compute y distance
-    int distY = (this.getLastKnownPosition().getY() - this.type.dimensionUp()) - bottom;
-    if (distY < 0) {
-      distY = top - (this.getLastKnownPosition().getY() + this.type.dimensionDown());
-      if (distY < 0) {
-        distY = 0;
-      }
-    }
-    return (int) Math.sqrt(distX * distX + distY * distY);
+    int centerX = getLastKnownPosition().getX();
+    int posX = position.getX();
+    int centerY = getLastKnownPosition().getY();
+    int posY = position.getY();
+    return (int)
+        distanceBetween(
+            centerX - type.dimensionLeft(),
+            centerY - type.dimensionUp(),
+            centerX + type.dimensionRight(),
+            centerY + type.dimensionDown(),
+            posX - 1,
+            posY - 1,
+            posX + 1,
+            posY + 1);
   }
 
   public double getLastKnownDistance(Unit target) {
@@ -130,27 +115,16 @@ public abstract class BuildingImpl extends PlayerUnitImpl implements Building {
       return 0;
     }
 
-    int xDist =
-        (this.getLastKnownPosition().getX() - this.type.dimensionLeft()) - (target.getRight() + 1);
-    if (xDist < 0) {
-      xDist =
-          target.getLeft()
-              - ((this.getLastKnownPosition().getX() + this.type.dimensionRight()) + 1);
-      if (xDist < 0) {
-        xDist = 0;
-      }
-    }
-    int yDist =
-        (this.getLastKnownPosition().getY() - this.type.dimensionUp()) - (target.getBottom() + 1);
-    if (yDist < 0) {
-      yDist =
-          target.getTop() - ((this.getLastKnownPosition().getY() + this.type.dimensionDown()) + 1);
-      if (yDist < 0) {
-        yDist = 0;
-      }
-    }
-    logger.trace("dx, dy: {}, {}.", xDist, yDist);
-
-    return new Position(0, 0).getDistance(new Position(xDist, yDist));
+    int centerX = getLastKnownPosition().getX();
+    int centerY = getLastKnownPosition().getY();
+    return estimateDistanceBetween(
+        centerX - type.dimensionLeft(),
+        centerY - type.dimensionUp(),
+        centerX + type.dimensionRight(),
+        centerY + type.dimensionDown(),
+        target.getLeft() - 1,
+        target.getTop() - 1,
+        target.getRight() + 1,
+        target.getBottom() + 1);
   }
 }
