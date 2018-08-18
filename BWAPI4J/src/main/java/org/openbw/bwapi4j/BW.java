@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -20,6 +20,25 @@
 
 package org.openbw.bwapi4j;
 
+import java.awt.image.ColorModel;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.charset.UnsupportedCharsetException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 import org.apache.logging.log4j.LogManager;
@@ -59,9 +78,9 @@ public class BW {
 
         private final String name;
 
-        private BridgeType(final String name) {
-            this.name = name;
-        }
+     BridgeType(final String name) {
+      this.name = name;
+    }
 
         public String getLibraryName() {
             return this.name;
@@ -87,9 +106,9 @@ public class BW {
 
         private final String property;
 
-        private Property(final String property) {
-            this.property = property;
-        }
+     Property(final String property) {
+      this.property = property;
+    }
 
         public String toString() {
             return this.property;
@@ -144,7 +163,7 @@ public class BW {
                 || systemPropertyEquals(Property.EXTRACT_DEPENDENCIES.toString(), true));
 
         loadSharedLibraries(bridgeType, extractBridgeDependencies);
-    	
+
         this.players = new HashMap<>();
         this.units = new ConcurrentHashMap<>();
         this.bullets = new ConcurrentHashMap<>();
@@ -154,7 +173,7 @@ public class BW {
         this.damageEvaluator = new DamageEvaluator();
         this.bwMap = new BWMapImpl(this.interactionHandler);
         setUnitFactory(new UnitFactory());
-        
+
         try {
             this.charset = Charset.forName("Cp949"); // Korean char set
         } catch (UnsupportedCharsetException e) {
@@ -219,7 +238,7 @@ public class BW {
     }
 
     private void loadSharedLibraries(final BridgeType bridgeType, final boolean extractBridgeDependencies) {
-    	
+
     	logger.info("jvm: {} ({}-bit)", System.getProperty("java.version"), System.getProperty("sun.arch.data.model"));
         logger.info("os: {}", System.getProperty("os.name"));
 
@@ -452,7 +471,7 @@ public class BW {
 
         return false;
     }
-    
+
     public void startGame() {
 
     	setOnStartInitializationIsDone(false);
@@ -540,11 +559,11 @@ public class BW {
     }
 
     private void updateAllBullets() {
-    	
+
     	int[] bulletData = this.getAllBulletsData();
-    	
+
     	for (int index = 0; index < bulletData.length; index += Bullet.CacheIndex.values().length) {
-    		
+
     		int bulletId = bulletData[index + Bullet.CacheIndex.ID.ordinal()];
     		Bullet bullet = this.bullets.get(bulletId);
     		if (bullet == null) {
@@ -555,12 +574,12 @@ public class BW {
     		bullet.update(bulletData, index);
     	}
     }
-    
+
     private boolean typeChanged(UnitType oldType, UnitType newType) {
-    	
+
     	return !oldType.equals(newType) && !oldType.equals(UnitType.Terran_Siege_Tank_Siege_Mode) && !newType.equals(UnitType.Terran_Siege_Tank_Siege_Mode);
     }
-    
+
     private void updateAllUnits(int frame) {
 
     	for (Unit unit : this.units.values()) {
@@ -647,12 +666,12 @@ public class BW {
     }
 
     public Collection<Bullet> getBullets() {
-    
+
     	return this.bullets.values();
     }
-    
+
     public Bullet getBullet(int bulletId) {
-    	
+
     	return this.bullets.get(bulletId);
     }
 
@@ -698,7 +717,7 @@ public class BW {
 	public boolean canBuildHere(TilePosition position, UnitType type, Worker builder) {
         return bwMap.canBuildHere(position, type, builder);
 	}
-	
+
     private void preFrame() {
 
         logger.trace("updating game state for frame {}...", this.frame);
@@ -722,12 +741,12 @@ public class BW {
 	        this.players.clear();
 	        this.units.clear();
 	        this.bullets.clear();
-	
+
 	        logger.trace(" --- calling initial preFrame...");
 	        preFrame();
 	        logger.trace("done.");
 	        listener.onStart();
-    	} catch (Exception e) {
+    	} catch (Throwable e) {
     		logger.error("exception during onStart.", e);
     		throw e;
     	} finally {
@@ -741,10 +760,9 @@ public class BW {
         setOnStartInitializationIsDone_native(isDone);
     }
 
-    private void onEnd(boolean isWinner) {
-
-        listener.onEnd(isWinner);
-    }
+  private void onEnd(boolean isWinner) {
+    catchAllCalling(listener::onEnd,isWinner);
+  }
 
     private void onFrame() {
 
@@ -753,118 +771,126 @@ public class BW {
             preFrame();
             this.frame++;
             listener.onFrame();
-        } catch (Exception e) {
+        } catch (Throwable e) {
             logger.error("exception during onFrame", e);
             throw e;
         }
     }
 
-    private void onSendText(String text) {
+  private void onSendText(String text) {
+    catchAllCalling(listener::onSendText,text);
+  }
 
-        listener.onSendText(text);
+  private void onReceiveText(int playerId, String text) {
+    Player player = this.players.get(playerId);
+    catchAllCalling(listener::onReceiveText,player, text);
+  }
+
+  private void onPlayerLeft(int playerId) {
+    Player player = this.players.get(playerId);
+    catchAllCalling(listener::onPlayerLeft,player);
+  }
+
+  private void onNukeDetect(int x, int y) {
+    catchAllCalling(listener::onNukeDetect,new Position(x, y));
+  }
+
+  private void onUnitDiscover(int unitId) {
+    Unit unit = this.units.get(unitId);
+    if (unit == null) {
+      logger.error("onUnitDiscover: no unit found for ID {}.", unitId);
     }
+    catchAllCalling(listener::onUnitDiscover,unit);
+  }
 
-    private void onReceiveText(int playerId, String text) {
-
-        Player player = this.players.get(playerId);
-        listener.onReceiveText(player, text);
+  private void onUnitEvade(int unitId) {
+    Unit unit = this.units.get(unitId);
+    if (unit == null) {
+      logger.error("onUnitEvade: no unit found for ID {}.", unitId);
     }
+    catchAllCalling(listener::onUnitEvade,unit);
+  }
 
-    private void onPlayerLeft(int playerId) {
-
-        Player player = this.players.get(playerId);
-        listener.onPlayerLeft(player);
+  private void onUnitShow(int unitId) {
+    Unit unit = this.units.get(unitId);
+    if (unit == null) {
+      logger.error("onUnitShow: no unit found for ID {}.", unitId);
     }
+    catchAllCalling(listener::onUnitShow,unit);
+  }
 
-    private void onNukeDetect(int x, int y) {
-
-        listener.onNukeDetect(new Position(x, y));
+  private void onUnitHide(int unitId) {
+    Unit unit = this.units.get(unitId);
+    if (unit == null) {
+      logger.error("onUnitHide: no unit found for ID {}.", unitId);
     }
+    catchAllCalling(listener::onUnitHide,unit);
+  }
 
-    private void onUnitDiscover(int unitId) {
-
-        Unit unit = this.units.get(unitId);
-        if (unit == null) {
-            logger.error("onUnitDiscover: no unit found for ID {}.", unitId);
-        }
-        listener.onUnitDiscover(unit);
+  private void onUnitCreate(int unitId) {
+    Unit unit = this.units.get(unitId);
+    if (unit == null) {
+      logger.error("onUnitCreate: no unit found for ID {}.", unitId);
     }
+    catchAllCalling(listener::onUnitCreate,unit);
+  }
 
-    private void onUnitEvade(int unitId) {
-
-        Unit unit = this.units.get(unitId);
-        if (unit == null) {
-            logger.error("onUnitEvade: no unit found for ID {}.", unitId);
-        }
-        listener.onUnitEvade(unit);
+  private void onUnitDestroy(int unitId) {
+    Unit unit = this.units.get(unitId);
+    if (unit == null) {
+      logger.error("onUnitDestroy: no unit found for ID {}.", unitId);
     }
+    catchAllCalling(listener::onUnitDestroy,unit);
+    this.units.remove(unitId);
+  }
 
-    private void onUnitShow(int unitId) {
-
-        Unit unit = this.units.get(unitId);
-        if (unit == null) {
-            logger.error("onUnitShow: no unit found for ID {}.", unitId);
-        }
-        listener.onUnitShow(unit);
+  private void onUnitMorph(int unitId) {
+    Unit unit = this.units.get(unitId);
+    if (unit == null) {
+      logger.error("onUnitMorph: no unit found for ID {}.", unitId);
     }
+    catchAllCalling(listener::onUnitMorph,unit);
+  }
 
-    private void onUnitHide(int unitId) {
-
-        Unit unit = this.units.get(unitId);
-        if (unit == null) {
-            logger.error("onUnitHide: no unit found for ID {}.", unitId);
-        }
-        listener.onUnitHide(unit);
+  private void onUnitRenegade(int unitId) {
+    Unit unit = this.units.get(unitId);
+    if (unit == null) {
+      logger.error("onUnitRenegade: no unit found for ID {}.", unitId);
     }
+    catchAllCalling(listener::onUnitRenegade,unit);
+  }
 
-    private void onUnitCreate(int unitId) {
+  private void onSaveGame(String gameName) {
+    catchAllCalling(listener::onSaveGame,gameName);
+  }
 
-        Unit unit = this.units.get(unitId);
-        if (unit == null) {
-            logger.error("onUnitCreate: no unit found for ID {}.", unitId);
-        }
-        listener.onUnitCreate(unit);
+  private void onUnitComplete(int unitId) {
+    Unit unit = this.units.get(unitId);
+    if (unit == null) {
+      logger.error("onUnitComplete: no unit found for ID {}.", unitId);
     }
-
-    private void onUnitDestroy(int unitId) {
-
-        Unit unit = this.units.get(unitId);
-        if (unit == null) {
-            logger.error("onUnitDestroy: no unit found for ID {}.", unitId);
-        }
-        listener.onUnitDestroy(unit);
-        this.units.remove(unitId);
+    catchAllCalling(listener::onUnitComplete,unit);
+  }/**
+   * Calls from native code would just ignore any kind of exception, therefore we catch and log them
+   * before returning.
+   */
+  private static <T> void catchAllCalling(Consumer<T> consumer, T param) {
+    try {
+      consumer.accept(param);
+    } catch (Throwable t) {
+      logger.error(t);
     }
+  }
 
-    private void onUnitMorph(int unitId) {
-
-        Unit unit = this.units.get(unitId);
-        if (unit == null) {
-            logger.error("onUnitMorph: no unit found for ID {}.", unitId);
-        }
-        listener.onUnitMorph(unit);
+  /**
+   * Calls from native code would just ignore any kind of exception, therefore we catch and log them
+   * before returning.
+   */
+  private static <T, U> void catchAllCalling(BiConsumer<T, U> consumer, T param1, U param2) {
+    try {
+      consumer.accept(param1, param2);
+    } catch (Throwable t) {
+      logger.error(t);
     }
-
-    private void onUnitRenegade(int unitId) {
-
-        Unit unit = this.units.get(unitId);
-        if (unit == null) {
-            logger.error("onUnitRenegade: no unit found for ID {}.", unitId);
-        }
-        listener.onUnitRenegade(unit);
-    }
-
-    private void onSaveGame(String gameName) {
-
-        listener.onSaveGame(gameName);
-    }
-
-    private void onUnitComplete(int unitId) {
-
-        Unit unit = this.units.get(unitId);
-        if (unit == null) {
-            logger.error("onUnitComplete: no unit found for ID {}.", unitId);
-        }
-        listener.onUnitComplete(unit);
-    }
+  }
 }
