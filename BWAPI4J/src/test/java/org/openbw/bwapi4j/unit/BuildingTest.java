@@ -184,9 +184,9 @@ public class BuildingTest {
 
     @Test
     public void TEST_getLastKnownDistance() {
-        Pair<Unit, Unit> units = getTestUnits();
-        Unit unit1 = units.getFirst();
-        Unit unit2 = units.getSecond();
+        Pair<UnitMock, UnitMock> units = getTestUnits();
+        UnitMock unit1 = units.getFirst();
+        UnitMock unit2 = units.getSecond();
 
         for (int y = 0; y < MAX; ++y) {
             for (int x = 0; x < MAX; ++x) {
@@ -214,9 +214,9 @@ public class BuildingTest {
         final StringBuilder tilePositionValuesString = new StringBuilder();
         final StringBuilder unitPositionValuesString1 = new StringBuilder();
         final StringBuilder unitPositionValuesString2 = new StringBuilder();
-        Pair<Unit, Unit> units = getTestUnits();
-        Unit unit1 = units.getFirst();
-        Unit unit2 = units.getSecond();
+        Pair<UnitMock, UnitMock> units = getTestUnits();
+        UnitMock unit1 = units.getFirst();
+        UnitMock unit2 = units.getSecond();
 
         for (int y = 0; y < MAX; ++y) {
             for (int x = 0; x < MAX; ++x) {
@@ -250,7 +250,7 @@ public class BuildingTest {
         System.out.print(unitPositionValuesString2.toString());
     }
 
-    private static Pair<Unit, Unit> getTestUnits() {
-        return new Pair<>(new SpecialUnit(0, UnitType.Terran_Wraith), new SpecialBuilding(1, UnitType.Terran_Science_Vessel, 0));
+    private static Pair<UnitMock, UnitMock> getTestUnits() {
+        return new Pair<>(new UnitMock(0, UnitType.Terran_Wraith), new UnitMock(1, UnitType.Terran_Science_Vessel));
     }
 }

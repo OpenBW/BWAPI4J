@@ -4,7 +4,7 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.UnitType;
 
-public class BuildingMock extends Building {
+public class BuildingMock extends BuildingImpl {
     public BuildingMock(int id, UnitType type, int timeSpotted, final TilePosition lastKnownTilePosition, final Position lastKnownPosition) {
         super(id, type, timeSpotted);
         super.lastKnownTilePosition = lastKnownTilePosition;
