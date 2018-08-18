@@ -155,7 +155,13 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
       logger.info("Map::createBases: " + timer.elapsedMilliseconds() + " ms");
       timer.reset();
     }
-
+    
+    assignStartingLocationsToSuitableBases();
+    if (enableTimer) {
+        logger.info("Map::assignStartingLocationsToSuitableBases: " + timer.elapsedMilliseconds() + " ms");
+        timer.reset();
+      }
+    
     //    ///	bw << "Map::initialize: " << overallTimer.elapsedMilliseconds() << " ms" << endl;
     if (enableTimer) {
       logger.info("Map::initialize Total: " + overallTimer.elapsedMilliseconds() + " ms");
