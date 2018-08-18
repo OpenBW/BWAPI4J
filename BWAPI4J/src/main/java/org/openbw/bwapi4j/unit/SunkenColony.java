@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -20,68 +20,68 @@
 
 package org.openbw.bwapi4j.unit;
 
-import org.openbw.bwapi4j.type.UnitType;
-
 import static org.openbw.bwapi4j.type.UnitCommandType.Attack_Unit;
+
+import org.openbw.bwapi4j.type.UnitType;
 
 public class SunkenColony extends BuildingImpl implements Organic, GroundAttacker {
 
-    protected SunkenColony(int id, int timeSpotted) {
-        
-        super(id, UnitType.Zerg_Sunken_Colony, timeSpotted);
-    }
+  protected SunkenColony(int id, int timeSpotted) {
 
-    @Override
-    public boolean attack(Unit target) {
-        
-        return attack(target, false);
-    }
-    
-    @Override
-    public boolean attack(Unit target, boolean queued) {
-        
-        return issueCommand(this.id, Attack_Unit, target.getId(), -1, -1, queued ? 1 : 0);
-    }
+    super(id, UnitType.Zerg_Sunken_Colony, timeSpotted);
+  }
 
-    @Override
-    public Weapon getGroundWeapon() {
-        
-        return groundWeapon;
-    }
+  @Override
+  public boolean attack(Unit target) {
 
-    @Override
-    public Unit getTargetUnit() {
+    return attack(target, false);
+  }
 
-        return super.getTargetUnit();
-    }
+  @Override
+  public boolean attack(Unit target, boolean queued) {
 
-    @Override
-    public int getMaxGroundHits() {
+    return issueCommand(this.id, Attack_Unit, target.getId(), -1, -1, queued ? 1 : 0);
+  }
 
-        return this.type.maxGroundHits();
-    }
+  @Override
+  public Weapon getGroundWeapon() {
 
-    @Override
-    public int getGroundWeaponMaxRange() {
+    return groundWeapon;
+  }
 
-        return super.getGroundWeaponMaxRange();
-    }
+  @Override
+  public Unit getTargetUnit() {
 
-    @Override
-    public int getGroundWeaponMaxCooldown() {
+    return super.getTargetUnit();
+  }
 
-        return super.getGroundWeaponMaxCooldown();
-    }
+  @Override
+  public int getMaxGroundHits() {
 
-    @Override
-    public int getGroundWeaponCooldown() {
+    return this.type.maxGroundHits();
+  }
 
-        return super.getGroundWeaponCooldown(this);
-    }
+  @Override
+  public int getGroundWeaponMaxRange() {
 
-    @Override
-    public int getGroundWeaponDamage() {
+    return super.getGroundWeaponMaxRange();
+  }
 
-        return super.getGroundWeaponDamage();
-    }
+  @Override
+  public int getGroundWeaponMaxCooldown() {
+
+    return super.getGroundWeaponMaxCooldown();
+  }
+
+  @Override
+  public int getGroundWeaponCooldown() {
+
+    return super.getGroundWeaponCooldown(this);
+  }
+
+  @Override
+  public int getGroundWeaponDamage() {
+
+    return super.getGroundWeaponDamage();
+  }
 }

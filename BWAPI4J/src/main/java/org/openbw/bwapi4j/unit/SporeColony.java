@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -20,70 +20,68 @@
 
 package org.openbw.bwapi4j.unit;
 
-import org.openbw.bwapi4j.type.UnitCommandType;
-import org.openbw.bwapi4j.type.UnitType;
-import org.openbw.bwapi4j.type.WeaponType;
-
 import static org.openbw.bwapi4j.type.UnitCommandType.Attack_Unit;
+
+import org.openbw.bwapi4j.type.UnitType;
 
 public class SporeColony extends BuildingImpl implements Organic, AirAttacker {
 
-    protected SporeColony(int id, int timeSpotted) {
-        
-        super(id, UnitType.Zerg_Spore_Colony, timeSpotted);
-    }
+  protected SporeColony(int id, int timeSpotted) {
 
-    @Override
-    public boolean attack(Unit target) {
-        
-        return attack(target, false);
-    }
+    super(id, UnitType.Zerg_Spore_Colony, timeSpotted);
+  }
 
-    @Override
-    public boolean attack(Unit target, boolean queued) {
-        
-        return issueCommand(this.id, Attack_Unit, target.getId(), -1, -1, queued ? 1 : 0);
-    }
+  @Override
+  public boolean attack(Unit target) {
 
-    @Override
-    public Unit getTargetUnit() {
+    return attack(target, false);
+  }
 
-        return super.getTargetUnit();
-    }
+  @Override
+  public boolean attack(Unit target, boolean queued) {
 
-    @Override
-    public Weapon getAirWeapon() {
-        
-        return airWeapon;
-    }
+    return issueCommand(this.id, Attack_Unit, target.getId(), -1, -1, queued ? 1 : 0);
+  }
 
-    @Override
-    public int getAirWeaponMaxRange() {
+  @Override
+  public Unit getTargetUnit() {
 
-        return super.getAirWeaponMaxRange();
-    }
+    return super.getTargetUnit();
+  }
 
-    @Override
-    public int getAirWeaponMaxCooldown() {
+  @Override
+  public Weapon getAirWeapon() {
 
-        return super.getAirWeaponMaxCooldown();
-    }
+    return airWeapon;
+  }
 
-    @Override
-    public int getAirWeaponCooldown() {
+  @Override
+  public int getAirWeaponMaxRange() {
 
-        return super.getAirWeaponCooldown(this);
-    }
+    return super.getAirWeaponMaxRange();
+  }
 
-    @Override
-    public int getAirWeaponDamage() {
+  @Override
+  public int getAirWeaponMaxCooldown() {
 
-        return super.getAirWeaponDamage();
-    }
+    return super.getAirWeaponMaxCooldown();
+  }
 
-    @Override
-    public int getMaxAirHits() {
+  @Override
+  public int getAirWeaponCooldown() {
 
-        return this.type.maxAirHits();
-    }
+    return super.getAirWeaponCooldown(this);
+  }
+
+  @Override
+  public int getAirWeaponDamage() {
+
+    return super.getAirWeaponDamage();
+  }
+
+  @Override
+  public int getMaxAirHits() {
+
+    return this.type.maxAirHits();
+  }
 }

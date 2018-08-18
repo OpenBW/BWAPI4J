@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -26,77 +26,77 @@ import org.openbw.bwapi4j.type.UpgradeType;
 
 public class DefilerMound extends BuildingImpl implements Organic, ResearchingFacility {
 
-    protected DefilerMound(int id, int timeSpotted) {
-        
-        super(id, UnitType.Zerg_Defiler_Mound, timeSpotted);
-    }
+  protected DefilerMound(int id, int timeSpotted) {
 
-    public boolean researchPlague() {
-        
-        return super.research(TechType.Plague);
-    }
-    
-    public boolean upgradeMetasynapticNode() {
-        
-        return super.upgrade(UpgradeType.Metasynaptic_Node);
-    }
-    
-    public boolean researchConsume() {
-        
-        return super.research(TechType.Consume);
-    }
-    
-    @Override
-    public boolean isUpgrading() {
-        
-        return isUpgrading;
-    }
+    super(id, UnitType.Zerg_Defiler_Mound, timeSpotted);
+  }
 
-    @Override
-    public boolean isResearching() {
-        
-        return isResearching;
-    }
+  public boolean researchPlague() {
 
-    @Override
-    public boolean cancelResearch() {
-        
-        return super.cancelResearch();
-    }
+    return super.research(TechType.Plague);
+  }
 
-    @Override
-    public boolean cancelUpgrade() {
-        
-        return super.cancelUpgrade();
-    }
+  public boolean upgradeMetasynapticNode() {
 
-    @Override
-    public boolean canResearch(TechType techType) {
-        return super.canResearch(techType);
-    }
+    return super.upgrade(UpgradeType.Metasynaptic_Node);
+  }
 
-    @Override
-    public boolean canUpgrade(UpgradeType upgradeType) {
-        return super.canUpgrade(upgradeType);
-    }
+  public boolean researchConsume() {
 
-    @Override
-    public boolean research(TechType techType) {
-        return super.research(techType);
-    }
+    return super.research(TechType.Consume);
+  }
 
-    @Override
-    public boolean upgrade(UpgradeType upgradeType) {
-        return super.upgrade(upgradeType);
-    }
+  @Override
+  public boolean isUpgrading() {
 
-    @Override
-    public UpgradeInProgress getUpgradeInProgress() {
-        return super.getUpgradeInProgress();
-    }
+    return isUpgrading;
+  }
 
-    @Override
-    public ResearchInProgress getResearchInProgress() {
-        return super.getResearchInProgress();
-    }
+  @Override
+  public boolean isResearching() {
+
+    return isResearching;
+  }
+
+  @Override
+  public boolean cancelResearch() {
+
+    return super.cancelResearch();
+  }
+
+  @Override
+  public boolean cancelUpgrade() {
+
+    return super.cancelUpgrade();
+  }
+
+  @Override
+  public boolean canResearch(TechType techType) {
+    return super.canResearch(techType);
+  }
+
+  @Override
+  public boolean canUpgrade(UpgradeType upgradeType) {
+    return super.canUpgrade(upgradeType);
+  }
+
+  @Override
+  public boolean research(TechType techType) {
+    return super.research(techType);
+  }
+
+  @Override
+  public boolean upgrade(UpgradeType upgradeType) {
+    return super.upgrade(upgradeType);
+  }
+
+  @Override
+  public UpgradeInProgress getUpgradeInProgress() {
+    return super.getUpgradeInProgress();
+  }
+
+  @Override
+  public ResearchInProgress getResearchInProgress() {
+    return super.getResearchInProgress();
+  }
 }

@@ -1,7 +1,6 @@
 package org.openbw.bwapi4j.unit;
 
 import java.util.Collection;
-
 import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
@@ -10,124 +9,123 @@ import org.openbw.bwapi4j.type.UnitCommandType;
 
 public interface PlayerUnit extends Unit {
 
-	void initialize(int[] unitData, int index, int frame);
+  void initialize(int[] unitData, int index, int frame);
 
-	PlayerUnit getBuildUnit();
+  PlayerUnit getBuildUnit();
 
-	/**
-	 * Convenience method to be used e.g. when doing target-fire micro (just
-	 * provide unit weapon range as radius).
-	 * 
-	 * @param radius
-	 *            pixel radius
-	 * @param units
-	 *            units to check for distance
-	 * @return weakest unit within given radius
-	 */
-	<T extends PlayerUnit> T getWeakestUnitInRadius(int radius, Collection<T> units);
+  /**
+   * Convenience method to be used e.g. when doing target-fire micro (just provide unit weapon range
+   * as radius).
+   *
+   * @param radius pixel radius
+   * @param units units to check for distance
+   * @return weakest unit within given radius
+   */
+  <T extends PlayerUnit> T getWeakestUnitInRadius(int radius, Collection<T> units);
 
-	/**
-	 * Perform the right-click command on a given position.
-	 * @param position the position to right-click to
-	 * @param queued true if command is queued, false else
-	 * @return true if command is successful, false else
-	 */
-	boolean rightClick(Position position, boolean queued);
+  /**
+   * Perform the right-click command on a given position.
+   *
+   * @param position the position to right-click to
+   * @param queued true if command is queued, false else
+   * @return true if command is successful, false else
+   */
+  boolean rightClick(Position position, boolean queued);
 
-	/**
-	 * Perform the right-click command on a given unit.
-	 * @param target the unit to right-click to
-	 * @param queued true if command is queued, false else
-	 * @return true if command is successful, false else
-	 */
-	boolean rightClick(Unit target, boolean queued);
+  /**
+   * Perform the right-click command on a given unit.
+   *
+   * @param target the unit to right-click to
+   * @param queued true if command is queued, false else
+   * @return true if command is successful, false else
+   */
+  boolean rightClick(Unit target, boolean queued);
 
-	boolean isCompleted();
+  boolean isCompleted();
 
-	int maxHitPoints();
+  int maxHitPoints();
 
-	int getHitPoints();
+  int getHitPoints();
 
-	int getArmor();
+  int getArmor();
 
-	int maxShields();
+  int maxShields();
 
-	int getShields();
+  int getShields();
 
-	int getSpellCooldown();
+  int getSpellCooldown();
 
-	Player getPlayer();
+  Player getPlayer();
 
-	int getInitialHitPoints();
+  int getInitialHitPoints();
 
-	int getMineralPrice();
+  int getMineralPrice();
 
-	int getGasPrice();
+  int getGasPrice();
 
-	int getLastKnownHitPoints();
+  int getLastKnownHitPoints();
 
-	Position getLastKnownPosition();
+  Position getLastKnownPosition();
 
-	TilePosition getLastKnownTilePosition();
+  TilePosition getLastKnownTilePosition();
 
-	int getSightRange();
+  int getSightRange();
 
-	boolean isDetector();
+  boolean isDetector();
 
-	boolean isDetected();
+  boolean isDetected();
 
-	boolean isCloaked();
+  boolean isCloaked();
 
-	boolean isFlyer();
+  boolean isFlyer();
 
-	boolean isInterruptible();
+  boolean isInterruptible();
 
-	int tileWidth();
+  int tileWidth();
 
-	int tileHeight();
+  int tileHeight();
 
-	double getVelocityX();
+  double getVelocityX();
 
-	double getVelocityY();
+  double getVelocityY();
 
-	boolean isIdle();
+  boolean isIdle();
 
-	boolean isAccelerating();
+  boolean isAccelerating();
 
-	boolean isAttacking();
+  boolean isAttacking();
 
-	boolean isAttackFrame();
+  boolean isAttackFrame();
 
-	boolean isBeingConstructed();
+  boolean isBeingConstructed();
 
-	boolean isBeingHealed();
+  boolean isBeingHealed();
 
-	boolean isIrradiated();
+  boolean isIrradiated();
 
-	boolean isLockedDown();
+  boolean isLockedDown();
 
-	boolean isMaelstrommed();
+  boolean isMaelstrommed();
 
-	boolean isStartingAttack();
+  boolean isStartingAttack();
 
-	boolean isUnderAttack();
+  boolean isUnderAttack();
 
-	boolean isPowered();
+  boolean isPowered();
 
-	int getDamageTo(PlayerUnit to);
+  int getDamageTo(PlayerUnit to);
 
-	int getDamageFrom(PlayerUnit from);
+  int getDamageFrom(PlayerUnit from);
 
-	Order getOrder();
+  Order getOrder();
 
-	Unit getOrderTarget();
+  Unit getOrderTarget();
 
-	Position getOrderTargetPosition();
+  Position getOrderTargetPosition();
 
-	Order getSecondaryOrder();
+  Order getSecondaryOrder();
 
-	int getLastCommandFrame();
+  int getLastCommandFrame();
 
-	UnitCommandType getLastCommand();
-
+  UnitCommandType getLastCommand();
 }

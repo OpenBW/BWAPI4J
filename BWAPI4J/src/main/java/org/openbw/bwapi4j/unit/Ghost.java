@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -20,131 +20,131 @@
 
 package org.openbw.bwapi4j.unit;
 
+import static org.openbw.bwapi4j.type.TechType.*;
+import static org.openbw.bwapi4j.type.UnitCommandType.*;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitType;
 
-import static org.openbw.bwapi4j.type.TechType.*;
-import static org.openbw.bwapi4j.type.UnitCommandType.*;
+public class Ghost extends MobileUnitImpl
+    implements SpellCaster, Organic, GroundAttacker, AirAttacker {
 
-public class Ghost extends MobileUnitImpl implements SpellCaster, Organic, GroundAttacker, AirAttacker {
+  private static final Logger logger = LogManager.getLogger();
 
-    private static final Logger logger = LogManager.getLogger();
+  protected Ghost(int id) {
 
-    protected Ghost(int id) {
-        
-        super(id, UnitType.Terran_Ghost);
+    super(id, UnitType.Terran_Ghost);
+  }
+
+  @Override
+  public int getEnergy() {
+
+    return this.energy;
+  }
+
+  @Override
+  public int getMaxEnergy() {
+
+    return super.getMaxEnergy();
+  }
+
+  public boolean personnelCloaking() {
+
+    return issueCommand(this.id, Use_Tech, -1, -1, -1, Personnel_Cloaking.getId());
+  }
+
+  /**
+   * Use the Lockdown ability on a mechanical unit.
+   *
+   * @param unit target unit
+   * @return true if command succeeded, false else.
+   */
+  public boolean lockdown(Mechanical unit) {
+
+    if (unit instanceof Unit) {
+      return issueCommand(this.id, Use_Tech_Unit, ((Unit) unit).getId(), -1, -1, Lockdown.getId());
+    } else {
+      logger.error("unit {} is not a valid target for lockDown.", unit);
+      return false;
     }
+  }
 
-    @Override
-    public int getEnergy() {
-        
-        return this.energy;
-    }
+  public boolean nuclearStrike(Position p) {
 
-    @Override
-    public int getMaxEnergy() {
+    return issueCommand(this.id, Use_Tech_Position, -1, p.getX(), p.getY(), Nuclear_Strike.getId());
+  }
 
-        return super.getMaxEnergy();
-    }
+  @Override
+  public Weapon getGroundWeapon() {
 
-    public boolean personnelCloaking() {
-        
-        return issueCommand(this.id, Use_Tech, -1, -1, -1, Personnel_Cloaking.getId());
-    }
+    return groundWeapon;
+  }
 
-    /**
-     * Use the Lockdown ability on a mechanical unit.
-     * @param unit target unit
-     * @return true if command succeeded, false else.
-     */
-    public boolean lockdown(Mechanical unit) {
-        
-        if (unit instanceof Unit) {
-            return issueCommand(this.id, Use_Tech_Unit, ((Unit) unit).getId(), -1, -1,
-                    Lockdown.getId());
-        } else {
-            logger.error("unit {} is not a valid target for lockDown.", unit);
-            return false;
-        }
-    }
+  @Override
+  public Weapon getAirWeapon() {
 
-    public boolean nuclearStrike(Position p) {
-        
-        return issueCommand(this.id, Use_Tech_Position, -1, p.getX(), p.getY(),
-                Nuclear_Strike.getId());
-    }
+    return airWeapon;
+  }
 
-    @Override
-    public Weapon getGroundWeapon() {
+  @Override
+  public int getGroundWeaponMaxRange() {
 
-        return groundWeapon;
-    }
+    return super.getGroundWeaponMaxRange();
+  }
 
-    @Override
-    public Weapon getAirWeapon() {
+  @Override
+  public int getGroundWeaponMaxCooldown() {
 
-        return airWeapon;
-    }
+    return super.getGroundWeaponMaxCooldown();
+  }
 
-    @Override
-    public int getGroundWeaponMaxRange() {
+  @Override
+  public int getGroundWeaponCooldown() {
 
-        return super.getGroundWeaponMaxRange();
-    }
+    return super.getGroundWeaponCooldown(this);
+  }
 
-    @Override
-    public int getGroundWeaponMaxCooldown() {
+  @Override
+  public int getGroundWeaponDamage() {
 
-        return super.getGroundWeaponMaxCooldown();
-    }
+    return super.getGroundWeaponDamage();
+  }
 
-    @Override
-    public int getGroundWeaponCooldown() {
+  @Override
+  public int getMaxGroundHits() {
 
-        return super.getGroundWeaponCooldown(this);
-    }
+    return super.getMaxGroundHits();
+  }
 
-    @Override
-    public int getGroundWeaponDamage() {
+  @Override
+  public int getAirWeaponMaxRange() {
 
-        return super.getGroundWeaponDamage();
-    }
+    return super.getAirWeaponMaxRange();
+  }
 
-    @Override
-    public int getMaxGroundHits() {
+  @Override
+  public int getAirWeaponMaxCooldown() {
 
-        return super.getMaxGroundHits();
-    }
+    return super.getAirWeaponMaxCooldown();
+  }
 
-    @Override
-    public int getAirWeaponMaxRange() {
+  @Override
+  public int getAirWeaponCooldown() {
 
-        return super.getAirWeaponMaxRange();
-    }
+    return super.getAirWeaponCooldown(this);
+  }
 
-    @Override
-    public int getAirWeaponMaxCooldown() {
+  @Override
+  public int getAirWeaponDamage() {
 
-        return super.getAirWeaponMaxCooldown();
-    }
+    return super.getAirWeaponDamage();
+  }
 
-    @Override
-    public int getAirWeaponCooldown() {
+  @Override
+  public int getMaxAirHits() {
 
-        return super.getAirWeaponCooldown(this);
-    }
-
-    @Override
-    public int getAirWeaponDamage() {
-
-        return super.getAirWeaponDamage();
-    }
-
-    @Override
-    public int getMaxAirHits() {
-
-        return super.getMaxAirHits();
-    }
+    return super.getMaxAirHits();
+  }
 }

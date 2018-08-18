@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -20,11 +20,12 @@
 
 package org.openbw.bwapi4j.unit;
 
+import static org.openbw.bwapi4j.type.UnitCommandType.Right_Click_Position;
+import static org.openbw.bwapi4j.type.UnitCommandType.Right_Click_Unit;
+
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
-
 import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
@@ -32,382 +33,383 @@ import org.openbw.bwapi4j.UnitStatCalculator;
 import org.openbw.bwapi4j.type.Order;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
-import org.openbw.bwapi4j.type.WeaponType;
-
-import static org.openbw.bwapi4j.type.UnitCommandType.Right_Click_Position;
-import static org.openbw.bwapi4j.type.UnitCommandType.Right_Click_Unit;
 
 public abstract class PlayerUnitImpl extends UnitImpl {
 
+  private UnitStatCalculator unitStatCalculator;
+
+  protected PlayerUnitImpl(int id, UnitType unitType) {
 
-    private UnitStatCalculator unitStatCalculator;
+    super(id, unitType);
+  }
 
-    protected PlayerUnitImpl(int id, UnitType unitType) {
-        
-        super(id, unitType);
-    }
+  @Override
+  public void initialize(int[] unitData, int index, int frame) {
 
-    @Override
-    public void initialize(int[] unitData, int index, int frame) {
+    super.initialize(unitData, index, frame);
+    this.unitStatCalculator = this.getPlayer(playerId).getUnitStatCalculator();
+  }
 
-        super.initialize(unitData, index, frame);
-        this.unitStatCalculator = this.getPlayer(playerId).getUnitStatCalculator();
-    }
+  public PlayerUnit getBuildUnit() {
 
-    public PlayerUnit getBuildUnit() {
-
-        final Unit unit = this.getUnit(builderId);
-        if (unit == null) {
-            return null;
-        } else {
-            if (unit instanceof PlayerUnit) {
-                return (PlayerUnit) unit;
-            } else {
-                throw new IllegalStateException("build unit for " + this.toString() + " should be PlayerUnit but is " + unit.toString() + ".");
-            }
-        }
+    final Unit unit = this.getUnit(builderId);
+    if (unit == null) {
+      return null;
+    } else {
+      if (unit instanceof PlayerUnit) {
+        return (PlayerUnit) unit;
+      } else {
+        throw new IllegalStateException(
+            "build unit for "
+                + this.toString()
+                + " should be PlayerUnit but is "
+                + unit.toString()
+                + ".");
+      }
     }
+  }
 
-    protected Unit getTargetUnit() {
+  protected Unit getTargetUnit() {
 
-        return this.getUnit(this.targetId);
-    }
+    return this.getUnit(this.targetId);
+  }
 
-    /**
-     * Convenience method to be used e.g. when doing target-fire micro (just
-     * provide unit weapon range as radius).
-     * 
-     * @param radius
-     *            pixel radius
-     * @param units
-     *            units to check for distance
-     * @return weakest unit within given radius
-     */
-    public <T extends PlayerUnit> T getWeakestUnitInRadius(int radius, Collection<T> units) {
-
-        List<T> inRange = this.getUnitsInRadius(radius, units);
-        T weakestUnit;
-        if (inRange.isEmpty()) {
-            
-            weakestUnit = this.getClosest(units);
-        } else {
-            
-            Comparator<T> comp = Comparator.comparingInt(PlayerUnit::getHitPoints);
-            weakestUnit = inRange.stream().min(comp).get();
-        }
-        return weakestUnit;
-    }
+  /**
+   * Convenience method to be used e.g. when doing target-fire micro (just provide unit weapon range
+   * as radius).
+   *
+   * @param radius pixel radius
+   * @param units units to check for distance
+   * @return weakest unit within given radius
+   */
+  public <T extends PlayerUnit> T getWeakestUnitInRadius(int radius, Collection<T> units) {
 
-    /**
-     * Perform the right-click command on a given position.
-     * @param position the position to right-click to
-     * @param queued true if command is queued, false else
-     * @return true if command is successful, false else
-     */
-    public boolean rightClick(Position position, boolean queued) {
-        
-        return issueCommand(this.id, Right_Click_Position, -1,
-                position.getX(), position.getY(), queued ? 1 : 0);
-    }
+    List<T> inRange = this.getUnitsInRadius(radius, units);
+    T weakestUnit;
+    if (inRange.isEmpty()) {
 
-    /**
-     * Perform the right-click command on a given unit.
-     * @param target the unit to right-click to
-     * @param queued true if command is queued, false else
-     * @return true if command is successful, false else
-     */
-    public boolean rightClick(Unit target, boolean queued) {
-        
-        return issueCommand(this.id, Right_Click_Unit, target.getId(), -1, -1,
-                queued ? 1 : 0);
-    }
-    
-    public boolean isCompleted() {
-        
-        return this.isCompleted;
-    }
+      weakestUnit = this.getClosest(units);
+    } else {
 
-    public int maxHitPoints() {
-        
-        return this.type.maxHitPoints();
+      Comparator<T> comp = Comparator.comparingInt(PlayerUnit::getHitPoints);
+      weakestUnit = inRange.stream().min(comp).get();
     }
+    return weakestUnit;
+  }
 
-    public int getHitPoints() {
-        
-        return this.hitPoints;
-    }
+  /**
+   * Perform the right-click command on a given position.
+   *
+   * @param position the position to right-click to
+   * @param queued true if command is queued, false else
+   * @return true if command is successful, false else
+   */
+  public boolean rightClick(Position position, boolean queued) {
 
-    protected UnitStatCalculator getUnitStatCalculator() {
+    return issueCommand(
+        this.id, Right_Click_Position, -1, position.getX(), position.getY(), queued ? 1 : 0);
+  }
 
-        return this.unitStatCalculator;
-    }
-    
-    protected int getMaxEnergy() {
+  /**
+   * Perform the right-click command on a given unit.
+   *
+   * @param target the unit to right-click to
+   * @param queued true if command is queued, false else
+   * @return true if command is successful, false else
+   */
+  public boolean rightClick(Unit target, boolean queued) {
 
-        return getUnitStatCalculator().maxEnergy(type);
-    }
+    return issueCommand(this.id, Right_Click_Unit, target.getId(), -1, -1, queued ? 1 : 0);
+  }
 
-    public int getArmor() {
+  public boolean isCompleted() {
 
-        return getUnitStatCalculator().armor(type);
-    }
+    return this.isCompleted;
+  }
 
-    public int maxShields() {
+  public int maxHitPoints() {
 
-        return this.type.maxShields();
-    }
+    return this.type.maxHitPoints();
+  }
 
-    public int getShields() {
-    	
-    	return this.shields;
-    }
-    
-    public int getSpellCooldown() {
-        
-        return this.spellCooldown;
-    }
+  public int getHitPoints() {
 
-    public Player getPlayer() {
-        
-        return super.getPlayer();
-    }
+    return this.hitPoints;
+  }
 
-    public int getInitialHitPoints() {
-        
-        return this.initialHitPoints;
-    }
+  protected UnitStatCalculator getUnitStatCalculator() {
 
-    public int getMineralPrice() {
-        
-        return this.type.mineralPrice();
-    }
+    return this.unitStatCalculator;
+  }
 
-    public int getGasPrice() {
-        
-        return this.type.gasPrice();
-    }
+  protected int getMaxEnergy() {
 
-    public int getLastKnownHitPoints() {
-        
-        return this.lastKnownHitPoints;
-    }
+    return getUnitStatCalculator().maxEnergy(type);
+  }
 
-    public Position getLastKnownPosition() {
-        
-        return this.lastKnownPosition;
-    }
+  public int getArmor() {
 
-    public TilePosition getLastKnownTilePosition() {
-        
-        return this.lastKnownTilePosition;
-    }
+    return getUnitStatCalculator().armor(type);
+  }
 
-    public int getSightRange() {
-        
-        return getUnitStatCalculator().sightRange(type);
-    }
+  public int maxShields() {
 
-    public boolean isDetector() {
-        return type.isDetector();
-    }
+    return this.type.maxShields();
+  }
 
-    public boolean isDetected() {
-        
-        return this.isDetected;
-    }
+  public int getShields() {
 
-    public boolean isCloaked() {
-        
-        return this.isCloaked;
-    }
+    return this.shields;
+  }
 
-    public boolean isFlyer() {
-        
-        return this.type.isFlyer();
-    }
+  public int getSpellCooldown() {
 
-    public boolean isInterruptible() {
+    return this.spellCooldown;
+  }
 
-        return isInterruptible;
-    }
+  public Player getPlayer() {
 
-    @Override
-    public int tileWidth() {
-        
-        return this.type.tileWidth();
-    }
+    return super.getPlayer();
+  }
 
-    @Override
-    public int tileHeight() {
-        
-        return this.type.tileHeight();
-    }
+  public int getInitialHitPoints() {
 
-    protected double getTopSpeed() {
-        
-        return getUnitStatCalculator().topSpeed(type);
-    }
+    return this.initialHitPoints;
+  }
 
-    protected int getMaxGroundHits() {
+  public int getMineralPrice() {
 
-        return this.type.maxGroundHits();
-    }
+    return this.type.mineralPrice();
+  }
 
-    protected int getMaxAirHits() {
+  public int getGasPrice() {
 
-        return this.type.maxAirHits();
-    }
+    return this.type.gasPrice();
+  }
 
-    public double getVelocityX() {
-        
-        return this.velocityX;
-    }
+  public int getLastKnownHitPoints() {
 
-    public double getVelocityY() {
-        
-        return this.velocityY;
-    }
+    return this.lastKnownHitPoints;
+  }
 
-    public boolean isIdle() {
-        
-        return this.isIdle;
-    }
+  public Position getLastKnownPosition() {
 
-    public boolean isAccelerating() {
-        
-        return this.isAccelerating;
-    }
-    
-    public boolean isAttacking() {
-        
-        return this.isAttacking;
-    }
-    
-    public boolean isAttackFrame() {
-        
-        return this.isAttackFrame;
-    }
-    
-    public boolean isBeingConstructed() {
-        
-        return this.isBeingConstructed;
-    }
-    
-    public boolean isBeingHealed() {
-        
-        return this.isBeingHealed;
-    }
-    
-    public boolean isIrradiated() {
-        
-        return this.isIrradiated;
-    }
-    
-    public boolean isLockedDown() {
-        
-        return this.isLockedDown;
-    }
-    
-    public boolean isMaelstrommed() {
-        
-        return this.isMaelstrommed;
-    }
-    
-    public boolean isStartingAttack() {
-        
-        return this.isStartingAttack;
-    }
-    
-    public boolean isUnderAttack() {
-        
-        return this.isUnderAttack;
-    }
-    
-    public boolean isPowered() {
-        
-        return this.isPowered;
-    }
+    return this.lastKnownPosition;
+  }
 
-    protected int getGroundWeaponMaxRange() {
+  public TilePosition getLastKnownTilePosition() {
 
-        return getUnitStatCalculator().weaponMaxRange(type.groundWeapon());
-    }
+    return this.lastKnownTilePosition;
+  }
 
-    protected int getGroundWeaponMaxCooldown() {
+  public int getSightRange() {
 
-        return getUnitStatCalculator().groundWeaponDamageMaxCooldown(type);
-    }
+    return getUnitStatCalculator().sightRange(type);
+  }
 
-    protected int getGroundWeaponCooldown(GroundAttacker unit) {
+  public boolean isDetector() {
+    return type.isDetector();
+  }
 
-        // Only ground weapons have varied cooldowns.
-        return getUnitStatCalculator().groundWeaponDamageCooldown(unit);
-    }
+  public boolean isDetected() {
 
-    protected int getGroundWeaponDamage() {
+    return this.isDetected;
+  }
 
-        return getUnitStatCalculator().damage(type.groundWeapon());
-    }
+  public boolean isCloaked() {
 
-    protected int getAirWeaponMaxRange() {
+    return this.isCloaked;
+  }
 
-        return getUnitStatCalculator().weaponMaxRange(type.airWeapon());
-    }
+  public boolean isFlyer() {
 
-    protected int getAirWeaponMaxCooldown() {
+    return this.type.isFlyer();
+  }
 
-        return type.airWeapon().damageCooldown();
-    }
+  public boolean isInterruptible() {
 
-    protected int getAirWeaponCooldown(AirAttacker unit) {
+    return isInterruptible;
+  }
 
-        return getUnitStatCalculator().airWeaponDamageCooldown(unit);
-    }
+  @Override
+  public int tileWidth() {
 
-    protected int getAirWeaponDamage() {
+    return this.type.tileWidth();
+  }
 
-        return getUnitStatCalculator().damage(type.airWeapon());
-    }
+  @Override
+  public int tileHeight() {
 
-    public int getDamageTo(PlayerUnit to) {
+    return this.type.tileHeight();
+  }
 
-        return this.getDamageEvaluator().getDamageTo(to.getInitialType(), this.initialType, to.getPlayer(), this.getPlayer());
-    }
+  protected double getTopSpeed() {
 
-    public int getDamageFrom(PlayerUnit from) {
+    return getUnitStatCalculator().topSpeed(type);
+  }
 
-    	return this.getDamageEvaluator().getDamageFrom(from.getInitialType(), this.initialType, from.getPlayer(), this.getPlayer());
-    }
+  protected int getMaxGroundHits() {
 
-    @Override
-    public Order getOrder() {
+    return this.type.maxGroundHits();
+  }
 
-        return super.getOrder();
-    }
+  protected int getMaxAirHits() {
 
-    @Override
-    public Unit getOrderTarget() {
+    return this.type.maxAirHits();
+  }
 
-        return super.getOrderTarget();
-    }
+  public double getVelocityX() {
 
-    @Override
-    public Position getOrderTargetPosition() {
+    return this.velocityX;
+  }
 
-        return super.getOrderTargetPosition();
-    }
+  public double getVelocityY() {
 
-    @Override
-    public Order getSecondaryOrder() {
+    return this.velocityY;
+  }
 
-        return super.getSecondaryOrder();
-    }
+  public boolean isIdle() {
 
-    public int getLastCommandFrame() {
-        return lastCommandFrame;
-    }
+    return this.isIdle;
+  }
 
-    public UnitCommandType getLastCommand() {
-        return lastCommand;
-    }
+  public boolean isAccelerating() {
+
+    return this.isAccelerating;
+  }
+
+  public boolean isAttacking() {
+
+    return this.isAttacking;
+  }
+
+  public boolean isAttackFrame() {
+
+    return this.isAttackFrame;
+  }
+
+  public boolean isBeingConstructed() {
+
+    return this.isBeingConstructed;
+  }
+
+  public boolean isBeingHealed() {
+
+    return this.isBeingHealed;
+  }
+
+  public boolean isIrradiated() {
+
+    return this.isIrradiated;
+  }
+
+  public boolean isLockedDown() {
+
+    return this.isLockedDown;
+  }
+
+  public boolean isMaelstrommed() {
+
+    return this.isMaelstrommed;
+  }
+
+  public boolean isStartingAttack() {
+
+    return this.isStartingAttack;
+  }
+
+  public boolean isUnderAttack() {
+
+    return this.isUnderAttack;
+  }
+
+  public boolean isPowered() {
+
+    return this.isPowered;
+  }
+
+  protected int getGroundWeaponMaxRange() {
+
+    return getUnitStatCalculator().weaponMaxRange(type.groundWeapon());
+  }
+
+  protected int getGroundWeaponMaxCooldown() {
+
+    return getUnitStatCalculator().groundWeaponDamageMaxCooldown(type);
+  }
+
+  protected int getGroundWeaponCooldown(GroundAttacker unit) {
+
+    // Only ground weapons have varied cooldowns.
+    return getUnitStatCalculator().groundWeaponDamageCooldown(unit);
+  }
+
+  protected int getGroundWeaponDamage() {
+
+    return getUnitStatCalculator().damage(type.groundWeapon());
+  }
+
+  protected int getAirWeaponMaxRange() {
+
+    return getUnitStatCalculator().weaponMaxRange(type.airWeapon());
+  }
+
+  protected int getAirWeaponMaxCooldown() {
+
+    return type.airWeapon().damageCooldown();
+  }
+
+  protected int getAirWeaponCooldown(AirAttacker unit) {
+
+    return getUnitStatCalculator().airWeaponDamageCooldown(unit);
+  }
+
+  protected int getAirWeaponDamage() {
+
+    return getUnitStatCalculator().damage(type.airWeapon());
+  }
+
+  public int getDamageTo(PlayerUnit to) {
+
+    return this.getDamageEvaluator()
+        .getDamageTo(to.getInitialType(), this.initialType, to.getPlayer(), this.getPlayer());
+  }
+
+  public int getDamageFrom(PlayerUnit from) {
+
+    return this.getDamageEvaluator()
+        .getDamageFrom(from.getInitialType(), this.initialType, from.getPlayer(), this.getPlayer());
+  }
+
+  @Override
+  public Order getOrder() {
+
+    return super.getOrder();
+  }
+
+  @Override
+  public Unit getOrderTarget() {
+
+    return super.getOrderTarget();
+  }
+
+  @Override
+  public Position getOrderTargetPosition() {
+
+    return super.getOrderTargetPosition();
+  }
+
+  @Override
+  public Order getSecondaryOrder() {
+
+    return super.getSecondaryOrder();
+  }
+
+  public int getLastCommandFrame() {
+    return lastCommandFrame;
+  }
+
+  public UnitCommandType getLastCommand() {
+    return lastCommand;
+  }
 }

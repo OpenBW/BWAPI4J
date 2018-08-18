@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -20,105 +20,105 @@
 
 package org.openbw.bwapi4j.unit;
 
-import org.openbw.bwapi4j.type.UnitType;
-
 import static org.openbw.bwapi4j.type.TechType.Yamato_Gun;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Unit;
 
-public class BattleCruiser extends MobileUnitImpl implements Mechanical, SpellCaster, GroundAttacker, AirAttacker {
+import org.openbw.bwapi4j.type.UnitType;
 
-    protected BattleCruiser(int id) {
-        
-        super(id, UnitType.Terran_Battlecruiser);
-    }
+public class BattleCruiser extends MobileUnitImpl
+    implements Mechanical, SpellCaster, GroundAttacker, AirAttacker {
 
-    public boolean yamatoGun(PlayerUnit unit) {
-        
-        return issueCommand(this.id, Use_Tech_Unit, unit.getId(), -1, -1,
-                Yamato_Gun.getId());
-    }
+  protected BattleCruiser(int id) {
 
-    @Override
-    public int getEnergy() {
-        
-        return this.energy;
-    }
+    super(id, UnitType.Terran_Battlecruiser);
+  }
 
-    @Override
-    public int getMaxEnergy() {
+  public boolean yamatoGun(PlayerUnit unit) {
 
-        return super.getMaxEnergy();
-    }
+    return issueCommand(this.id, Use_Tech_Unit, unit.getId(), -1, -1, Yamato_Gun.getId());
+  }
 
-    @Override
-    public Weapon getGroundWeapon() {
+  @Override
+  public int getEnergy() {
 
-        return groundWeapon;
-    }
+    return this.energy;
+  }
 
-    @Override
-    public Weapon getAirWeapon() {
+  @Override
+  public int getMaxEnergy() {
 
-        return airWeapon;
-    }
+    return super.getMaxEnergy();
+  }
 
-    @Override
-    public int getGroundWeaponMaxRange() {
+  @Override
+  public Weapon getGroundWeapon() {
 
-        return super.getGroundWeaponMaxRange();
-    }
+    return groundWeapon;
+  }
 
-    @Override
-    public int getGroundWeaponMaxCooldown() {
+  @Override
+  public Weapon getAirWeapon() {
 
-        return super.getGroundWeaponMaxCooldown();
-    }
+    return airWeapon;
+  }
 
-    @Override
-    public int getGroundWeaponCooldown() {
+  @Override
+  public int getGroundWeaponMaxRange() {
 
-        return super.getGroundWeaponCooldown(this);
-    }
+    return super.getGroundWeaponMaxRange();
+  }
 
-    @Override
-    public int getGroundWeaponDamage() {
+  @Override
+  public int getGroundWeaponMaxCooldown() {
 
-        return super.getGroundWeaponDamage();
-    }
+    return super.getGroundWeaponMaxCooldown();
+  }
 
-    @Override
-    public int getMaxGroundHits() {
+  @Override
+  public int getGroundWeaponCooldown() {
 
-        return super.getMaxGroundHits();
-    }
+    return super.getGroundWeaponCooldown(this);
+  }
 
-    @Override
-    public int getAirWeaponMaxRange() {
+  @Override
+  public int getGroundWeaponDamage() {
 
-        return super.getAirWeaponMaxRange();
-    }
+    return super.getGroundWeaponDamage();
+  }
 
-    @Override
-    public int getAirWeaponMaxCooldown() {
+  @Override
+  public int getMaxGroundHits() {
 
-        return super.getAirWeaponMaxCooldown();
-    }
+    return super.getMaxGroundHits();
+  }
 
-    @Override
-    public int getAirWeaponCooldown() {
+  @Override
+  public int getAirWeaponMaxRange() {
 
-        return super.getAirWeaponCooldown(this);
-    }
+    return super.getAirWeaponMaxRange();
+  }
 
-    @Override
-    public int getAirWeaponDamage() {
+  @Override
+  public int getAirWeaponMaxCooldown() {
 
-        return super.getAirWeaponDamage();
-    }
+    return super.getAirWeaponMaxCooldown();
+  }
 
-    @Override
-    public int getMaxAirHits() {
+  @Override
+  public int getAirWeaponCooldown() {
 
-        return super.getMaxAirHits();
-    }
+    return super.getAirWeaponCooldown(this);
+  }
+
+  @Override
+  public int getAirWeaponDamage() {
+
+    return super.getAirWeaponDamage();
+  }
+
+  @Override
+  public int getMaxAirHits() {
+
+    return super.getMaxAirHits();
+  }
 }

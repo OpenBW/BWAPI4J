@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -25,61 +25,61 @@ import org.openbw.bwapi4j.type.UpgradeType;
 
 public interface ResearchingFacility extends Building {
 
-    boolean isUpgrading();
+  boolean isUpgrading();
 
-    boolean isResearching();
+  boolean isResearching();
 
-    boolean cancelResearch();
+  boolean cancelResearch();
 
-    boolean cancelUpgrade();
+  boolean cancelUpgrade();
 
-    boolean canResearch(TechType techType);
+  boolean canResearch(TechType techType);
 
-    boolean canUpgrade(UpgradeType upgradeType);
+  boolean canUpgrade(UpgradeType upgradeType);
 
-    boolean research(TechType techType);
+  boolean research(TechType techType);
 
-    boolean upgrade(UpgradeType upgradeType);
+  boolean upgrade(UpgradeType upgradeType);
 
-    UpgradeInProgress getUpgradeInProgress();
+  UpgradeInProgress getUpgradeInProgress();
 
-    ResearchInProgress getResearchInProgress();
+  ResearchInProgress getResearchInProgress();
 
-    class UpgradeInProgress {
-        public static final UpgradeInProgress NONE = new UpgradeInProgress(UpgradeType.None, 0);
-        private final UpgradeType upgradeType;
-        private final int remainingUpgradeTime;
+  class UpgradeInProgress {
+    public static final UpgradeInProgress NONE = new UpgradeInProgress(UpgradeType.None, 0);
+    private final UpgradeType upgradeType;
+    private final int remainingUpgradeTime;
 
-        protected UpgradeInProgress(UpgradeType upgradeType, int remainingUpgradeTime) {
-            this.upgradeType = upgradeType;
-            this.remainingUpgradeTime = remainingUpgradeTime;
-        }
-
-        public UpgradeType getUpgradeType() {
-            return upgradeType;
-        }
-
-        public int getRemainingUpgradeTime() {
-            return remainingUpgradeTime;
-        }
+    protected UpgradeInProgress(UpgradeType upgradeType, int remainingUpgradeTime) {
+      this.upgradeType = upgradeType;
+      this.remainingUpgradeTime = remainingUpgradeTime;
     }
 
-    class ResearchInProgress {
-        public static final ResearchInProgress NONE = new ResearchInProgress(TechType.None, 0);
-        private final TechType researchType;
-        private final int remainingResearchTime;
-
-        protected ResearchInProgress(TechType researchType, int remainingResearchTime) {
-            this.researchType = researchType;
-            this.remainingResearchTime = remainingResearchTime;
-        }
-
-        public int getRemainingResearchTime() {
-            return remainingResearchTime;
-        }
-
-        public TechType getResearchType() {
-            return researchType;
-        }
+    public UpgradeType getUpgradeType() {
+      return upgradeType;
     }
+
+    public int getRemainingUpgradeTime() {
+      return remainingUpgradeTime;
+    }
+  }
+
+  class ResearchInProgress {
+    public static final ResearchInProgress NONE = new ResearchInProgress(TechType.None, 0);
+    private final TechType researchType;
+    private final int remainingResearchTime;
+
+    protected ResearchInProgress(TechType researchType, int remainingResearchTime) {
+      this.researchType = researchType;
+      this.remainingResearchTime = remainingResearchTime;
+    }
+
+    public int getRemainingResearchTime() {
+      return remainingResearchTime;
+    }
+
+    public TechType getResearchType() {
+      return researchType;
+    }
+  }
 }

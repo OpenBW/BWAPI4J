@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -26,77 +26,77 @@ import org.openbw.bwapi4j.type.UpgradeType;
 
 public class HydraliskDen extends BuildingImpl implements Organic, ResearchingFacility {
 
-    protected HydraliskDen(int id, int timeSpotted) {
-        
-        super(id, UnitType.Zerg_Hydralisk_Den, timeSpotted);
-    }
+  protected HydraliskDen(int id, int timeSpotted) {
 
-    public boolean upgradeMuscularAugments() {
-        
-        return super.upgrade(UpgradeType.Muscular_Augments);
-    }
-    
-    public boolean upgradeGroovedSpines() {
-        
-        return super.upgrade(UpgradeType.Grooved_Spines);
-    }
-    
-    public boolean researchLurkerAspect() {
-        
-        return super.research(TechType.Lurker_Aspect);
-    }
-    
-    @Override
-    public boolean isUpgrading() {
-        
-        return isUpgrading;
-    }
+    super(id, UnitType.Zerg_Hydralisk_Den, timeSpotted);
+  }
 
-    @Override
-    public boolean isResearching() {
-        
-        return isResearching;
-    }
+  public boolean upgradeMuscularAugments() {
 
-    @Override
-    public boolean cancelResearch() {
-        
-        return super.cancelResearch();
-    }
+    return super.upgrade(UpgradeType.Muscular_Augments);
+  }
 
-    @Override
-    public boolean cancelUpgrade() {
-        
-        return super.cancelUpgrade();
-    }
+  public boolean upgradeGroovedSpines() {
 
-    @Override
-    public boolean canResearch(TechType techType) {
-        return super.canResearch(techType);
-    }
+    return super.upgrade(UpgradeType.Grooved_Spines);
+  }
 
-    @Override
-    public boolean canUpgrade(UpgradeType upgradeType) {
-        return super.canUpgrade(upgradeType);
-    }
+  public boolean researchLurkerAspect() {
 
-    @Override
-    public boolean research(TechType techType) {
-        return super.research(techType);
-    }
+    return super.research(TechType.Lurker_Aspect);
+  }
 
-    @Override
-    public boolean upgrade(UpgradeType upgradeType) {
-        return super.upgrade(upgradeType);
-    }
+  @Override
+  public boolean isUpgrading() {
 
-    @Override
-    public UpgradeInProgress getUpgradeInProgress() {
-        return super.getUpgradeInProgress();
-    }
+    return isUpgrading;
+  }
 
-    @Override
-    public ResearchInProgress getResearchInProgress() {
-        return super.getResearchInProgress();
-    }
+  @Override
+  public boolean isResearching() {
+
+    return isResearching;
+  }
+
+  @Override
+  public boolean cancelResearch() {
+
+    return super.cancelResearch();
+  }
+
+  @Override
+  public boolean cancelUpgrade() {
+
+    return super.cancelUpgrade();
+  }
+
+  @Override
+  public boolean canResearch(TechType techType) {
+    return super.canResearch(techType);
+  }
+
+  @Override
+  public boolean canUpgrade(UpgradeType upgradeType) {
+    return super.canUpgrade(upgradeType);
+  }
+
+  @Override
+  public boolean research(TechType techType) {
+    return super.research(techType);
+  }
+
+  @Override
+  public boolean upgrade(UpgradeType upgradeType) {
+    return super.upgrade(upgradeType);
+  }
+
+  @Override
+  public UpgradeInProgress getUpgradeInProgress() {
+    return super.getUpgradeInProgress();
+  }
+
+  @Override
+  public ResearchInProgress getResearchInProgress() {
+    return super.getResearchInProgress();
+  }
 }

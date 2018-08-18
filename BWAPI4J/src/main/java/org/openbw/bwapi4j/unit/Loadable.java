@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -22,32 +22,31 @@ package org.openbw.bwapi4j.unit;
 
 public interface Loadable extends PlayerUnit {
 
-    boolean isLoaded();
+  boolean isLoaded();
 
-    boolean load(MobileUnit target);
+  boolean load(MobileUnit target);
 
-    /**
-     * Loads target unit into this transporter.
-     * @param target unit to load
-     * @param queued true if command is queued
-     * @return true is command successful, false else
-     */
-    boolean load(MobileUnit target, boolean queued);
+  /**
+   * Loads target unit into this transporter.
+   *
+   * @param target unit to load
+   * @param queued true if command is queued
+   * @return true is command successful, false else
+   */
+  boolean load(MobileUnit target, boolean queued);
 
-    boolean unload(MobileUnit target);
+  boolean unload(MobileUnit target);
 
-    boolean unloadAll();
+  boolean unloadAll();
 
-    boolean unloadAll(boolean queued);
+  boolean unloadAll(boolean queued);
 
+  //    // TODO implement space remaining for JNI and then subclasses
+  //    private int spaceRemaining;
+  //    int getSpaceRemaining();
 
-
-//    // TODO implement space remaining for JNI and then subclasses
-//    private int spaceRemaining;
-//    int getSpaceRemaining();
-
-//    // TODO implement units loaded for JNI and then subclasses
-//    private List<Unit> loadedUnits;
-//    List<PlayerUnit> getLoadedUnits();
+  //    // TODO implement units loaded for JNI and then subclasses
+  //    private List<Unit> loadedUnits;
+  //    List<PlayerUnit> getLoadedUnits();
 
 }

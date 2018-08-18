@@ -4,27 +4,26 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public abstract class GasMiningFacilityImpl extends BuildingImpl implements GasMiningFacility {
 
-    protected GasMiningFacilityImpl(int id, UnitType type, int timeSpotted) {
-        
-        super(id, type, timeSpotted);
-    }
+  protected GasMiningFacilityImpl(int id, UnitType type, int timeSpotted) {
 
-	@Override
-	public int getResources() {
-		// TODO Auto-generated method stub
-		return this.resources;
-	}
+    super(id, type, timeSpotted);
+  }
 
-	@Override
-	public int getInitialResources() {
-		// TODO Auto-generated method stub
-		return this.initialResources;
-	}
+  @Override
+  public int getResources() {
+    // TODO Auto-generated method stub
+    return this.resources;
+  }
 
-	@Override
-	public boolean isBeingGathered() {
-		// TODO Auto-generated method stub
-		return this.isBeingGathered;
-	}
+  @Override
+  public int getInitialResources() {
+    // TODO Auto-generated method stub
+    return this.initialResources;
+  }
 
+  @Override
+  public boolean isBeingGathered() {
+    // TODO Auto-generated method stub
+    return this.isBeingGathered;
+  }
 }

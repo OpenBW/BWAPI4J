@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -24,32 +24,32 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class MineralPatch extends UnitImpl implements Resource, Gatherable {
 
-    protected MineralPatch(int id) {
-        
-        super(id, UnitType.Resource_Mineral_Field);
-    }
+  protected MineralPatch(int id) {
 
-    @Override
-    public int getResources() {
-        
-        return this.resources;
-    }
+    super(id, UnitType.Resource_Mineral_Field);
+  }
 
-    @Override
-    public int getInitialResources() {
-        
-        return this.initialResources;
-    }
+  @Override
+  public int getResources() {
 
-    @Override
-    public int getLastKnownResources() {
-        
-        return this.lastKnownResources;
-    }
+    return this.resources;
+  }
 
-    @Override
-    public boolean isBeingGathered() {
-        
-        return this.isBeingGathered;
-    }
+  @Override
+  public int getInitialResources() {
+
+    return this.initialResources;
+  }
+
+  @Override
+  public int getLastKnownResources() {
+
+    return this.lastKnownResources;
+  }
+
+  @Override
+  public boolean isBeingGathered() {
+
+    return this.isBeingGathered;
+  }
 }

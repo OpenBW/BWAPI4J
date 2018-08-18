@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -20,122 +20,123 @@
 
 package org.openbw.bwapi4j.unit;
 
-import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.type.TechType;
-import org.openbw.bwapi4j.type.UnitType;
-
 import static org.openbw.bwapi4j.type.TechType.Recall;
 import static org.openbw.bwapi4j.type.TechType.Stasis_Field;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Position;
 
-public class Arbiter extends MobileUnitImpl implements Mechanical, SpellCaster, GroundAttacker, AirAttacker {
+import org.openbw.bwapi4j.Position;
+import org.openbw.bwapi4j.type.TechType;
+import org.openbw.bwapi4j.type.UnitType;
 
-    protected Arbiter(int id) {
-        
-        super(id, UnitType.Protoss_Arbiter);
+public class Arbiter extends MobileUnitImpl
+    implements Mechanical, SpellCaster, GroundAttacker, AirAttacker {
+
+  protected Arbiter(int id) {
+
+    super(id, UnitType.Protoss_Arbiter);
+  }
+
+  @Override
+  public int getEnergy() {
+
+    return this.energy;
+  }
+
+  @Override
+  public int getMaxEnergy() {
+
+    return super.getMaxEnergy();
+  }
+
+  public boolean stasisField(Position position) {
+
+    if (this.energy < TechType.Stasis_Field.energyCost()) {
+      return false;
+    } else {
+      return issueCommand(
+          this.id, Use_Tech_Position, -1, position.getX(), position.getY(), Stasis_Field.getId());
     }
-    
-    @Override
-    public int getEnergy() {
-        
-        return this.energy;
+  }
+
+  public boolean recall(Position position) {
+
+    if (this.energy < TechType.Recall.energyCost()) {
+      return false;
+    } else {
+      return issueCommand(
+          this.id, Use_Tech_Position, -1, position.getX(), position.getY(), Recall.getId());
     }
+  }
 
-    @Override
-    public int getMaxEnergy() {
+  @Override
+  public Weapon getGroundWeapon() {
 
-        return super.getMaxEnergy();
-    }
+    return groundWeapon;
+  }
 
-    public boolean stasisField(Position position) {
-        
-        if (this.energy < TechType.Stasis_Field.energyCost()) {
-            return false;
-        } else {
-            return issueCommand(this.id, Use_Tech_Position, -1,
-                    position.getX(), position.getY(), Stasis_Field.getId());
-        }
-    }
-    
-    public boolean recall(Position position) {
-        
-        if (this.energy < TechType.Recall.energyCost()) {
-            return false;
-        } else {
-            return issueCommand(this.id, Use_Tech_Position, -1,
-                    position.getX(), position.getY(), Recall.getId());
-        }
-    }
+  @Override
+  public Weapon getAirWeapon() {
 
-    @Override
-    public Weapon getGroundWeapon() {
+    return airWeapon;
+  }
 
-        return groundWeapon;
-    }
+  @Override
+  public int getGroundWeaponMaxRange() {
 
-    @Override
-    public Weapon getAirWeapon() {
+    return super.getGroundWeaponMaxRange();
+  }
 
-        return airWeapon;
-    }
+  @Override
+  public int getGroundWeaponMaxCooldown() {
 
-    @Override
-    public int getGroundWeaponMaxRange() {
+    return super.getGroundWeaponMaxCooldown();
+  }
 
-        return super.getGroundWeaponMaxRange();
-    }
+  @Override
+  public int getGroundWeaponCooldown() {
 
-    @Override
-    public int getGroundWeaponMaxCooldown() {
+    return super.getGroundWeaponCooldown(this);
+  }
 
-        return super.getGroundWeaponMaxCooldown();
-    }
+  @Override
+  public int getGroundWeaponDamage() {
 
-    @Override
-    public int getGroundWeaponCooldown() {
+    return super.getGroundWeaponDamage();
+  }
 
-        return super.getGroundWeaponCooldown(this);
-    }
+  @Override
+  public int getMaxGroundHits() {
 
-    @Override
-    public int getGroundWeaponDamage() {
+    return super.getMaxGroundHits();
+  }
 
-        return super.getGroundWeaponDamage();
-    }
+  @Override
+  public int getAirWeaponMaxRange() {
 
-    @Override
-    public int getMaxGroundHits() {
+    return super.getAirWeaponMaxRange();
+  }
 
-        return super.getMaxGroundHits();
-    }
+  @Override
+  public int getAirWeaponMaxCooldown() {
 
-    @Override
-    public int getAirWeaponMaxRange() {
+    return super.getAirWeaponMaxCooldown();
+  }
 
-        return super.getAirWeaponMaxRange();
-    }
+  @Override
+  public int getAirWeaponCooldown() {
 
-    @Override
-    public int getAirWeaponMaxCooldown() {
+    return super.getAirWeaponCooldown(this);
+  }
 
-        return super.getAirWeaponMaxCooldown();
-    }
+  @Override
+  public int getAirWeaponDamage() {
 
-    @Override
-    public int getAirWeaponCooldown() {
+    return super.getAirWeaponDamage();
+  }
 
-        return super.getAirWeaponCooldown(this);
-    }
+  @Override
+  public int getMaxAirHits() {
 
-    @Override
-    public int getAirWeaponDamage() {
-
-        return super.getAirWeaponDamage();
-    }
-
-    @Override
-    public int getMaxAirHits() {
-
-        return super.getMaxAirHits();
-    }
+    return super.getMaxAirHits();
+  }
 }

@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -26,87 +26,87 @@ import org.openbw.bwapi4j.type.UpgradeType;
 
 public class FleetBeacon extends BuildingImpl implements Mechanical, ResearchingFacility {
 
-    protected FleetBeacon(int id, int timeSpotted) {
-        
-        super(id, UnitType.Protoss_Fleet_Beacon, timeSpotted);
-    }
+  protected FleetBeacon(int id, int timeSpotted) {
 
-	public boolean researchDisruptionWeb() {
+    super(id, UnitType.Protoss_Fleet_Beacon, timeSpotted);
+  }
 
-		return super.research(TechType.Disruption_Web);
-	}
+  public boolean researchDisruptionWeb() {
 
-	public boolean upgradeCarrierCapacity() {
+    return super.research(TechType.Disruption_Web);
+  }
 
-		return super.upgrade(UpgradeType.Carrier_Capacity);
-	}
-	
-	public boolean upgradeApialSensors() {
+  public boolean upgradeCarrierCapacity() {
 
-		return super.upgrade(UpgradeType.Apial_Sensors);
-	}
-	
-	public boolean upgradeGraviticThrusters() {
+    return super.upgrade(UpgradeType.Carrier_Capacity);
+  }
 
-		return super.upgrade(UpgradeType.Gravitic_Thrusters);
-	}
-	
-	public boolean upgradeArgusJewel() {
+  public boolean upgradeApialSensors() {
 
-		return super.upgrade(UpgradeType.Argus_Jewel);
-	}
-	
-    @Override
-    public boolean isUpgrading() {
-        
-        return isUpgrading;
-    }
+    return super.upgrade(UpgradeType.Apial_Sensors);
+  }
 
-    @Override
-    public boolean isResearching() {
-        
-        return isResearching;
-    }
+  public boolean upgradeGraviticThrusters() {
 
-    @Override
-    public boolean cancelResearch() {
-        
-        return super.cancelResearch();
-    }
+    return super.upgrade(UpgradeType.Gravitic_Thrusters);
+  }
 
-    @Override
-    public boolean cancelUpgrade() {
-        
-        return super.cancelUpgrade();
-    }
+  public boolean upgradeArgusJewel() {
 
-    @Override
-    public boolean canResearch(TechType techType) {
-        return super.canResearch(techType);
-    }
+    return super.upgrade(UpgradeType.Argus_Jewel);
+  }
 
-    @Override
-    public boolean canUpgrade(UpgradeType upgradeType) {
-        return super.canUpgrade(upgradeType);
-    }
+  @Override
+  public boolean isUpgrading() {
 
-    @Override
-    public boolean research(TechType techType) {
-        return super.research(techType);
-    }
+    return isUpgrading;
+  }
 
-    @Override
-    public boolean upgrade(UpgradeType upgradeType) {
-        return super.upgrade(upgradeType);
-    }
+  @Override
+  public boolean isResearching() {
 
-    @Override
-    public UpgradeInProgress getUpgradeInProgress() {
-        return super.getUpgradeInProgress();
-    }
+    return isResearching;
+  }
 
-    @Override
-    public ResearchInProgress getResearchInProgress() {
-        return super.getResearchInProgress();
-    }
+  @Override
+  public boolean cancelResearch() {
+
+    return super.cancelResearch();
+  }
+
+  @Override
+  public boolean cancelUpgrade() {
+
+    return super.cancelUpgrade();
+  }
+
+  @Override
+  public boolean canResearch(TechType techType) {
+    return super.canResearch(techType);
+  }
+
+  @Override
+  public boolean canUpgrade(UpgradeType upgradeType) {
+    return super.canUpgrade(upgradeType);
+  }
+
+  @Override
+  public boolean research(TechType techType) {
+    return super.research(techType);
+  }
+
+  @Override
+  public boolean upgrade(UpgradeType upgradeType) {
+    return super.upgrade(upgradeType);
+  }
+
+  @Override
+  public UpgradeInProgress getUpgradeInProgress() {
+    return super.getUpgradeInProgress();
+  }
+
+  @Override
+  public ResearchInProgress getResearchInProgress() {
+    return super.getResearchInProgress();
+  }
 }

@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -26,77 +26,77 @@ import org.openbw.bwapi4j.type.UpgradeType;
 
 public class RoboticsSupportBay extends BuildingImpl implements Mechanical, ResearchingFacility {
 
-    protected RoboticsSupportBay(int id, int timeSpotted) {
-        
-        super(id, UnitType.Protoss_Robotics_Support_Bay, timeSpotted);
-    }
+  protected RoboticsSupportBay(int id, int timeSpotted) {
 
-	public boolean upgradeGraviticDrive() {
+    super(id, UnitType.Protoss_Robotics_Support_Bay, timeSpotted);
+  }
 
-		return super.upgrade(UpgradeType.Gravitic_Drive);
-	}
-	
-	public boolean upgradeScarabDamage() {
+  public boolean upgradeGraviticDrive() {
 
-		return super.upgrade(UpgradeType.Scarab_Damage);
-	}
-	
-	public boolean upgradeReaverCapacity() {
+    return super.upgrade(UpgradeType.Gravitic_Drive);
+  }
 
-		return super.upgrade(UpgradeType.Reaver_Capacity);
-	}
-	
-    @Override
-    public boolean isUpgrading() {
-        
-        return isUpgrading;
-    }
+  public boolean upgradeScarabDamage() {
 
-    @Override
-    public boolean isResearching() {
-        
-        return isResearching;
-    }
+    return super.upgrade(UpgradeType.Scarab_Damage);
+  }
 
-    @Override
-    public boolean cancelResearch() {
-        
-        return super.cancelResearch();
-    }
+  public boolean upgradeReaverCapacity() {
 
-    @Override
-    public boolean cancelUpgrade() {
-        
-        return super.cancelUpgrade();
-    }
+    return super.upgrade(UpgradeType.Reaver_Capacity);
+  }
 
-    @Override
-    public boolean canResearch(TechType techType) {
-        return super.canResearch(techType);
-    }
+  @Override
+  public boolean isUpgrading() {
 
-    @Override
-    public boolean canUpgrade(UpgradeType upgradeType) {
-        return super.canUpgrade(upgradeType);
-    }
+    return isUpgrading;
+  }
 
-    @Override
-    public boolean research(TechType techType) {
-        return super.research(techType);
-    }
+  @Override
+  public boolean isResearching() {
 
-    @Override
-    public boolean upgrade(UpgradeType upgradeType) {
-        return super.upgrade(upgradeType);
-    }
+    return isResearching;
+  }
 
-    @Override
-    public UpgradeInProgress getUpgradeInProgress() {
-        return super.getUpgradeInProgress();
-    }
+  @Override
+  public boolean cancelResearch() {
 
-    @Override
-    public ResearchInProgress getResearchInProgress() {
-        return super.getResearchInProgress();
-    }
+    return super.cancelResearch();
+  }
+
+  @Override
+  public boolean cancelUpgrade() {
+
+    return super.cancelUpgrade();
+  }
+
+  @Override
+  public boolean canResearch(TechType techType) {
+    return super.canResearch(techType);
+  }
+
+  @Override
+  public boolean canUpgrade(UpgradeType upgradeType) {
+    return super.canUpgrade(upgradeType);
+  }
+
+  @Override
+  public boolean research(TechType techType) {
+    return super.research(techType);
+  }
+
+  @Override
+  public boolean upgrade(UpgradeType upgradeType) {
+    return super.upgrade(upgradeType);
+  }
+
+  @Override
+  public UpgradeInProgress getUpgradeInProgress() {
+    return super.getUpgradeInProgress();
+  }
+
+  @Override
+  public ResearchInProgress getResearchInProgress() {
+    return super.getResearchInProgress();
+  }
 }

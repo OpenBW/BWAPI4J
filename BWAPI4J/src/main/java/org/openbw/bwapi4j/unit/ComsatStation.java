@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -20,34 +20,33 @@
 
 package org.openbw.bwapi4j.unit;
 
-import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.type.UnitType;
-
 import static org.openbw.bwapi4j.type.TechType.Scanner_Sweep;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Position;
 
+import org.openbw.bwapi4j.Position;
+import org.openbw.bwapi4j.type.UnitType;
+
 public class ComsatStation extends AddonImpl implements Mechanical, SpellCaster {
 
+  protected ComsatStation(int id, int timeSpotted) {
 
-    protected ComsatStation(int id, int timeSpotted) {
+    super(id, UnitType.Terran_Comsat_Station, timeSpotted);
+  }
 
-        super(id, UnitType.Terran_Comsat_Station, timeSpotted);
-    }
+  public boolean scannerSweep(Position p) {
 
-    public boolean scannerSweep(Position p) {
+    return issueCommand(this.id, Use_Tech_Position, -1, p.getX(), p.getY(), Scanner_Sweep.getId());
+  }
 
-        return issueCommand(this.id, Use_Tech_Position, -1, p.getX(), p.getY(), Scanner_Sweep.getId());
-    }
+  @Override
+  public int getEnergy() {
 
-    @Override
-    public int getEnergy() {
+    return this.energy;
+  }
 
-        return this.energy;
-    }
+  @Override
+  public int getMaxEnergy() {
 
-    @Override
-    public int getMaxEnergy() {
-
-        return super.getMaxEnergy();
-    }
+    return super.getMaxEnergy();
+  }
 }

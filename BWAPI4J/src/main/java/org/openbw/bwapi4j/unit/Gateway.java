@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -20,92 +20,91 @@
 
 package org.openbw.bwapi4j.unit;
 
+import java.util.List;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitType;
 
-import java.util.List;
-
 public class Gateway extends BuildingImpl implements Mechanical, TrainingFacility {
 
-    protected Gateway(int id, int timeSpotted) {
-        
-        super(id, UnitType.Protoss_Gateway, timeSpotted);
-    }
+  protected Gateway(int id, int timeSpotted) {
 
-    public boolean trainZealot() {
-        
-        return super.train(UnitType.Protoss_Zealot);
-    }
+    super(id, UnitType.Protoss_Gateway, timeSpotted);
+  }
 
-    public boolean trainDragoon() {
-        
-        return super.train(UnitType.Protoss_Dragoon);
-    }
+  public boolean trainZealot() {
 
-    public boolean trainHighTemplar() {
-        
-        return super.train(UnitType.Protoss_High_Templar);
-    }
+    return super.train(UnitType.Protoss_Zealot);
+  }
 
-    public boolean trainDarkTemplar() {
-        
-        return super.train(UnitType.Protoss_Dark_Templar);
-    }
+  public boolean trainDragoon() {
 
-    @Override
-    public boolean canTrain(UnitType type) {
-        return super.canTrain(type);
-    }
+    return super.train(UnitType.Protoss_Dragoon);
+  }
 
-    @Override
-    public boolean train(UnitType type) {
-        return super.train(type);
-    }
+  public boolean trainHighTemplar() {
 
-    @Override
-    public boolean isTraining() {
-        
-        return isTraining;
-    }
+    return super.train(UnitType.Protoss_High_Templar);
+  }
 
-    @Override
-    public int getTrainingQueueSize() {
-        
-        return trainingQueueSize;
-    }
+  public boolean trainDarkTemplar() {
 
-    @Override
-    public List<TrainingSlot> getTrainingQueue() {
+    return super.train(UnitType.Protoss_Dark_Templar);
+  }
 
-        return trainingQueue;
-    }
+  @Override
+  public boolean canTrain(UnitType type) {
+    return super.canTrain(type);
+  }
 
-    @Override
-    public boolean cancelTrain(int slot) {
-        
-        return super.cancelTrain(slot);
-    }
+  @Override
+  public boolean train(UnitType type) {
+    return super.train(type);
+  }
 
-    @Override
-    public boolean cancelTrain() {
-        
-        return super.cancelTrain();
-    }
+  @Override
+  public boolean isTraining() {
 
-    @Override
-    public boolean setRallyPoint(Position p) {
-        
-        return super.setRallyPoint(p);
-    }
+    return isTraining;
+  }
 
-    @Override
-    public boolean setRallyPoint(Unit target) {
-        
-        return super.setRallyPoint(target);
-    }
+  @Override
+  public int getTrainingQueueSize() {
 
-    @Override
-    public int getRemainingTrainTime() {
-        return remainingTrainTime;
-    }
+    return trainingQueueSize;
+  }
+
+  @Override
+  public List<TrainingSlot> getTrainingQueue() {
+
+    return trainingQueue;
+  }
+
+  @Override
+  public boolean cancelTrain(int slot) {
+
+    return super.cancelTrain(slot);
+  }
+
+  @Override
+  public boolean cancelTrain() {
+
+    return super.cancelTrain();
+  }
+
+  @Override
+  public boolean setRallyPoint(Position p) {
+
+    return super.setRallyPoint(p);
+  }
+
+  @Override
+  public boolean setRallyPoint(Unit target) {
+
+    return super.setRallyPoint(target);
+  }
+
+  @Override
+  public int getRemainingTrainTime() {
+    return remainingTrainTime;
+  }
 }

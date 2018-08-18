@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -22,9 +22,9 @@ package org.openbw.bwapi4j.unit;
 
 public interface GasMiningFacility extends Building, Gatherable {
 
-    public int getResources();
+  public int getResources();
 
-    public int getInitialResources(); 
+  public int getInitialResources();
 
-    public boolean isBeingGathered();
+  public boolean isBeingGathered();
 }

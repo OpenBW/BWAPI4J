@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -20,68 +20,69 @@
 
 package org.openbw.bwapi4j.unit;
 
-import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.type.UnitType;
-
 import static org.openbw.bwapi4j.type.TechType.Spider_Mines;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Position;
 
+import org.openbw.bwapi4j.Position;
+import org.openbw.bwapi4j.type.UnitType;
+
 public class Vulture extends MobileUnitImpl implements Mechanical, GroundAttacker {
 
-    protected Vulture(int id) {
-        
-        super(id, UnitType.Terran_Vulture);
-    }
-    
-    public int getSpiderMineCount() {
-        
-        return this.spiderMineCount;
-    }
-    
-    /**
-     * Places a spider mine at the given position.
-     * @param position target position of the spider mine to be placed
-     * @return true if successful, false else
-     */
-    public boolean spiderMine(Position position) {
-        
-        return issueCommand(this.id, Use_Tech_Position, -1,
-                position.getX(), position.getY(), Spider_Mines.getId());
-    }
+  protected Vulture(int id) {
 
-    @Override
-    public Weapon getGroundWeapon() {
+    super(id, UnitType.Terran_Vulture);
+  }
 
-        return groundWeapon;
-    }
+  public int getSpiderMineCount() {
 
-    @Override
-    public int getGroundWeaponMaxRange() {
+    return this.spiderMineCount;
+  }
 
-        return super.getGroundWeaponMaxRange();
-    }
+  /**
+   * Places a spider mine at the given position.
+   *
+   * @param position target position of the spider mine to be placed
+   * @return true if successful, false else
+   */
+  public boolean spiderMine(Position position) {
 
-    @Override
-    public int getGroundWeaponMaxCooldown() {
+    return issueCommand(
+        this.id, Use_Tech_Position, -1, position.getX(), position.getY(), Spider_Mines.getId());
+  }
 
-        return super.getGroundWeaponMaxCooldown();
-    }
+  @Override
+  public Weapon getGroundWeapon() {
 
-    @Override
-    public int getGroundWeaponCooldown() {
+    return groundWeapon;
+  }
 
-        return super.getGroundWeaponCooldown(this);
-    }
+  @Override
+  public int getGroundWeaponMaxRange() {
 
-    @Override
-    public int getGroundWeaponDamage() {
+    return super.getGroundWeaponMaxRange();
+  }
 
-        return super.getGroundWeaponDamage();
-    }
+  @Override
+  public int getGroundWeaponMaxCooldown() {
 
-    @Override
-    public int getMaxGroundHits() {
+    return super.getGroundWeaponMaxCooldown();
+  }
 
-        return super.getMaxGroundHits();
-    }
+  @Override
+  public int getGroundWeaponCooldown() {
+
+    return super.getGroundWeaponCooldown(this);
+  }
+
+  @Override
+  public int getGroundWeaponDamage() {
+
+    return super.getGroundWeaponDamage();
+  }
+
+  @Override
+  public int getMaxGroundHits() {
+
+    return super.getMaxGroundHits();
+  }
 }

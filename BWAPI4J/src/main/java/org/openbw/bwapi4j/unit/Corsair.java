@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -20,78 +20,77 @@
 
 package org.openbw.bwapi4j.unit;
 
+import static org.openbw.bwapi4j.type.TechType.Disruption_Web;
+import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Position;
+
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitType;
 
-import static org.openbw.bwapi4j.type.TechType.Disruption_Web;
-import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Position;
-
 public class Corsair extends MobileUnitImpl implements Mechanical, SpellCaster, AirAttacker {
 
+  protected Corsair(int id) {
 
-    protected Corsair(int id) {
-        
-        super(id, UnitType.Protoss_Corsair);
+    super(id, UnitType.Protoss_Corsair);
+  }
+
+  @Override
+  public int getEnergy() {
+
+    return this.energy;
+  }
+
+  @Override
+  public int getMaxEnergy() {
+
+    return super.getMaxEnergy();
+  }
+
+  public boolean disruptionWeb(Position position) {
+
+    if (this.energy < TechType.Disruption_Web.energyCost()) {
+
+      return false;
+    } else {
+
+      return issueCommand(
+          this.id, Use_Tech_Position, -1, position.getX(), position.getY(), Disruption_Web.getId());
     }
-    
-    @Override
-    public int getEnergy() {
-        
-        return this.energy;
-    }
+  }
 
-    @Override
-    public int getMaxEnergy() {
+  @Override
+  public Weapon getAirWeapon() {
 
-        return super.getMaxEnergy();
-    }
+    return airWeapon;
+  }
 
-    public boolean disruptionWeb(Position position) {
-        
-        if (this.energy < TechType.Disruption_Web.energyCost()) {
-            
-            return false;
-        } else {
-            
-            return issueCommand(this.id, Use_Tech_Position, -1,
-                    position.getX(), position.getY(), Disruption_Web.getId());
-        }
-    }
+  @Override
+  public int getAirWeaponMaxRange() {
 
-    @Override
-    public Weapon getAirWeapon() {
-        
-        return airWeapon;
-    }
+    return super.getAirWeaponMaxRange();
+  }
 
-    @Override
-    public int getAirWeaponMaxRange() {
+  @Override
+  public int getAirWeaponMaxCooldown() {
 
-        return super.getAirWeaponMaxRange();
-    }
+    return super.getAirWeaponMaxCooldown();
+  }
 
-    @Override
-    public int getAirWeaponMaxCooldown() {
+  @Override
+  public int getAirWeaponCooldown() {
 
-        return super.getAirWeaponMaxCooldown();
-    }
+    return super.getAirWeaponCooldown(this);
+  }
 
-    @Override
-    public int getAirWeaponCooldown() {
+  @Override
+  public int getAirWeaponDamage() {
 
-        return super.getAirWeaponCooldown(this);
-    }
+    return super.getAirWeaponDamage();
+  }
 
-    @Override
-    public int getAirWeaponDamage() {
+  @Override
+  public int getMaxAirHits() {
 
-        return super.getAirWeaponDamage();
-    }
-
-    @Override
-    public int getMaxAirHits() {
-
-        return super.getMaxAirHits();
-    }
+    return super.getMaxAirHits();
+  }
 }

@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -24,43 +24,43 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class Zealot extends MobileUnitImpl implements Organic, GroundAttacker {
 
-    protected Zealot(int id) {
-        
-        super(id, UnitType.Protoss_Zealot);
-    }
+  protected Zealot(int id) {
 
-    @Override
-    public Weapon getGroundWeapon() {
-        return groundWeapon;
-    }
+    super(id, UnitType.Protoss_Zealot);
+  }
 
-    @Override
-    public int getGroundWeaponMaxRange() {
+  @Override
+  public Weapon getGroundWeapon() {
+    return groundWeapon;
+  }
 
-        return super.getGroundWeaponMaxRange();
-    }
+  @Override
+  public int getGroundWeaponMaxRange() {
 
-    @Override
-    public int getGroundWeaponMaxCooldown() {
+    return super.getGroundWeaponMaxRange();
+  }
 
-        return super.getGroundWeaponMaxCooldown();
-    }
+  @Override
+  public int getGroundWeaponMaxCooldown() {
 
-    @Override
-    public int getGroundWeaponCooldown() {
+    return super.getGroundWeaponMaxCooldown();
+  }
 
-        return super.getGroundWeaponCooldown(this);
-    }
+  @Override
+  public int getGroundWeaponCooldown() {
 
-    @Override
-    public int getGroundWeaponDamage() {
+    return super.getGroundWeaponCooldown(this);
+  }
 
-        return super.getGroundWeaponDamage();
-    }
+  @Override
+  public int getGroundWeaponDamage() {
 
-    @Override
-    public int getMaxGroundHits() {
+    return super.getGroundWeaponDamage();
+  }
 
-        return super.getMaxGroundHits();
-    }
+  @Override
+  public int getMaxGroundHits() {
+
+    return super.getMaxGroundHits();
+  }
 }

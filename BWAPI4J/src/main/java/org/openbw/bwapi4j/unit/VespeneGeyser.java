@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -22,36 +22,34 @@ package org.openbw.bwapi4j.unit;
 
 import org.openbw.bwapi4j.type.UnitType;
 
-/**
- * VespeneGeyser is not Gatherable, it needs a {@link GasMiningFacility}.
- */
+/** VespeneGeyser is not Gatherable, it needs a {@link GasMiningFacility}. */
 public class VespeneGeyser extends UnitImpl implements Resource {
 
-    protected VespeneGeyser(int id) {
-        super(id, UnitType.Resource_Vespene_Geyser);
-    }
+  protected VespeneGeyser(int id) {
+    super(id, UnitType.Resource_Vespene_Geyser);
+  }
 
-    @Override
-    public int getResources() {
-        
-        return this.resources;
-    }
+  @Override
+  public int getResources() {
 
-    @Override
-    public int getInitialResources() {
-        
-        return this.initialResources;
-    }
+    return this.resources;
+  }
 
-    @Override
-    public int getLastKnownResources() {
-        
-        return this.lastKnownResources;
-    }
+  @Override
+  public int getInitialResources() {
 
-    @Override
-    public boolean isBeingGathered() {
-        
-        return this.isBeingGathered;
-    }
+    return this.initialResources;
+  }
+
+  @Override
+  public int getLastKnownResources() {
+
+    return this.lastKnownResources;
+  }
+
+  @Override
+  public boolean isBeingGathered() {
+
+    return this.isBeingGathered;
+  }
 }

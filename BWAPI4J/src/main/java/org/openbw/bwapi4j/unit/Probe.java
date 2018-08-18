@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -24,7 +24,7 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class Probe extends Worker implements Mechanical, Robotic {
 
-    protected Probe(int id) {
-        super(id, UnitType.Protoss_Probe);
-    }
+  protected Probe(int id) {
+    super(id, UnitType.Protoss_Probe);
+  }
 }

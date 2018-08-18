@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -26,88 +26,87 @@ import org.openbw.bwapi4j.type.UpgradeType;
 
 public class Academy extends BuildingImpl implements Mechanical, ResearchingFacility {
 
-    protected Academy(int id, int timeSpotted) {
-        
-        super(id, UnitType.Terran_Academy, timeSpotted);
-    }
+  protected Academy(int id, int timeSpotted) {
 
-    public boolean researchStimPacks() {
-        
-        return super.research(TechType.Stim_Packs);
-    }
+    super(id, UnitType.Terran_Academy, timeSpotted);
+  }
 
-    public boolean researchRestoration() {
-        
-        return super.research(TechType.Restoration);
-    }
+  public boolean researchStimPacks() {
 
-    public boolean researchOpticalFlare() {
-        
-        return super.research(TechType.Optical_Flare);
-    }
+    return super.research(TechType.Stim_Packs);
+  }
 
-    public boolean upgradeU238Shells() {
-        
-        return super.upgrade(UpgradeType.U_238_Shells);
-    }
+  public boolean researchRestoration() {
 
-    public boolean upgradeCaduceusReactor() {
-        
-        return super.upgrade(UpgradeType.Caduceus_Reactor);
-    }
+    return super.research(TechType.Restoration);
+  }
 
-    @Override
-    public boolean isUpgrading() {
-        
-        return isUpgrading;
-    }
+  public boolean researchOpticalFlare() {
 
-    @Override
-    public boolean isResearching() {
-        
-        return isResearching;
-    }
+    return super.research(TechType.Optical_Flare);
+  }
 
-    @Override
-    public boolean cancelResearch() {
-        
-        return super.cancelResearch();
-    }
+  public boolean upgradeU238Shells() {
 
-    @Override
-    public boolean cancelUpgrade() {
-        
-        return super.cancelUpgrade();
-    }
+    return super.upgrade(UpgradeType.U_238_Shells);
+  }
 
-    @Override
-    public boolean canResearch(TechType techType) {
-        return super.canResearch(techType);
-    }
+  public boolean upgradeCaduceusReactor() {
 
-    @Override
-    public boolean canUpgrade(UpgradeType upgradeType) {
-        return super.canUpgrade(upgradeType);
-    }
+    return super.upgrade(UpgradeType.Caduceus_Reactor);
+  }
 
-    @Override
-    public boolean research(TechType techType) {
-        return super.research(techType);
-    }
+  @Override
+  public boolean isUpgrading() {
 
-    @Override
-    public boolean upgrade(UpgradeType upgradeType) {
-        return super.upgrade(upgradeType);
-    }
+    return isUpgrading;
+  }
 
-    @Override
-    public UpgradeInProgress getUpgradeInProgress() {
-        return getUpgradeInProgress();
-    }
+  @Override
+  public boolean isResearching() {
 
-    @Override
-    public ResearchInProgress getResearchInProgress() {
-        return getResearchInProgress();
-    }
+    return isResearching;
+  }
 
+  @Override
+  public boolean cancelResearch() {
+
+    return super.cancelResearch();
+  }
+
+  @Override
+  public boolean cancelUpgrade() {
+
+    return super.cancelUpgrade();
+  }
+
+  @Override
+  public boolean canResearch(TechType techType) {
+    return super.canResearch(techType);
+  }
+
+  @Override
+  public boolean canUpgrade(UpgradeType upgradeType) {
+    return super.canUpgrade(upgradeType);
+  }
+
+  @Override
+  public boolean research(TechType techType) {
+    return super.research(techType);
+  }
+
+  @Override
+  public boolean upgrade(UpgradeType upgradeType) {
+    return super.upgrade(upgradeType);
+  }
+
+  @Override
+  public UpgradeInProgress getUpgradeInProgress() {
+    return getUpgradeInProgress();
+  }
+
+  @Override
+  public ResearchInProgress getResearchInProgress() {
+    return getResearchInProgress();
+  }
 }

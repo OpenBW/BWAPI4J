@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -20,87 +20,86 @@
 
 package org.openbw.bwapi4j.unit;
 
+import java.util.List;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitType;
 
-import java.util.List;
-
 public class RoboticsFacility extends BuildingImpl implements Mechanical, TrainingFacility {
 
-    protected RoboticsFacility(int id, int timeSpotted) {
-        
-        super(id, UnitType.Protoss_Robotics_Facility, timeSpotted);
-    }
+  protected RoboticsFacility(int id, int timeSpotted) {
 
-    public boolean trainShuttle() {
-        
-        return super.train(UnitType.Protoss_Shuttle);
-    }
+    super(id, UnitType.Protoss_Robotics_Facility, timeSpotted);
+  }
 
-    public boolean trainReaver() {
-        
-        return super.train(UnitType.Protoss_Reaver);
-    }
+  public boolean trainShuttle() {
 
-    public boolean trainObserver() {
-        
-        return super.train(UnitType.Protoss_Observer);
-    }
+    return super.train(UnitType.Protoss_Shuttle);
+  }
 
-    @Override
-    public boolean canTrain(UnitType type) {
-        return super.canTrain(type);
-    }
+  public boolean trainReaver() {
 
-    @Override
-    public boolean train(UnitType type) {
-        return super.train(type);
-    }
+    return super.train(UnitType.Protoss_Reaver);
+  }
 
-    @Override
-    public boolean isTraining() {
-        
-        return isTraining;
-    }
+  public boolean trainObserver() {
 
-    @Override
-    public int getTrainingQueueSize() {
-        
-        return trainingQueueSize;
-    }
+    return super.train(UnitType.Protoss_Observer);
+  }
 
-    @Override
-    public List<TrainingSlot> getTrainingQueue() {
+  @Override
+  public boolean canTrain(UnitType type) {
+    return super.canTrain(type);
+  }
 
-        return trainingQueue;
-    }
+  @Override
+  public boolean train(UnitType type) {
+    return super.train(type);
+  }
 
-    @Override
-    public boolean cancelTrain(int slot) {
-        
-        return super.cancelTrain(slot);
-    }
+  @Override
+  public boolean isTraining() {
 
-    @Override
-    public boolean cancelTrain() {
-        
-        return super.cancelTrain();
-    }
+    return isTraining;
+  }
 
-    @Override
-    public boolean setRallyPoint(Position p) {
-        
-        return super.setRallyPoint(p);
-    }
+  @Override
+  public int getTrainingQueueSize() {
 
-    @Override
-    public boolean setRallyPoint(Unit target) {
-        
-        return super.setRallyPoint(target);
-    }
+    return trainingQueueSize;
+  }
 
-    @Override
-    public int getRemainingTrainTime() {
-        return remainingTrainTime;
-    }
+  @Override
+  public List<TrainingSlot> getTrainingQueue() {
+
+    return trainingQueue;
+  }
+
+  @Override
+  public boolean cancelTrain(int slot) {
+
+    return super.cancelTrain(slot);
+  }
+
+  @Override
+  public boolean cancelTrain() {
+
+    return super.cancelTrain();
+  }
+
+  @Override
+  public boolean setRallyPoint(Position p) {
+
+    return super.setRallyPoint(p);
+  }
+
+  @Override
+  public boolean setRallyPoint(Unit target) {
+
+    return super.setRallyPoint(target);
+  }
+
+  @Override
+  public int getRemainingTrainTime() {
+    return remainingTrainTime;
+  }
 }

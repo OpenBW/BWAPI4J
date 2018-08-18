@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -20,92 +20,91 @@
 
 package org.openbw.bwapi4j.unit;
 
+import java.util.List;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitType;
 
-import java.util.List;
-
 public class Stargate extends BuildingImpl implements Mechanical, TrainingFacility {
 
-    protected Stargate(int id, int timeSpotted) {
-        
-        super(id, UnitType.Protoss_Stargate, timeSpotted);
-    }
+  protected Stargate(int id, int timeSpotted) {
 
-    public boolean trainScout() {
-        
-        return super.train(UnitType.Protoss_Scout);
-    }
+    super(id, UnitType.Protoss_Stargate, timeSpotted);
+  }
 
-    public boolean trainCarrier() {
-        
-        return super.train(UnitType.Protoss_Carrier);
-    }
+  public boolean trainScout() {
 
-    public boolean trainArbiter() {
-        
-        return super.train(UnitType.Protoss_Arbiter);
-    }
+    return super.train(UnitType.Protoss_Scout);
+  }
 
-    public boolean trainCorsair() {
-        
-        return super.train(UnitType.Protoss_Corsair);
-    }
+  public boolean trainCarrier() {
 
-    @Override
-    public boolean canTrain(UnitType type) {
-        return super.canTrain(type);
-    }
+    return super.train(UnitType.Protoss_Carrier);
+  }
 
-    @Override
-    public boolean train(UnitType type) {
-        return super.train(type);
-    }
+  public boolean trainArbiter() {
 
-    @Override
-    public boolean isTraining() {
-        
-        return isTraining;
-    }
+    return super.train(UnitType.Protoss_Arbiter);
+  }
 
-    @Override
-    public int getTrainingQueueSize() {
-        
-        return trainingQueueSize;
-    }
+  public boolean trainCorsair() {
 
-    @Override
-    public List<TrainingSlot> getTrainingQueue() {
+    return super.train(UnitType.Protoss_Corsair);
+  }
 
-        return trainingQueue;
-    }
+  @Override
+  public boolean canTrain(UnitType type) {
+    return super.canTrain(type);
+  }
 
-    @Override
-    public boolean cancelTrain(int slot) {
-        
-        return super.cancelTrain(slot);
-    }
+  @Override
+  public boolean train(UnitType type) {
+    return super.train(type);
+  }
 
-    @Override
-    public boolean cancelTrain() {
-        
-        return super.cancelTrain();
-    }
+  @Override
+  public boolean isTraining() {
 
-    @Override
-    public boolean setRallyPoint(Position p) {
-        
-        return super.setRallyPoint(p);
-    }
+    return isTraining;
+  }
 
-    @Override
-    public boolean setRallyPoint(Unit target) {
-        
-        return super.setRallyPoint(target);
-    }
+  @Override
+  public int getTrainingQueueSize() {
 
-    @Override
-    public int getRemainingTrainTime() {
-        return remainingTrainTime;
-    }
+    return trainingQueueSize;
+  }
+
+  @Override
+  public List<TrainingSlot> getTrainingQueue() {
+
+    return trainingQueue;
+  }
+
+  @Override
+  public boolean cancelTrain(int slot) {
+
+    return super.cancelTrain(slot);
+  }
+
+  @Override
+  public boolean cancelTrain() {
+
+    return super.cancelTrain();
+  }
+
+  @Override
+  public boolean setRallyPoint(Position p) {
+
+    return super.setRallyPoint(p);
+  }
+
+  @Override
+  public boolean setRallyPoint(Unit target) {
+
+    return super.setRallyPoint(target);
+  }
+
+  @Override
+  public int getRemainingTrainTime() {
+    return remainingTrainTime;
+  }
 }

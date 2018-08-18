@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -26,92 +26,92 @@ import org.openbw.bwapi4j.type.UpgradeType;
 
 public class TemplarArchives extends BuildingImpl implements Mechanical, ResearchingFacility {
 
-    protected TemplarArchives(int id, int timeSpotted) {
-        
-        super(id, UnitType.Protoss_Templar_Archives, timeSpotted);
-    }
-    
-    public boolean researchPsionicStorm() {
-        
-        return super.research(TechType.Psionic_Storm);
-    }
+  protected TemplarArchives(int id, int timeSpotted) {
 
-	public boolean researchHallucination() {
+    super(id, UnitType.Protoss_Templar_Archives, timeSpotted);
+  }
 
-		return super.research(TechType.Hallucination);
-	}
+  public boolean researchPsionicStorm() {
 
-	public boolean researchMaelstrom() {
+    return super.research(TechType.Psionic_Storm);
+  }
 
-		return super.research(TechType.Maelstrom);
-	}
+  public boolean researchHallucination() {
 
-	public boolean researchMindControl() {
+    return super.research(TechType.Hallucination);
+  }
 
-		return super.research(TechType.Mind_Control);
-	}
+  public boolean researchMaelstrom() {
 
-	public boolean upgradeKhaydarinAmulet() {
+    return super.research(TechType.Maelstrom);
+  }
 
-		return super.upgrade(UpgradeType.Khaydarin_Amulet);
-	}
-	
-	public boolean upgradeArgusTalisman() {
+  public boolean researchMindControl() {
 
-		return super.upgrade(UpgradeType.Argus_Talisman);
-	}
-	
-    @Override
-    public boolean isUpgrading() {
-        
-        return isUpgrading;
-    }
+    return super.research(TechType.Mind_Control);
+  }
 
-    @Override
-    public boolean isResearching() {
-        
-        return isResearching;
-    }
+  public boolean upgradeKhaydarinAmulet() {
 
-    @Override
-    public boolean cancelResearch() {
-        
-        return super.cancelResearch();
-    }
+    return super.upgrade(UpgradeType.Khaydarin_Amulet);
+  }
 
-    @Override
-    public boolean cancelUpgrade() {
-        
-        return super.cancelUpgrade();
-    }
+  public boolean upgradeArgusTalisman() {
 
-    @Override
-    public boolean canResearch(TechType techType) {
-        return super.canResearch(techType);
-    }
+    return super.upgrade(UpgradeType.Argus_Talisman);
+  }
 
-    @Override
-    public boolean canUpgrade(UpgradeType upgradeType) {
-        return super.canUpgrade(upgradeType);
-    }
+  @Override
+  public boolean isUpgrading() {
 
-    @Override
-    public boolean research(TechType techType) {
-        return super.research(techType);
-    }
+    return isUpgrading;
+  }
 
-    @Override
-    public boolean upgrade(UpgradeType upgradeType) {
-        return super.upgrade(upgradeType);
-    }
+  @Override
+  public boolean isResearching() {
 
-    @Override
-    public UpgradeInProgress getUpgradeInProgress() {
-        return super.getUpgradeInProgress();
-    }
+    return isResearching;
+  }
 
-    @Override
-    public ResearchInProgress getResearchInProgress() {
-        return super.getResearchInProgress();
-    }
+  @Override
+  public boolean cancelResearch() {
+
+    return super.cancelResearch();
+  }
+
+  @Override
+  public boolean cancelUpgrade() {
+
+    return super.cancelUpgrade();
+  }
+
+  @Override
+  public boolean canResearch(TechType techType) {
+    return super.canResearch(techType);
+  }
+
+  @Override
+  public boolean canUpgrade(UpgradeType upgradeType) {
+    return super.canUpgrade(upgradeType);
+  }
+
+  @Override
+  public boolean research(TechType techType) {
+    return super.research(techType);
+  }
+
+  @Override
+  public boolean upgrade(UpgradeType upgradeType) {
+    return super.upgrade(upgradeType);
+  }
+
+  @Override
+  public UpgradeInProgress getUpgradeInProgress() {
+    return super.getUpgradeInProgress();
+  }
+
+  @Override
+  public ResearchInProgress getResearchInProgress() {
+    return super.getResearchInProgress();
+  }
 }

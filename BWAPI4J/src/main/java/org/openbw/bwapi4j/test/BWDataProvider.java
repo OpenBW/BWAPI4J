@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -19,12 +19,14 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 package org.openbw.bwapi4j.test;
+
 public final class BWDataProvider {
-    private BWDataProvider() { }
-    public static void injectValues() throws Exception {
-        UnitTypes.initializeUnitType();
-        UpgradeTypes.initializeUpgradeType();
-        TechTypes.initializeTechType();
-        WeaponTypes.initializeWeaponType();
-    }
+  private BWDataProvider() {}
+
+  public static void injectValues() throws Exception {
+    UnitTypes.initializeUnitType();
+    UpgradeTypes.initializeUpgradeType();
+    TechTypes.initializeTechType();
+    WeaponTypes.initializeWeaponType();
+  }
 }

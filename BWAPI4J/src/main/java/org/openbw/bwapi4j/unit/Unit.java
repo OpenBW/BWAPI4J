@@ -2,7 +2,6 @@ package org.openbw.bwapi4j.unit;
 
 import java.util.Collection;
 import java.util.List;
-
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.UnitSizeType;
@@ -10,86 +9,85 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public interface Unit extends Comparable<Unit> {
 
-	void initialize(int[] unitData, int index, int frame);
+  void initialize(int[] unitData, int index, int frame);
 
-	void preUpdate();
+  void preUpdate();
 
-	void update(int[] unitData, int index, int frame);
+  void update(int[] unitData, int index, int frame);
 
-	int getKillCount();
+  int getKillCount();
 
-	int getLastSpotted();
+  int getLastSpotted();
 
-	int getInitiallySpotted();
+  int getInitiallySpotted();
 
-	boolean isA(UnitType type);
+  boolean isA(UnitType type);
 
-	int getId();
+  int getId();
 
-	int getLeft();
+  int getLeft();
 
-	int getTop();
+  int getTop();
 
-	int getRight();
+  int getRight();
 
-	int getBottom();
+  int getBottom();
 
-	Position getMiddle(Unit unit);
+  Position getMiddle(Unit unit);
 
-	double getAngle();
+  double getAngle();
 
-	<T extends Unit> T getClosest(Collection<T> group);
+  <T extends Unit> T getClosest(Collection<T> group);
 
-	<T extends Unit> List<T> getUnitsInRadius(int radius, Collection<T> group);
+  <T extends Unit> List<T> getUnitsInRadius(int radius, Collection<T> group);
 
-	int getX();
+  int getX();
 
-	int getY();
+  int getY();
 
-	int height();
+  int height();
 
-	int width();
+  int width();
 
-	int tileHeight();
+  int tileHeight();
 
-	int tileWidth();
+  int tileWidth();
 
-	TilePosition getTilePosition();
+  TilePosition getTilePosition();
 
-	Position getPosition();
+  Position getPosition();
 
-	UnitSizeType getSize();
+  UnitSizeType getSize();
 
-	double getDistance(Position target);
+  double getDistance(Position target);
 
-	double getDistance(int x, int y);
+  double getDistance(int x, int y);
 
-	int getDistance(Unit target);
+  int getDistance(Unit target);
 
-	boolean exists();
+  boolean exists();
 
-	UnitType getType();
+  UnitType getType();
 
-	UnitType getInitialType();
+  UnitType getInitialType();
 
-	Position getInitialPosition();
+  Position getInitialPosition();
 
-	TilePosition getInitialTilePosition();
+  TilePosition getInitialTilePosition();
 
-	boolean isFlying();
+  boolean isFlying();
 
-	boolean isVisible();
+  boolean isVisible();
 
-	boolean isSelected();
+  boolean isSelected();
 
-	int hashCode();
+  int hashCode();
 
-	boolean equals(Object obj);
+  boolean equals(Object obj);
 
-	String toString();
+  String toString();
 
-	int compareTo(Unit otherUnit);
-	
-	public static final int TOTAL_PROPERTIES = 132;
+  int compareTo(Unit otherUnit);
 
+  public static final int TOTAL_PROPERTIES = 132;
 }

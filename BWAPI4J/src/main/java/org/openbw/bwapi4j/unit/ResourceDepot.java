@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -20,14 +20,10 @@
 
 package org.openbw.bwapi4j.unit;
 
-/**
- * Marker interface for main bases and expansions.
- */
+/** Marker interface for main bases and expansions. */
 public interface ResourceDepot extends Building, SupplyProvider {
-    /**
-     * Returns true if workers can deliver resources. Ie. it's completed, not flying, ...
-     */
-    boolean isReadyForResources();
+  /** Returns true if workers can deliver resources. Ie. it's completed, not flying, ... */
+  boolean isReadyForResources();
 
-    boolean trainWorker();
+  boolean trainWorker();
 }

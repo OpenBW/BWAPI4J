@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -21,39 +21,38 @@
 package org.openbw.bwapi4j.type;
 
 public enum Color {
+  RED(111),
+  BLUE(165),
+  TEAL(159),
+  PURPLE(164),
+  ORANGE(179),
+  BROWN(19),
+  WHITE(255),
+  YELLOW(135),
+  GREEN(117),
+  CYAN(128),
+  BLACK(0),
+  GREY(74);
 
-    RED(111),
-    BLUE(165),
-    TEAL(159),
-    PURPLE(164),
-    ORANGE(179),
-    BROWN(19),
-    WHITE(255),
-    YELLOW(135),
-    GREEN(117),
-    CYAN(128),
-    BLACK(0),
-    GREY(74);
+  private int rgb;
 
-    private int rgb;
+  private Color(int rgb) {
 
-    private Color(int rgb) {
-    	
-    	this.rgb = rgb;
+    this.rgb = rgb;
+  }
+
+  public int getValue() {
+
+    return this.rgb;
+  }
+
+  public static Color valueOf(int rgb) {
+
+    for (Color color : Color.values()) {
+      if (color.rgb == rgb) {
+        return color;
+      }
     }
-
-    public int getValue() {
-    	
-        return this.rgb;
-    }
-
-    public static Color valueOf(int rgb) {
-        
-		for (Color color : Color.values()) {
-            if (color.rgb == rgb) {
-                return color;
-            }
-        }
-    	return null;
-    }
+    return null;
+  }
 }

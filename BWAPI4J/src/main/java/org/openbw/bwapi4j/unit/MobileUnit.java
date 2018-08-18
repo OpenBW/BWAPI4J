@@ -4,74 +4,73 @@ import org.openbw.bwapi4j.Position;
 
 public interface MobileUnit extends PlayerUnit {
 
-	boolean attack(Position p);
+  boolean attack(Position p);
 
-	boolean attack(Position p, boolean queued);
+  boolean attack(Position p, boolean queued);
 
-	boolean attack(Unit target);
+  boolean attack(Unit target);
 
-	boolean attack(Unit target, boolean queued);
+  boolean attack(Unit target, boolean queued);
 
-	boolean move(Position p);
+  boolean move(Position p);
 
-	boolean move(Position p, boolean queued);
+  boolean move(Position p, boolean queued);
 
-	boolean patrol(Position p);
+  boolean patrol(Position p);
 
-	boolean patrol(Position p, boolean queued);
+  boolean patrol(Position p, boolean queued);
 
-	boolean holdPosition();
+  boolean holdPosition();
 
-	boolean holdPosition(boolean queued);
+  boolean holdPosition(boolean queued);
 
-	boolean stop(boolean queued);
+  boolean stop(boolean queued);
 
-	boolean follow(Unit target, boolean queued);
+  boolean follow(Unit target, boolean queued);
 
-	int getAcidSporeCount();
+  int getAcidSporeCount();
 
-	Unit getTransport();
+  Unit getTransport();
 
-	boolean isFollowing();
+  boolean isFollowing();
 
-	boolean isHoldingPosition();
+  boolean isHoldingPosition();
 
-	boolean isStasised();
+  boolean isStasised();
 
-	boolean isUnderDarkSwarm();
+  boolean isUnderDarkSwarm();
 
-	boolean isUnderDisruptionWeb();
+  boolean isUnderDisruptionWeb();
 
-	boolean isUnderStorm();
+  boolean isUnderStorm();
 
-	boolean isParasited();
+  boolean isParasited();
 
-	boolean isPatrolling();
+  boolean isPatrolling();
 
-	boolean isPlagued();
+  boolean isPlagued();
 
-	boolean isMoving();
+  boolean isMoving();
 
-	Position getTargetPosition();
+  Position getTargetPosition();
 
-	Unit getTargetUnit();
+  Unit getTargetUnit();
 
-	int getTurnRadius();
+  int getTurnRadius();
 
-	boolean isStuck();
+  boolean isStuck();
 
-	int getSupplyRequired();
+  int getSupplyRequired();
 
-	boolean isHallucination();
+  boolean isHallucination();
 
-	boolean isBlind();
+  boolean isBlind();
 
-	boolean isBraking();
+  boolean isBraking();
 
-	boolean isDefenseMatrixed();
+  boolean isDefenseMatrixed();
 
-	boolean isEnsnared();
+  boolean isEnsnared();
 
-	double getTopSpeed();
-
+  double getTopSpeed();
 }

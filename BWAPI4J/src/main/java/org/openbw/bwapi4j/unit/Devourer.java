@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -24,44 +24,44 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class Devourer extends MobileUnitImpl implements Organic, AirAttacker {
 
-    protected Devourer(int id) {
-        
-        super(id, UnitType.Zerg_Devourer);
-    }
+  protected Devourer(int id) {
 
-    @Override
-    public Weapon getAirWeapon() {
+    super(id, UnitType.Zerg_Devourer);
+  }
 
-        return airWeapon;
-    }
+  @Override
+  public Weapon getAirWeapon() {
 
-    @Override
-    public int getAirWeaponMaxRange() {
+    return airWeapon;
+  }
 
-        return super.getAirWeaponMaxRange();
-    }
+  @Override
+  public int getAirWeaponMaxRange() {
 
-    @Override
-    public int getAirWeaponMaxCooldown() {
+    return super.getAirWeaponMaxRange();
+  }
 
-        return super.getAirWeaponMaxCooldown();
-    }
+  @Override
+  public int getAirWeaponMaxCooldown() {
 
-    @Override
-    public int getAirWeaponCooldown() {
+    return super.getAirWeaponMaxCooldown();
+  }
 
-        return super.getAirWeaponCooldown(this);
-    }
+  @Override
+  public int getAirWeaponCooldown() {
 
-    @Override
-    public int getAirWeaponDamage() {
+    return super.getAirWeaponCooldown(this);
+  }
 
-        return super.getAirWeaponDamage();
-    }
+  @Override
+  public int getAirWeaponDamage() {
 
-    @Override
-    public int getMaxAirHits() {
+    return super.getAirWeaponDamage();
+  }
 
-        return super.getMaxAirHits();
-    }
+  @Override
+  public int getMaxAirHits() {
+
+    return super.getMaxAirHits();
+  }
 }

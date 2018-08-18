@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -25,98 +25,99 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
-public class EngineeringBay extends BuildingImpl implements Mechanical, FlyingBuilding, ResearchingFacility {
+public class EngineeringBay extends BuildingImpl
+    implements Mechanical, FlyingBuilding, ResearchingFacility {
 
-    protected EngineeringBay(int id, int timeSpotted) {
-        
-        super(id, UnitType.Terran_Engineering_Bay, timeSpotted);
-    }
+  protected EngineeringBay(int id, int timeSpotted) {
 
-    @Override
-    public boolean isLifted() {
-        
-        return isLifted;
-    }
+    super(id, UnitType.Terran_Engineering_Bay, timeSpotted);
+  }
 
-    @Override
-    public boolean lift() {
-        
-        return super.lift();
-    }
+  @Override
+  public boolean isLifted() {
 
-    @Override
-    public boolean land(Position p) {
-        
-        return super.land(p);
-    }
+    return isLifted;
+  }
 
-    @Override
-    public boolean move(Position p) {
-        
-        return super.move(p);
-    }
+  @Override
+  public boolean lift() {
 
-    public boolean upgradeInfantryWeapons() {
-        
-        return super.upgrade(UpgradeType.Terran_Infantry_Weapons);
-    }
+    return super.lift();
+  }
 
-    public boolean upgradeInfantryArmor() {
-        
-        return super.upgrade(UpgradeType.Terran_Infantry_Armor);
-    }
+  @Override
+  public boolean land(Position p) {
 
-    @Override
-    public boolean isUpgrading() {
-        
-        return isUpgrading;
-    }
+    return super.land(p);
+  }
 
-    @Override
-    public boolean isResearching() {
-        
-        return isResearching;
-    }
+  @Override
+  public boolean move(Position p) {
 
-    @Override
-    public boolean cancelResearch() {
-        
-        return super.cancelResearch();
-    }
+    return super.move(p);
+  }
 
-    @Override
-    public boolean cancelUpgrade() {
-        
-        return super.cancelUpgrade();
-    }
+  public boolean upgradeInfantryWeapons() {
 
-    @Override
-    public boolean canResearch(TechType techType) {
-        return super.canResearch(techType);
-    }
+    return super.upgrade(UpgradeType.Terran_Infantry_Weapons);
+  }
 
-    @Override
-    public boolean canUpgrade(UpgradeType upgradeType) {
-        return super.canUpgrade(upgradeType);
-    }
+  public boolean upgradeInfantryArmor() {
 
-    @Override
-    public boolean research(TechType techType) {
-        return super.research(techType);
-    }
+    return super.upgrade(UpgradeType.Terran_Infantry_Armor);
+  }
 
-    @Override
-    public boolean upgrade(UpgradeType upgradeType) {
-        return super.upgrade(upgradeType);
-    }
+  @Override
+  public boolean isUpgrading() {
 
-    @Override
-    public UpgradeInProgress getUpgradeInProgress() {
-        return super.getUpgradeInProgress();
-    }
+    return isUpgrading;
+  }
 
-    @Override
-    public ResearchInProgress getResearchInProgress() {
-        return super.getResearchInProgress();
-    }
+  @Override
+  public boolean isResearching() {
+
+    return isResearching;
+  }
+
+  @Override
+  public boolean cancelResearch() {
+
+    return super.cancelResearch();
+  }
+
+  @Override
+  public boolean cancelUpgrade() {
+
+    return super.cancelUpgrade();
+  }
+
+  @Override
+  public boolean canResearch(TechType techType) {
+    return super.canResearch(techType);
+  }
+
+  @Override
+  public boolean canUpgrade(UpgradeType upgradeType) {
+    return super.canUpgrade(upgradeType);
+  }
+
+  @Override
+  public boolean research(TechType techType) {
+    return super.research(techType);
+  }
+
+  @Override
+  public boolean upgrade(UpgradeType upgradeType) {
+    return super.upgrade(upgradeType);
+  }
+
+  @Override
+  public UpgradeInProgress getUpgradeInProgress() {
+    return super.getUpgradeInProgress();
+  }
+
+  @Override
+  public ResearchInProgress getResearchInProgress() {
+    return super.getResearchInProgress();
+  }
 }

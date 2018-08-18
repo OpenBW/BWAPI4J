@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -26,77 +26,77 @@ import org.openbw.bwapi4j.type.UpgradeType;
 
 public class QueensNest extends BuildingImpl implements Organic, ResearchingFacility {
 
-    protected QueensNest(int id, int timeSpotted) {
-        
-        super(id, UnitType.Zerg_Queens_Nest, timeSpotted);
-    }
+  protected QueensNest(int id, int timeSpotted) {
 
-    public boolean researchEnsnare() {
-        
-        return super.research(TechType.Ensnare);
-    }
-    
-    public boolean upgradeGameteMeiosis() {
-        
-        return super.upgrade(UpgradeType.Gamete_Meiosis);
-    }
-    
-    public boolean researchSpawnBroodlings() {
-        
-        return super.research(TechType.Spawn_Broodlings);
-    }
-    
-    @Override
-    public boolean isUpgrading() {
-        
-        return isUpgrading;
-    }
+    super(id, UnitType.Zerg_Queens_Nest, timeSpotted);
+  }
 
-    @Override
-    public boolean isResearching() {
-        
-        return isResearching;
-    }
+  public boolean researchEnsnare() {
 
-    @Override
-    public boolean cancelResearch() {
-        
-        return super.cancelResearch();
-    }
+    return super.research(TechType.Ensnare);
+  }
 
-    @Override
-    public boolean cancelUpgrade() {
-        
-        return super.cancelUpgrade();
-    }
+  public boolean upgradeGameteMeiosis() {
 
-    @Override
-    public boolean canResearch(TechType techType) {
-        return super.canResearch(techType);
-    }
+    return super.upgrade(UpgradeType.Gamete_Meiosis);
+  }
 
-    @Override
-    public boolean canUpgrade(UpgradeType upgradeType) {
-        return super.canUpgrade(upgradeType);
-    }
+  public boolean researchSpawnBroodlings() {
 
-    @Override
-    public boolean research(TechType techType) {
-        return super.research(techType);
-    }
+    return super.research(TechType.Spawn_Broodlings);
+  }
 
-    @Override
-    public boolean upgrade(UpgradeType upgradeType) {
-        return super.upgrade(upgradeType);
-    }
+  @Override
+  public boolean isUpgrading() {
 
-    @Override
-    public UpgradeInProgress getUpgradeInProgress() {
-        return super.getUpgradeInProgress();
-    }
+    return isUpgrading;
+  }
 
-    @Override
-    public ResearchInProgress getResearchInProgress() {
-        return super.getResearchInProgress();
-    }
+  @Override
+  public boolean isResearching() {
+
+    return isResearching;
+  }
+
+  @Override
+  public boolean cancelResearch() {
+
+    return super.cancelResearch();
+  }
+
+  @Override
+  public boolean cancelUpgrade() {
+
+    return super.cancelUpgrade();
+  }
+
+  @Override
+  public boolean canResearch(TechType techType) {
+    return super.canResearch(techType);
+  }
+
+  @Override
+  public boolean canUpgrade(UpgradeType upgradeType) {
+    return super.canUpgrade(upgradeType);
+  }
+
+  @Override
+  public boolean research(TechType techType) {
+    return super.research(techType);
+  }
+
+  @Override
+  public boolean upgrade(UpgradeType upgradeType) {
+    return super.upgrade(upgradeType);
+  }
+
+  @Override
+  public UpgradeInProgress getUpgradeInProgress() {
+    return super.getUpgradeInProgress();
+  }
+
+  @Override
+  public ResearchInProgress getResearchInProgress() {
+    return super.getResearchInProgress();
+  }
 }

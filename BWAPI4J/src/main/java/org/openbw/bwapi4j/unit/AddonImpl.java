@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published 
+//    it under the terms of the Lesser GNU General Public License as published
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -24,13 +24,13 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public abstract class AddonImpl extends BuildingImpl implements Addon {
 
-    protected AddonImpl(int id, UnitType unitType, int timeSpotted) {
-        
-        super(id, unitType, timeSpotted);
-    }
-    
-    public Building getMainBuilding() {
-        
-        return (Building) this.getUnit(builderId);
-    }
+  protected AddonImpl(int id, UnitType unitType, int timeSpotted) {
+
+    super(id, unitType, timeSpotted);
+  }
+
+  public Building getMainBuilding() {
+
+    return (Building) this.getUnit(builderId);
+  }
 }

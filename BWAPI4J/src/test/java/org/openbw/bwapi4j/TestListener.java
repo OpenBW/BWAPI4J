@@ -5,119 +5,120 @@ import org.openbw.bwapi4j.unit.Unit;
 
 public class TestListener implements BWEventListener {
 
-    private BW bw;
-    private int frame;
+  private BW bw;
+  private int frame;
 
-    @Override
-    public void onStart() {
-        
-        System.out.println("onStart");
-        this.bw.getInteractionHandler().enableUserInput();
-        
-        System.out.println("analysis done.");
-        
-        this.frame = 0;
+  @Override
+  public void onStart() {
+
+    System.out.println("onStart");
+    this.bw.getInteractionHandler().enableUserInput();
+
+    System.out.println("analysis done.");
+
+    this.frame = 0;
+  }
+
+  @Override
+  public void onEnd(boolean isWinner) {
+    System.out.println("onEnd: winner: " + isWinner);
+  }
+
+  @Override
+  public void onFrame() {
+
+    if (bw.getInteractionHandler().isKeyPressed(Key.K_D)) {
+      System.out.println("D");
     }
-
-    @Override
-    public void onEnd(boolean isWinner) {
-        System.out.println("onEnd: winner: " + isWinner);
+    for (Player player : bw.getAllPlayers()) {
+      System.out.println("Player " + player.getName() + " has minerals " + player.minerals());
     }
+    this.frame++;
+    System.err.println("tester");
+    throw new RuntimeException("test");
+  }
 
-    @Override
-    public void onFrame() {
+  @Override
+  public void onSendText(String text) {
+    System.out.println("onSendText: " + text);
+  }
 
-        if (bw.getInteractionHandler().isKeyPressed(Key.K_D)) {
-            System.out.println("D");
-        }
-        for (Player player : bw.getAllPlayers()) {
-            System.out.println("Player " + player.getName() + " has minerals " + player.minerals());
-        }
-        this.frame++;
-        System.err.println("tester");
-        throw new RuntimeException("test");
-    }
+  @Override
+  public void onReceiveText(Player player, String text) {
+    System.out.println("onReceiveText: by " + player + ": " + text);
+  }
 
-    @Override
-    public void onSendText(String text) {
-        System.out.println("onSendText: " + text);
-    }
+  @Override
+  public void onPlayerLeft(Player player) {
+    System.out.println("onPlayerLeft: " + player);
+  }
 
-    @Override
-    public void onReceiveText(Player player, String text) {
-        System.out.println("onReceiveText: by " + player + ": " + text);
-    }
+  @Override
+  public void onNukeDetect(Position target) {
+    System.out.println("onNukeDetect: " + target);
+  }
 
-    @Override
-    public void onPlayerLeft(Player player) {
-        System.out.println("onPlayerLeft: " + player);
-    }
+  @Override
+  public void onUnitDiscover(Unit unit) {
+    System.out.println("onUnitDiscover: " + unit);
+  }
 
-    @Override
-    public void onNukeDetect(Position target) {
-        System.out.println("onNukeDetect: " + target);
-    }
+  @Override
+  public void onUnitEvade(Unit unit) {
+    System.out.println("onUnitEvade: " + unit);
+  }
 
-    @Override
-    public void onUnitDiscover(Unit unit) {
-        System.out.println("onUnitDiscover: " + unit);
-    }
+  @Override
+  public void onUnitShow(Unit unit) {
+    System.out.println("onUnitShow: " + unit);
+  }
 
-    @Override
-    public void onUnitEvade(Unit unit) {
-        System.out.println("onUnitEvade: " + unit);
-    }
+  @Override
+  public void onUnitHide(Unit unit) {
+    System.out.println("onUnitHide: " + unit);
+  }
 
-    @Override
-    public void onUnitShow(Unit unit) {
-        System.out.println("onUnitShow: " + unit);
-    }
+  @Override
+  public void onUnitCreate(Unit unit) {
+    System.out.println("onUnitCreate: " + unit);
+  }
 
-    @Override
-    public void onUnitHide(Unit unit) {
-        System.out.println("onUnitHide: " + unit);
-    }
+  @Override
+  public void onUnitDestroy(Unit unit) {
+    System.out.println("onUnitDestroy: " + unit);
+  }
 
-    @Override
-    public void onUnitCreate(Unit unit) {
-        System.out.println("onUnitCreate: " + unit);
-    }
+  @Override
+  public void onUnitMorph(Unit unit) {
+    System.out.println("onUnitMorph: " + unit);
+  }
 
-    @Override
-    public void onUnitDestroy(Unit unit) {
-        System.out.println("onUnitDestroy: " + unit);
-    }
+  @Override
+  public void onUnitRenegade(Unit unit) {
+    System.out.println("onUnitRenegade: " + unit);
+  }
 
-    @Override
-    public void onUnitMorph(Unit unit) {
-        System.out.println("onUnitMorph: " + unit);
-    }
+  @Override
+  public void onSaveGame(String gameName) {
+    System.out.println("onSaveGame: " + gameName);
+  }
 
-    @Override
-    public void onUnitRenegade(Unit unit) {
-        System.out.println("onUnitRenegade: " + unit);
-    }
+  @Override
+  public void onUnitComplete(Unit unit) {
+    System.out.println("onUnitComplete: " + unit);
+  }
 
-    @Override
-    public void onSaveGame(String gameName) {
-        System.out.println("onSaveGame: " + gameName);
-    }
+  /**
+   * Test method.
+   *
+   * @param args arguments
+   */
+  public static void main(String[] args) {
 
-    @Override
-    public void onUnitComplete(Unit unit) {
-        System.out.println("onUnitComplete: " + unit);
-    }
+    TestListener listener = new TestListener();
+    BW bw = new BW(listener);
+    listener.bw = bw;
 
-    /**
-     * Test method.
-     * @param args arguments
-     */
-    public static void main(String[] args) {
-
-        TestListener listener = new TestListener();
-        BW bw = new BW(listener);
-        listener.bw = bw;
-
-        bw.startGame();
-    }
+    bw.startGame();
+  }
 }
