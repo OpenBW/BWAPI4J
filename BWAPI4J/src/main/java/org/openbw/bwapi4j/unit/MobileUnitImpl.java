@@ -170,4 +170,8 @@ public abstract class MobileUnitImpl extends PlayerUnitImpl implements MobileUni
   public double getTopSpeed() {
     return getUnitStatCalculator().topSpeed(type);
   }
+  
+  public int getRemainingTrainTime() {
+	  return remainingTrainTime;
+  }
 }
