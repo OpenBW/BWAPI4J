@@ -25,8 +25,8 @@ import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.UnitType;
 
 import static org.openbw.bwapi4j.type.UnitCommandType.Cancel_Construction;
-import static org.openbw.bwapi4j.util.MathUtil.distanceBetween;
-import static org.openbw.bwapi4j.util.MathUtil.estimateDistanceBetween;
+import static org.openbw.bwapi4j.util.MathUtils.distanceBetween;
+import static org.openbw.bwapi4j.util.MathUtils.estimateDistanceBetween;
 
 public abstract class Building extends PlayerUnit {
 
@@ -81,7 +81,7 @@ public abstract class Building extends PlayerUnit {
         int tileX = tilePosition.getX();
         int top = getLastKnownTilePosition().getY();
         int tileY = tilePosition.getY();
-        return (int) distanceBetween(top, top + type.tileHeight(), left, left + type.tileWidth(), tileY, tileY, tileX, tileX);
+        return (int) distanceBetween(left, top, left + type.tileWidth(), top + type.tileHeight(), tileX, tileY, tileX, tileY);
     }
 
     /**
@@ -96,8 +96,8 @@ public abstract class Building extends PlayerUnit {
         int centerY = getLastKnownPosition().getY();
         int posY = position.getY();
         return (int) distanceBetween(
-                centerY - type.dimensionUp(), centerY + type.dimensionDown(), centerX - type.dimensionLeft(), centerX + type.dimensionRight(),
-                posY - 1, posY + 1, posX - 1, posX + 1);
+                centerX - type.dimensionLeft(), centerY - type.dimensionUp(), centerX + type.dimensionRight(), centerY + type.dimensionDown(),
+                posX - 1, posY - 1, posX + 1, posY + 1);
     }
 
     public double getLastKnownDistance(Unit target) {
@@ -109,7 +109,7 @@ public abstract class Building extends PlayerUnit {
         int centerX = getLastKnownPosition().getX();
         int centerY = getLastKnownPosition().getY();
         return estimateDistanceBetween(
-                centerY - type.dimensionUp(), centerY + type.dimensionDown(), centerX - type.dimensionLeft(), centerX + type.dimensionRight(),
-                target.getTop() - 1, target.getBottom() + 1, target.getLeft() - 1, target.getRight() + 1);
+                centerX - type.dimensionLeft(), centerY - type.dimensionUp(), centerX + type.dimensionRight(), centerY + type.dimensionDown(),
+                target.getLeft() - 1, target.getTop() - 1, target.getRight() + 1, target.getBottom() + 1);
     }
 }
