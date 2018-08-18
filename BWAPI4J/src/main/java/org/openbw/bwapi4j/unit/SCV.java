@@ -27,11 +27,9 @@ import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class SCV extends Worker implements Mechanical {
-
   private static final Logger logger = LogManager.getLogger();
 
   protected SCV(int id) {
-
     super(id, UnitType.Terran_SCV);
   }
 
@@ -44,12 +42,10 @@ public class SCV extends Worker implements Mechanical {
   }
 
   public boolean haltConstruction() {
-
     return issueCommand(this.id, Halt_Construction, -1, -1, -1, -1);
   }
 
   public boolean resumeBuilding(Building building) {
-
     return issueCommand(this.id, Right_Click_Unit, building.getId(), -1, -1, -1);
   }
 }

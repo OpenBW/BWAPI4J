@@ -24,7 +24,6 @@ import org.openbw.bwapi4j.unit.Unit;
  * Stacked Neutrals are supported, provided they share the same type at the same location.
  */
 public interface Neutral {
-
   /** Returns the BWAPI::Unit this Neutral is wrapping around. */
   Unit getUnit();
 

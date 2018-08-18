@@ -26,55 +26,45 @@ import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class Firebat extends MobileUnitImpl implements Organic, GroundAttacker {
-
   protected Firebat(int id) {
-
     super(id, UnitType.Terran_Firebat);
   }
 
   public boolean isStimmed() {
-
     return this.isStimmed;
   }
 
   public boolean stimPack() {
-
     return issueCommand(this.id, Use_Tech, -1, -1, -1, Stim_Packs.getId());
   }
 
   @Override
   public Weapon getGroundWeapon() {
-
     return groundWeapon;
   }
 
   @Override
   public int getGroundWeaponMaxRange() {
-
     return super.getGroundWeaponMaxRange();
   }
 
   @Override
   public int getGroundWeaponMaxCooldown() {
-
     return super.getGroundWeaponMaxCooldown();
   }
 
   @Override
   public int getGroundWeaponCooldown() {
-
     return super.getGroundWeaponCooldown(this);
   }
 
   @Override
   public int getGroundWeaponDamage() {
-
     return super.getGroundWeaponDamage();
   }
 
   @Override
   public int getMaxGroundHits() {
-
     return super.getMaxGroundHits();
   }
 }

@@ -23,45 +23,37 @@ package org.openbw.bwapi4j.unit;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class Devourer extends MobileUnitImpl implements Organic, AirAttacker {
-
   protected Devourer(int id) {
-
     super(id, UnitType.Zerg_Devourer);
   }
 
   @Override
   public Weapon getAirWeapon() {
-
     return airWeapon;
   }
 
   @Override
   public int getAirWeaponMaxRange() {
-
     return super.getAirWeaponMaxRange();
   }
 
   @Override
   public int getAirWeaponMaxCooldown() {
-
     return super.getAirWeaponMaxCooldown();
   }
 
   @Override
   public int getAirWeaponCooldown() {
-
     return super.getAirWeaponCooldown(this);
   }
 
   @Override
   public int getAirWeaponDamage() {
-
     return super.getAirWeaponDamage();
   }
 
   @Override
   public int getMaxAirHits() {
-
     return super.getMaxAirHits();
   }
 }

@@ -24,7 +24,6 @@ import org.openbw.bwapi4j.type.Color;
 import org.openbw.bwapi4j.util.Pair;
 
 public final class BwemExt {
-
   private static final int TILE_POSITION_CENTER_OFFSET_IN_PIXELS = TilePosition.SIZE_IN_PIXELS / 2;
   public static final Position TILE_POSITION_CENTER_IN_PIXELS =
       new Position(
@@ -479,5 +478,4 @@ public final class BwemExt {
     return getApproxDistance(source.getX(), source.getY(), target.getX(), target.getY());
   }
   // ----------------------------------------------------------------------
-
 }

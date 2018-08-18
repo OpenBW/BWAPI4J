@@ -6,7 +6,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class WalkPositionTest {
-
   @Test
   public void testArrayListContains() {
     final List<WalkPosition> list = new ArrayList<>();

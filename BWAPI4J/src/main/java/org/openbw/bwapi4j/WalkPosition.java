@@ -21,7 +21,6 @@
 package org.openbw.bwapi4j;
 
 public class WalkPosition {
-
   public static final int SIZE_IN_PIXELS = 8;
 
   private final int x;

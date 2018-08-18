@@ -25,43 +25,35 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class Observatory extends BuildingImpl implements Mechanical, ResearchingFacility {
-
   protected Observatory(int id, int timeSpotted) {
-
     super(id, UnitType.Protoss_Observatory, timeSpotted);
   }
 
   public boolean upgradeSensorArray() {
-
     return super.upgrade(UpgradeType.Sensor_Array);
   }
 
   public boolean upgradeGraviticBooster() {
-
     return super.upgrade(UpgradeType.Gravitic_Boosters);
   }
 
   @Override
   public boolean isUpgrading() {
-
     return isUpgrading;
   }
 
   @Override
   public boolean isResearching() {
-
     return isResearching;
   }
 
   @Override
   public boolean cancelResearch() {
-
     return super.cancelResearch();
   }
 
   @Override
   public boolean cancelUpgrade() {
-
     return super.cancelUpgrade();
   }
 

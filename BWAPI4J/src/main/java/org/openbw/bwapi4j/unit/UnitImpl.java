@@ -31,7 +31,6 @@ import org.openbw.bwapi4j.type.*;
 import org.openbw.bwapi4j.util.BridgeUtils;
 
 public abstract class UnitImpl implements Unit {
-
   private static final Logger logger = LogManager.getLogger();
 
   private static final int ID_INDEX = 0;
@@ -294,7 +293,6 @@ public abstract class UnitImpl implements Unit {
   private int lastSpotted;
 
   protected UnitImpl(int id, UnitType unitType) {
-
     this.id = id;
     this.type = unitType;
     this.initialType = unitType;
@@ -306,7 +304,6 @@ public abstract class UnitImpl implements Unit {
   }
 
   public void initialize(int[] unitData, int index, int frame) {
-
     // TODO this is a workaround because initialTilePosition gives wrong results with OpenBW
     this.initialPosition =
         new Position(
@@ -333,7 +330,6 @@ public abstract class UnitImpl implements Unit {
   }
 
   public void update(int[] unitData, int index, int frame) {
-
     this.type = UnitType.values()[unitData[index + UnitImpl.TYPE_ID_INDEX]];
     this.x = unitData[index + UnitImpl.POSITION_X_INDEX];
     this.y = unitData[index + UnitImpl.POSITION_Y_INDEX];
@@ -479,7 +475,6 @@ public abstract class UnitImpl implements Unit {
   }
 
   public int getLastSpotted() {
-
     return this.lastSpotted;
   }
 
@@ -488,17 +483,14 @@ public abstract class UnitImpl implements Unit {
   }
 
   protected Collection<Unit> getAllUnits() {
-
     return bw.getAllUnits();
   }
 
   protected Unit getUnit(int id) {
-
     return bw.getUnit(id);
   }
 
   protected DamageEvaluator getDamageEvaluator() {
-
     return bw.getDamageEvaluator();
   }
 
@@ -507,7 +499,6 @@ public abstract class UnitImpl implements Unit {
   }
 
   protected Player getPlayer(int id) {
-
     return bw.getPlayer(id);
   }
 
@@ -516,7 +507,6 @@ public abstract class UnitImpl implements Unit {
   }
 
   public int getId() {
-
     return this.id;
   }
 
@@ -537,7 +527,6 @@ public abstract class UnitImpl implements Unit {
   }
 
   public Position getMiddle(Unit unit) {
-
     int x = this.getPosition().getX();
     int y = this.getPosition().getY();
 
@@ -548,18 +537,15 @@ public abstract class UnitImpl implements Unit {
   }
 
   public double getAngle() {
-
     return this.angle;
   }
 
   public <T extends Unit> T getClosest(Collection<T> group) {
-
     Comparator<T> comp = Comparator.comparingDouble(this::getDistance);
     return group.stream().min(comp).get();
   }
 
   public <T extends Unit> List<T> getUnitsInRadius(int radius, Collection<T> group) {
-
     return group.stream().filter(t -> this.getDistance(t) <= radius).collect(Collectors.toList());
   }
 
@@ -600,7 +586,6 @@ public abstract class UnitImpl implements Unit {
   }
 
   public double getDistance(Position target) {
-
     return getDistance(target.getX(), target.getY());
   }
 
@@ -648,62 +633,50 @@ public abstract class UnitImpl implements Unit {
   }
 
   boolean lift() {
-
     return issueCommand(id, Lift, -1, -1, -1, -1);
   }
 
   boolean land(Position p) {
-
     return issueCommand(id, Land, -1, p.getX(), p.getY(), -1);
   }
 
   boolean move(Position p) {
-
     return issueCommand(id, Move, -1, p.getX(), p.getY(), -1);
   }
 
   public boolean exists() {
-
     return this.exists;
   }
 
   public UnitType getType() {
-
     return type;
   }
 
   public UnitType getInitialType() {
-
     return initialType;
   }
 
   public Position getInitialPosition() {
-
     return initialPosition;
   }
 
   public TilePosition getInitialTilePosition() {
-
     return initialTilePosition;
   }
 
   protected Order getOrder() {
-
     return this.order;
   }
 
   protected Unit getOrderTarget() {
-
     return (this.orderTargetId >= 0) ? this.getUnit(this.orderTargetId) : null;
   }
 
   protected Position getOrderTargetPosition() {
-
     return this.orderTargetPosition;
   }
 
   protected Order getSecondaryOrder() {
-
     return this.secondaryOrder;
   }
 
@@ -712,12 +685,10 @@ public abstract class UnitImpl implements Unit {
   }
 
   protected boolean cancelResearch() {
-
     return issueCommand(id, Cancel_Research, -1, -1, -1, -1);
   }
 
   protected boolean cancelUpgrade() {
-
     return issueCommand(id, Cancel_Upgrade, -1, -1, -1, -1);
   }
 
@@ -730,12 +701,10 @@ public abstract class UnitImpl implements Unit {
   }
 
   protected boolean research(TechType techType) {
-
     return issueCommand(id, Research, -1, -1, -1, techType.getId());
   }
 
   protected boolean upgrade(UpgradeType upgrade) {
-
     return issueCommand(id, Upgrade, -1, -1, -1, upgrade.getId());
   }
 
@@ -762,37 +731,30 @@ public abstract class UnitImpl implements Unit {
   }
 
   protected boolean train(UnitType type) {
-
     return issueCommand(id, Train, -1, -1, -1, type.getId());
   }
 
   protected boolean cancelTrain(int slot) {
-
     return issueCommand(id, Cancel_Train_Slot, -1, -1, -1, slot);
   }
 
   protected boolean cancelTrain() {
-
     return issueCommand(id, Cancel_Train, -1, -1, -1, -1);
   }
 
   protected boolean setRallyPoint(Position p) {
-
     return issueCommand(id, Set_Rally_Position, -1, p.getX(), p.getY(), -1);
   }
 
   protected boolean setRallyPoint(Unit target) {
-
     return issueCommand(id, Set_Rally_Unit, target.getId(), -1, -1, -1);
   }
 
   protected Position getRallyPosition() {
-
     return new Position(rallyPositionX, rallyPositionY);
   }
 
   protected Unit getRallyUnit() {
-
     return getUnit(this.rallyUnitId);
   }
 
@@ -801,7 +763,6 @@ public abstract class UnitImpl implements Unit {
   }
 
   public boolean isVisible() {
-
     return isVisible;
   }
 
@@ -811,13 +772,11 @@ public abstract class UnitImpl implements Unit {
 
   @Override
   public int hashCode() {
-
     return this.id;
   }
 
   @Override
   public boolean equals(Object obj) {
-
     if (obj instanceof Unit) {
       return this.getId() == ((Unit) obj).getId();
     } else {
@@ -827,13 +786,11 @@ public abstract class UnitImpl implements Unit {
 
   @Override
   public String toString() {
-
     return this.getId() + ":" + this.type;
   }
 
   @Override
   public int compareTo(Unit otherUnit) {
-
     return this.getId() - otherUnit.getId();
   }
 
@@ -883,29 +840,24 @@ public abstract class UnitImpl implements Unit {
   private boolean isInWeaponRange;
 
   public class TrainingSlot {
-
     private final int slotIndex;
     private final UnitType unitType;
 
     protected TrainingSlot(final int slotIndex, final UnitType unitType) {
-
       this.slotIndex = slotIndex;
       this.unitType = unitType;
     }
 
     public UnitType getUnitType() {
-
       return this.unitType;
     }
 
     public boolean cancel() {
-
       return issueCommand(id, Cancel_Train_Slot, -1, -1, -1, this.slotIndex);
     }
 
     @Override
     public boolean equals(final Object object) {
-
       if (this == object) {
         return true;
       } else if (!(object instanceof TrainingSlot)) {
@@ -918,7 +870,6 @@ public abstract class UnitImpl implements Unit {
 
     @Override
     public int hashCode() {
-
       return Objects.hash(this.slotIndex, this.unitType);
     }
   }

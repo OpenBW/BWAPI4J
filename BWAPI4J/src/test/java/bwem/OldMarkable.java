@@ -1,7 +1,6 @@
 package bwem;
 
 public class OldMarkable<Derived> {
-
   private int lastMark;
   private static int currentMark = 0;
 

@@ -25,7 +25,6 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitType;
 
 public interface TrainingFacility extends Building {
-
   boolean isTraining();
 
   int getTrainingQueueSize();

@@ -6,7 +6,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class UpgradeTypeTest {
-
   @Test
   public void listContainsTest() {
     final List<UpgradeType> upgradeTypes = new ArrayList<>();

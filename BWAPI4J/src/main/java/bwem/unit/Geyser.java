@@ -21,7 +21,6 @@ import org.openbw.bwapi4j.unit.VespeneGeyser;
  * Resource_Vespene_Geyser.
  */
 public final class Geyser extends Resource {
-
   public Geyser(final Unit unit, final Map map) {
     super(unit, map);
 

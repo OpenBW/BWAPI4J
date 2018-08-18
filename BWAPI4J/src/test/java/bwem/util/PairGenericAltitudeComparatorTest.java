@@ -10,7 +10,6 @@ import org.junit.Test;
 import org.openbw.bwapi4j.WalkPosition;
 
 public class PairGenericAltitudeComparatorTest {
-
   @Test
   public void testPairGenericAltitudeComparator() {
     final List<MutablePair<WalkPosition, Altitude>> list = new ArrayList<>();

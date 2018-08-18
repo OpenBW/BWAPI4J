@@ -1,7 +1,6 @@
 package bwem;
 
 public class MarkableClassA {
-
   private static final StaticMarkable staticMarkable = new StaticMarkable();
   private final Markable markable;
 

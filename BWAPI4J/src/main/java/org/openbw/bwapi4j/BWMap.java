@@ -24,7 +24,6 @@ import java.util.List;
 import org.openbw.bwapi4j.type.UnitType;
 
 public interface BWMap {
-
   public String mapHash();
 
   public String mapFileName();

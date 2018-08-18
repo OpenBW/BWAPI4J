@@ -28,31 +28,24 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class Corsair extends MobileUnitImpl implements Mechanical, SpellCaster, AirAttacker {
-
   protected Corsair(int id) {
-
     super(id, UnitType.Protoss_Corsair);
   }
 
   @Override
   public int getEnergy() {
-
     return this.energy;
   }
 
   @Override
   public int getMaxEnergy() {
-
     return super.getMaxEnergy();
   }
 
   public boolean disruptionWeb(Position position) {
-
     if (this.energy < TechType.Disruption_Web.energyCost()) {
-
       return false;
     } else {
-
       return issueCommand(
           this.id, Use_Tech_Position, -1, position.getX(), position.getY(), Disruption_Web.getId());
     }
@@ -60,37 +53,31 @@ public class Corsair extends MobileUnitImpl implements Mechanical, SpellCaster, 
 
   @Override
   public Weapon getAirWeapon() {
-
     return airWeapon;
   }
 
   @Override
   public int getAirWeaponMaxRange() {
-
     return super.getAirWeaponMaxRange();
   }
 
   @Override
   public int getAirWeaponMaxCooldown() {
-
     return super.getAirWeaponMaxCooldown();
   }
 
   @Override
   public int getAirWeaponCooldown() {
-
     return super.getAirWeaponCooldown(this);
   }
 
   @Override
   public int getAirWeaponDamage() {
-
     return super.getAirWeaponDamage();
   }
 
   @Override
   public int getMaxAirHits() {
-
     return super.getMaxAirHits();
   }
 }

@@ -25,43 +25,35 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class ControlTower extends AddonImpl implements Mechanical, ResearchingFacility {
-
   protected ControlTower(int id, int timeSpotted) {
-
     super(id, UnitType.Terran_Control_Tower, timeSpotted);
   }
 
   public boolean researchCloakingField() {
-
     return super.research(TechType.Cloaking_Field);
   }
 
   public boolean upgradeApolloReactor() {
-
     return super.upgrade(UpgradeType.Apollo_Reactor);
   }
 
   @Override
   public boolean isUpgrading() {
-
     return isUpgrading;
   }
 
   @Override
   public boolean isResearching() {
-
     return isResearching;
   }
 
   @Override
   public boolean cancelResearch() {
-
     return super.cancelResearch();
   }
 
   @Override
   public boolean cancelUpgrade() {
-
     return super.cancelUpgrade();
   }
 

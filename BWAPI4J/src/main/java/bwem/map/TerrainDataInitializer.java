@@ -20,7 +20,6 @@ import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 
 public interface TerrainDataInitializer {
-
   Tile getTile_(TilePosition tilePosition, CheckMode checkMode);
 
   Tile getTile_(TilePosition tilePosition);

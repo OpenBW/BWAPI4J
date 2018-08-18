@@ -5,7 +5,6 @@ import static java.lang.Math.sqrt;
 
 /** Contains utility functions for basic calculations. */
 public class MathUtils {
-
   private MathUtils() {}
 
   /**

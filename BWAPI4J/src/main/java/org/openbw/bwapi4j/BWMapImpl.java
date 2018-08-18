@@ -27,7 +27,6 @@ import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.util.Cache;
 
 class BWMapImpl implements BWMap {
-
   private String mapHash;
   private String mapFileName;
   private String mapName;
@@ -45,7 +44,6 @@ class BWMapImpl implements BWMap {
   private ArrayList<TilePosition> startLocations;
 
   BWMapImpl(final InteractionHandler interactionHandler) {
-
     this.interactionHandler = interactionHandler;
     this.startLocations = new ArrayList<>();
 
@@ -53,17 +51,14 @@ class BWMapImpl implements BWMap {
   }
 
   public String mapHash() {
-
     return this.mapHash;
   }
 
   public String mapFileName() {
-
     return this.mapFileName;
   }
 
   public String mapName() {
-
     return this.mapName;
   }
 
@@ -128,43 +123,36 @@ class BWMapImpl implements BWMap {
   private native int _isBuildable(int tileX, int tileY, boolean considerBuildings);
 
   public boolean isBuildable(int tileX, int tileY, boolean considerBuildings) {
-
     return _isBuildable(tileX, tileY, considerBuildings) == 1;
   }
 
   public boolean isBuildable(TilePosition position, boolean considerBuildings) {
-
     return _isBuildable(position.getX(), position.getY(), considerBuildings) == 1;
   }
 
   private native int _isExplored(int tileX, int tileY);
 
   public boolean isExplored(int tileX, int tileY) {
-
     return _isExplored(tileX, tileY) == 1;
   }
 
   public boolean isExplored(TilePosition position) {
-
     return _isExplored(position.getX(), position.getY()) == 1;
   }
 
   private native int _isVisible(int tileX, int tileY);
 
   public boolean isVisible(int tileX, int tileY) {
-
     return _isVisible(tileX, tileY) == 1;
   }
 
   public boolean isVisible(TilePosition position) {
-
     return _isVisible(position.getX(), position.getY()) == 1;
   }
 
   private native int _hasPath(int x1, int y1, int x2, int y2);
 
   public boolean hasPath(Position source, Position destination) {
-
     return _hasPath(source.getX(), source.getY(), destination.getX(), destination.getY()) == 1;
   }
 
@@ -173,12 +161,10 @@ class BWMapImpl implements BWMap {
   private native int _canBuildHere(int x, int y, int typeId, int builderId);
 
   public boolean canBuildHere(TilePosition position, UnitType type) {
-
     return _canBuildHere(position.getX(), position.getY(), type.getId()) == 1;
   }
 
   public boolean canBuildHere(TilePosition position, UnitType type, PlayerUnit builder) {
-
     return _canBuildHere(position.getX(), position.getY(), type.getId(), builder.getId()) == 1;
   }
 

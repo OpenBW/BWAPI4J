@@ -31,7 +31,6 @@ import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.unit.VespeneGeyser;
 
 public interface MapInitializer {
-
   // This has to be called before any other function is called.
   // A good place to do this is in ExampleAIModule::onStart()
   void initialize(boolean enableTimer);

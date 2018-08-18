@@ -25,7 +25,6 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class CovertOps extends AddonImpl implements Mechanical, ResearchingFacility {
-
   protected CovertOps(int id, int timeSpotted) {
     super(id, UnitType.Terran_Covert_Ops, timeSpotted);
   }

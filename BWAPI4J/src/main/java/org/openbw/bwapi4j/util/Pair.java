@@ -23,7 +23,6 @@ package org.openbw.bwapi4j.util;
 import java.util.Objects;
 
 public class Pair<K, V> {
-
   private final K first;
   private final V second;
 

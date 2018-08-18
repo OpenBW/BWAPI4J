@@ -18,7 +18,6 @@ import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 
 public interface MapData {
-
   /** Returns the size of the map in tiles. */
   TilePosition getTileSize();
 

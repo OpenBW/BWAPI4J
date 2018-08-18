@@ -14,7 +14,6 @@ import org.openbw.bwapi4j.unit.VespeneGeyserMock;
 
 /** Container class for BWAPI dummy data to feed into test and/or mocks. */
 public class BWAPI_DummyData {
-
   private static final Logger logger = LogManager.getLogger();
 
   public enum DataSetBwapiVersion {

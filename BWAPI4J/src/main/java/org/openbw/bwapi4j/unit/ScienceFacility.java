@@ -31,9 +31,7 @@ import org.openbw.bwapi4j.type.UpgradeType;
 
 public class ScienceFacility extends BuildingImpl
     implements Mechanical, ResearchingFacility, ExtendibleByAddon {
-
   protected ScienceFacility(int id, int timeSpotted) {
-
     super(id, UnitType.Terran_Science_Facility, timeSpotted);
   }
 
@@ -43,7 +41,6 @@ public class ScienceFacility extends BuildingImpl
    * @return Covert Ops if exists, <code>null</code> else
    */
   public CovertOps getCovertOps() {
-
     Unit unit = this.getUnit(addonId);
     if (unit != null && unit instanceof CovertOps) {
       return (CovertOps) unit;
@@ -58,7 +55,6 @@ public class ScienceFacility extends BuildingImpl
    * @return Physics Lab if exists, <code>null</code> else
    */
   public PhysicsLab getPhysicsLab() {
-
     Unit unit = this.getUnit(addonId);
     if (unit != null && unit instanceof PhysicsLab) {
       return (PhysicsLab) unit;
@@ -74,7 +70,6 @@ public class ScienceFacility extends BuildingImpl
 
   @Override
   public boolean cancelAddon() {
-
     return issueCommand(this.id, Cancel_Addon, -1, -1, -1, -1);
   }
 
@@ -84,7 +79,6 @@ public class ScienceFacility extends BuildingImpl
    * @return true if command successful, false else
    */
   public boolean buildPhysicslab() {
-
     return issueCommand(this.id, Build_Addon, -1, -1, -1, Terran_Physics_Lab.getId());
   }
 
@@ -94,7 +88,6 @@ public class ScienceFacility extends BuildingImpl
    * @return true if command successful, false else
    */
   public boolean buildCovertOps() {
-
     return issueCommand(this.id, Build_Addon, -1, -1, -1, Terran_Covert_Ops.getId());
   }
 
@@ -104,41 +97,34 @@ public class ScienceFacility extends BuildingImpl
   }
 
   public boolean researchEmpShockwave() {
-
     return super.research(TechType.EMP_Shockwave);
   }
 
   public boolean researchIrradiate() {
-
     return super.research(TechType.Irradiate);
   }
 
   public boolean upgradeTitanReactor() {
-
     return super.upgrade(UpgradeType.Titan_Reactor);
   }
 
   @Override
   public boolean isUpgrading() {
-
     return isUpgrading;
   }
 
   @Override
   public boolean isResearching() {
-
     return isResearching;
   }
 
   @Override
   public boolean cancelResearch() {
-
     return super.cancelResearch();
   }
 
   @Override
   public boolean cancelUpgrade() {
-
     return super.cancelUpgrade();
   }
 

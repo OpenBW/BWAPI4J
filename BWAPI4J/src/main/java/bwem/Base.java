@@ -29,7 +29,6 @@ import org.openbw.bwapi4j.TilePosition;
  * ChokePoints, the number and the addresses of Base instances remain unchanged.
  */
 public interface Base {
-
   /**
    * Tests whether this base is a start location.<br>
    * - Note: all players start at locations taken from {@link MapData#getStartingLocations()},<br>

@@ -29,34 +29,28 @@ import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.UnitType;
 
 public abstract class BuildingImpl extends PlayerUnitImpl implements Building {
-
   private static final Logger logger = LogManager.getLogger();
 
   public boolean cancelConstruction() {
-
     return issueCommand(this.id, Cancel_Construction, -1, -1, -1, -1);
   }
 
   protected int probableConstructionStart;
 
   protected BuildingImpl(int id, UnitType type, int timeSpotted) {
-
     super(id, type);
     this.probableConstructionStart = calculateProbableConstructionStart(timeSpotted);
   }
 
   public int getBuildTime() {
-
     return this.type.buildTime();
   }
 
   public int getRemainingBuildTime() {
-
     return this.remainingBuildTime;
   }
 
   private int calculateProbableConstructionStart(int currentFrame) {
-
     int time;
     if (this.isCompleted()) {
       time = currentFrame - this.type.buildTime();
@@ -67,7 +61,6 @@ public abstract class BuildingImpl extends PlayerUnitImpl implements Building {
   }
 
   public int getProbableConstructionStart() {
-
     return this.probableConstructionStart;
   }
 
@@ -79,7 +72,6 @@ public abstract class BuildingImpl extends PlayerUnitImpl implements Building {
    * @return distance in tiles
    */
   public int getLastKnownDistance(TilePosition position) {
-
     // compute x distance
     int distX = this.getLastKnownTilePosition().getX() - position.getX();
     if (distX < 0) {
@@ -108,7 +100,6 @@ public abstract class BuildingImpl extends PlayerUnitImpl implements Building {
    * @return distance in pixels
    */
   public double getLastKnownDistance(Position position) {
-
     int left = position.getX() - 1;
     int top = position.getY() - 1;
     int right = position.getX() + 1;
@@ -135,7 +126,6 @@ public abstract class BuildingImpl extends PlayerUnitImpl implements Building {
   }
 
   public double getLastKnownDistance(Unit target) {
-
     if (this == target) {
       return 0;
     }

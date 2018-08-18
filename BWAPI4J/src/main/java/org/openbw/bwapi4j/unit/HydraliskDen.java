@@ -25,48 +25,39 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class HydraliskDen extends BuildingImpl implements Organic, ResearchingFacility {
-
   protected HydraliskDen(int id, int timeSpotted) {
-
     super(id, UnitType.Zerg_Hydralisk_Den, timeSpotted);
   }
 
   public boolean upgradeMuscularAugments() {
-
     return super.upgrade(UpgradeType.Muscular_Augments);
   }
 
   public boolean upgradeGroovedSpines() {
-
     return super.upgrade(UpgradeType.Grooved_Spines);
   }
 
   public boolean researchLurkerAspect() {
-
     return super.research(TechType.Lurker_Aspect);
   }
 
   @Override
   public boolean isUpgrading() {
-
     return isUpgrading;
   }
 
   @Override
   public boolean isResearching() {
-
     return isResearching;
   }
 
   @Override
   public boolean cancelResearch() {
-
     return super.cancelResearch();
   }
 
   @Override
   public boolean cancelUpgrade() {
-
     return super.cancelUpgrade();
   }
 

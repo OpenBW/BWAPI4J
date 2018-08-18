@@ -25,20 +25,16 @@ import static org.openbw.bwapi4j.type.UnitCommandType.Right_Click_Unit;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class ShieldBattery extends BuildingImpl implements Mechanical {
-
   protected ShieldBattery(int id, int timeSpotted) {
-
     super(id, UnitType.Protoss_Shield_Battery, timeSpotted);
   }
 
   public int getEnergy() {
-
     return this.energy;
   }
 
   @Override
   public int getMaxEnergy() {
-
     return super.getMaxEnergy();
   }
 
@@ -51,7 +47,6 @@ public class ShieldBattery extends BuildingImpl implements Mechanical {
    * @return true if successful, false else
    */
   public boolean recharge(Unit target, boolean queued) {
-
     return issueCommand(target.getId(), Right_Click_Unit, this.getId(), -1, -1, queued ? 1 : 0);
   }
 }

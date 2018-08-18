@@ -26,7 +26,6 @@ import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.unit.Unit;
 
 public abstract class NeutralImpl implements Neutral {
-
   private final Unit bwapiUnit;
   private final Position pos;
   private final TilePosition topLeft;

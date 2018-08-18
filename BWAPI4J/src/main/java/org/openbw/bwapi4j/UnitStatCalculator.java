@@ -27,11 +27,9 @@ import org.openbw.bwapi4j.unit.AirAttacker;
 import org.openbw.bwapi4j.unit.GroundAttacker;
 
 public class UnitStatCalculator {
-
   final Player player;
 
   /* default */ UnitStatCalculator(Player player) {
-
     this.player = player;
   }
 
@@ -150,13 +148,11 @@ public class UnitStatCalculator {
 
   /** Retrieves the ground weapon cooldown of a unit. */
   public int groundWeaponDamageCooldown(GroundAttacker unit) {
-
     return unit.getGroundWeapon().cooldown();
   }
 
   /** Retrieves the air weapon cooldown of a unit. */
   public int airWeaponDamageCooldown(AirAttacker unit) {
-
     return unit.getAirWeapon().cooldown();
   }
 

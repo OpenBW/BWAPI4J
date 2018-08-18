@@ -18,7 +18,6 @@ import org.apache.commons.lang3.tuple.MutablePair;
 
 public final class PairGenericAltitudeComparator<T>
     implements Comparator<MutablePair<T, Altitude>> {
-
   @Override
   public int compare(MutablePair<T, Altitude> o1, MutablePair<T, Altitude> o2) {
     int a1 = o1.getRight().intValue();

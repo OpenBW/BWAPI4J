@@ -30,7 +30,6 @@ import org.openbw.bwapi4j.WalkPosition;
  * from which are derived successively: altitudes, Areas, ChokePoints.
  */
 public interface MiniTile {
-
   /**
    * Corresponds approximatively to BWAPI::isWalkable<br>
    * The differences are:<br>

@@ -17,7 +17,6 @@ import org.openbw.bwapi4j.unit.Unit;
 
 /** A Resource is either a Mineral or a Geyser. */
 public abstract class Resource extends NeutralImpl {
-
   protected Resource(final Unit unit, final Map map) {
     super(unit, map);
   }

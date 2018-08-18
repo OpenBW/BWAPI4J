@@ -8,7 +8,6 @@ import org.openbw.bwapi4j.type.UnitSizeType;
 import org.openbw.bwapi4j.type.UnitType;
 
 public interface Unit extends Comparable<Unit> {
-
   void initialize(int[] unitData, int index, int frame);
 
   void preUpdate();

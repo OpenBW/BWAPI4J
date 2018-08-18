@@ -24,7 +24,6 @@ import org.openbw.bwapi4j.type.UnitType;
 
 /** Contains all damage-related bwapi functionality. */
 public final class DamageEvaluator {
-
   /* default */ DamageEvaluator() {}
 
   private native int getDamageFrom_native(int fromType, int toType, int fromPlayer);
@@ -40,7 +39,6 @@ public final class DamageEvaluator {
   private native int getDamageTo_native(int toType, int fromType, int toPlayer, int fromPlayer);
 
   public int getDamageFrom(UnitType fromType, UnitType toType, Player fromPlayer, Player toPlayer) {
-
     return getDamageFrom_native(
         fromType.ordinal(), toType.ordinal(), fromPlayer.getId(), toPlayer.getId());
   }

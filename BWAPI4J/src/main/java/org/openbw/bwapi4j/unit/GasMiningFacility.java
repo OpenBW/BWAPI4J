@@ -21,7 +21,6 @@
 package org.openbw.bwapi4j.unit;
 
 public interface GasMiningFacility extends Building, Gatherable {
-
   public int getResources();
 
   public int getInitialResources();

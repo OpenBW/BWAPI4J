@@ -25,7 +25,6 @@ import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class BaseImpl implements Base {
-
   private final Area area;
   private TilePosition location;
   private Position center;

@@ -23,9 +23,7 @@ package org.openbw.bwapi4j.unit;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class Zealot extends MobileUnitImpl implements Organic, GroundAttacker {
-
   protected Zealot(int id) {
-
     super(id, UnitType.Protoss_Zealot);
   }
 
@@ -36,31 +34,26 @@ public class Zealot extends MobileUnitImpl implements Organic, GroundAttacker {
 
   @Override
   public int getGroundWeaponMaxRange() {
-
     return super.getGroundWeaponMaxRange();
   }
 
   @Override
   public int getGroundWeaponMaxCooldown() {
-
     return super.getGroundWeaponMaxCooldown();
   }
 
   @Override
   public int getGroundWeaponCooldown() {
-
     return super.getGroundWeaponCooldown(this);
   }
 
   @Override
   public int getGroundWeaponDamage() {
-
     return super.getGroundWeaponDamage();
   }
 
   @Override
   public int getMaxGroundHits() {
-
     return super.getMaxGroundHits();
   }
 }

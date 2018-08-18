@@ -6,7 +6,6 @@ import org.openbw.bwapi4j.TilePosition;
 
 /** Class for parsing map info from a dummy data set. */
 public class BWAPI_MapInfo {
-
   private final String mapHash;
   private final TilePosition mapSize;
   private final String mapName;

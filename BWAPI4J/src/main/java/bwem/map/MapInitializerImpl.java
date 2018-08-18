@@ -33,7 +33,6 @@ import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.unit.VespeneGeyser;
 
 public class MapInitializerImpl extends MapImpl implements MapInitializer {
-
   private static final Logger logger = LogManager.getLogger();
 
   public MapInitializerImpl(
@@ -202,7 +201,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
   public void computeAltitude(final TerrainData terrainData) {
     final int altitudeScale =
         8; // 8 provides a pixel definition for altitude_t, since altitudes are computed from
-           // miniTiles which are 8x8 pixels
+    // miniTiles which are 8x8 pixels
 
     final List<MutablePair<WalkPosition, Altitude>> deltasByAscendingAltitude =
         getSortedDeltasByAscendingAltitude(
@@ -616,7 +615,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
               tempAreaList.get(smaller.intValue()).getWalkPositionWithHighestAltitude(), bigger);
           tempAreaList.get(bigger.intValue()).merge(tempAreaList.get(smaller.intValue()));
         } else { // no merge : cur starts or continues the frontier between the two neighboring
-                 // areas
+          // areas
           // adds cur to the chosen Area:
           tempAreaList.get(chooseNeighboringArea(smaller, bigger).intValue()).add(cur);
           super.rawFrontier.add(new MutablePair<>(neighboringAreas, pos));

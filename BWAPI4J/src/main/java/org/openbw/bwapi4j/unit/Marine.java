@@ -26,91 +26,75 @@ import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class Marine extends MobileUnitImpl implements Organic, GroundAttacker, AirAttacker {
-
   protected Marine(int id) {
-
     super(id, UnitType.Terran_Marine);
   }
 
   public boolean isStimmed() {
-
     return this.isStimmed;
   }
 
   public boolean stimPack() {
-
     return issueCommand(this.id, Use_Tech, -1, -1, -1, Stim_Packs.getId());
   }
 
   @Override
   public Weapon getGroundWeapon() {
-
     return groundWeapon;
   }
 
   @Override
   public Weapon getAirWeapon() {
-
     return airWeapon;
   }
 
   @Override
   public int getGroundWeaponMaxRange() {
-
     return super.getGroundWeaponMaxRange();
   }
 
   @Override
   public int getGroundWeaponMaxCooldown() {
-
     return super.getGroundWeaponMaxCooldown();
   }
 
   @Override
   public int getGroundWeaponCooldown() {
-
     return super.getGroundWeaponCooldown(this);
   }
 
   @Override
   public int getGroundWeaponDamage() {
-
     return super.getGroundWeaponDamage();
   }
 
   @Override
   public int getMaxGroundHits() {
-
     return super.getMaxGroundHits();
   }
 
   @Override
   public int getAirWeaponMaxRange() {
-
     return super.getAirWeaponMaxRange();
   }
 
   @Override
   public int getAirWeaponMaxCooldown() {
-
     return super.getAirWeaponMaxCooldown();
   }
 
   @Override
   public int getAirWeaponCooldown() {
-
     return super.getAirWeaponCooldown(this);
   }
 
   @Override
   public int getAirWeaponDamage() {
-
     return super.getAirWeaponDamage();
   }
 
   @Override
   public int getMaxAirHits() {
-
     return super.getMaxAirHits();
   }
 }

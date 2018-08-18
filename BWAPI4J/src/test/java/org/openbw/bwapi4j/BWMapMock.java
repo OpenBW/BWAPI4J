@@ -6,7 +6,6 @@ import mockdata.BWAPI_DummyData;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class BWMapMock implements BWMap {
-
   private final BWAPI_DummyData data;
 
   public BWMapMock(final String mapHash, final String dataSetBwapiVersion) throws Exception {

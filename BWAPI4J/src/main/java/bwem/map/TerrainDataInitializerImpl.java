@@ -25,7 +25,6 @@ import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 
 public class TerrainDataInitializerImpl extends TerrainDataImpl implements TerrainDataInitializer {
-
   public TerrainDataInitializerImpl(final MapData mapData, final TileData tileData) {
     super(mapData, tileData);
   }
@@ -174,5 +173,4 @@ public class TerrainDataInitializerImpl extends TerrainDataImpl implements Terra
   }
 
   ////////////////////////////////////////////////////////////////////////
-
 }

@@ -21,7 +21,6 @@ import org.openbw.bwapi4j.unit.Unit;
  * getType().isMineralField().
  */
 public final class Mineral extends Resource {
-
   public Mineral(final Unit unit, final Map map) {
     super(unit, map);
 

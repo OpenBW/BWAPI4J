@@ -31,23 +31,19 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class Defiler extends MobileUnitImpl implements Organic, SpellCaster, Burrowable {
-
   private static final Logger logger = LogManager.getLogger();
 
   protected Defiler(int id) {
-
     super(id, UnitType.Zerg_Defiler);
   }
 
   @Override
   public int getEnergy() {
-
     return this.energy;
   }
 
   @Override
   public int getMaxEnergy() {
-
     return super.getMaxEnergy();
   }
 
@@ -58,12 +54,9 @@ public class Defiler extends MobileUnitImpl implements Organic, SpellCaster, Bur
    * @return true if spell is successful, false else
    */
   public boolean consume(MobileUnit target) {
-
     if (this.energy < TechType.Spawn_Broodlings.energyCost()) {
-
       return false;
     } else if (target.getType().getRace() != Race.Zerg || target.getType() == UnitType.Zerg_Larva) {
-
       logger.info(
           "Consume spell does not work on {} (only non-larva Zerg units can be consumed)", target);
       return false;
@@ -73,24 +66,18 @@ public class Defiler extends MobileUnitImpl implements Organic, SpellCaster, Bur
   }
 
   public boolean plague(Position position) {
-
     if (this.energy < TechType.Plague.energyCost()) {
-
       return false;
     } else {
-
       return issueCommand(
           this.id, Use_Tech_Position, -1, position.getX(), position.getY(), Plague.getId());
     }
   }
 
   public boolean darkSwarm(Position position) {
-
     if (this.energy < TechType.Dark_Swarm.energyCost()) {
-
       return false;
     } else {
-
       return issueCommand(
           this.id, Use_Tech_Position, -1, position.getX(), position.getY(), Dark_Swarm.getId());
     }

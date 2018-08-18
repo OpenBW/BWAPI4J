@@ -22,7 +22,6 @@ import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.unit.Worker;
 
 public class TestListenerBwem implements BWEventListener {
-
   private static final int SCREEN_WIDTH =
       640; // only used for optimized shape drawing within the screen area
   private static final int SCREEN_HEIGHT =
@@ -81,10 +80,9 @@ public class TestListenerBwem implements BWEventListener {
       System.out.println("BWEM initialization started.");
       bwem = new BWEM(bw); // Instantiate the BWEM object.
       bwem.initialize(); // Initialize and pre-calculate internal data.
-      bwem.getMap()
-          .enableAutomaticPathAnalysis(); // This option requires
-                                          // "bwem.getMap().onUnitDestroyed(unit);" in the
-                                          // "onUnitDestroy" callback.
+      bwem.getMap().enableAutomaticPathAnalysis(); // This option requires
+      // "bwem.getMap().onUnitDestroyed(unit);" in the
+      // "onUnitDestroy" callback.
       try {
         bwem.getMap().assignStartingLocationsToSuitableBases(); // Throws an exception on failure.
       } catch (final Exception e) {
@@ -384,7 +382,6 @@ public class TestListenerBwem implements BWEventListener {
   }
 
   private static class UnitDistanceComparator implements Comparator<Unit> {
-
     private final Position targetPosition;
 
     public UnitDistanceComparator(final Position targetPosition) {

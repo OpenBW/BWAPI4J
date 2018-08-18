@@ -25,48 +25,39 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class QueensNest extends BuildingImpl implements Organic, ResearchingFacility {
-
   protected QueensNest(int id, int timeSpotted) {
-
     super(id, UnitType.Zerg_Queens_Nest, timeSpotted);
   }
 
   public boolean researchEnsnare() {
-
     return super.research(TechType.Ensnare);
   }
 
   public boolean upgradeGameteMeiosis() {
-
     return super.upgrade(UpgradeType.Gamete_Meiosis);
   }
 
   public boolean researchSpawnBroodlings() {
-
     return super.research(TechType.Spawn_Broodlings);
   }
 
   @Override
   public boolean isUpgrading() {
-
     return isUpgrading;
   }
 
   @Override
   public boolean isResearching() {
-
     return isResearching;
   }
 
   @Override
   public boolean cancelResearch() {
-
     return super.cancelResearch();
   }
 
   @Override
   public boolean cancelUpgrade() {
-
     return super.cancelUpgrade();
   }
 

@@ -12,13 +12,11 @@ import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.unit.Unit;
 
 public class TestListenerYata implements BWEventListener {
-
   private BW bw;
   private YATA yata;
 
   @Override
   public void onStart() {
-
     try {
       System.out.println("onStart");
       this.bw.getInteractionHandler().enableUserInput();
@@ -67,9 +65,7 @@ public class TestListenerYata implements BWEventListener {
 
   @Override
   public void onFrame() {
-
     try {
-
       //        if (frame == 5) {
       //
       //            System.out.println(this.bwta.getBaseLocations().size() + " base locations
@@ -99,7 +95,6 @@ public class TestListenerYata implements BWEventListener {
       //        }
       //
       //        this.frame++;
-
     } catch (Exception e) {
       e.printStackTrace();
       System.exit(0);
@@ -182,7 +177,6 @@ public class TestListenerYata implements BWEventListener {
    * @param args arguments
    */
   public static void main(String[] args) {
-
     TestListenerYata listener = new TestListenerYata();
     BW bw = new BW(listener);
     listener.bw = bw;

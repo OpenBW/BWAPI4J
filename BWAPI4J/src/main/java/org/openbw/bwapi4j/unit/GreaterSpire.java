@@ -24,7 +24,6 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class GreaterSpire extends Spire implements Organic, ResearchingFacility {
   protected GreaterSpire(int id, int timeSpotted) {
-
     super(id, UnitType.Zerg_Greater_Spire, timeSpotted);
   }
 }

@@ -25,63 +25,51 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class TemplarArchives extends BuildingImpl implements Mechanical, ResearchingFacility {
-
   protected TemplarArchives(int id, int timeSpotted) {
-
     super(id, UnitType.Protoss_Templar_Archives, timeSpotted);
   }
 
   public boolean researchPsionicStorm() {
-
     return super.research(TechType.Psionic_Storm);
   }
 
   public boolean researchHallucination() {
-
     return super.research(TechType.Hallucination);
   }
 
   public boolean researchMaelstrom() {
-
     return super.research(TechType.Maelstrom);
   }
 
   public boolean researchMindControl() {
-
     return super.research(TechType.Mind_Control);
   }
 
   public boolean upgradeKhaydarinAmulet() {
-
     return super.upgrade(UpgradeType.Khaydarin_Amulet);
   }
 
   public boolean upgradeArgusTalisman() {
-
     return super.upgrade(UpgradeType.Argus_Talisman);
   }
 
   @Override
   public boolean isUpgrading() {
-
     return isUpgrading;
   }
 
   @Override
   public boolean isResearching() {
-
     return isResearching;
   }
 
   @Override
   public boolean cancelResearch() {
-
     return super.cancelResearch();
   }
 
   @Override
   public boolean cancelUpgrade() {
-
     return super.cancelUpgrade();
   }
 

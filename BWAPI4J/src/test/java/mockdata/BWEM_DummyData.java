@@ -8,7 +8,6 @@ import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.WalkPosition;
 
 public class BWEM_DummyData {
-
   private static final Logger logger = LogManager.getLogger();
 
   public enum DataSetBwemVersion {

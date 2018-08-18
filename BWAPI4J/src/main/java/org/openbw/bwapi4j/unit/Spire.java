@@ -29,47 +29,39 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class Spire extends BuildingImpl implements Organic, ResearchingFacility, Morphable {
-
   protected Spire(int id, int timeSpotted) {
     this(id, Zerg_Spire, timeSpotted);
   }
 
   protected Spire(int id, UnitType type, int timeSpotted) {
-
     super(id, type, timeSpotted);
   }
 
   public boolean upgradeFlyerAttacks() {
-
     return super.upgrade(UpgradeType.Zerg_Flyer_Attacks);
   }
 
   public boolean upgradeFlyerCarapace() {
-
     return super.upgrade(UpgradeType.Zerg_Flyer_Carapace);
   }
 
   @Override
   public boolean isUpgrading() {
-
     return isUpgrading;
   }
 
   @Override
   public boolean isResearching() {
-
     return isResearching;
   }
 
   @Override
   public boolean cancelResearch() {
-
     return super.cancelResearch();
   }
 
   @Override
   public boolean cancelUpgrade() {
-
     return super.cancelUpgrade();
   }
 

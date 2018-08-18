@@ -26,9 +26,7 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class Mutalisk extends MobileUnitImpl
     implements Organic, GroundAttacker, AirAttacker, Morphable {
-
   protected Mutalisk(int id) {
-
     super(id, UnitType.Zerg_Mutalisk);
   }
 
@@ -41,84 +39,70 @@ public class Mutalisk extends MobileUnitImpl
   }
 
   public boolean morphGuardian() {
-
     return morph(UnitType.Zerg_Guardian);
   }
 
   public boolean morphDevourer() {
-
     return morph(UnitType.Zerg_Devourer);
   }
 
   @Override
   public Weapon getGroundWeapon() {
-
     return groundWeapon;
   }
 
   @Override
   public Weapon getAirWeapon() {
-
     return airWeapon;
   }
 
   @Override
   public int getGroundWeaponMaxRange() {
-
     return super.getGroundWeaponMaxRange();
   }
 
   @Override
   public int getGroundWeaponMaxCooldown() {
-
     return super.getGroundWeaponMaxCooldown();
   }
 
   @Override
   public int getGroundWeaponCooldown() {
-
     return super.getGroundWeaponCooldown(this);
   }
 
   @Override
   public int getGroundWeaponDamage() {
-
     return super.getGroundWeaponDamage();
   }
 
   @Override
   public int getMaxGroundHits() {
-
     return super.getMaxGroundHits();
   }
 
   @Override
   public int getAirWeaponMaxRange() {
-
     return super.getAirWeaponMaxRange();
   }
 
   @Override
   public int getAirWeaponMaxCooldown() {
-
     return super.getAirWeaponMaxCooldown();
   }
 
   @Override
   public int getAirWeaponCooldown() {
-
     return super.getAirWeaponCooldown(this);
   }
 
   @Override
   public int getAirWeaponDamage() {
-
     return super.getAirWeaponDamage();
   }
 
   @Override
   public int getMaxAirHits() {
-
     return super.getMaxAirHits();
   }
 }

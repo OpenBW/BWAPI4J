@@ -19,7 +19,6 @@ import bwem.util.IWrappedInteger;
  * cp.h:143:typedef int index;
  */
 public final class Index implements IWrappedInteger<Index>, Comparable<Index> {
-
   private final int val;
 
   public Index(final int val) {

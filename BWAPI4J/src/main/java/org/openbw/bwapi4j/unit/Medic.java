@@ -28,46 +28,37 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class Medic extends MobileUnitImpl implements SpellCaster, Organic {
-
   protected Medic(int id) {
-
     super(id, UnitType.Terran_Medic);
   }
 
   public boolean heal(PlayerUnit unit) {
-
     return issueCommand(this.id, Use_Tech_Unit, unit.getId(), -1, -1, Healing.getId());
   }
 
   public boolean heal(Position position) {
-
     return heal(position, false);
   }
 
   public boolean heal(Position position, boolean queued) {
-
     return issueCommand(this.id, Attack_Move, -1, position.getX(), position.getY(), queued ? 1 : 0);
   }
 
   public boolean opticalFlare(PlayerUnit unit) {
-
     return issueCommand(this.id, Use_Tech_Unit, unit.getId(), -1, -1, Optical_Flare.getId());
   }
 
   public boolean restoration(PlayerUnit unit) {
-
     return issueCommand(this.id, Use_Tech_Unit, unit.getId(), -1, -1, Restoration.getId());
   }
 
   @Override
   public int getEnergy() {
-
     return this.energy;
   }
 
   @Override
   public int getMaxEnergy() {
-
     return super.getMaxEnergy();
   }
 }

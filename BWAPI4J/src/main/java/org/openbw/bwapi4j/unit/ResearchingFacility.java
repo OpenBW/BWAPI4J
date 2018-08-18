@@ -24,7 +24,6 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public interface ResearchingFacility extends Building {
-
   boolean isUpgrading();
 
   boolean isResearching();

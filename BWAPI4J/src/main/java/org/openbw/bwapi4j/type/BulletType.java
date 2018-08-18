@@ -62,16 +62,12 @@ public enum BulletType {
   private int typeId;
 
   private BulletType(int typeId) {
-
     this.typeId = typeId;
   }
 
   public static BulletType valueOf(int typeId) {
-
     for (BulletType type : BulletType.values()) {
-
       if (type.typeId == typeId) {
-
         return type;
       }
     }

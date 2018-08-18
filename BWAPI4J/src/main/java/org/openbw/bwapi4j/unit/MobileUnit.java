@@ -3,7 +3,6 @@ package org.openbw.bwapi4j.unit;
 import org.openbw.bwapi4j.Position;
 
 public interface MobileUnit extends PlayerUnit {
-
   boolean attack(Position p);
 
   boolean attack(Position p, boolean queued);

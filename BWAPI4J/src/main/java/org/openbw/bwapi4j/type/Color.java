@@ -37,17 +37,14 @@ public enum Color {
   private int rgb;
 
   private Color(int rgb) {
-
     this.rgb = rgb;
   }
 
   public int getValue() {
-
     return this.rgb;
   }
 
   public static Color valueOf(int rgb) {
-
     for (Color color : Color.values()) {
       if (color.rgb == rgb) {
         return color;

@@ -39,7 +39,6 @@ import org.openbw.bwapi4j.WalkPosition;
  * Areas inherit utils::UserData, which provides free-to-use data.
  */
 public interface Area {
-
   /**
    * - Unique id > 0 of this Area. Range = 1.. Map::Areas().size()<br>
    * - this == Map::GetArea(id())<br>

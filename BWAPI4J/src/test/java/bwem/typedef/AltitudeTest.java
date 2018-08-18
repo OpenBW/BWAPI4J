@@ -9,7 +9,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class AltitudeTest {
-
   @Test
   public void Test_Collection_get() {
     final List<Altitude> arrayList = new ArrayList<>();

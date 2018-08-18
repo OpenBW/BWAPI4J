@@ -20,7 +20,6 @@ import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 
 public abstract class TerrainDataImpl implements TerrainData {
-
   private final MapData mapData;
   private final TileData tileData;
 

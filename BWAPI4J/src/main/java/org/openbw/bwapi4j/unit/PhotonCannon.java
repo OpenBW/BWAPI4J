@@ -26,99 +26,82 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class PhotonCannon extends BuildingImpl
     implements Detector, Mechanical, GroundAttacker, AirAttacker {
-
   protected PhotonCannon(int id, int timeSpotted) {
-
     super(id, UnitType.Protoss_Photon_Cannon, timeSpotted);
   }
 
   @Override
   public boolean attack(Unit target) {
-
     return attack(target, false);
   }
 
   @Override
   public boolean attack(Unit target, boolean queued) {
-
     return issueCommand(this.id, Attack_Unit, target.getId(), -1, -1, queued ? 1 : 0);
   }
 
   @Override
   public Weapon getGroundWeapon() {
-
     return groundWeapon;
   }
 
   @Override
   public Weapon getAirWeapon() {
-
     return airWeapon;
   }
 
   @Override
   public Unit getTargetUnit() {
-
     return super.getTargetUnit();
   }
 
   @Override
   public int getMaxGroundHits() {
-
     return super.getMaxGroundHits();
   }
 
   @Override
   public int getMaxAirHits() {
-
     return super.getMaxAirHits();
   }
 
   @Override
   public int getGroundWeaponMaxRange() {
-
     return super.getGroundWeaponMaxRange();
   }
 
   @Override
   public int getGroundWeaponMaxCooldown() {
-
     return super.getGroundWeaponMaxCooldown();
   }
 
   @Override
   public int getGroundWeaponCooldown() {
-
     return super.getGroundWeaponCooldown(this);
   }
 
   @Override
   public int getGroundWeaponDamage() {
-
     return super.getGroundWeaponDamage();
   }
 
   @Override
   public int getAirWeaponMaxRange() {
-
     return super.getAirWeaponMaxRange();
   }
 
   @Override
   public int getAirWeaponMaxCooldown() {
-
     return super.getAirWeaponMaxCooldown();
   }
 
   @Override
   public int getAirWeaponCooldown() {
-
     return super.getAirWeaponCooldown(this);
   }
 
   @Override
   public int getAirWeaponDamage() {
-
     return super.getAirWeaponDamage();
   }
 }

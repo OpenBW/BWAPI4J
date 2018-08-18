@@ -25,7 +25,6 @@ import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.util.BridgeUtils;
 
 public class Bullet {
-
   enum CacheIndex {
     EXISTS,
     ANGLE,
@@ -62,7 +61,6 @@ public class Bullet {
   private BW bw;
 
   Bullet(BW bw) {
-
     this.bw = bw;
   }
 
@@ -73,7 +71,6 @@ public class Bullet {
    * @param index current pointer
    */
   public void initialize(int[] bulletData, int index) {
-
     this.id = bulletData[index + CacheIndex.ID.ordinal()];
     this.playerId = bulletData[index + CacheIndex.PLAYER.ordinal()];
     this.player = bw.getPlayer(this.playerId);
@@ -88,7 +85,6 @@ public class Bullet {
    * @param index current pointer
    */
   public void update(int[] bulletData, int index) {
-
     this.exists = bulletData[index + CacheIndex.EXISTS.ordinal()] == 1;
     this.angle =
         BridgeUtils.parsePreservedBwapiAngle(
@@ -109,67 +105,54 @@ public class Bullet {
   }
 
   public Player getPlayer() {
-
     return this.player;
   }
 
   public Unit getSource() {
-
     return this.bw.getUnit(this.sourceId);
   }
 
   public Unit getTarget() {
-
     return this.bw.getUnit(this.targetId);
   }
 
   public boolean isExists() {
-
     return exists;
   }
 
   public double getAngle() {
-
     return angle;
   }
 
   public int getId() {
-
     return id;
   }
 
   public Position getPosition() {
-
     return position;
   }
 
   public int getRemoveTimer() {
-
     return removeTimer;
   }
 
   public Position getTargetPosition() {
-
     return targetPosition;
   }
 
   public BulletType getType() {
-
     return type;
   }
 
   public double getVelocityX() {
-
     return velocityX;
   }
 
   public double getVelocityY() {
-
     return velocityY;
   }
 
   public boolean isVisible() {
-
     return visible;
   }
 }

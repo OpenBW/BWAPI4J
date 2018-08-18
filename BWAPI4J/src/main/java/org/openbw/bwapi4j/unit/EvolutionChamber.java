@@ -25,48 +25,39 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class EvolutionChamber extends BuildingImpl implements Organic, ResearchingFacility {
-
   protected EvolutionChamber(int id, int timeSpotted) {
-
     super(id, UnitType.Zerg_Evolution_Chamber, timeSpotted);
   }
 
   public boolean upgradeMeleeAttacks() {
-
     return super.upgrade(UpgradeType.Zerg_Melee_Attacks);
   }
 
   public boolean upgradeMissileAttacks() {
-
     return super.upgrade(UpgradeType.Zerg_Missile_Attacks);
   }
 
   public boolean upgradeCarapace() {
-
     return super.upgrade(UpgradeType.Zerg_Carapace);
   }
 
   @Override
   public boolean isUpgrading() {
-
     return isUpgrading;
   }
 
   @Override
   public boolean isResearching() {
-
     return isResearching;
   }
 
   @Override
   public boolean cancelResearch() {
-
     return super.cancelResearch();
   }
 
   @Override
   public boolean cancelUpgrade() {
-
     return super.cancelUpgrade();
   }
 

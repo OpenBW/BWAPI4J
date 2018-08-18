@@ -8,9 +8,7 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.WalkPosition;
 
 public class BWEM_CPPathSamples {
-
   public static class CPPSample {
-
     public final ImmutablePair<Position, Position> startAndEnd;
     public final List<WalkPosition> pathNodes;
     public final int pathLength;

@@ -26,7 +26,6 @@ import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class UnitFactory {
-
   private static final Logger logger = LogManager.getLogger();
 
   private BW bw;
@@ -38,82 +37,66 @@ public class UnitFactory {
   }
 
   protected MineralPatch getMineralPatch(int unitId, int timeSpotted) {
-
     return new MineralPatch(unitId);
   }
 
   protected VespeneGeyser getVespeneGeyser(int unitId, int timeSpotted) {
-
     return new VespeneGeyser(unitId);
   }
 
   protected Refinery getRefinery(int unitId, int timeSpotted) {
-
     return new Refinery(unitId, timeSpotted);
   }
 
   protected SCV getSCV(int unitId, int timeSpotted) {
-
     return new SCV(unitId);
   }
 
   protected Marine getMarine(int unitId, int timeSpotted) {
-
     return new Marine(unitId);
   }
 
   protected Medic getMedic(int unitId, int timeSpotted) {
-
     return new Medic(unitId);
   }
 
   protected Firebat getFirebat(int unitId, int timeSpotted) {
-
     return new Firebat(unitId);
   }
 
   protected Ghost getGhost(int unitId, int timeSpotted) {
-
     return new Ghost(unitId);
   }
 
   protected Vulture getVulture(int unitId, int timeSpotted) {
-
     return new Vulture(unitId);
   }
 
   protected Goliath getGoliath(int unitId, int timeSpotted) {
-
     return new Goliath(unitId);
   }
 
   protected SiegeTank getSiegeTank(int unitId, int timeSpotted, boolean sieged) {
-
     return new SiegeTank(unitId, sieged);
   }
 
   protected Wraith getWraith(int unitId, int timeSpotted) {
-
     return new Wraith(unitId);
   }
 
   protected Dropship getDropship(int unitId, int timeSpotted) {
-
     return new Dropship(unitId);
   }
 
   protected Valkyrie getValkyrie(int unitId, int timeSpotted) {
-
     return new Valkyrie(unitId);
   }
 
   protected BattleCruiser getBattleCruiser(int unitId, int timeSpotted) {
-
     return new BattleCruiser(unitId);
   }
 
   protected ScienceVessel getScienceVessel(int unitId, int timeSpotted) {
-
     return new ScienceVessel(unitId);
   }
 
@@ -128,7 +111,6 @@ public class UnitFactory {
    * @return the created unit
    */
   public Unit createUnit(int unitId, UnitType unitType, int timeSpotted) {
-
     UnitImpl unit;
     switch (unitType) {
       case Terran_Academy:
@@ -600,7 +582,6 @@ public class UnitFactory {
     }
 
     if (unit != null) {
-
       unit.setBW(bw);
     }
 

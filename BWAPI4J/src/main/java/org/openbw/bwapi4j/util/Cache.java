@@ -6,7 +6,6 @@ import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.InteractionHandler;
 
 public class Cache<T> {
-
   private static final Logger logger = LogManager.getLogger();
 
   private T data;

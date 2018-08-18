@@ -25,53 +25,43 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class Armory extends BuildingImpl implements Mechanical, ResearchingFacility {
-
   protected Armory(int id, int timeSpotted) {
-
     super(id, UnitType.Terran_Armory, timeSpotted);
   }
 
   public boolean upgradeVehiclePlating() {
-
     return super.upgrade(UpgradeType.Terran_Vehicle_Plating);
   }
 
   public boolean upgradeVehicleWeapons() {
-
     return super.upgrade(UpgradeType.Terran_Vehicle_Weapons);
   }
 
   public boolean upgradeShipPlating() {
-
     return super.upgrade(UpgradeType.Terran_Ship_Plating);
   }
 
   public boolean upgradeShipWeapons() {
-
     return super.upgrade(UpgradeType.Terran_Ship_Weapons);
   }
 
   @Override
   public boolean isUpgrading() {
-
     return isUpgrading;
   }
 
   @Override
   public boolean isResearching() {
-
     return isResearching;
   }
 
   @Override
   public boolean cancelResearch() {
-
     return super.cancelResearch();
   }
 
   @Override
   public boolean cancelUpgrade() {
-
     return super.cancelUpgrade();
   }
 

@@ -29,7 +29,6 @@ import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 
 public class MapPrinter {
-
   private final BufferedImage image;
   private final Graphics2D g2d;
 

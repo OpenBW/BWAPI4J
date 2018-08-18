@@ -17,7 +17,6 @@ import org.openbw.bwapi4j.unit.SCV;
 import org.openbw.bwapi4j.unit.Unit;
 
 public class MainTest implements BWEventListener {
-
   private static final Logger logger = LogManager.getLogger();
 
   private BW bw;
@@ -28,7 +27,6 @@ public class MainTest implements BWEventListener {
   @Ignore
   @Test
   public void smokeTest() throws AssertionError {
-
     logger.info("test start.");
     this.bw = new BW(this);
     this.bw.startGame();
@@ -36,13 +34,11 @@ public class MainTest implements BWEventListener {
   }
 
   private void testMapInfo() throws AssertionError {
-
     BWMap map = bw.getBWMap();
     assertEquals("map name wrong.", "(4)Fighting Spirit.scx", map.mapFileName());
   }
 
   private void testNumberOfScvs() throws AssertionError {
-
     Player self = this.bw.getInteractionHandler().self();
 
     List<PlayerUnit> units = this.bw.getUnits(self);
@@ -53,7 +49,6 @@ public class MainTest implements BWEventListener {
   }
 
   private void testMineralMining() throws AssertionError {
-
     boolean commandSuccessful = false;
     Player self = this.bw.getInteractionHandler().self();
 
@@ -72,10 +67,8 @@ public class MainTest implements BWEventListener {
       }
     }
     if (patch != null && scv != null) {
-
       commandSuccessful = scv.gather(patch);
     } else {
-
       logger.error("no scv and patch found.");
     }
     assertTrue("gather command failed.", commandSuccessful);
@@ -83,7 +76,6 @@ public class MainTest implements BWEventListener {
 
   @Override
   public void onStart() {
-
     logger.info("onStart");
     testMapInfo();
     testNumberOfScvs();
@@ -100,97 +92,81 @@ public class MainTest implements BWEventListener {
 
   @Override
   public void onEnd(boolean isWinner) {
-
     logger.info("onEnd");
   }
 
   @Override
   public void onFrame() {
-
     logger.info("onFrame");
   }
 
   @Override
   public void onSendText(String text) {
     // do nothing
-
   }
 
   @Override
   public void onReceiveText(Player player, String text) {
     // do nothing
-
   }
 
   @Override
   public void onPlayerLeft(Player player) {
     // do nothing
-
   }
 
   @Override
   public void onNukeDetect(Position target) {
     // do nothing
-
   }
 
   @Override
   public void onUnitDiscover(Unit unit) {
     // do nothing
-
   }
 
   @Override
   public void onUnitEvade(Unit unit) {
     // do nothing
-
   }
 
   @Override
   public void onUnitShow(Unit unit) {
     // do nothing
-
   }
 
   @Override
   public void onUnitHide(Unit unit) {
     // do nothing
-
   }
 
   @Override
   public void onUnitCreate(Unit unit) {
-
     //    	logger.info("onUnitCreate");
   }
 
   @Override
   public void onUnitDestroy(Unit unit) {
     // do nothing
-
   }
 
   @Override
   public void onUnitMorph(Unit unit) {
     // do nothing
-
   }
 
   @Override
   public void onUnitRenegade(Unit unit) {
     // do nothing
-
   }
 
   @Override
   public void onSaveGame(String gameName) {
     // do nothing
-
   }
 
   @Override
   public void onUnitComplete(Unit unit) {
-
     //    	logger.info("onUnitComplete");
   }
 }

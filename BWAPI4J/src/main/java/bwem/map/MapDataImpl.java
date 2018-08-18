@@ -21,7 +21,6 @@ import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 
 public class MapDataImpl implements MapData {
-
   private final SplittableRandom randomGenerator;
   private final TilePosition tileSize;
   private final WalkPosition walkSize;

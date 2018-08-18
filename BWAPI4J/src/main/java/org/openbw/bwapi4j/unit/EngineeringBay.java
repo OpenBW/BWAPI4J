@@ -27,67 +27,55 @@ import org.openbw.bwapi4j.type.UpgradeType;
 
 public class EngineeringBay extends BuildingImpl
     implements Mechanical, FlyingBuilding, ResearchingFacility {
-
   protected EngineeringBay(int id, int timeSpotted) {
-
     super(id, UnitType.Terran_Engineering_Bay, timeSpotted);
   }
 
   @Override
   public boolean isLifted() {
-
     return isLifted;
   }
 
   @Override
   public boolean lift() {
-
     return super.lift();
   }
 
   @Override
   public boolean land(Position p) {
-
     return super.land(p);
   }
 
   @Override
   public boolean move(Position p) {
-
     return super.move(p);
   }
 
   public boolean upgradeInfantryWeapons() {
-
     return super.upgrade(UpgradeType.Terran_Infantry_Weapons);
   }
 
   public boolean upgradeInfantryArmor() {
-
     return super.upgrade(UpgradeType.Terran_Infantry_Armor);
   }
 
   @Override
   public boolean isUpgrading() {
-
     return isUpgrading;
   }
 
   @Override
   public boolean isResearching() {
-
     return isResearching;
   }
 
   @Override
   public boolean cancelResearch() {
-
     return super.cancelResearch();
   }
 
   @Override
   public boolean cancelUpgrade() {
-
     return super.cancelUpgrade();
   }
 

@@ -25,48 +25,39 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class ArbiterTribunal extends BuildingImpl implements Mechanical, ResearchingFacility {
-
   protected ArbiterTribunal(int id, int timeSpotted) {
-
     super(id, UnitType.Protoss_Arbiter_Tribunal, timeSpotted);
   }
 
   public boolean researchStasisField() {
-
     return super.research(TechType.Stasis_Field);
   }
 
   public boolean researchRecall() {
-
     return super.research(TechType.Recall);
   }
 
   public boolean upgradeKhaydarinCore() {
-
     return super.upgrade(UpgradeType.Khaydarin_Core);
   }
 
   @Override
   public boolean isUpgrading() {
-
     return isUpgrading;
   }
 
   @Override
   public boolean isResearching() {
-
     return isResearching;
   }
 
   @Override
   public boolean cancelResearch() {
-
     return super.cancelResearch();
   }
 
   @Override
   public boolean cancelUpgrade() {
-
     return super.cancelUpgrade();
   }
 

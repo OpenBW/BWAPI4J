@@ -21,7 +21,6 @@
 package org.openbw.bwapi4j;
 
 public class TilePosition {
-
   public static final int SIZE_IN_PIXELS = 32;
 
   private final int x;

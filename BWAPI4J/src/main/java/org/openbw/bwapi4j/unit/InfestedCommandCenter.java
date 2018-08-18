@@ -26,13 +26,11 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class InfestedCommandCenter extends BuildingImpl
     implements Organic, FlyingBuilding, TrainingFacility {
-
   protected InfestedCommandCenter(int id, int timeSpotted) {
     super(id, UnitType.Zerg_Infested_Command_Center, timeSpotted);
   }
 
   public boolean trainInfestedTerran() {
-
     return super.train(UnitType.Zerg_Infested_Terran);
   }
 
@@ -48,67 +46,56 @@ public class InfestedCommandCenter extends BuildingImpl
 
   @Override
   public boolean isLifted() {
-
     return isLifted;
   }
 
   @Override
   public boolean lift() {
-
     return super.lift();
   }
 
   @Override
   public boolean land(Position p) {
-
     return super.land(p);
   }
 
   @Override
   public boolean move(Position p) {
-
     return super.move(p);
   }
 
   @Override
   public boolean isTraining() {
-
     return isTraining;
   }
 
   @Override
   public int getTrainingQueueSize() {
-
     return trainingQueueSize;
   }
 
   @Override
   public List<TrainingSlot> getTrainingQueue() {
-
     return trainingQueue;
   }
 
   @Override
   public boolean cancelTrain(int slot) {
-
     return super.cancelTrain(slot);
   }
 
   @Override
   public boolean cancelTrain() {
-
     return super.cancelTrain();
   }
 
   @Override
   public boolean setRallyPoint(Position p) {
-
     return super.setRallyPoint(p);
   }
 
   @Override
   public boolean setRallyPoint(Unit target) {
-
     return super.setRallyPoint(target);
   }
 

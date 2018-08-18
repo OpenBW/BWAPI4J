@@ -18,15 +18,14 @@ import bwem.area.typedef.AreaId;
 import bwem.typedef.Altitude;
 
 public class MiniTileImpl implements MiniTile {
-
   private static final AreaId blockingCP = new AreaId(Integer.MIN_VALUE);
 
   private Altitude
       altitude; // 0 for seas  ;  != 0 for terrain and lakes (-1 = not computed yet)  ;  1 =
-                // SeaOrLake intermediate value
+  // SeaOrLake intermediate value
   private AreaId
       areaId; // 0 -> unwalkable  ;  > 0 -> index of some Area  ;  < 0 -> some walkable terrain, but
-              // too small to be part of an Area
+  // too small to be part of an Area
 
   public MiniTileImpl() {
     this.altitude = Altitude.UNINITIALIZED;

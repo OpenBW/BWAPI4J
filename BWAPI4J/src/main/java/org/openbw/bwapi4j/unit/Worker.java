@@ -26,7 +26,6 @@ import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.UnitType;
 
 public abstract class Worker extends MobileUnitImpl implements GroundAttacker {
-
   protected Worker(int id, UnitType unitType) {
     super(id, unitType);
   }
@@ -40,32 +39,26 @@ public abstract class Worker extends MobileUnitImpl implements GroundAttacker {
   }
 
   public boolean isGatheringMinerals() {
-
     return this.isGatheringMinerals;
   }
 
   public boolean isCarryingMinerals() {
-
     return this.isCarryingMinerals;
   }
 
   public boolean isCarryingGas() {
-
     return this.isCarryingGas;
   }
 
   public boolean isGatheringGas() {
-
     return this.isGatheringGas;
   }
 
   public boolean returnCargo() {
-
     return issueCommand(this.id, Return_Cargo, -1, -1, -1, -1);
   }
 
   public boolean returnCargo(boolean queued) {
-
     return issueCommand(this.id, Return_Cargo, -1, -1, -1, queued ? 1 : 0);
   }
 
@@ -78,43 +71,36 @@ public abstract class Worker extends MobileUnitImpl implements GroundAttacker {
   }
 
   public boolean build(TilePosition p, UnitType type) {
-
     return issueCommand(this.id, Build, -1, p.getX(), p.getY(), type.getId());
   }
 
   @Override
   public Weapon getGroundWeapon() {
-
     return groundWeapon;
   }
 
   @Override
   public int getGroundWeaponMaxRange() {
-
     return super.getGroundWeaponMaxRange();
   }
 
   @Override
   public int getGroundWeaponMaxCooldown() {
-
     return super.getGroundWeaponMaxCooldown();
   }
 
   @Override
   public int getGroundWeaponCooldown() {
-
     return super.getGroundWeaponCooldown(this);
   }
 
   @Override
   public int getGroundWeaponDamage() {
-
     return super.getGroundWeaponDamage();
   }
 
   @Override
   public int getMaxGroundHits() {
-
     return super.getMaxGroundHits();
   }
 }

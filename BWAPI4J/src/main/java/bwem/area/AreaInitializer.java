@@ -24,7 +24,6 @@ import java.util.List;
 import org.openbw.bwapi4j.TilePosition;
 
 public interface AreaInitializer {
-
   Markable getMarkable();
 
   void addChokePoints(Area area, List<ChokePoint> chokePoints);

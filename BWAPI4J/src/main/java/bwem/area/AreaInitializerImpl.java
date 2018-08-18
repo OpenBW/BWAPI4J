@@ -44,7 +44,6 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.util.Pair;
 
 public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
-
   private static final StaticMarkable staticMarkable = new StaticMarkable();
   private final Markable markable;
 
@@ -217,9 +216,8 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
     final Queue<Pair<Integer, TilePosition>> toVisit =
         new PriorityQueue<>(
             Comparator.comparingInt(
-                Pair
-                    ::getFirst)); // a priority queue holding the tiles to visit ordered by their
-                                  // distance to start.
+                Pair::getFirst)); // a priority queue holding the tiles to visit ordered by their
+    // distance to start.
     toVisit.offer(new Pair<>(0, start));
 
     int remainingTargets = targets.size();

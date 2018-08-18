@@ -43,7 +43,6 @@ import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.unit.VespeneGeyser;
 
 public abstract class MapImpl implements Map {
-
   private final MapPrinter mapPrinter;
 
   protected TerrainData terrainData = null;

@@ -26,7 +26,6 @@ import org.openbw.bwapi4j.WalkPosition;
 //   - any other instance becomes invalid when absorbed (see Merge)
 /** Helper class for void Map::ComputeAreas() */
 public class TempAreaInfo {
-
   private boolean isValid;
   private final AreaId id;
   private final WalkPosition walkPositionWithHighestAltitude;

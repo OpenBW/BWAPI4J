@@ -29,7 +29,6 @@ import org.openbw.bwapi4j.WalkPosition;
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 public class MapPrinter {
-
   public enum CustomColor {
     HIGHER_GROUND(new Color(0, 0, 0)),
     UNBUILDABLE(new Color(0, 0, 0)),

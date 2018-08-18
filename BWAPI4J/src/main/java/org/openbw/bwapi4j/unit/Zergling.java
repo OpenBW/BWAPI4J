@@ -26,63 +26,52 @@ import static org.openbw.bwapi4j.type.UnitCommandType.Unburrow;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class Zergling extends MobileUnitImpl implements Organic, Burrowable, GroundAttacker {
-
   protected Zergling(int id) {
-
     super(id, UnitType.Zerg_Zergling);
   }
 
   @Override
   public boolean burrow() {
-
     return issueCommand(this.id, Burrow, -1, -1, -1, -1);
   }
 
   @Override
   public boolean unburrow() {
-
     return issueCommand(this.id, Unburrow, -1, -1, -1, -1);
   }
 
   @Override
   public boolean isBurrowed() {
-
     return this.burrowed;
   }
 
   @Override
   public Weapon getGroundWeapon() {
-
     return groundWeapon;
   }
 
   @Override
   public int getGroundWeaponMaxRange() {
-
     return super.getGroundWeaponMaxRange();
   }
 
   @Override
   public int getGroundWeaponMaxCooldown() {
-
     return super.getGroundWeaponMaxCooldown();
   }
 
   @Override
   public int getGroundWeaponCooldown() {
-
     return super.getGroundWeaponCooldown(this);
   }
 
   @Override
   public int getGroundWeaponDamage() {
-
     return super.getGroundWeaponDamage();
   }
 
   @Override
   public int getMaxGroundHits() {
-
     return super.getMaxGroundHits();
   }
 }

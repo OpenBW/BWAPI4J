@@ -4,7 +4,6 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 
 public interface Building extends PlayerUnit {
-
   boolean cancelConstruction();
 
   int getBuildTime();

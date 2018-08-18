@@ -30,15 +30,12 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class Starport extends BuildingImpl
     implements Mechanical, FlyingBuilding, TrainingFacility, ExtendibleByAddon {
-
   protected Starport(int id, int timeSpotted) {
-
     super(id, UnitType.Terran_Starport, timeSpotted);
   }
 
   @Override
   public boolean cancelAddon() {
-
     return issueCommand(this.id, Cancel_Addon, -1, -1, -1, -1);
   }
 
@@ -48,12 +45,10 @@ public class Starport extends BuildingImpl
    * @return true if command successful, false else
    */
   public boolean buildControlTower() {
-
     return issueCommand(this.id, Build_Addon, -1, -1, -1, Terran_Control_Tower.getId());
   }
 
   public ControlTower getControlTower() {
-
     return (ControlTower) this.getUnit(this.addonId);
   }
 
@@ -68,27 +63,22 @@ public class Starport extends BuildingImpl
   }
 
   public boolean trainWraith() {
-
     return super.train(UnitType.Terran_Wraith);
   }
 
   public boolean trainDropship() {
-
     return super.train(UnitType.Terran_Dropship);
   }
 
   public boolean trainScienceVessel() {
-
     return super.train(UnitType.Terran_Science_Vessel);
   }
 
   public boolean trainValkyrie() {
-
     return super.train(UnitType.Terran_Valkyrie);
   }
 
   public boolean trainBattlecruiser() {
-
     return super.train(UnitType.Terran_Battlecruiser);
   }
 
@@ -104,67 +94,56 @@ public class Starport extends BuildingImpl
 
   @Override
   public boolean isLifted() {
-
     return isLifted;
   }
 
   @Override
   public boolean lift() {
-
     return super.lift();
   }
 
   @Override
   public boolean land(Position p) {
-
     return super.land(p);
   }
 
   @Override
   public boolean move(Position p) {
-
     return super.move(p);
   }
 
   @Override
   public boolean isTraining() {
-
     return isTraining;
   }
 
   @Override
   public int getTrainingQueueSize() {
-
     return trainingQueueSize;
   }
 
   @Override
   public List<TrainingSlot> getTrainingQueue() {
-
     return trainingQueue;
   }
 
   @Override
   public boolean cancelTrain(int slot) {
-
     return super.cancelTrain(slot);
   }
 
   @Override
   public boolean cancelTrain() {
-
     return super.cancelTrain();
   }
 
   @Override
   public boolean setRallyPoint(Position p) {
-
     return super.setRallyPoint(p);
   }
 
   @Override
   public boolean setRallyPoint(Unit target) {
-
     return super.setRallyPoint(target);
   }
 

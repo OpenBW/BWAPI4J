@@ -45,7 +45,6 @@ import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.util.Pair;
 
 public final class Graph {
-
   private final Map map;
   private final List<Area> areas = new ArrayList<>();
   private final List<ChokePoint> chokePoints = new ArrayList<>();
@@ -308,7 +307,6 @@ public final class Graph {
   // ----------------------------------------------------------------------
   private void initializeChokePointsMatrix(
       final List<List<List<ChokePoint>>> chokePointsMatrix, final int areasCount) {
-
     //      ChokePointsMatrix.resize(areasCount() + 1);
     chokePointsMatrix.clear();
     for (int i = 0; i < areasCount + 1; ++i) {
@@ -330,7 +328,6 @@ public final class Graph {
   private java.util.Map<MutablePair<AreaId, AreaId>, List<WalkPosition>>
       createRawFrontierByAreaPairMap(
           final List<MutablePair<MutablePair<AreaId, AreaId>, WalkPosition>> rawFrontier) {
-
     final java.util.Map<MutablePair<AreaId, AreaId>, List<WalkPosition>> rawFrontierByAreaPair =
         new HashMap<>();
 
@@ -367,7 +364,6 @@ public final class Graph {
       final List<StaticBuilding> staticBuildings,
       final List<Mineral> minerals,
       final List<MutablePair<MutablePair<AreaId, AreaId>, WalkPosition>> rawFrontier) {
-
     Index newIndex = new Index(0);
 
     final List<Neutral> blockingNeutrals = new ArrayList<>();
@@ -690,7 +686,6 @@ public final class Graph {
           for (ChokePoint pPrev = ((ChokePointImpl) target).getPathBackTrace();
               !pPrev.equals(pStart);
               pPrev = ((ChokePointImpl) pPrev).getPathBackTrace()) {
-
             path.add(1, pPrev);
           }
         }

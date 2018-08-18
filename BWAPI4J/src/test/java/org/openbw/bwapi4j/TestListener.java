@@ -4,13 +4,11 @@ import org.openbw.bwapi4j.type.Key;
 import org.openbw.bwapi4j.unit.Unit;
 
 public class TestListener implements BWEventListener {
-
   private BW bw;
   private int frame;
 
   @Override
   public void onStart() {
-
     System.out.println("onStart");
     this.bw.getInteractionHandler().enableUserInput();
 
@@ -26,7 +24,6 @@ public class TestListener implements BWEventListener {
 
   @Override
   public void onFrame() {
-
     if (bw.getInteractionHandler().isKeyPressed(Key.K_D)) {
       System.out.println("D");
     }
@@ -114,7 +111,6 @@ public class TestListener implements BWEventListener {
    * @param args arguments
    */
   public static void main(String[] args) {
-
     TestListener listener = new TestListener();
     BW bw = new BW(listener);
     listener.bw = bw;

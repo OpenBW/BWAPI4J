@@ -26,7 +26,6 @@ import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.unit.Unit;
 
 public class MapTest implements BWEventListener {
-
   private static final Logger logger = LogManager.getLogger();
 
   private BW bw;

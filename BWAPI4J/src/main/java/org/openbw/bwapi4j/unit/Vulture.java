@@ -27,14 +27,11 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class Vulture extends MobileUnitImpl implements Mechanical, GroundAttacker {
-
   protected Vulture(int id) {
-
     super(id, UnitType.Terran_Vulture);
   }
 
   public int getSpiderMineCount() {
-
     return this.spiderMineCount;
   }
 
@@ -45,44 +42,37 @@ public class Vulture extends MobileUnitImpl implements Mechanical, GroundAttacke
    * @return true if successful, false else
    */
   public boolean spiderMine(Position position) {
-
     return issueCommand(
         this.id, Use_Tech_Position, -1, position.getX(), position.getY(), Spider_Mines.getId());
   }
 
   @Override
   public Weapon getGroundWeapon() {
-
     return groundWeapon;
   }
 
   @Override
   public int getGroundWeaponMaxRange() {
-
     return super.getGroundWeaponMaxRange();
   }
 
   @Override
   public int getGroundWeaponMaxCooldown() {
-
     return super.getGroundWeaponMaxCooldown();
   }
 
   @Override
   public int getGroundWeaponCooldown() {
-
     return super.getGroundWeaponCooldown(this);
   }
 
   @Override
   public int getGroundWeaponDamage() {
-
     return super.getGroundWeaponDamage();
   }
 
   @Override
   public int getMaxGroundHits() {
-
     return super.getMaxGroundHits();
   }
 }

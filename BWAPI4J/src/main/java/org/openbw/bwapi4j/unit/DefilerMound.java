@@ -25,48 +25,39 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class DefilerMound extends BuildingImpl implements Organic, ResearchingFacility {
-
   protected DefilerMound(int id, int timeSpotted) {
-
     super(id, UnitType.Zerg_Defiler_Mound, timeSpotted);
   }
 
   public boolean researchPlague() {
-
     return super.research(TechType.Plague);
   }
 
   public boolean upgradeMetasynapticNode() {
-
     return super.upgrade(UpgradeType.Metasynaptic_Node);
   }
 
   public boolean researchConsume() {
-
     return super.research(TechType.Consume);
   }
 
   @Override
   public boolean isUpgrading() {
-
     return isUpgrading;
   }
 
   @Override
   public boolean isResearching() {
-
     return isResearching;
   }
 
   @Override
   public boolean cancelResearch() {
-
     return super.cancelResearch();
   }
 
   @Override
   public boolean cancelUpgrade() {
-
     return super.cancelUpgrade();
   }
 

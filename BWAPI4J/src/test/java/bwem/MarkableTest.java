@@ -6,7 +6,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class MarkableTest {
-
   @Test
   public void Test_setMarked_with_isMarked() {
     MarkableClassA.getStaticMarkable().unmarkAll();

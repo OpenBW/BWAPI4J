@@ -5,7 +5,6 @@ import org.junit.Test;
 
 /** These tests were ported from the original BWAPI 4.2.0 positionTest.cpp */
 public class PositionTest {
-
   @Test
   public void PositionCtorValue() {
     final Position pos = new Position(32, 32);

@@ -27,14 +27,11 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class Lair extends Hatchery {
-
   protected Lair(int id, int timeSpotted) {
-
     super(id, UnitType.Zerg_Lair, timeSpotted);
   }
 
   protected Lair(int id, UnitType type, int timeSpotted) {
-
     super(id, type, timeSpotted);
   }
 
@@ -44,17 +41,14 @@ public class Lair extends Hatchery {
   }
 
   public boolean upgradeVentralSacs() {
-
     return super.upgrade(UpgradeType.Ventral_Sacs);
   }
 
   public boolean upgradeAntennae() {
-
     return super.upgrade(UpgradeType.Antennae);
   }
 
   public boolean upgradePneumatizedCarapace() {
-
     return super.upgrade(UpgradeType.Pneumatized_Carapace);
   }
 

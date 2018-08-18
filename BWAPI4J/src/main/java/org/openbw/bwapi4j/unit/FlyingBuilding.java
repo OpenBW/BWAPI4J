@@ -23,7 +23,6 @@ package org.openbw.bwapi4j.unit;
 import org.openbw.bwapi4j.Position;
 
 public interface FlyingBuilding extends Building {
-
   boolean lift();
 
   boolean land(Position p);

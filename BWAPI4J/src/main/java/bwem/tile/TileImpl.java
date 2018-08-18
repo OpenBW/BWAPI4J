@@ -19,7 +19,6 @@ import bwem.typedef.Altitude;
 import bwem.unit.Neutral;
 
 public class TileImpl implements Tile {
-
   private static final StaticMarkable staticMarkable = new StaticMarkable();
   private final Markable markable;
 

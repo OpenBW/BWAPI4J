@@ -30,24 +30,19 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class Factory extends BuildingImpl
     implements Mechanical, FlyingBuilding, TrainingFacility, ExtendibleByAddon {
-
   protected Factory(int id, int timeSpotted) {
-
     super(id, UnitType.Terran_Factory, timeSpotted);
   }
 
   public boolean trainVulture() {
-
     return super.train(UnitType.Terran_Vulture);
   }
 
   public boolean trainSiegeTank() {
-
     return super.train(UnitType.Terran_Siege_Tank_Tank_Mode);
   }
 
   public boolean trainGoliath() {
-
     return super.train(UnitType.Terran_Goliath);
   }
 
@@ -63,7 +58,6 @@ public class Factory extends BuildingImpl
 
   @Override
   public boolean cancelAddon() {
-
     return issueCommand(this.id, Cancel_Addon, -1, -1, -1, -1);
   }
 
@@ -73,12 +67,10 @@ public class Factory extends BuildingImpl
    * @return true if command successful, false else
    */
   public boolean buildMachineShop() {
-
     return issueCommand(this.id, Build_Addon, -1, -1, -1, Terran_Machine_Shop.getId());
   }
 
   public MachineShop getMachineShop() {
-
     return (MachineShop) this.getUnit(this.addonId);
   }
 
@@ -94,67 +86,56 @@ public class Factory extends BuildingImpl
 
   @Override
   public boolean isLifted() {
-
     return isLifted;
   }
 
   @Override
   public boolean lift() {
-
     return super.lift();
   }
 
   @Override
   public boolean land(Position p) {
-
     return super.land(p);
   }
 
   @Override
   public boolean move(Position p) {
-
     return super.move(p);
   }
 
   @Override
   public boolean isTraining() {
-
     return isTraining;
   }
 
   @Override
   public int getTrainingQueueSize() {
-
     return trainingQueueSize;
   }
 
   @Override
   public List<TrainingSlot> getTrainingQueue() {
-
     return trainingQueue;
   }
 
   @Override
   public boolean cancelTrain(int slot) {
-
     return super.cancelTrain(slot);
   }
 
   @Override
   public boolean cancelTrain() {
-
     return super.cancelTrain();
   }
 
   @Override
   public boolean setRallyPoint(Position p) {
-
     return super.setRallyPoint(p);
   }
 
   @Override
   public boolean setRallyPoint(Unit target) {
-
     return super.setRallyPoint(target);
   }
 

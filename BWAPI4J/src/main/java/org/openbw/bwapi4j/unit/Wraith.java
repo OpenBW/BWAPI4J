@@ -27,104 +27,86 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class Wraith extends MobileUnitImpl
     implements Mechanical, Cloakable, GroundAttacker, AirAttacker {
-
   protected Wraith(int id) {
-
     super(id, UnitType.Terran_Wraith);
   }
 
   public int getEnergy() {
-
     return this.energy;
   }
 
   @Override
   public boolean cloak() {
-
     return issueCommand(this.id, Cloak, -1, -1, -1, -1);
   }
 
   @Override
   public boolean decloak() {
-
     return issueCommand(this.id, Decloak, -1, -1, -1, -1);
   }
 
   @Override
   public int getMaxEnergy() {
-
     return super.getMaxEnergy();
   }
 
   @Override
   public Weapon getGroundWeapon() {
-
     return groundWeapon;
   }
 
   @Override
   public Weapon getAirWeapon() {
-
     return airWeapon;
   }
 
   @Override
   public int getGroundWeaponMaxRange() {
-
     return super.getGroundWeaponMaxRange();
   }
 
   @Override
   public int getGroundWeaponMaxCooldown() {
-
     return super.getGroundWeaponMaxCooldown();
   }
 
   @Override
   public int getGroundWeaponCooldown() {
-
     return super.getGroundWeaponCooldown(this);
   }
 
   @Override
   public int getGroundWeaponDamage() {
-
     return super.getGroundWeaponDamage();
   }
 
   @Override
   public int getMaxGroundHits() {
-
     return super.getMaxGroundHits();
   }
 
   @Override
   public int getAirWeaponMaxRange() {
-
     return super.getAirWeaponMaxRange();
   }
 
   @Override
   public int getAirWeaponMaxCooldown() {
-
     return super.getAirWeaponMaxCooldown();
   }
 
   @Override
   public int getAirWeaponCooldown() {
-
     return super.getAirWeaponCooldown(this);
   }
 
   @Override
   public int getAirWeaponDamage() {
-
     return super.getAirWeaponDamage();
   }
 
   @Override
   public int getMaxAirHits() {
-
     return super.getMaxAirHits();
   }
 }

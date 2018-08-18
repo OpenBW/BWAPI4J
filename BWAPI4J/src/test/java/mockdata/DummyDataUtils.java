@@ -17,7 +17,6 @@ import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 
 public final class DummyDataUtils {
-
   private static final Logger logger = LogManager.getLogger();
 
   private DummyDataUtils() {}
@@ -78,7 +77,6 @@ public final class DummyDataUtils {
     try (final ArchiveInputStream tarIn =
             new TarArchiveInputStream(new BZip2CompressorInputStream(inputStream));
         final BufferedReader buffer = new BufferedReader(new InputStreamReader(tarIn))) {
-
       final String mapShortHash = determineMapShortHash(mapHash);
       final ArchiveEntry nextEntry = getArchiveEntry(tarIn, mapShortHash);
       Assert.assertNotNull(nextEntry);
@@ -104,7 +102,6 @@ public final class DummyDataUtils {
     try (final ArchiveInputStream tarIn =
             new TarArchiveInputStream(new BZip2CompressorInputStream(inputStream));
         final BufferedReader buffer = new BufferedReader(new InputStreamReader(tarIn))) {
-
       final ArchiveEntry nextEntry = getArchiveEntry(tarIn, mapShortHash);
       Assert.assertNotNull(nextEntry);
 
@@ -153,7 +150,6 @@ public final class DummyDataUtils {
     try (final ArchiveInputStream tarIn =
             new TarArchiveInputStream(new BZip2CompressorInputStream(inputStream));
         final BufferedReader buffer = new BufferedReader(new InputStreamReader(tarIn))) {
-
       final ArchiveEntry nextEntry = getArchiveEntry(tarIn, mapShortHash);
       Assert.assertNotNull(nextEntry);
 

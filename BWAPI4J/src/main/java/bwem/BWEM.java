@@ -18,7 +18,6 @@ import bwem.map.MapInitializerImpl;
 import org.openbw.bwapi4j.BW;
 
 public final class BWEM {
-
   private final Map map;
 
   public BWEM(final BW bw) {

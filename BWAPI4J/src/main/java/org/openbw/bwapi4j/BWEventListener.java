@@ -23,7 +23,6 @@ package org.openbw.bwapi4j;
 import org.openbw.bwapi4j.unit.Unit;
 
 public interface BWEventListener {
-
   public void onStart();
 
   public void onEnd(boolean isWinner);

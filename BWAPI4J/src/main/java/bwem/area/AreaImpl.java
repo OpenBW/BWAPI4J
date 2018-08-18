@@ -27,7 +27,6 @@ import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 
 public abstract class AreaImpl implements Area {
-
   private final AreaId id;
   protected GroupId groupId = GroupId.ZERO;
   private final WalkPosition walkPositionWithHighestAltitude;

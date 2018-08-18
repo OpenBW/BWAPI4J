@@ -23,7 +23,6 @@ import org.openbw.bwapi4j.type.Color;
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 public class MapDrawer {
-
   private enum Command {
     SHOW_SEAS("seas"),
     SHOW_LAKES("lakes"),

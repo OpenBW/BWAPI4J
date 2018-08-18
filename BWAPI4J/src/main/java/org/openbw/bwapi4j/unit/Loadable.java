@@ -21,7 +21,6 @@
 package org.openbw.bwapi4j.unit;
 
 public interface Loadable extends PlayerUnit {
-
   boolean isLoaded();
 
   boolean load(MobileUnit target);
@@ -48,5 +47,4 @@ public interface Loadable extends PlayerUnit {
   //    // TODO implement units loaded for JNI and then subclasses
   //    private List<Unit> loadedUnits;
   //    List<PlayerUnit> getLoadedUnits();
-
 }

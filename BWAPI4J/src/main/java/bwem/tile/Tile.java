@@ -32,7 +32,6 @@ import org.openbw.bwapi4j.TilePosition;
  * which somewhat aggregate the MiniTile's corresponding information
  */
 public interface Tile {
-
   /** Corresponds to BWAPI::getGroundHeight divided by 2. */
   enum GroundHeight {
     LOW_GROUND(0),

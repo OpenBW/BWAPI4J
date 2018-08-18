@@ -25,58 +25,47 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class FleetBeacon extends BuildingImpl implements Mechanical, ResearchingFacility {
-
   protected FleetBeacon(int id, int timeSpotted) {
-
     super(id, UnitType.Protoss_Fleet_Beacon, timeSpotted);
   }
 
   public boolean researchDisruptionWeb() {
-
     return super.research(TechType.Disruption_Web);
   }
 
   public boolean upgradeCarrierCapacity() {
-
     return super.upgrade(UpgradeType.Carrier_Capacity);
   }
 
   public boolean upgradeApialSensors() {
-
     return super.upgrade(UpgradeType.Apial_Sensors);
   }
 
   public boolean upgradeGraviticThrusters() {
-
     return super.upgrade(UpgradeType.Gravitic_Thrusters);
   }
 
   public boolean upgradeArgusJewel() {
-
     return super.upgrade(UpgradeType.Argus_Jewel);
   }
 
   @Override
   public boolean isUpgrading() {
-
     return isUpgrading;
   }
 
   @Override
   public boolean isResearching() {
-
     return isResearching;
   }
 
   @Override
   public boolean cancelResearch() {
-
     return super.cancelResearch();
   }
 
   @Override
   public boolean cancelUpgrade() {
-
     return super.cancelUpgrade();
   }
 

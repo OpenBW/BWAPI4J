@@ -22,7 +22,6 @@ import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.unit.VespeneGeyser;
 
 public class NeutralDataImpl implements NeutralData {
-
   private final List<Mineral> minerals;
   private final List<Geyser> geysers;
   private final List<StaticBuilding> staticBuildings;
@@ -32,7 +31,6 @@ public class NeutralDataImpl implements NeutralData {
       final List<MineralPatch> mineralPatches,
       final List<VespeneGeyser> vespeneGeysers,
       final List<PlayerUnit> neutralUnits) {
-
     ////////////////////////////////////////////////////////////////////////
     // MapImpl::InitializeNeutrals
     ////////////////////////////////////////////////////////////////////////
@@ -62,7 +60,6 @@ public class NeutralDataImpl implements NeutralData {
     //					m_StaticBuildings.push_back(make_unique<StaticBuilding>(n, this));
 
     ////////////////////////////////////////////////////////////////////////
-
   }
 
   @Override

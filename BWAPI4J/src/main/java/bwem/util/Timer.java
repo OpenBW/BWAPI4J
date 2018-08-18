@@ -14,7 +14,6 @@ package bwem.util;
 
 /** This timer class is similar to the one provided by the original C++ BWEM. */
 public class Timer {
-
   private static final double NANOSECONDS_PER_MILLISECOND = Math.pow(10, 6);
 
   private long start;

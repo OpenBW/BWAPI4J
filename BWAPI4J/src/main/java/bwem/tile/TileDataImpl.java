@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TileDataImpl implements TileData {
-
   private final List<Tile> tiles;
   private final List<MiniTile> miniTiles;
 

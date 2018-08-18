@@ -17,7 +17,6 @@ package bwem;
  * this code. See "src/test/util/OldMarkable.java" for what NOT to do.
  */
 public final class StaticMarkable {
-
   private int currentMark;
 
   public StaticMarkable() {

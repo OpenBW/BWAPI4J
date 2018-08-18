@@ -343,7 +343,6 @@ public enum UnitType {
   private ArrayList<UpgradeType> upgradesWhat;
 
   private UnitType() {
-
     // this.whatBuilds will be created via JNI
     this.requiredUnits = new ArrayList<>();
     this.abilities = new ArrayList<>();

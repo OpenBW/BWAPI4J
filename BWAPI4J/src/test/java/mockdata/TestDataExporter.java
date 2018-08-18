@@ -177,84 +177,70 @@ public class TestDataExporter implements BWEventListener {
   @Override
   public void onSendText(String text) {
     // do nothing
-
   }
 
   @Override
   public void onReceiveText(Player player, String text) {
     // do nothing
-
   }
 
   @Override
   public void onPlayerLeft(Player player) {
     // do nothing
-
   }
 
   @Override
   public void onNukeDetect(Position target) {
     // do nothing
-
   }
 
   @Override
   public void onUnitDiscover(Unit unit) {
     // do nothing
-
   }
 
   @Override
   public void onUnitEvade(Unit unit) {
     // do nothing
-
   }
 
   @Override
   public void onUnitShow(Unit unit) {
     // do nothing
-
   }
 
   @Override
   public void onUnitHide(Unit unit) {
     // do nothing
-
   }
 
   @Override
   public void onUnitCreate(Unit unit) {
-
     //    	logger.info("onUnitCreate");
   }
 
   @Override
   public void onUnitDestroy(Unit unit) {
     // do nothing
-
   }
 
   @Override
   public void onUnitMorph(Unit unit) {
     // do nothing
-
   }
 
   @Override
   public void onUnitRenegade(Unit unit) {
     // do nothing
-
   }
 
   @Override
   public void onSaveGame(String gameName) {
     // do nothing
-
   }
 
   @Override
   public void onUnitComplete(Unit unit) {
-
     //    	logger.info("onUnitComplete");
   }
 }

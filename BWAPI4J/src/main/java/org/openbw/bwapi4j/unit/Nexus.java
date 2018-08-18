@@ -25,9 +25,7 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class Nexus extends BuildingImpl implements Mechanical, TrainingFacility, ResourceDepot {
-
   protected Nexus(int id, int timeSpotted) {
-
     super(id, UnitType.Protoss_Nexus, timeSpotted);
   }
 
@@ -38,7 +36,6 @@ public class Nexus extends BuildingImpl implements Mechanical, TrainingFacility,
 
   @Override
   public boolean trainWorker() {
-
     return super.train(UnitType.Protoss_Probe);
   }
 
@@ -54,43 +51,36 @@ public class Nexus extends BuildingImpl implements Mechanical, TrainingFacility,
 
   @Override
   public boolean isTraining() {
-
     return isTraining;
   }
 
   @Override
   public int getTrainingQueueSize() {
-
     return trainingQueueSize;
   }
 
   @Override
   public List<TrainingSlot> getTrainingQueue() {
-
     return trainingQueue;
   }
 
   @Override
   public boolean cancelTrain(int slot) {
-
     return super.cancelTrain(slot);
   }
 
   @Override
   public boolean cancelTrain() {
-
     return super.cancelTrain();
   }
 
   @Override
   public boolean setRallyPoint(Position p) {
-
     return super.setRallyPoint(p);
   }
 
   @Override
   public boolean setRallyPoint(Unit target) {
-
     return super.setRallyPoint(target);
   }
 

@@ -24,7 +24,6 @@ import java.util.List;
  * CPPath;
  */
 public class CPPath implements Iterable<ChokePoint> {
-
   private final List<ChokePoint> chokepoints;
 
   public CPPath() {

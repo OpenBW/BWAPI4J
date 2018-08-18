@@ -22,7 +22,6 @@ package org.openbw.bwapi4j.unit;
 
 /** Marker interface for cloakable units. */
 public interface Cloakable extends PlayerUnit {
-
   boolean cloak();
 
   boolean decloak();

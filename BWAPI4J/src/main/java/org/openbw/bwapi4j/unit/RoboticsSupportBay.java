@@ -25,48 +25,39 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class RoboticsSupportBay extends BuildingImpl implements Mechanical, ResearchingFacility {
-
   protected RoboticsSupportBay(int id, int timeSpotted) {
-
     super(id, UnitType.Protoss_Robotics_Support_Bay, timeSpotted);
   }
 
   public boolean upgradeGraviticDrive() {
-
     return super.upgrade(UpgradeType.Gravitic_Drive);
   }
 
   public boolean upgradeScarabDamage() {
-
     return super.upgrade(UpgradeType.Scarab_Damage);
   }
 
   public boolean upgradeReaverCapacity() {
-
     return super.upgrade(UpgradeType.Reaver_Capacity);
   }
 
   @Override
   public boolean isUpgrading() {
-
     return isUpgrading;
   }
 
   @Override
   public boolean isResearching() {
-
     return isResearching;
   }
 
   @Override
   public boolean cancelResearch() {
-
     return super.cancelResearch();
   }
 
   @Override
   public boolean cancelUpgrade() {
-
     return super.cancelUpgrade();
   }
 

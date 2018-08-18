@@ -23,33 +23,27 @@ package org.openbw.bwapi4j.unit;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class MineralPatch extends UnitImpl implements Resource, Gatherable {
-
   protected MineralPatch(int id) {
-
     super(id, UnitType.Resource_Mineral_Field);
   }
 
   @Override
   public int getResources() {
-
     return this.resources;
   }
 
   @Override
   public int getInitialResources() {
-
     return this.initialResources;
   }
 
   @Override
   public int getLastKnownResources() {
-
     return this.lastKnownResources;
   }
 
   @Override
   public boolean isBeingGathered() {
-
     return this.isBeingGathered;
   }
 }

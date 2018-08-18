@@ -18,7 +18,6 @@ import java.util.SplittableRandom;
 import org.apache.commons.lang3.mutable.MutableDouble;
 
 public final class Utils {
-
   private static final SplittableRandom randomGenerator = new SplittableRandom();
 
   private Utils() {}

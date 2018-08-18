@@ -21,7 +21,6 @@ import org.openbw.bwapi4j.unit.Unit;
  * Special_Pit_Door.
  */
 public class StaticBuilding extends NeutralImpl {
-
   public StaticBuilding(final Unit unit, final Map map) {
     super(unit, map);
 

@@ -31,9 +31,7 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class CommandCenter extends BuildingImpl
     implements Mechanical, FlyingBuilding, TrainingFacility, ExtendibleByAddon, ResourceDepot {
-
   protected CommandCenter(int id, int timeSpotted) {
-
     super(id, UnitType.Terran_Command_Center, timeSpotted);
   }
 
@@ -43,7 +41,6 @@ public class CommandCenter extends BuildingImpl
    * @return Nuclear Silo if exists, <code>null</code> else
    */
   public NuclearSilo getNuclearSilo() {
-
     Unit unit = this.getUnit(addonId);
     if (unit != null && unit instanceof NuclearSilo) {
       return (NuclearSilo) unit;
@@ -58,7 +55,6 @@ public class CommandCenter extends BuildingImpl
    * @return Comsat Station if exists, <code>null</code> else
    */
   public ComsatStation getComsatStation() {
-
     Unit unit = this.getUnit(addonId);
     if (unit != null && unit instanceof ComsatStation) {
       return (ComsatStation) unit;
@@ -79,17 +75,14 @@ public class CommandCenter extends BuildingImpl
 
   @Override
   public boolean cancelAddon() {
-
     return issueCommand(this.id, Cancel_Addon, -1, -1, -1, -1);
   }
 
   public boolean buildComsatStation() {
-
     return issueCommand(this.id, Build_Addon, -1, -1, -1, Terran_Comsat_Station.getId());
   }
 
   public boolean buildNuclearSilo() {
-
     return issueCommand(this.id, Build_Addon, -1, -1, -1, Terran_Nuclear_Silo.getId());
   }
 
@@ -100,7 +93,6 @@ public class CommandCenter extends BuildingImpl
 
   @Override
   public boolean trainWorker() {
-
     return super.train(UnitType.Terran_SCV);
   }
 
@@ -116,67 +108,56 @@ public class CommandCenter extends BuildingImpl
 
   @Override
   public boolean isLifted() {
-
     return isLifted;
   }
 
   @Override
   public boolean lift() {
-
     return super.lift();
   }
 
   @Override
   public boolean land(Position p) {
-
     return super.land(p);
   }
 
   @Override
   public boolean move(Position p) {
-
     return super.move(p);
   }
 
   @Override
   public boolean isTraining() {
-
     return isTraining;
   }
 
   @Override
   public int getTrainingQueueSize() {
-
     return trainingQueueSize;
   }
 
   @Override
   public List<TrainingSlot> getTrainingQueue() {
-
     return trainingQueue;
   }
 
   @Override
   public boolean cancelTrain(int slot) {
-
     return super.cancelTrain(slot);
   }
 
   @Override
   public boolean cancelTrain() {
-
     return super.cancelTrain();
   }
 
   @Override
   public boolean setRallyPoint(Position p) {
-
     return super.setRallyPoint(p);
   }
 
   @Override
   public boolean setRallyPoint(Unit target) {
-
     return super.setRallyPoint(target);
   }
 

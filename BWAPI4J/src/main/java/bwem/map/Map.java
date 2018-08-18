@@ -52,7 +52,6 @@ import org.openbw.bwapi4j.unit.Unit;
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 public interface Map {
-
   TerrainData getData();
 
   MapPrinter getMapPrinter();

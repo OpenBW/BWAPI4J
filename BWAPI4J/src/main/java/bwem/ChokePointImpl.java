@@ -27,7 +27,6 @@ import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.util.Pair;
 
 public class ChokePointImpl implements ChokePoint {
-
   private final Graph graph;
   private final boolean isPseudo;
   private final Index index;
@@ -46,7 +45,6 @@ public class ChokePointImpl implements ChokePoint {
       final Area area2,
       final List<WalkPosition> geometry,
       final Neutral blockingNeutral) {
-
     //        bwem_assert(!geometry.empty());
     if (geometry.isEmpty()) {
       throw new IllegalArgumentException();

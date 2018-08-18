@@ -13,7 +13,6 @@
 package bwem.util;
 
 public class XYCropper {
-
   private final int minX;
   private final int minY;
   private final int maxX;

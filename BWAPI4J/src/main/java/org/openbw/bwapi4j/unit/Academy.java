@@ -25,58 +25,47 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class Academy extends BuildingImpl implements Mechanical, ResearchingFacility {
-
   protected Academy(int id, int timeSpotted) {
-
     super(id, UnitType.Terran_Academy, timeSpotted);
   }
 
   public boolean researchStimPacks() {
-
     return super.research(TechType.Stim_Packs);
   }
 
   public boolean researchRestoration() {
-
     return super.research(TechType.Restoration);
   }
 
   public boolean researchOpticalFlare() {
-
     return super.research(TechType.Optical_Flare);
   }
 
   public boolean upgradeU238Shells() {
-
     return super.upgrade(UpgradeType.U_238_Shells);
   }
 
   public boolean upgradeCaduceusReactor() {
-
     return super.upgrade(UpgradeType.Caduceus_Reactor);
   }
 
   @Override
   public boolean isUpgrading() {
-
     return isUpgrading;
   }
 
   @Override
   public boolean isResearching() {
-
     return isResearching;
   }
 
   @Override
   public boolean cancelResearch() {
-
     return super.cancelResearch();
   }
 
   @Override
   public boolean cancelUpgrade() {
-
     return super.cancelUpgrade();
   }
 

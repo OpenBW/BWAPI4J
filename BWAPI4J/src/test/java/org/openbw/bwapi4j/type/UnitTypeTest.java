@@ -15,7 +15,6 @@ import org.openbw.bwapi4j.unit.Unit;
 
 /** These tests were ported from the original BWAPI unitTypesTest.cpp */
 public class UnitTypeTest implements BWEventListener {
-
   private BW bw;
 
   private <T> boolean isUnorderedListEqual(List<T> expected, List<T> actual) {

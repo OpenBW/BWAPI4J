@@ -55,7 +55,6 @@ import org.openbw.bwapi4j.util.Cache;
 import org.openbw.bwapi4j.util.OSType;
 
 public class BW {
-
   private static final Logger logger = LogManager.getLogger();
 
   private static final String SYSTEM_PROPERTY_JAVA_LIBRARY_PATH_ID = "java.library.path";
@@ -75,7 +74,6 @@ public class BW {
     }
 
     public static BridgeType parseBridgeType(final String str) {
-
       for (final BridgeType bridgeType : BridgeType.values()) {
         if (bridgeType.toString().equalsIgnoreCase(str)) {
           return bridgeType;
@@ -126,7 +124,6 @@ public class BW {
    * @see #BW(BWEventListener, BridgeType, boolean)
    */
   public BW(final BWEventListener listener) {
-
     this(listener, isWindowsPlatform() ? BridgeType.VANILLA : BridgeType.OPENBW, true);
   }
 
@@ -140,7 +137,6 @@ public class BW {
    */
   public BW(
       final BWEventListener listener, BridgeType bridgeType, boolean extractBridgeDependencies) {
-
     try {
       bridgeType = BridgeType.parseBridgeType(System.getProperty(Property.BRIDGE_TYPE.toString()));
     } catch (final Exception e) {
@@ -216,9 +212,7 @@ public class BW {
   }
 
   private void extractBridgeDependencies(final BridgeType bridgeType) {
-
     try {
-
       final URL jarURL = BW.class.getProtectionDomain().getCodeSource().getLocation();
       final Path jarFile = Paths.get(jarURL.toURI());
       final Path cwd = getCurrentWorkingDirectory();
@@ -239,7 +233,6 @@ public class BW {
         }
       }
     } catch (final Exception e) {
-
       logger.fatal("Failed to extract dependencies from JAR.");
       e.printStackTrace();
       System.exit(1);
@@ -259,7 +252,6 @@ public class BW {
 
   private void loadSharedLibraries(
       final BridgeType bridgeType, final boolean extractBridgeDependencies) {
-
     logger.info(
         "jvm: {} ({}-bit)",
         System.getProperty("java.version"),
@@ -291,10 +283,8 @@ public class BW {
      */
     final List<String> sharedLibraries = getSharedLibraryNames(bridgeType);
     try {
-
       loadLibraries(sharedLibraries);
     } catch (final UnsatisfiedLinkError e1) {
-
       addLibraryPath(getCurrentWorkingDirectory().toAbsolutePath().toString());
 
       if (extractBridgeDependencies) {
@@ -342,51 +332,42 @@ public class BW {
   }
 
   private static String getLibraryPathDelimiter() {
-
     return isWindowsPlatform() ? ";" : ":";
   }
 
   private static boolean isWindowsPlatform() {
-
     return System.getProperty("os.name").contains("Windows");
   }
 
   private Path getCurrentWorkingDirectory() {
-
     return Paths.get("").toAbsolutePath();
   }
 
   private static void forceLibraryPathReload() throws NoSuchFieldException, IllegalAccessException {
-
     final java.lang.reflect.Field sysPathsField = ClassLoader.class.getDeclaredField("sys_paths");
     sysPathsField.setAccessible(true);
     sysPathsField.set(null, null);
   }
 
   private String getLibraryPath() {
-
     return System.getProperty(SYSTEM_PROPERTY_JAVA_LIBRARY_PATH_ID);
   }
 
   private void setLibraryPath(final String path) {
     try {
-
       forceLibraryPathReload();
 
       System.setProperty(SYSTEM_PROPERTY_JAVA_LIBRARY_PATH_ID, path);
 
       logger.info("Changed library path to: {}", getLibraryPath());
     } catch (Exception e) {
-
       logger.error("Could not modify library path to: " + path, e);
       e.printStackTrace();
     }
   }
 
   private void addLibraryPath(final String path) {
-
     try {
-
       //            final java.lang.reflect.Field usrPathsField =
       // ClassLoader.class.getDeclaredField("usr_paths");
       //            usrPathsField.setAccessible(true);
@@ -419,14 +400,12 @@ public class BW {
               + path;
       setLibraryPath(newLibraryPath);
     } catch (final Exception e) {
-
       logger.error("Could not add library path: " + path, e);
       e.printStackTrace();
     }
   }
 
   private static boolean systemPropertyEquals(final String systemProperty, final boolean status) {
-
     final String systemPropertyValue = System.getProperty(systemProperty);
 
     if (systemPropertyValue == null) {
@@ -446,7 +425,6 @@ public class BW {
 
   private static boolean systemPropertyEquals(
       final String systemProperty, final String targetPropertyValue) {
-
     final String systemPropertyValue = System.getProperty(systemProperty);
 
     return (systemPropertyValue != null)
@@ -454,7 +432,6 @@ public class BW {
   }
 
   private static String resolvePlatformLibraryFilename(String libraryName) {
-
     if (isWindowsPlatform()) {
       if (!libraryName.toLowerCase(Locale.US).endsWith(".dll")) {
         libraryName += ".dll";
@@ -473,7 +450,6 @@ public class BW {
   }
 
   private static boolean isPathFoundInPathVariable(final String pathVariable, final String path) {
-
     final String delim = isWindowsPlatform() ? ";" : ":";
 
     final String[] paths = pathVariable.split(delim);
@@ -502,7 +478,6 @@ public class BW {
   }
 
   public void startGame() {
-
     setOnStartInitializationIsDone(false);
     final BW myBw = this;
     final Thread thread = new Thread(() -> startGame(myBw));
@@ -520,14 +495,12 @@ public class BW {
   }
 
   public void createUnit(Player owner, UnitType type, int posX, int posY) {
-
     this.createUnit(owner.getId(), type.getId(), posX, posY);
   }
 
   private native void createUnit(int ownerId, int unitTypeId, int posX, int posY);
 
   public void killUnit(Unit unit) {
-
     this.killUnit(unit.getId());
   }
 
@@ -556,43 +529,35 @@ public class BW {
   private native int[] getUpgradeStatus(int playerId);
 
   public void setUnitFactory(UnitFactory unitFactory) {
-
     this.unitFactory = unitFactory;
     this.unitFactory.setBW(this);
   }
 
   public BWMap getBWMap() {
-
     return this.bwMap;
   }
 
   public MapDrawer getMapDrawer() {
-
     return this.mapDrawer;
   }
 
   public DamageEvaluator getDamageEvaluator() {
-
     return this.damageEvaluator;
   }
 
   public InteractionHandler getInteractionHandler() {
-
     return this.interactionHandler;
   }
 
   private void updateGame() {
-
     int[] data = this.getGameData();
     this.interactionHandler.update(data);
   }
 
   private void updateAllBullets() {
-
     int[] bulletData = this.getAllBulletsData();
 
     for (int index = 0; index < bulletData.length; index += Bullet.CacheIndex.values().length) {
-
       int bulletId = bulletData[index + Bullet.CacheIndex.ID.ordinal()];
       Bullet bullet = this.bullets.get(bulletId);
       if (bullet == null) {
@@ -605,28 +570,23 @@ public class BW {
   }
 
   private boolean typeChanged(UnitType oldType, UnitType newType) {
-
     return !oldType.equals(newType)
         && !oldType.equals(UnitType.Terran_Siege_Tank_Siege_Mode)
         && !newType.equals(UnitType.Terran_Siege_Tank_Siege_Mode);
   }
 
   private void updateAllUnits(int frame) {
-
     for (Unit unit : this.units.values()) {
       unit.preUpdate();
     }
     int[] unitData = this.getAllUnitsData();
 
     for (int index = 0; index < unitData.length; index += Unit.TOTAL_PROPERTIES) {
-
       int unitId = unitData[index + 0]; // TODO: Use the enum from the Unit class.
       int typeId = unitData[index + 3]; // TODO: Use the enum from the Unit class.
       Unit unit = this.units.get(unitId);
       if (unit == null || typeChanged(unit.getInitialType(), UnitType.values()[typeId])) {
-
         if (unit != null) {
-
           logger.debug(
               "unit {} changed type from {} to {}.",
               unit.getId(),
@@ -645,7 +605,6 @@ public class BW {
           logger.error(
               "could not create unit for id {} and type {}.", unitId, UnitType.values()[typeId]);
         } else {
-
           logger.trace("state: {}", unit.exists() ? "completed" : "created");
 
           this.units.put(unitId, unit);
@@ -657,7 +616,6 @@ public class BW {
           logger.trace(" done.");
         }
       } else {
-
         unit.update(unitData, index, frame);
       }
     }
@@ -669,15 +627,12 @@ public class BW {
   // [DEBUG] [Thread-1] openbw.bwapi4j.BW:updateAllPlayers:617 - creating player for id 1 ...
   // [DEBUG] [Thread-1] openbw.bwapi4j.BW:updateAllPlayers:617 - creating player for id 0 ...
   private void updateAllPlayers() {
-
     int[] playerData = this.getAllPlayersData();
 
     for (int index = 0; index < playerData.length; index += Player.CacheIndex.values().length) {
-
       int playerId = playerData[index + 0]; // TODO: Use the enum from the Player class.
       Player player = this.players.get(playerId);
       if (player == null) {
-
         logger.debug("creating player for id {} ...", playerId);
         player = new Player(playerId, this.getPlayerName(playerId), this);
         logger.trace("player name: {}", player.getName());
@@ -692,27 +647,22 @@ public class BW {
   }
 
   public Player getPlayer(int playerId) {
-
     return this.players.get(playerId);
   }
 
   public Collection<Player> getAllPlayers() {
-
     return this.players.values();
   }
 
   public Unit getUnit(int unitId) {
-
     return this.units.get(unitId);
   }
 
   public Collection<Bullet> getBullets() {
-
     return this.bullets.values();
   }
 
   public Bullet getBullet(int bulletId) {
-
     return this.bullets.get(bulletId);
   }
 
@@ -723,7 +673,6 @@ public class BW {
    * @return list of <code>PlayerUnit</code>
    */
   public List<PlayerUnit> getUnits(Player player) {
-
     return this.getUnitsFromPlayerCache.get().getOrDefault(player, Collections.emptyList());
   }
 
@@ -733,7 +682,6 @@ public class BW {
    * @return list of mineral patches
    */
   public List<MineralPatch> getMineralPatches() {
-
     return this.getMineralPatchesCache.get();
   }
 
@@ -743,18 +691,15 @@ public class BW {
    * @return list of vespene geysers
    */
   public List<VespeneGeyser> getVespeneGeysers() {
-
     return this.getVespeneGeysersCache.get();
   }
 
   public Collection<Unit> getAllUnits() {
-
     return this.units.values();
   }
 
   // TODO: Remove "canBuildHere" functions from this class. It should only be in bwMap
   public boolean canBuildHere(TilePosition position, UnitType type) {
-
     return bwMap.canBuildHere(position, type);
   }
 
@@ -763,7 +708,6 @@ public class BW {
   }
 
   private void preFrame() {
-
     logger.trace("updating game state for frame {}...", this.frame);
     updateGame();
     logger.trace("updated game.");
@@ -776,7 +720,6 @@ public class BW {
   }
 
   private void onStart() {
-
     try {
       setOnStartInitializationIsDone(false);
 
@@ -809,7 +752,6 @@ public class BW {
   }
 
   private void onFrame() {
-
     //    	logger.debug("onFrame {}", this.frame);
     try {
       preFrame();
@@ -919,7 +861,6 @@ public class BW {
    * Calls from native code would just ignore any kind of exception, therefore we catch and log them
    * before returning.
    */
-
   private static <T> void catchAllCalling(Consumer<T> consumer, T param) {
     try {
       consumer.accept(param);

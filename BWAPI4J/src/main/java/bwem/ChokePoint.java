@@ -39,7 +39,6 @@ import org.openbw.bwapi4j.util.Pair;
  * Such ChokePoints are called pseudo ChokePoints and they behave differently in several ways.
  */
 public interface ChokePoint {
-
   /**
    * ChokePoint::middle denotes the "middle" MiniTile of Geometry(), while ChokePoint::END_1 and
    * ChokePoint::END_2 denote its "ends". It is guaranteed that, among all the MiniTiles of

@@ -31,14 +31,11 @@ import org.openbw.bwapi4j.type.UpgradeType;
 
 public class Hatchery extends BuildingImpl
     implements Organic, ResearchingFacility, ResourceDepot, Morphable {
-
   protected Hatchery(int id, UnitType type, int timeSpotted) {
-
     super(id, type, timeSpotted);
   }
 
   protected Hatchery(int id, int timeSpotted) {
-
     this(id, UnitType.Zerg_Hatchery, timeSpotted);
   }
 
@@ -58,7 +55,6 @@ public class Hatchery extends BuildingImpl
    * @return list of larvae
    */
   public List<Larva> getLarva() {
-
     return super.getAllUnits()
         .stream()
         .filter(u -> u instanceof Larva && ((Larva) u).getHatchery().getId() == this.getId())
@@ -67,31 +63,26 @@ public class Hatchery extends BuildingImpl
   }
 
   public boolean researchBurrowing() {
-
     return super.research(TechType.Burrowing);
   }
 
   @Override
   public boolean isUpgrading() {
-
     return isUpgrading;
   }
 
   @Override
   public boolean isResearching() {
-
     return isResearching;
   }
 
   @Override
   public boolean cancelResearch() {
-
     return super.cancelResearch();
   }
 
   @Override
   public boolean cancelUpgrade() {
-
     return super.cancelUpgrade();
   }
 

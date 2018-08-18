@@ -28,36 +28,29 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class ScienceVessel extends MobileUnitImpl implements Mechanical, SpellCaster, Detector {
-
   protected ScienceVessel(int id) {
-
     super(id, UnitType.Terran_Science_Vessel);
   }
 
   public boolean defensiveMatrix(PlayerUnit unit) {
-
     return issueCommand(this.id, Use_Tech_Unit, unit.getId(), -1, -1, Defensive_Matrix.getId());
   }
 
   public boolean irradiate(PlayerUnit unit) {
-
     return issueCommand(this.id, Use_Tech_Unit, unit.getId(), -1, -1, Irradiate.getId());
   }
 
   public boolean empShockWave(Position p) {
-
     return issueCommand(this.id, Use_Tech_Position, -1, p.getX(), p.getY(), EMP_Shockwave.getId());
   }
 
   @Override
   public int getEnergy() {
-
     return this.energy;
   }
 
   @Override
   public int getMaxEnergy() {
-
     return this.energy;
   }
 }

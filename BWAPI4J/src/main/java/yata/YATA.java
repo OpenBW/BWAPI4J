@@ -34,7 +34,6 @@ import org.xguzm.pathfinding.grid.finders.GridFinderOptions;
 
 /** Yet Another Terrain Analyzer */
 public final class YATA {
-
   private final int width;
   private final int height;
   private final GridCell[][] nodes;

@@ -32,7 +32,6 @@ import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.unit.Unit;
 
 public class Player {
-
   enum CacheIndex {
     ID,
     RACE,
@@ -131,7 +130,6 @@ public class Player {
   private final UnitStatCalculator unitStatCalculator;
 
   Player(int id, String name, BW bw) {
-
     this.id = id;
     this.name = name;
     this.bw = bw;
@@ -147,7 +145,6 @@ public class Player {
    * @param index current pointer
    */
   public void initialize(int[] playerData, int index) {
-
     this.race = Race.values()[playerData[index + CacheIndex.RACE.ordinal()]];
     this.startLocation =
         new TilePosition(
@@ -175,7 +172,6 @@ public class Player {
    * @param upgradeStatus status for each possible upgrade
    */
   public void update(int[] playerData, int index, int[] researchStatus, int[] upgradeStatus) {
-
     this.forceId = playerData[index + CacheIndex.FORCE_ID.ordinal()];
     this.isNeutral = playerData[index + CacheIndex.IS_NEUTRAL.ordinal()] == 1;
     this.isAlly = playerData[index + CacheIndex.IS_ALLY.ordinal()] == 1;
@@ -644,7 +640,6 @@ public class Player {
   }
 
   public UnitStatCalculator getUnitStatCalculator() {
-
     return this.unitStatCalculator;
   }
 

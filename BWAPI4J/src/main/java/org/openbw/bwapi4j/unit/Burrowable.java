@@ -22,7 +22,6 @@ package org.openbw.bwapi4j.unit;
 
 /** Marker interface for burrowable units. */
 public interface Burrowable extends PlayerUnit {
-
   boolean burrow();
 
   boolean unburrow();

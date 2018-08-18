@@ -40,7 +40,6 @@ import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class MapPrinterExample {
-
   private final MapPrinter mapPrinter;
   private final SplittableRandom randomGenerator;
 
@@ -72,7 +71,7 @@ public class MapPrinterExample {
     Color color = mapZoneColor.get(zoneId);
     if (color
         == null) { // zoneId was not find --> insertion did occur --> we have do define the new
-                   // color:
+      // color:
       int tries = 0;
       do {
         color =

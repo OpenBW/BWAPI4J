@@ -25,29 +25,23 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class Stargate extends BuildingImpl implements Mechanical, TrainingFacility {
-
   protected Stargate(int id, int timeSpotted) {
-
     super(id, UnitType.Protoss_Stargate, timeSpotted);
   }
 
   public boolean trainScout() {
-
     return super.train(UnitType.Protoss_Scout);
   }
 
   public boolean trainCarrier() {
-
     return super.train(UnitType.Protoss_Carrier);
   }
 
   public boolean trainArbiter() {
-
     return super.train(UnitType.Protoss_Arbiter);
   }
 
   public boolean trainCorsair() {
-
     return super.train(UnitType.Protoss_Corsair);
   }
 
@@ -63,43 +57,36 @@ public class Stargate extends BuildingImpl implements Mechanical, TrainingFacili
 
   @Override
   public boolean isTraining() {
-
     return isTraining;
   }
 
   @Override
   public int getTrainingQueueSize() {
-
     return trainingQueueSize;
   }
 
   @Override
   public List<TrainingSlot> getTrainingQueue() {
-
     return trainingQueue;
   }
 
   @Override
   public boolean cancelTrain(int slot) {
-
     return super.cancelTrain(slot);
   }
 
   @Override
   public boolean cancelTrain() {
-
     return super.cancelTrain();
   }
 
   @Override
   public boolean setRallyPoint(Position p) {
-
     return super.setRallyPoint(p);
   }
 
   @Override
   public boolean setRallyPoint(Unit target) {
-
     return super.setRallyPoint(target);
   }
 

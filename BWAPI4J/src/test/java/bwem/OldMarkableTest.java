@@ -7,7 +7,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 public class OldMarkableTest {
-
   /** This test fails which is the reason for the new "Markable" approach. */
   @Ignore
   @Test

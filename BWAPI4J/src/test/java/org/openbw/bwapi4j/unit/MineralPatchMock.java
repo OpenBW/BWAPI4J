@@ -6,7 +6,6 @@ import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class MineralPatchMock extends MineralPatch implements Resource, Gatherable {
-
   private final int initialResources;
   private final TilePosition tilePosition;
 

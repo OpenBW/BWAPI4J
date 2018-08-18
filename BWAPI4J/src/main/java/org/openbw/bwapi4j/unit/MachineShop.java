@@ -25,24 +25,19 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class MachineShop extends AddonImpl implements Mechanical, ResearchingFacility {
-
   protected MachineShop(int id, int timeSpotted) {
-
     super(id, UnitType.Terran_Machine_Shop, timeSpotted);
   }
 
   public boolean researchSiegeMode() {
-
     return super.research(TechType.Tank_Siege_Mode);
   }
 
   public boolean researchSpiderMines() {
-
     return super.research(TechType.Spider_Mines);
   }
 
   public boolean upgradeIonThrusters() {
-
     return super.upgrade(UpgradeType.Ion_Thrusters);
   }
 
@@ -52,25 +47,21 @@ public class MachineShop extends AddonImpl implements Mechanical, ResearchingFac
 
   @Override
   public boolean isUpgrading() {
-
     return isUpgrading;
   }
 
   @Override
   public boolean isResearching() {
-
     return isResearching;
   }
 
   @Override
   public boolean cancelResearch() {
-
     return super.cancelResearch();
   }
 
   @Override
   public boolean cancelUpgrade() {
-
     return super.cancelUpgrade();
   }
 

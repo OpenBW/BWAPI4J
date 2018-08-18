@@ -34,7 +34,6 @@ import org.openbw.bwapi4j.util.Cache;
 
 /** Contains all interaction-related bwapi functionality. */
 public final class InteractionHandler {
-
   private static final Logger logger = LogManager.getLogger();
 
   private enum CacheIndex {
@@ -89,7 +88,6 @@ public final class InteractionHandler {
   private Cache<List<Position>> getNukeDotsCache;
 
   /* default */ InteractionHandler(BW bw) {
-
     this.bw = bw;
     this.getAlliesCache = new Cache<>(this::allies_from_native, this);
     this.getEnemiesCache = new Cache<>(this::enemies_from_native, this);
@@ -97,7 +95,6 @@ public final class InteractionHandler {
   }
 
   void update(int[] data) {
-
     this.lastError = BwError.values()[data[CacheIndex.LAST_ERROR.ordinal()]];
     this.screenPositionX = data[CacheIndex.SCREEN_POSITION_X.ordinal()];
     this.screenPositionY = data[CacheIndex.SCREEN_POSITION_Y.ordinal()];
@@ -130,7 +127,6 @@ public final class InteractionHandler {
    * @param posY
    */
   public void createUnit(Player owner, UnitType type, int posX, int posY) {
-
     this.bw.createUnit(owner, type, posX, posY);
   }
 
@@ -141,45 +137,38 @@ public final class InteractionHandler {
    * @param unit to kill
    */
   public void killUnit(Unit unit) {
-
     this.bw.killUnit(unit);
   }
 
   /** @return the bot player */
   public Player self() {
-
     return this.bw.getPlayer(this.selfId);
   }
 
   /** @return the enemy player in a 1on1 game */
   public Player enemy() {
-
     return this.bw.getPlayer(this.enemyId);
   }
 
   public List<Player> allies() {
-
     return this.getAlliesCache.get();
   }
 
   private native int[] allies_native();
 
   private List<Player> allies_from_native() {
-
     final int[] data = allies_native();
 
     return parsePlayers(data);
   }
 
   public List<Player> enemies() {
-
     return getEnemiesCache.get();
   }
 
   private native int[] enemies_native();
 
   private List<Player> enemies_from_native() {
-
     final int[] data = enemies_native();
 
     return parsePlayers(data);
@@ -203,87 +192,70 @@ public final class InteractionHandler {
   }
 
   public BwError getLastError() {
-
     return this.lastError;
   }
 
   public Position getScreenPosition() {
-
     return new Position(screenPositionX, screenPositionY);
   }
 
   public Position getScreenSize() {
-
     return new Position(screenSizeX, screenSizeY);
   }
 
   public Position getMousePosition() {
-
     return new Position(mousePositionX, mousePositionY);
   }
 
   public int getFrameCount() {
-
     return this.frameCount;
   }
 
   public int getFPS() {
-
     return this.fps;
   }
 
   public boolean isLatComEnabled() {
-
     return this.latComEnabled;
   }
 
   public int getRemainingLatencyFrames() {
-
     return this.remainingLatencyFrames;
   }
 
   public int getLatencyFrames() {
-
     return this.latencyFrames;
   }
 
   public int getLatency() {
-
     return this.latency;
   }
 
   public GameType getGameType() {
-
     return GameType.values()[this.gameTypeId];
   }
 
   public boolean isReplay() {
-
     return this.isReplay;
   }
 
   public boolean isPaused() {
-
     return this.isPaused;
   }
 
   public int getAPM() {
-
     return this.apm;
   }
 
   public int getAPM(final boolean includeSelects) {
-
     return (includeSelects ? this.apm_including_selects : this.apm);
   }
 
   public List<Unit> getSelectedUnits() {
-
     return bw.getAllUnits().stream().filter(Unit::isSelected).collect(Collectors.toList());
   }
 
   public boolean isKeyPressed(Key key) {
-
     return getKeyState(key.getValue());
   }
 
@@ -292,7 +264,6 @@ public final class InteractionHandler {
   public native void leaveGame();
 
   public void sendTextAndLog(String text) {
-
     logger.info(text);
     sendText(text);
   }

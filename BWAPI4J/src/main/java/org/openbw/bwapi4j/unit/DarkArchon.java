@@ -29,31 +29,25 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class DarkArchon extends MobileUnitImpl implements Organic, SpellCaster {
-
   protected DarkArchon(int id) {
-
     super(id, UnitType.Protoss_Dark_Archon);
   }
 
   @Override
   public int getEnergy() {
-
     return this.energy;
   }
 
   @Override
   public int getMaxEnergy() {
-
     return super.getMaxEnergy();
   }
 
   public boolean feedback(MobileUnit unit) {
     // FIXME Due to latency this check if not always correct
     if (this.energy < TechType.Feedback.energyCost()) {
-
       return false;
     } else {
-
       return issueCommand(this.id, Use_Tech_Unit, unit.getId(), -1, -1, Feedback.getId());
     }
   }
@@ -61,10 +55,8 @@ public class DarkArchon extends MobileUnitImpl implements Organic, SpellCaster {
   public boolean mindControl(MobileUnit unit) {
     // FIXME Due to latency this check if not always correct
     if (this.energy < TechType.Mind_Control.energyCost()) {
-
       return false;
     } else {
-
       return issueCommand(this.id, Use_Tech_Unit, unit.getId(), -1, -1, Mind_Control.getId());
     }
   }
@@ -72,10 +64,8 @@ public class DarkArchon extends MobileUnitImpl implements Organic, SpellCaster {
   public boolean maelstrom(Position position) {
     // FIXME Due to latency this check if not always correct
     if (this.energy < TechType.Maelstrom.energyCost()) {
-
       return false;
     } else {
-
       return issueCommand(
           this.id, Use_Tech_Position, -1, position.getX(), position.getY(), Maelstrom.getId());
     }

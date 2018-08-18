@@ -25,43 +25,35 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class PhysicsLab extends AddonImpl implements Mechanical, ResearchingFacility {
-
   protected PhysicsLab(int id, int timeSpotted) {
-
     super(id, UnitType.Terran_Physics_Lab, timeSpotted);
   }
 
   public boolean researchYamatoGun() {
-
     return super.research(TechType.Yamato_Gun);
   }
 
   public boolean upgradeColossusReactor() {
-
     return super.upgrade(UpgradeType.Colossus_Reactor);
   }
 
   @Override
   public boolean isUpgrading() {
-
     return isUpgrading;
   }
 
   @Override
   public boolean isResearching() {
-
     return isResearching;
   }
 
   @Override
   public boolean cancelResearch() {
-
     return super.cancelResearch();
   }
 
   @Override
   public boolean cancelUpgrade() {
-
     return super.cancelUpgrade();
   }
 
