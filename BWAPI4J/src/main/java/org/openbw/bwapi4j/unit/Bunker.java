@@ -22,6 +22,7 @@ package org.openbw.bwapi4j.unit;
 
 import static org.openbw.bwapi4j.type.UnitCommandType.*;
 
+import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.type.UnitType;
@@ -65,5 +66,15 @@ public class Bunker extends BuildingImpl implements Mechanical, Loadable {
   @Override
   public boolean unloadAll(final boolean queued) {
     return issueCommand(this.id, Unload_All, -1, -1, -1, queued ? 1 : 0);
+  }
+
+  @Override
+  public int getSpaceRemaining() {
+    return super.spaceRemaining;
+  }
+
+  @Override
+  public List<MobileUnit> getLoadedUnits() {
+    return super.getLoadedUnits();
   }
 }

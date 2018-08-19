@@ -22,6 +22,7 @@ package org.openbw.bwapi4j.unit;
 
 import static org.openbw.bwapi4j.type.UnitCommandType.*;
 
+import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.Position;
@@ -75,5 +76,15 @@ public abstract class Transporter extends MobileUnitImpl implements Loadable {
 
   public boolean unloadAll(final Position p, final boolean queued) {
     return issueCommand(this.id, Unload_All_Position, -1, p.getX(), p.getY(), queued ? 1 : 0);
+  }
+
+  @Override
+  public int getSpaceRemaining() {
+    return super.spaceRemaining;
+  }
+
+  @Override
+  public List<MobileUnit> getLoadedUnits() {
+    return super.getLoadedUnits();
   }
 }

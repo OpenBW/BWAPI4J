@@ -49,6 +49,7 @@ import org.openbw.bwapi4j.unit.MineralPatch;
 import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.unit.UnitFactory;
+import org.openbw.bwapi4j.unit.UnitImpl;
 import org.openbw.bwapi4j.unit.VespeneGeyser;
 import org.openbw.bwapi4j.unit.Worker;
 import org.openbw.bwapi4j.util.Cache;
@@ -581,7 +582,7 @@ public class BW {
     }
     int[] unitData = this.getAllUnitsData();
 
-    for (int index = 0; index < unitData.length; index += Unit.TOTAL_PROPERTIES) {
+    for (int index = 0; index < unitData.length; index += UnitImpl.TOTAL_PROPERTIES) {
       int unitId = unitData[index + 0]; // TODO: Use the enum from the Unit class.
       int typeId = unitData[index + 3]; // TODO: Use the enum from the Unit class.
       Unit unit = this.units.get(unitId);

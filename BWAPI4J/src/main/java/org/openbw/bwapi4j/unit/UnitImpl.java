@@ -160,12 +160,29 @@ public abstract class UnitImpl implements Unit {
   private static final int IS_FLYING_INDEX = 124;
   private static final int ORDER_TARGET_POSITION_X_INDEX = 125;
   private static final int ORDER_TARGET_POSITION_Y_INDEX = 126;
+
+  // TODO: Refactor
   private static final int TRAINING_QUEUE_SLOT_0_INDEX = 127;
   private static final int TRAINING_QUEUE_SLOT_1_INDEX = 128;
   private static final int TRAINING_QUEUE_SLOT_2_INDEX = 129;
   private static final int TRAINING_QUEUE_SLOT_3_INDEX = 130;
   private static final int TRAINING_QUEUE_SLOT_4_INDEX = 131;
   private static final int MAX_TRAINING_QUEUE_SIZE = 5;
+
+  private static final int SPACE_REMAINING_INDEX = 132;
+
+  // TODO: Refactor.
+  private static final int LOADED_UNIT_SLOT_0_INDEX = 133;
+  private static final int LOADED_UNIT_SLOT_1_INDEX = 134;
+  private static final int LOADED_UNIT_SLOT_2_INDEX = 135;
+  private static final int LOADED_UNIT_SLOT_3_INDEX = 136;
+  private static final int LOADED_UNIT_SLOT_4_INDEX = 137;
+  private static final int LOADED_UNIT_SLOT_5_INDEX = 138;
+  private static final int LOADED_UNIT_SLOT_6_INDEX = 139;
+  private static final int LOADED_UNIT_SLOT_7_INDEX = 140;
+  private static final int MAX_LOADED_UNITS_COUNT = 8;
+
+  public static final int TOTAL_PROPERTIES = 141;
 
   // static
   protected int id;
@@ -238,6 +255,9 @@ public abstract class UnitImpl implements Unit {
   private int[] trainingQueueUnitTypeIds = new int[MAX_TRAINING_QUEUE_SIZE];
   List<TrainingSlot> trainingQueue = new ArrayList<>();
   boolean isLoaded;
+  int spaceRemaining;
+  private int[] loadedUnitIds = new int[MAX_LOADED_UNITS_COUNT];
+  private List<MobileUnit> loadedUnits = new ArrayList<>();
   int interceptorCount;
   boolean isFollowing;
   boolean isHoldingPosition;
@@ -404,10 +424,38 @@ public abstract class UnitImpl implements Unit {
     this.trainingQueueUnitTypeIds[2] = unitData[index + UnitImpl.TRAINING_QUEUE_SLOT_2_INDEX];
     this.trainingQueueUnitTypeIds[3] = unitData[index + UnitImpl.TRAINING_QUEUE_SLOT_3_INDEX];
     this.trainingQueueUnitTypeIds[4] = unitData[index + UnitImpl.TRAINING_QUEUE_SLOT_4_INDEX];
-    this.trainingQueue.clear();
-    for (int i = 0; i < this.trainingQueueSize; ++i) {
-      this.trainingQueue.add(
-          new TrainingSlot(i, UnitType.values()[this.trainingQueueUnitTypeIds[i]]));
+    // TODO: Move this to a separate function and populate using cache.
+    /* Populate training queue. */ {
+      this.trainingQueue.clear();
+      for (int i = 0; i < this.trainingQueueSize; ++i) {
+        this.trainingQueue.add(
+            new TrainingSlot(i, UnitType.values()[this.trainingQueueUnitTypeIds[i]]));
+      }
+    }
+
+    this.spaceRemaining = unitData[index + UnitImpl.SPACE_REMAINING_INDEX];
+
+    this.loadedUnitIds[0] = unitData[index + UnitImpl.LOADED_UNIT_SLOT_0_INDEX];
+    this.loadedUnitIds[1] = unitData[index + UnitImpl.LOADED_UNIT_SLOT_1_INDEX];
+    this.loadedUnitIds[2] = unitData[index + UnitImpl.LOADED_UNIT_SLOT_2_INDEX];
+    this.loadedUnitIds[3] = unitData[index + UnitImpl.LOADED_UNIT_SLOT_3_INDEX];
+    this.loadedUnitIds[4] = unitData[index + UnitImpl.LOADED_UNIT_SLOT_4_INDEX];
+    this.loadedUnitIds[5] = unitData[index + UnitImpl.LOADED_UNIT_SLOT_5_INDEX];
+    this.loadedUnitIds[6] = unitData[index + UnitImpl.LOADED_UNIT_SLOT_6_INDEX];
+    this.loadedUnitIds[7] = unitData[index + UnitImpl.LOADED_UNIT_SLOT_7_INDEX];
+    // TODO: Move this to a separate function and populate using cache.
+    /* Populate list of loaded units. */ {
+      this.loadedUnits.clear();
+      int loadedUnitIdsIndex = 0;
+      while (loadedUnitIdsIndex < MAX_LOADED_UNITS_COUNT) {
+        final int unitId = loadedUnitIds[loadedUnitIdsIndex++];
+        if (unitId < 0) {
+          break;
+        } else {
+          final MobileUnit loadedUnit = (MobileUnit) this.bw.getUnit(unitId);
+          this.loadedUnits.add(loadedUnit);
+        }
+      }
     }
 
     this.remainingTrainTime = unitData[index + UnitImpl.REMAINING_TRAIN_TIME_INDEX];
@@ -872,5 +920,9 @@ public abstract class UnitImpl implements Unit {
     public int hashCode() {
       return Objects.hash(this.slotIndex, this.unitType);
     }
+  }
+
+  protected List<MobileUnit> getLoadedUnits() {
+    return this.loadedUnits;
   }
 }

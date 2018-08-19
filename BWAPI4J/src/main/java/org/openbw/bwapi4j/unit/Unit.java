@@ -87,6 +87,4 @@ public interface Unit extends Comparable<Unit> {
   String toString();
 
   int compareTo(Unit otherUnit);
-
-  public static final int TOTAL_PROPERTIES = 132;
 }

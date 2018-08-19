@@ -20,6 +20,8 @@
 
 package org.openbw.bwapi4j.unit;
 
+import java.util.List;
+
 public interface Loadable extends PlayerUnit {
   boolean isLoaded();
 
@@ -40,11 +42,7 @@ public interface Loadable extends PlayerUnit {
 
   boolean unloadAll(boolean queued);
 
-  //    // TODO implement space remaining for JNI and then subclasses
-  //    private int spaceRemaining;
-  //    int getSpaceRemaining();
+  int getSpaceRemaining();
 
-  //    // TODO implement units loaded for JNI and then subclasses
-  //    private List<Unit> loadedUnits;
-  //    List<PlayerUnit> getLoadedUnits();
+  List<MobileUnit> getLoadedUnits();
 }

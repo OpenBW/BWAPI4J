@@ -403,6 +403,7 @@ int addUnitDataToBuffer(BWAPI::Unit &u, int index) {
   intBuf[index++] = u->getOrderTargetPosition().x;
   intBuf[index++] = u->getOrderTargetPosition().y;
 
+  // TODO: Refactor and reduce duplicated code with loaded units.
   /* Training Queue */ {
     const size_t maxTrainingQueueSize = 5;
     for (size_t i = 0; i < trainingQueueSize; ++i) {
@@ -411,6 +412,25 @@ int addUnitDataToBuffer(BWAPI::Unit &u, int index) {
     }
     const size_t remainingInQueue = maxTrainingQueueSize - trainingQueueSize;
     for (size_t i = 0; i < remainingInQueue; ++i) {
+      intBuf[index++] = -1;
+    }
+  }
+
+  intBuf[index++] = u->getSpaceRemaining();
+
+  // TODO: Refactor and reduce duplicated code with training queues.
+  /* Loaded Units */ {
+    const size_t maxLoadedUnitsCount = 8;
+
+    const auto &loadedUnits = u->getLoadedUnits();
+    const size_t loadedUnitsCount = loadedUnits.size();
+
+    for (const auto &loadedUnit : loadedUnits) {
+      intBuf[index++] = loadedUnit->getID();
+    }
+
+    const size_t unusedLoadedUnitSlots = maxLoadedUnitsCount - loadedUnitsCount;
+    for (size_t i = 0; i < unusedLoadedUnitSlots; ++i) {
       intBuf[index++] = -1;
     }
   }
