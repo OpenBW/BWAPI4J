@@ -21,6 +21,9 @@
 package org.openbw.bwapi4j;
 
 import java.awt.image.ColorModel;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -28,20 +31,17 @@ import java.nio.charset.UnsupportedCharsetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
-import net.lingala.zip4j.core.ZipFile;
-import net.lingala.zip4j.exception.ZipException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.type.UnitType;
@@ -223,14 +223,11 @@ public class BW {
           && jarFile.toString().endsWith(".jar")) {
         logger.debug("Extracting dependencies from: " + jarFile.toString());
 
-        final ZipFile jar = new ZipFile(jarFile.toFile());
-
         extractFileIfNotExists(
-            jar, resolvePlatformLibraryFilename(bridgeType.getLibraryName()), cwd.toString());
-
+                resolvePlatformLibraryFilename(bridgeType.getLibraryName()), cwd.toString());
         for (final String externalLibrary : getExternalLibraryNames()) {
           extractFileIfNotExists(
-              jar, resolvePlatformLibraryFilename(externalLibrary), cwd.toString());
+                  resolvePlatformLibraryFilename(externalLibrary), cwd.toString());
         }
       }
     } catch (final Exception e) {
@@ -240,14 +237,16 @@ public class BW {
     }
   }
 
-  private static void extractFileIfNotExists(
-      final ZipFile zipFile, final String sourceFilename, final String targetDirectory)
-      throws ZipException {
-    final Path targetFile = Paths.get(targetDirectory, sourceFilename);
-    if (!Files.isRegularFile(targetFile)
-        && !Files.isDirectory(targetFile)
-        && !Files.exists(targetFile)) {
-      zipFile.extractFile(sourceFilename, targetDirectory);
+  private static void extractFileIfNotExists(final String sourceFilename, final String targetDirectory) {
+    final File library = new File(targetDirectory, sourceFilename);
+    if (!library.exists()) {
+      InputStream is = BW.class.getResourceAsStream(File.separator + sourceFilename);
+      try {
+        Files.copy(is, library.toPath(), StandardCopyOption.REPLACE_EXISTING);
+      } catch (IOException e) {
+        //noinspection ResultOfMethodCallIgnored
+        library.delete();
+      }
     }
   }
 
@@ -331,11 +330,6 @@ public class BW {
 
     return libNames;
   }
-
-  private static String getLibraryPathDelimiter() {
-    return isWindowsPlatform() ? ";" : ":";
-  }
-
   private static boolean isWindowsPlatform() {
     return System.getProperty("os.name").contains("Windows");
   }
@@ -394,7 +388,7 @@ public class BW {
 
       logger.info("Adding library path: {}", path);
 
-      final String libraryPathDelimiter = getLibraryPathDelimiter();
+      final String libraryPathDelimiter = File.pathSeparator;
       final String newLibraryPath =
           currentLibraryPath
               + (!currentLibraryPath.endsWith(libraryPathDelimiter) ? libraryPathDelimiter : "")
@@ -433,27 +427,18 @@ public class BW {
   }
 
   private static String resolvePlatformLibraryFilename(String libraryName) {
-    if (isWindowsPlatform()) {
-      if (!libraryName.toLowerCase(Locale.US).endsWith(".dll")) {
-        libraryName += ".dll";
-      }
-    } else {
-      if (!libraryName.startsWith("lib")) {
-        libraryName = "lib" + libraryName;
-      }
-
-      if (!libraryName.toLowerCase(Locale.US).endsWith(".so")) {
-        libraryName += ".so";
-      }
+    switch (OSType.computeType()) {
+      case WINDOWS:
+        return libraryName + ".dll";
+      case MAC:
+        return "lib" + libraryName + ".dylib";
+        default:
+          return "lib" + libraryName + ".so";
     }
-
-    return libraryName;
   }
 
   private static boolean isPathFoundInPathVariable(final String pathVariable, final String path) {
-    final String delim = isWindowsPlatform() ? ";" : ":";
-
-    final String[] paths = pathVariable.split(delim);
+    final String[] paths = pathVariable.split(File.pathSeparator);
 
     for (final String directory : paths) {
       final Path targetDirectory;
