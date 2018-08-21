@@ -80,12 +80,4 @@ public interface Unit extends Comparable<Unit> {
   boolean isVisible();
 
   boolean isSelected();
-
-  int hashCode();
-
-  boolean equals(Object obj);
-
-  String toString();
-
-  int compareTo(Unit otherUnit);
 }
