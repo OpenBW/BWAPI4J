@@ -57,10 +57,6 @@ import org.openbw.bwapi4j.type.WeaponType;
 public abstract class UnitImpl implements Unit {
   private static final Logger logger = LogManager.getLogger();
 
-  // static
-  private static final int MAX_TRAINING_QUEUE_SIZE = 5;
-  static final int MAX_LOADED_UNITS_COUNT = 8;
-
   protected int id;
   Position initialPosition;
   TilePosition initialTilePosition;
@@ -127,11 +123,9 @@ public abstract class UnitImpl implements Unit {
   int rallyPositionX;
   int rallyPositionY;
   int rallyUnitId;
-  int[] trainingQueueUnitTypeIds = new int[MAX_TRAINING_QUEUE_SIZE];
   List<TrainingSlot> trainingQueue = new ArrayList<>();
   boolean isLoaded;
   int spaceRemaining;
-  int[] loadedUnitIds = new int[MAX_LOADED_UNITS_COUNT];
   List<MobileUnit> loadedUnits = new ArrayList<>();
   int interceptorCount;
   boolean isFollowing;

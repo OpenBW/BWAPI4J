@@ -42,7 +42,7 @@ public class ScienceFacility extends BuildingImpl
    */
   public CovertOps getCovertOps() {
     Unit unit = this.getUnit(addonId);
-    if (unit != null && unit instanceof CovertOps) {
+    if (unit instanceof CovertOps) {
       return (CovertOps) unit;
     } else {
       return null;
@@ -56,7 +56,7 @@ public class ScienceFacility extends BuildingImpl
    */
   public PhysicsLab getPhysicsLab() {
     Unit unit = this.getUnit(addonId);
-    if (unit != null && unit instanceof PhysicsLab) {
+    if (unit instanceof PhysicsLab) {
       return (PhysicsLab) unit;
     } else {
       return null;

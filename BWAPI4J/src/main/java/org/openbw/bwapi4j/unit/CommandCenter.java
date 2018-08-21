@@ -42,7 +42,7 @@ public class CommandCenter extends BuildingImpl
    */
   public NuclearSilo getNuclearSilo() {
     Unit unit = this.getUnit(addonId);
-    if (unit != null && unit instanceof NuclearSilo) {
+    if (unit instanceof NuclearSilo) {
       return (NuclearSilo) unit;
     } else {
       return null;
@@ -56,7 +56,7 @@ public class CommandCenter extends BuildingImpl
    */
   public ComsatStation getComsatStation() {
     Unit unit = this.getUnit(addonId);
-    if (unit != null && unit instanceof ComsatStation) {
+    if (unit instanceof ComsatStation) {
       return (ComsatStation) unit;
     } else {
       return null;

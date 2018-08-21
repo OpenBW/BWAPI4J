@@ -1,7 +1,6 @@
 package org.openbw.bwapi4j.unit;
 
 import static java.util.Objects.requireNonNull;
-import static org.openbw.bwapi4j.unit.UnitImpl.MAX_LOADED_UNITS_COUNT;
 
 import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.Position;
@@ -165,6 +164,8 @@ public class UnitDataBridge {
   private static final int LOADED_UNIT_SLOT_6_INDEX = 139;
   private static final int LOADED_UNIT_SLOT_7_INDEX = 140;
 
+  private static final int MAX_LOADED_UNITS_COUNT = 8;
+
   public static final int TOTAL_PROPERTIES = 141;
   private final BW bw;
 
@@ -264,44 +265,24 @@ public class UnitDataBridge {
     unit.isTraining = unitData[index + IS_TRAINING_INDEX] == 1;
     unit.trainingQueueSize = unitData[index + TRAINING_QUEUE_SIZE_INDEX];
 
-    unit.trainingQueueUnitTypeIds[0] = unitData[index + TRAINING_QUEUE_SLOT_0_INDEX];
-    unit.trainingQueueUnitTypeIds[1] = unitData[index + TRAINING_QUEUE_SLOT_1_INDEX];
-    unit.trainingQueueUnitTypeIds[2] = unitData[index + TRAINING_QUEUE_SLOT_2_INDEX];
-    unit.trainingQueueUnitTypeIds[3] = unitData[index + TRAINING_QUEUE_SLOT_3_INDEX];
-    unit.trainingQueueUnitTypeIds[4] = unitData[index + TRAINING_QUEUE_SLOT_4_INDEX];
-    // TODO: Move this to a separate function and populate using cache.
     /* Populate training queue. */
-    {
-      unit.trainingQueue.clear();
-      for (int i = 0; i < unit.trainingQueueSize; ++i) {
-        unit.trainingQueue.add(
-            unit.new TrainingSlot(i, UnitType.values()[unit.trainingQueueUnitTypeIds[i]]));
-      }
+    unit.trainingQueue.clear();
+    for (int i = 0; i < unit.trainingQueueSize; ++i) {
+      int trainingQueueUnitTypeId = unitData[index + TRAINING_QUEUE_SLOT_0_INDEX + i];
+      unit.trainingQueue.add(unit.new TrainingSlot(i, UnitType.values()[trainingQueueUnitTypeId]));
     }
 
     unit.spaceRemaining = unitData[index + SPACE_REMAINING_INDEX];
 
-    unit.loadedUnitIds[0] = unitData[index + LOADED_UNIT_SLOT_0_INDEX];
-    unit.loadedUnitIds[1] = unitData[index + LOADED_UNIT_SLOT_1_INDEX];
-    unit.loadedUnitIds[2] = unitData[index + LOADED_UNIT_SLOT_2_INDEX];
-    unit.loadedUnitIds[3] = unitData[index + LOADED_UNIT_SLOT_3_INDEX];
-    unit.loadedUnitIds[4] = unitData[index + LOADED_UNIT_SLOT_4_INDEX];
-    unit.loadedUnitIds[5] = unitData[index + LOADED_UNIT_SLOT_5_INDEX];
-    unit.loadedUnitIds[6] = unitData[index + LOADED_UNIT_SLOT_6_INDEX];
-    unit.loadedUnitIds[7] = unitData[index + LOADED_UNIT_SLOT_7_INDEX];
-    // TODO: Move this to a separate function and populate using cache.
     /* Populate list of loaded units. */
-    {
-      unit.loadedUnits.clear();
-      int loadedUnitIdsIndex = 0;
-      while (loadedUnitIdsIndex < MAX_LOADED_UNITS_COUNT) {
-        final int unitId = unit.loadedUnitIds[loadedUnitIdsIndex++];
-        if (unitId < 0) {
-          break;
-        } else {
-          final MobileUnit loadedUnit = (MobileUnit) bw.getUnit(unitId);
-          unit.loadedUnits.add(loadedUnit);
-        }
+    unit.loadedUnits.clear();
+    for (int i = 0; i < MAX_LOADED_UNITS_COUNT; i++) {
+      int unitId = unitData[index + LOADED_UNIT_SLOT_0_INDEX + i];
+      if (unitId < 0) {
+        break;
+      } else {
+        final MobileUnit loadedUnit = (MobileUnit) bw.getUnit(unitId);
+        unit.loadedUnits.add(loadedUnit);
       }
     }
 
