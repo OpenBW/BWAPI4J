@@ -72,4 +72,6 @@ public interface MobileUnit extends PlayerUnit {
   boolean isEnsnared();
 
   double getTopSpeed();
+  
+  int getRemainingTrainTime();
 }

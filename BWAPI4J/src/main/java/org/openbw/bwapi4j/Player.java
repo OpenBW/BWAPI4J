@@ -706,9 +706,14 @@ public class Player {
   }
 
   public boolean canMake(Unit builder, UnitType type) {
-    if (!canMake(type) || !builder.isA(type.whatBuilds().getFirst())) {
-      return false;
-    }
+	  if (!canMake(type) 
+			  || !(builder.isA(type.whatBuilds().getFirst()) 
+					 || (type.whatBuilds().getFirst().equals(UnitType.Zerg_Larva) 
+      						&& (builder.isA(UnitType.Zerg_Hatchery)
+      								|| builder.isA(UnitType.Zerg_Lair)
+      								|| builder.isA(UnitType.Zerg_Hive))))) {
+          return false;
+      }
     return type.requiredUnits()
         .stream()
         .filter(UnitType::isAddon)

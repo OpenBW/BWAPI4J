@@ -5,7 +5,7 @@
 //    This file is part of BWAPI4J.
 //
 //    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published
+//    it under the terms of the Lesser GNU General Public License as published 
 //    by the Free Software Foundation, version 3 only.
 //
 //    BWAPI4J is distributed in the hope that it will be useful,
@@ -20,48 +20,51 @@
 
 package org.openbw.bwapi4j.unit;
 
-import static org.openbw.bwapi4j.type.UnitCommandType.Morph;
-import static org.openbw.bwapi4j.type.UnitType.Zerg_Hive;
-
+import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
-public class Lair extends Hatchery {
-  protected Lair(int id, int timeSpotted) {
-    super(id, UnitType.Zerg_Lair, timeSpotted);
-  }
+import static org.openbw.bwapi4j.type.UnitCommandType.Morph;
+import static org.openbw.bwapi4j.type.UnitType.Zerg_Hive;
 
-  protected Lair(int id, UnitType type, int timeSpotted) {
-    super(id, type, timeSpotted);
-  }
+public class Lair extends ZergResourceDepotImpl {
 
-  @Override
-  public boolean isReadyForResources() {
-    return true;
-  }
+    protected Lair(int id, int timeSpotted) {
 
-  public boolean upgradeVentralSacs() {
-    return super.upgrade(UpgradeType.Ventral_Sacs);
-  }
-
-  public boolean upgradeAntennae() {
-    return super.upgrade(UpgradeType.Antennae);
-  }
-
-  public boolean upgradePneumatizedCarapace() {
-    return super.upgrade(UpgradeType.Pneumatized_Carapace);
-  }
-
-  @Override
-  public boolean morph(UnitType type) {
-    if (type != Zerg_Hive) {
-      throw new IllegalArgumentException("Cannot morph to " + type);
+        super(id, UnitType.Zerg_Lair, timeSpotted);
     }
-    return issueCommand(this.id, Morph, -1, -1, -1, Zerg_Hive.getId());
-  }
 
-  @Override
-  public boolean morph() {
-    return morph(Zerg_Hive);
-  }
+    protected Lair(int id, UnitType type, int timeSpotted) {
+
+        super(id, type, timeSpotted);
+    }
+
+
+    public boolean upgradeVentralSacs() {
+
+        return super.upgrade(UpgradeType.Ventral_Sacs);
+    }
+
+    public boolean upgradeAntennae() {
+
+        return super.upgrade(UpgradeType.Antennae);
+    }
+
+    public boolean upgradePneumatizedCarapace() {
+
+        return super.upgrade(UpgradeType.Pneumatized_Carapace);
+    }
+
+    @Override
+    public boolean morph(UnitType type) {
+        if (type != Zerg_Hive) {
+            throw new IllegalArgumentException("Cannot morph to " + type);
+        }
+        return issueCommand(this.id, Morph, -1, -1, -1, Zerg_Hive.getId());
+    }
+
+    @Override
+    public boolean morph() {
+        return morph(Zerg_Hive);
+    }
 }
