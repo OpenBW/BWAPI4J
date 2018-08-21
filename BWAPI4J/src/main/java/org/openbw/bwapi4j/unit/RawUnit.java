@@ -4,7 +4,11 @@ import java.util.List;
 import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
-import org.openbw.bwapi4j.type.*;
+import org.openbw.bwapi4j.type.Order;
+import org.openbw.bwapi4j.type.TechType;
+import org.openbw.bwapi4j.type.UnitCommandType;
+import org.openbw.bwapi4j.type.UnitType;
+import org.openbw.bwapi4j.type.UpgradeType;
 
 public class RawUnit extends UnitImpl {
   protected RawUnit(int id, UnitType unitType) {
@@ -349,6 +353,11 @@ public class RawUnit extends UnitImpl {
 
   public int getLastKnownHitPoints() {
     return lastKnownHitPoints;
+  }
+
+  @Override
+  protected List<MobileUnit> getLoadedUnits() {
+    return super.getLoadedUnits();
   }
 
   @Override

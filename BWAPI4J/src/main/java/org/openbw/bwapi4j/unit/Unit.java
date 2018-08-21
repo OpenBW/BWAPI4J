@@ -10,8 +10,14 @@ import org.openbw.bwapi4j.type.UnitType;
 public interface Unit extends Comparable<Unit> {
   int getKillCount();
 
+  /**
+   * Returns the frame number this unit was visible last.
+   */
   int getLastSpotted();
 
+  /**
+   * Returns the frame number this unit was visible the first time.
+   */
   int getInitiallySpotted();
 
   int getId();

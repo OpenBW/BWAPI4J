@@ -489,6 +489,10 @@ public abstract class UnitImpl implements Unit {
     return isSelected;
   }
 
+  protected List<MobileUnit> getLoadedUnits() {
+    return this.loadedUnits;
+  }
+
   @Override
   public int hashCode() {
     return this.id;
@@ -527,10 +531,9 @@ public abstract class UnitImpl implements Unit {
       int unitId, int unitCommandTypeId, int targetUnitId, int x, int y, int extra);
 
   // --------------------------------------------------
-
   // dynamic
-  private int replayID;
 
+  private int replayID;
   private int resourceGroup;
   private Player lastAttackingPlayer;
   private int defenseMatrixPoints;
@@ -545,21 +548,22 @@ public abstract class UnitImpl implements Unit {
   private int stasisTimer;
   private int stimTimer;
   private TechType tech;
-  private UpgradeType uppgrade;
 
+  private UpgradeType uppgrade;
   private Unit buildUnit;
   Order order;
   int orderTargetId;
   Position orderTargetPosition;
-  Order secondaryOrder;
 
+  Order secondaryOrder;
   private boolean isMorphing;
   private boolean isTargetable;
   private boolean isInvincible;
-  private boolean isInWeaponRange;
 
+  private boolean isInWeaponRange;
   public class TrainingSlot {
     private final int slotIndex;
+
     private final UnitType unitType;
 
     protected TrainingSlot(final int slotIndex, final UnitType unitType) {
@@ -591,9 +595,5 @@ public abstract class UnitImpl implements Unit {
     public int hashCode() {
       return Objects.hash(this.slotIndex, this.unitType);
     }
-  }
-
-  protected List<MobileUnit> getLoadedUnits() {
-    return this.loadedUnits;
   }
 }
