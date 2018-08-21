@@ -28,7 +28,6 @@ import java.nio.charset.UnsupportedCharsetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -36,7 +35,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -152,8 +150,8 @@ public class BW {
     loadSharedLibraries(bridgeType, extractBridgeDependencies);
 
     this.players = new HashMap<>();
-    this.units = new ConcurrentHashMap<>();
-    this.bullets = new ConcurrentHashMap<>();
+    this.units = new HashMap<>();
+    this.bullets = new HashMap<>();
     this.listener = listener;
     this.interactionHandler = new InteractionHandler(this);
     this.mapDrawer = new MapDrawer();
