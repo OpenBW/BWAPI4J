@@ -21,6 +21,7 @@
 package org.openbw.bwapi4j;
 
 import java.awt.image.ColorModel;
+import java.io.File;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -33,7 +34,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -329,11 +329,6 @@ public class BW {
 
     return libNames;
   }
-
-  private static String getLibraryPathDelimiter() {
-    return isWindowsPlatform() ? ";" : ":";
-  }
-
   private static boolean isWindowsPlatform() {
     return System.getProperty("os.name").contains("Windows");
   }
@@ -392,7 +387,7 @@ public class BW {
 
       logger.info("Adding library path: {}", path);
 
-      final String libraryPathDelimiter = getLibraryPathDelimiter();
+      final String libraryPathDelimiter = File.pathSeparator;
       final String newLibraryPath =
           currentLibraryPath
               + (!currentLibraryPath.endsWith(libraryPathDelimiter) ? libraryPathDelimiter : "")
@@ -431,27 +426,18 @@ public class BW {
   }
 
   private static String resolvePlatformLibraryFilename(String libraryName) {
-    if (isWindowsPlatform()) {
-      if (!libraryName.toLowerCase(Locale.US).endsWith(".dll")) {
-        libraryName += ".dll";
-      }
-    } else {
-      if (!libraryName.startsWith("lib")) {
-        libraryName = "lib" + libraryName;
-      }
-
-      if (!libraryName.toLowerCase(Locale.US).endsWith(".so")) {
-        libraryName += ".so";
-      }
+    switch (OSType.computeType()) {
+      case WINDOWS:
+        return libraryName + ".dll";
+      case MAC:
+        return "lib" + libraryName + ".dylib";
+        default:
+          return "lib" + libraryName + ".so";
     }
-
-    return libraryName;
   }
 
   private static boolean isPathFoundInPathVariable(final String pathVariable, final String path) {
-    final String delim = isWindowsPlatform() ? ";" : ":";
-
-    final String[] paths = pathVariable.split(delim);
+    final String[] paths = pathVariable.split(File.pathSeparator);
 
     for (final String directory : paths) {
       final Path targetDirectory;

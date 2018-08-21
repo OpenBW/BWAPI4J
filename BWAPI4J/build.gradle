@@ -2,8 +2,6 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 import java.nio.charset.StandardCharsets
-import java.nio.file.Files
-import java.nio.file.Paths
 
 group 'org.openbw.bwapi4j'
 version '0.8.2b'
@@ -49,6 +47,7 @@ shadowJar {
     classifier = null
     from ('../BWAPI4JBridge/Release') {
         include '*.dll'
+        include '*.dylib'
         include '*.so'
     }
 }
