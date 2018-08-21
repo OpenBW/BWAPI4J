@@ -20,14 +20,39 @@
 
 package org.openbw.bwapi4j.unit;
 
-import static org.openbw.bwapi4j.type.UnitCommandType.*;
+import static org.openbw.bwapi4j.type.UnitCommandType.Cancel_Research;
+import static org.openbw.bwapi4j.type.UnitCommandType.Cancel_Train;
+import static org.openbw.bwapi4j.type.UnitCommandType.Cancel_Train_Slot;
+import static org.openbw.bwapi4j.type.UnitCommandType.Cancel_Upgrade;
+import static org.openbw.bwapi4j.type.UnitCommandType.Land;
+import static org.openbw.bwapi4j.type.UnitCommandType.Lift;
+import static org.openbw.bwapi4j.type.UnitCommandType.Move;
+import static org.openbw.bwapi4j.type.UnitCommandType.Research;
+import static org.openbw.bwapi4j.type.UnitCommandType.Set_Rally_Position;
+import static org.openbw.bwapi4j.type.UnitCommandType.Set_Rally_Unit;
+import static org.openbw.bwapi4j.type.UnitCommandType.Train;
+import static org.openbw.bwapi4j.type.UnitCommandType.Upgrade;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openbw.bwapi4j.*;
-import org.openbw.bwapi4j.type.*;
+import org.openbw.bwapi4j.BW;
+import org.openbw.bwapi4j.DamageEvaluator;
+import org.openbw.bwapi4j.Player;
+import org.openbw.bwapi4j.Position;
+import org.openbw.bwapi4j.TilePosition;
+import org.openbw.bwapi4j.type.Order;
+import org.openbw.bwapi4j.type.TechType;
+import org.openbw.bwapi4j.type.UnitCommandType;
+import org.openbw.bwapi4j.type.UnitSizeType;
+import org.openbw.bwapi4j.type.UnitType;
+import org.openbw.bwapi4j.type.UpgradeType;
+import org.openbw.bwapi4j.type.WeaponType;
 import org.openbw.bwapi4j.util.BridgeUtils;
 
 public abstract class UnitImpl implements Unit {
@@ -186,13 +211,12 @@ public abstract class UnitImpl implements Unit {
 
   // static
   protected int id;
-  UnitType initialType;
   Position initialPosition;
   TilePosition initialTilePosition;
   int initiallySpotted;
+  protected final UnitType type;
 
   // dynamic
-  protected UnitType type;
   protected int x;
   protected int y;
   protected Position position;
@@ -315,7 +339,6 @@ public abstract class UnitImpl implements Unit {
   protected UnitImpl(int id, UnitType unitType) {
     this.id = id;
     this.type = unitType;
-    this.initialType = unitType;
     this.lastSpotted = 0;
   }
 
@@ -350,7 +373,6 @@ public abstract class UnitImpl implements Unit {
   }
 
   public void update(int[] unitData, int index, int frame) {
-    this.type = UnitType.values()[unitData[index + UnitImpl.TYPE_ID_INDEX]];
     this.x = unitData[index + UnitImpl.POSITION_X_INDEX];
     this.y = unitData[index + UnitImpl.POSITION_Y_INDEX];
     this.position = new Position(x, y);
@@ -550,10 +572,6 @@ public abstract class UnitImpl implements Unit {
     return bw.getPlayer(id);
   }
 
-  public boolean isA(UnitType type) {
-    return this.type == type;
-  }
-
   public int getId() {
     return this.id;
   }
@@ -698,10 +716,6 @@ public abstract class UnitImpl implements Unit {
 
   public UnitType getType() {
     return type;
-  }
-
-  public UnitType getInitialType() {
-    return initialType;
   }
 
   public Position getInitialPosition() {

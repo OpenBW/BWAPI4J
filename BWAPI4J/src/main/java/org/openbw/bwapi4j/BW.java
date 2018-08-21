@@ -570,12 +570,12 @@ public class BW {
       int unitId = unitData[index + 0]; // TODO: Use the enum from the Unit class.
       int typeId = unitData[index + 3]; // TODO: Use the enum from the Unit class.
       Unit unit = this.units.get(unitId);
-      if (unit == null || typeChanged(unit.getInitialType(), UnitType.values()[typeId])) {
+      if (unit == null || typeChanged(unit.getType(), UnitType.values()[typeId])) {
         if (unit != null) {
           logger.debug(
               "unit {} changed type from {} to {}.",
               unit.getId(),
-              unit.getInitialType(),
+              unit.getType(),
               UnitType.values()[typeId]);
         }
         logger.trace(

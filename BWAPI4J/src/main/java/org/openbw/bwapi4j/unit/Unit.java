@@ -20,8 +20,6 @@ public interface Unit extends Comparable<Unit> {
 
   int getInitiallySpotted();
 
-  boolean isA(UnitType type);
-
   int getId();
 
   int getLeft();
@@ -66,9 +64,12 @@ public interface Unit extends Comparable<Unit> {
 
   boolean exists();
 
+  /**
+   * Returns the type of this unit. Always returns the same type. If the BWAPI type changes (ie.
+   * from {@link UnitType#Resource_Vespene_Geyser} to {@link UnitType#Zerg_Extractor} a new instance
+   * will be created, and this instance will no longer be updated.
+   */
   UnitType getType();
-
-  UnitType getInitialType();
 
   Position getInitialPosition();
 

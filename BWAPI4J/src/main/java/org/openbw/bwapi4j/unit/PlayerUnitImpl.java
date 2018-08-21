@@ -313,12 +313,12 @@ public abstract class PlayerUnitImpl extends UnitImpl {
 
   public int getDamageTo(PlayerUnit to) {
     return this.getDamageEvaluator()
-        .getDamageTo(to.getInitialType(), this.initialType, to.getPlayer(), this.getPlayer());
+        .getDamageTo(to.getType(), this.type, to.getPlayer(), this.getPlayer());
   }
 
   public int getDamageFrom(PlayerUnit from) {
     return this.getDamageEvaluator()
-        .getDamageFrom(from.getInitialType(), this.initialType, from.getPlayer(), this.getPlayer());
+        .getDamageFrom(from.getType(), this.type, from.getPlayer(), this.getPlayer());
   }
 
   @Override

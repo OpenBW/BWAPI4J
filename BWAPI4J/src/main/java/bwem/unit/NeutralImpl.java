@@ -39,7 +39,7 @@ public abstract class NeutralImpl implements Neutral {
     this.map = map;
     this.pos = unit.getInitialPosition();
     this.topLeft = unit.getInitialTilePosition();
-    this.tileSize = unit.getInitialType().tileSize();
+    this.tileSize = unit.getType().tileSize();
 
     // TODO:
     //        if (u->getType() == Special_Right_Pit_Door) ++topLeft.x;

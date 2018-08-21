@@ -26,7 +26,12 @@ import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import org.openbw.bwapi4j.type.*;
+import org.openbw.bwapi4j.type.Color;
+import org.openbw.bwapi4j.type.PlayerType;
+import org.openbw.bwapi4j.type.Race;
+import org.openbw.bwapi4j.type.TechType;
+import org.openbw.bwapi4j.type.UnitType;
+import org.openbw.bwapi4j.type.UpgradeType;
 import org.openbw.bwapi4j.unit.ExtendibleByAddon;
 import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.unit.Unit;
@@ -706,7 +711,7 @@ public class Player {
   }
 
   public boolean canMake(Unit builder, UnitType type) {
-    if (!canMake(type) || !builder.isA(type.whatBuilds().getFirst())) {
+    if (!canMake(type) || builder.getType() != type.whatBuilds().getFirst()) {
       return false;
     }
     return type.requiredUnits()
@@ -716,7 +721,7 @@ public class Player {
         .map(
             requiredAddon -> {
               ExtendibleByAddon building = (ExtendibleByAddon) builder;
-              if (building.getAddon() == null || !building.getAddon().isA(requiredAddon)) {
+              if (building.getAddon() == null || building.getAddon().getType() != requiredAddon) {
                 return false;
               }
               return true;
