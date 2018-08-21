@@ -27,7 +27,7 @@ import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.unit.MineralPatch;
 import org.openbw.bwapi4j.unit.PlayerUnit;
-import org.openbw.bwapi4j.unit.Unit;
+import org.openbw.bwapi4j.unit.UnitImpl;
 import org.openbw.bwapi4j.unit.VespeneGeyser;
 
 public interface MapInitializer {
@@ -86,7 +86,7 @@ public interface MapInitializer {
 
   void setLowestAltitudeInTile(TilePosition t);
 
-  List<PlayerUnit> filterPlayerUnits(Collection<Unit> units, Player player);
+  List<PlayerUnit> filterPlayerUnits(Collection<UnitImpl> units, Player player);
 
-  List<PlayerUnit> filterNeutralPlayerUnits(Collection<Unit> units, Collection<Player> players);
+  List<PlayerUnit> filterNeutralPlayerUnits(Collection<UnitImpl> units, Collection<Player> players);
 }

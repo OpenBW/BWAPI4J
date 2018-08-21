@@ -14,7 +14,13 @@ package bwem.map;
 
 import static bwem.area.typedef.AreaId.UNINITIALIZED;
 
-import bwem.*;
+import bwem.Base;
+import bwem.BaseImpl;
+import bwem.CheckMode;
+import bwem.ChokePoint;
+import bwem.ChokePointImpl;
+import bwem.Graph;
+import bwem.MapPrinter;
 import bwem.area.Area;
 import bwem.area.AreaImpl;
 import bwem.area.typedef.AreaId;
@@ -30,16 +36,28 @@ import bwem.unit.Neutral;
 import bwem.unit.NeutralData;
 import bwem.unit.StaticBuilding;
 import bwem.util.BwemExt;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.BitSet;
+import java.util.Collection;
+import java.util.List;
+import java.util.Queue;
+import java.util.Set;
+import java.util.TreeSet;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.MutablePair;
-import org.openbw.bwapi4j.*;
+import org.openbw.bwapi4j.BWMap;
 import org.openbw.bwapi4j.MapDrawer;
+import org.openbw.bwapi4j.Player;
+import org.openbw.bwapi4j.Position;
+import org.openbw.bwapi4j.TilePosition;
+import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.type.Color;
 import org.openbw.bwapi4j.unit.MineralPatch;
 import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.unit.Unit;
+import org.openbw.bwapi4j.unit.UnitImpl;
 import org.openbw.bwapi4j.unit.VespeneGeyser;
 
 public abstract class MapImpl implements Map {
@@ -60,7 +78,7 @@ public abstract class MapImpl implements Map {
   protected final List<MineralPatch> mineralPatches;
   protected final Collection<Player> players;
   protected final List<VespeneGeyser> vespeneGeysers;
-  protected final Collection<Unit> units;
+  protected final Collection<UnitImpl> units;
   private final NeighboringAreaChooser neighboringAreaChooser;
 
   public MapImpl(
@@ -69,7 +87,7 @@ public abstract class MapImpl implements Map {
       Collection<Player> players,
       List<MineralPatch> mineralPatches,
       List<VespeneGeyser> vespeneGeysers,
-      Collection<Unit> units) {
+      Collection<UnitImpl> units) {
     this.mapPrinter = new MapPrinter();
     this.mapDrawer = mapDrawer;
     this.bwMap = bwMap;
@@ -521,7 +539,8 @@ public abstract class MapImpl implements Map {
         col);
   }
 
-  protected List<PlayerUnit> filterPlayerUnits(final Collection<Unit> units, final Player player) {
+  protected List<PlayerUnit> filterPlayerUnits(final Collection<UnitImpl> units,
+      final Player player) {
     //        return this.units.stream().filter(u -> u instanceof PlayerUnit
     //                && ((PlayerUnit)u).getPlayer().equals(player)).map(u ->
     // (PlayerUnit)u).collect(Collectors.toList());
@@ -538,7 +557,7 @@ public abstract class MapImpl implements Map {
   }
 
   protected List<PlayerUnit> filterNeutralPlayerUnits(
-      final Collection<Unit> units, final Collection<Player> players) {
+      final Collection<UnitImpl> units, final Collection<Player> players) {
     final List<PlayerUnit> ret = new ArrayList<>();
     for (final Player player : players) {
       if (player.isNeutral()) {

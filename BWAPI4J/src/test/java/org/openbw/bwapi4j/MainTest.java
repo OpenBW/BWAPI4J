@@ -15,6 +15,7 @@ import org.openbw.bwapi4j.unit.MineralPatch;
 import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.unit.SCV;
 import org.openbw.bwapi4j.unit.Unit;
+import org.openbw.bwapi4j.unit.UnitImpl;
 
 public class MainTest implements BWEventListener {
   private static final Logger logger = LogManager.getLogger();
@@ -52,7 +53,7 @@ public class MainTest implements BWEventListener {
     boolean commandSuccessful = false;
     Player self = this.bw.getInteractionHandler().self();
 
-    Collection<Unit> allUnits = this.bw.getAllUnits();
+    Collection<UnitImpl> allUnits = this.bw.getAllUnits();
     MineralPatch patch = null;
     for (Unit unit : allUnits) {
       if (unit instanceof MineralPatch) {

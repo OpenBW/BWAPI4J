@@ -4,7 +4,7 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class RawUnitFactory extends UnitFactory {
   @Override
-  public Unit createUnit(int unitId, UnitType unitType, int timeSpotted) {
+  public UnitImpl createUnit(int unitId, UnitType unitType, int timeSpotted) {
     return new RawUnit(unitId, unitType);
   }
 }

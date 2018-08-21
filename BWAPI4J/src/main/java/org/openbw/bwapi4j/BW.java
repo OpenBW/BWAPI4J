@@ -46,6 +46,7 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.unit.MineralPatch;
 import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.unit.Unit;
+import org.openbw.bwapi4j.unit.UnitDataBridge;
 import org.openbw.bwapi4j.unit.UnitFactory;
 import org.openbw.bwapi4j.unit.UnitImpl;
 import org.openbw.bwapi4j.unit.VespeneGeyser;
@@ -103,9 +104,10 @@ public class BW {
   private MapDrawer mapDrawer;
   private DamageEvaluator damageEvaluator;
   private BWMapImpl bwMap;
+  private UnitDataBridge unitDataBridge;
 
   private Map<Integer, Player> players;
-  private Map<Integer, Unit> units;
+  private Map<Integer, UnitImpl> units;
   private Map<Integer, Bullet> bullets;
   private UnitFactory unitFactory;
   private int frame;
@@ -157,6 +159,7 @@ public class BW {
     this.mapDrawer = new MapDrawer();
     this.damageEvaluator = new DamageEvaluator();
     this.bwMap = new BWMapImpl(this.interactionHandler);
+    this.unitDataBridge = new UnitDataBridge(this);
     setUnitFactory(new UnitFactory());
 
     try {
@@ -329,6 +332,7 @@ public class BW {
 
     return libNames;
   }
+
   private static boolean isWindowsPlatform() {
     return System.getProperty("os.name").contains("Windows");
   }
@@ -431,8 +435,8 @@ public class BW {
         return libraryName + ".dll";
       case MAC:
         return "lib" + libraryName + ".dylib";
-        default:
-          return "lib" + libraryName + ".so";
+      default:
+        return "lib" + libraryName + ".so";
     }
   }
 
@@ -561,15 +565,15 @@ public class BW {
   }
 
   private void updateAllUnits(int frame) {
-    for (Unit unit : this.units.values()) {
-      unit.preUpdate();
+    for (UnitImpl unit : this.units.values()) {
+      unitDataBridge.preUpdate(unit);
     }
     int[] unitData = this.getAllUnitsData();
 
-    for (int index = 0; index < unitData.length; index += UnitImpl.TOTAL_PROPERTIES) {
+    for (int index = 0; index < unitData.length; index += UnitDataBridge.TOTAL_PROPERTIES) {
       int unitId = unitData[index + 0]; // TODO: Use the enum from the Unit class.
       int typeId = unitData[index + 3]; // TODO: Use the enum from the Unit class.
-      Unit unit = this.units.get(unitId);
+      UnitImpl unit = this.units.get(unitId);
       if (unit == null || typeChanged(unit.getType(), UnitType.values()[typeId])) {
         if (unit != null) {
           logger.debug(
@@ -593,15 +597,15 @@ public class BW {
           logger.trace("state: {}", unit.exists() ? "completed" : "created");
 
           this.units.put(unitId, unit);
-          unit.initialize(unitData, index, frame);
-          unit.update(unitData, index, frame);
+          unitDataBridge.initialize(unit, unitData, index, frame);
+          unitDataBridge.update(unit, unitData, index, frame);
           logger.trace("initial pos: {}", unit.getInitialTilePosition());
           logger.trace("current pos: {}", unit.getTilePosition());
 
           logger.trace(" done.");
         }
       } else {
-        unit.update(unitData, index, frame);
+        unitDataBridge.update(unit, unitData, index, frame);
       }
     }
   }
@@ -679,7 +683,7 @@ public class BW {
     return this.getVespeneGeysersCache.get();
   }
 
-  public Collection<Unit> getAllUnits() {
+  public Collection<UnitImpl> getAllUnits() {
     return this.units.values();
   }
 

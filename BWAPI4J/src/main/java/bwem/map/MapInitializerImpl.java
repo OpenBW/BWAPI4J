@@ -15,10 +15,22 @@ package bwem.map;
 import bwem.CheckMode;
 import bwem.area.TempAreaInfo;
 import bwem.area.typedef.AreaId;
-import bwem.tile.*;
+import bwem.tile.MiniTile;
+import bwem.tile.MiniTileImpl;
+import bwem.tile.TileData;
+import bwem.tile.TileDataImpl;
+import bwem.tile.TileImpl;
 import bwem.typedef.Altitude;
-import bwem.unit.*;
-import bwem.util.*;
+import bwem.unit.Mineral;
+import bwem.unit.Neutral;
+import bwem.unit.NeutralDataImpl;
+import bwem.unit.NeutralImpl;
+import bwem.unit.StaticBuilding;
+import bwem.util.BwemExt;
+import bwem.util.PairGenericAltitudeComparator;
+import bwem.util.PairGenericMiniTileAltitudeComparator;
+import bwem.util.Timer;
+import bwem.util.Utils;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -26,10 +38,14 @@ import java.util.List;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openbw.bwapi4j.*;
+import org.openbw.bwapi4j.BWMap;
+import org.openbw.bwapi4j.MapDrawer;
+import org.openbw.bwapi4j.Player;
+import org.openbw.bwapi4j.TilePosition;
+import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.unit.MineralPatch;
 import org.openbw.bwapi4j.unit.PlayerUnit;
-import org.openbw.bwapi4j.unit.Unit;
+import org.openbw.bwapi4j.unit.UnitImpl;
 import org.openbw.bwapi4j.unit.VespeneGeyser;
 
 public class MapInitializerImpl extends MapImpl implements MapInitializer {
@@ -41,7 +57,7 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
       Collection<Player> players,
       List<MineralPatch> mineralPatches,
       List<VespeneGeyser> vespeneGeysers,
-      Collection<Unit> units) {
+      Collection<UnitImpl> units) {
     super(bwMap, mapDrawer, players, mineralPatches, vespeneGeysers, units);
   }
 
@@ -739,13 +755,13 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
   ////////////////////////////////////////////////////////////////////////
 
   @Override
-  public List<PlayerUnit> filterPlayerUnits(final Collection<Unit> units, final Player player) {
+  public List<PlayerUnit> filterPlayerUnits(final Collection<UnitImpl> units, final Player player) {
     return super.filterPlayerUnits(units, player);
   }
 
   @Override
   public List<PlayerUnit> filterNeutralPlayerUnits(
-      final Collection<Unit> units, final Collection<Player> players) {
+      final Collection<UnitImpl> units, final Collection<Player> players) {
     return super.filterNeutralPlayerUnits(units, players);
   }
 }

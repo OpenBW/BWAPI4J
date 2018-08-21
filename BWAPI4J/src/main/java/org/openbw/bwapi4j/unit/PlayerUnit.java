@@ -8,8 +8,6 @@ import org.openbw.bwapi4j.type.Order;
 import org.openbw.bwapi4j.type.UnitCommandType;
 
 public interface PlayerUnit extends Unit {
-  void initialize(int[] unitData, int index, int frame);
-
   PlayerUnit getBuildUnit();
 
   /**

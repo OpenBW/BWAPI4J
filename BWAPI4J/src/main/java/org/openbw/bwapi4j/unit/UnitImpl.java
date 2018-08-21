@@ -53,163 +53,14 @@ import org.openbw.bwapi4j.type.UnitSizeType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 import org.openbw.bwapi4j.type.WeaponType;
-import org.openbw.bwapi4j.util.BridgeUtils;
 
 public abstract class UnitImpl implements Unit {
   private static final Logger logger = LogManager.getLogger();
 
-  private static final int ID_INDEX = 0;
-  private static final int REPLAY_ID_INDEX = 1;
-  private static final int PLAYER_ID_INDEX = 2;
-  private static final int TYPE_ID_INDEX = 3;
-  private static final int POSITION_X_INDEX = 4;
-  private static final int POSITION_Y_INDEX = 5;
-  private static final int TILEPOSITION_X_INDEX = 6;
-  private static final int TILEPOSITION_Y_INDEX = 7;
-  private static final int ANGLE_INDEX = 8;
-  private static final int VELOCITY_X_INDEX = 9;
-  private static final int VELOCITY_Y_INDEX = 10;
-  private static final int HITPOINTS_INDEX = 11;
-  private static final int SHIELDS_INDEX = 12;
-  private static final int ENERGY_INDEX = 13;
-  private static final int RESOURCES_INDEX = 14;
-  private static final int RESOURCE_GROUP_INDEX = 15;
-  private static final int LAST_COMMAND_FRAME_INDEX = 16;
-  private static final int LAST_COMMAND_TYPE_ID_INDEX = 17;
-  private static final int LAST_ATTACKING_PLAYER_INDEX = 18;
-  private static final int INITIAL_TYPE_ID_INDEX = 19;
-  private static final int INITIAL_POSITION_X_INDEX = 20;
-  private static final int INITIAL_POSITION_Y_INDEX = 21;
-  private static final int INITIAL_TILEPOSITION_X_INDEX = 22;
-  private static final int INITIAL_TILEPOSITION_Y_INDEX = 23;
-  private static final int INITIAL_HITPOINTS_INDEX = 24;
-  private static final int INITIAL_RESOURCES_INDEX = 25;
-  private static final int KILLCOUNT_INDEX = 26;
-  private static final int ACID_SPORE_COUNT_INDEX = 27;
-  private static final int INTERCEPTOR_COUNT_INDEX = 28;
-  private static final int SCARAB_COUNT_INDEX = 29;
-  private static final int SPIDERMINE_COUNT_INDEX = 30;
-  private static final int GROUND_WEAPON_COOLDOWN_INDEX = 31;
-  private static final int AIR_WEAPON_COOLDOWN_INDEX = 32;
-  private static final int SPELL_COOLDOWN_INDEX = 33;
-  private static final int DEFENSE_MATRIX_POINTS_INDEX = 34;
-  private static final int DEFENSE_MATRIX_TIMER_INDEX = 35;
-  private static final int ENSNARE_TIMER_INDEX = 36;
-  private static final int IRRADIATE_TIMER_INDEX = 37;
-  private static final int LOCKDOWN_TIMER_INDEX = 38;
-  private static final int MAELSTROM_TIMER_INDEX = 39;
-  private static final int ORDER_TIMER_INDEX = 40;
-  private static final int PLAGUE_TIMER_INDEX = 41;
-  private static final int REMOVE_TIMER_INDEX = 42;
-  private static final int STASIS_TIMER_INDEX = 43;
-  private static final int STOM_TIMER_INDEX = 44;
-  private static final int BUILDTYPE_ID_INDEX = 45;
-  private static final int TRAINING_QUEUE_SIZE_INDEX = 46;
-  private static final int TECH_ID_INDEX = 47;
-  private static final int UPGRADE_ID_INDEX = 48;
-  private static final int REMAINING_BUILD_TIME_INDEX = 49;
-  private static final int REMAINING_TRAIN_TIME_INDEX = 50;
-  private static final int REMAINING_RESEARCH_TIME_INDEX = 51;
-  private static final int REMAINING_UPGRADE_TIME_INDEX = 52;
-  private static final int BUILD_UNIT_ID_INDEX = 53;
-  private static final int TARGET_ID_INDEX = 54;
-  private static final int TARGET_POSITION_X_INDEX = 55;
-  private static final int TARGET_POSITION_Y_INDEX = 56;
-  private static final int ORDER_ID_INDEX = 57;
-  private static final int ORDER_TARGET_ID_INDEX = 58;
-  private static final int SECONDARY_ORDER_ID_INDEX = 59;
-  private static final int RALLY_POSITION_X_INDEX = 60;
-  private static final int RALLY_POSITION_Y_INDEX = 61;
-  private static final int RALLY_UNIT_INDEX = 62;
-  private static final int ADDON_INDEX = 63;
-  private static final int NYDUS_EXIT_INDEX = 64;
-  private static final int TRANSPORT_INDEX = 65;
-  private static final int LOADED_UNITS_SIZE_INDEX = 66;
-  private static final int CARRIER_INDEX = 67;
-  private static final int HATCHERY_INDEX = 68;
-  private static final int LARVA_SIZE_INDEX = 69;
-  private static final int POWERUP_ID_INDEX = 70;
-  private static final int EXISTS_INDEX = 71;
-  private static final int HAS_NUKE_INDEX = 72;
-  private static final int IS_ACCELERATING_INDEX = 73;
-  private static final int IS_ATTACKING_INDEX = 74;
-  private static final int IS_ATTACK_FRAME_INDEX = 75;
-  private static final int IS_BEING_CONSTRUCTED_INDEX = 76;
-  private static final int IS_BEING_GATHERED_INDEX = 77;
-  private static final int IS_BEING_HEALED_INDEX = 78;
-  private static final int IS_BLIND_INDEX = 79;
-  private static final int IS_BRAKING_INDEX = 80;
-  private static final int IS_BURROWED_INDEX = 81;
-  private static final int IS_CARRYING_GAS_INDEX = 82;
-  private static final int IS_CARRYING_MINERALS_INDEX = 83;
-  private static final int IS_CLOAKED_INDEX = 84;
-  private static final int IS_COMPLETED_INDEX = 85;
-  private static final int IS_CONSTRUCTING_INDEX = 86;
-  private static final int IS_DEFENSE_MATRIXED_INDEX = 87;
-  private static final int IS_DETECTED_INDEX = 88;
-  private static final int IS_ENSNARED_INDEX = 89;
-  private static final int IS_FOLLOWING_INDEX = 90;
-  private static final int IS_GATHERING_GAS_INDEX = 91;
-  private static final int IS_GATHERING_MINERALS_INDEX = 92;
-  private static final int IS_HALLUCINATION_INDEX = 93;
-  private static final int IS_HOLDING_POSITION_INDEX = 94;
-  private static final int IS_IDLE_INDEX = 95;
-  private static final int IS_INTERRUPTIBLE_INDEX = 96;
-  private static final int IS_INVINCIBLE_INDEX = 97;
-  private static final int IS_IRRADIATED_INDEX = 98;
-  private static final int IS_LIFTED_INDEX = 99;
-  private static final int IS_LOADED_INDEX = 100;
-  private static final int IS_LOCKED_DOWN_INDEX = 101;
-  private static final int IS_MAELSTROMMED_INDEX = 102;
-  private static final int IS_MORPHING_INDEX = 103;
-  private static final int IS_MOVING_INDEX = 104;
-  private static final int IS_PARASITED_INDEX = 105;
-  private static final int IS_PATROLLING_INDEX = 106;
-  private static final int IS_PLAGUED_INDEX = 107;
-  private static final int IS_REPAIRING_INDEX = 108;
-  private static final int IS_SELECTED_INDEX = 109;
-  private static final int IS_SIEGED_INDEX = 110;
-  private static final int IS_STARTING_ATTACK_INDEX = 111;
-  private static final int IS_STASISED_INDEX = 112;
-  private static final int IS_STIMMED_INDEX = 113;
-  private static final int IS_STUCK_INDEX = 114;
-  private static final int IS_TRAINING_INDEX = 115;
-  private static final int IS_UNDER_ATTACK_INDEX = 116;
-  private static final int IS_UNDER_DARK_SWARM_INDEX = 117;
-  private static final int IS_UNDER_DISRUPTION_WEB_INDEX = 118;
-  private static final int IS_UNDER_STORM_INDEX = 119;
-  private static final int IS_POWERED_INDEX = 120;
-  private static final int IS_UPGRADING_INDEX = 121;
-  private static final int IS_VISIBLE_INDEX = 122;
-  private static final int IS_RESEARCHING_INDEX = 123;
-  private static final int IS_FLYING_INDEX = 124;
-  private static final int ORDER_TARGET_POSITION_X_INDEX = 125;
-  private static final int ORDER_TARGET_POSITION_Y_INDEX = 126;
-
-  // TODO: Refactor
-  private static final int TRAINING_QUEUE_SLOT_0_INDEX = 127;
-  private static final int TRAINING_QUEUE_SLOT_1_INDEX = 128;
-  private static final int TRAINING_QUEUE_SLOT_2_INDEX = 129;
-  private static final int TRAINING_QUEUE_SLOT_3_INDEX = 130;
-  private static final int TRAINING_QUEUE_SLOT_4_INDEX = 131;
-  private static final int MAX_TRAINING_QUEUE_SIZE = 5;
-
-  private static final int SPACE_REMAINING_INDEX = 132;
-
-  // TODO: Refactor.
-  private static final int LOADED_UNIT_SLOT_0_INDEX = 133;
-  private static final int LOADED_UNIT_SLOT_1_INDEX = 134;
-  private static final int LOADED_UNIT_SLOT_2_INDEX = 135;
-  private static final int LOADED_UNIT_SLOT_3_INDEX = 136;
-  private static final int LOADED_UNIT_SLOT_4_INDEX = 137;
-  private static final int LOADED_UNIT_SLOT_5_INDEX = 138;
-  private static final int LOADED_UNIT_SLOT_6_INDEX = 139;
-  private static final int LOADED_UNIT_SLOT_7_INDEX = 140;
-  private static final int MAX_LOADED_UNITS_COUNT = 8;
-
-  public static final int TOTAL_PROPERTIES = 141;
-
   // static
+  private static final int MAX_TRAINING_QUEUE_SIZE = 5;
+  static final int MAX_LOADED_UNITS_COUNT = 8;
+
   protected int id;
   Position initialPosition;
   TilePosition initialTilePosition;
@@ -225,17 +76,17 @@ public abstract class UnitImpl implements Unit {
   int lastCommandFrame;
   UnitCommandType lastCommand;
 
-  private boolean isVisible;
-  private boolean exists;
-  private boolean isSelected;
+  boolean isVisible;
+  boolean exists;
+  boolean isSelected;
   boolean isFlying;
 
   boolean isUpgrading;
   boolean isResearching;
-  private int remainingResearchTime;
-  private int remainingUpgradeTime;
-  private UpgradeType currentUpgrade;
-  private TechType currentResearch;
+  int remainingResearchTime;
+  int remainingUpgradeTime;
+  UpgradeType currentUpgrade;
+  TechType currentResearch;
 
   // static
   int initialHitPoints;
@@ -273,15 +124,15 @@ public abstract class UnitImpl implements Unit {
   boolean isTraining;
   int trainingQueueSize;
   int remainingTrainTime;
-  private int rallyPositionX;
-  private int rallyPositionY;
-  private int rallyUnitId;
-  private int[] trainingQueueUnitTypeIds = new int[MAX_TRAINING_QUEUE_SIZE];
+  int rallyPositionX;
+  int rallyPositionY;
+  int rallyUnitId;
+  int[] trainingQueueUnitTypeIds = new int[MAX_TRAINING_QUEUE_SIZE];
   List<TrainingSlot> trainingQueue = new ArrayList<>();
   boolean isLoaded;
   int spaceRemaining;
-  private int[] loadedUnitIds = new int[MAX_LOADED_UNITS_COUNT];
-  private List<MobileUnit> loadedUnits = new ArrayList<>();
+  int[] loadedUnitIds = new int[MAX_LOADED_UNITS_COUNT];
+  List<MobileUnit> loadedUnits = new ArrayList<>();
   int interceptorCount;
   boolean isFollowing;
   boolean isHoldingPosition;
@@ -334,7 +185,7 @@ public abstract class UnitImpl implements Unit {
 
   // internal
   private BW bw;
-  private int lastSpotted;
+  int lastSpotted;
 
   protected UnitImpl(int id, UnitType unitType) {
     this.id = id;
@@ -344,200 +195,6 @@ public abstract class UnitImpl implements Unit {
 
   final void setBW(BW bw) {
     this.bw = bw;
-  }
-
-  public void initialize(int[] unitData, int index, int frame) {
-    // TODO this is a workaround because initialTilePosition gives wrong results with OpenBW
-    this.initialPosition =
-        new Position(
-            unitData[index + UnitImpl.POSITION_X_INDEX],
-            unitData[index + UnitImpl.POSITION_Y_INDEX]);
-    this.initialTilePosition =
-        new TilePosition(
-            unitData[index + UnitImpl.TILEPOSITION_X_INDEX],
-            unitData[index + UnitImpl.TILEPOSITION_Y_INDEX]);
-    this.initiallySpotted = frame;
-    this.initialHitPoints = unitData[index + UnitImpl.INITIAL_HITPOINTS_INDEX];
-    this.isInterruptible = unitData[index + UnitImpl.IS_INTERRUPTIBLE_INDEX] == 1;
-    this.lastKnownPosition = this.initialPosition;
-    this.lastKnownTilePosition = this.initialTilePosition;
-    this.lastKnownHitPoints = this.initialHitPoints;
-    this.initialResources = unitData[index + UnitImpl.INITIAL_RESOURCES_INDEX];
-    this.carrierId = unitData[index + UnitImpl.CARRIER_INDEX];
-    this.hatcheryId = unitData[index + UnitImpl.HATCHERY_INDEX];
-  }
-
-  public void preUpdate() {
-    this.isVisible = false;
-    this.exists = false;
-  }
-
-  public void update(int[] unitData, int index, int frame) {
-    this.x = unitData[index + UnitImpl.POSITION_X_INDEX];
-    this.y = unitData[index + UnitImpl.POSITION_Y_INDEX];
-    this.position = new Position(x, y);
-    this.tilePosition =
-        new TilePosition(
-            unitData[index + UnitImpl.TILEPOSITION_X_INDEX],
-            unitData[index + UnitImpl.TILEPOSITION_Y_INDEX]);
-    this.angle =
-        BridgeUtils.parsePreservedBwapiAngle(
-            BridgeUtils.parsePreservedDouble(unitData[index + UnitImpl.ANGLE_INDEX]));
-    this.isVisible = unitData[index + UnitImpl.IS_VISIBLE_INDEX] == 1;
-    this.exists = unitData[index + UnitImpl.EXISTS_INDEX] == 1;
-    this.isSelected = unitData[index + UnitImpl.IS_SELECTED_INDEX] == 1;
-    this.isFlying = unitData[index + UnitImpl.IS_FLYING_INDEX] == 1;
-
-    this.order = Order.values()[unitData[index + UnitImpl.ORDER_ID_INDEX]];
-    this.orderTargetId = unitData[index + UnitImpl.ORDER_TARGET_ID_INDEX];
-
-    final int orderTargetPositionX = unitData[index + UnitImpl.ORDER_TARGET_POSITION_X_INDEX];
-    final int orderTargetPositionY = unitData[index + UnitImpl.ORDER_TARGET_POSITION_Y_INDEX];
-    this.orderTargetPosition = new Position(orderTargetPositionX, orderTargetPositionY);
-
-    this.secondaryOrder = Order.values()[unitData[index + UnitImpl.SECONDARY_ORDER_ID_INDEX]];
-    this.isUpgrading = unitData[index + UnitImpl.IS_UPGRADING_INDEX] == 1;
-    this.isResearching = unitData[index + UnitImpl.IS_RESEARCHING_INDEX] == 1;
-    this.remainingResearchTime = unitData[index + UnitImpl.REMAINING_RESEARCH_TIME_INDEX];
-    this.remainingUpgradeTime = unitData[index + UnitImpl.REMAINING_UPGRADE_TIME_INDEX];
-    this.currentUpgrade = UpgradeType.withId(unitData[index + UnitImpl.UPGRADE_ID_INDEX]);
-    this.currentResearch = TechType.withId(unitData[index + UnitImpl.TECH_ID_INDEX]);
-
-    this.playerId = unitData[index + UnitImpl.PLAYER_ID_INDEX];
-    this.player = bw.getPlayer(this.playerId);
-
-    this.hitPoints = unitData[index + UnitImpl.HITPOINTS_INDEX];
-    this.shields = unitData[index + UnitImpl.SHIELDS_INDEX];
-    this.killCount = unitData[index + UnitImpl.KILLCOUNT_INDEX];
-    this.isCloaked = unitData[index + UnitImpl.IS_CLOAKED_INDEX] == 1;
-    this.isDetected = unitData[index + UnitImpl.IS_DETECTED_INDEX] == 1;
-    this.velocityX = BridgeUtils.parsePreservedDouble(unitData[index + UnitImpl.VELOCITY_X_INDEX]);
-    this.velocityY = BridgeUtils.parsePreservedDouble(unitData[index + UnitImpl.VELOCITY_Y_INDEX]);
-    this.isIdle = unitData[index + UnitImpl.IS_IDLE_INDEX] == 1;
-    this.isCompleted = unitData[index + UnitImpl.IS_COMPLETED_INDEX] == 1;
-    this.spellCooldown = unitData[index + UnitImpl.SPELL_COOLDOWN_INDEX];
-    this.isAccelerating = unitData[index + UnitImpl.IS_ACCELERATING_INDEX] == 1;
-    this.isAttacking = unitData[index + UnitImpl.IS_ATTACKING_INDEX] == 1;
-    this.isAttackFrame = unitData[index + UnitImpl.IS_ATTACK_FRAME_INDEX] == 1;
-    this.isBeingConstructed = unitData[index + UnitImpl.IS_BEING_CONSTRUCTED_INDEX] == 1;
-    this.isBeingHealed = unitData[index + UnitImpl.IS_BEING_HEALED_INDEX] == 1;
-    this.isIrradiated = unitData[index + UnitImpl.IS_IRRADIATED_INDEX] == 1;
-    this.isLockedDown = unitData[index + UnitImpl.IS_LOCKED_DOWN_INDEX] == 1;
-    this.isMaelstrommed = unitData[index + UnitImpl.IS_MAELSTROMMED_INDEX] == 1;
-    this.isStartingAttack = unitData[index + UnitImpl.IS_STARTING_ATTACK_INDEX] == 1;
-    this.isUnderAttack = unitData[index + UnitImpl.IS_UNDER_ATTACK_INDEX] == 1;
-    this.isPowered = unitData[index + UnitImpl.IS_POWERED_INDEX] == 1;
-    this.targetId = unitData[index + UnitImpl.TARGET_ID_INDEX];
-    this.isInterruptible = unitData[index + UnitImpl.IS_INTERRUPTIBLE_INDEX] == 1;
-    this.lastCommand =
-        UnitCommandType.values()[unitData[index + UnitImpl.LAST_COMMAND_TYPE_ID_INDEX]];
-    this.lastCommandFrame = unitData[index + UnitImpl.LAST_COMMAND_FRAME_INDEX];
-
-    this.builderId = unitData[index + UnitImpl.BUILD_UNIT_ID_INDEX];
-    this.groundWeapon.update(
-        type.groundWeapon(), unitData[index + UnitImpl.GROUND_WEAPON_COOLDOWN_INDEX]);
-    this.airWeapon.update(type.airWeapon(), unitData[index + UnitImpl.AIR_WEAPON_COOLDOWN_INDEX]);
-    this.energy = unitData[index + UnitImpl.ENERGY_INDEX];
-    this.isTraining = unitData[index + UnitImpl.IS_TRAINING_INDEX] == 1;
-    this.trainingQueueSize = unitData[index + UnitImpl.TRAINING_QUEUE_SIZE_INDEX];
-
-    this.trainingQueueUnitTypeIds[0] = unitData[index + UnitImpl.TRAINING_QUEUE_SLOT_0_INDEX];
-    this.trainingQueueUnitTypeIds[1] = unitData[index + UnitImpl.TRAINING_QUEUE_SLOT_1_INDEX];
-    this.trainingQueueUnitTypeIds[2] = unitData[index + UnitImpl.TRAINING_QUEUE_SLOT_2_INDEX];
-    this.trainingQueueUnitTypeIds[3] = unitData[index + UnitImpl.TRAINING_QUEUE_SLOT_3_INDEX];
-    this.trainingQueueUnitTypeIds[4] = unitData[index + UnitImpl.TRAINING_QUEUE_SLOT_4_INDEX];
-    // TODO: Move this to a separate function and populate using cache.
-    /* Populate training queue. */ {
-      this.trainingQueue.clear();
-      for (int i = 0; i < this.trainingQueueSize; ++i) {
-        this.trainingQueue.add(
-            new TrainingSlot(i, UnitType.values()[this.trainingQueueUnitTypeIds[i]]));
-      }
-    }
-
-    this.spaceRemaining = unitData[index + UnitImpl.SPACE_REMAINING_INDEX];
-
-    this.loadedUnitIds[0] = unitData[index + UnitImpl.LOADED_UNIT_SLOT_0_INDEX];
-    this.loadedUnitIds[1] = unitData[index + UnitImpl.LOADED_UNIT_SLOT_1_INDEX];
-    this.loadedUnitIds[2] = unitData[index + UnitImpl.LOADED_UNIT_SLOT_2_INDEX];
-    this.loadedUnitIds[3] = unitData[index + UnitImpl.LOADED_UNIT_SLOT_3_INDEX];
-    this.loadedUnitIds[4] = unitData[index + UnitImpl.LOADED_UNIT_SLOT_4_INDEX];
-    this.loadedUnitIds[5] = unitData[index + UnitImpl.LOADED_UNIT_SLOT_5_INDEX];
-    this.loadedUnitIds[6] = unitData[index + UnitImpl.LOADED_UNIT_SLOT_6_INDEX];
-    this.loadedUnitIds[7] = unitData[index + UnitImpl.LOADED_UNIT_SLOT_7_INDEX];
-    // TODO: Move this to a separate function and populate using cache.
-    /* Populate list of loaded units. */ {
-      this.loadedUnits.clear();
-      int loadedUnitIdsIndex = 0;
-      while (loadedUnitIdsIndex < MAX_LOADED_UNITS_COUNT) {
-        final int unitId = loadedUnitIds[loadedUnitIdsIndex++];
-        if (unitId < 0) {
-          break;
-        } else {
-          final MobileUnit loadedUnit = (MobileUnit) this.bw.getUnit(unitId);
-          this.loadedUnits.add(loadedUnit);
-        }
-      }
-    }
-
-    this.remainingTrainTime = unitData[index + UnitImpl.REMAINING_TRAIN_TIME_INDEX];
-    this.rallyUnitId = unitData[index + UnitImpl.RALLY_UNIT_INDEX];
-    this.rallyPositionX = unitData[index + UnitImpl.RALLY_POSITION_X_INDEX];
-    this.rallyPositionY = unitData[index + UnitImpl.RALLY_POSITION_Y_INDEX];
-
-    this.isLoaded = unitData[index + UnitImpl.IS_LOADED_INDEX] == 1;
-    this.interceptorCount = unitData[index + UnitImpl.INTERCEPTOR_COUNT_INDEX];
-
-    this.isFollowing = unitData[index + UnitImpl.IS_FOLLOWING_INDEX] == 1;
-    this.isHoldingPosition = unitData[index + UnitImpl.IS_HOLDING_POSITION_INDEX] == 1;
-    this.isStuck = unitData[index + UnitImpl.IS_STUCK_INDEX] == 1;
-    this.isStasised = unitData[index + UnitImpl.IS_STASISED_INDEX] == 1;
-    this.isUnderDarkSwarm = unitData[index + UnitImpl.IS_UNDER_DARK_SWARM_INDEX] == 1;
-    this.isUnderDisruptionWeb = unitData[index + UnitImpl.IS_UNDER_DISRUPTION_WEB_INDEX] == 1;
-    this.isUnderStorm = unitData[index + UnitImpl.IS_UNDER_STORM_INDEX] == 1;
-    this.isMoving = unitData[index + UnitImpl.IS_MOVING_INDEX] == 1;
-    this.isParasited = unitData[index + UnitImpl.IS_PARASITED_INDEX] == 1;
-    this.isPatrolling = unitData[index + UnitImpl.IS_PATROLLING_INDEX] == 1;
-    this.isPlagued = unitData[index + UnitImpl.IS_PLAGUED_INDEX] == 1;
-    this.targetPosition =
-        new Position(
-            unitData[index + UnitImpl.TARGET_POSITION_X_INDEX],
-            unitData[index + UnitImpl.TARGET_POSITION_Y_INDEX]);
-    this.transportId = unitData[index + UnitImpl.TRANSPORT_INDEX];
-    this.acidSporeCount = unitData[index + UnitImpl.ACID_SPORE_COUNT_INDEX];
-    this.isHallucination = unitData[index + UnitImpl.IS_HALLUCINATION_INDEX] == 1;
-    this.isBlind = unitData[index + UnitImpl.IS_BLIND_INDEX] == 1;
-    this.isBraking = unitData[index + UnitImpl.IS_BRAKING_INDEX] == 1;
-    this.isDefenseMatrixed = unitData[index + UnitImpl.IS_DEFENSE_MATRIXED_INDEX] == 1;
-    this.isEnsnared = unitData[index + UnitImpl.IS_ENSNARED_INDEX] == 1;
-    this.addonId = unitData[index + UnitImpl.ADDON_INDEX];
-    this.remainingBuildTime = unitData[index + UnitImpl.REMAINING_BUILD_TIME_INDEX];
-    this.isLifted = unitData[index + UnitImpl.IS_LIFTED_INDEX] == 1;
-    this.burrowed = unitData[index + UnitImpl.IS_BURROWED_INDEX] == 1;
-    this.remainingMorphTime = unitData[index + UnitImpl.REMAINING_BUILD_TIME_INDEX];
-    this.isStimmed = unitData[index + UnitImpl.IS_STIMMED_INDEX] == 1;
-    this.resources = unitData[index + UnitImpl.RESOURCES_INDEX];
-    this.isBeingGathered = unitData[index + UnitImpl.IS_BEING_GATHERED_INDEX] == 1;
-    this.hasNuke = unitData[index + UnitImpl.HAS_NUKE_INDEX] == 1;
-    this.nydusExitId = unitData[index + UnitImpl.NYDUS_EXIT_INDEX];
-    this.scarabCount = unitData[index + UnitImpl.SCARAB_COUNT_INDEX];
-    this.isRepairing = unitData[index + UnitImpl.IS_REPAIRING_INDEX] == 1;
-    this.sieged = unitData[index + UnitImpl.IS_SIEGED_INDEX] == 1;
-    this.spiderMineCount = unitData[index + UnitImpl.SPIDERMINE_COUNT_INDEX];
-    this.isConstructing = unitData[index + UnitImpl.IS_CONSTRUCTING_INDEX] == 1;
-    this.isGatheringGas = unitData[index + UnitImpl.IS_GATHERING_GAS_INDEX] == 1;
-    this.isGatheringMinerals = unitData[index + UnitImpl.IS_GATHERING_MINERALS_INDEX] == 1;
-    this.isCarryingGas = unitData[index + UnitImpl.IS_CARRYING_GAS_INDEX] == 1;
-    this.isCarryingMinerals = unitData[index + UnitImpl.IS_CARRYING_MINERALS_INDEX] == 1;
-    this.buildType = UnitType.values()[unitData[index + UnitImpl.BUILDTYPE_ID_INDEX]];
-
-    if (this.isVisible) {
-      this.lastSpotted = frame;
-      this.lastKnownPosition = this.position;
-      this.lastKnownTilePosition = this.tilePosition;
-      this.lastKnownHitPoints = this.hitPoints;
-      this.lastKnownResources = this.resources;
-    }
   }
 
   public int getKillCount() {
@@ -552,7 +209,7 @@ public abstract class UnitImpl implements Unit {
     return initiallySpotted;
   }
 
-  protected Collection<Unit> getAllUnits() {
+  protected Collection<UnitImpl> getAllUnits() {
     return bw.getAllUnits();
   }
 
@@ -891,10 +548,10 @@ public abstract class UnitImpl implements Unit {
   private UpgradeType uppgrade;
 
   private Unit buildUnit;
-  private Order order;
-  private int orderTargetId;
-  private Position orderTargetPosition;
-  private Order secondaryOrder;
+  Order order;
+  int orderTargetId;
+  Position orderTargetPosition;
+  Order secondaryOrder;
 
   private boolean isMorphing;
   private boolean isTargetable;

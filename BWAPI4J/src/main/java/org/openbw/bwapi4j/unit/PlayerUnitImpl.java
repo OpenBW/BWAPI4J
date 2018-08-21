@@ -35,16 +35,8 @@ import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 
 public abstract class PlayerUnitImpl extends UnitImpl {
-  private UnitStatCalculator unitStatCalculator;
-
   protected PlayerUnitImpl(int id, UnitType unitType) {
     super(id, unitType);
-  }
-
-  @Override
-  public void initialize(int[] unitData, int index, int frame) {
-    super.initialize(unitData, index, frame);
-    this.unitStatCalculator = this.getPlayer(playerId).getUnitStatCalculator();
   }
 
   public PlayerUnit getBuildUnit() {
@@ -125,7 +117,7 @@ public abstract class PlayerUnitImpl extends UnitImpl {
   }
 
   protected UnitStatCalculator getUnitStatCalculator() {
-    return this.unitStatCalculator;
+    return this.getPlayer(playerId).getUnitStatCalculator();
   }
 
   protected int getMaxEnergy() {

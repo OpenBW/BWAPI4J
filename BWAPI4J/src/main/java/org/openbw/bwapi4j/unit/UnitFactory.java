@@ -110,7 +110,7 @@ public class UnitFactory {
    * @param timeSpotted time stamp when unit first appeared
    * @return the created unit
    */
-  public Unit createUnit(int unitId, UnitType unitType, int timeSpotted) {
+  public UnitImpl createUnit(int unitId, UnitType unitType, int timeSpotted) {
     UnitImpl unit;
     switch (unitType) {
       case Terran_Academy:
