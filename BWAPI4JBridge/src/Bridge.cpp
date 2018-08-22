@@ -269,33 +269,37 @@ JNIEXPORT jstring JNICALL Java_org_openbw_bwapi4j_BW_getPlayerName(JNIEnv *env, 
   */
 }
 
+// TODO: Refactor to be one call for all players. Possibly also merge with "getUpgradeStatus".
 JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getResearchStatus(JNIEnv *env, jobject, jint playerID) {
-  int index = 0;
-  BWAPI::Player p = BWAPI::Broodwar->getPlayer(playerID);
+  bridgeData.reset();
 
-  for (BWAPI::TechType techType : BWAPI::TechTypes::allTechTypes()) {
-    intBuf[index++] = techType.getID();
-    intBuf[index++] = p->hasResearched((techType)) ? 1 : 0;
-    intBuf[index++] = p->isResearching((techType)) ? 1 : 0;
+  const auto &player = BWAPI::Broodwar->getPlayer(playerID);
+
+  for (const auto &techType : BWAPI::TechTypes::allTechTypes()) {
+    bridgeData.addId(techType);
+    bridgeData.add(player->hasResearched(techType));
+    bridgeData.add(player->isResearching(techType));
   }
 
-  jintArray result = env->NewIntArray(index);
-  env->SetIntArrayRegion(result, 0, index, intBuf);
+  jintArray result = env->NewIntArray(bridgeData.getIndex());
+  env->SetIntArrayRegion(result, 0, bridgeData.getIndex, bridgeData.intBuf);
   return result;
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUpgradeStatus(JNIEnv *env, jobject jObj, jint playerID) {
-  int index = 0;
-  BWAPI::Player p = BWAPI::Broodwar->getPlayer(playerID);
+// TODO: Refactor to be one call for all players. Possibly also merge with "getResearchStatus".
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUpgradeStatus(JNIEnv *env, jobject, jint playerID) {
+  bridgeData.reset();
 
-  for (BWAPI::UpgradeType upgradeType : BWAPI::UpgradeTypes::allUpgradeTypes()) {
-    intBuf[index++] = upgradeType.getID();
-    intBuf[index++] = p->getUpgradeLevel((upgradeType));
-    intBuf[index++] = p->isUpgrading((upgradeType)) ? 1 : 0;
+  const auto &player = BWAPI::Broodwar->getPlayer(playerID);
+
+  for (const auto &upgradeType : BWAPI::UpgradeTypes::allUpgradeTypes()) {
+    bridgeData.addId(upgradeType);
+    bridgeData.add(player->getUpgradeLevel(upgradeType));
+    bridgeData.add(player->isUpgrading(upgradeType));
   }
 
-  jintArray result = env->NewIntArray(index);
-  env->SetIntArrayRegion(result, 0, index, intBuf);
+  jintArray result = env->NewIntArray(bridgeData.getIndex());
+  env->SetIntArrayRegion(result, 0, bridgeData.getIndex(), bridgeData.intBuf);
   return result;
 }
 
