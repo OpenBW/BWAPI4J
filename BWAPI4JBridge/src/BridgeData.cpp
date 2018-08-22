@@ -24,29 +24,27 @@ BridgeData::BridgeData() : _index(0) {}
 
 void BridgeData::reset() { _index = 0; }
 
-void BridgeData::add(const int val) { _intBuf[_index++] = val; }
+void BridgeData::add(const int val) { intBuf[_index++] = val; }
+
+int BridgeData::getIndex() const { return _index; }
 
 void BridgeData::add(const BWAPI::TilePosition &tilePosition) {
-  _intBuf[_index++] = tilePosition.x;
-  _intBuf[_index++] = tilePosition.y;
+  add(tilePosition.x);
+  add(tilePosition.y);
 }
 
 void BridgeData::add(const BWAPI::WalkPosition &walkPosition) {
-  _intBuf[_index++] = walkPosition.x;
-  _intBuf[_index++] = walkPosition.y;
+  add(walkPosition.x);
+  add(walkPosition.y);
 }
 
 void BridgeData::add(const BWAPI::Position &position) {
-  _intBuf[_index++] = position.x;
-  _intBuf[_index++] = position.y;
+  add(position.x);
+  add(position.y);
 }
 
-void BridgeData::add(const BWAPI::Unit &unit, const bool onlyUnitId) {
-  if (onlyUnitId) {
-    _intBuf[_index++] = unit ? unit->getID() : -1;
-  } else {
-    // TODO
-  }
-}
+void BridgeData::add(const BWAPI::UnitType &unitType) { add(unitType.getID()); }
 
-void BridgeData::add(const BWAPI::UnitType &unitType) { _intBuf[_index++] = unitType.getID(); }
+void BridgeData::add(const BWAPI::Unit &unit) { add(unit ? unit->getID() : -1); }
+
+void BridgeData::add(const BWAPI::Player &player) { add(player ? player->getID() : -1); }

@@ -21,6 +21,7 @@
 #pragma once
 
 #include <BWAPI.h>
+#include <jni.h>
 
 class BridgeData {
  public:
@@ -28,16 +29,20 @@ class BridgeData {
 
   void reset();
 
+  int getIndex() const;
+
   void add(const int val);
+
   void add(const BWAPI::TilePosition &tilePosition);
   void add(const BWAPI::WalkPosition &walkPosition);
   void add(const BWAPI::Position &position);
-  void add(const BWAPI::Unit &unit, const bool onlyUnitId = true);
   void add(const BWAPI::UnitType &unitType);
+  void add(const BWAPI::Unit &unit);
+  void add(const BWAPI::Player &player);
+
+  static const size_t intBufSize = 5000000U;
+  jint intBuf[intBufSize];
 
  private:
-  static const int intBufSize = 5000000;
-
-  int _intBuf[intBufSize];
   int _index;
 };
