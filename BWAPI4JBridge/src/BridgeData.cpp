@@ -84,7 +84,7 @@ void BridgeData::addId(const BWAPI::Order &order) { add(order.getID()); }
 
 void BridgeData::addId(const BWAPI::Race &race) { add(race.getID()); }
 
-void BridgeData::addId(const BWAPI::Color color) { add(convertColor(color.getID())); }
+void BridgeData::addId(const BWAPI::Color color) { add(convertColor(color)); }
 
 void BridgeData::addId(const BWAPI::PlayerType &playerType) { add(playerType.getID()); }
 
