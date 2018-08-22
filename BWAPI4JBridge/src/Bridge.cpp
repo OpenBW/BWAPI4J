@@ -69,6 +69,8 @@ int toPreservedDouble(const double d) { return static_cast<int>(DECIMAL_PRESERVA
 // https://github.com/bwapi/bwapi/blob/59b14af21b3c881ce06af8b1ea1d63fa3c8b2df0/bwapi/BWAPI/Source/BWAPI/BulletImpl.cpp#L93-L97
 double toPreservedBwapiAngle(const double angle) { return (angle * 128.0 / M_PI); }
 
+BridgeData bridgeData;
+
 Callbacks callbacks;
 
 JavaRefs javaRefs;

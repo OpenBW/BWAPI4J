@@ -18,25 +18,35 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#pragma once
-
-#include <list>
-
-#include <BWAPI.h>
-#include <jni.h>
-
 #include "BridgeData.h"
-#include "Callbacks.h"
-#include "JavaRefs.h"
 
-extern JNIEnv *globalEnv;
-extern jobject globalBW;
+BridgeData::BridgeData() : _index(0) {}
 
-extern const size_t intBufSize;
-extern jint intBuf[];
+void BridgeData::reset() { _index = 0; }
 
-extern BridgeData bridgeData;
+void BridgeData::add(const int val) { _intBuf[_index++] = val; }
 
-extern JavaRefs javaRefs;
+void BridgeData::add(const BWAPI::TilePosition &tilePosition) {
+  _intBuf[_index++] = tilePosition.x;
+  _intBuf[_index++] = tilePosition.y;
+}
 
-extern Callbacks callbacks;
+void BridgeData::add(const BWAPI::WalkPosition &walkPosition) {
+  _intBuf[_index++] = walkPosition.x;
+  _intBuf[_index++] = walkPosition.y;
+}
+
+void BridgeData::add(const BWAPI::Position &position) {
+  _intBuf[_index++] = position.x;
+  _intBuf[_index++] = position.y;
+}
+
+void BridgeData::add(const BWAPI::Unit &unit, const bool onlyUnitId) {
+  if (onlyUnitId) {
+    _intBuf[_index++] = unit ? unit->getID() : -1;
+  } else {
+    // TODO
+  }
+}
+
+void BridgeData::add(const BWAPI::UnitType &unitType) { _intBuf[_index++] = unitType.getID(); }

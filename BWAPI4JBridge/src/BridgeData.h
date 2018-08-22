@@ -20,23 +20,24 @@
 
 #pragma once
 
-#include <list>
-
 #include <BWAPI.h>
-#include <jni.h>
 
-#include "BridgeData.h"
-#include "Callbacks.h"
-#include "JavaRefs.h"
+class BridgeData {
+ public:
+  BridgeData();
 
-extern JNIEnv *globalEnv;
-extern jobject globalBW;
+  void reset();
 
-extern const size_t intBufSize;
-extern jint intBuf[];
+  void add(const int val);
+  void add(const BWAPI::TilePosition &tilePosition);
+  void add(const BWAPI::WalkPosition &walkPosition);
+  void add(const BWAPI::Position &position);
+  void add(const BWAPI::Unit &unit, const bool onlyUnitId = true);
+  void add(const BWAPI::UnitType &unitType);
 
-extern BridgeData bridgeData;
+ private:
+  static const int intBufSize = 5000000;
 
-extern JavaRefs javaRefs;
-
-extern Callbacks callbacks;
+  int _intBuf[intBufSize];
+  int _index;
+};
