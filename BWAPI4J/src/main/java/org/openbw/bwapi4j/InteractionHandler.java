@@ -177,12 +177,8 @@ public final class InteractionHandler {
   private List<Player> parsePlayers(final int[] data) {
     final List<Player> players = new ArrayList<>();
 
-    int index = 0;
-
-    final int playerCount = data[index++];
-
-    for (int i = 0; i < playerCount; ++i) {
-      final int playerId = data[index++];
+    for (int i = 0; i < data.length; ++i) {
+      final int playerId = data[i];
 
       final Player player = bw.getPlayer(playerId);
       players.add(player);
