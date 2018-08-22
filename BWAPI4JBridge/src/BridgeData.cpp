@@ -38,28 +38,50 @@ void BridgeData::reset() { _index = 0; }
 
 void BridgeData::add(const int val) { intBuf[_index++] = val; }
 
+void BridgeData::add(const bool b) { add(b ? 1 : 0); }
+
 int BridgeData::getIndex() const { return _index; }
 
-void BridgeData::add(const BWAPI::TilePosition &tilePosition) {
+void BridgeData::addFields(const BWAPI::TilePosition &tilePosition) {
   add(tilePosition.x);
   add(tilePosition.y);
 }
 
-void BridgeData::add(const BWAPI::WalkPosition &walkPosition) {
+void BridgeData::addFields(const BWAPI::WalkPosition &walkPosition) {
   add(walkPosition.x);
   add(walkPosition.y);
 }
 
-void BridgeData::add(const BWAPI::Position &position) {
+void BridgeData::addFields(const BWAPI::Position &position) {
   add(position.x);
   add(position.y);
 }
 
-void BridgeData::add(const BWAPI::UnitType &unitType) { add(unitType.getID()); }
+void BridgeData::addId(const BWAPI::UnitType &unitType) { add(unitType.getID()); }
 
-void BridgeData::add(const BWAPI::Unit &unit) { add(unit ? unit->getID() : -1); }
+void BridgeData::addId(const BWAPI::Unit &unit) { add(unit ? unit->getID() : -1); }
 
-void BridgeData::add(const BWAPI::Player &player) { add(player ? player->getID() : -1); }
+void BridgeData::addId(const BWAPI::Player &player) { add(player ? player->getID() : -1); }
+
+void BridgeData::addId(const BWAPI::Bullet &bullet) { add(bullet ? bullet->getID() : -1); }
+
+void BridgeData::addId(const BWAPI::BulletType &bulletType) { add(bulletType.getID()); }
+
+void BridgeData::addFields(const BWAPI::Bullet &bullet) {
+  add(bullet->exists());
+  add(toPreservedDouble(toPreservedBwapiAngle(bullet->getAngle())));
+  addId(bullet);
+  addId(bullet->getPlayer());
+  addFields(bullet->getPosition());
+  add(bullet->getRemoveTimer());
+  addId(bullet->getSource());
+  addId(bullet->getTarget());
+  addFields(bullet->getTargetPosition());
+  addId(bullet->getType());
+  add(toPreservedDouble(bullet->getVelocityX()));
+  add(toPreservedDouble(bullet->getVelocityY()));
+  add(bullet->isVisible());
+}
 
 double BridgeData::toDegrees(const double radians) { return radians * RADIANS_TO_DEGREES; }
 

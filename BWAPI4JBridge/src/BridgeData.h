@@ -38,13 +38,18 @@ class BridgeData {
   int getIndex() const;
 
   void add(const int val);
+  void add(const bool b);
 
-  void add(const BWAPI::TilePosition &tilePosition);
-  void add(const BWAPI::WalkPosition &walkPosition);
-  void add(const BWAPI::Position &position);
-  void add(const BWAPI::UnitType &unitType);
-  void add(const BWAPI::Unit &unit);
-  void add(const BWAPI::Player &player);
+  void addId(const BWAPI::UnitType &unitType);
+  void addId(const BWAPI::Unit &unit);
+  void addId(const BWAPI::Player &player);
+  void addId(const BWAPI::Bullet &bullet);
+  void addId(const BWAPI::BulletType &bulletType);
+
+  void addFields(const BWAPI::TilePosition &tilePosition);
+  void addFields(const BWAPI::WalkPosition &walkPosition);
+  void addFields(const BWAPI::Position &position);
+  void addFields(const BWAPI::Bullet &bullet);
 
  private:
   int _index;
