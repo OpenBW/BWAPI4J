@@ -29,14 +29,11 @@
 #include "Callbacks.h"
 #include "JavaRefs.h"
 
-extern JNIEnv *globalEnv;
-extern jobject globalBW;
-
-extern const size_t intBufSize;
-extern jint intBuf[];
-
 extern BridgeData bridgeData;
 
 extern JavaRefs javaRefs;
 
 extern Callbacks callbacks;
+
+extern JNIEnv *globalEnv;
+extern jobject globalBW;

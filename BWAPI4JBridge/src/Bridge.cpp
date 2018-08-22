@@ -24,12 +24,10 @@
 #ifdef _WIN32
 #include <Windows.h>
 #define DLLEXPORT __declspec(dllexport)
-#define _USE_MATH_DEFINES
 #else
 #define DLLEXPORT
 #endif
 
-#include <math.h>
 #include <stdio.h>
 
 #include <BWAPI.h>
@@ -51,23 +49,8 @@
 
 #include "JniBwem.h"
 
-const size_t intBufSize = 5000000;
-jint intBuf[intBufSize];
-
 bool finished = false;
 bool onStartInitializationIsDone = false;
-
-const double RADIANS_TO_DEGREES = 180.0 / M_PI;
-const double DECIMAL_PRESERVATION_SCALE = 100.0;
-
-double toDegrees(const double radians) { return radians * RADIANS_TO_DEGREES; }
-
-int toPreservedDouble(const double d) { return static_cast<int>(DECIMAL_PRESERVATION_SCALE * d); }
-
-// BWAPI 4.2.0:
-// https://github.com/bwapi/bwapi/blob/59b14af21b3c881ce06af8b1ea1d63fa3c8b2df0/bwapi/BWAPI/Source/BWAPI/UnitUpdate.cpp#L206-L212
-// https://github.com/bwapi/bwapi/blob/59b14af21b3c881ce06af8b1ea1d63fa3c8b2df0/bwapi/BWAPI/Source/BWAPI/BulletImpl.cpp#L93-L97
-double toPreservedBwapiAngle(const double angle) { return (angle * 128.0 / M_PI); }
 
 BridgeData bridgeData;
 
@@ -130,11 +113,6 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
   env->EnsureLocalCapacity(512);
   jclass jc = env->GetObjectClass(bw);
 #endif
-
-  /* Reset "shared memory". */
-  for (size_t i = 0; i < intBufSize; ++i) {
-    intBuf[i] = (jint)0;
-  }
 
   javaRefs.initialize(env);
 

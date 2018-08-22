@@ -25,6 +25,12 @@
 
 class BridgeData {
  public:
+  static const double RADIANS_TO_DEGREES;
+  static const double DECIMAL_PRESERVATION_SCALE;
+
+  static const size_t INT_BUF_SIZE = 5000000U;
+  jint intBuf[INT_BUF_SIZE];
+
   BridgeData();
 
   void reset();
@@ -40,9 +46,10 @@ class BridgeData {
   void add(const BWAPI::Unit &unit);
   void add(const BWAPI::Player &player);
 
-  static const size_t intBufSize = 5000000U;
-  jint intBuf[intBufSize];
-
  private:
   int _index;
+
+  static double toDegrees(const double radians);
+  static double toPreservedBwapiAngle(const double angle);
+  static int toPreservedDouble(const double d);
 };
