@@ -90,6 +90,12 @@ void BridgeData::addId(const BWAPI::Force &force) { add(force->getID()); }
 
 void BridgeData::addId(const BWAPI::GameType &gameType) { add(gameType.getID()); }
 
+void BridgeData::addIds(const BWAPI::Playerset &playerset) {
+  for (const auto &player : playerset) {
+    addId(player);
+  }
+}
+
 void BridgeData::addFields(const BWAPI::Bullet &bullet) {
   add(bullet->exists());
   add(toPreservedDouble(toPreservedBwapiAngle(bullet->getAngle())));

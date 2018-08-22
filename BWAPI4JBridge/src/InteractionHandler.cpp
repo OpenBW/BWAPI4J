@@ -29,25 +29,6 @@
 #include "Logger.h"
 #include "org_openbw_bwapi4j_InteractionHandler.h"
 
-namespace BWAPI4JBridge {
-int addPlayerIdToBuffer(const BWAPI::Player &player, int index) {
-  intBuf[index++] = player->getID();
-  return index;
-}
-
-int addPlayerIdsToBuffer(const BWAPI::Playerset &players) {
-  int index = 0;
-
-  intBuf[index++] = players.size();
-
-  for (const auto &player : players) {
-    index = addPlayerIdToBuffer(player, index);
-  }
-
-  return index;
-}
-}  // namespace BWAPI4JBridge
-
 JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_InteractionHandler_getKeyState(JNIEnv *, jobject, jint keyValue) {
   jboolean result = BWAPI::Broodwar->getKeyState((BWAPI::Key)keyValue);
   return result;
@@ -87,16 +68,22 @@ JNIEXPORT jlong JNICALL Java_org_openbw_bwapi4j_InteractionHandler_getRandomSeed
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_setFrameSkip(JNIEnv *, jobject, jint frameSkip) { BWAPI::Broodwar->setFrameSkip(frameSkip); }
 
 JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_InteractionHandler_allies_1native(JNIEnv *env, jobject) {
-  const auto index = BWAPI4JBridge::addPlayerIdsToBuffer(BWAPI::Broodwar->allies());
-  jintArray result = env->NewIntArray(index);
-  env->SetIntArrayRegion(result, 0, index, intBuf);
+  bridgeData.reset();
+
+  bridgeData.addIds(BWAPI::Broodwar->allies());
+
+  jintArray result = env->NewIntArray(bridgeData.getIndex());
+  env->SetIntArrayRegion(result, 0, bridgeData.getIndex(), bridgeData.intBuf);
   return result;
 }
 
 JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enemies_1native(JNIEnv *env, jobject) {
-  const auto index = BWAPI4JBridge::addPlayerIdsToBuffer(BWAPI::Broodwar->enemies());
-  jintArray result = env->NewIntArray(index);
-  env->SetIntArrayRegion(result, 0, index, intBuf);
+  bridgeData.reset();
+
+  bridgeData.addIds(BWAPI::Broodwar->enemies());
+
+  jintArray result = env->NewIntArray(bridgeData.getIndex());
+  env->SetIntArrayRegion(result, 0, bridgeData.getIndex(), bridgeData.intBuf);
   return result;
 }
 
