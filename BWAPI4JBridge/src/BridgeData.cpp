@@ -25,6 +25,8 @@
 #endif
 #include <math.h>
 
+#include "Logger.h"
+
 const double BridgeData::RADIANS_TO_DEGREES = 180.0 / M_PI;
 const double BridgeData::DECIMAL_PRESERVATION_SCALE = 100.0;
 const int BridgeData::NO_VALUE = -1;
