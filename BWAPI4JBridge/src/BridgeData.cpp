@@ -27,7 +27,7 @@
 
 const double BridgeData::RADIANS_TO_DEGREES = 180.0 / M_PI;
 const double BridgeData::DECIMAL_PRESERVATION_SCALE = 100.0;
-const int BridgeData::MISSING_ID = -1;
+const int BridgeData::NO_VALUE = -1;
 
 BridgeData::BridgeData() : _index(0) {
   for (size_t i = 0; i < INT_BUF_SIZE; ++i) {
@@ -64,11 +64,11 @@ void BridgeData::addFields(const BWAPI::Position &position) {
 
 void BridgeData::addId(const BWAPI::UnitType &unitType) { add(unitType.getID()); }
 
-void BridgeData::addId(const BWAPI::Unit &unit) { add(unit ? unit->getID() : MISSING_ID); }
+void BridgeData::addId(const BWAPI::Unit &unit) { add(unit ? unit->getID() : NO_VALUE); }
 
-void BridgeData::addId(const BWAPI::Player &player) { add(player ? player->getID() : MISSING_ID); }
+void BridgeData::addId(const BWAPI::Player &player) { add(player ? player->getID() : NO_VALUE); }
 
-void BridgeData::addId(const BWAPI::Bullet &bullet) { add(bullet ? bullet->getID() : MISSING_ID); }
+void BridgeData::addId(const BWAPI::Bullet &bullet) { add(bullet ? bullet->getID() : NO_VALUE); }
 
 void BridgeData::addId(const BWAPI::BulletType &bulletType) { add(bulletType.getID()); }
 
@@ -82,11 +82,13 @@ void BridgeData::addId(const BWAPI::Order &order) { add(order.getID()); }
 
 void BridgeData::addId(const BWAPI::Race &race) { add(race.getID()); }
 
-void BridgeData::addId(const BWAPI::Color &color) { add(convertColor(color.getID)); }
+void BridgeData::addId(const BWAPI::Color color) { add(convertColor(color.getID())); }
 
 void BridgeData::addId(const BWAPI::PlayerType &playerType) { add(playerType.getID()); }
 
 void BridgeData::addId(const BWAPI::Force &force) { add(force->getID()); }
+
+void BridgeData::addId(const BWAPI::GameType &gameType) { add(gameType.getID()); }
 
 void BridgeData::addFields(const BWAPI::Bullet &bullet) {
   add(bullet->exists());
@@ -125,7 +127,7 @@ void BridgeData::addFields(const BWAPI::Unit &unit) {
   // getLastAttackingPlayer doesn't work as documented, have to check for "None" player
   const int lastAttackingPlayerId = (unit->getLastAttackingPlayer() && unit->getLastAttackingPlayer()->getType() != BWAPI::PlayerTypes::None)
                                         ? unit->getLastAttackingPlayer()->getID()
-                                        : MISSING_ID;
+                                        : NO_VALUE;
   add(lastAttackingPlayerId);
 
   addId(unit->getInitialType());
@@ -234,18 +236,18 @@ void BridgeData::addFields(const BWAPI::Unit &unit) {
   add(unit->isVisible());
   add(unit->isResearching());
   add(unit->isFlying());
-  addFields(unit->getOrderTargetPosition);
+  addFields(unit->getOrderTargetPosition());
 
   // TODO: Refactor and reduce duplicated code with loaded units.
   /* Training Queue */ {
     const size_t maxTrainingQueueSize = 5;
     for (size_t i = 0; i < trainingQueueSize; ++i) {
       const auto &unitType = trainingQueue[i];
-      addId(unitType.getID);
+      addId(unitType);
     }
     const size_t remainingInQueue = maxTrainingQueueSize - trainingQueueSize;
     for (size_t i = 0; i < remainingInQueue; ++i) {
-      add(MISSING_ID);
+      add(NO_VALUE);
     }
   }
 
@@ -264,7 +266,7 @@ void BridgeData::addFields(const BWAPI::Unit &unit) {
 
     const size_t unusedLoadedUnitSlots = maxLoadedUnitsCount - loadedUnitsCount;
     for (size_t i = 0; i < unusedLoadedUnitSlots; ++i) {
-      add(MISSING_ID);
+      add(NO_VALUE);
     }
   }
 }
@@ -280,8 +282,8 @@ void BridgeData::addFields(const BWAPI::Player &player) {
   add(player->isNeutral());
 
   if (BWAPI::Broodwar->isReplay()) {
-    add(MISSING_ID);
-    add(MISSING_ID);
+    add(NO_VALUE);
+    add(NO_VALUE);
   } else {
     add(player->getID() == BWAPI::Broodwar->self()->getID() || player->isAlly(BWAPI::Broodwar->self()));
     add(player->getID() != BWAPI::Broodwar->self()->getID() && player->isEnemy(BWAPI::Broodwar->self()));

@@ -31,7 +31,7 @@ class BridgeData {
   static const size_t INT_BUF_SIZE = 5000000U;
   jint intBuf[INT_BUF_SIZE];
 
-  static const int MISSING_ID;
+  static const int NO_VALUE;
 
   BridgeData();
 
@@ -54,9 +54,10 @@ class BridgeData {
   void addId(const BWAPI::UpgradeType &upgradeType);
   void addId(const BWAPI::Order &order);
   void addId(const BWAPI::Race &race);
-  void addId(const BWAPI::Color &color);
+  void addId(const BWAPI::Color color);
   void addId(const BWAPI::PlayerType &playerType);
   void addId(const BWAPI::Force &force);
+  void addId(const BWAPI::GameType &gameType);
 
   void addFields(const BWAPI::TilePosition &tilePosition);
   void addFields(const BWAPI::WalkPosition &walkPosition);

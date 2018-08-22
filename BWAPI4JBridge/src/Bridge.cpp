@@ -282,7 +282,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getResearchStatus(JNIEnv 
   }
 
   jintArray result = env->NewIntArray(bridgeData.getIndex());
-  env->SetIntArrayRegion(result, 0, bridgeData.getIndex, bridgeData.intBuf);
+  env->SetIntArrayRegion(result, 0, bridgeData.getIndex(), bridgeData.intBuf);
   return result;
 }
 
@@ -304,43 +304,35 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUpgradeStatus(JNIEnv *
 }
 
 JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getGameData(JNIEnv *env, jobject) {
-  int index = 0;
-  intBuf[index++] = BWAPI::Broodwar->getLastError();
-  intBuf[index++] = BWAPI::Broodwar->getScreenPosition().x;
-  intBuf[index++] = BWAPI::Broodwar->getScreenPosition().y;
+  bridgeData.reset();
+
+  bridgeData.add(BWAPI::Broodwar->getLastError());
+  bridgeData.addFields(BWAPI::Broodwar->getScreenPosition());
+
 #ifdef OPENBW
-  intBuf[index++] = BWAPI::Broodwar->getScreenSize().x;
-  intBuf[index++] = BWAPI::Broodwar->getScreenSize().y;
+  bridgeData.addFields(BWAPI::Broodwar->getScreenSize());
 #else
-  intBuf[index++] = -1;
-  intBuf[index++] = -1;
+  bridgeData.add(BridgeData::NO_VALUE);
+  bridgeData.add(BridgeData::NO_VALUE);
 #endif
-  intBuf[index++] = BWAPI::Broodwar->getMousePosition().x;
-  intBuf[index++] = BWAPI::Broodwar->getMousePosition().y;
-  intBuf[index++] = BWAPI::Broodwar->getFrameCount();
-  intBuf[index++] = BWAPI::Broodwar->getFPS();
-  intBuf[index++] = BWAPI::Broodwar->isLatComEnabled() ? 1 : 0;
-  intBuf[index++] = BWAPI::Broodwar->getRemainingLatencyFrames();
-  intBuf[index++] = BWAPI::Broodwar->getLatencyFrames();
-  intBuf[index++] = BWAPI::Broodwar->getLatency();
-  intBuf[index++] = BWAPI::Broodwar->getGameType().getID();
-  intBuf[index++] = BWAPI::Broodwar->isReplay();
-  intBuf[index++] = BWAPI::Broodwar->isPaused();
-  intBuf[index++] = BWAPI::Broodwar->getAPM(false);
-  intBuf[index++] = BWAPI::Broodwar->getAPM(true);
 
-  if (BWAPI::Broodwar->isReplay()) {
-    for (BWAPI::Player player : BWAPI::Broodwar->getPlayers()) {
-      intBuf[index++] = player->getID();
-    }
-  } else {
-    intBuf[index++] = BWAPI::Broodwar->self()->getID();
-    intBuf[index++] = BWAPI::Broodwar->enemy()->getID();
-  }
+  bridgeData.addFields(BWAPI::Broodwar->getMousePosition());
+  bridgeData.add(BWAPI::Broodwar->getFrameCount());
+  bridgeData.add(BWAPI::Broodwar->getFPS());
+  bridgeData.add(BWAPI::Broodwar->isLatComEnabled());
+  bridgeData.add(BWAPI::Broodwar->getRemainingLatencyFrames());
+  bridgeData.add(BWAPI::Broodwar->getLatencyFrames());
+  bridgeData.add(BWAPI::Broodwar->getLatency());
+  bridgeData.addId(BWAPI::Broodwar->getGameType());
+  bridgeData.add(BWAPI::Broodwar->isReplay());
+  bridgeData.add(BWAPI::Broodwar->isPaused());
+  bridgeData.add(BWAPI::Broodwar->getAPM(false));
+  bridgeData.add(BWAPI::Broodwar->getAPM(true));
+  bridgeData.addId(BWAPI::Broodwar->self());
+  bridgeData.addId(BWAPI::Broodwar->enemy());
 
-  jintArray result = env->NewIntArray(index);
-  env->SetIntArrayRegion(result, 0, index, intBuf);
-
+  jintArray result = env->NewIntArray(bridgeData.getIndex());
+  env->SetIntArrayRegion(result, 0, bridgeData.getIndex(), bridgeData.intBuf);
   return result;
 }
 
