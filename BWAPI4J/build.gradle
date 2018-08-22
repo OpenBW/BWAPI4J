@@ -114,7 +114,7 @@ artifacts {
 }
 
 task generateJniHeaders(type:Exec) {
-    def classpath = sourceSets.main.output.classesDir
+    def classpath = sourceSets.main.java.outputDir
     def nativeIncludes = "src/native/include"
     commandLine "javah", "-jni", "-verbose", "-d", nativeIncludes, "-classpath", classpath,
             "bwem.map.MapInitializerImpl",
