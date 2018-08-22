@@ -27,7 +27,7 @@
 
 const double BridgeData::RADIANS_TO_DEGREES = 180.0 / M_PI;
 const double BridgeData::DECIMAL_PRESERVATION_SCALE = 100.0;
-const int BridgeData::MISSING_UNIT_ID = -1;
+const int BridgeData::MISSING_ID = -1;
 
 BridgeData::BridgeData() : _index(0) {
   for (size_t i = 0; i < INT_BUF_SIZE; ++i) {
@@ -42,6 +42,8 @@ void BridgeData::add(const int val) { intBuf[_index++] = val; }
 void BridgeData::add(const size_t val) { add(int(val)); }
 
 void BridgeData::add(const bool b) { add(b ? 1 : 0); }
+
+void BridgeData::add(const char ch) { add(int(ch)); }
 
 int BridgeData::getIndex() const { return _index; }
 
@@ -62,11 +64,11 @@ void BridgeData::addFields(const BWAPI::Position &position) {
 
 void BridgeData::addId(const BWAPI::UnitType &unitType) { add(unitType.getID()); }
 
-void BridgeData::addId(const BWAPI::Unit &unit) { add(unit ? unit->getID() : MISSING_UNIT_ID); }
+void BridgeData::addId(const BWAPI::Unit &unit) { add(unit ? unit->getID() : MISSING_ID); }
 
-void BridgeData::addId(const BWAPI::Player &player) { add(player ? player->getID() : MISSING_UNIT_ID); }
+void BridgeData::addId(const BWAPI::Player &player) { add(player ? player->getID() : MISSING_ID); }
 
-void BridgeData::addId(const BWAPI::Bullet &bullet) { add(bullet ? bullet->getID() : MISSING_UNIT_ID); }
+void BridgeData::addId(const BWAPI::Bullet &bullet) { add(bullet ? bullet->getID() : MISSING_ID); }
 
 void BridgeData::addId(const BWAPI::BulletType &bulletType) { add(bulletType.getID()); }
 
@@ -77,6 +79,14 @@ void BridgeData::addId(const BWAPI::TechType &techType) { add(techType.getID());
 void BridgeData::addId(const BWAPI::UpgradeType &upgradeType) { add(upgradeType.getID()); }
 
 void BridgeData::addId(const BWAPI::Order &order) { add(order.getID()); }
+
+void BridgeData::addId(const BWAPI::Race &race) { add(race.getID()); }
+
+void BridgeData::addId(const BWAPI::Color &color) { add(convertColor(color.getID)); }
+
+void BridgeData::addId(const BWAPI::PlayerType &playerType) { add(playerType.getID()); }
+
+void BridgeData::addId(const BWAPI::Force &force) { add(force->getID()); }
 
 void BridgeData::addFields(const BWAPI::Bullet &bullet) {
   add(bullet->exists());
@@ -115,7 +125,7 @@ void BridgeData::addFields(const BWAPI::Unit &unit) {
   // getLastAttackingPlayer doesn't work as documented, have to check for "None" player
   const int lastAttackingPlayerId = (unit->getLastAttackingPlayer() && unit->getLastAttackingPlayer()->getType() != BWAPI::PlayerTypes::None)
                                         ? unit->getLastAttackingPlayer()->getID()
-                                        : MISSING_UNIT_ID;
+                                        : MISSING_ID;
   add(lastAttackingPlayerId);
 
   addId(unit->getInitialType());
@@ -235,7 +245,7 @@ void BridgeData::addFields(const BWAPI::Unit &unit) {
     }
     const size_t remainingInQueue = maxTrainingQueueSize - trainingQueueSize;
     for (size_t i = 0; i < remainingInQueue; ++i) {
-      add(MISSING_UNIT_ID);
+      add(MISSING_ID);
     }
   }
 
@@ -254,9 +264,62 @@ void BridgeData::addFields(const BWAPI::Unit &unit) {
 
     const size_t unusedLoadedUnitSlots = maxLoadedUnitsCount - loadedUnitsCount;
     for (size_t i = 0; i < unusedLoadedUnitSlots; ++i) {
-      add(MISSING_UNIT_ID);
+      add(MISSING_ID);
     }
   }
+}
+
+void BridgeData::addFields(const BWAPI::Player &player) {
+  addId(player);
+  addId(player->getRace());
+  addFields(player->getStartLocation());
+  addId(player->getColor());
+  add(player->getTextColor());
+  addId(player->getType());
+  addId(player->getForce());
+  add(player->isNeutral());
+
+  if (BWAPI::Broodwar->isReplay()) {
+    add(MISSING_ID);
+    add(MISSING_ID);
+  } else {
+    add(player->getID() == BWAPI::Broodwar->self()->getID() || player->isAlly(BWAPI::Broodwar->self()));
+    add(player->getID() != BWAPI::Broodwar->self()->getID() && player->isEnemy(BWAPI::Broodwar->self()));
+  }
+
+  add(player->isVictorious());
+  add(player->isDefeated());
+  add(player->leftGame());
+  add(player->minerals());
+  add(player->gas());
+  add(player->gatheredMinerals());
+  add(player->gatheredGas());
+  add(player->repairedMinerals());
+  add(player->repairedGas());
+  add(player->refundedMinerals());
+  add(player->refundedGas());
+  add(player->spentMinerals());
+  add(player->spentGas());
+  add(player->supplyTotal());
+  add(player->getUnitScore());
+  add(player->getKillScore());
+  add(player->getBuildingScore());
+  add(player->getRazingScore());
+  add(player->getCustomScore());
+  add(player->isObserver());
+  add(player->supplyUsed());
+  add(player->supplyTotal(BWAPI::Races::Zerg));
+  add(player->supplyTotal(BWAPI::Races::Terran));
+  add(player->supplyTotal(BWAPI::Races::Protoss));
+  add(player->supplyUsed(BWAPI::Races::Zerg));
+  add(player->supplyUsed(BWAPI::Races::Terran));
+  add(player->supplyUsed(BWAPI::Races::Protoss));
+  add(player->allUnitCount());
+  add(player->visibleUnitCount());
+  add(player->completedUnitCount());
+  add(player->incompleteUnitCount());
+  add(player->deadUnitCount());
+  add(player->killedUnitCount());
 }
 
 double BridgeData::toDegrees(const double radians) { return radians * RADIANS_TO_DEGREES; }
@@ -267,3 +330,40 @@ double BridgeData::toDegrees(const double radians) { return radians * RADIANS_TO
 double BridgeData::toPreservedBwapiAngle(const double angle) { return (angle * 128.0 / M_PI); }
 
 int BridgeData::toPreservedDouble(const double d) { return static_cast<int>(DECIMAL_PRESERVATION_SCALE * d); }
+
+// required for the OpenBW version since player->getColor() returns ordinal value instead of 256 color value.
+int BridgeData::convertColor(const int ordinal) {
+#ifdef OPENBW
+  switch (ordinal) {
+    case 0:
+      return 111;
+    case 1:
+      return 165;
+    case 2:
+      return 159;
+    case 3:
+      return 164;
+    case 4:
+      return 179;
+    case 5:
+      return 19;
+    case 6:
+      return 255;
+    case 7:
+      return 135;
+    case 8:
+      return 117;
+    case 9:
+      return 128;
+    case 10:
+      return 0;
+    case 11:
+      return 74;
+    default:
+      LOGGER("warning: unrecognized color ordinal value.");
+      return 0;
+  }
+#else
+  return ordinal;
+#endif
+}

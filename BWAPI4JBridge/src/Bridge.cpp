@@ -212,11 +212,6 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
 #endif
 }
 
-/**
- * Returns the list of active bullets in the game.
- *
- * Each bullet takes up a fixed number of integer values. Currently: 15.
- */
 JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllBulletsData(JNIEnv *env, jobject) {
   bridgeData.reset();
 
@@ -229,10 +224,10 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllBulletsData(JNIEnv 
   return result;
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllUnitsData(JNIEnv *env, jobject jObject) {
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllUnitsData(JNIEnv *env, jobject) {
   bridgeData.reset();
 
-  for (BWAPI::Unit unit : BWAPI::Broodwar->getAllUnits()) {
+  for (const auto &unit : BWAPI::Broodwar->getAllUnits()) {
     bridgeData.addFields(unit);
   }
 
@@ -241,115 +236,22 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllUnitsData(JNIEnv *e
   return result;
 }
 
-#ifdef OPENBW
-// required for the OpenBW version since player->getColor() returns ordinal value instead of 256 color value.
-int convertColor(int ordinal) {
-  switch (ordinal) {
-    case 0:
-      return 111;
-    case 1:
-      return 165;
-    case 2:
-      return 159;
-    case 3:
-      return 164;
-    case 4:
-      return 179;
-    case 5:
-      return 19;
-    case 6:
-      return 255;
-    case 7:
-      return 135;
-    case 8:
-      return 117;
-    case 9:
-      return 128;
-    case 10:
-      return 0;
-    case 11:
-      return 74;
-    default:
-      std::cout << "warning: unrecognized color ordinal value." << std::endl;
-      return 0;
-  }
-}
-#endif
-
-int addPlayerDataToBuffer(BWAPI::Player &player, int index) {
-  intBuf[index++] = player->getID();
-  intBuf[index++] = player->getRace();
-  intBuf[index++] = player->getStartLocation().x;
-  intBuf[index++] = player->getStartLocation().y;
-#ifdef OPENBW
-  intBuf[index++] = convertColor(player->getColor());
-#else
-  intBuf[index++] = player->getColor();
-#endif
-  intBuf[index++] = player->getTextColor();
-  intBuf[index++] = player->getType();
-  intBuf[index++] = player->getForce()->getID();
-  intBuf[index++] = player->isNeutral() ? 1 : 0;
-  if (BWAPI::Broodwar->isReplay()) {
-    intBuf[index++] = -1;
-    intBuf[index++] = -1;
-  } else {
-    intBuf[index++] = (player->getID() == BWAPI::Broodwar->self()->getID() || player->isAlly(BWAPI::Broodwar->self())) ? 1 : 0;
-    intBuf[index++] = (player->getID() != BWAPI::Broodwar->self()->getID() && player->isEnemy(BWAPI::Broodwar->self())) ? 1 : 0;
-  }
-  intBuf[index++] = player->isVictorious() ? 1 : 0;
-  intBuf[index++] = player->isDefeated() ? 1 : 0;
-  intBuf[index++] = player->leftGame() ? 1 : 0;
-  intBuf[index++] = player->minerals();
-  intBuf[index++] = player->gas();
-  intBuf[index++] = player->gatheredMinerals();
-  intBuf[index++] = player->gatheredGas();
-  intBuf[index++] = player->repairedMinerals();
-  intBuf[index++] = player->repairedGas();
-  intBuf[index++] = player->refundedMinerals();
-  intBuf[index++] = player->refundedGas();
-  intBuf[index++] = player->spentMinerals();
-  intBuf[index++] = player->spentGas();
-  intBuf[index++] = player->supplyTotal();
-  intBuf[index++] = player->getUnitScore();
-  intBuf[index++] = player->getKillScore();
-  intBuf[index++] = player->getBuildingScore();
-  intBuf[index++] = player->getRazingScore();
-  intBuf[index++] = player->getCustomScore();
-  intBuf[index++] = player->isObserver() ? 1 : 0;
-  intBuf[index++] = player->supplyUsed();
-  intBuf[index++] = player->supplyTotal(BWAPI::Races::Zerg);
-  intBuf[index++] = player->supplyTotal(BWAPI::Races::Terran);
-  intBuf[index++] = player->supplyTotal(BWAPI::Races::Protoss);
-  intBuf[index++] = player->supplyUsed(BWAPI::Races::Zerg);
-  intBuf[index++] = player->supplyUsed(BWAPI::Races::Terran);
-  intBuf[index++] = player->supplyUsed(BWAPI::Races::Protoss);
-  intBuf[index++] = player->allUnitCount();
-  intBuf[index++] = player->visibleUnitCount();
-  intBuf[index++] = player->completedUnitCount();
-  intBuf[index++] = player->incompleteUnitCount();
-  intBuf[index++] = player->deadUnitCount();
-  intBuf[index++] = player->killedUnitCount();
-
-  return index;
-}
-
 JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllPlayersData(JNIEnv *env, jobject) {
-  int index = 0;
+  bridgeData.reset();
 
-  for (BWAPI::Player player : BWAPI::Broodwar->getPlayers()) {
+  for (const auto &player : BWAPI::Broodwar->getPlayers()) {
 #ifdef OPENBW
     // TODO: Determine if this test has any significance or if it can be removed.
     if (player->getID() != -1) {
-      index = addPlayerDataToBuffer(player, index);
+      bridgeData.addFields(player);
     }
 #else
-    index = addPlayerDataToBuffer(player, index);
+    bridgeData.addFields(player);
 #endif
   }
 
-  jintArray result = env->NewIntArray(index);
-  env->SetIntArrayRegion(result, 0, index, intBuf);
+  jintArray result = env->NewIntArray(bridgeData.getIndex());
+  env->SetIntArrayRegion(result, 0, bridgeData.getIndex(), bridgeData.intBuf);
   return result;
 }
 

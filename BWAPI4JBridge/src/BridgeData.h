@@ -31,7 +31,7 @@ class BridgeData {
   static const size_t INT_BUF_SIZE = 5000000U;
   jint intBuf[INT_BUF_SIZE];
 
-  static const int MISSING_UNIT_ID;
+  static const int MISSING_ID;
 
   BridgeData();
 
@@ -42,6 +42,7 @@ class BridgeData {
   void add(const int val);
   void add(const size_t val);
   void add(const bool b);
+  void add(const char ch);
 
   void addId(const BWAPI::UnitType &unitType);
   void addId(const BWAPI::Unit &unit);
@@ -52,12 +53,17 @@ class BridgeData {
   void addId(const BWAPI::TechType &techType);
   void addId(const BWAPI::UpgradeType &upgradeType);
   void addId(const BWAPI::Order &order);
+  void addId(const BWAPI::Race &race);
+  void addId(const BWAPI::Color &color);
+  void addId(const BWAPI::PlayerType &playerType);
+  void addId(const BWAPI::Force &force);
 
   void addFields(const BWAPI::TilePosition &tilePosition);
   void addFields(const BWAPI::WalkPosition &walkPosition);
   void addFields(const BWAPI::Position &position);
   void addFields(const BWAPI::Bullet &bullet);
   void addFields(const BWAPI::Unit &unit);
+  void addFields(const BWAPI::Player &player);
 
  private:
   int _index;
@@ -65,4 +71,5 @@ class BridgeData {
   static double toDegrees(const double radians);
   static double toPreservedBwapiAngle(const double angle);
   static int toPreservedDouble(const double d);
+  static int convertColor(const int ordinal);
 };
