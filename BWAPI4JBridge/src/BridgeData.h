@@ -31,6 +31,8 @@ class BridgeData {
   static const size_t INT_BUF_SIZE = 5000000U;
   jint intBuf[INT_BUF_SIZE];
 
+  static const int MISSING_UNIT_ID;
+
   BridgeData();
 
   void reset();
@@ -38,6 +40,7 @@ class BridgeData {
   int getIndex() const;
 
   void add(const int val);
+  void add(const size_t val);
   void add(const bool b);
 
   void addId(const BWAPI::UnitType &unitType);
@@ -45,11 +48,16 @@ class BridgeData {
   void addId(const BWAPI::Player &player);
   void addId(const BWAPI::Bullet &bullet);
   void addId(const BWAPI::BulletType &bulletType);
+  void addId(const BWAPI::UnitCommand &unitCommand);
+  void addId(const BWAPI::TechType &techType);
+  void addId(const BWAPI::UpgradeType &upgradeType);
+  void addId(const BWAPI::Order &order);
 
   void addFields(const BWAPI::TilePosition &tilePosition);
   void addFields(const BWAPI::WalkPosition &walkPosition);
   void addFields(const BWAPI::Position &position);
   void addFields(const BWAPI::Bullet &bullet);
+  void addFields(const BWAPI::Unit &unit);
 
  private:
   int _index;
