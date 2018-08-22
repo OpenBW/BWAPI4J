@@ -543,7 +543,6 @@ public abstract class UnitImpl implements Unit {
   private int stimTimer;
   private TechType tech;
 
-  private UpgradeType uppgrade;
   private Unit buildUnit;
   Order order;
   int orderTargetId;
