@@ -84,3 +84,15 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enemies_1
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_pauseGame(JNIEnv *, jobject) { BWAPI::Broodwar->pauseGame(); }
 
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_setGUI(JNIEnv *, jobject, jboolean enabled) { BWAPI::Broodwar->setGUI(enabled); }
+
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_InteractionHandler_getNukeDotsData_1native(JNIEnv *env, jobject) {
+  bridgeData.reset();
+
+  for (const auto &nukeDotPosition : BWAPI::Broodwar->getNukeDots()) {
+    bridgeData.addFields(nukeDotPosition);
+  }
+
+  jintArray result = env->NewIntArray(bridgeData.getIndex());
+  env->SetIntArrayRegion(result, 0, bridgeData.getIndex(), bridgeData.intBuf);
+  return result;
+}
