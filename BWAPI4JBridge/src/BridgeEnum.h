@@ -20,11 +20,15 @@
 
 #pragma once
 
+#include <jni.h>
+
 class BridgeEnum {
  public:
-  void initialize();
+  void initialize(JNIEnv *);
 
  private:
+  JNIEnv *_env;
+
   void createUpgradeTypeEnum();
   void createTechTypeEnum();
   void createWeaponTypeEnum();

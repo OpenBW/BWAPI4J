@@ -24,7 +24,9 @@
 #include "Bridge.h"
 #include "Logger.h"
 
-void BridgeEnum::initialize() {
+void BridgeEnum::initialize(JNIEnv *env) {
+  _env = env;
+
   createUpgradeTypeEnum();
   createTechTypeEnum();
   createWeaponTypeEnum();
@@ -38,15 +40,15 @@ void BridgeEnum::createUpgradeTypeEnum() {
     if (upgradeType.getName().empty()) {
       return;
     }
-    jfieldID upgradeTypeField = globalEnv->GetStaticFieldID(javaRefs.upgradeTypeClass, upgradeType.getName().c_str(), "Lorg/openbw/bwapi4j/type/UpgradeType;");
-    jobject CurrentUpgradeType = globalEnv->GetStaticObjectField(javaRefs.upgradeTypeClass, upgradeTypeField);
+    jfieldID upgradeTypeField = _env->GetStaticFieldID(javaRefs.upgradeTypeClass, upgradeType.getName().c_str(), "Lorg/openbw/bwapi4j/type/UpgradeType;");
+    jobject CurrentUpgradeType = _env->GetStaticObjectField(javaRefs.upgradeTypeClass, upgradeTypeField);
 
     // set int fields
-    globalEnv->SetIntField(CurrentUpgradeType, globalEnv->GetFieldID(javaRefs.upgradeTypeClass, "id", "I"), upgradeType.getID());
-    globalEnv->SetIntField(CurrentUpgradeType, globalEnv->GetFieldID(javaRefs.upgradeTypeClass, "mineralPriceFactor", "I"), upgradeType.mineralPriceFactor());
-    globalEnv->SetIntField(CurrentUpgradeType, globalEnv->GetFieldID(javaRefs.upgradeTypeClass, "gasPriceFactor", "I"), upgradeType.gasPriceFactor());
-    globalEnv->SetIntField(CurrentUpgradeType, globalEnv->GetFieldID(javaRefs.upgradeTypeClass, "upgradeTimeFactor", "I"), upgradeType.upgradeTimeFactor());
-    globalEnv->SetIntField(CurrentUpgradeType, globalEnv->GetFieldID(javaRefs.upgradeTypeClass, "maxRepeats", "I"), upgradeType.maxRepeats());
+    _env->SetIntField(CurrentUpgradeType, _env->GetFieldID(javaRefs.upgradeTypeClass, "id", "I"), upgradeType.getID());
+    _env->SetIntField(CurrentUpgradeType, _env->GetFieldID(javaRefs.upgradeTypeClass, "mineralPriceFactor", "I"), upgradeType.mineralPriceFactor());
+    _env->SetIntField(CurrentUpgradeType, _env->GetFieldID(javaRefs.upgradeTypeClass, "gasPriceFactor", "I"), upgradeType.gasPriceFactor());
+    _env->SetIntField(CurrentUpgradeType, _env->GetFieldID(javaRefs.upgradeTypeClass, "upgradeTimeFactor", "I"), upgradeType.upgradeTimeFactor());
+    _env->SetIntField(CurrentUpgradeType, _env->GetFieldID(javaRefs.upgradeTypeClass, "maxRepeats", "I"), upgradeType.maxRepeats());
     // set int[] fields
     jint *gasPrices = new jint[upgradeType.maxRepeats()];
     jint *mineralPrices = new jint[upgradeType.maxRepeats()];
@@ -57,44 +59,42 @@ void BridgeEnum::createUpgradeTypeEnum() {
       gasPrices[i] = upgradeType.gasPrice(i + 1);
       mineralPrices[i] = upgradeType.mineralPrice(i + 1);
       upgradeTimes[i] = upgradeType.upgradeTime(i + 1);
-      whatsRequired[i] = globalEnv->GetStaticObjectField(
+      whatsRequired[i] = _env->GetStaticObjectField(
           javaRefs.unitTypeClass,
-          globalEnv->GetStaticFieldID(javaRefs.unitTypeClass, upgradeType.whatsRequired(i + 1).getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;"));
+          _env->GetStaticFieldID(javaRefs.unitTypeClass, upgradeType.whatsRequired(i + 1).getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;"));
     }
 
-    jintArray gasPricesArray = globalEnv->NewIntArray(upgradeType.maxRepeats());
-    globalEnv->SetIntArrayRegion(gasPricesArray, 0, upgradeType.maxRepeats(), gasPrices);
-    globalEnv->SetObjectField(CurrentUpgradeType, globalEnv->GetFieldID(javaRefs.upgradeTypeClass, "gasPrices", "[I"), gasPricesArray);
+    jintArray gasPricesArray = _env->NewIntArray(upgradeType.maxRepeats());
+    _env->SetIntArrayRegion(gasPricesArray, 0, upgradeType.maxRepeats(), gasPrices);
+    _env->SetObjectField(CurrentUpgradeType, _env->GetFieldID(javaRefs.upgradeTypeClass, "gasPrices", "[I"), gasPricesArray);
 
-    jintArray mineralPricesArray = globalEnv->NewIntArray(upgradeType.maxRepeats());
-    globalEnv->SetIntArrayRegion(mineralPricesArray, 0, upgradeType.maxRepeats(), mineralPrices);
-    globalEnv->SetObjectField(CurrentUpgradeType, globalEnv->GetFieldID(javaRefs.upgradeTypeClass, "mineralPrices", "[I"), mineralPricesArray);
+    jintArray mineralPricesArray = _env->NewIntArray(upgradeType.maxRepeats());
+    _env->SetIntArrayRegion(mineralPricesArray, 0, upgradeType.maxRepeats(), mineralPrices);
+    _env->SetObjectField(CurrentUpgradeType, _env->GetFieldID(javaRefs.upgradeTypeClass, "mineralPrices", "[I"), mineralPricesArray);
 
-    jintArray upgradeTimesArray = globalEnv->NewIntArray(upgradeType.maxRepeats());
-    globalEnv->SetIntArrayRegion(upgradeTimesArray, 0, upgradeType.maxRepeats(), upgradeTimes);
-    globalEnv->SetObjectField(CurrentUpgradeType, globalEnv->GetFieldID(javaRefs.upgradeTypeClass, "upgradeTimes", "[I"), upgradeTimesArray);
+    jintArray upgradeTimesArray = _env->NewIntArray(upgradeType.maxRepeats());
+    _env->SetIntArrayRegion(upgradeTimesArray, 0, upgradeType.maxRepeats(), upgradeTimes);
+    _env->SetObjectField(CurrentUpgradeType, _env->GetFieldID(javaRefs.upgradeTypeClass, "upgradeTimes", "[I"), upgradeTimesArray);
 
-    jobjectArray objectArray = globalEnv->NewObjectArray(upgradeType.maxRepeats(), javaRefs.unitTypeClass, NULL);
-    globalEnv->SetObjectField(CurrentUpgradeType, globalEnv->GetFieldID(javaRefs.upgradeTypeClass, "whatsRequired", "[Lorg/openbw/bwapi4j/type/UnitType;"),
-                              objectArray);
+    jobjectArray objectArray = _env->NewObjectArray(upgradeType.maxRepeats(), javaRefs.unitTypeClass, NULL);
+    _env->SetObjectField(CurrentUpgradeType, _env->GetFieldID(javaRefs.upgradeTypeClass, "whatsRequired", "[Lorg/openbw/bwapi4j/type/UnitType;"), objectArray);
     for (int i = 0; i < upgradeType.maxRepeats(); i++) {
-      globalEnv->SetObjectArrayElement(objectArray, i, whatsRequired[i]);
+      _env->SetObjectArrayElement(objectArray, i, whatsRequired[i]);
     }
 
     // read existing whatUses set and put UnitType entries
     for (auto const &use : upgradeType.whatUses()) {
-      globalEnv->CallObjectMethod(CurrentUpgradeType, javaRefs.upgradeTypeClass_addUsingUnit, (jint)use.getID());
+      _env->CallObjectMethod(CurrentUpgradeType, javaRefs.upgradeTypeClass_addUsingUnit, (jint)use.getID());
     }
 
     // set enum fields
-    jobject race = globalEnv->GetStaticObjectField(
-        javaRefs.raceClass, globalEnv->GetStaticFieldID(javaRefs.raceClass, upgradeType.getRace().c_str(), "Lorg/openbw/bwapi4j/type/Race;"));
-    globalEnv->SetObjectField(CurrentUpgradeType, globalEnv->GetFieldID(javaRefs.upgradeTypeClass, "race", "Lorg/openbw/bwapi4j/type/Race;"), race);
+    jobject race = _env->GetStaticObjectField(javaRefs.raceClass,
+                                              _env->GetStaticFieldID(javaRefs.raceClass, upgradeType.getRace().c_str(), "Lorg/openbw/bwapi4j/type/Race;"));
+    _env->SetObjectField(CurrentUpgradeType, _env->GetFieldID(javaRefs.upgradeTypeClass, "race", "Lorg/openbw/bwapi4j/type/Race;"), race);
 
-    jobject whatUpgrades = globalEnv->GetStaticObjectField(
-        javaRefs.unitTypeClass, globalEnv->GetStaticFieldID(javaRefs.unitTypeClass, upgradeType.whatUpgrades().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;"));
-    globalEnv->SetObjectField(CurrentUpgradeType, globalEnv->GetFieldID(javaRefs.upgradeTypeClass, "whatUpgrades", "Lorg/openbw/bwapi4j/type/UnitType;"),
-                              whatUpgrades);
+    jobject whatUpgrades = _env->GetStaticObjectField(
+        javaRefs.unitTypeClass, _env->GetStaticFieldID(javaRefs.unitTypeClass, upgradeType.whatUpgrades().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;"));
+    _env->SetObjectField(CurrentUpgradeType, _env->GetFieldID(javaRefs.upgradeTypeClass, "whatUpgrades", "Lorg/openbw/bwapi4j/type/UnitType;"), whatUpgrades);
   }
 
   LOGGER("Reading upgrade types... done");
@@ -107,43 +107,41 @@ void BridgeEnum::createTechTypeEnum() {
     if (techType.getName().empty()) {
       return;
     }
-    jfieldID techTypeField = globalEnv->GetStaticFieldID(javaRefs.techTypeClass, techType.getName().c_str(), "Lorg/openbw/bwapi4j/type/TechType;");
-    jobject CurrentTechType = globalEnv->GetStaticObjectField(javaRefs.techTypeClass, techTypeField);
+    jfieldID techTypeField = _env->GetStaticFieldID(javaRefs.techTypeClass, techType.getName().c_str(), "Lorg/openbw/bwapi4j/type/TechType;");
+    jobject CurrentTechType = _env->GetStaticObjectField(javaRefs.techTypeClass, techTypeField);
 
     // set int fields
-    globalEnv->SetIntField(CurrentTechType, globalEnv->GetFieldID(javaRefs.techTypeClass, "id", "I"), techType.getID());
-    globalEnv->SetIntField(CurrentTechType, globalEnv->GetFieldID(javaRefs.techTypeClass, "mineralPrice", "I"), techType.mineralPrice());
-    globalEnv->SetIntField(CurrentTechType, globalEnv->GetFieldID(javaRefs.techTypeClass, "gasPrice", "I"), techType.gasPrice());
-    globalEnv->SetIntField(CurrentTechType, globalEnv->GetFieldID(javaRefs.techTypeClass, "researchTime", "I"), techType.researchTime());
-    globalEnv->SetIntField(CurrentTechType, globalEnv->GetFieldID(javaRefs.techTypeClass, "energyCost", "I"), techType.energyCost());
+    _env->SetIntField(CurrentTechType, _env->GetFieldID(javaRefs.techTypeClass, "id", "I"), techType.getID());
+    _env->SetIntField(CurrentTechType, _env->GetFieldID(javaRefs.techTypeClass, "mineralPrice", "I"), techType.mineralPrice());
+    _env->SetIntField(CurrentTechType, _env->GetFieldID(javaRefs.techTypeClass, "gasPrice", "I"), techType.gasPrice());
+    _env->SetIntField(CurrentTechType, _env->GetFieldID(javaRefs.techTypeClass, "researchTime", "I"), techType.researchTime());
+    _env->SetIntField(CurrentTechType, _env->GetFieldID(javaRefs.techTypeClass, "energyCost", "I"), techType.energyCost());
     // set boolean fields
-    globalEnv->SetBooleanField(CurrentTechType, globalEnv->GetFieldID(javaRefs.techTypeClass, "targetsUnit", "Z"), techType.targetsUnit());
-    globalEnv->SetBooleanField(CurrentTechType, globalEnv->GetFieldID(javaRefs.techTypeClass, "targetsPosition", "Z"), techType.targetsPosition());
+    _env->SetBooleanField(CurrentTechType, _env->GetFieldID(javaRefs.techTypeClass, "targetsUnit", "Z"), techType.targetsUnit());
+    _env->SetBooleanField(CurrentTechType, _env->GetFieldID(javaRefs.techTypeClass, "targetsPosition", "Z"), techType.targetsPosition());
     // set enum fields
-    jobject race = globalEnv->GetStaticObjectField(
-        javaRefs.raceClass, globalEnv->GetStaticFieldID(javaRefs.raceClass, techType.getRace().getName().c_str(), "Lorg/openbw/bwapi4j/type/Race;"));
-    globalEnv->SetObjectField(CurrentTechType, globalEnv->GetFieldID(javaRefs.techTypeClass, "race", "Lorg/openbw/bwapi4j/type/Race;"), race);
+    jobject race = _env->GetStaticObjectField(
+        javaRefs.raceClass, _env->GetStaticFieldID(javaRefs.raceClass, techType.getRace().getName().c_str(), "Lorg/openbw/bwapi4j/type/Race;"));
+    _env->SetObjectField(CurrentTechType, _env->GetFieldID(javaRefs.techTypeClass, "race", "Lorg/openbw/bwapi4j/type/Race;"), race);
 
-    jobject weaponType = globalEnv->GetStaticObjectField(
+    jobject weaponType = _env->GetStaticObjectField(
         javaRefs.weaponTypeClass,
-        globalEnv->GetStaticFieldID(javaRefs.weaponTypeClass, techType.getWeapon().getName().c_str(), "Lorg/openbw/bwapi4j/type/WeaponType;"));
-    globalEnv->SetObjectField(CurrentTechType, globalEnv->GetFieldID(javaRefs.techTypeClass, "weaponType", "Lorg/openbw/bwapi4j/type/WeaponType;"), weaponType);
+        _env->GetStaticFieldID(javaRefs.weaponTypeClass, techType.getWeapon().getName().c_str(), "Lorg/openbw/bwapi4j/type/WeaponType;"));
+    _env->SetObjectField(CurrentTechType, _env->GetFieldID(javaRefs.techTypeClass, "weaponType", "Lorg/openbw/bwapi4j/type/WeaponType;"), weaponType);
 
-    jobject whatResearches = globalEnv->GetStaticObjectField(
+    jobject whatResearches = _env->GetStaticObjectField(
         javaRefs.unitTypeClass,
-        globalEnv->GetStaticFieldID(javaRefs.unitTypeClass, techType.whatResearches().getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;"));
-    globalEnv->SetObjectField(CurrentTechType, globalEnv->GetFieldID(javaRefs.techTypeClass, "whatResearches", "Lorg/openbw/bwapi4j/type/UnitType;"),
-                              whatResearches);
+        _env->GetStaticFieldID(javaRefs.unitTypeClass, techType.whatResearches().getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;"));
+    _env->SetObjectField(CurrentTechType, _env->GetFieldID(javaRefs.techTypeClass, "whatResearches", "Lorg/openbw/bwapi4j/type/UnitType;"), whatResearches);
 
-    jobject order = globalEnv->GetStaticObjectField(
-        javaRefs.orderClass, globalEnv->GetStaticFieldID(javaRefs.orderClass, techType.getOrder().getName().c_str(), "Lorg/openbw/bwapi4j/type/Order;"));
-    globalEnv->SetObjectField(CurrentTechType, globalEnv->GetFieldID(javaRefs.techTypeClass, "order", "Lorg/openbw/bwapi4j/type/Order;"), order);
+    jobject order = _env->GetStaticObjectField(
+        javaRefs.orderClass, _env->GetStaticFieldID(javaRefs.orderClass, techType.getOrder().getName().c_str(), "Lorg/openbw/bwapi4j/type/Order;"));
+    _env->SetObjectField(CurrentTechType, _env->GetFieldID(javaRefs.techTypeClass, "order", "Lorg/openbw/bwapi4j/type/Order;"), order);
 
-    jobject requiredUnit = globalEnv->GetStaticObjectField(
+    jobject requiredUnit = _env->GetStaticObjectField(
         javaRefs.unitTypeClass,
-        globalEnv->GetStaticFieldID(javaRefs.unitTypeClass, techType.requiredUnit().getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;"));
-    globalEnv->SetObjectField(CurrentTechType, globalEnv->GetFieldID(javaRefs.techTypeClass, "requiredUnit", "Lorg/openbw/bwapi4j/type/UnitType;"),
-                              requiredUnit);
+        _env->GetStaticFieldID(javaRefs.unitTypeClass, techType.requiredUnit().getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;"));
+    _env->SetObjectField(CurrentTechType, _env->GetFieldID(javaRefs.techTypeClass, "requiredUnit", "Lorg/openbw/bwapi4j/type/UnitType;"), requiredUnit);
   }
 
   LOGGER("Reading tech types... done");
@@ -156,59 +154,55 @@ void BridgeEnum::createWeaponTypeEnum() {
     if (weaponType.getName().empty()) {
       return;
     }
-    jfieldID typeField = globalEnv->GetStaticFieldID(javaRefs.weaponTypeClass, weaponType.getName().c_str(), "Lorg/openbw/bwapi4j/type/WeaponType;");
-    jobject CurrentWeaponType = globalEnv->GetStaticObjectField(javaRefs.weaponTypeClass, typeField);
+    jfieldID typeField = _env->GetStaticFieldID(javaRefs.weaponTypeClass, weaponType.getName().c_str(), "Lorg/openbw/bwapi4j/type/WeaponType;");
+    jobject CurrentWeaponType = _env->GetStaticObjectField(javaRefs.weaponTypeClass, typeField);
 
     // set int fields
-    globalEnv->SetIntField(CurrentWeaponType, globalEnv->GetFieldID(javaRefs.weaponTypeClass, "id", "I"), weaponType.getID());
-    globalEnv->SetIntField(CurrentWeaponType, globalEnv->GetFieldID(javaRefs.weaponTypeClass, "damageAmount", "I"), weaponType.damageAmount());
-    globalEnv->SetIntField(CurrentWeaponType, globalEnv->GetFieldID(javaRefs.weaponTypeClass, "damageBonus", "I"), weaponType.damageBonus());
-    globalEnv->SetIntField(CurrentWeaponType, globalEnv->GetFieldID(javaRefs.weaponTypeClass, "damageCooldown", "I"), weaponType.damageCooldown());
-    globalEnv->SetIntField(CurrentWeaponType, globalEnv->GetFieldID(javaRefs.weaponTypeClass, "damageFactor", "I"), weaponType.damageFactor());
-    globalEnv->SetIntField(CurrentWeaponType, globalEnv->GetFieldID(javaRefs.weaponTypeClass, "minRange", "I"), weaponType.minRange());
-    globalEnv->SetIntField(CurrentWeaponType, globalEnv->GetFieldID(javaRefs.weaponTypeClass, "maxRange", "I"), weaponType.maxRange());
-    globalEnv->SetIntField(CurrentWeaponType, globalEnv->GetFieldID(javaRefs.weaponTypeClass, "innerSplashRadius", "I"), weaponType.innerSplashRadius());
-    globalEnv->SetIntField(CurrentWeaponType, globalEnv->GetFieldID(javaRefs.weaponTypeClass, "medianSplashRadius", "I"), weaponType.medianSplashRadius());
-    globalEnv->SetIntField(CurrentWeaponType, globalEnv->GetFieldID(javaRefs.weaponTypeClass, "outerSplashRadius", "I"), weaponType.outerSplashRadius());
+    _env->SetIntField(CurrentWeaponType, _env->GetFieldID(javaRefs.weaponTypeClass, "id", "I"), weaponType.getID());
+    _env->SetIntField(CurrentWeaponType, _env->GetFieldID(javaRefs.weaponTypeClass, "damageAmount", "I"), weaponType.damageAmount());
+    _env->SetIntField(CurrentWeaponType, _env->GetFieldID(javaRefs.weaponTypeClass, "damageBonus", "I"), weaponType.damageBonus());
+    _env->SetIntField(CurrentWeaponType, _env->GetFieldID(javaRefs.weaponTypeClass, "damageCooldown", "I"), weaponType.damageCooldown());
+    _env->SetIntField(CurrentWeaponType, _env->GetFieldID(javaRefs.weaponTypeClass, "damageFactor", "I"), weaponType.damageFactor());
+    _env->SetIntField(CurrentWeaponType, _env->GetFieldID(javaRefs.weaponTypeClass, "minRange", "I"), weaponType.minRange());
+    _env->SetIntField(CurrentWeaponType, _env->GetFieldID(javaRefs.weaponTypeClass, "maxRange", "I"), weaponType.maxRange());
+    _env->SetIntField(CurrentWeaponType, _env->GetFieldID(javaRefs.weaponTypeClass, "innerSplashRadius", "I"), weaponType.innerSplashRadius());
+    _env->SetIntField(CurrentWeaponType, _env->GetFieldID(javaRefs.weaponTypeClass, "medianSplashRadius", "I"), weaponType.medianSplashRadius());
+    _env->SetIntField(CurrentWeaponType, _env->GetFieldID(javaRefs.weaponTypeClass, "outerSplashRadius", "I"), weaponType.outerSplashRadius());
     // set boolean fields
-    globalEnv->SetBooleanField(CurrentWeaponType, globalEnv->GetFieldID(javaRefs.weaponTypeClass, "targetsAir", "Z"), weaponType.targetsAir());
-    globalEnv->SetBooleanField(CurrentWeaponType, globalEnv->GetFieldID(javaRefs.weaponTypeClass, "targetsGround", "Z"), weaponType.targetsGround());
-    globalEnv->SetBooleanField(CurrentWeaponType, globalEnv->GetFieldID(javaRefs.weaponTypeClass, "targetsMechanical", "Z"), weaponType.targetsMechanical());
-    globalEnv->SetBooleanField(CurrentWeaponType, globalEnv->GetFieldID(javaRefs.weaponTypeClass, "targetsOrganic", "Z"), weaponType.targetsOrganic());
-    globalEnv->SetBooleanField(CurrentWeaponType, globalEnv->GetFieldID(javaRefs.weaponTypeClass, "targetsNonBuilding", "Z"), weaponType.targetsNonBuilding());
-    globalEnv->SetBooleanField(CurrentWeaponType, globalEnv->GetFieldID(javaRefs.weaponTypeClass, "targetsNonRobotic", "Z"), weaponType.targetsNonRobotic());
-    globalEnv->SetBooleanField(CurrentWeaponType, globalEnv->GetFieldID(javaRefs.weaponTypeClass, "targetsTerrain", "Z"), weaponType.targetsTerrain());
-    globalEnv->SetBooleanField(CurrentWeaponType, globalEnv->GetFieldID(javaRefs.weaponTypeClass, "targetsOrgOrMech", "Z"), weaponType.targetsOrgOrMech());
-    globalEnv->SetBooleanField(CurrentWeaponType, globalEnv->GetFieldID(javaRefs.weaponTypeClass, "targetsOwn", "Z"), weaponType.targetsOwn());
+    _env->SetBooleanField(CurrentWeaponType, _env->GetFieldID(javaRefs.weaponTypeClass, "targetsAir", "Z"), weaponType.targetsAir());
+    _env->SetBooleanField(CurrentWeaponType, _env->GetFieldID(javaRefs.weaponTypeClass, "targetsGround", "Z"), weaponType.targetsGround());
+    _env->SetBooleanField(CurrentWeaponType, _env->GetFieldID(javaRefs.weaponTypeClass, "targetsMechanical", "Z"), weaponType.targetsMechanical());
+    _env->SetBooleanField(CurrentWeaponType, _env->GetFieldID(javaRefs.weaponTypeClass, "targetsOrganic", "Z"), weaponType.targetsOrganic());
+    _env->SetBooleanField(CurrentWeaponType, _env->GetFieldID(javaRefs.weaponTypeClass, "targetsNonBuilding", "Z"), weaponType.targetsNonBuilding());
+    _env->SetBooleanField(CurrentWeaponType, _env->GetFieldID(javaRefs.weaponTypeClass, "targetsNonRobotic", "Z"), weaponType.targetsNonRobotic());
+    _env->SetBooleanField(CurrentWeaponType, _env->GetFieldID(javaRefs.weaponTypeClass, "targetsTerrain", "Z"), weaponType.targetsTerrain());
+    _env->SetBooleanField(CurrentWeaponType, _env->GetFieldID(javaRefs.weaponTypeClass, "targetsOrgOrMech", "Z"), weaponType.targetsOrgOrMech());
+    _env->SetBooleanField(CurrentWeaponType, _env->GetFieldID(javaRefs.weaponTypeClass, "targetsOwn", "Z"), weaponType.targetsOwn());
 
     // set enum fields
-    jobject tech = globalEnv->GetStaticObjectField(
-        javaRefs.techTypeClass,
-        globalEnv->GetStaticFieldID(javaRefs.techTypeClass, weaponType.getTech().getName().c_str(), "Lorg/openbw/bwapi4j/type/TechType;"));
-    globalEnv->SetObjectField(CurrentWeaponType, globalEnv->GetFieldID(javaRefs.weaponTypeClass, "tech", "Lorg/openbw/bwapi4j/type/TechType;"), tech);
+    jobject tech = _env->GetStaticObjectField(
+        javaRefs.techTypeClass, _env->GetStaticFieldID(javaRefs.techTypeClass, weaponType.getTech().getName().c_str(), "Lorg/openbw/bwapi4j/type/TechType;"));
+    _env->SetObjectField(CurrentWeaponType, _env->GetFieldID(javaRefs.weaponTypeClass, "tech", "Lorg/openbw/bwapi4j/type/TechType;"), tech);
 
-    jobject whatUses = globalEnv->GetStaticObjectField(
-        javaRefs.unitTypeClass,
-        globalEnv->GetStaticFieldID(javaRefs.unitTypeClass, weaponType.whatUses().getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;"));
-    globalEnv->SetObjectField(CurrentWeaponType, globalEnv->GetFieldID(javaRefs.weaponTypeClass, "whatUses", "Lorg/openbw/bwapi4j/type/UnitType;"), whatUses);
+    jobject whatUses = _env->GetStaticObjectField(
+        javaRefs.unitTypeClass, _env->GetStaticFieldID(javaRefs.unitTypeClass, weaponType.whatUses().getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;"));
+    _env->SetObjectField(CurrentWeaponType, _env->GetFieldID(javaRefs.weaponTypeClass, "whatUses", "Lorg/openbw/bwapi4j/type/UnitType;"), whatUses);
 
-    jobject upgradeType = globalEnv->GetStaticObjectField(
+    jobject upgradeType = _env->GetStaticObjectField(
         javaRefs.upgradeTypeClass,
-        globalEnv->GetStaticFieldID(javaRefs.upgradeTypeClass, weaponType.upgradeType().getName().c_str(), "Lorg/openbw/bwapi4j/type/UpgradeType;"));
-    globalEnv->SetObjectField(CurrentWeaponType, globalEnv->GetFieldID(javaRefs.weaponTypeClass, "upgradeType", "Lorg/openbw/bwapi4j/type/UpgradeType;"),
-                              upgradeType);
+        _env->GetStaticFieldID(javaRefs.upgradeTypeClass, weaponType.upgradeType().getName().c_str(), "Lorg/openbw/bwapi4j/type/UpgradeType;"));
+    _env->SetObjectField(CurrentWeaponType, _env->GetFieldID(javaRefs.weaponTypeClass, "upgradeType", "Lorg/openbw/bwapi4j/type/UpgradeType;"), upgradeType);
 
-    jobject damageType = globalEnv->GetStaticObjectField(
+    jobject damageType = _env->GetStaticObjectField(
         javaRefs.damageTypeClass,
-        globalEnv->GetStaticFieldID(javaRefs.damageTypeClass, weaponType.damageType().getName().c_str(), "Lorg/openbw/bwapi4j/type/DamageType;"));
-    globalEnv->SetObjectField(CurrentWeaponType, globalEnv->GetFieldID(javaRefs.weaponTypeClass, "damageType", "Lorg/openbw/bwapi4j/type/DamageType;"),
-                              damageType);
+        _env->GetStaticFieldID(javaRefs.damageTypeClass, weaponType.damageType().getName().c_str(), "Lorg/openbw/bwapi4j/type/DamageType;"));
+    _env->SetObjectField(CurrentWeaponType, _env->GetFieldID(javaRefs.weaponTypeClass, "damageType", "Lorg/openbw/bwapi4j/type/DamageType;"), damageType);
 
-    jobject explosionType = globalEnv->GetStaticObjectField(
+    jobject explosionType = _env->GetStaticObjectField(
         javaRefs.explosionTypeClass,
-        globalEnv->GetStaticFieldID(javaRefs.explosionTypeClass, weaponType.explosionType().getName().c_str(), "Lorg/openbw/bwapi4j/type/ExplosionType;"));
-    globalEnv->SetObjectField(CurrentWeaponType, globalEnv->GetFieldID(javaRefs.weaponTypeClass, "explosionType", "Lorg/openbw/bwapi4j/type/ExplosionType;"),
-                              explosionType);
+        _env->GetStaticFieldID(javaRefs.explosionTypeClass, weaponType.explosionType().getName().c_str(), "Lorg/openbw/bwapi4j/type/ExplosionType;"));
+    _env->SetObjectField(CurrentWeaponType, _env->GetFieldID(javaRefs.weaponTypeClass, "explosionType", "Lorg/openbw/bwapi4j/type/ExplosionType;"),
+                         explosionType);
   }
 
   LOGGER("Reading weapon types... done");
@@ -222,182 +216,173 @@ void BridgeEnum::createUnitTypeEnum() {
       return;
     }
 
-    jfieldID typeField = globalEnv->GetStaticFieldID(javaRefs.unitTypeClass, unitType.getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;");
-    jobject CurrentUnitType = globalEnv->GetStaticObjectField(javaRefs.unitTypeClass, typeField);
+    jfieldID typeField = _env->GetStaticFieldID(javaRefs.unitTypeClass, unitType.getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;");
+    jobject CurrentUnitType = _env->GetStaticObjectField(javaRefs.unitTypeClass, typeField);
 
     // set int fields
-    globalEnv->SetIntField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "id", "I"), unitType.getID());
-    globalEnv->SetIntField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "maxHitPoints", "I"), unitType.maxHitPoints());
-    globalEnv->SetIntField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "maxShields", "I"), unitType.maxShields());
-    globalEnv->SetIntField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "maxEnergy", "I"), unitType.maxEnergy());
-    globalEnv->SetIntField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "armor", "I"), unitType.armor());
-    globalEnv->SetIntField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "mineralPrice", "I"), unitType.mineralPrice());
-    globalEnv->SetIntField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "gasPrice", "I"), unitType.gasPrice());
-    globalEnv->SetIntField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "buildTime", "I"), unitType.buildTime());
-    globalEnv->SetIntField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "supplyRequired", "I"), unitType.supplyRequired());
-    globalEnv->SetIntField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "supplyProvided", "I"), unitType.supplyProvided());
-    globalEnv->SetIntField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "spaceRequired", "I"), unitType.spaceRequired());
-    globalEnv->SetIntField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "spaceProvided", "I"), unitType.spaceProvided());
-    globalEnv->SetIntField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "buildScore", "I"), unitType.buildScore());
-    globalEnv->SetIntField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "destroyScore", "I"), unitType.destroyScore());
-    globalEnv->SetIntField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "tileWidth", "I"), unitType.tileWidth());
-    globalEnv->SetIntField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "tileHeight", "I"), unitType.tileHeight());
-    globalEnv->SetIntField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "dimensionLeft", "I"), unitType.dimensionLeft());
-    globalEnv->SetIntField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "dimensionUp", "I"), unitType.dimensionUp());
-    globalEnv->SetIntField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "dimensionRight", "I"), unitType.dimensionRight());
-    globalEnv->SetIntField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "dimensionDown", "I"), unitType.dimensionDown());
-    globalEnv->SetIntField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "width", "I"), unitType.width());
-    globalEnv->SetIntField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "height", "I"), unitType.height());
-    globalEnv->SetIntField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "seekRange", "I"), unitType.seekRange());
-    globalEnv->SetIntField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "sightRange", "I"), unitType.sightRange());
-    globalEnv->SetIntField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "maxGroundHits", "I"), unitType.maxGroundHits());
-    globalEnv->SetIntField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "maxAirHits", "I"), unitType.maxAirHits());
-    globalEnv->SetIntField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "acceleration", "I"), unitType.acceleration());
-    globalEnv->SetIntField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "haltDistance", "I"), unitType.haltDistance());
-    globalEnv->SetIntField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "turnRadius", "I"), unitType.turnRadius());
+    _env->SetIntField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "id", "I"), unitType.getID());
+    _env->SetIntField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "maxHitPoints", "I"), unitType.maxHitPoints());
+    _env->SetIntField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "maxShields", "I"), unitType.maxShields());
+    _env->SetIntField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "maxEnergy", "I"), unitType.maxEnergy());
+    _env->SetIntField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "armor", "I"), unitType.armor());
+    _env->SetIntField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "mineralPrice", "I"), unitType.mineralPrice());
+    _env->SetIntField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "gasPrice", "I"), unitType.gasPrice());
+    _env->SetIntField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "buildTime", "I"), unitType.buildTime());
+    _env->SetIntField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "supplyRequired", "I"), unitType.supplyRequired());
+    _env->SetIntField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "supplyProvided", "I"), unitType.supplyProvided());
+    _env->SetIntField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "spaceRequired", "I"), unitType.spaceRequired());
+    _env->SetIntField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "spaceProvided", "I"), unitType.spaceProvided());
+    _env->SetIntField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "buildScore", "I"), unitType.buildScore());
+    _env->SetIntField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "destroyScore", "I"), unitType.destroyScore());
+    _env->SetIntField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "tileWidth", "I"), unitType.tileWidth());
+    _env->SetIntField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "tileHeight", "I"), unitType.tileHeight());
+    _env->SetIntField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "dimensionLeft", "I"), unitType.dimensionLeft());
+    _env->SetIntField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "dimensionUp", "I"), unitType.dimensionUp());
+    _env->SetIntField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "dimensionRight", "I"), unitType.dimensionRight());
+    _env->SetIntField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "dimensionDown", "I"), unitType.dimensionDown());
+    _env->SetIntField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "width", "I"), unitType.width());
+    _env->SetIntField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "height", "I"), unitType.height());
+    _env->SetIntField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "seekRange", "I"), unitType.seekRange());
+    _env->SetIntField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "sightRange", "I"), unitType.sightRange());
+    _env->SetIntField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "maxGroundHits", "I"), unitType.maxGroundHits());
+    _env->SetIntField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "maxAirHits", "I"), unitType.maxAirHits());
+    _env->SetIntField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "acceleration", "I"), unitType.acceleration());
+    _env->SetIntField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "haltDistance", "I"), unitType.haltDistance());
+    _env->SetIntField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "turnRadius", "I"), unitType.turnRadius());
     // set boolean fields
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "canProduce", "Z"), unitType.canProduce());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "canAttack", "Z"), unitType.canAttack());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "canMove", "Z"), unitType.canMove());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "isFlyer", "Z"), unitType.isFlyer());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "regeneratesHP", "Z"), unitType.regeneratesHP());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "isSpellcaster", "Z"), unitType.isSpellcaster());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "hasPermanentCloak", "Z"), unitType.hasPermanentCloak());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "isInvincible", "Z"), unitType.isInvincible());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "isOrganic", "Z"), unitType.isOrganic());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "isMechanical", "Z"), unitType.isMechanical());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "isRobotic", "Z"), unitType.isRobotic());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "isMechanical", "Z"), unitType.isMechanical());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "isDetector", "Z"), unitType.isDetector());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "isResourceContainer", "Z"), unitType.isResourceContainer());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "isResourceDepot", "Z"), unitType.isResourceDepot());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "isRefinery", "Z"), unitType.isRefinery());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "isWorker", "Z"), unitType.isWorker());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "requiresPsi", "Z"), unitType.requiresPsi());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "requiresCreep", "Z"), unitType.requiresCreep());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "isTwoUnitsInOneEgg", "Z"), unitType.isTwoUnitsInOneEgg());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "isBurrowable", "Z"), unitType.isBurrowable());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "isCloakable", "Z"), unitType.isCloakable());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "isBuilding", "Z"), unitType.isBuilding());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "isAddon", "Z"), unitType.isAddon());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "isFlyingBuilding", "Z"), unitType.isFlyingBuilding());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "isNeutral", "Z"), unitType.isNeutral());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "isHero", "Z"), unitType.isHero());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "isPowerup", "Z"), unitType.isPowerup());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "isBeacon", "Z"), unitType.isBeacon());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "isFlagBeacon", "Z"), unitType.isFlagBeacon());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "isSpecialBuilding", "Z"), unitType.isSpecialBuilding());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "isSpell", "Z"), unitType.isSpell());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "producesCreep", "Z"), unitType.producesCreep());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "producesLarva", "Z"), unitType.producesLarva());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "isMineralField", "Z"), unitType.isMineralField());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "isCritter", "Z"), unitType.isCritter());
-    globalEnv->SetBooleanField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "canBuildAddon", "Z"), unitType.canBuildAddon());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "canProduce", "Z"), unitType.canProduce());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "canAttack", "Z"), unitType.canAttack());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "canMove", "Z"), unitType.canMove());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "isFlyer", "Z"), unitType.isFlyer());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "regeneratesHP", "Z"), unitType.regeneratesHP());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "isSpellcaster", "Z"), unitType.isSpellcaster());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "hasPermanentCloak", "Z"), unitType.hasPermanentCloak());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "isInvincible", "Z"), unitType.isInvincible());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "isOrganic", "Z"), unitType.isOrganic());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "isMechanical", "Z"), unitType.isMechanical());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "isRobotic", "Z"), unitType.isRobotic());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "isMechanical", "Z"), unitType.isMechanical());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "isDetector", "Z"), unitType.isDetector());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "isResourceContainer", "Z"), unitType.isResourceContainer());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "isResourceDepot", "Z"), unitType.isResourceDepot());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "isRefinery", "Z"), unitType.isRefinery());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "isWorker", "Z"), unitType.isWorker());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "requiresPsi", "Z"), unitType.requiresPsi());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "requiresCreep", "Z"), unitType.requiresCreep());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "isTwoUnitsInOneEgg", "Z"), unitType.isTwoUnitsInOneEgg());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "isBurrowable", "Z"), unitType.isBurrowable());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "isCloakable", "Z"), unitType.isCloakable());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "isBuilding", "Z"), unitType.isBuilding());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "isAddon", "Z"), unitType.isAddon());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "isFlyingBuilding", "Z"), unitType.isFlyingBuilding());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "isNeutral", "Z"), unitType.isNeutral());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "isHero", "Z"), unitType.isHero());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "isPowerup", "Z"), unitType.isPowerup());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "isBeacon", "Z"), unitType.isBeacon());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "isFlagBeacon", "Z"), unitType.isFlagBeacon());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "isSpecialBuilding", "Z"), unitType.isSpecialBuilding());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "isSpell", "Z"), unitType.isSpell());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "producesCreep", "Z"), unitType.producesCreep());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "producesLarva", "Z"), unitType.producesLarva());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "isMineralField", "Z"), unitType.isMineralField());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "isCritter", "Z"), unitType.isCritter());
+    _env->SetBooleanField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "canBuildAddon", "Z"), unitType.canBuildAddon());
     // set double fields
-    globalEnv->SetDoubleField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "topSpeed", "D"), unitType.topSpeed());
+    _env->SetDoubleField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "topSpeed", "D"), unitType.topSpeed());
     // set enum values
-    jobject race = globalEnv->GetStaticObjectField(
-        javaRefs.raceClass, globalEnv->GetStaticFieldID(javaRefs.raceClass, unitType.getRace().getName().c_str(), "Lorg/openbw/bwapi4j/type/Race;"));
-    globalEnv->SetObjectField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "race", "Lorg/openbw/bwapi4j/type/Race;"), race);
+    jobject race = _env->GetStaticObjectField(
+        javaRefs.raceClass, _env->GetStaticFieldID(javaRefs.raceClass, unitType.getRace().getName().c_str(), "Lorg/openbw/bwapi4j/type/Race;"));
+    _env->SetObjectField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "race", "Lorg/openbw/bwapi4j/type/Race;"), race);
 
-    jobject requiredTech = globalEnv->GetStaticObjectField(
+    jobject requiredTech = _env->GetStaticObjectField(
         javaRefs.techTypeClass,
-        globalEnv->GetStaticFieldID(javaRefs.techTypeClass, unitType.requiredTech().getName().c_str(), "Lorg/openbw/bwapi4j/type/TechType;"));
-    globalEnv->SetObjectField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "requiredTech", "Lorg/openbw/bwapi4j/type/TechType;"),
-                              requiredTech);
+        _env->GetStaticFieldID(javaRefs.techTypeClass, unitType.requiredTech().getName().c_str(), "Lorg/openbw/bwapi4j/type/TechType;"));
+    _env->SetObjectField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "requiredTech", "Lorg/openbw/bwapi4j/type/TechType;"), requiredTech);
 
-    jobject cloakingTech = globalEnv->GetStaticObjectField(
+    jobject cloakingTech = _env->GetStaticObjectField(
         javaRefs.techTypeClass,
-        globalEnv->GetStaticFieldID(javaRefs.techTypeClass, unitType.cloakingTech().getName().c_str(), "Lorg/openbw/bwapi4j/type/TechType;"));
-    globalEnv->SetObjectField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "cloakingTech", "Lorg/openbw/bwapi4j/type/TechType;"),
-                              cloakingTech);
+        _env->GetStaticFieldID(javaRefs.techTypeClass, unitType.cloakingTech().getName().c_str(), "Lorg/openbw/bwapi4j/type/TechType;"));
+    _env->SetObjectField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "cloakingTech", "Lorg/openbw/bwapi4j/type/TechType;"), cloakingTech);
 
-    jobject armorUpgrade = globalEnv->GetStaticObjectField(
+    jobject armorUpgrade = _env->GetStaticObjectField(
         javaRefs.upgradeTypeClass,
-        globalEnv->GetStaticFieldID(javaRefs.upgradeTypeClass, unitType.armorUpgrade().getName().c_str(), "Lorg/openbw/bwapi4j/type/UpgradeType;"));
-    globalEnv->SetObjectField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "armorUpgrade", "Lorg/openbw/bwapi4j/type/UpgradeType;"),
-                              armorUpgrade);
+        _env->GetStaticFieldID(javaRefs.upgradeTypeClass, unitType.armorUpgrade().getName().c_str(), "Lorg/openbw/bwapi4j/type/UpgradeType;"));
+    _env->SetObjectField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "armorUpgrade", "Lorg/openbw/bwapi4j/type/UpgradeType;"), armorUpgrade);
 
-    jobject size = globalEnv->GetStaticObjectField(
-        javaRefs.unitSizeTypeClass,
-        globalEnv->GetStaticFieldID(javaRefs.unitSizeTypeClass, unitType.size().getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitSizeType;"));
-    globalEnv->SetObjectField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "size", "Lorg/openbw/bwapi4j/type/UnitSizeType;"), size);
+    jobject size = _env->GetStaticObjectField(javaRefs.unitSizeTypeClass, _env->GetStaticFieldID(javaRefs.unitSizeTypeClass, unitType.size().getName().c_str(),
+                                                                                                 "Lorg/openbw/bwapi4j/type/UnitSizeType;"));
+    _env->SetObjectField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "size", "Lorg/openbw/bwapi4j/type/UnitSizeType;"), size);
 
-    jobject groundWeapon = globalEnv->GetStaticObjectField(
+    jobject groundWeapon = _env->GetStaticObjectField(
         javaRefs.weaponTypeClass,
-        globalEnv->GetStaticFieldID(javaRefs.weaponTypeClass, unitType.groundWeapon().getName().c_str(), "Lorg/openbw/bwapi4j/type/WeaponType;"));
-    globalEnv->SetObjectField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "groundWeapon", "Lorg/openbw/bwapi4j/type/WeaponType;"),
-                              groundWeapon);
+        _env->GetStaticFieldID(javaRefs.weaponTypeClass, unitType.groundWeapon().getName().c_str(), "Lorg/openbw/bwapi4j/type/WeaponType;"));
+    _env->SetObjectField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "groundWeapon", "Lorg/openbw/bwapi4j/type/WeaponType;"), groundWeapon);
 
-    jobject airWeapon = globalEnv->GetStaticObjectField(
+    jobject airWeapon = _env->GetStaticObjectField(
         javaRefs.weaponTypeClass,
-        globalEnv->GetStaticFieldID(javaRefs.weaponTypeClass, unitType.airWeapon().getName().c_str(), "Lorg/openbw/bwapi4j/type/WeaponType;"));
-    globalEnv->SetObjectField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "airWeapon", "Lorg/openbw/bwapi4j/type/WeaponType;"), airWeapon);
+        _env->GetStaticFieldID(javaRefs.weaponTypeClass, unitType.airWeapon().getName().c_str(), "Lorg/openbw/bwapi4j/type/WeaponType;"));
+    _env->SetObjectField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "airWeapon", "Lorg/openbw/bwapi4j/type/WeaponType;"), airWeapon);
 
     // set complex values
-    jobject upgradesList = globalEnv->GetObjectField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "upgrades", "Ljava/util/ArrayList;"));
+    jobject upgradesList = _env->GetObjectField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "upgrades", "Ljava/util/ArrayList;"));
     for (BWAPI::UpgradeType upgradeType : unitType.upgrades()) {
-      jobject upgradesMemberType = globalEnv->GetStaticObjectField(
-          javaRefs.upgradeTypeClass,
-          globalEnv->GetStaticFieldID(javaRefs.upgradeTypeClass, upgradeType.getName().c_str(), "Lorg/openbw/bwapi4j/type/UpgradeType;"));
-      globalEnv->CallObjectMethod(upgradesList, javaRefs.arrayListClass_add, upgradesMemberType);
-      globalEnv->DeleteLocalRef(upgradesMemberType);
+      jobject upgradesMemberType = _env->GetStaticObjectField(
+          javaRefs.upgradeTypeClass, _env->GetStaticFieldID(javaRefs.upgradeTypeClass, upgradeType.getName().c_str(), "Lorg/openbw/bwapi4j/type/UpgradeType;"));
+      _env->CallObjectMethod(upgradesList, javaRefs.arrayListClass_add, upgradesMemberType);
+      _env->DeleteLocalRef(upgradesMemberType);
     }
-    globalEnv->DeleteLocalRef(upgradesList);
+    _env->DeleteLocalRef(upgradesList);
 
-    jobject upgradesWhatList =
-        globalEnv->GetObjectField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "upgradesWhat", "Ljava/util/ArrayList;"));
+    jobject upgradesWhatList = _env->GetObjectField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "upgradesWhat", "Ljava/util/ArrayList;"));
     for (BWAPI::UpgradeType upgradeType : unitType.upgradesWhat()) {
-      jobject upgradesWhatMemberType = globalEnv->GetStaticObjectField(
-          javaRefs.upgradeTypeClass,
-          globalEnv->GetStaticFieldID(javaRefs.upgradeTypeClass, upgradeType.getName().c_str(), "Lorg/openbw/bwapi4j/type/UpgradeType;"));
-      globalEnv->CallObjectMethod(upgradesWhatList, javaRefs.arrayListClass_add, upgradesWhatMemberType);
-      globalEnv->DeleteLocalRef(upgradesWhatMemberType);
+      jobject upgradesWhatMemberType = _env->GetStaticObjectField(
+          javaRefs.upgradeTypeClass, _env->GetStaticFieldID(javaRefs.upgradeTypeClass, upgradeType.getName().c_str(), "Lorg/openbw/bwapi4j/type/UpgradeType;"));
+      _env->CallObjectMethod(upgradesWhatList, javaRefs.arrayListClass_add, upgradesWhatMemberType);
+      _env->DeleteLocalRef(upgradesWhatMemberType);
     }
-    globalEnv->DeleteLocalRef(upgradesWhatList);
+    _env->DeleteLocalRef(upgradesWhatList);
 
-    jobject abilitiesList = globalEnv->GetObjectField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "abilities", "Ljava/util/ArrayList;"));
+    jobject abilitiesList = _env->GetObjectField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "abilities", "Ljava/util/ArrayList;"));
     for (BWAPI::TechType techType : unitType.abilities()) {
-      jobject abilitiesMemberType = globalEnv->GetStaticObjectField(
-          javaRefs.techTypeClass, globalEnv->GetStaticFieldID(javaRefs.techTypeClass, techType.getName().c_str(), "Lorg/openbw/bwapi4j/type/TechType;"));
-      globalEnv->CallObjectMethod(abilitiesList, javaRefs.arrayListClass_add, abilitiesMemberType);
-      globalEnv->DeleteLocalRef(abilitiesMemberType);
+      jobject abilitiesMemberType = _env->GetStaticObjectField(
+          javaRefs.techTypeClass, _env->GetStaticFieldID(javaRefs.techTypeClass, techType.getName().c_str(), "Lorg/openbw/bwapi4j/type/TechType;"));
+      _env->CallObjectMethod(abilitiesList, javaRefs.arrayListClass_add, abilitiesMemberType);
+      _env->DeleteLocalRef(abilitiesMemberType);
     }
-    globalEnv->DeleteLocalRef(abilitiesList);
+    _env->DeleteLocalRef(abilitiesList);
 
-    jobject researchesWhatList =
-        globalEnv->GetObjectField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "researchesWhat", "Ljava/util/ArrayList;"));
+    jobject researchesWhatList = _env->GetObjectField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "researchesWhat", "Ljava/util/ArrayList;"));
     for (BWAPI::TechType techType : unitType.researchesWhat()) {
-      jobject researchesWhatMemberType = globalEnv->GetStaticObjectField(
-          javaRefs.techTypeClass, globalEnv->GetStaticFieldID(javaRefs.techTypeClass, techType.getName().c_str(), "Lorg/openbw/bwapi4j/type/TechType;"));
-      globalEnv->CallObjectMethod(researchesWhatList, javaRefs.arrayListClass_add, researchesWhatMemberType);
-      globalEnv->DeleteLocalRef(researchesWhatMemberType);
+      jobject researchesWhatMemberType = _env->GetStaticObjectField(
+          javaRefs.techTypeClass, _env->GetStaticFieldID(javaRefs.techTypeClass, techType.getName().c_str(), "Lorg/openbw/bwapi4j/type/TechType;"));
+      _env->CallObjectMethod(researchesWhatList, javaRefs.arrayListClass_add, researchesWhatMemberType);
+      _env->DeleteLocalRef(researchesWhatMemberType);
     }
-    globalEnv->DeleteLocalRef(researchesWhatList);
+    _env->DeleteLocalRef(researchesWhatList);
 
-    jobject buildsWhatList = globalEnv->GetObjectField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "buildsWhat", "Ljava/util/ArrayList;"));
+    jobject buildsWhatList = _env->GetObjectField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "buildsWhat", "Ljava/util/ArrayList;"));
     for (BWAPI::UnitType unitType : unitType.buildsWhat()) {
-      jobject buildsWhatMemberType = globalEnv->GetStaticObjectField(
-          javaRefs.unitTypeClass, globalEnv->GetStaticFieldID(javaRefs.unitTypeClass, unitType.getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;"));
-      globalEnv->CallObjectMethod(buildsWhatList, javaRefs.arrayListClass_add, buildsWhatMemberType);
-      globalEnv->DeleteLocalRef(buildsWhatMemberType);
+      jobject buildsWhatMemberType = _env->GetStaticObjectField(
+          javaRefs.unitTypeClass, _env->GetStaticFieldID(javaRefs.unitTypeClass, unitType.getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;"));
+      _env->CallObjectMethod(buildsWhatList, javaRefs.arrayListClass_add, buildsWhatMemberType);
+      _env->DeleteLocalRef(buildsWhatMemberType);
     }
-    globalEnv->DeleteLocalRef(buildsWhatList);
+    _env->DeleteLocalRef(buildsWhatList);
 
     // create a new Pair object and fill in UnitType,Integer
     jfieldID whatBuildsField =
-        globalEnv->GetStaticFieldID(javaRefs.unitTypeClass, unitType.whatBuilds().first.getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;");
-    jobject whatBuildsType = globalEnv->GetStaticObjectField(javaRefs.unitTypeClass, whatBuildsField);
+        _env->GetStaticFieldID(javaRefs.unitTypeClass, unitType.whatBuilds().first.getName().c_str(), "Lorg/openbw/bwapi4j/type/UnitType;");
+    jobject whatBuildsType = _env->GetStaticObjectField(javaRefs.unitTypeClass, whatBuildsField);
 
-    jobject pairObject = globalEnv->NewObject(javaRefs.pairClass, javaRefs.pairClassConstructor, whatBuildsType,
-                                              globalEnv->NewObject(javaRefs.integerClass, javaRefs.integerClassConstructor, unitType.whatBuilds().second));
-    globalEnv->SetObjectField(CurrentUnitType, globalEnv->GetFieldID(javaRefs.unitTypeClass, "whatBuilds", "Lorg/openbw/bwapi4j/util/Pair;"), pairObject);
+    jobject pairObject = _env->NewObject(javaRefs.pairClass, javaRefs.pairClassConstructor, whatBuildsType,
+                                         _env->NewObject(javaRefs.integerClass, javaRefs.integerClassConstructor, unitType.whatBuilds().second));
+    _env->SetObjectField(CurrentUnitType, _env->GetFieldID(javaRefs.unitTypeClass, "whatBuilds", "Lorg/openbw/bwapi4j/util/Pair;"), pairObject);
 
     // read existing requiredUnits map and put <UnitType,Integer> entries
     for (auto const &req : unitType.requiredUnits()) {
-      globalEnv->CallObjectMethod(CurrentUnitType, javaRefs.unitTypeClass_addRequiredUnit, (jint)req.first.getID(), (jint)req.second);
+      _env->CallObjectMethod(CurrentUnitType, javaRefs.unitTypeClass_addRequiredUnit, (jint)req.first.getID(), (jint)req.second);
     }
-    globalEnv->DeleteLocalRef(CurrentUnitType);
+    _env->DeleteLocalRef(CurrentUnitType);
   }
 
   LOGGER("Reading unit types... done");
