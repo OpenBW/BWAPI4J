@@ -23,6 +23,21 @@
 #include "Logger.h"
 #include "org_openbw_bwapi4j_BWMapImpl.h"
 
+template <typename F>
+void setJava2DIntArray(JNIEnv *env, jclass javaRef, jobject targetObject, const std::string &targetVariableName, const int maxX, const int maxY, F func) {
+  auto data = env->NewObjectArray(maxX, env->GetObjectClass(env->NewIntArray(maxY)), 0);
+  for (int x = 0; x < maxX; ++x) {
+    auto *arr = new jint[maxY];
+    for (int y = 0; y < maxY; ++y) {
+      arr[y] = static_cast<int>(func(x, y));
+    }
+    auto jniArr = env->NewIntArray(maxY);
+    env->SetIntArrayRegion(jniArr, 0, maxY, arr);
+    env->SetObjectArrayElement(data, x, jniArr);
+  }
+  env->SetObjectField(targetObject, env->GetFieldID(javaRef, targetVariableName.c_str(), "[[I"), data);
+}
+
 void BridgeMap::initialize(JNIEnv *env, jclass jc, jobject bwObject, jclass bwMapClass) {
   LOGGER("Reading map information...");
 
@@ -50,41 +65,12 @@ void BridgeMap::initialize(JNIEnv *env, jclass jc, jobject bwObject, jclass bwMa
   env->SetIntField(bwMap, env->GetFieldID(bwMapClass, "pixelWidth", "I"), mapPixelSize.x);
   env->SetIntField(bwMap, env->GetFieldID(bwMapClass, "pixelHeight", "I"), mapPixelSize.y);
 
-  auto groundHeightData = env->NewObjectArray(mapTileSize.x, env->GetObjectClass(env->NewIntArray(mapTileSize.y)), 0);
-  for (int x = 0; x < mapTileSize.x; ++x) {
-    auto *arr = new jint[mapTileSize.y];
-    for (int y = 0; y < mapTileSize.y; ++y) {
-      arr[y] = BWAPI::Broodwar->getGroundHeight(x, y);
-    }
-    auto jniArr = env->NewIntArray(mapTileSize.y);
-    env->SetIntArrayRegion(jniArr, 0, mapTileSize.y, arr);
-    env->SetObjectArrayElement(groundHeightData, x, jniArr);
-  }
-  env->SetObjectField(bwMap, env->GetFieldID(bwMapClass, "groundHeightData", "[[I"), groundHeightData);
-
-  auto isBuildableData = env->NewObjectArray(mapTileSize.x, env->GetObjectClass(env->NewIntArray(mapTileSize.y)), 0);
-  for (int x = 0; x < mapTileSize.x; ++x) {
-    auto *arr = new jint[mapTileSize.y];
-    for (int y = 0; y < mapTileSize.y; ++y) {
-      arr[y] = BWAPI::Broodwar->isBuildable(x, y);
-    }
-    auto jniArr = env->NewIntArray(mapTileSize.y);
-    env->SetIntArrayRegion(jniArr, 0, mapTileSize.y, arr);
-    env->SetObjectArrayElement(isBuildableData, x, jniArr);
-  }
-  env->SetObjectField(bwMap, env->GetFieldID(bwMapClass, "isBuildableData", "[[I"), isBuildableData);
-
-  auto isWalkableData = env->NewObjectArray(mapWalkSize.x, env->GetObjectClass(env->NewIntArray(mapWalkSize.y)), 0);
-  for (int x = 0; x < mapWalkSize.x; ++x) {
-    auto *arr = new jint[mapWalkSize.y];
-    for (int y = 0; y < mapWalkSize.y; ++y) {
-      arr[y] = BWAPI::Broodwar->isWalkable(x, y) ? 1 : 0;
-    }
-    auto jniArr = env->NewIntArray(mapWalkSize.y);
-    env->SetIntArrayRegion(jniArr, 0, mapWalkSize.y, arr);
-    env->SetObjectArrayElement(isWalkableData, x, jniArr);
-  }
-  env->SetObjectField(bwMap, env->GetFieldID(bwMapClass, "isWalkableData", "[[I"), isWalkableData);
+  setJava2DIntArray(env, bwMapClass, bwMap, "groundHeightData", mapTileSize.x, mapTileSize.y,
+                    [&](const int x, const int y) { return BWAPI::Broodwar->getGroundHeight(x, y); });
+  setJava2DIntArray(env, bwMapClass, bwMap, "isBuildableData", mapTileSize.x, mapTileSize.y,
+                    [&](const int x, const int y) { return BWAPI::Broodwar->isBuildable(x, y); });
+  setJava2DIntArray(env, bwMapClass, bwMap, "isWalkableData", mapWalkSize.x, mapWalkSize.y,
+                    [&](const int x, const int y) { return BWAPI::Broodwar->isWalkable(x, y); });
 
   auto startLocationsList = env->GetObjectField(bwMap, env->GetFieldID(bwMapClass, "startLocations", "Ljava/util/ArrayList;"));
   for (const auto &tilePosition : BWAPI::Broodwar->getStartLocations()) {
