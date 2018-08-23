@@ -195,6 +195,12 @@ public final class InteractionHandler {
     return new Position(screenPositionX, screenPositionY);
   }
 
+  private native void setScreenPosition_native(int pixelX, int pixelY);
+
+  public void setScreenPosition(final Position position) {
+    setScreenPosition_native(position.getX(), position.getY());
+  }
+
   public Position getScreenSize() {
     return new Position(screenSizeX, screenSizeY);
   }
