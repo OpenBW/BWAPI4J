@@ -152,7 +152,11 @@ class BWMapImpl implements BWMap {
   }
 
   public boolean isBuildable(final int tileX, final int tileY) {
-    return this.isBuildableData[tileX][tileY] == 1;
+    return (tileX >= 0
+        && tileX < mapWidth()
+        && tileY >= 0
+        && tileY < mapHeight()
+        && this.isBuildableData[tileX][tileY] == 1);
   }
 
   public boolean isBuildable(final TilePosition tilePosition) {
