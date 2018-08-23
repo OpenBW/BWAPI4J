@@ -14,10 +14,20 @@ import org.junit.runner.RunWith;
 public class BWMapImplTest {
   private final BWMapImpl sut = new BWMapImpl(null);
 
+  public BWMapImplTest() throws Exception {}
+
   @Before
   public void setup() {
-    sut.tileWidth = 10;
-    sut.tileHeight = 20;
+    final TilePosition tileSize = new TilePosition(10, 20);
+    final WalkPosition walkSize = tileSize.toWalkPosition();
+    final Position pixelSize = tileSize.toPosition();
+
+    sut.tileWidth = tileSize.getX();
+    sut.tileHeight = tileSize.getY();
+    sut.walkWidth = walkSize.getX();
+    sut.walkHeight = walkSize.getY();
+    sut.pixelWidth = pixelSize.getX();
+    sut.pixelHeight = pixelSize.getY();
   }
 
   @DataPoints("validTilePositions")
