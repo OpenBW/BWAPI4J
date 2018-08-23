@@ -100,6 +100,16 @@ public class BWMapMock implements BWMap {
   }
 
   @Override
+  public boolean isBuildable(int tileX, int tileY) {
+    return isBuildable(tileX, tileY, false);
+  }
+
+  @Override
+  public boolean isBuildable(TilePosition position) {
+    return isBuildable(position.getX(), position.getY(), false);
+  }
+
+  @Override
   public boolean isExplored(final int tileX, final int tileY) {
     throw new UnsupportedOperationException();
   }

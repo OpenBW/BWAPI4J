@@ -37,6 +37,7 @@ class BWMapImpl implements BWMap {
   int tileWidth;
   int tileHeight;
   private int[][] groundHeightData;
+  private int[][] isBuildableData;
   private Cache<boolean[][]> getCreepDataCache;
   private ArrayList<TilePosition> startLocations;
 
@@ -140,12 +141,22 @@ class BWMapImpl implements BWMap {
 
   private native int _isBuildable(int tileX, int tileY, boolean considerBuildings);
 
-  public boolean isBuildable(int tileX, int tileY, boolean considerBuildings) {
-    return _isBuildable(tileX, tileY, considerBuildings) == 1;
+  public boolean isBuildable(final int tileX, final int tileY, final boolean considerBuildings) {
+    return considerBuildings
+        ? (_isBuildable(tileX, tileY, considerBuildings) == 1)
+        : isBuildable(tileX, tileY);
   }
 
-  public boolean isBuildable(TilePosition position, boolean considerBuildings) {
-    return _isBuildable(position.getX(), position.getY(), considerBuildings) == 1;
+  public boolean isBuildable(final TilePosition tilePosition, final boolean considerBuildings) {
+    return isBuildable(tilePosition.getX(), tilePosition.getY(), considerBuildings);
+  }
+
+  public boolean isBuildable(final int tileX, final int tileY) {
+    return this.isBuildableData[tileX][tileY] == 1;
+  }
+
+  public boolean isBuildable(final TilePosition tilePosition) {
+    return isBuildable(tilePosition.getX(), tilePosition.getY());
   }
 
   private native int _isExplored(int tileX, int tileY);

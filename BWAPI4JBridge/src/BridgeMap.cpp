@@ -62,6 +62,18 @@ void BridgeMap::initialize(JNIEnv *env, jclass jc, jobject bwObject, jclass bwMa
   }
   env->SetObjectField(bwMap, env->GetFieldID(bwMapClass, "groundHeightData", "[[I"), groundHeightData);
 
+  auto isBuildableData = env->NewObjectArray(mapTileSize.x, env->GetObjectClass(env->NewIntArray(mapTileSize.y)), 0);
+  for (int x = 0; x < mapTileSize.x; ++x) {
+    auto *arr = new jint[mapTileSize.y];
+    for (int y = 0; y < mapTileSize.y; ++y) {
+      arr[y] = BWAPI::Broodwar->isBuildable(x, y);
+    }
+    auto jniArr = env->NewIntArray(mapTileSize.y);
+    env->SetIntArrayRegion(jniArr, 0, mapTileSize.y, arr);
+    env->SetObjectArrayElement(isBuildableData, x, jniArr);
+  }
+  env->SetObjectField(bwMap, env->GetFieldID(bwMapClass, "isBuildableData", "[[I"), isBuildableData);
+
   auto isWalkableData = env->NewObjectArray(mapWalkSize.x, env->GetObjectClass(env->NewIntArray(mapWalkSize.y)), 0);
   for (int x = 0; x < mapWalkSize.x; ++x) {
     auto *arr = new jint[mapWalkSize.y];
@@ -74,8 +86,7 @@ void BridgeMap::initialize(JNIEnv *env, jclass jc, jobject bwObject, jclass bwMa
   }
   env->SetObjectField(bwMap, env->GetFieldID(bwMapClass, "isWalkableData", "[[I"), isWalkableData);
 
-  jobject startLocationsList = env->GetObjectField(bwMap, env->GetFieldID(bwMapClass, "startLocations", "Ljava/util/ArrayList;"));
-
+  auto startLocationsList = env->GetObjectField(bwMap, env->GetFieldID(bwMapClass, "startLocations", "Ljava/util/ArrayList;"));
   for (const auto &tilePosition : BWAPI::Broodwar->getStartLocations()) {
     auto startLocation = env->NewObject(javaRefs.tilePositionClass, javaRefs.tilePositionConstructor, tilePosition.x, tilePosition.y);
     env->CallObjectMethod(startLocationsList, javaRefs.arrayListClass_add, startLocation);

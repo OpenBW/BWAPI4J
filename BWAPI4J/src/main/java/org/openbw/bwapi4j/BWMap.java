@@ -58,6 +58,10 @@ public interface BWMap {
 
   public boolean isBuildable(TilePosition position, boolean considerBuildings);
 
+  public boolean isBuildable(int tileX, int tileY);
+
+  public boolean isBuildable(TilePosition position);
+
   public boolean isExplored(int tileX, int tileY);
 
   public boolean isExplored(TilePosition position);
