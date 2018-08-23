@@ -33,20 +33,25 @@ class BWMapImpl implements BWMap {
 
   private final InteractionHandler interactionHandler;
 
-  // Walk resolution
-  private int[][] isWalkableData;
-
-  // Tile resolution
-  private int[][] groundHeightData;
-  private Cache<boolean[][]> getCreepDataCache;
+  // TilePosition resolution
   int tileWidth;
   int tileHeight;
+  private int[][] groundHeightData;
+  private Cache<boolean[][]> getCreepDataCache;
   private ArrayList<TilePosition> startLocations;
+
+  // WalkPosition resolution
+  private int[][] isWalkableData;
+  int walkWidth;
+  int walkHeight;
+
+  // Position resolution
+  int pixelWidth;
+  int pixelHeight;
 
   BWMapImpl(final InteractionHandler interactionHandler) {
     this.interactionHandler = interactionHandler;
     this.startLocations = new ArrayList<>();
-
     this.getCreepDataCache = new Cache<>(this::getCreepData, this.interactionHandler);
   }
 
@@ -83,9 +88,6 @@ class BWMapImpl implements BWMap {
     return isWalkable(walkPosition.getX(), walkPosition.getY());
   }
 
-  // TODO: Add the other two position class cases. I.e. "WalkPosition" and "Position" using
-  // precomputed values with no arithmetic in the functions themselves. E.g. "walkWidth",
-  // "pixelWidth" etc.
   @Override
   public boolean isValidPosition(TilePosition tilePosition) {
     return tilePosition.getX() >= 0
@@ -94,30 +96,46 @@ class BWMapImpl implements BWMap {
         && tilePosition.getY() < mapHeight();
   }
 
-  // TODO: Remove arithmetic.
   @Override
   public boolean isValidPosition(WalkPosition walkPosition) {
     return walkPosition.getX() >= 0
-        && walkPosition.getX() < mapWidth() * 4
+        && walkPosition.getX() < mapWalkWidth()
         && walkPosition.getY() >= 0
-        && walkPosition.getY() < mapHeight() * 4;
+        && walkPosition.getY() < mapWalkHeight();
   }
 
-  // TODO: Remove arithmetic.
   @Override
   public boolean isValidPosition(Position position) {
     return position.getX() >= 0
-        && position.getX() < mapWidth() * 32
+        && position.getX() < mapPixelWidth()
         && position.getY() >= 0
-        && position.getY() < mapHeight() * 32;
+        && position.getY() < mapPixelHeight();
   }
 
+  @Override
   public int mapWidth() {
     return this.tileWidth;
   }
 
+  @Override
   public int mapHeight() {
     return this.tileHeight;
+  }
+
+  private int mapWalkWidth() {
+    return this.walkWidth;
+  }
+
+  private int mapWalkHeight() {
+    return this.walkHeight;
+  }
+
+  private int mapPixelWidth() {
+    return this.pixelWidth;
+  }
+
+  private int mapPixelHeight() {
+    return this.pixelHeight;
   }
 
   private native int _isBuildable(int tileX, int tileY, boolean considerBuildings);

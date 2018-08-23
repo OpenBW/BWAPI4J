@@ -44,6 +44,12 @@ void BridgeMap::initialize(JNIEnv *env, jclass jc, jobject bwObject, jclass bwMa
   env->SetIntField(bwMap, env->GetFieldID(bwMapClass, "tileWidth", "I"), mapTileSize.x);
   env->SetIntField(bwMap, env->GetFieldID(bwMapClass, "tileHeight", "I"), mapTileSize.y);
 
+  env->SetIntField(bwMap, env->GetFieldID(bwMapClass, "walkWidth", "I"), mapWalkSize.x);
+  env->SetIntField(bwMap, env->GetFieldID(bwMapClass, "walkHeight", "I"), mapWalkSize.y);
+
+  env->SetIntField(bwMap, env->GetFieldID(bwMapClass, "pixelWidth", "I"), mapPixelSize.x);
+  env->SetIntField(bwMap, env->GetFieldID(bwMapClass, "pixelHeight", "I"), mapPixelSize.y);
+
   auto groundHeightData = env->NewObjectArray(mapTileSize.x, env->GetObjectClass(env->NewIntArray(mapTileSize.y)), 0);
   for (int x = 0; x < mapTileSize.x; ++x) {
     auto *arr = new jint[mapTileSize.y];
