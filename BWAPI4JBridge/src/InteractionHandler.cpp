@@ -18,12 +18,6 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-/*
- * InteractionHandler.cpp
- *
- *  Created on: Oct 7, 2017
- *      Author: imp
- */
 #include <BWAPI/Client.h>
 #include "Bridge.h"
 #include "Logger.h"
