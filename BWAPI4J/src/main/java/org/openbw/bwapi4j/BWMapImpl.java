@@ -34,13 +34,13 @@ class BWMapImpl implements BWMap {
   private final InteractionHandler interactionHandler;
 
   // Walk resolution
-  private int[][] walkabilityInfo;
+  private int[][] isWalkableData;
 
   // Tile resolution
-  private int[][] groundInfo;
+  private int[][] groundHeightData;
   private Cache<boolean[][]> getCreepDataCache;
-  int width;
-  int height;
+  int tileWidth;
+  int tileHeight;
   private ArrayList<TilePosition> startLocations;
 
   BWMapImpl(final InteractionHandler interactionHandler) {
@@ -63,11 +63,11 @@ class BWMapImpl implements BWMap {
   }
 
   public int getGroundHeight(TilePosition position) {
-    return this.groundInfo[position.getX()][position.getY()];
+    return this.groundHeightData[position.getX()][position.getY()];
   }
 
   public int getGroundHeight(int tileX, int tileY) {
-    return this.groundInfo[tileX][tileY];
+    return this.groundHeightData[tileX][tileY];
   }
 
   public List<TilePosition> getStartPositions() {
@@ -75,7 +75,7 @@ class BWMapImpl implements BWMap {
   }
 
   public boolean isWalkable(int walkX, int walkY) {
-    return this.walkabilityInfo[walkX][walkY] == 1;
+    return this.isWalkableData[walkX][walkY] == 1;
   }
 
   @Override
@@ -113,11 +113,11 @@ class BWMapImpl implements BWMap {
   }
 
   public int mapWidth() {
-    return this.width;
+    return this.tileWidth;
   }
 
   public int mapHeight() {
-    return this.height;
+    return this.tileHeight;
   }
 
   private native int _isBuildable(int tileX, int tileY, boolean considerBuildings);

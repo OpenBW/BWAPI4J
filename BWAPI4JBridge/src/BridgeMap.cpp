@@ -26,66 +26,52 @@
 void BridgeMap::initialize(JNIEnv *env, jclass jc, jobject bwObject, jclass bwMapClass) {
   LOGGER("Reading map information...");
 
-  jfieldID bwMapField = env->GetFieldID(jc, "bwMap", "Lorg/openbw/bwapi4j/BWMapImpl;");
-  jobject bwMap = env->GetObjectField(bwObject, bwMapField);
+  auto bwMap = env->GetObjectField(bwObject, env->GetFieldID(jc, "bwMap", "Lorg/openbw/bwapi4j/BWMapImpl;"));
 
-  // set mapHash
-  jfieldID mapHashField = env->GetFieldID(bwMapClass, "mapHash", "Ljava/lang/String;");
-  jstring mapHash = env->NewStringUTF(BWAPI::Broodwar->mapHash().c_str());
-  env->SetObjectField(bwMap, mapHashField, mapHash);
+  auto mapHash = env->NewStringUTF(BWAPI::Broodwar->mapHash().c_str());
+  env->SetObjectField(bwMap, env->GetFieldID(bwMapClass, "mapHash", "Ljava/lang/String;"), mapHash);
 
-  // set mapFileName
-  jfieldID mapFileNameField = env->GetFieldID(bwMapClass, "mapFileName", "Ljava/lang/String;");
-  jstring mapFileName = env->NewStringUTF(BWAPI::Broodwar->mapFileName().c_str());
-  env->SetObjectField(bwMap, mapFileNameField, mapFileName);
+  auto mapFileName = env->NewStringUTF(BWAPI::Broodwar->mapFileName().c_str());
+  env->SetObjectField(bwMap, env->GetFieldID(bwMapClass, "mapFileName", "Ljava/lang/String;"), mapFileName);
 
-  // set mapName
-  jfieldID mapNameField = env->GetFieldID(bwMapClass, "mapName", "Ljava/lang/String;");
-  jstring mapName = env->NewStringUTF(BWAPI::Broodwar->mapName().c_str());
-  env->SetObjectField(bwMap, mapNameField, mapName);
+  auto mapName = env->NewStringUTF(BWAPI::Broodwar->mapName().c_str());
+  env->SetObjectField(bwMap, env->GetFieldID(bwMapClass, "mapName", "Ljava/lang/String;"), mapName);
 
-  // set width
-  jfieldID mapWidthField = env->GetFieldID(bwMapClass, "width", "I");
-  env->SetIntField(bwMap, mapWidthField, (jint)BWAPI::Broodwar->mapWidth());
+  const auto mapTileSize = BWAPI::TilePosition(BWAPI::Broodwar->mapWidth(), BWAPI::Broodwar->mapHeight());
+  const auto mapWalkSize = BWAPI::WalkPosition(mapTileSize);
+  const auto mapPixelSize = BWAPI::Position(mapTileSize);
 
-  // set height
-  jfieldID mapHeightField = env->GetFieldID(bwMapClass, "height", "I");
-  env->SetIntField(bwMap, mapHeightField, (jint)BWAPI::Broodwar->mapHeight());
+  env->SetIntField(bwMap, env->GetFieldID(bwMapClass, "tileWidth", "I"), mapTileSize.x);
+  env->SetIntField(bwMap, env->GetFieldID(bwMapClass, "tileHeight", "I"), mapTileSize.y);
 
-  // set groundInfo (tile resolution)
-  jfieldID groundInfoField = env->GetFieldID(bwMapClass, "groundInfo", "[[I");
-  jobjectArray groundInfo2DArray = env->NewObjectArray(BWAPI::Broodwar->mapWidth(), env->GetObjectClass(env->NewIntArray(BWAPI::Broodwar->mapHeight())), 0);
-  for (int i = 0; i < BWAPI::Broodwar->mapWidth(); ++i) {
-    jint *groundInfo = new jint[BWAPI::Broodwar->mapHeight()];
-    for (int j = 0; j < BWAPI::Broodwar->mapHeight(); ++j) {
-      groundInfo[j] = BWAPI::Broodwar->getGroundHeight(i, j);
+  auto groundHeightData = env->NewObjectArray(mapTileSize.x, env->GetObjectClass(env->NewIntArray(mapTileSize.y)), 0);
+  for (int x = 0; x < mapTileSize.x; ++x) {
+    auto *arr = new jint[mapTileSize.y];
+    for (int y = 0; y < mapTileSize.y; ++y) {
+      arr[y] = BWAPI::Broodwar->getGroundHeight(x, y);
     }
-    jintArray groundInfoArray = env->NewIntArray(BWAPI::Broodwar->mapHeight());
-    env->SetIntArrayRegion(groundInfoArray, 0, BWAPI::Broodwar->mapHeight(), groundInfo);
-    env->SetObjectArrayElement(groundInfo2DArray, i, groundInfoArray);
+    auto jniArr = env->NewIntArray(mapTileSize.y);
+    env->SetIntArrayRegion(jniArr, 0, mapTileSize.y, arr);
+    env->SetObjectArrayElement(groundHeightData, x, jniArr);
   }
-  env->SetObjectField(bwMap, groundInfoField, groundInfo2DArray);
+  env->SetObjectField(bwMap, env->GetFieldID(bwMapClass, "groundHeightData", "[[I"), groundHeightData);
 
-  // set walkabilityInfo (mini-tile resolution)
-  jfieldID walkabilityInfoField = env->GetFieldID(bwMapClass, "walkabilityInfo", "[[I");
-  jobjectArray walkabilityInfo2DArray =
-      env->NewObjectArray(BWAPI::Broodwar->mapWidth() * 4, env->GetObjectClass(env->NewIntArray(BWAPI::Broodwar->mapHeight() * 4)), 0);
-  for (int i = 0; i < BWAPI::Broodwar->mapWidth() * 4; ++i) {
-    jint *walkabilityInfo = new jint[BWAPI::Broodwar->mapHeight() * 4];
-    for (int j = 0; j < BWAPI::Broodwar->mapHeight() * 4; ++j) {
-      walkabilityInfo[j] = BWAPI::Broodwar->isWalkable(i, j) ? 1 : 0;
+  auto isWalkableData = env->NewObjectArray(mapWalkSize.x, env->GetObjectClass(env->NewIntArray(mapWalkSize.y)), 0);
+  for (int x = 0; x < mapWalkSize.x; ++x) {
+    auto *arr = new jint[mapWalkSize.y];
+    for (int y = 0; y < mapWalkSize.y; ++y) {
+      arr[y] = BWAPI::Broodwar->isWalkable(x, y) ? 1 : 0;
     }
-    jintArray walkabilityInfoArray = env->NewIntArray(BWAPI::Broodwar->mapHeight() * 4);
-    env->SetIntArrayRegion(walkabilityInfoArray, 0, BWAPI::Broodwar->mapHeight() * 4, walkabilityInfo);
-    env->SetObjectArrayElement(walkabilityInfo2DArray, i, walkabilityInfoArray);
+    auto jniArr = env->NewIntArray(mapWalkSize.y);
+    env->SetIntArrayRegion(jniArr, 0, mapWalkSize.y, arr);
+    env->SetObjectArrayElement(isWalkableData, x, jniArr);
   }
-  env->SetObjectField(bwMap, walkabilityInfoField, walkabilityInfo2DArray);
+  env->SetObjectField(bwMap, env->GetFieldID(bwMapClass, "isWalkableData", "[[I"), isWalkableData);
 
-  // set starting locations
   jobject startLocationsList = env->GetObjectField(bwMap, env->GetFieldID(bwMapClass, "startLocations", "Ljava/util/ArrayList;"));
 
-  for (BWAPI::TilePosition tilePosition : BWAPI::Broodwar->getStartLocations()) {
-    jobject startLocation = env->NewObject(javaRefs.tilePositionClass, javaRefs.tilePositionConstructor, tilePosition.x, tilePosition.y);
+  for (const auto &tilePosition : BWAPI::Broodwar->getStartLocations()) {
+    auto startLocation = env->NewObject(javaRefs.tilePositionClass, javaRefs.tilePositionConstructor, tilePosition.x, tilePosition.y);
     env->CallObjectMethod(startLocationsList, javaRefs.arrayListClass_add, startLocation);
   }
 

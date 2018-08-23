@@ -16,8 +16,8 @@ public class BWMapImplTest {
 
   @Before
   public void setup() {
-    sut.width = 10;
-    sut.height = 20;
+    sut.tileWidth = 10;
+    sut.tileHeight = 20;
   }
 
   @DataPoints("validTilePositions")
