@@ -306,7 +306,6 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUpgradeStatus(JNIEnv *
 JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getGameData(JNIEnv *env, jobject) {
   bridgeData.reset();
 
-  bridgeData.add(BWAPI::Broodwar->getLastError());
   bridgeData.addFields(BWAPI::Broodwar->getScreenPosition());
 
 #ifdef OPENBW

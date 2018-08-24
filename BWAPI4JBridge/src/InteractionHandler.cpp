@@ -81,6 +81,10 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enemies_1
   return result;
 }
 
+JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_InteractionHandler_getLastError_1native(JNIEnv *, jobject) {
+  return (jint)BWAPI::Broodwar->getLastError().getID();
+}
+
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_setScreenPosition_1native(JNIEnv *, jobject, jint pixelX, jint pixelY) {
   BWAPI::Broodwar->setScreenPosition(pixelX, pixelY);
 }
