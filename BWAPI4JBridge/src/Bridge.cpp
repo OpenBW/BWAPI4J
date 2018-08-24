@@ -319,6 +319,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getGameData(JNIEnv *env, 
   bridgeData.addFields(BWAPI::Broodwar->getMousePosition());
   bridgeData.add(BWAPI::Broodwar->getFrameCount());
   bridgeData.add(BWAPI::Broodwar->getFPS());
+  bridgeData.add(BWAPI::Broodwar->getAverageFPS());
   bridgeData.add(BWAPI::Broodwar->isLatComEnabled());
   bridgeData.add(BWAPI::Broodwar->getRemainingLatencyFrames());
   bridgeData.add(BWAPI::Broodwar->getLatencyFrames());

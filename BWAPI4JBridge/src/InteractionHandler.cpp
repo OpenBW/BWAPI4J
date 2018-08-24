@@ -82,7 +82,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enemies_1
 }
 
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_setScreenPosition_1native(JNIEnv *, jobject, jint pixelX, jint pixelY) {
-	BWAPI::Broodwar->setScreenPosition(pixelX, pixelY);
+  BWAPI::Broodwar->setScreenPosition(pixelX, pixelY);
 }
 
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_pauseGame(JNIEnv *, jobject) { BWAPI::Broodwar->pauseGame(); }

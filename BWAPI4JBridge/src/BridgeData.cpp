@@ -41,6 +41,11 @@ void BridgeData::reset() { _index = 0; }
 
 void BridgeData::add(const int val) { intBuf[_index++] = val; }
 
+void BridgeData::add(const double val) {
+  const int preservedDouble = toPreservedDouble(val);
+  add(preservedDouble);
+}
+
 void BridgeData::add(const size_t val) { add(int(val)); }
 
 void BridgeData::add(const bool b) { add(b ? 1 : 0); }

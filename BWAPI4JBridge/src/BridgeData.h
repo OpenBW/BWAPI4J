@@ -40,6 +40,7 @@ class BridgeData {
   int getIndex() const;
 
   void add(const int val);
+  void add(const double val);
   void add(const size_t val);
   void add(const bool b);
   void add(const char ch);

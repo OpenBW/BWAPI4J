@@ -30,6 +30,7 @@ import org.openbw.bwapi4j.type.GameType;
 import org.openbw.bwapi4j.type.Key;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.unit.Unit;
+import org.openbw.bwapi4j.util.BridgeUtils;
 import org.openbw.bwapi4j.util.Cache;
 
 public final class InteractionHandler {
@@ -45,6 +46,7 @@ public final class InteractionHandler {
     MOUSE_POSITION_Y,
     FRAME_COUNT,
     FPS,
+    AVERAGE_FPS,
     LATCOM_ENABLED,
     REMAINING_LATENCY_FRAMES,
     LATENCY_FRAMES,
@@ -69,6 +71,7 @@ public final class InteractionHandler {
   private int mousePositionY;
   private int frameCount;
   private int fps;
+  private double averageFPS;
   private boolean latComEnabled;
   private int remainingLatencyFrames;
   private int latencyFrames;
@@ -103,6 +106,7 @@ public final class InteractionHandler {
     this.mousePositionY = data[CacheIndex.MOUSE_POSITION_Y.ordinal()];
     this.frameCount = data[CacheIndex.FRAME_COUNT.ordinal()];
     this.fps = data[CacheIndex.FPS.ordinal()];
+    this.averageFPS = BridgeUtils.parsePreservedDouble(data[CacheIndex.AVERAGE_FPS.ordinal()]);
     this.latComEnabled = data[CacheIndex.LATCOM_ENABLED.ordinal()] == 1;
     this.remainingLatencyFrames = data[CacheIndex.REMAINING_LATENCY_FRAMES.ordinal()];
     this.latencyFrames = data[CacheIndex.LATENCY_FRAMES.ordinal()];
@@ -215,6 +219,10 @@ public final class InteractionHandler {
 
   public int getFPS() {
     return this.fps;
+  }
+
+  public double getAverageFPS() {
+    return this.averageFPS;
   }
 
   public boolean isLatComEnabled() {
