@@ -63,7 +63,6 @@ public class BW {
   private Map<Integer, UnitImpl> units;
   private Map<Integer, Bullet> bullets;
   private UnitFactory unitFactory;
-  private int frame;
   private Charset charset;
 
   private Cache<Map<Player, List<PlayerUnit>>> getUnitsFromPlayerCache;
@@ -412,12 +411,12 @@ public class BW {
   }
 
   private void preFrame() {
-    logger.trace("updating game state for frame {}...", this.frame);
+    //    logger.trace("updating game state for frame {}...", this.frame);
     updateGame();
     logger.trace("updated game.");
     updateAllPlayers();
     logger.trace("updated players.");
-    updateAllUnits(this.frame);
+    updateAllUnits(getInteractionHandler().getFrameCount());
     logger.trace("updated all units.");
     updateAllBullets();
     logger.trace("updated all bullets.");
@@ -428,7 +427,6 @@ public class BW {
       setOnStartInitializationIsDone(false);
 
       logger.trace(" --- onStart called.");
-      this.frame = 0;
       this.players.clear();
       this.units.clear();
       this.bullets.clear();
@@ -458,7 +456,6 @@ public class BW {
   private void onFrame() {
     try {
       preFrame();
-      this.frame++;
       listener.onFrame();
     } catch (Throwable e) {
       logger.error("exception during onFrame", e);
