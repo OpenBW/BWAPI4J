@@ -32,7 +32,6 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.util.Cache;
 
-/** Contains all interaction-related bwapi functionality. */
 public final class InteractionHandler {
   private static final Logger logger = LogManager.getLogger();
 
@@ -59,7 +58,7 @@ public final class InteractionHandler {
     ENEMY_ID
   }
 
-  private BW bw;
+  private final BW bw;
 
   private BwError lastError;
   private int screenPositionX;
@@ -82,12 +81,12 @@ public final class InteractionHandler {
   private int apm;
   private int apm_including_selects;
 
-  private Cache<List<Player>> getAlliesCache;
-  private Cache<List<Player>> getEnemiesCache;
+  private final Cache<List<Player>> getAlliesCache;
+  private final Cache<List<Player>> getEnemiesCache;
 
-  private Cache<List<Position>> getNukeDotsCache;
+  private final Cache<List<Position>> getNukeDotsCache;
 
-  /* default */ InteractionHandler(BW bw) {
+  InteractionHandler(final BW bw) {
     this.bw = bw;
     this.getAlliesCache = new Cache<>(this::allies_from_native, this);
     this.getEnemiesCache = new Cache<>(this::enemies_from_native, this);
@@ -107,7 +106,7 @@ public final class InteractionHandler {
     this.latComEnabled = data[CacheIndex.LATCOM_ENABLED.ordinal()] == 1;
     this.remainingLatencyFrames = data[CacheIndex.REMAINING_LATENCY_FRAMES.ordinal()];
     this.latencyFrames = data[CacheIndex.LATENCY_FRAMES.ordinal()];
-    this.latency = data[CacheIndex.LATENCY_FRAMES.ordinal()];
+    this.latency = data[CacheIndex.LATENCY.ordinal()];
     this.selfId = data[CacheIndex.SELF_ID.ordinal()];
     this.enemyId = data[CacheIndex.ENEMY_ID.ordinal()];
     this.gameTypeId = data[CacheIndex.GAME_TYPE_ID.ordinal()];
@@ -179,9 +178,10 @@ public final class InteractionHandler {
 
     for (int i = 0; i < data.length; ++i) {
       final int playerId = data[i];
-
       final Player player = bw.getPlayer(playerId);
-      players.add(player);
+      if (player != null) {
+        players.add(player);
+      }
     }
 
     return players;
@@ -257,7 +257,7 @@ public final class InteractionHandler {
     return bw.getAllUnits().stream().filter(Unit::isSelected).collect(Collectors.toList());
   }
 
-  public boolean isKeyPressed(Key key) {
+  public boolean isKeyPressed(final Key key) {
     return getKeyState(key.getValue());
   }
 
@@ -265,7 +265,7 @@ public final class InteractionHandler {
 
   public native void leaveGame();
 
-  public void sendTextAndLog(String text) {
+  public void sendTextAndLog(final String text) {
     logger.info(text);
     sendText(text);
   }
