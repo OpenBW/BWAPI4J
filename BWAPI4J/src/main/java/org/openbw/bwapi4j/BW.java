@@ -20,15 +20,9 @@
 
 package org.openbw.bwapi4j;
 
-import java.awt.image.ColorModel;
-import java.io.File;
-import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.charset.UnsupportedCharsetException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -38,8 +32,6 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
-import net.lingala.zip4j.core.ZipFile;
-import net.lingala.zip4j.exception.ZipException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.type.UnitType;
@@ -52,52 +44,13 @@ import org.openbw.bwapi4j.unit.UnitImpl;
 import org.openbw.bwapi4j.unit.VespeneGeyser;
 import org.openbw.bwapi4j.unit.Worker;
 import org.openbw.bwapi4j.util.Cache;
-import org.openbw.bwapi4j.util.OSType;
+import org.openbw.bwapi4j.util.DependencyManager;
+import org.openbw.bwapi4j.util.system.SystemUtils;
 
 public class BW {
   private static final Logger logger = LogManager.getLogger();
 
-  private static final String SYSTEM_PROPERTY_JAVA_LIBRARY_PATH_ID = "java.library.path";
-
-  public enum BridgeType {
-    VANILLA("BWAPI4JBridge"),
-    OPENBW("OpenBWAPI4JBridge");
-
-    private final String name;
-
-    BridgeType(final String name) {
-      this.name = name;
-    }
-
-    public String getLibraryName() {
-      return this.name;
-    }
-
-    public static BridgeType parseBridgeType(final String str) {
-      for (final BridgeType bridgeType : BridgeType.values()) {
-        if (bridgeType.toString().equalsIgnoreCase(str)) {
-          return bridgeType;
-        }
-      }
-
-      throw new IllegalArgumentException("Unrecognized bridge type: " + str);
-    }
-  }
-
-  private enum Property {
-    EXTRACT_DEPENDENCIES("bwapi4j.extractDependencies"),
-    BRIDGE_TYPE("bwapi4j.bridgeType");
-
-    private final String property;
-
-    Property(final String property) {
-      this.property = property;
-    }
-
-    public String toString() {
-      return this.property;
-    }
-  }
+  private final DependencyManager dependencyManager;
 
   private BWEventListener listener;
   private InteractionHandler interactionHandler;
@@ -118,14 +71,17 @@ public class BW {
   private Cache<List<VespeneGeyser>> getVespeneGeysersCache;
 
   /**
-   * The default value for {@code BridgeType} is {@link BridgeType#VANILLA} on Windows and {@link
-   * BridgeType#OPENBW} on Linux. The default value for {@code extractBridgeDependencies} is {@code
-   * true}.
+   * The default value for {@code BridgeType} is {@link BWAPI4J.BridgeType#VANILLA} on Windows and
+   * {@link BWAPI4J.BridgeType#OPENBW} on Linux. The default value for {@code extractDependencies}
+   * is {@code true}.
    *
-   * @see #BW(BWEventListener, BridgeType, boolean)
+   * @see #BW(BWEventListener, BWAPI4J.BridgeType, boolean)
    */
   public BW(final BWEventListener listener) {
-    this(listener, isWindowsPlatform() ? BridgeType.VANILLA : BridgeType.OPENBW, true);
+    this(
+        listener,
+        SystemUtils.isWindowsPlatform() ? BWAPI4J.BridgeType.VANILLA : BWAPI4J.BridgeType.OPENBW,
+        true);
   }
 
   /**
@@ -137,19 +93,31 @@ public class BW {
    *     running JAR file
    */
   public BW(
-      final BWEventListener listener, BridgeType bridgeType, boolean extractBridgeDependencies) {
+      final BWEventListener listener,
+      BWAPI4J.BridgeType bridgeType,
+      boolean extractBridgeDependencies) {
+    this.dependencyManager = new DependencyManager();
+
     try {
-      bridgeType = BridgeType.parseBridgeType(System.getProperty(Property.BRIDGE_TYPE.toString()));
+      bridgeType =
+          BWAPI4J.BridgeType.parseBridgeType(
+              System.getProperty(BWAPI4J.Property.BRIDGE_TYPE.toString()));
     } catch (final Exception e) {
       /* Do nothing. */
     }
 
-    extractBridgeDependencies =
-        ((extractBridgeDependencies
-                && !systemPropertyEquals(Property.EXTRACT_DEPENDENCIES.toString(), false))
-            || systemPropertyEquals(Property.EXTRACT_DEPENDENCIES.toString(), true));
+    /* The system property takes precedence. */
+    final String extractBridgeDependenciesSystemProperty =
+        System.getProperty(BWAPI4J.Property.EXTRACT_DEPENDENCIES.toString());
+    if (extractBridgeDependenciesSystemProperty != null
+        && !extractBridgeDependenciesSystemProperty.trim().isEmpty()) {
+      extractBridgeDependencies =
+          SystemUtils.systemPropertyEquals(BWAPI4J.Property.EXTRACT_DEPENDENCIES.toString(), true)
+              || !SystemUtils.systemPropertyEquals(
+                  BWAPI4J.Property.EXTRACT_DEPENDENCIES.toString(), false);
+    }
 
-    loadSharedLibraries(bridgeType, extractBridgeDependencies);
+    this.dependencyManager.loadSharedLibraries(bridgeType, extractBridgeDependencies);
 
     this.players = new HashMap<>();
     this.units = new HashMap<>();
@@ -163,7 +131,7 @@ public class BW {
     setUnitFactory(new UnitFactory());
 
     try {
-      this.charset = Charset.forName("Cp949"); // Korean char set
+      this.charset = Charset.forName("Cp949"); /* Korean char set */
     } catch (UnsupportedCharsetException e) {
       logger.warn("Korean character set not available. Some characters may not be read properly.");
       this.charset = StandardCharsets.ISO_8859_1;
@@ -211,259 +179,6 @@ public class BW {
                     .map(u -> (VespeneGeyser) u)
                     .collect(Collectors.toList()),
             this.interactionHandler);
-  }
-
-  private void extractBridgeDependencies(final BridgeType bridgeType) {
-    try {
-      final URL jarURL = BW.class.getProtectionDomain().getCodeSource().getLocation();
-      final Path jarFile = Paths.get(jarURL.toURI());
-      final Path cwd = getCurrentWorkingDirectory();
-
-      if (Files.isRegularFile(jarFile)
-          && !Files.isDirectory(jarFile)
-          && jarFile.toString().endsWith(".jar")) {
-        logger.debug("Extracting dependencies from: " + jarFile.toString());
-
-        final ZipFile jar = new ZipFile(jarFile.toFile());
-
-        extractFileIfNotExists(
-            jar, resolvePlatformLibraryFilename(bridgeType.getLibraryName()), cwd.toString());
-
-        for (final String externalLibrary : getExternalLibraryNames()) {
-          extractFileIfNotExists(
-              jar, resolvePlatformLibraryFilename(externalLibrary), cwd.toString());
-        }
-      }
-    } catch (final Exception e) {
-      logger.fatal("Failed to extract dependencies from JAR.");
-      e.printStackTrace();
-      System.exit(1);
-    }
-  }
-
-  private static void extractFileIfNotExists(
-      final ZipFile zipFile, final String sourceFilename, final String targetDirectory)
-      throws ZipException {
-    final Path targetFile = Paths.get(targetDirectory, sourceFilename);
-    if (!Files.isRegularFile(targetFile)
-        && !Files.isDirectory(targetFile)
-        && !Files.exists(targetFile)) {
-      zipFile.extractFile(sourceFilename, targetDirectory);
-    }
-  }
-
-  private void loadSharedLibraries(
-      final BridgeType bridgeType, final boolean extractBridgeDependencies) {
-    logger.info(
-        "jvm: {} ({}-bit)",
-        System.getProperty("java.version"),
-        System.getProperty("sun.arch.data.model"));
-    logger.info("os: {}", System.getProperty("os.name"));
-
-    logger.debug("cwd: {}", getCurrentWorkingDirectory().toString());
-    logger.debug("user directory: {}", System.getProperty("user.dir"));
-    logger.debug(
-        "bot directory: {}",
-        BW.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-
-    logger.debug("library path: " + getLibraryPath());
-
-    logger.debug("bridge type: " + bridgeType.toString());
-
-    OSType osType = OSType.computeType();
-    if (osType.equals(OSType.MAC)) {
-      // static code in ColorModel loads AWT native library
-      // if this isn't loaded before SDL2, the ui doesn't show up on MacOS
-      ColorModel.getRGBdefault();
-    }
-
-    /* this is pretty hacky but required for now to run BWAPI4J on both Windows and Linux without modifying the source.
-     *
-     * Possible future solutions:
-     *  - name BWAPI4JBridge and OpenBWAPI4JBridge the same. This way linux loads <name>.so and windows loads <name>.dll
-     *  - build a single bwta.dll rather than libgmp-10 and libmpfr-4 and load bwta.so accordingly on linux.
-     */
-    final List<String> sharedLibraries = getSharedLibraryNames(bridgeType);
-    try {
-      loadLibraries(sharedLibraries);
-    } catch (final UnsatisfiedLinkError e1) {
-      addLibraryPath(getCurrentWorkingDirectory().toAbsolutePath().toString());
-
-      if (extractBridgeDependencies) {
-        extractBridgeDependencies(bridgeType);
-      }
-
-      try {
-        loadLibraries(sharedLibraries);
-      } catch (final UnsatisfiedLinkError e2) {
-        logger.fatal("Could not load shared libraries.", e2);
-        e2.printStackTrace();
-        System.exit(1);
-      }
-    }
-
-    logger.info("Successfully loaded shared libraries.");
-  }
-
-  private void loadLibraries(final List<String> libraries) {
-    for (final String library : libraries) {
-      System.loadLibrary(library);
-    }
-  }
-
-  private List<String> getSharedLibraryNames(final BridgeType bridgeType) {
-    final List<String> libraries = new ArrayList<>();
-
-    libraries.add(bridgeType.getLibraryName());
-    libraries.addAll(getExternalLibraryNames());
-
-    return libraries;
-  }
-
-  private List<String> getExternalLibraryNames() {
-    final List<String> libNames = new ArrayList<>();
-
-    if (isWindowsPlatform()) {
-      //            libNames.add("libgmp-10");
-      //            libNames.add("libmpfr-4");
-    } else {
-      //            libNames.add("BWTA2");
-    }
-
-    return libNames;
-  }
-
-  private static boolean isWindowsPlatform() {
-    return System.getProperty("os.name").contains("Windows");
-  }
-
-  private Path getCurrentWorkingDirectory() {
-    return Paths.get("").toAbsolutePath();
-  }
-
-  private static void forceLibraryPathReload() throws NoSuchFieldException, IllegalAccessException {
-    final java.lang.reflect.Field sysPathsField = ClassLoader.class.getDeclaredField("sys_paths");
-    sysPathsField.setAccessible(true);
-    sysPathsField.set(null, null);
-  }
-
-  private String getLibraryPath() {
-    return System.getProperty(SYSTEM_PROPERTY_JAVA_LIBRARY_PATH_ID);
-  }
-
-  private void setLibraryPath(final String path) {
-    try {
-      forceLibraryPathReload();
-
-      System.setProperty(SYSTEM_PROPERTY_JAVA_LIBRARY_PATH_ID, path);
-
-      logger.info("Changed library path to: {}", getLibraryPath());
-    } catch (Exception e) {
-      logger.error("Could not modify library path to: " + path, e);
-      e.printStackTrace();
-    }
-  }
-
-  private void addLibraryPath(final String path) {
-    try {
-      //            final java.lang.reflect.Field usrPathsField =
-      // ClassLoader.class.getDeclaredField("usr_paths");
-      //            usrPathsField.setAccessible(true);
-      //
-      //            final String[] libraryPaths = (String[]) usrPathsField.get(null);
-      //            for (final String libraryPath : libraryPaths) {
-      //                if (libraryPath.equals(path)) {
-      //                    return;
-      //                }
-      //            }
-      //
-      //            final String[] newLibraryPaths = Arrays.copyOf(libraryPaths, libraryPaths.length
-      // + 1);
-      //            newLibraryPaths[newLibraryPaths.length - 1] = path;
-      //            usrPathsField.set(null, newLibraryPaths);
-
-      final String currentLibraryPath = getLibraryPath();
-
-      if (isPathFoundInPathVariable(currentLibraryPath, path)) {
-        logger.warn("The specified path already exists in library path: " + path);
-        return;
-      }
-
-      logger.info("Adding library path: {}", path);
-
-      final String libraryPathDelimiter = File.pathSeparator;
-      final String newLibraryPath =
-          currentLibraryPath
-              + (!currentLibraryPath.endsWith(libraryPathDelimiter) ? libraryPathDelimiter : "")
-              + path;
-      setLibraryPath(newLibraryPath);
-    } catch (final Exception e) {
-      logger.error("Could not add library path: " + path, e);
-      e.printStackTrace();
-    }
-  }
-
-  private static boolean systemPropertyEquals(final String systemProperty, final boolean status) {
-    final String systemPropertyValue = System.getProperty(systemProperty);
-
-    if (systemPropertyValue == null) {
-      return false;
-    }
-
-    final String[] trueValues = {status ? "1" : "0", Boolean.valueOf(status).toString()};
-
-    for (final String trueValue : trueValues) {
-      if (systemPropertyValue.equalsIgnoreCase(trueValue)) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  private static boolean systemPropertyEquals(
-      final String systemProperty, final String targetPropertyValue) {
-    final String systemPropertyValue = System.getProperty(systemProperty);
-
-    return (systemPropertyValue != null)
-        && systemPropertyValue.equalsIgnoreCase(targetPropertyValue);
-  }
-
-  private static String resolvePlatformLibraryFilename(String libraryName) {
-    switch (OSType.computeType()) {
-      case WINDOWS:
-        return libraryName + ".dll";
-      case MAC:
-        return "lib" + libraryName + ".dylib";
-      default:
-        return "lib" + libraryName + ".so";
-    }
-  }
-
-  private static boolean isPathFoundInPathVariable(final String pathVariable, final String path) {
-    final String[] paths = pathVariable.split(File.pathSeparator);
-
-    for (final String directory : paths) {
-      final Path targetDirectory;
-      try {
-        targetDirectory = Paths.get(directory);
-      } catch (final Exception e) {
-        continue;
-      }
-
-      final Path targetPath;
-      try {
-        targetPath = Paths.get(targetDirectory.toString(), path);
-      } catch (final Exception e) {
-        continue;
-      }
-
-      if (Files.isRegularFile(targetPath) || Files.isDirectory(targetPath)) {
-        return true;
-      }
-    }
-
-    return false;
   }
 
   public void startGame() {
@@ -741,7 +456,6 @@ public class BW {
   }
 
   private void onFrame() {
-    //    	logger.debug("onFrame {}", this.frame);
     try {
       preFrame();
       this.frame++;
