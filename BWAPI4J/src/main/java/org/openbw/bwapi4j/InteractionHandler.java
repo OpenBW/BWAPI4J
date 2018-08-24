@@ -37,7 +37,6 @@ public final class InteractionHandler {
   private static final Logger logger = LogManager.getLogger();
 
   private enum CacheIndex {
-    LAST_ERROR,
     SCREEN_POSITION_X,
     SCREEN_POSITION_Y,
     SCREEN_SIZE_X,
@@ -62,7 +61,6 @@ public final class InteractionHandler {
 
   private final BW bw;
 
-  private BwError lastError;
   private int screenPositionX;
   private int screenPositionY;
   private int screenSizeX;
@@ -97,7 +95,6 @@ public final class InteractionHandler {
   }
 
   void update(int[] data) {
-    this.lastError = BwError.values()[data[CacheIndex.LAST_ERROR.ordinal()]];
     this.screenPositionX = data[CacheIndex.SCREEN_POSITION_X.ordinal()];
     this.screenPositionY = data[CacheIndex.SCREEN_POSITION_Y.ordinal()];
     this.screenSizeX = data[CacheIndex.SCREEN_SIZE_X.ordinal()];
@@ -191,8 +188,11 @@ public final class InteractionHandler {
     return players;
   }
 
+  private native int getLastError_native();
+
   public BwError getLastError() {
-    return this.lastError;
+    final int lastErrorId = getLastError_native();
+    return BwError.values()[lastErrorId];
   }
 
   public Position getScreenPosition() {
