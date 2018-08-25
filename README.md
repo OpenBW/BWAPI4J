@@ -61,11 +61,7 @@ git submodule update --init --recursive
 
 ### Compiling the BWAPI4J library JAR using Gradle
 
-*Note: This step will not build the bridge. See the BWAPI4JBridge section for more details.*
-
-#### Gradle Setup
-
-Copy `gradle.properties.sample` to `gradle.properties` and add the path to your JDK using the key `org.gradle.java.home=`
+*Note: These steps will not build the bridge. You will need to compile or obtain the bridge in order for the Gradle task `shadowJar` to be effective. See the `BWAPI4JBridge` section for more details.*
 
 #### Build Steps
 
@@ -114,7 +110,7 @@ Navigate to `BWAPI4J/BWAPI4J/src/test/java/org/openbw/bwapi4j/MainTest.java` and
 
 ####  bwapi4j.extractDependencies
 
-By default, BWAPI4J will extract the bridge dependencies to the current working directory. This can be overridden by specifying the value `false` to the JVM. E.g.:
+By default, BWAPI4J will extract missing bridge dependencies to the current working directory. This can be overridden by specifying the value `false` to the JVM. E.g.:
 
 ````
 java -Dbwapi4j.extractDependencies=false -jar MyBot.jar
@@ -150,7 +146,7 @@ java -Dbwapi4j.bridgeType=openbw -jar MyBot.jar
 ### OpenBW
 
 - A compiled and working version of OpenBW.
-- The original BW does not need to be installed. Only the following three BW files are required ([available for free](https://www.battle.net/download/getInstallerForGame?os=win&locale=enUS&version=LIVE&gameProgram=STARCRAFT)). Copy them to your root project directory: `BrooDat.mpq`, `StarDat.mpq`, `Patch_rt.mpq`
+- The original BW does not need to be installed. Only the following three BW files are required ([available for free](https://www.battle.net/download/getInstallerForGame?os=win&locale=enUS&version=LIVE&gameProgram=STARCRAFT)). Copy them to your root project directory (case-sensitive): `BrooDat.mpq`, `StarDat.mpq`, `Patch_rt.mpq`
 - At least one Melee map. For example, **Fighting Spirit** from the [SSCAIT map pack](https://sscaitournament.com/files/sscai_map_pack.zip).
 - Copy `bwapi-data/bwapi.ini.sample` to `bwapi-data/bwapi.ini` and configure as usual. See [https://github.com/bwapi/bwapi/wiki/Configuration](https://github.com/bwapi/bwapi/wiki/Configuration)
 - Set the `ai = ` variable in `bwapi.ini` to point to the BWAPI4J bridge module. E.g.
@@ -175,7 +171,7 @@ libBWAPI.so
 
 ## BWAPI4JBridge (C++)
 
-The bridge is separated into three **types** that share most of the same code:
+The bridge is compounded into three **types** that share most of the same code:
 
 | Type | BW Version | Platform | Binary Name
 |-|-|-|-|
@@ -183,7 +179,7 @@ The bridge is separated into three **types** that share most of the same code:
 | openbw | OpenBW | Windows | OpenBWAPI4JBridge.dll |
 | openbw | OpenBW | Linux | libOpenBWAPI4JBridge.so |
 
-*Note: Binaries have been removed from this repository and will be shipped with official releases. If one of the bridges is not working for you, please try compiling it yourself with the steps below or submit a GitHub Issue.*
+*Note: Binaries have been removed from this repository and will be shipped with official releases. If one of the bridges is not working for you, please try compiling it yourself with the steps below or submit a GitHub Issue. We also have an AppVeyor download link at the top of this readme for the Vanilla BW Windows bridge + BWAPI4J library.*
 
 ### Prerequisites
 
@@ -195,7 +191,7 @@ The bridge is separated into three **types** that share most of the same code:
 
 ##### Linux-specific
 
-- g++ 5.x or higher (needs to support most C++14 features)
+- g++ 7.x or higher (needs to support most C++17 features)
 - A working version of OpenBW (will be compiled automatically with an OpenBW bridge)
 
 ### Gradle Tasks for building the bridges
