@@ -181,20 +181,7 @@ public class BW {
   }
 
   public void startGame() {
-    setOnStartInitializationIsDone(false);
-    final BW myBw = this;
-    final Thread thread = new Thread(() -> startGame(myBw));
-
-    thread.start();
-    logger.trace("calling native mainThread...");
-    mainThread();
-    try {
-      thread.join();
-    } catch (final InterruptedException e) {
-      logger.error("error joining thread.", e);
-      e.printStackTrace();
-    }
-    logger.trace("finished thread.");
+    startGame(this);
   }
 
   public void createUnit(Player owner, UnitType type, int posX, int posY) {
@@ -210,8 +197,6 @@ public class BW {
   private native void killUnit(int unitID);
 
   public native void exit();
-
-  private native void mainThread();
 
   private native void startGame(BW bw);
 
@@ -424,8 +409,6 @@ public class BW {
 
   private void onStart() {
     try {
-      setOnStartInitializationIsDone(false);
-
       logger.trace(" --- onStart called.");
       this.players.clear();
       this.units.clear();
@@ -438,15 +421,7 @@ public class BW {
     } catch (Throwable e) {
       logger.error("exception during onStart.", e);
       throw e;
-    } finally {
-      setOnStartInitializationIsDone(true);
     }
-  }
-
-  private native void setOnStartInitializationIsDone_native(boolean isDone);
-
-  private void setOnStartInitializationIsDone(final boolean isDone) {
-    setOnStartInitializationIsDone_native(isDone);
   }
 
   private void onEnd(boolean isWinner) {
