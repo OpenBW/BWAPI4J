@@ -1,8 +1,11 @@
 package org.openbw.bwapi4j.unit;
 
 import org.openbw.bwapi4j.Position;
+import org.openbw.bwapi4j.ap.NativeLookup;
 
+@NativeLookup(method = "getUnit")
 public interface MobileUnit extends PlayerUnit {
+
   boolean attack(Position p);
 
   boolean attack(Position p, boolean queued);

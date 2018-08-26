@@ -20,12 +20,18 @@
 
 package org.openbw.bwapi4j.unit;
 
+import org.openbw.bwapi4j.ap.Native;
+import org.openbw.bwapi4j.ap.NativeClass;
 import org.openbw.bwapi4j.type.WeaponType;
 
 /** Holds information for a ground/air weapon. */
+@NativeClass()
 public class Weapon {
-  private WeaponType type;
-  private int cooldown;
+
+  @Native
+  WeaponType type;
+  @Native
+  int cooldown;
 
   public Weapon(WeaponType type, int cooldown) {
     this.type = type;

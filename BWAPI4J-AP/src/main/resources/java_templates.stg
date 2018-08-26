@@ -1,0 +1,64 @@
+delimiters "$", "$"
+
+entry(model) ::= <<
+package $model.packageName$;
+
+import org.openbw.bwapi4j.util.BridgeUtils;
+
+public class $model.bridgeClassName$ {
+  private final org.openbw.bwapi4j.BW bw;
+  $model.delegates:{d|private final $d.fqClassName$ $d.fieldName$;}$
+
+  public $model.bridgeClassName$(org.openbw.bwapi4j.BW bw$if(model.delegates)$, $model.delegates:{d|$d.fqClassName$ $d.fieldName$}; separator=", "$$endif$) {
+    this.bw = bw;
+    $model.delegates:{d|this.$d.fieldName$ = $d.fieldName$;}$
+  }
+
+  public int update($model.name$ entity, int[] data, int index) {
+    $model.assignments:handleAssignment()$
+    return index;
+  }
+}
+>>
+
+handleAssignment(assignment) ::= <<
+$if(assignment.rValue && !assignment.rValue.listValue)$
+entity.$assignment.field$ = $valueOf(assignment.rValue)$;
+$elseif(assignment.delegateAssignment)$
+$delegateAssignment(assignment.field, assignment.delegateAssignment)$
+$elseif(assignment.rValue.listValue)$
+$listValue(assignment.field, assignment.rValue.listValue)$
+$endif$
+>>
+
+valueOf(rValue) ::= <%
+$if(rValue.primitiveValue)$
+$primitiveValue(rValue.primitiveValue)$
+$elseif(rValue.newObjectValue)$
+$newObjectValue(rValue.newObjectValue)$
+$elseif(rValue.enumValue)$
+$enumValue(rValue.enumValue)$
+$elseif(rValue.bwMappedValue)$
+$bwMappedValue(rValue.bwMappedValue)$
+$endif$
+%>
+
+listValue(field, listValue) ::= <<
+entity.$field$.clear();
+int $field$Amount = data[index++];
+for (int i = 0; i < $field$Amount; i++) {
+  entity.$field$.add($valueOf(listValue.rValue)$);
+}
+>>
+
+
+delegateAssignment(field, delegate) ::= "index = $delegate.delegate.fieldName$.update(entity.$field$, data, index);"
+
+bwMappedValue(value) ::= "($value.targetType$) bw.$value.bwMethod$(data[index++])"
+enumValue(value) ::= "$value.enumName$.values()[data[index++]]"
+primitiveValue(value) ::= "$({dataAs$value.typeName$})(value)$"
+newObjectValue(value) ::= "$if(value.needsOuterClass)$entity.new $value.className$$else$new $value.fqClassName$$endif$($value.constructorArgs:valueOf(); separator=\", \"$)"
+
+dataAsboolean(value) ::= "data[index++] == 1"
+dataAsint(value) ::= "data[index++]"
+dataAsdouble(value) ::= "BridgeUtils.parsePreservedDouble(data[index++])"

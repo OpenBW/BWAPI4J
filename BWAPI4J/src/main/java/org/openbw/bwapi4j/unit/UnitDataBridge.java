@@ -229,7 +229,6 @@ public class UnitDataBridge {
     unit.currentResearch = TechType.withId(unitData[index + TECH_ID_INDEX]);
 
     unit.playerId = unitData[index + PLAYER_ID_INDEX];
-    unit.player = bw.getPlayer(unit.playerId);
 
     unit.hitPoints = unitData[index + HITPOINTS_INDEX];
     unit.shields = unitData[index + SHIELDS_INDEX];
@@ -282,14 +281,14 @@ public class UnitDataBridge {
         break;
       } else {
         final MobileUnit loadedUnit = (MobileUnit) bw.getUnit(unitId);
-        unit.loadedUnits.add(loadedUnit);
+//        unit.loadedUnits.add(loadedUnit);
       }
     }
 
     unit.remainingTrainTime = unitData[index + REMAINING_TRAIN_TIME_INDEX];
     unit.rallyUnitId = unitData[index + RALLY_UNIT_INDEX];
-    unit.rallyPositionX = unitData[index + RALLY_POSITION_X_INDEX];
-    unit.rallyPositionY = unitData[index + RALLY_POSITION_Y_INDEX];
+    unit.rallyPosition = new Position(unitData[index + RALLY_POSITION_X_INDEX],
+        unitData[index + RALLY_POSITION_Y_INDEX]);
 
     unit.isLoaded = unitData[index + IS_LOADED_INDEX] == 1;
     unit.interceptorCount = unitData[index + INTERCEPTOR_COUNT_INDEX];

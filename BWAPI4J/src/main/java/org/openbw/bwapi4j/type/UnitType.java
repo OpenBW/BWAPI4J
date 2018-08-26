@@ -23,8 +23,11 @@ package org.openbw.bwapi4j.type;
 import java.util.ArrayList;
 import java.util.List;
 import org.openbw.bwapi4j.TilePosition;
+import org.openbw.bwapi4j.ap.Native;
+import org.openbw.bwapi4j.ap.NativeClass;
 import org.openbw.bwapi4j.util.Pair;
 
+@NativeClass
 public enum UnitType {
   Terran_Marine,
   Terran_Ghost,
@@ -261,86 +264,166 @@ public enum UnitType {
   Factories,
   Unknown;
 
-  private int id;
-  private Race race;
+
+  @Native
+  int id;
+  @Native
+  Race race;
   private Pair<UnitType, Integer> whatBuilds;
-  private ArrayList<UnitType> buildsWhat;
-  private ArrayList<UnitType> requiredUnits;
-  private TechType requiredTech;
-  private TechType cloakingTech;
-  private ArrayList<TechType> abilities;
-  private ArrayList<UpgradeType> upgrades;
-  private UpgradeType armorUpgrade;
-  private int maxHitPoints;
-  private int maxShields;
-  private int maxEnergy;
-  private int armor;
-  private int mineralPrice;
-  private int gasPrice;
-  private int buildTime;
-  private int supplyRequired;
-  private int supplyProvided;
-  private int spaceRequired;
-  private int spaceProvided;
-  private int buildScore;
-  private int destroyScore;
-  private UnitSizeType size;
-  private int tileWidth;
-  private int tileHeight;
-  private int dimensionLeft;
-  private int dimensionUp;
-  private int dimensionRight;
-  private int dimensionDown;
-  private int width;
-  private int height;
-  private int seekRange;
-  private int sightRange;
-  private WeaponType groundWeapon;
-  private int maxGroundHits;
-  private WeaponType airWeapon;
-  private int maxAirHits;
-  private double topSpeed;
-  private int acceleration;
-  private int haltDistance;
-  private int turnRadius;
-  private boolean canProduce;
-  private boolean canAttack;
-  private boolean canMove;
-  private boolean isFlyer;
-  private boolean regeneratesHP;
-  private boolean isSpellcaster;
-  private boolean hasPermanentCloak;
-  private boolean isInvincible;
-  private boolean isOrganic;
-  private boolean isMechanical;
-  private boolean isRobotic;
-  private boolean isDetector;
-  private boolean isResourceContainer;
-  private boolean isResourceDepot;
-  private boolean isRefinery;
-  private boolean isWorker;
-  private boolean requiresPsi;
-  private boolean requiresCreep;
-  private boolean isTwoUnitsInOneEgg;
-  private boolean isBurrowable;
-  private boolean isCloakable;
-  private boolean isBuilding;
-  private boolean isAddon;
-  private boolean isFlyingBuilding;
-  private boolean isNeutral;
-  private boolean isHero;
-  private boolean isPowerup;
-  private boolean isBeacon;
-  private boolean isFlagBeacon;
-  private boolean isSpecialBuilding;
-  private boolean isSpell;
-  private boolean producesCreep;
-  private boolean producesLarva;
-  private boolean isMineralField;
-  private boolean isCritter;
-  private boolean canBuildAddon;
-  private ArrayList<TechType> researchesWhat;
-  private ArrayList<UpgradeType> upgradesWhat;
+  @Native
+  List<UnitType> buildsWhat;
+  @Native
+  List<UnitType> requiredUnits;
+  @Native
+  TechType requiredTech;
+  @Native
+  TechType cloakingTech;
+  @Native
+  List<TechType> abilities;
+  @Native
+  List<UpgradeType> upgrades;
+  @Native
+  UpgradeType armorUpgrade;
+  @Native
+  int maxHitPoints;
+  @Native
+  int maxShields;
+  @Native
+  int maxEnergy;
+  @Native
+  int armor;
+  @Native
+  int mineralPrice;
+  @Native
+  int gasPrice;
+  @Native
+  int buildTime;
+  @Native
+  int supplyRequired;
+  @Native
+  int supplyProvided;
+  @Native
+  int spaceRequired;
+  @Native
+  int spaceProvided;
+  @Native
+  int buildScore;
+  @Native
+  int destroyScore;
+  @Native
+  UnitSizeType size;
+  @Native
+  int tileWidth;
+  @Native
+  int tileHeight;
+  @Native
+  int dimensionLeft;
+  @Native
+  int dimensionUp;
+  @Native
+  int dimensionRight;
+  @Native
+  int dimensionDown;
+  @Native
+  int width;
+  @Native
+  int height;
+  @Native
+  int seekRange;
+  @Native
+  int sightRange;
+  @Native
+  WeaponType groundWeapon;
+  @Native
+  int maxGroundHits;
+  @Native
+  WeaponType airWeapon;
+  @Native
+  int maxAirHits;
+  @Native
+  double topSpeed;
+  @Native
+  int acceleration;
+  @Native
+  int haltDistance;
+  @Native
+  int turnRadius;
+  @Native
+  boolean canProduce;
+  @Native
+  boolean canAttack;
+  @Native
+  boolean canMove;
+  @Native
+  boolean isFlyer;
+  @Native
+  boolean regeneratesHP;
+  @Native
+  boolean isSpellcaster;
+  @Native
+  boolean hasPermanentCloak;
+  @Native
+  boolean isInvincible;
+  @Native
+  boolean isOrganic;
+  @Native
+  boolean isMechanical;
+  @Native
+  boolean isRobotic;
+  @Native
+  boolean isDetector;
+  @Native
+  boolean isResourceContainer;
+  @Native
+  boolean isResourceDepot;
+  @Native
+  boolean isRefinery;
+  @Native
+  boolean isWorker;
+  @Native
+  boolean requiresPsi;
+  @Native
+  boolean requiresCreep;
+  @Native
+  boolean isTwoUnitsInOneEgg;
+  @Native
+  boolean isBurrowable;
+  @Native
+  boolean isCloakable;
+  @Native
+  boolean isBuilding;
+  @Native
+  boolean isAddon;
+  @Native
+  boolean isFlyingBuilding;
+  @Native
+  boolean isNeutral;
+  @Native
+  boolean isHero;
+  @Native
+  boolean isPowerup;
+  @Native
+  boolean isBeacon;
+  @Native
+  boolean isFlagBeacon;
+  @Native
+  boolean isSpecialBuilding;
+  @Native
+  boolean isSpell;
+  @Native
+  boolean producesCreep;
+  @Native
+  boolean producesLarva;
+  @Native
+  boolean isMineralField;
+  @Native
+  boolean isCritter;
+  @Native
+  boolean canBuildAddon;
+  @Native
+  List<TechType> researchesWhat;
+  @Native
+  List<UpgradeType> upgradesWhat;
 
   private UnitType() {
     // this.whatBuilds will be created via JNI
@@ -384,7 +467,7 @@ public enum UnitType {
    * Retrieves the immediate technology tree requirements to make this unit type. Returns std::map
    * containing a UnitType to number mapping of UnitTypes required.
    */
-  public ArrayList<UnitType> requiredUnits() {
+  public List<UnitType> requiredUnits() {
     return this.requiredUnits;
   }
 
@@ -1095,7 +1178,7 @@ public enum UnitType {
    *
    * @return A list containing the units it can build.
    */
-  public ArrayList<UnitType> buildsWhat() {
+  public List<UnitType> buildsWhat() {
     return buildsWhat;
   }
 }

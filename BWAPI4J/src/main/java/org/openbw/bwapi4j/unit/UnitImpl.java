@@ -46,6 +46,8 @@ import org.openbw.bwapi4j.DamageEvaluator;
 import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
+import org.openbw.bwapi4j.ap.Native;
+import org.openbw.bwapi4j.ap.NativeClass;
 import org.openbw.bwapi4j.type.Order;
 import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitCommandType;
@@ -54,7 +56,9 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 import org.openbw.bwapi4j.type.WeaponType;
 
+@NativeClass(name = "UnitInterface")
 public abstract class UnitImpl implements Unit {
+
   private static final Logger logger = LogManager.getLogger();
 
   protected int id;
@@ -66,110 +70,202 @@ public abstract class UnitImpl implements Unit {
   // dynamic
   protected int x;
   protected int y;
+  @Native
   protected Position position;
+  @Native
   protected TilePosition tilePosition;
+  @Native
   double angle;
   int lastCommandFrame;
+  @Native
   UnitCommandType lastCommand;
 
+  @Native
   boolean isVisible;
+  @Native
   boolean exists;
+  @Native
   boolean isSelected;
+  @Native
   boolean isFlying;
 
+  @Native
   boolean isUpgrading;
+  @Native
   boolean isResearching;
+  @Native
   int remainingResearchTime;
+  @Native
   int remainingUpgradeTime;
+  @Native
   UpgradeType currentUpgrade;
+  @Native
   TechType currentResearch;
 
   // static
   int initialHitPoints;
 
   // dynamic
+  @Native
   int hitPoints;
+  @Native
   int shields;
+  @Native
   int killCount;
+  @Native
   boolean isCloaked;
+  @Native
   boolean isDetected;
+  @Native
   double velocityX;
+  @Native
   double velocityY;
+  @Native
   boolean isIdle;
+  @Native
   boolean isCompleted;
+  @Native
   Weapon groundWeapon = new Weapon(WeaponType.None, 0);
+  @Native
   Weapon airWeapon = new Weapon(WeaponType.None, 0);
+  @Native
   int spellCooldown;
+  @Native
   int targetId;
+  @Native
   boolean isAccelerating;
+  @Native
   boolean isAttacking;
+  @Native
   boolean isAttackFrame;
+  @Native
   boolean isBeingConstructed;
+  @Native
   boolean isBeingHealed;
+  @Native
   boolean isIrradiated;
+  @Native
   boolean isLockedDown;
+  @Native
   boolean isMaelstrommed;
+  @Native
   boolean isStartingAttack;
+  @Native
   boolean isUnderAttack;
+  @Native
   boolean isPowered;
+  @Native
   boolean isInterruptible;
+  @Native
   int builderId;
+  @Native
   int playerId;
-  Player player;
+  @Native
   int energy;
+  @Native
   boolean isTraining;
+  @Native
   int trainingQueueSize;
+  @Native
   int remainingTrainTime;
-  int rallyPositionX;
-  int rallyPositionY;
+  @Native
+  Position rallyPosition;
+  @Native
   int rallyUnitId;
+  @Native
   List<TrainingSlot> trainingQueue = new ArrayList<>();
+  @Native
   boolean isLoaded;
+  @Native
   int spaceRemaining;
+  @Native
   List<MobileUnit> loadedUnits = new ArrayList<>();
+  @Native
   int interceptorCount;
+  @Native
   boolean isFollowing;
+  @Native
   boolean isHoldingPosition;
+  @Native
   boolean isStuck;
+  @Native
   boolean isStasised;
+  @Native
   boolean isUnderDarkSwarm;
+  @Native
   boolean isUnderDisruptionWeb;
+  @Native
   boolean isUnderStorm;
+  @Native
   boolean isMoving;
+  @Native
   boolean isParasited;
+  @Native
   boolean isPatrolling;
+  @Native
   boolean isPlagued;
+  @Native
   Position targetPosition;
+  @Native
   int transportId;
+  @Native
   int acidSporeCount;
+  @Native
   boolean isHallucination;
+  @Native
   boolean isBlind;
+  @Native
   boolean isBraking;
+  @Native
   boolean isDefenseMatrixed;
+  @Native
   boolean isEnsnared;
+  @Native
   int addonId;
+  @Native
   int remainingBuildTime;
+  @Native
   boolean isLifted;
+  @Native
   boolean burrowed;
+  @Native
   int remainingMorphTime;
+  @Native
   UnitType buildType;
+  @Native
   boolean isStimmed;
   int initialResources;
+  @Native
   int resources;
+  @Native
   boolean isBeingGathered;
+  @Native
   int carrierId;
+  @Native
   int hatcheryId;
+  @Native
   int lastKnownResources;
+  @Native
   boolean hasNuke;
+  @Native
   int nydusExitId;
+  @Native
   int scarabCount;
+  @Native
   boolean isRepairing;
+  @Native
   boolean sieged;
+  @Native
   int spiderMineCount;
+  @Native
   boolean isConstructing;
+  @Native
   boolean isGatheringGas;
+  @Native
   boolean isGatheringMinerals;
+  @Native
   boolean isCarryingGas;
+  @Native
   boolean isCarryingMinerals;
 
   // other
@@ -216,7 +312,7 @@ public abstract class UnitImpl implements Unit {
   }
 
   protected Player getPlayer() {
-    return this.player;
+    return bw.getPlayer(this.playerId);
   }
 
   protected Player getPlayer(int id) {
@@ -439,8 +535,8 @@ public abstract class UnitImpl implements Unit {
     return this.type.equals(type.whatBuilds().getFirst())
         && getPlayer(playerId).canMake(type)
         && type.requiredUnits()
-            .stream()
-            .allMatch(ut -> !ut.isAddon() || (addonId >= 0 && getUnit(addonId).getType() == ut));
+        .stream()
+        .allMatch(ut -> !ut.isAddon() || (addonId >= 0 && getUnit(addonId).getType() == ut));
   }
 
   protected boolean train(UnitType type) {
@@ -464,7 +560,7 @@ public abstract class UnitImpl implements Unit {
   }
 
   protected Position getRallyPosition() {
-    return new Position(rallyPositionX, rallyPositionY);
+    return rallyPosition;
   }
 
   protected Unit getRallyUnit() {
@@ -553,13 +649,14 @@ public abstract class UnitImpl implements Unit {
   private boolean isTargetable;
   private boolean isInvincible;
 
-  private boolean isInWeaponRange;
   public class TrainingSlot {
+
     private final int slotIndex;
 
     private final UnitType unitType;
 
-    protected TrainingSlot(final int slotIndex, final UnitType unitType) {
+    @Native
+    TrainingSlot(final int slotIndex, final UnitType unitType) {
       this.slotIndex = slotIndex;
       this.unitType = unitType;
     }

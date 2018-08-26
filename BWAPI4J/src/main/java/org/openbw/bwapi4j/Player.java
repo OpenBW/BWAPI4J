@@ -26,6 +26,8 @@ import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import org.openbw.bwapi4j.ap.Native;
+import org.openbw.bwapi4j.ap.NativeClass;
 import org.openbw.bwapi4j.type.Color;
 import org.openbw.bwapi4j.type.PlayerType;
 import org.openbw.bwapi4j.type.Race;
@@ -36,7 +38,9 @@ import org.openbw.bwapi4j.unit.ExtendibleByAddon;
 import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.unit.Unit;
 
+@NativeClass
 public class Player {
+
   enum CacheIndex {
     ID,
     RACE,
@@ -85,49 +89,84 @@ public class Player {
   }
 
   // constant
-  private int id;
+  @Native
+  int id;
   private String name;
   private final BW bw;
-  private Race race;
-  private TilePosition startLocation;
+  @Native
+  Race race;
+  @Native
+  TilePosition startLocation;
   private Color color;
   private char textColor;
-  private PlayerType playerType;
+  @Native
+  PlayerType playerType;
 
   // dynamic: update per frame
-  private int forceId;
-  private boolean isNeutral;
-  private boolean isVictorious;
-  private boolean isDefeated;
-  private boolean leftGame;
-  private int minerals;
-  private int gas;
-  private int gatheredMinerals;
-  private int gatheredGas;
-  private int repairedMinerals;
-  private int repairedGas;
-  private int refundedMinerals;
-  private int refundedGas;
-  private int spentMinerals;
-  private int spentGas;
-  private int supplyTotal;
-  private int unitScore;
-  private int killScore;
-  private int buildingScore;
-  private int razingScore;
-  private int customScore;
-  private boolean isObserver;
-  private int supplyUsed;
+  @Native
+  int forceId;
+  @Native
+  boolean isNeutral;
+  @Native
+  boolean isVictorious;
+  @Native
+  boolean isDefeated;
+  @Native
+  boolean leftGame;
+  @Native
+  int minerals;
+  @Native
+  int gas;
+  @Native
+  int gatheredMinerals;
+  @Native
+  int gatheredGas;
+  @Native
+  int repairedMinerals;
+  @Native
+  int repairedGas;
+  @Native
+  int refundedMinerals;
+  @Native
+  int refundedGas;
+  @Native
+  int spentMinerals;
+  @Native
+  int spentGas;
+  @Native
+  int supplyTotal;
+  @Native
+  int unitScore;
+  @Native
+  int killScore;
+  @Native
+  int buildingScore;
+  @Native
+  int razingScore;
+  @Native
+  int customScore;
+  @Native
+  boolean isObserver;
+  @Native
+  int supplyUsed;
   private int[] supplyTotalRace;
   private int[] supplyUsedRace;
-  private int allUnitCount;
-  private int visibleUnitCount;
-  private int completedUnitCount;
-  private int incompleteUnitCount;
-  private int deadUnitCount;
-  private int killedUnitCount;
-  private boolean isAlly;
-  private boolean isEnemy;
+  @Native
+  int allUnitCount;
+  @Native
+  int visibleUnitCount;
+  @Native
+  int completedUnitCount;
+  @Native
+  int incompleteUnitCount;
+  @Native
+  int deadUnitCount;
+  @Native
+  int killedUnitCount;
+  @Native
+  boolean isAlly;
+  @Native
+  boolean isEnemy;
 
   Map<TechType, boolean[]> researchStatus;
   Map<UpgradeType, int[]> upgradeStatus;
