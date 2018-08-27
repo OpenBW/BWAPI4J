@@ -50,7 +50,6 @@
 #include "JniBwem.h"
 
 bool finished = false;
-bool onStartInitializationIsDone = false;
 
 BridgeData bridgeData;
 
@@ -97,14 +96,6 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_exit(JNIEnv *, jobject) {
 #endif
 }
 
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_mainThread(JNIEnv *, jobject) {
-#ifdef OPENBW
-  BW::sacrificeThreadForUI([] {
-    while (!finished) std::this_thread::sleep_for(std::chrono::seconds(5));
-  });
-#endif
-}
-
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject bwObject, jobject bw) {
   globalEnv = env;
   globalBW = bw;
@@ -117,6 +108,12 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
   javaRefs.initialize(env);
 
 #ifdef OPENBW
+  std::thread mainThread([] {
+    BW::sacrificeThreadForUI([] {
+      while (!finished) std::this_thread::sleep_for(std::chrono::seconds(5));
+    });
+  });
+
   try {
     BW::GameOwner gameOwner;
 
@@ -185,12 +182,6 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
       LOGGER("Calling onStart callback...");
       env->CallObjectMethod(bw, env->GetMethodID(jc, "onStart", "()V"));
       LOGGER("Calling onStart callback... done");
-
-      LOGGER("Waiting for Java onStart initialization to finish...");
-      while (!onStartInitializationIsDone) {
-        /* Do nothing. Just wait. */
-      }
-      LOGGER("Waiting for Java onStart initialization to finish... done");
 
       callbacks.initialize(env, jc);
 
@@ -334,8 +325,4 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getGameData(JNIEnv *env, 
   jintArray result = env->NewIntArray(bridgeData.getIndex());
   env->SetIntArrayRegion(result, 0, bridgeData.getIndex(), bridgeData.intBuf);
   return result;
-}
-
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_setOnStartInitializationIsDone_1native(JNIEnv *, jobject, jboolean isDone) {
-  onStartInitializationIsDone = isDone;
 }

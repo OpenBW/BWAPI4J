@@ -311,21 +311,23 @@ class VsDevCmdGenerator {
 
     private static boolean isAppVeyor() {
         final String appVeyorValue = SYSTEM_ENVIRONMENT_VARIABLES.get("APPVEYOR");
-        return (appVeyorValue != null && appVeyorValue.equals("yes"));
+        return (appVeyorValue != null && appVeyorValue.equalsIgnoreCase("yes"));
     }
 
-    static String getProgramFilesDirectory() {
+    static List<String> getProgramFilesDirectoryCandidates() {
+        final List<String> candidates = new ArrayList<>();
+
         final String programFilesDirectory = SYSTEM_ENVIRONMENT_VARIABLES.get(PROGRAM_FILES_KEY);
 
+        candidates.add(programFilesDirectory + " (x86)");
+
         if (isAppVeyor()) {
-            return programFilesDirectory + " (x86)";
-        } else if (doesDirectoryExist(programFilesDirectory)) {
-            return programFilesDirectory;
-        } else if (doesDirectoryExist(programFilesDirectory + " (x86)")) {
-            return programFilesDirectory + " (x86)";
-        } else {
-            throw new IllegalStateException("Failed to determine Program Files directory from environment variable: " + PROGRAM_FILES_KEY);
+            return candidates;
         }
+
+        candidates.add(programFilesDirectory);
+
+        return candidates;
     }
 
     enum VisualStudioVersion {
@@ -335,12 +337,14 @@ class VsDevCmdGenerator {
     }
 
     static String getVsDevCmdPath() {
-        final String programFilesDirectory = getProgramFilesDirectory();
+        final List<String> programFilesDirectoryCandidates = getProgramFilesDirectoryCandidates();
 
         for (final VisualStudioVersion version : VisualStudioVersion.values()) {
-            String path = programFilesDirectory + "\\" + PREFIX + "\\" + version.toString() + "\\" + SUFFIX;
-            if (doesFileExist(path)) {
-                return path;
+            for (final String programFilesDirectoryCandidate : programFilesDirectoryCandidates) {
+                final String path = programFilesDirectoryCandidate + "\\" + PREFIX + "\\" + version.toString() + "\\" + SUFFIX;
+                if (doesFileExist(path)) {
+                    return path;
+                }
             }
         }
 
