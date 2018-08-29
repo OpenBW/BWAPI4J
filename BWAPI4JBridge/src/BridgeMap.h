@@ -25,5 +25,5 @@
 
 class BridgeMap {
  public:
-  void initialize(JNIEnv* env, jclass jc, jobject bwObject, jclass bwMapClass);
+  void initialize(JNIEnv *env, jclass jc, jobject bwObject, jclass bwMapClass, const JavaRefs &javaRefs);
 };

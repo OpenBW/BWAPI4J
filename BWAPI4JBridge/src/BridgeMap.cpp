@@ -38,7 +38,7 @@ void setJava2DIntArray(JNIEnv *env, jclass javaRef, jobject targetObject, const 
   env->SetObjectField(targetObject, env->GetFieldID(javaRef, targetVariableName.c_str(), "[[I"), data);
 }
 
-void BridgeMap::initialize(JNIEnv *env, jclass jc, jobject bwObject, jclass bwMapClass) {
+void BridgeMap::initialize(JNIEnv *env, jclass jc, jobject bwObject, jclass bwMapClass, const JavaRefs &javaRefs) {
   LOGGER("Reading map information...");
 
   auto bwMap = env->GetObjectField(bwObject, env->GetFieldID(jc, "bwMap", "Lorg/openbw/bwapi4j/BWMapImpl;"));
