@@ -21,9 +21,6 @@
 #pragma once
 
 #include <BWAPI.h>
-#include <fstream>
-#include <iostream>
-#include "org_openbw_bwapi4j_BW.h"
 
 namespace OpenBridge {
 class OpenBridgeModule : public BWAPI::AIModule {

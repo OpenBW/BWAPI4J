@@ -25,6 +25,19 @@
 #include "BridgeMap.h"
 #include "Logger.h"
 
+#ifdef OPENBW
+#ifdef _WIN32
+#include <Windows.h>
+#define DLLEXPORT __declspec(dllexport)
+BOOL APIENTRY DllMain(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved) { return TRUE; }
+#else
+#define DLLEXPORT
+#endif
+
+extern "C" DLLEXPORT void gameInit(BWAPI::Game *game) { BWAPI::BroodwarPtr = game; }
+extern "C" DLLEXPORT BWAPI::AIModule *newAIModule() { return new OpenBridge::OpenBridgeModule(); }
+#endif
+
 namespace OpenBridge {
 void OpenBridgeModule::onStart() {
   callbacks.initialize(globalEnv, globalEnv->GetObjectClass(globalBW));

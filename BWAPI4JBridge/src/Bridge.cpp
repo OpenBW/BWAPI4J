@@ -21,13 +21,6 @@
 #include <chrono>
 #include <thread>
 
-#ifdef _WIN32
-#include <Windows.h>
-#define DLLEXPORT __declspec(dllexport)
-#else
-#define DLLEXPORT
-#endif
-
 #include <stdio.h>
 
 #include <BWAPI.h>
@@ -59,15 +52,6 @@ JavaRefs javaRefs;
 
 JNIEnv *globalEnv;
 jobject globalBW;
-
-#ifdef _WIN32
-BOOL APIENTRY DllMain(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved) { return TRUE; }
-#endif
-
-#ifdef OPENBW
-extern "C" DLLEXPORT void gameInit(BWAPI::Game *game) { BWAPI::BroodwarPtr = game; }
-extern "C" DLLEXPORT BWAPI::AIModule *newAIModule() { return new OpenBridge::OpenBridgeModule(); }
-#endif
 
 #ifndef OPENBW
 void reconnect() {
