@@ -157,7 +157,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
     }
     LOGGER(fmt::format("Client version: {}", BWAPI::Broodwar->getClientVersion()));
 
-    bridgeEnum.initialize(env);
+    bridgeEnum.initialize(env, javaRefs);
     bridgeMap.initialize(env, env->GetObjectClass(bwObject), bw, javaRefs.bwMapClass);
 
     if (false && BWAPI::Broodwar->isReplay()) {  // right now don't treat replays any different

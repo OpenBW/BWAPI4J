@@ -45,7 +45,7 @@ void OpenBridgeModule::onStart() {
   BridgeEnum bridgeEnum;
   BridgeMap bridgeMap;
 
-  bridgeEnum.initialize(globalEnv);
+  bridgeEnum.initialize(globalEnv, javaRefs);
   bridgeMap.initialize(globalEnv, globalEnv->GetObjectClass(globalBW), globalBW, javaRefs.bwMapClass);
 
   globalEnv->CallObjectMethod(globalBW, callbacks.preFrameCallback);
