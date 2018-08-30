@@ -80,13 +80,12 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_exit(JNIEnv *, jobject) {
 #endif
 }
 
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject bwObject, jobject bw) {
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject, jobject bw) {
   globalEnv = env;
   globalBW = bw;
 
 #ifndef OPENBW
   env->EnsureLocalCapacity(512);
-  jclass jc = env->GetObjectClass(bw);
 #endif
 
   javaRefs.initialize(env);
@@ -158,16 +157,16 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
     LOGGER(fmt::format("Client version: {}", BWAPI::Broodwar->getClientVersion()));
 
     bridgeEnum.initialize(env, javaRefs);
-    bridgeMap.initialize(env, env->GetObjectClass(bwObject), bw, javaRefs.bwMapClass);
+    bridgeMap.initialize(env, bw, javaRefs);
 
     if (false && BWAPI::Broodwar->isReplay()) {  // right now don't treat replays any different
 
     } else {
-      LOGGER("Calling onStart callback...");
-      env->CallObjectMethod(bw, env->GetMethodID(jc, "onStart", "()V"));
-      LOGGER("Calling onStart callback... done");
+      callbacks.initialize(env, javaRefs.bwClass);
 
-      callbacks.initialize(env, jc);
+      LOGGER("Calling onStart callback...");
+      env->CallObjectMethod(bw, callbacks.onStartCallback);
+      LOGGER("Calling onStart callback... done");
 
       LOGGER("Entering in-game event loop...");
 

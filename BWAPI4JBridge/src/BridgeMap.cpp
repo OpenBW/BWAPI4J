@@ -38,41 +38,41 @@ void setJava2DIntArray(JNIEnv *env, jclass javaRef, jobject targetObject, const 
   env->SetObjectField(targetObject, env->GetFieldID(javaRef, targetVariableName.c_str(), "[[I"), data);
 }
 
-void BridgeMap::initialize(JNIEnv *env, jclass jc, jobject bwObject, jclass bwMapClass, const JavaRefs &javaRefs) {
+void BridgeMap::initialize(JNIEnv *env, jobject bw, const JavaRefs &javaRefs) {
   LOGGER("Reading map information...");
 
-  auto bwMap = env->GetObjectField(bwObject, env->GetFieldID(jc, "bwMap", "Lorg/openbw/bwapi4j/BWMapImpl;"));
+  auto bwMap = env->GetObjectField(bw, env->GetFieldID(javaRefs.bwClass, "bwMap", "Lorg/openbw/bwapi4j/BWMapImpl;"));
 
   auto mapHash = env->NewStringUTF(BWAPI::Broodwar->mapHash().c_str());
-  env->SetObjectField(bwMap, env->GetFieldID(bwMapClass, "mapHash", "Ljava/lang/String;"), mapHash);
+  env->SetObjectField(bwMap, env->GetFieldID(javaRefs.bwMapClass, "mapHash", "Ljava/lang/String;"), mapHash);
 
   auto mapFileName = env->NewStringUTF(BWAPI::Broodwar->mapFileName().c_str());
-  env->SetObjectField(bwMap, env->GetFieldID(bwMapClass, "mapFileName", "Ljava/lang/String;"), mapFileName);
+  env->SetObjectField(bwMap, env->GetFieldID(javaRefs.bwMapClass, "mapFileName", "Ljava/lang/String;"), mapFileName);
 
   auto mapName = env->NewStringUTF(BWAPI::Broodwar->mapName().c_str());
-  env->SetObjectField(bwMap, env->GetFieldID(bwMapClass, "mapName", "Ljava/lang/String;"), mapName);
+  env->SetObjectField(bwMap, env->GetFieldID(javaRefs.bwMapClass, "mapName", "Ljava/lang/String;"), mapName);
 
   const auto mapTileSize = BWAPI::TilePosition(BWAPI::Broodwar->mapWidth(), BWAPI::Broodwar->mapHeight());
   const auto mapWalkSize = BWAPI::WalkPosition(mapTileSize);
   const auto mapPixelSize = BWAPI::Position(mapTileSize);
 
-  env->SetIntField(bwMap, env->GetFieldID(bwMapClass, "tileWidth", "I"), mapTileSize.x);
-  env->SetIntField(bwMap, env->GetFieldID(bwMapClass, "tileHeight", "I"), mapTileSize.y);
+  env->SetIntField(bwMap, env->GetFieldID(javaRefs.bwMapClass, "tileWidth", "I"), mapTileSize.x);
+  env->SetIntField(bwMap, env->GetFieldID(javaRefs.bwMapClass, "tileHeight", "I"), mapTileSize.y);
 
-  env->SetIntField(bwMap, env->GetFieldID(bwMapClass, "walkWidth", "I"), mapWalkSize.x);
-  env->SetIntField(bwMap, env->GetFieldID(bwMapClass, "walkHeight", "I"), mapWalkSize.y);
+  env->SetIntField(bwMap, env->GetFieldID(javaRefs.bwMapClass, "walkWidth", "I"), mapWalkSize.x);
+  env->SetIntField(bwMap, env->GetFieldID(javaRefs.bwMapClass, "walkHeight", "I"), mapWalkSize.y);
 
-  env->SetIntField(bwMap, env->GetFieldID(bwMapClass, "pixelWidth", "I"), mapPixelSize.x);
-  env->SetIntField(bwMap, env->GetFieldID(bwMapClass, "pixelHeight", "I"), mapPixelSize.y);
+  env->SetIntField(bwMap, env->GetFieldID(javaRefs.bwMapClass, "pixelWidth", "I"), mapPixelSize.x);
+  env->SetIntField(bwMap, env->GetFieldID(javaRefs.bwMapClass, "pixelHeight", "I"), mapPixelSize.y);
 
-  setJava2DIntArray(env, bwMapClass, bwMap, "groundHeightData", mapTileSize.x, mapTileSize.y,
+  setJava2DIntArray(env, javaRefs.bwMapClass, bwMap, "groundHeightData", mapTileSize.x, mapTileSize.y,
                     [&](const int x, const int y) { return BWAPI::Broodwar->getGroundHeight(x, y); });
-  setJava2DIntArray(env, bwMapClass, bwMap, "isBuildableData", mapTileSize.x, mapTileSize.y,
+  setJava2DIntArray(env, javaRefs.bwMapClass, bwMap, "isBuildableData", mapTileSize.x, mapTileSize.y,
                     [&](const int x, const int y) { return BWAPI::Broodwar->isBuildable(x, y); });
-  setJava2DIntArray(env, bwMapClass, bwMap, "isWalkableData", mapWalkSize.x, mapWalkSize.y,
+  setJava2DIntArray(env, javaRefs.bwMapClass, bwMap, "isWalkableData", mapWalkSize.x, mapWalkSize.y,
                     [&](const int x, const int y) { return BWAPI::Broodwar->isWalkable(x, y); });
 
-  auto startLocationsList = env->GetObjectField(bwMap, env->GetFieldID(bwMapClass, "startLocations", "Ljava/util/ArrayList;"));
+  auto startLocationsList = env->GetObjectField(bwMap, env->GetFieldID(javaRefs.bwMapClass, "startLocations", "Ljava/util/ArrayList;"));
   for (const auto &tilePosition : BWAPI::Broodwar->getStartLocations()) {
     auto startLocation = env->NewObject(javaRefs.tilePositionClass, javaRefs.tilePositionConstructor, tilePosition.x, tilePosition.y);
     env->CallObjectMethod(startLocationsList, javaRefs.arrayListClass_add, startLocation);
@@ -86,7 +86,6 @@ void BridgeMap::initialize(JNIEnv *env, jclass jc, jobject bwObject, jclass bwMa
   LOGGER("Reading map information... done");
 }
 
-// TODO: Check if "isBuildable" is static. If yes, move this into a native init method such as "int[] getIsBuildableData()" and call from Java during onStart.
 JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl__1isBuildable(JNIEnv *, jobject, jint tileX, jint tileY, jboolean considerBuildings) {
   return BWAPI::Broodwar->isBuildable(tileX, tileY, considerBuildings) ? 1 : 0;
 }

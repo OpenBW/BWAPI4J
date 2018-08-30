@@ -40,13 +40,13 @@ extern "C" DLLEXPORT BWAPI::AIModule *newAIModule() { return new OpenBridge::Ope
 
 namespace OpenBridge {
 void OpenBridgeModule::onStart() {
-  callbacks.initialize(globalEnv, globalEnv->GetObjectClass(globalBW));
+  callbacks.initialize(globalEnv, javaRefs.bwClass);
 
   BridgeEnum bridgeEnum;
   BridgeMap bridgeMap;
 
   bridgeEnum.initialize(globalEnv, javaRefs);
-  bridgeMap.initialize(globalEnv, globalEnv->GetObjectClass(globalBW), globalBW, javaRefs.bwMapClass);
+  bridgeMap.initialize(globalEnv, globalBW, javaRefs);
 
   globalEnv->CallObjectMethod(globalBW, callbacks.preFrameCallback);
   //	globalEnv->CallObjectMethod(globalBW, onStartCallback);

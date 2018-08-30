@@ -21,27 +21,27 @@
 #include "Callbacks.h"
 #include "Logger.h"
 
-void Callbacks::initialize(JNIEnv *env, jclass jc) {
+void Callbacks::initialize(JNIEnv *env, jclass bwClass) {
   LOGGER("Initializing callbacks...");
 
-  preFrameCallback = env->GetMethodID(jc, "preFrame", "()V");
-  onStartCallback = env->GetMethodID(jc, "onStart", "()V");
-  onEndCallback = env->GetMethodID(jc, "onEnd", "(Z)V");
-  onFrameCallback = env->GetMethodID(jc, "onFrame", "()V");
-  onSendTextCallback = env->GetMethodID(jc, "onSendText", "(Ljava/lang/String;)V");
-  onReceiveTextCallback = env->GetMethodID(jc, "onReceiveText", "(ILjava/lang/String;)V");
-  onPlayerLeftCallback = env->GetMethodID(jc, "onPlayerLeft", "(I)V");
-  onNukeDetectCallback = env->GetMethodID(jc, "onNukeDetect", "(II)V");
-  onUnitDiscoverCallback = env->GetMethodID(jc, "onUnitDiscover", "(I)V");
-  onUnitEvadeCallback = env->GetMethodID(jc, "onUnitEvade", "(I)V");
-  onUnitShowCallback = env->GetMethodID(jc, "onUnitShow", "(I)V");
-  onUnitHideCallback = env->GetMethodID(jc, "onUnitHide", "(I)V");
-  onUnitCreateCallback = env->GetMethodID(jc, "onUnitCreate", "(I)V");
-  onUnitDestroyCallback = env->GetMethodID(jc, "onUnitDestroy", "(I)V");
-  onUnitMorphCallback = env->GetMethodID(jc, "onUnitMorph", "(I)V");
-  onUnitRenegadeCallback = env->GetMethodID(jc, "onUnitRenegade", "(I)V");
-  onUnitCompleteCallback = env->GetMethodID(jc, "onUnitComplete", "(I)V");
-  onSaveGameCallback = env->GetMethodID(jc, "onSaveGame", "(Ljava/lang/String;)V");
+  preFrameCallback = env->GetMethodID(bwClass, "preFrame", "()V");
+  onStartCallback = env->GetMethodID(bwClass, "onStart", "()V");
+  onEndCallback = env->GetMethodID(bwClass, "onEnd", "(Z)V");
+  onFrameCallback = env->GetMethodID(bwClass, "onFrame", "()V");
+  onSendTextCallback = env->GetMethodID(bwClass, "onSendText", "(Ljava/lang/String;)V");
+  onReceiveTextCallback = env->GetMethodID(bwClass, "onReceiveText", "(ILjava/lang/String;)V");
+  onPlayerLeftCallback = env->GetMethodID(bwClass, "onPlayerLeft", "(I)V");
+  onNukeDetectCallback = env->GetMethodID(bwClass, "onNukeDetect", "(II)V");
+  onUnitDiscoverCallback = env->GetMethodID(bwClass, "onUnitDiscover", "(I)V");
+  onUnitEvadeCallback = env->GetMethodID(bwClass, "onUnitEvade", "(I)V");
+  onUnitShowCallback = env->GetMethodID(bwClass, "onUnitShow", "(I)V");
+  onUnitHideCallback = env->GetMethodID(bwClass, "onUnitHide", "(I)V");
+  onUnitCreateCallback = env->GetMethodID(bwClass, "onUnitCreate", "(I)V");
+  onUnitDestroyCallback = env->GetMethodID(bwClass, "onUnitDestroy", "(I)V");
+  onUnitMorphCallback = env->GetMethodID(bwClass, "onUnitMorph", "(I)V");
+  onUnitRenegadeCallback = env->GetMethodID(bwClass, "onUnitRenegade", "(I)V");
+  onUnitCompleteCallback = env->GetMethodID(bwClass, "onUnitComplete", "(I)V");
+  onSaveGameCallback = env->GetMethodID(bwClass, "onSaveGame", "(Ljava/lang/String;)V");
 
   LOGGER("Initializing callbacks... done");
 }
@@ -53,7 +53,7 @@ void Callbacks::processEvents(JNIEnv *env, jobject bw, const std::list<BWAPI::Ev
     switch (event.getType()) {
 #ifdef OPENBW
       case BWAPI::EventType::MatchStart: {
-        env->CallObjectMethod(bw, onStartCallback);
+        env->CallObjectMethod(bwClass, onStartCallback);
       } break;
 #endif
       case BWAPI::EventType::MatchEnd: {
