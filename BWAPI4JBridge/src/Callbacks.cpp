@@ -53,7 +53,7 @@ void Callbacks::processEvents(JNIEnv *env, jobject bw, const std::list<BWAPI::Ev
     switch (event.getType()) {
 #ifdef OPENBW
       case BWAPI::EventType::MatchStart: {
-        env->CallObjectMethod(bwClass, onStartCallback);
+        env->CallObjectMethod(bw, onStartCallback);
       } break;
 #endif
       case BWAPI::EventType::MatchEnd: {
