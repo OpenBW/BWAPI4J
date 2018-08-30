@@ -28,7 +28,7 @@
 
 #include <spdlog/spdlog.h>
 
-namespace BWAPI4JBridge {
+namespace Bridge {
 class Logger {
  public:
   Logger(const std::string &filename);
@@ -40,7 +40,7 @@ class Logger {
 };
 
 extern Logger logger;
-}  // namespace BWAPI4JBridge
+}  // namespace Bridge
 
 #if defined(_WIN32) || defined(WIN32)
 #define __FILENAME__ (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
@@ -51,8 +51,8 @@ extern Logger logger;
 #define LOGGER(str)                                                                                   \
   {                                                                                                   \
     std::cout << __FILENAME__ << ":" << __FUNCTION__ << ":" << __LINE__ << " - " << str << std::endl; \
-    BWAPI4JBridge::logger.get()->debug("{}:{}:{} - {}", __FILENAME__, __FUNCTION__, __LINE__, str);   \
-    BWAPI4JBridge::logger.get()->flush();                                                             \
+    Bridge::logger.get()->debug("{}:{}:{} - {}", __FILENAME__, __FUNCTION__, __LINE__, str);          \
+    Bridge::logger.get()->flush();                                                                    \
   }
 
 #else

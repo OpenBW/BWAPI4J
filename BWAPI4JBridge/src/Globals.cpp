@@ -18,12 +18,14 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#pragma once
-
-#include <jni.h>
 #include "Globals.h"
 
-class BridgeMap {
- public:
-  void initialize(JNIEnv *env, jobject bw, const JavaRefs &javaRefs);
-};
+namespace Bridge {
+namespace Globals {
+DataBuffer dataBuffer;
+JavaRefs javaRefs;
+Callbacks callbacks;
+JNIEnv *globalEnv;
+jobject globalBW;
+}  // namespace Globals
+}  // namespace Bridge

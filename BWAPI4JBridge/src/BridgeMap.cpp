@@ -111,16 +111,16 @@ JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl__1canBuildHere__IIII(JN
 }
 
 JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BWMapImpl_getCreepData_1native(JNIEnv *env, jobject) {
-  bridgeData.reset();
+  Bridge::Globals::dataBuffer.reset();
 
   for (int tileX = 0; tileX < BWAPI::Broodwar->mapWidth(); ++tileX) {
     for (int tileY = 0; tileY < BWAPI::Broodwar->mapHeight(); ++tileY) {
       const auto currentTilePosition = BWAPI::TilePosition(tileX, tileY);
-      bridgeData.add(BWAPI::Broodwar->hasCreep(currentTilePosition));
+      Bridge::Globals::dataBuffer.add(BWAPI::Broodwar->hasCreep(currentTilePosition));
     }
   }
 
-  jintArray result = env->NewIntArray(bridgeData.getIndex());
-  env->SetIntArrayRegion(result, 0, bridgeData.getIndex(), bridgeData.intBuf);
+  jintArray result = env->NewIntArray(Bridge::Globals::dataBuffer.getIndex());
+  env->SetIntArrayRegion(result, 0, Bridge::Globals::dataBuffer.getIndex(), Bridge::Globals::dataBuffer.intBuf);
   return result;
 }

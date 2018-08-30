@@ -20,7 +20,7 @@
 
 #include "JniBwem.h"
 
-namespace BWAPI4JBridge {
+namespace Bridge {
 JniBwem::JniBwem() {}
 
 void JniBwem::initialize(BWAPI::Game *game) { getMap().Initialize(game); }
@@ -28,6 +28,6 @@ void JniBwem::initialize(BWAPI::Game *game) { getMap().Initialize(game); }
 BWEM::Map &JniBwem::getMap() { return BWEM::Map::Instance(); }
 
 JniBwem bwem;
-}  // namespace BWAPI4JBridge
+}  // namespace Bridge
 
-JNIEXPORT void JNICALL Java_bwem_map_MapInitializerImpl_initialize_1native(JNIEnv *, jobject) { BWAPI4JBridge::bwem.initialize(BWAPI::BroodwarPtr); }
+JNIEXPORT void JNICALL Java_bwem_map_MapInitializerImpl_initialize_1native(JNIEnv *, jobject) { Bridge::bwem.initialize(BWAPI::BroodwarPtr); }

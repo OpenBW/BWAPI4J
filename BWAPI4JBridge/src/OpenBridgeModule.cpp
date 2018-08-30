@@ -20,9 +20,9 @@
 
 #include "OpenBridgeModule.h"
 #include <jni.h>
-#include "Bridge.h"
 #include "BridgeEnum.h"
 #include "BridgeMap.h"
+#include "Globals.h"
 #include "Logger.h"
 
 #ifdef OPENBW
@@ -40,24 +40,24 @@ extern "C" DLLEXPORT BWAPI::AIModule *newAIModule() { return new OpenBridge::Ope
 
 namespace OpenBridge {
 void OpenBridgeModule::onStart() {
-  callbacks.initialize(globalEnv, javaRefs.bwClass);
+  Bridge::Globals::callbacks.initialize(Bridge::Globals::globalEnv, Bridge::Globals::javaRefs.bwClass);
 
   BridgeEnum bridgeEnum;
   BridgeMap bridgeMap;
 
-  bridgeEnum.initialize(globalEnv, javaRefs);
-  bridgeMap.initialize(globalEnv, globalBW, javaRefs);
+  bridgeEnum.initialize(Bridge::Globals::globalEnv, Bridge::Globals::javaRefs);
+  bridgeMap.initialize(Bridge::Globals::globalEnv, Bridge::Globals::globalBW, Bridge::Globals::javaRefs);
 
-  globalEnv->CallObjectMethod(globalBW, callbacks.preFrameCallback);
+  Bridge::Globals::globalEnv->CallObjectMethod(Bridge::Globals::globalBW, Bridge::Globals::callbacks.preFrameCallback);
   //	globalEnv->CallObjectMethod(globalBW, onStartCallback);
 }
 
 void OpenBridgeModule::onEnd(bool isWinner) {}
 
 void OpenBridgeModule::onFrame() {
-  callbacks.processEvents(globalEnv, globalBW, BWAPI::Broodwar->getEvents());
+  Bridge::Globals::callbacks.processEvents(Bridge::Globals::globalEnv, Bridge::Globals::globalBW, BWAPI::Broodwar->getEvents());
 
-  globalEnv->CallObjectMethod(globalBW, callbacks.onFrameCallback);
+  Bridge::Globals::globalEnv->CallObjectMethod(Bridge::Globals::globalBW, Bridge::Globals::callbacks.onFrameCallback);
 }
 
 void OpenBridgeModule::onSendText(std::string text) {}

@@ -20,20 +20,18 @@
 
 #pragma once
 
-#include <list>
-
-#include <BWAPI.h>
 #include <jni.h>
 
-#include "BridgeData.h"
 #include "Callbacks.h"
+#include "DataBuffer.h"
 #include "JavaRefs.h"
 
-extern BridgeData bridgeData;
-
+namespace Bridge {
+namespace Globals {
+extern DataBuffer dataBuffer;
 extern JavaRefs javaRefs;
-
 extern Callbacks callbacks;
-
 extern JNIEnv *globalEnv;
 extern jobject globalBW;
+}  // namespace Globals
+}  // namespace Bridge

@@ -18,7 +18,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "BridgeData.h"
+#include "DataBuffer.h"
 
 #ifdef _WIN32
 #define _USE_MATH_DEFINES
@@ -27,83 +27,83 @@
 
 #include "Logger.h"
 
-const double BridgeData::RADIANS_TO_DEGREES = 180.0 / M_PI;
-const double BridgeData::DECIMAL_PRESERVATION_SCALE = 100.0;
-const int BridgeData::NO_VALUE = -1;
+const double DataBuffer::RADIANS_TO_DEGREES = 180.0 / M_PI;
+const double DataBuffer::DECIMAL_PRESERVATION_SCALE = 100.0;
+const int DataBuffer::NO_VALUE = -1;
 
-BridgeData::BridgeData() : _index(0) {
+DataBuffer::DataBuffer() : _index(0) {
   for (size_t i = 0; i < INT_BUF_SIZE; ++i) {
     intBuf[i] = 0;
   }
 }
 
-void BridgeData::reset() { _index = 0; }
+void DataBuffer::reset() { _index = 0; }
 
-void BridgeData::add(const int val) { intBuf[_index++] = val; }
+void DataBuffer::add(const int val) { intBuf[_index++] = val; }
 
-void BridgeData::add(const double val) {
+void DataBuffer::add(const double val) {
   const int preservedDouble = toPreservedDouble(val);
   add(preservedDouble);
 }
 
-void BridgeData::add(const size_t val) { add(int(val)); }
+void DataBuffer::add(const size_t val) { add(int(val)); }
 
-void BridgeData::add(const bool b) { add(b ? 1 : 0); }
+void DataBuffer::add(const bool b) { add(b ? 1 : 0); }
 
-void BridgeData::add(const char ch) { add(int(ch)); }
+void DataBuffer::add(const char ch) { add(int(ch)); }
 
-int BridgeData::getIndex() const { return _index; }
+int DataBuffer::getIndex() const { return _index; }
 
-void BridgeData::addFields(const BWAPI::TilePosition &tilePosition) {
+void DataBuffer::addFields(const BWAPI::TilePosition &tilePosition) {
   add(tilePosition.x);
   add(tilePosition.y);
 }
 
-void BridgeData::addFields(const BWAPI::WalkPosition &walkPosition) {
+void DataBuffer::addFields(const BWAPI::WalkPosition &walkPosition) {
   add(walkPosition.x);
   add(walkPosition.y);
 }
 
-void BridgeData::addFields(const BWAPI::Position &position) {
+void DataBuffer::addFields(const BWAPI::Position &position) {
   add(position.x);
   add(position.y);
 }
 
-void BridgeData::addId(const BWAPI::UnitType &unitType) { add(unitType.getID()); }
+void DataBuffer::addId(const BWAPI::UnitType &unitType) { add(unitType.getID()); }
 
-void BridgeData::addId(const BWAPI::Unit &unit) { add(unit ? unit->getID() : NO_VALUE); }
+void DataBuffer::addId(const BWAPI::Unit &unit) { add(unit ? unit->getID() : NO_VALUE); }
 
-void BridgeData::addId(const BWAPI::Player &player) { add(player ? player->getID() : NO_VALUE); }
+void DataBuffer::addId(const BWAPI::Player &player) { add(player ? player->getID() : NO_VALUE); }
 
-void BridgeData::addId(const BWAPI::Bullet &bullet) { add(bullet ? bullet->getID() : NO_VALUE); }
+void DataBuffer::addId(const BWAPI::Bullet &bullet) { add(bullet ? bullet->getID() : NO_VALUE); }
 
-void BridgeData::addId(const BWAPI::BulletType &bulletType) { add(bulletType.getID()); }
+void DataBuffer::addId(const BWAPI::BulletType &bulletType) { add(bulletType.getID()); }
 
-void BridgeData::addId(const BWAPI::UnitCommand &unitCommand) { add(unitCommand.getType().getID()); }
+void DataBuffer::addId(const BWAPI::UnitCommand &unitCommand) { add(unitCommand.getType().getID()); }
 
-void BridgeData::addId(const BWAPI::TechType &techType) { add(techType.getID()); }
+void DataBuffer::addId(const BWAPI::TechType &techType) { add(techType.getID()); }
 
-void BridgeData::addId(const BWAPI::UpgradeType &upgradeType) { add(upgradeType.getID()); }
+void DataBuffer::addId(const BWAPI::UpgradeType &upgradeType) { add(upgradeType.getID()); }
 
-void BridgeData::addId(const BWAPI::Order &order) { add(order.getID()); }
+void DataBuffer::addId(const BWAPI::Order &order) { add(order.getID()); }
 
-void BridgeData::addId(const BWAPI::Race &race) { add(race.getID()); }
+void DataBuffer::addId(const BWAPI::Race &race) { add(race.getID()); }
 
-void BridgeData::addId(const BWAPI::Color color) { add(convertColor(color)); }
+void DataBuffer::addId(const BWAPI::Color color) { add(convertColor(color)); }
 
-void BridgeData::addId(const BWAPI::PlayerType &playerType) { add(playerType.getID()); }
+void DataBuffer::addId(const BWAPI::PlayerType &playerType) { add(playerType.getID()); }
 
-void BridgeData::addId(const BWAPI::Force &force) { add(force->getID()); }
+void DataBuffer::addId(const BWAPI::Force &force) { add(force->getID()); }
 
-void BridgeData::addId(const BWAPI::GameType &gameType) { add(gameType.getID()); }
+void DataBuffer::addId(const BWAPI::GameType &gameType) { add(gameType.getID()); }
 
-void BridgeData::addIds(const BWAPI::Playerset &playerset) {
+void DataBuffer::addIds(const BWAPI::Playerset &playerset) {
   for (const auto &player : playerset) {
     addId(player);
   }
 }
 
-void BridgeData::addFields(const BWAPI::Bullet &bullet) {
+void DataBuffer::addFields(const BWAPI::Bullet &bullet) {
   add(bullet->exists());
   add(toPreservedDouble(toPreservedBwapiAngle(bullet->getAngle())));
   addId(bullet);
@@ -119,7 +119,7 @@ void BridgeData::addFields(const BWAPI::Bullet &bullet) {
   add(bullet->isVisible());
 }
 
-void BridgeData::addFields(const BWAPI::Unit &unit) {
+void DataBuffer::addFields(const BWAPI::Unit &unit) {
   add(unit->getID());
   add(unit->getReplayID());
   addId(unit->getPlayer());
@@ -284,7 +284,7 @@ void BridgeData::addFields(const BWAPI::Unit &unit) {
   }
 }
 
-void BridgeData::addFields(const BWAPI::Player &player) {
+void DataBuffer::addFields(const BWAPI::Player &player) {
   addId(player);
   addId(player->getRace());
   addFields(player->getStartLocation());
@@ -337,17 +337,17 @@ void BridgeData::addFields(const BWAPI::Player &player) {
   add(player->killedUnitCount());
 }
 
-double BridgeData::toDegrees(const double radians) { return radians * RADIANS_TO_DEGREES; }
+double DataBuffer::toDegrees(const double radians) { return radians * RADIANS_TO_DEGREES; }
 
 // BWAPI 4.2.0:
 // https://github.com/bwapi/bwapi/blob/59b14af21b3c881ce06af8b1ea1d63fa3c8b2df0/bwapi/BWAPI/Source/BWAPI/UnitUpdate.cpp#L206-L212
 // https://github.com/bwapi/bwapi/blob/59b14af21b3c881ce06af8b1ea1d63fa3c8b2df0/bwapi/BWAPI/Source/BWAPI/BulletImpl.cpp#L93-L97
-double BridgeData::toPreservedBwapiAngle(const double angle) { return (angle * 128.0 / M_PI); }
+double DataBuffer::toPreservedBwapiAngle(const double angle) { return (angle * 128.0 / M_PI); }
 
-int BridgeData::toPreservedDouble(const double d) { return static_cast<int>(DECIMAL_PRESERVATION_SCALE * d); }
+int DataBuffer::toPreservedDouble(const double d) { return static_cast<int>(DECIMAL_PRESERVATION_SCALE * d); }
 
 // required for the OpenBW version since player->getColor() returns ordinal value instead of 256 color value.
-int BridgeData::convertColor(const int ordinal) {
+int DataBuffer::convertColor(const int ordinal) {
 #ifdef OPENBW
   switch (ordinal) {
     case 0:
