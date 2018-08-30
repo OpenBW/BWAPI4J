@@ -22,6 +22,7 @@
 
 namespace Bridge {
 namespace Globals {
+bool finished = false;
 DataBuffer dataBuffer;
 JavaRefs javaRefs;
 Callbacks callbacks;

@@ -28,6 +28,7 @@
 
 namespace Bridge {
 namespace Globals {
+extern bool finished;
 extern DataBuffer dataBuffer;
 extern JavaRefs javaRefs;
 extern Callbacks callbacks;
