@@ -25,7 +25,7 @@ namespace Globals {
 DataBuffer dataBuffer;
 JavaRefs javaRefs;
 Callbacks callbacks;
-JNIEnv *globalEnv;
-jobject globalBW;
+JNIEnv *env;
+jobject bw;
 }  // namespace Globals
 }  // namespace Bridge

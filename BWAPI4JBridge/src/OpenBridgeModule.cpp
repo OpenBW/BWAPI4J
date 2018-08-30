@@ -42,24 +42,24 @@ extern "C" DLLEXPORT BWAPI::AIModule *newAIModule() { return new OpenBridge::Ope
 
 namespace OpenBridge {
 void OpenBridgeModule::onStart() {
-  Bridge::Globals::callbacks.initialize(Bridge::Globals::globalEnv, Bridge::Globals::javaRefs.bwClass);
+  Bridge::Globals::callbacks.initialize(Bridge::Globals::env, Bridge::Globals::javaRefs.bwClass);
 
   BridgeEnum bridgeEnum;
   BridgeMap bridgeMap;
 
-  bridgeEnum.initialize(Bridge::Globals::globalEnv, Bridge::Globals::javaRefs);
-  bridgeMap.initialize(Bridge::Globals::globalEnv, Bridge::Globals::globalBW, Bridge::Globals::javaRefs);
+  bridgeEnum.initialize(Bridge::Globals::env, Bridge::Globals::javaRefs);
+  bridgeMap.initialize(Bridge::Globals::env, Bridge::Globals::bw, Bridge::Globals::javaRefs);
 
-  Bridge::Globals::globalEnv->CallObjectMethod(Bridge::Globals::globalBW, Bridge::Globals::callbacks.preFrameCallback);
+  Bridge::Globals::env->CallObjectMethod(Bridge::Globals::bw, Bridge::Globals::callbacks.preFrameCallback);
   //	globalEnv->CallObjectMethod(globalBW, onStartCallback);
 }
 
 void OpenBridgeModule::onEnd(bool isWinner) {}
 
 void OpenBridgeModule::onFrame() {
-  Bridge::Globals::callbacks.processEvents(Bridge::Globals::globalEnv, Bridge::Globals::globalBW, BWAPI::Broodwar->getEvents());
+  Bridge::Globals::callbacks.processEvents(Bridge::Globals::env, Bridge::Globals::bw, BWAPI::Broodwar->getEvents());
 
-  Bridge::Globals::globalEnv->CallObjectMethod(Bridge::Globals::globalBW, Bridge::Globals::callbacks.onFrameCallback);
+  Bridge::Globals::env->CallObjectMethod(Bridge::Globals::bw, Bridge::Globals::callbacks.onFrameCallback);
 }
 
 void OpenBridgeModule::onSendText(std::string text) {}

@@ -76,8 +76,8 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_exit(JNIEnv *, jobject) {
 }
 
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject, jobject bw) {
-  Bridge::Globals::globalEnv = env;
-  Bridge::Globals::globalBW = bw;
+  Bridge::Globals::env = env;
+  Bridge::Globals::bw = bw;
 
 #ifndef OPENBW
   env->EnsureLocalCapacity(512);

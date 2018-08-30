@@ -31,7 +31,7 @@ namespace Globals {
 extern DataBuffer dataBuffer;
 extern JavaRefs javaRefs;
 extern Callbacks callbacks;
-extern JNIEnv *globalEnv;
-extern jobject globalBW;
+extern JNIEnv *env;
+extern jobject bw;
 }  // namespace Globals
 }  // namespace Bridge
