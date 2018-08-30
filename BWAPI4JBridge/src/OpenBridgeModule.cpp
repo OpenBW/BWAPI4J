@@ -19,7 +19,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "OpenBridgeModule.h"
+
 #include <jni.h>
+
 #include "BridgeEnum.h"
 #include "BridgeMap.h"
 #include "Globals.h"

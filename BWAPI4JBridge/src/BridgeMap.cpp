@@ -19,7 +19,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "BridgeMap.h"
+
 #include <BWAPI.h>
+
+#include "Globals.h"
 #include "Logger.h"
 #include "org_openbw_bwapi4j_BWMapImpl.h"
 

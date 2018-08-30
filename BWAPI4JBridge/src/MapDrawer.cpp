@@ -18,7 +18,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <BWAPI/Client.h>
+#include <BWAPI.h>
+
 #include "org_openbw_bwapi4j_MapDrawer.h"
 
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawCircleMap_1native__IIII(JNIEnv *, jobject, jint x, jint y, jint radius, jint colorValue) {

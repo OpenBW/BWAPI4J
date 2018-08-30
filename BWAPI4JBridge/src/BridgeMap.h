@@ -21,7 +21,8 @@
 #pragma once
 
 #include <jni.h>
-#include "Globals.h"
+
+#include "JavaRefs.h"
 
 class BridgeMap {
  public:
