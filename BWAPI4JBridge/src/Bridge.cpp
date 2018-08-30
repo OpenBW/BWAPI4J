@@ -43,14 +43,6 @@
 
 #include "JniBwem.h"
 
-#ifndef OPENBW
-void reconnect() {
-  while (!BWAPI::BWAPIClient.connect()) {
-    std::this_thread::sleep_for(std::chrono::milliseconds{1000});
-  }
-}
-#endif
-
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_createUnit(JNIEnv *, jobject, jint playerID, jint unitType, jint posX, jint posY) {
 #ifdef OPENBW
   BWAPI::Broodwar->createUnit(BWAPI::Broodwar->getPlayer(playerID), (BWAPI::UnitType)unitType, BWAPI::Position(posX, posY));
@@ -70,21 +62,21 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_exit(JNIEnv *, jobject) {
 #endif
 }
 
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject, jobject bw) {
-  Bridge::Globals::env = env;
-  Bridge::Globals::bw = bw;
-
 #ifndef OPENBW
-  env->EnsureLocalCapacity(512);
+void reconnect() {
+  while (!BWAPI::BWAPIClient.connect()) {
+    std::this_thread::sleep_for(std::chrono::milliseconds{1000});
+  }
+}
 #endif
 
-  Bridge::Globals::javaRefs.initialize(env);
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject, jobject bw) {
+  Bridge::Globals::initialize(env, bw);
 
 #ifdef OPENBW
   Bridge::BWAPILauncher::run(env);
 #else
-  BridgeEnum bridgeEnum;
-  BridgeMap bridgeMap;
+  env->EnsureLocalCapacity(512);
 
   LOGGER("Connecting to Broodwar...");
   reconnect();
@@ -102,14 +94,11 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
     }
     LOGGER(fmt::format("Client version: {}", BWAPI::Broodwar->getClientVersion()));
 
-    bridgeEnum.initialize(env, Bridge::Globals::javaRefs);
-    bridgeMap.initialize(env, bw, Bridge::Globals::javaRefs);
+    Bridge::Globals::initializeGame(env, bw);
 
     if (false && BWAPI::Broodwar->isReplay()) {  // right now don't treat replays any different
 
     } else {
-      Bridge::Globals::callbacks.initialize(env, Bridge::Globals::javaRefs.bwClass);
-
       LOGGER("Calling onStart callback...");
       env->CallObjectMethod(bw, Bridge::Globals::callbacks.onStartCallback);
       LOGGER("Calling onStart callback... done");

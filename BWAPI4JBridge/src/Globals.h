@@ -34,5 +34,9 @@ extern JavaRefs javaRefs;
 extern Callbacks callbacks;
 extern JNIEnv *env;
 extern jobject bw;
+
+void initialize(JNIEnv *env, jobject bw);
+
+void initializeGame(JNIEnv *env, jobject bw);
 }  // namespace Globals
 }  // namespace Bridge

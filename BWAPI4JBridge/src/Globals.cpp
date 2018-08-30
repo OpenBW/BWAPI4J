@@ -20,6 +20,9 @@
 
 #include "Globals.h"
 
+#include "BridgeEnum.h"
+#include "BridgeMap.h"
+
 namespace Bridge {
 namespace Globals {
 bool finished = false;
@@ -28,5 +31,22 @@ JavaRefs javaRefs;
 Callbacks callbacks;
 JNIEnv *env;
 jobject bw;
+
+void initialize(JNIEnv *newEnv, jobject newBW) {
+  env = newEnv;
+  bw = newBW;
+
+  javaRefs.initialize(env);
+
+  callbacks.initialize(env, Bridge::Globals::javaRefs.bwClass);
+}
+
+void initializeGame(JNIEnv *env, jobject bw) {
+  BridgeEnum enums;
+  enums.initialize(env, Bridge::Globals::javaRefs);
+
+  BridgeMap bwMap;
+  bwMap.initialize(env, bw, Bridge::Globals::javaRefs);
+}
 }  // namespace Globals
 }  // namespace Bridge

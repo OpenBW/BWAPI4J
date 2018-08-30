@@ -42,13 +42,7 @@ extern "C" DLLEXPORT BWAPI::AIModule *newAIModule() { return new OpenBridge::Ope
 
 namespace OpenBridge {
 void OpenBridgeModule::onStart() {
-  Bridge::Globals::callbacks.initialize(Bridge::Globals::env, Bridge::Globals::javaRefs.bwClass);
-
-  BridgeEnum bridgeEnum;
-  BridgeMap bridgeMap;
-
-  bridgeEnum.initialize(Bridge::Globals::env, Bridge::Globals::javaRefs);
-  bridgeMap.initialize(Bridge::Globals::env, Bridge::Globals::bw, Bridge::Globals::javaRefs);
+  Bridge::Globals::initializeGame(Bridge::Globals::env, Bridge::Globals::bw);
 
   Bridge::Globals::env->CallObjectMethod(Bridge::Globals::bw, Bridge::Globals::callbacks.preFrameCallback);
   //	globalEnv->CallObjectMethod(globalBW, onStartCallback);
