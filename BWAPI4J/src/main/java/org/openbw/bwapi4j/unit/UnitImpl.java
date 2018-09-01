@@ -83,9 +83,9 @@ public abstract class UnitImpl implements Unit {
 
   // dynamic
   @BridgeValue
-  protected Position position;
+  Position position;
   @BridgeValue
-  protected TilePosition tilePosition;
+  TilePosition tilePosition;
   @BridgeValue
   double angle;
   int lastCommandFrame;
