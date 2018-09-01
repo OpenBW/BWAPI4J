@@ -32,7 +32,7 @@ public class ComsatStation extends AddonImpl implements Mechanical, SpellCaster 
   }
 
   public boolean scannerSweep(Position p) {
-    return issueCommand(this.id, Use_Tech_Position, -1, p.getX(), p.getY(), Scanner_Sweep.getId());
+    return issueCommand(this.iD, Use_Tech_Position, -1, p.getX(), p.getY(), Scanner_Sweep.getId());
   }
 
   @Override

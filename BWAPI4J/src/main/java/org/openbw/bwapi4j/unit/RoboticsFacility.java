@@ -53,12 +53,7 @@ public class RoboticsFacility extends BuildingImpl implements Mechanical, Traini
 
   @Override
   public boolean isTraining() {
-    return isTraining;
-  }
-
-  @Override
-  public int getTrainingQueueSize() {
-    return trainingQueueSize;
+    return training;
   }
 
   @Override

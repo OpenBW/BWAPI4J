@@ -1,2 +1,69 @@
 delimiters "$", "$"
 
+entry(model) ::= <<
+#pragma once
+// File for $model.bridgeClassName$
+
+void BridgeData::addFields(const $model.nativeClassName$ &entity) {
+  $model.assignments:handleAssignment()$
+}
+>>
+
+handleAssignment(assignment, prefix="") ::= <<
+$if(assignment.rValue && !assignment.rValue.listValue)$
+$valueOf(assignment, assignment.rValue)$
+$elseif(assignment.delegateAssignment)$
+$delegateAssignment(assignment.field, assignment.delegateAssignment)$
+$elseif(assignment.rValue.listValue)$
+$listValue(assignment)$
+$endif$
+>>
+
+valueOf(assignment, rValue) ::= <%
+$if(rValue.primitiveValue)$
+add($primitiveValue(assignment, rValue.primitiveValue)$);
+$elseif(rValue.newObjectValue)$
+addFields($newObjectValue(rValue.newObjectValue)$);
+$elseif(rValue.enumValue)$
+addId($enumValue(rValue.enumValue)$);
+$elseif(rValue.bwMappedValue)$
+addId($bwMappedValue(assignment)$);
+$endif$
+%>
+
+listValue(assignment) ::= <<
+const auto &$assignment.field$ = $getter(assignment)$;
+const auto $assignment.field$Size = $assignment.field$.size();
+add($assignment.field$Size);
+for (const auto &element : $assignment.field$) {
+  addId(element);
+}
+>>
+
+delegateAssignment(field, delegate) ::= "$delegate.delegate.assignments:handleAssignment(field)$"
+
+primitiveValue(assignment, value) ::= "$({dataAs$value.typeName$})(assignment)$"
+
+dataAsboolean(assignment) ::= "$isGetter(assignment)$"
+dataAsint(assignment) ::= "$getter(assignment)$"
+dataAsdouble(assignment) ::= "toPreservedDouble($getter(assignment)$)"
+
+bwMappedValue(assignment) ::= "$getter(assignment)$"
+enumValue(value) ::= "$getter(assignment)$"
+newObjectValue(value) ::= "$getter(assignment)$"
+
+getter(assignment) ::= <%
+$if(assignment.accessor)
+$entity->$assignment.accessor$
+$else$
+entity->get$prefix; format="cap"$$assignment.field; format="cap"$()
+$endif$
+%>
+
+isGetter(assignment) ::= <%
+$if(assignment.accessor)
+$entity->$assignment.accessor$
+$else$
+entity->is$prefix; format="cap"$$assignment.field; format="cap"$()
+$endif$
+%>

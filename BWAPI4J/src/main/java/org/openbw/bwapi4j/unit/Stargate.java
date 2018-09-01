@@ -57,12 +57,7 @@ public class Stargate extends BuildingImpl implements Mechanical, TrainingFacili
 
   @Override
   public boolean isTraining() {
-    return isTraining;
-  }
-
-  @Override
-  public int getTrainingQueueSize() {
-    return trainingQueueSize;
+    return training;
   }
 
   @Override

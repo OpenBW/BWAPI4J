@@ -44,6 +44,6 @@ public class MineralPatch extends UnitImpl implements Resource, Gatherable {
 
   @Override
   public boolean isBeingGathered() {
-    return this.isBeingGathered;
+    return this.beingGathered;
   }
 }

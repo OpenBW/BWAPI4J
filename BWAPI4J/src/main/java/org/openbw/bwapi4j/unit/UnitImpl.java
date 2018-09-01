@@ -46,6 +46,7 @@ import org.openbw.bwapi4j.DamageEvaluator;
 import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
+import org.openbw.bwapi4j.ap.Named;
 import org.openbw.bwapi4j.ap.Native;
 import org.openbw.bwapi4j.ap.NativeClass;
 import org.openbw.bwapi4j.type.Order;
@@ -56,16 +57,22 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 import org.openbw.bwapi4j.type.WeaponType;
 
-@NativeClass(name = "UnitInterface")
+@NativeClass(name = "BWAPI::Unit")
 public abstract class UnitImpl implements Unit {
 
   private static final Logger logger = LogManager.getLogger();
 
-  protected int id;
+  @Native
+  @Named(name = "ID")
+  int iD;
+
   Position initialPosition;
   TilePosition initialTilePosition;
   int initiallySpotted;
-  protected final UnitType type;
+
+  @Named(name = "TYPE")
+  @Native
+  UnitType type;
 
   // dynamic
   protected int x;
@@ -81,26 +88,28 @@ public abstract class UnitImpl implements Unit {
   UnitCommandType lastCommand;
 
   @Native
-  boolean isVisible;
-  @Native
+  boolean visible;
+
+  @Native(accessor = "exists()")
   boolean exists;
-  @Native
-  boolean isSelected;
-  @Native
-  boolean isFlying;
 
   @Native
-  boolean isUpgrading;
+  boolean selected;
   @Native
-  boolean isResearching;
+  boolean flying;
+
+  @Native
+  boolean upgrading;
+  @Native
+  boolean researching;
   @Native
   int remainingResearchTime;
   @Native
   int remainingUpgradeTime;
   @Native
-  UpgradeType currentUpgrade;
+  UpgradeType upgrade;
   @Native
-  TechType currentResearch;
+  TechType tech;
 
   // static
   int initialHitPoints;
@@ -113,17 +122,17 @@ public abstract class UnitImpl implements Unit {
   @Native
   int killCount;
   @Native
-  boolean isCloaked;
+  boolean cloaked;
   @Native
-  boolean isDetected;
+  boolean detected;
   @Native
   double velocityX;
   @Native
   double velocityY;
   @Native
-  boolean isIdle;
+  boolean idle;
   @Native
-  boolean isCompleted;
+  boolean completed;
   @Native
   Weapon groundWeapon = new Weapon(WeaponType.None, 0);
   @Native
@@ -131,142 +140,139 @@ public abstract class UnitImpl implements Unit {
   @Native
   int spellCooldown;
   @Native
-  int targetId;
+  Unit target;
   @Native
-  boolean isAccelerating;
+  boolean accelerating;
   @Native
-  boolean isAttacking;
+  boolean attacking;
   @Native
-  boolean isAttackFrame;
+  boolean attackFrame;
   @Native
-  boolean isBeingConstructed;
+  boolean beingConstructed;
   @Native
-  boolean isBeingHealed;
+  boolean beingHealed;
   @Native
-  boolean isIrradiated;
+  boolean irradiated;
   @Native
-  boolean isLockedDown;
+  boolean lockedDown;
   @Native
-  boolean isMaelstrommed;
+  boolean maelstrommed;
   @Native
-  boolean isStartingAttack;
+  boolean startingAttack;
   @Native
-  boolean isUnderAttack;
+  boolean underAttack;
   @Native
-  boolean isPowered;
+  boolean powered;
   @Native
-  boolean isInterruptible;
+  boolean interruptible;
   @Native
-  int builderId;
-  @Native
-  int playerId;
+  Player player;
   @Native
   int energy;
   @Native
-  boolean isTraining;
+  boolean training;
   @Native
-  int trainingQueueSize;
+  Unit buildUnit;
   @Native
   int remainingTrainTime;
   @Native
   Position rallyPosition;
   @Native
-  int rallyUnitId;
+  Unit rallyUnit;
   @Native
   List<TrainingSlot> trainingQueue = new ArrayList<>();
   @Native
-  boolean isLoaded;
+  boolean loaded;
   @Native
   int spaceRemaining;
   @Native
-  List<MobileUnit> loadedUnits = new ArrayList<>();
+  List<Unit> loadedUnits = new ArrayList<>();
   @Native
   int interceptorCount;
   @Native
-  boolean isFollowing;
+  boolean following;
   @Native
-  boolean isHoldingPosition;
+  boolean holdingPosition;
   @Native
-  boolean isStuck;
+  boolean stuck;
   @Native
-  boolean isStasised;
+  boolean stasised;
   @Native
-  boolean isUnderDarkSwarm;
+  boolean underDarkSwarm;
   @Native
-  boolean isUnderDisruptionWeb;
+  boolean underDisruptionWeb;
   @Native
-  boolean isUnderStorm;
+  boolean underStorm;
   @Native
-  boolean isMoving;
+  boolean moving;
   @Native
-  boolean isParasited;
+  boolean parasited;
   @Native
-  boolean isPatrolling;
+  boolean patrolling;
   @Native
-  boolean isPlagued;
+  boolean plagued;
   @Native
   Position targetPosition;
   @Native
-  int transportId;
+  Unit transport;
   @Native
   int acidSporeCount;
   @Native
-  boolean isHallucination;
+  boolean hallucination;
   @Native
-  boolean isBlind;
+  boolean blind;
   @Native
-  boolean isBraking;
+  boolean braking;
   @Native
-  boolean isDefenseMatrixed;
+  boolean defenseMatrixed;
   @Native
-  boolean isEnsnared;
+  boolean ensnared;
   @Native
-  int addonId;
+  Unit addon;
   @Native
   int remainingBuildTime;
   @Native
-  boolean isLifted;
+  boolean lifted;
   @Native
   boolean burrowed;
   @Native
-  int remainingMorphTime;
-  @Native
   UnitType buildType;
   @Native
-  boolean isStimmed;
+  boolean stimmed;
   int initialResources;
   @Native
   int resources;
   @Native
-  boolean isBeingGathered;
+  boolean beingGathered;
   @Native
-  int carrierId;
+  Unit carrier;
   @Native
-  int hatcheryId;
-  @Native
+  Unit hatchery;
   int lastKnownResources;
-  @Native
+
+  @Native(accessor = "hasNuke()")
   boolean hasNuke;
+
   @Native
-  int nydusExitId;
+  Unit nydusExit;
   @Native
   int scarabCount;
   @Native
-  boolean isRepairing;
+  boolean repairing;
   @Native
   boolean sieged;
   @Native
   int spiderMineCount;
   @Native
-  boolean isConstructing;
+  boolean constructing;
   @Native
-  boolean isGatheringGas;
+  boolean gatheringGas;
   @Native
-  boolean isGatheringMinerals;
+  boolean gatheringMinerals;
   @Native
-  boolean isCarryingGas;
+  boolean carryingGas;
   @Native
-  boolean isCarryingMinerals;
+  boolean carryingMinerals;
 
   // other
   Position lastKnownPosition;
@@ -278,7 +284,7 @@ public abstract class UnitImpl implements Unit {
   int lastSpotted;
 
   protected UnitImpl(int id, UnitType unitType) {
-    this.id = id;
+    this.iD = id;
     this.type = unitType;
     this.lastSpotted = 0;
   }
@@ -312,7 +318,7 @@ public abstract class UnitImpl implements Unit {
   }
 
   protected Player getPlayer() {
-    return bw.getPlayer(this.playerId);
+    return player;
   }
 
   protected Player getPlayer(int id) {
@@ -320,7 +326,7 @@ public abstract class UnitImpl implements Unit {
   }
 
   public int getId() {
-    return this.id;
+    return this.iD;
   }
 
   public int getLeft() {
@@ -446,15 +452,15 @@ public abstract class UnitImpl implements Unit {
   }
 
   boolean lift() {
-    return issueCommand(id, Lift, -1, -1, -1, -1);
+    return issueCommand(iD, Lift, -1, -1, -1, -1);
   }
 
   boolean land(Position p) {
-    return issueCommand(id, Land, -1, p.getX(), p.getY(), -1);
+    return issueCommand(iD, Land, -1, p.getX(), p.getY(), -1);
   }
 
   boolean move(Position p) {
-    return issueCommand(id, Move, -1, p.getX(), p.getY(), -1);
+    return issueCommand(iD, Move, -1, p.getX(), p.getY(), -1);
   }
 
   public boolean exists() {
@@ -494,69 +500,69 @@ public abstract class UnitImpl implements Unit {
   }
 
   protected boolean cancelResearch() {
-    return issueCommand(id, Cancel_Research, -1, -1, -1, -1);
+    return issueCommand(iD, Cancel_Research, -1, -1, -1, -1);
   }
 
   protected boolean cancelUpgrade() {
-    return issueCommand(id, Cancel_Upgrade, -1, -1, -1, -1);
+    return issueCommand(iD, Cancel_Upgrade, -1, -1, -1, -1);
   }
 
   protected boolean canResearch(TechType techType) {
-    return type.equals(techType.whatResearches()) && getPlayer(playerId).canResearch(techType);
+    return type.equals(techType.whatResearches()) && player.canResearch(techType);
   }
 
   protected boolean canUpgrade(UpgradeType upgradeType) {
-    return type.equals(upgradeType.whatUpgrades()) && getPlayer(playerId).canUpgrade(upgradeType);
+    return type.equals(upgradeType.whatUpgrades()) && player.canUpgrade(upgradeType);
   }
 
   protected boolean research(TechType techType) {
-    return issueCommand(id, Research, -1, -1, -1, techType.getId());
+    return issueCommand(iD, Research, -1, -1, -1, techType.getId());
   }
 
   protected boolean upgrade(UpgradeType upgrade) {
-    return issueCommand(id, Upgrade, -1, -1, -1, upgrade.getId());
+    return issueCommand(iD, Upgrade, -1, -1, -1, upgrade.getId());
   }
 
   protected ResearchingFacility.UpgradeInProgress getUpgradeInProgress() {
-    if (currentUpgrade == UpgradeType.None) {
+    if (upgrade == UpgradeType.None) {
       return ResearchingFacility.UpgradeInProgress.NONE;
     }
-    return new ResearchingFacility.UpgradeInProgress(currentUpgrade, remainingUpgradeTime);
+    return new ResearchingFacility.UpgradeInProgress(upgrade, remainingUpgradeTime);
   }
 
   protected ResearchingFacility.ResearchInProgress getResearchInProgress() {
-    if (currentResearch == TechType.None) {
+    if (tech == TechType.None) {
       return ResearchingFacility.ResearchInProgress.NONE;
     }
-    return new ResearchingFacility.ResearchInProgress(currentResearch, remainingResearchTime);
+    return new ResearchingFacility.ResearchInProgress(tech, remainingResearchTime);
   }
 
   protected boolean canTrain(UnitType type) {
     return this.type.equals(type.whatBuilds().getFirst())
-        && getPlayer(playerId).canMake(type)
+        && player.canMake(type)
         && type.requiredUnits()
         .stream()
-        .allMatch(ut -> !ut.isAddon() || (addonId >= 0 && getUnit(addonId).getType() == ut));
+        .allMatch(ut -> !ut.isAddon() || (addon != null && addon.getType() == ut));
   }
 
   protected boolean train(UnitType type) {
-    return issueCommand(id, Train, -1, -1, -1, type.getId());
+    return issueCommand(iD, Train, -1, -1, -1, type.getId());
   }
 
   protected boolean cancelTrain(int slot) {
-    return issueCommand(id, Cancel_Train_Slot, -1, -1, -1, slot);
+    return issueCommand(iD, Cancel_Train_Slot, -1, -1, -1, slot);
   }
 
   protected boolean cancelTrain() {
-    return issueCommand(id, Cancel_Train, -1, -1, -1, -1);
+    return issueCommand(iD, Cancel_Train, -1, -1, -1, -1);
   }
 
   protected boolean setRallyPoint(Position p) {
-    return issueCommand(id, Set_Rally_Position, -1, p.getX(), p.getY(), -1);
+    return issueCommand(iD, Set_Rally_Position, -1, p.getX(), p.getY(), -1);
   }
 
   protected boolean setRallyPoint(Unit target) {
-    return issueCommand(id, Set_Rally_Unit, target.getId(), -1, -1, -1);
+    return issueCommand(iD, Set_Rally_Unit, target.getId(), -1, -1, -1);
   }
 
   protected Position getRallyPosition() {
@@ -564,28 +570,24 @@ public abstract class UnitImpl implements Unit {
   }
 
   protected Unit getRallyUnit() {
-    return getUnit(this.rallyUnitId);
+    return rallyUnit;
   }
 
   public boolean isFlying() {
-    return isFlying;
+    return flying;
   }
 
   public boolean isVisible() {
-    return isVisible;
+    return visible;
   }
 
   public boolean isSelected() {
-    return isSelected;
-  }
-
-  protected List<MobileUnit> getLoadedUnits() {
-    return this.loadedUnits;
+    return selected;
   }
 
   @Override
   public int hashCode() {
-    return this.id;
+    return this.iD;
   }
 
   @Override
@@ -637,17 +639,15 @@ public abstract class UnitImpl implements Unit {
   private int removeTimer;
   private int stasisTimer;
   private int stimTimer;
-  private TechType tech;
 
-  private Unit buildUnit;
   Order order;
   int orderTargetId;
   Position orderTargetPosition;
 
   Order secondaryOrder;
-  private boolean isMorphing;
-  private boolean isTargetable;
-  private boolean isInvincible;
+  private boolean morphing;
+  private boolean targetable;
+  private boolean invincible;
 
   public class TrainingSlot {
 
@@ -666,7 +666,7 @@ public abstract class UnitImpl implements Unit {
     }
 
     public boolean cancel() {
-      return issueCommand(id, Cancel_Train_Slot, -1, -1, -1, this.slotIndex);
+      return issueCommand(iD, Cancel_Train_Slot, -1, -1, -1, this.slotIndex);
     }
 
     @Override

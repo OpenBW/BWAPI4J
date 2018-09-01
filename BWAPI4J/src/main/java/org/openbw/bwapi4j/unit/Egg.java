@@ -34,7 +34,7 @@ public class Egg extends PlayerUnitImpl implements Organic {
   }
 
   public boolean cancelMorph() {
-    return issueCommand(this.id, Cancel_Morph, -1, -1, -1, -1);
+    return issueCommand(this.iD, Cancel_Morph, -1, -1, -1, -1);
   }
 
   public UnitType getBuildType() {
@@ -42,6 +42,6 @@ public class Egg extends PlayerUnitImpl implements Organic {
   }
 
   public int getRemainingMorphTime() {
-    return remainingMorphTime;
+    return remainingBuildTime;
   }
 }

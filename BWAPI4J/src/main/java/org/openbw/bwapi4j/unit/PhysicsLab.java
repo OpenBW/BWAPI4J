@@ -39,12 +39,12 @@ public class PhysicsLab extends AddonImpl implements Mechanical, ResearchingFaci
 
   @Override
   public boolean isUpgrading() {
-    return isUpgrading;
+    return upgrading;
   }
 
   @Override
   public boolean isResearching() {
-    return isResearching;
+    return researching;
   }
 
   @Override

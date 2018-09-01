@@ -20,7 +20,9 @@
 
 package org.openbw.bwapi4j.unit;
 
-import static org.openbw.bwapi4j.type.TechType.*;
+import static org.openbw.bwapi4j.type.TechType.Defensive_Matrix;
+import static org.openbw.bwapi4j.type.TechType.EMP_Shockwave;
+import static org.openbw.bwapi4j.type.TechType.Irradiate;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Position;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Unit;
 
@@ -33,15 +35,15 @@ public class ScienceVessel extends MobileUnitImpl implements Mechanical, SpellCa
   }
 
   public boolean defensiveMatrix(PlayerUnit unit) {
-    return issueCommand(this.id, Use_Tech_Unit, unit.getId(), -1, -1, Defensive_Matrix.getId());
+    return issueCommand(this.iD, Use_Tech_Unit, unit.getId(), -1, -1, Defensive_Matrix.getId());
   }
 
   public boolean irradiate(PlayerUnit unit) {
-    return issueCommand(this.id, Use_Tech_Unit, unit.getId(), -1, -1, Irradiate.getId());
+    return issueCommand(this.iD, Use_Tech_Unit, unit.getId(), -1, -1, Irradiate.getId());
   }
 
   public boolean empShockWave(Position p) {
-    return issueCommand(this.id, Use_Tech_Position, -1, p.getX(), p.getY(), EMP_Shockwave.getId());
+    return issueCommand(this.iD, Use_Tech_Position, -1, p.getX(), p.getY(), EMP_Shockwave.getId());
   }
 
   @Override

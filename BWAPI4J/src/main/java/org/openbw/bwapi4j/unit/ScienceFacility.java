@@ -41,7 +41,7 @@ public class ScienceFacility extends BuildingImpl
    * @return Covert Ops if exists, <code>null</code> else
    */
   public CovertOps getCovertOps() {
-    Unit unit = this.getUnit(addonId);
+    Unit unit = addon;
     if (unit instanceof CovertOps) {
       return (CovertOps) unit;
     } else {
@@ -55,7 +55,7 @@ public class ScienceFacility extends BuildingImpl
    * @return Physics Lab if exists, <code>null</code> else
    */
   public PhysicsLab getPhysicsLab() {
-    Unit unit = this.getUnit(addonId);
+    Unit unit = addon;
     if (unit instanceof PhysicsLab) {
       return (PhysicsLab) unit;
     } else {
@@ -65,12 +65,12 @@ public class ScienceFacility extends BuildingImpl
 
   @Override
   public Addon getAddon() {
-    return (Addon) getUnit(addonId);
+    return (Addon) addon;
   }
 
   @Override
   public boolean cancelAddon() {
-    return issueCommand(this.id, Cancel_Addon, -1, -1, -1, -1);
+    return issueCommand(this.iD, Cancel_Addon, -1, -1, -1, -1);
   }
 
   /**
@@ -79,7 +79,7 @@ public class ScienceFacility extends BuildingImpl
    * @return true if command successful, false else
    */
   public boolean buildPhysicslab() {
-    return issueCommand(this.id, Build_Addon, -1, -1, -1, Terran_Physics_Lab.getId());
+    return issueCommand(this.iD, Build_Addon, -1, -1, -1, Terran_Physics_Lab.getId());
   }
 
   /**
@@ -88,12 +88,12 @@ public class ScienceFacility extends BuildingImpl
    * @return true if command successful, false else
    */
   public boolean buildCovertOps() {
-    return issueCommand(this.id, Build_Addon, -1, -1, -1, Terran_Covert_Ops.getId());
+    return issueCommand(this.iD, Build_Addon, -1, -1, -1, Terran_Covert_Ops.getId());
   }
 
   @Override
   public boolean build(UnitType addon) {
-    return issueCommand(this.id, Build_Addon, -1, -1, -1, addon.getId());
+    return issueCommand(this.iD, Build_Addon, -1, -1, -1, addon.getId());
   }
 
   public boolean researchEmpShockwave() {
@@ -110,12 +110,12 @@ public class ScienceFacility extends BuildingImpl
 
   @Override
   public boolean isUpgrading() {
-    return isUpgrading;
+    return upgrading;
   }
 
   @Override
   public boolean isResearching() {
-    return isResearching;
+    return researching;
   }
 
   @Override

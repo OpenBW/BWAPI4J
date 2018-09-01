@@ -1,5 +1,6 @@
 package org.openbw.bwapi4j.ap;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,17 +12,27 @@ public class BridgeModel {
   private final Name fqName;
   private final Name name;
   private final String bridgeClassName;
+  private final String nativeClassName;
+  private final String nativeClassParentName;
+  private List<String> namedFields = new ArrayList<>();
   private List<Assignment> assignments;
   private Set<Delegate> delegates = new HashSet<>();
 
-  public BridgeModel(Name packageName, Name fqName, Name name, String bridgeClassName) {
+  public BridgeModel(
+      Name packageName,
+      Name fqName,
+      Name name,
+      String bridgeClassName,
+      String nativeClassName,
+      String nativeClassParentName) {
 
     this.packageName = packageName;
     this.fqName = fqName;
     this.name = name;
     this.bridgeClassName = bridgeClassName;
+    this.nativeClassName = nativeClassName;
+    this.nativeClassParentName = nativeClassParentName;
   }
-
 
   public Name getPackageName() {
     return packageName;
@@ -53,5 +64,21 @@ public class BridgeModel {
 
   public void addDelegate(Delegate delegate) {
     delegates.add(delegate);
+  }
+
+  public String getNativeClassName() {
+    return nativeClassName;
+  }
+
+  public String getNativeClassParentName() {
+    return nativeClassParentName;
+  }
+
+  public void addNamedField(String name) {
+    namedFields.add(name);
+  }
+
+  public List<String> getNamedFields() {
+    return namedFields;
   }
 }

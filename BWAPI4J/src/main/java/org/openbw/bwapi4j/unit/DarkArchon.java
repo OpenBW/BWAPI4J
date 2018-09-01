@@ -20,7 +20,9 @@
 
 package org.openbw.bwapi4j.unit;
 
-import static org.openbw.bwapi4j.type.TechType.*;
+import static org.openbw.bwapi4j.type.TechType.Feedback;
+import static org.openbw.bwapi4j.type.TechType.Maelstrom;
+import static org.openbw.bwapi4j.type.TechType.Mind_Control;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Position;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Unit;
 
@@ -48,7 +50,7 @@ public class DarkArchon extends MobileUnitImpl implements Organic, SpellCaster {
     if (this.energy < TechType.Feedback.energyCost()) {
       return false;
     } else {
-      return issueCommand(this.id, Use_Tech_Unit, unit.getId(), -1, -1, Feedback.getId());
+      return issueCommand(this.iD, Use_Tech_Unit, unit.getId(), -1, -1, Feedback.getId());
     }
   }
 
@@ -57,7 +59,7 @@ public class DarkArchon extends MobileUnitImpl implements Organic, SpellCaster {
     if (this.energy < TechType.Mind_Control.energyCost()) {
       return false;
     } else {
-      return issueCommand(this.id, Use_Tech_Unit, unit.getId(), -1, -1, Mind_Control.getId());
+      return issueCommand(this.iD, Use_Tech_Unit, unit.getId(), -1, -1, Mind_Control.getId());
     }
   }
 
@@ -67,7 +69,7 @@ public class DarkArchon extends MobileUnitImpl implements Organic, SpellCaster {
       return false;
     } else {
       return issueCommand(
-          this.id, Use_Tech_Position, -1, position.getX(), position.getY(), Maelstrom.getId());
+          this.iD, Use_Tech_Position, -1, position.getX(), position.getY(), Maelstrom.getId());
     }
   }
 }

@@ -14,7 +14,7 @@ public class BuildingMock extends BuildingImpl {
     super(id, type, timeSpotted);
     super.lastKnownTilePosition = lastKnownTilePosition;
     super.lastKnownPosition = lastKnownPosition;
-    super.isCompleted = true;
+    super.completed = true;
     super.hitPoints = maxHitPoints();
     super.shields = maxShields();
   }

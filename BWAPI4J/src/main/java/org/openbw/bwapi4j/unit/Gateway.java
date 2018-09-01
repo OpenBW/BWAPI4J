@@ -57,12 +57,7 @@ public class Gateway extends BuildingImpl implements Mechanical, TrainingFacilit
 
   @Override
   public boolean isTraining() {
-    return isTraining;
-  }
-
-  @Override
-  public int getTrainingQueueSize() {
-    return trainingQueueSize;
+    return training;
   }
 
   @Override

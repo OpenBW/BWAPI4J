@@ -20,7 +20,9 @@
 
 package org.openbw.bwapi4j.unit;
 
-import static org.openbw.bwapi4j.type.UnitCommandType.*;
+import static org.openbw.bwapi4j.type.UnitCommandType.Build;
+import static org.openbw.bwapi4j.type.UnitCommandType.Gather;
+import static org.openbw.bwapi4j.type.UnitCommandType.Return_Cargo;
 
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.UnitType;
@@ -35,43 +37,43 @@ public abstract class Worker extends MobileUnitImpl implements GroundAttacker {
   }
 
   public boolean isConstructing() {
-    return isConstructing;
+    return constructing;
   }
 
   public boolean isGatheringMinerals() {
-    return this.isGatheringMinerals;
+    return this.gatheringMinerals;
   }
 
   public boolean isCarryingMinerals() {
-    return this.isCarryingMinerals;
+    return this.carryingMinerals;
   }
 
   public boolean isCarryingGas() {
-    return this.isCarryingGas;
+    return this.carryingGas;
   }
 
   public boolean isGatheringGas() {
-    return this.isGatheringGas;
+    return this.gatheringGas;
   }
 
   public boolean returnCargo() {
-    return issueCommand(this.id, Return_Cargo, -1, -1, -1, -1);
+    return issueCommand(this.iD, Return_Cargo, -1, -1, -1, -1);
   }
 
   public boolean returnCargo(boolean queued) {
-    return issueCommand(this.id, Return_Cargo, -1, -1, -1, queued ? 1 : 0);
+    return issueCommand(this.iD, Return_Cargo, -1, -1, -1, queued ? 1 : 0);
   }
 
   public boolean gather(Gatherable resource) {
-    return issueCommand(this.id, Gather, resource.getId(), -1, -1, 0);
+    return issueCommand(this.iD, Gather, resource.getId(), -1, -1, 0);
   }
 
   public boolean gather(Gatherable resource, boolean shiftQueueCommand) {
-    return issueCommand(this.id, Gather, resource.getId(), -1, -1, shiftQueueCommand ? 1 : 0);
+    return issueCommand(this.iD, Gather, resource.getId(), -1, -1, shiftQueueCommand ? 1 : 0);
   }
 
   public boolean build(TilePosition p, UnitType type) {
-    return issueCommand(this.id, Build, -1, p.getX(), p.getY(), type.getId());
+    return issueCommand(this.iD, Build, -1, p.getX(), p.getY(), type.getId());
   }
 
   @Override

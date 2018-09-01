@@ -43,12 +43,12 @@ public class RoboticsSupportBay extends BuildingImpl implements Mechanical, Rese
 
   @Override
   public boolean isUpgrading() {
-    return isUpgrading;
+    return upgrading;
   }
 
   @Override
   public boolean isResearching() {
-    return isResearching;
+    return researching;
   }
 
   @Override

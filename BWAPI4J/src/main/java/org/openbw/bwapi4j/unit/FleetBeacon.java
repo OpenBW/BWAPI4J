@@ -51,12 +51,12 @@ public class FleetBeacon extends BuildingImpl implements Mechanical, Researching
 
   @Override
   public boolean isUpgrading() {
-    return isUpgrading;
+    return upgrading;
   }
 
   @Override
   public boolean isResearching() {
-    return isResearching;
+    return researching;
   }
 
   @Override

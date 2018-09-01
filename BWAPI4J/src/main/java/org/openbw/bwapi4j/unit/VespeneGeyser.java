@@ -45,6 +45,6 @@ public class VespeneGeyser extends UnitImpl implements Resource {
 
   @Override
   public boolean isBeingGathered() {
-    return this.isBeingGathered;
+    return this.beingGathered;
   }
 }

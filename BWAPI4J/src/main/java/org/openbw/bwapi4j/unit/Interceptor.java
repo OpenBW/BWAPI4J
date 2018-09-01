@@ -27,8 +27,8 @@ public class Interceptor extends MobileUnitImpl implements Mechanical, GroundAtt
     super(id, UnitType.Protoss_Interceptor);
   }
 
-  public Unit getCarrier() {
-    return super.getUnit(carrierId);
+  public Carrier getCarrier() {
+    return (Carrier) carrier;
   }
 
   @Override

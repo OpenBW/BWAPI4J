@@ -39,12 +39,12 @@ public class ControlTower extends AddonImpl implements Mechanical, ResearchingFa
 
   @Override
   public boolean isUpgrading() {
-    return isUpgrading;
+    return upgrading;
   }
 
   @Override
   public boolean isResearching() {
-    return isResearching;
+    return researching;
   }
 
   @Override

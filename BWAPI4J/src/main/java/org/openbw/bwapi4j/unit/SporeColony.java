@@ -36,7 +36,7 @@ public class SporeColony extends BuildingImpl implements Organic, AirAttacker {
 
   @Override
   public boolean attack(Unit target, boolean queued) {
-    return issueCommand(this.id, Attack_Unit, target.getId(), -1, -1, queued ? 1 : 0);
+    return issueCommand(this.iD, Attack_Unit, target.getId(), -1, -1, queued ? 1 : 0);
   }
 
   @Override

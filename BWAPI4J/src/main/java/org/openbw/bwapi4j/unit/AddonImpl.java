@@ -28,6 +28,6 @@ public abstract class AddonImpl extends BuildingImpl implements Addon {
   }
 
   public Building getMainBuilding() {
-    return (Building) this.getUnit(builderId);
+    return (Building) buildUnit;
   }
 }

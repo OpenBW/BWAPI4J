@@ -32,12 +32,12 @@ public class InfestedTerran extends MobileUnitImpl implements Organic, Burrowabl
 
   @Override
   public boolean burrow() {
-    return issueCommand(this.id, Burrow, -1, -1, -1, -1);
+    return issueCommand(this.iD, Burrow, -1, -1, -1, -1);
   }
 
   @Override
   public boolean unburrow() {
-    return issueCommand(this.id, Unburrow, -1, -1, -1, -1);
+    return issueCommand(this.iD, Unburrow, -1, -1, -1, -1);
   }
 
   @Override

@@ -6,11 +6,13 @@ public class Assignment {
 
   private final Name field;
   private RValue rValue;
+  private String accessor;
   private DelegateAssignment delegateAssignment;
 
-  Assignment(Name field, RValue rValue) {
+  Assignment(Name field, RValue rValue, String accessor) {
     this.field = field;
     this.rValue = rValue;
+    this.accessor = accessor;
   }
 
   Assignment(Name field, DelegateAssignment delegateAssignment) {
@@ -28,5 +30,9 @@ public class Assignment {
 
   public DelegateAssignment getDelegateAssignment() {
     return delegateAssignment;
+  }
+
+  public String getAccessor() {
+    return accessor;
   }
 }

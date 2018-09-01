@@ -35,6 +35,6 @@ public class Reaver extends MobileUnitImpl implements Mechanical {
   }
 
   public boolean trainScarab() {
-    return issueCommand(id, Train, Protoss_Scarab.getId(), -1, -1, -1);
+    return issueCommand(iD, Train, Protoss_Scarab.getId(), -1, -1, -1);
   }
 }

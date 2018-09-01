@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UncheckedIOException;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.processing.AbstractProcessor;
@@ -22,19 +22,31 @@ import javax.lang.model.element.QualifiedNameable;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeMirror;
+import javax.tools.StandardLocation;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroupFile;
+import org.stringtemplate.v4.StringRenderer;
 
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @SupportedAnnotationTypes({"org.openbw.bwapi4j.ap.NativeClass"})
 public class BridgeCodeProcessor extends AbstractProcessor {
 
   private STGroupFile javaTemplate;
+  private STGroupFile cppTemplate;
 
   @Override
   public synchronized void init(ProcessingEnvironment processingEnv) {
     super.init(processingEnv);
     javaTemplate = new STGroupFile("java_templates.stg");
+    cppTemplate = new STGroupFile("c++_templates.stg");
+    cppTemplate.registerRenderer(
+        Name.class,
+        new StringRenderer() {
+          @Override
+          public String toString(Object o, String formatString, Locale locale) {
+            return super.toString(o.toString(), formatString, locale);
+          }
+        });
   }
 
   @Override
@@ -43,50 +55,106 @@ public class BridgeCodeProcessor extends AbstractProcessor {
       return false;
     }
 
-    roundEnv
-        .getElementsAnnotatedWith(NativeClass.class)
-        .forEach(
-            entity -> {
-              TypeElement typeElement = (TypeElement) entity;
-              Name className = typeElement.getQualifiedName();
-              Name packageName =
-                  ((QualifiedNameable) typeElement.getEnclosingElement()).getQualifiedName();
+    Set<? extends Element> allNativeClasses = roundEnv.getElementsAnnotatedWith(NativeClass.class);
 
-              String bridgeClassName = toBridgeName(typeElement);
-              String fqBridgeClassName = toFQBridgeClassName(packageName, typeElement);
-              BridgeModel bridgeModel =
-                  new BridgeModel(
-                      packageName, className, typeElement.getSimpleName(), bridgeClassName);
-              bridgeModel.setAssignments(
-                  typeElement
-                      .getEnclosedElements()
-                      .stream()
-                      .filter(e -> e.getAnnotation(Native.class) != null)
-                      .sorted(Comparator.comparing(a -> a.getSimpleName().toString()))
-                      .map(
-                          e -> {
-                            TypeElement elementType = asTypeElement(e.asType());
-                            if (elementType != null && elementType.getKind() != ElementKind.ENUM
-                                && elementType.getAnnotation(NativeClass.class) != null) {
-                              return mapDelegateUpdate(bridgeModel, e.getSimpleName(), packageName,
-                                  elementType);
-                            }
-                            return new Assignment(e.getSimpleName(), valueFrom(e.asType()));
-                          })
-                      .collect(Collectors.toList()));
+    allNativeClasses.forEach(
+        entity -> {
+          TypeElement typeElement = (TypeElement) entity;
+          Name className = typeElement.getQualifiedName();
+          Name packageName =
+              ((QualifiedNameable) typeElement.getEnclosingElement()).getQualifiedName();
 
-              ST template = javaTemplate.getInstanceOf("entry");
+          String bridgeClassName = toBridgeName(typeElement);
+          String fqBridgeClassName = toFQBridgeClassName(packageName, typeElement);
+          NativeClass nativeClass = entity.getAnnotation(NativeClass.class);
+          BridgeModel bridgeModel =
+              new BridgeModel(
+                  packageName,
+                  className,
+                  typeElement.getSimpleName(),
+                  bridgeClassName,
+                  nativeClass.name(),
+                  nativeClass.parentName());
+          bridgeModel.setAssignments(
+              parseAssignments(allNativeClasses, typeElement, packageName, bridgeModel));
+
+          try (PrintWriter out =
+              new PrintWriter(
+                  processingEnv.getFiler().createSourceFile(fqBridgeClassName).openWriter())) {
+            ST template = javaTemplate.getInstanceOf("entry");
+            template.add("model", bridgeModel);
+            out.print(template.render());
+          } catch (IOException e) {
+            throw new UncheckedIOException(e);
+          }
+
+          if (!nativeClass.name().isEmpty()) {
+            try (PrintWriter out =
+                new PrintWriter(
+                    processingEnv
+                        .getFiler()
+                        .createResource(
+                            StandardLocation.SOURCE_OUTPUT,
+                            "",
+                            fqBridgeClassName.replace(".", "_") + ".hpp")
+                        .openWriter())) {
+              ST template = cppTemplate.getInstanceOf("entry");
               template.add("model", bridgeModel);
-
-              try (PrintWriter out =
-                  new PrintWriter(
-                      processingEnv.getFiler().createSourceFile(fqBridgeClassName).openWriter())) {
-                out.print(template.render());
-              } catch (IOException e) {
-                throw new UncheckedIOException(e);
-              }
-            });
+              out.print(template.render());
+            } catch (IOException e) {
+              throw new UncheckedIOException(e);
+            }
+          }
+        });
     return true;
+  }
+
+  private List<Assignment> parseAssignments(
+      Set<? extends Element> allNativeClasses,
+      TypeElement typeElement,
+      Name packageName,
+      BridgeModel bridgeModel) {
+    return typeElement
+        .getEnclosedElements()
+        .stream()
+        .filter(e -> e.getAnnotation(Native.class) != null)
+        .sorted(
+            (a, b) -> {
+              if (a.getAnnotation(Named.class) != null && b.getAnnotation(Named.class) == null) {
+                return -1;
+              }
+              if (b.getAnnotation(Named.class) != null && a.getAnnotation(Named.class) == null) {
+                return 1;
+              }
+              return a.getSimpleName()
+                  .toString()
+                  .toLowerCase()
+                  .compareTo(b.getSimpleName().toString().toLowerCase());
+            })
+        .map(
+            e -> {
+              TypeElement elementType = asTypeElement(e.asType());
+              if (elementType != null
+                  && elementType.getKind() != ElementKind.ENUM
+                  && elementType.getAnnotation(NativeClass.class) != null
+                  && elementType.getAnnotation(NativeLookup.class) == null) {
+                return mapDelegateUpdate(
+                    bridgeModel, e.getSimpleName(), packageName, elementType, allNativeClasses);
+              }
+              Native aNative = e.getAnnotation(Native.class);
+              String accessor;
+              if (aNative.accessor().isEmpty()) {
+                accessor = null;
+              } else {
+                accessor = aNative.accessor();
+              }
+              Named aNamed = e.getAnnotation(Named.class);
+              if (aNamed != null) {
+                bridgeModel.addNamedField(aNamed.name());
+              }
+              return new Assignment(e.getSimpleName(), valueFrom(e.asType()), accessor);
+            })
+        .collect(Collectors.toList());
   }
 
   private TypeElement asTypeElement(TypeMirror typeMirror) {
@@ -168,12 +236,31 @@ public class BridgeCodeProcessor extends AbstractProcessor {
     return new RValue(newObjectValue);
   }
 
-  private Assignment mapDelegateUpdate(BridgeModel bridgeModel, Name name,
-      Name packageName, TypeElement elementType) {
-    Delegate delegate = new Delegate(toFQBridgeClassName(packageName, elementType),
-        toBridgeName(elementType));
+  private Assignment mapDelegateUpdate(
+      BridgeModel bridgeModel,
+      Name name,
+      Name packageName,
+      TypeElement elementType,
+      Set<? extends Element> allNativeClasses) {
+    List<Assignment> delegatedAssignments =
+        allNativeClasses
+            .stream()
+            .filter(
+                it ->
+                    it.getAnnotation(NativeClass.class)
+                        .parentName()
+                        .equals(bridgeModel.getNativeClassName()))
+            .flatMap(
+                it ->
+                    parseAssignments(allNativeClasses, (TypeElement) it, packageName, bridgeModel)
+                        .stream())
+            .collect(Collectors.toList());
+    Delegate delegate =
+        new Delegate(
+            toFQBridgeClassName(packageName, elementType),
+            toBridgeName(elementType),
+            delegatedAssignments);
     bridgeModel.addDelegate(delegate);
-    return new Assignment(
-        name, new DelegateAssignment(delegate));
+    return new Assignment(name, new DelegateAssignment(delegate));
   }
 }

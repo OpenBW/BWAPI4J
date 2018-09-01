@@ -43,7 +43,7 @@ public class Vulture extends MobileUnitImpl implements Mechanical, GroundAttacke
    */
   public boolean spiderMine(Position position) {
     return issueCommand(
-        this.id, Use_Tech_Position, -1, position.getX(), position.getY(), Spider_Mines.getId());
+        this.iD, Use_Tech_Position, -1, position.getX(), position.getY(), Spider_Mines.getId());
   }
 
   @Override

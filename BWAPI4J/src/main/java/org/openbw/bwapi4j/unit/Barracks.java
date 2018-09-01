@@ -72,17 +72,12 @@ public class Barracks extends BuildingImpl implements Mechanical, FlyingBuilding
 
   @Override
   public boolean isLifted() {
-    return isLifted;
+    return lifted;
   }
 
   @Override
   public boolean isTraining() {
-    return isTraining;
-  }
-
-  @Override
-  public int getTrainingQueueSize() {
-    return trainingQueueSize;
+    return training;
   }
 
   @Override

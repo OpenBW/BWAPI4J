@@ -51,6 +51,6 @@ public class Carrier extends MobileUnitImpl implements Mechanical {
   }
 
   public boolean trainInterceptor() {
-    return issueCommand(id, Train, Protoss_Interceptor.getId(), -1, -1, -1);
+    return issueCommand(iD, Train, Protoss_Interceptor.getId(), -1, -1, -1);
   }
 }

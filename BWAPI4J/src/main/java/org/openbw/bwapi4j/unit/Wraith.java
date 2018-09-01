@@ -37,12 +37,12 @@ public class Wraith extends MobileUnitImpl
 
   @Override
   public boolean cloak() {
-    return issueCommand(this.id, Cloak, -1, -1, -1, -1);
+    return issueCommand(this.iD, Cloak, -1, -1, -1, -1);
   }
 
   @Override
   public boolean decloak() {
-    return issueCommand(this.id, Decloak, -1, -1, -1, -1);
+    return issueCommand(this.iD, Decloak, -1, -1, -1, -1);
   }
 
   @Override

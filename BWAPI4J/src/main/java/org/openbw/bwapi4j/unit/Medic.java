@@ -20,7 +20,9 @@
 
 package org.openbw.bwapi4j.unit;
 
-import static org.openbw.bwapi4j.type.TechType.*;
+import static org.openbw.bwapi4j.type.TechType.Healing;
+import static org.openbw.bwapi4j.type.TechType.Optical_Flare;
+import static org.openbw.bwapi4j.type.TechType.Restoration;
 import static org.openbw.bwapi4j.type.UnitCommandType.Attack_Move;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Unit;
 
@@ -33,7 +35,7 @@ public class Medic extends MobileUnitImpl implements SpellCaster, Organic {
   }
 
   public boolean heal(PlayerUnit unit) {
-    return issueCommand(this.id, Use_Tech_Unit, unit.getId(), -1, -1, Healing.getId());
+    return issueCommand(this.iD, Use_Tech_Unit, unit.getId(), -1, -1, Healing.getId());
   }
 
   public boolean heal(Position position) {
@@ -41,15 +43,15 @@ public class Medic extends MobileUnitImpl implements SpellCaster, Organic {
   }
 
   public boolean heal(Position position, boolean queued) {
-    return issueCommand(this.id, Attack_Move, -1, position.getX(), position.getY(), queued ? 1 : 0);
+    return issueCommand(this.iD, Attack_Move, -1, position.getX(), position.getY(), queued ? 1 : 0);
   }
 
   public boolean opticalFlare(PlayerUnit unit) {
-    return issueCommand(this.id, Use_Tech_Unit, unit.getId(), -1, -1, Optical_Flare.getId());
+    return issueCommand(this.iD, Use_Tech_Unit, unit.getId(), -1, -1, Optical_Flare.getId());
   }
 
   public boolean restoration(PlayerUnit unit) {
-    return issueCommand(this.id, Use_Tech_Unit, unit.getId(), -1, -1, Restoration.getId());
+    return issueCommand(this.iD, Use_Tech_Unit, unit.getId(), -1, -1, Restoration.getId());
   }
 
   @Override

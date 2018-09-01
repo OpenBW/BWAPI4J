@@ -9,19 +9,16 @@ public abstract class GasMiningFacilityImpl extends BuildingImpl implements GasM
 
   @Override
   public int getResources() {
-    // TODO Auto-generated method stub
     return this.resources;
   }
 
   @Override
   public int getInitialResources() {
-    // TODO Auto-generated method stub
     return this.initialResources;
   }
 
   @Override
   public boolean isBeingGathered() {
-    // TODO Auto-generated method stub
-    return this.isBeingGathered;
+    return this.beingGathered;
   }
 }

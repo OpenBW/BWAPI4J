@@ -30,6 +30,6 @@ public class Cocoon extends PlayerUnitImpl implements Organic {
   }
 
   public boolean cancelMorph() {
-    return issueCommand(this.id, Cancel_Morph, -1, -1, -1, -1);
+    return issueCommand(this.iD, Cancel_Morph, -1, -1, -1, -1);
   }
 }

@@ -33,11 +33,11 @@ public class SiegeTank extends MobileUnitImpl implements Mechanical, GroundAttac
   }
 
   public boolean siege() {
-    return issueCommand(this.id, Siege, -1, -1, -1, -1);
+    return issueCommand(this.iD, Siege, -1, -1, -1, -1);
   }
 
   public boolean unsiege() {
-    return issueCommand(this.id, Unsiege, -1, -1, -1, -1);
+    return issueCommand(this.iD, Unsiege, -1, -1, -1, -1);
   }
 
   public boolean isSieged() {

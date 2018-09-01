@@ -47,12 +47,12 @@ public class Spire extends BuildingImpl implements Organic, ResearchingFacility,
 
   @Override
   public boolean isUpgrading() {
-    return isUpgrading;
+    return upgrading;
   }
 
   @Override
   public boolean isResearching() {
-    return isResearching;
+    return researching;
   }
 
   @Override
@@ -70,7 +70,7 @@ public class Spire extends BuildingImpl implements Organic, ResearchingFacility,
     if (type != Zerg_Greater_Spire) {
       throw new IllegalArgumentException("Cannot morph to " + type);
     }
-    return issueCommand(this.id, Morph, -1, -1, -1, Zerg_Greater_Spire.getId());
+    return issueCommand(this.iD, Morph, -1, -1, -1, Zerg_Greater_Spire.getId());
   }
 
   @Override

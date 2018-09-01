@@ -35,12 +35,12 @@ public class CitadelOfAdun extends BuildingImpl implements Mechanical, Researchi
 
   @Override
   public boolean isUpgrading() {
-    return isUpgrading;
+    return upgrading;
   }
 
   @Override
   public boolean isResearching() {
-    return isResearching;
+    return researching;
   }
 
   @Override

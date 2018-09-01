@@ -26,8 +26,10 @@ import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import org.openbw.bwapi4j.ap.Named;
 import org.openbw.bwapi4j.ap.Native;
 import org.openbw.bwapi4j.ap.NativeClass;
+import org.openbw.bwapi4j.ap.NativeLookup;
 import org.openbw.bwapi4j.type.Color;
 import org.openbw.bwapi4j.type.PlayerType;
 import org.openbw.bwapi4j.type.Race;
@@ -38,7 +40,8 @@ import org.openbw.bwapi4j.unit.ExtendibleByAddon;
 import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.unit.Unit;
 
-@NativeClass
+@NativeLookup(method = "getPlayer")
+@NativeClass(name = "BWAPI::Player")
 public class Player {
 
   enum CacheIndex {
@@ -90,6 +93,7 @@ public class Player {
 
   // constant
   @Native
+  @Named(name = "ID")
   int id;
   private String name;
   private final BW bw;

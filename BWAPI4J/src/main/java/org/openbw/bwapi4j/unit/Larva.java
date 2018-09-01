@@ -30,11 +30,11 @@ public class Larva extends PlayerUnitImpl implements Organic, Morphable {
   }
 
   public Hatchery getHatchery() {
-    return (Hatchery) super.getUnit(hatcheryId);
+    return (Hatchery) hatchery;
   }
 
   @Override
   public boolean morph(UnitType type) {
-    return issueCommand(this.id, Morph, -1, -1, -1, type.getId());
+    return issueCommand(this.iD, Morph, -1, -1, -1, type.getId());
   }
 }

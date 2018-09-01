@@ -43,12 +43,12 @@ public class QueensNest extends BuildingImpl implements Organic, ResearchingFaci
 
   @Override
   public boolean isUpgrading() {
-    return isUpgrading;
+    return upgrading;
   }
 
   @Override
   public boolean isResearching() {
-    return isResearching;
+    return researching;
   }
 
   @Override

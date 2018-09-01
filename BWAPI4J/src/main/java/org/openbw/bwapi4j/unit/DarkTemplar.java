@@ -37,7 +37,7 @@ public class DarkTemplar extends MobileUnitImpl implements Organic, Cloakable, G
    */
   public boolean darkArchonMeld() {
     // TODO how does this spell work? does the other templars ID have to be passed as well?
-    return issueCommand(this.id, Use_Tech, -1, -1, -1, Dark_Archon_Meld.getId());
+    return issueCommand(this.iD, Use_Tech, -1, -1, -1, Dark_Archon_Meld.getId());
   }
 
   @Override

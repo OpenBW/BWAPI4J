@@ -13,8 +13,6 @@ environment:
  
 build_script:
 - cmd: >-
-    cd BWAPI4J
-    
     gradlew.bat clean build buildVanillaBridgeForWindows
     
     gradlew.bat sourcesJar javadocJar shadowJar

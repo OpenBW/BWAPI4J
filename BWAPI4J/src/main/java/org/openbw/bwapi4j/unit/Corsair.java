@@ -47,7 +47,7 @@ public class Corsair extends MobileUnitImpl implements Mechanical, SpellCaster, 
       return false;
     } else {
       return issueCommand(
-          this.id, Use_Tech_Position, -1, position.getX(), position.getY(), Disruption_Web.getId());
+          this.iD, Use_Tech_Position, -1, position.getX(), position.getY(), Disruption_Web.getId());
     }
   }
 

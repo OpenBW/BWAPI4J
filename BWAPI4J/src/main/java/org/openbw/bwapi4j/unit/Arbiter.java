@@ -49,7 +49,7 @@ public class Arbiter extends MobileUnitImpl
       return false;
     } else {
       return issueCommand(
-          this.id, Use_Tech_Position, -1, position.getX(), position.getY(), Stasis_Field.getId());
+          this.iD, Use_Tech_Position, -1, position.getX(), position.getY(), Stasis_Field.getId());
     }
   }
 
@@ -58,7 +58,7 @@ public class Arbiter extends MobileUnitImpl
       return false;
     } else {
       return issueCommand(
-          this.id, Use_Tech_Position, -1, position.getX(), position.getY(), Recall.getId());
+          this.iD, Use_Tech_Position, -1, position.getX(), position.getY(), Recall.getId());
     }
   }
 

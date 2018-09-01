@@ -31,11 +31,11 @@ public class Marine extends MobileUnitImpl implements Organic, GroundAttacker, A
   }
 
   public boolean isStimmed() {
-    return this.isStimmed;
+    return this.stimmed;
   }
 
   public boolean stimPack() {
-    return issueCommand(this.id, Use_Tech, -1, -1, -1, Stim_Packs.getId());
+    return issueCommand(this.iD, Use_Tech, -1, -1, -1, Stim_Packs.getId());
   }
 
   @Override

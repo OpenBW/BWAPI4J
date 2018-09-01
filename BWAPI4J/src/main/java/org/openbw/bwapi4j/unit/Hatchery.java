@@ -41,7 +41,7 @@ public class Hatchery extends BuildingImpl
 
   @Override
   public boolean isReadyForResources() {
-    return isCompleted;
+    return completed;
   }
 
   @Override
@@ -68,12 +68,12 @@ public class Hatchery extends BuildingImpl
 
   @Override
   public boolean isUpgrading() {
-    return isUpgrading;
+    return upgrading;
   }
 
   @Override
   public boolean isResearching() {
-    return isResearching;
+    return researching;
   }
 
   @Override
@@ -92,7 +92,7 @@ public class Hatchery extends BuildingImpl
       throw new IllegalArgumentException("Cannot morph to " + type);
     }
 
-    return issueCommand(this.id, Morph, -1, -1, -1, Zerg_Lair.getId());
+    return issueCommand(this.iD, Morph, -1, -1, -1, Zerg_Lair.getId());
   }
 
   public boolean morph() {

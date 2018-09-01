@@ -20,7 +20,9 @@
 
 package org.openbw.bwapi4j.unit;
 
-import static org.openbw.bwapi4j.type.UnitCommandType.*;
+import static org.openbw.bwapi4j.type.UnitCommandType.Halt_Construction;
+import static org.openbw.bwapi4j.type.UnitCommandType.Repair;
+import static org.openbw.bwapi4j.type.UnitCommandType.Right_Click_Unit;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,18 +36,18 @@ public class SCV extends Worker implements Mechanical {
   }
 
   public boolean isRepairing() {
-    return isRepairing;
+    return repairing;
   }
 
   public boolean repair(Mechanical target) {
-    return issueCommand(id, Repair, target.getId(), -1, -1, -1);
+    return issueCommand(iD, Repair, target.getId(), -1, -1, -1);
   }
 
   public boolean haltConstruction() {
-    return issueCommand(this.id, Halt_Construction, -1, -1, -1, -1);
+    return issueCommand(this.iD, Halt_Construction, -1, -1, -1, -1);
   }
 
   public boolean resumeBuilding(Building building) {
-    return issueCommand(this.id, Right_Click_Unit, building.getId(), -1, -1, -1);
+    return issueCommand(this.iD, Right_Click_Unit, building.getId(), -1, -1, -1);
   }
 }

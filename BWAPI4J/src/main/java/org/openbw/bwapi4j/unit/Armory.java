@@ -47,12 +47,12 @@ public class Armory extends BuildingImpl implements Mechanical, ResearchingFacil
 
   @Override
   public boolean isUpgrading() {
-    return isUpgrading;
+    return upgrading;
   }
 
   @Override
   public boolean isResearching() {
-    return isResearching;
+    return researching;
   }
 
   @Override

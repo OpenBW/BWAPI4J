@@ -46,7 +46,7 @@ public class InfestedCommandCenter extends BuildingImpl
 
   @Override
   public boolean isLifted() {
-    return isLifted;
+    return lifted;
   }
 
   @Override
@@ -66,12 +66,7 @@ public class InfestedCommandCenter extends BuildingImpl
 
   @Override
   public boolean isTraining() {
-    return isTraining;
-  }
-
-  @Override
-  public int getTrainingQueueSize() {
-    return trainingQueueSize;
+    return training;
   }
 
   @Override

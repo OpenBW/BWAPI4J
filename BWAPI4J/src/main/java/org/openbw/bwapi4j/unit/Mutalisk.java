@@ -35,7 +35,7 @@ public class Mutalisk extends MobileUnitImpl
     if (unitType != UnitType.Zerg_Guardian && unitType != UnitType.Zerg_Devourer) {
       throw new IllegalArgumentException("Cannot morph to " + type);
     }
-    return issueCommand(this.id, Morph, -1, -1, -1, unitType.getId());
+    return issueCommand(this.iD, Morph, -1, -1, -1, unitType.getId());
   }
 
   public boolean morphGuardian() {

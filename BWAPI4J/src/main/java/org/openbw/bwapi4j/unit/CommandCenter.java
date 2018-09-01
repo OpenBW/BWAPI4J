@@ -41,7 +41,7 @@ public class CommandCenter extends BuildingImpl
    * @return Nuclear Silo if exists, <code>null</code> else
    */
   public NuclearSilo getNuclearSilo() {
-    Unit unit = this.getUnit(addonId);
+    Unit unit = addon;
     if (unit instanceof NuclearSilo) {
       return (NuclearSilo) unit;
     } else {
@@ -55,7 +55,7 @@ public class CommandCenter extends BuildingImpl
    * @return Comsat Station if exists, <code>null</code> else
    */
   public ComsatStation getComsatStation() {
-    Unit unit = this.getUnit(addonId);
+    Unit unit = addon;
     if (unit instanceof ComsatStation) {
       return (ComsatStation) unit;
     } else {
@@ -65,30 +65,30 @@ public class CommandCenter extends BuildingImpl
 
   @Override
   public boolean isReadyForResources() {
-    return isCompleted && !isFlying;
+    return completed && !flying;
   }
 
   @Override
   public Addon getAddon() {
-    return (Addon) getUnit(addonId);
+    return (Addon) addon;
   }
 
   @Override
   public boolean cancelAddon() {
-    return issueCommand(this.id, Cancel_Addon, -1, -1, -1, -1);
+    return issueCommand(this.iD, Cancel_Addon, -1, -1, -1, -1);
   }
 
   public boolean buildComsatStation() {
-    return issueCommand(this.id, Build_Addon, -1, -1, -1, Terran_Comsat_Station.getId());
+    return issueCommand(this.iD, Build_Addon, -1, -1, -1, Terran_Comsat_Station.getId());
   }
 
   public boolean buildNuclearSilo() {
-    return issueCommand(this.id, Build_Addon, -1, -1, -1, Terran_Nuclear_Silo.getId());
+    return issueCommand(this.iD, Build_Addon, -1, -1, -1, Terran_Nuclear_Silo.getId());
   }
 
   @Override
   public boolean build(UnitType addon) {
-    return issueCommand(this.id, Build_Addon, -1, -1, -1, addon.getId());
+    return issueCommand(this.iD, Build_Addon, -1, -1, -1, addon.getId());
   }
 
   @Override
@@ -108,7 +108,7 @@ public class CommandCenter extends BuildingImpl
 
   @Override
   public boolean isLifted() {
-    return isLifted;
+    return lifted;
   }
 
   @Override
@@ -128,12 +128,7 @@ public class CommandCenter extends BuildingImpl
 
   @Override
   public boolean isTraining() {
-    return isTraining;
-  }
-
-  @Override
-  public int getTrainingQueueSize() {
-    return trainingQueueSize;
+    return training;
   }
 
   @Override

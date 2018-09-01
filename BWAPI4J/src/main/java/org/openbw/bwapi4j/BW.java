@@ -38,10 +38,11 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.unit.MineralPatch;
 import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.unit.Unit;
-import org.openbw.bwapi4j.unit.UnitDataBridge;
 import org.openbw.bwapi4j.unit.UnitFactory;
 import org.openbw.bwapi4j.unit.UnitImpl;
+import org.openbw.bwapi4j.unit.UnitImplBridge;
 import org.openbw.bwapi4j.unit.VespeneGeyser;
+import org.openbw.bwapi4j.unit.WeaponBridge;
 import org.openbw.bwapi4j.unit.Worker;
 import org.openbw.bwapi4j.util.Cache;
 import org.openbw.bwapi4j.util.DependencyManager;
@@ -57,7 +58,7 @@ public class BW {
   private MapDrawer mapDrawer;
   private DamageEvaluator damageEvaluator;
   private BWMapImpl bwMap;
-  private UnitDataBridge unitDataBridge;
+  private UnitImplBridge unitDataBridge;
 
   private Map<Integer, Player> players;
   private Map<Integer, UnitImpl> units;
@@ -126,7 +127,7 @@ public class BW {
     this.mapDrawer = new MapDrawer();
     this.damageEvaluator = new DamageEvaluator();
     this.bwMap = new BWMapImpl(this.interactionHandler);
-    this.unitDataBridge = new UnitDataBridge(this);
+    this.unitDataBridge = new UnitImplBridge(this, new WeaponBridge(this));
     setUnitFactory(new UnitFactory());
 
     try {
@@ -265,13 +266,15 @@ public class BW {
 
   private void updateAllUnits(int frame) {
     for (UnitImpl unit : this.units.values()) {
-      unitDataBridge.preUpdate(unit);
+//      unit.visible = false;
+//      unit.exists = false;
     }
     int[] unitData = this.getAllUnitsData();
 
-    for (int index = 0; index < unitData.length; index += UnitDataBridge.TOTAL_PROPERTIES) {
-      int unitId = unitData[index + 0]; // TODO: Use the enum from the Unit class.
-      int typeId = unitData[index + 3]; // TODO: Use the enum from the Unit class.
+    int index = 0;
+    while (index < unitData.length) {
+      int unitId = unitData[index + UnitImplBridge.ID];
+      int typeId = unitData[index + UnitImplBridge.TYPE];
       UnitImpl unit = this.units.get(unitId);
       if (unit == null || typeChanged(unit.getType(), UnitType.values()[typeId])) {
         if (unit != null) {
@@ -296,17 +299,21 @@ public class BW {
           logger.trace("state: {}", unit.exists() ? "completed" : "created");
 
           this.units.put(unitId, unit);
-          unitDataBridge.initialize(unit, unitData, index, frame);
-          unitDataBridge.update(unit, unitData, index, frame);
+//          unitDataBridge.initialize(unit, unitData, index, frame);
+          index = unitDataBridge.update(unit, unitData, index);
           logger.trace("initial pos: {}", unit.getInitialTilePosition());
           logger.trace("current pos: {}", unit.getTilePosition());
 
           logger.trace(" done.");
         }
       } else {
-        unitDataBridge.update(unit, unitData, index, frame);
+        index = unitDataBridge.update(unit, unitData, index);
       }
     }
+//    for (int index = 0; index < unitData.length; index += UnitDataBridge.TOTAL_PROPERTIES) {
+//      int unitId = unitData[index + 0]; // TODO: Use the enum from the Unit class.
+//      int typeId = unitData[index + 3]; // TODO: Use the enum from the Unit class.
+//    }
   }
 
   // TODO: Determine why this function seems to be called twice when using OpenBW. E.g.
@@ -343,7 +350,7 @@ public class BW {
   }
 
   public Unit getUnit(int unitId) {
-    return this.units.get(unitId);
+    return unitId > 0 ? this.units.get(unitId) : null;
   }
 
   public Collection<Bullet> getBullets() {

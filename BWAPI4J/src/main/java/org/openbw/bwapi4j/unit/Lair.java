@@ -57,7 +57,7 @@ public class Lair extends Hatchery {
     if (type != Zerg_Hive) {
       throw new IllegalArgumentException("Cannot morph to " + type);
     }
-    return issueCommand(this.id, Morph, -1, -1, -1, Zerg_Hive.getId());
+    return issueCommand(this.iD, Morph, -1, -1, -1, Zerg_Hive.getId());
   }
 
   @Override

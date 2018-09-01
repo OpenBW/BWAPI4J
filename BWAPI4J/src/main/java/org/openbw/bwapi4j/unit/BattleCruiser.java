@@ -32,7 +32,7 @@ public class BattleCruiser extends MobileUnitImpl
   }
 
   public boolean yamatoGun(PlayerUnit unit) {
-    return issueCommand(this.id, Use_Tech_Unit, unit.getId(), -1, -1, Yamato_Gun.getId());
+    return issueCommand(this.iD, Use_Tech_Unit, unit.getId(), -1, -1, Yamato_Gun.getId());
   }
 
   @Override

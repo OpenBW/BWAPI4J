@@ -7,7 +7,11 @@ import org.openbw.bwapi4j.util.BridgeUtils;
 
 public class $model.bridgeClassName$ {
   private final org.openbw.bwapi4j.BW bw;
-  $model.delegates:{d|private final $d.fqClassName$ $d.fieldName$;}$
+  $model.delegates:{d|private final $d.fqClassName$ $d.fieldName$;
+  }$
+
+  $model.namedFields:{n|public static final int $n$ = $i0$;
+  }$
 
   public $model.bridgeClassName$(org.openbw.bwapi4j.BW bw$if(model.delegates)$, $model.delegates:{d|$d.fqClassName$ $d.fieldName$}; separator=", "$$endif$) {
     this.bw = bw;

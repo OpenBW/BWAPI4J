@@ -31,7 +31,7 @@ public class Nexus extends BuildingImpl implements Mechanical, TrainingFacility,
 
   @Override
   public boolean isReadyForResources() {
-    return isCompleted;
+    return completed;
   }
 
   @Override
@@ -51,12 +51,7 @@ public class Nexus extends BuildingImpl implements Mechanical, TrainingFacility,
 
   @Override
   public boolean isTraining() {
-    return isTraining;
-  }
-
-  @Override
-  public int getTrainingQueueSize() {
-    return trainingQueueSize;
+    return training;
   }
 
   @Override

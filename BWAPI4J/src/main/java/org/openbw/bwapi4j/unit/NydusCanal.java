@@ -31,8 +31,8 @@ public class NydusCanal extends BuildingImpl implements Organic {
     super(id, UnitType.Zerg_Nydus_Canal, timeSpotted);
   }
 
-  public Unit getNydusExit() {
-    return super.getUnit(nydusExitId);
+  public NydusCanal getNydusExit() {
+    return (NydusCanal) nydusExit;
   }
 
   /**
@@ -43,6 +43,6 @@ public class NydusCanal extends BuildingImpl implements Organic {
    */
   public boolean buildNydusExit(Position position) {
     return issueCommand(
-        this.id, Build, -1, position.getX(), position.getY(), Zerg_Nydus_Canal.getId());
+        this.iD, Build, -1, position.getX(), position.getY(), Zerg_Nydus_Canal.getId());
   }
 }

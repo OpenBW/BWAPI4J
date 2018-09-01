@@ -36,7 +36,7 @@ public class Starport extends BuildingImpl
 
   @Override
   public boolean cancelAddon() {
-    return issueCommand(this.id, Cancel_Addon, -1, -1, -1, -1);
+    return issueCommand(this.iD, Cancel_Addon, -1, -1, -1, -1);
   }
 
   /**
@@ -45,21 +45,21 @@ public class Starport extends BuildingImpl
    * @return true if command successful, false else
    */
   public boolean buildControlTower() {
-    return issueCommand(this.id, Build_Addon, -1, -1, -1, Terran_Control_Tower.getId());
+    return issueCommand(this.iD, Build_Addon, -1, -1, -1, Terran_Control_Tower.getId());
   }
 
   public ControlTower getControlTower() {
-    return (ControlTower) this.getUnit(this.addonId);
+    return (ControlTower) addon;
   }
 
   @Override
   public Addon getAddon() {
-    return (Addon) getUnit(addonId);
+    return (Addon) addon;
   }
 
   @Override
   public boolean build(UnitType addon) {
-    return issueCommand(this.id, Build_Addon, -1, -1, -1, addon.getId());
+    return issueCommand(this.iD, Build_Addon, -1, -1, -1, addon.getId());
   }
 
   public boolean trainWraith() {
@@ -94,7 +94,7 @@ public class Starport extends BuildingImpl
 
   @Override
   public boolean isLifted() {
-    return isLifted;
+    return lifted;
   }
 
   @Override
@@ -114,12 +114,7 @@ public class Starport extends BuildingImpl
 
   @Override
   public boolean isTraining() {
-    return isTraining;
-  }
-
-  @Override
-  public int getTrainingQueueSize() {
-    return trainingQueueSize;
+    return training;
   }
 
   @Override

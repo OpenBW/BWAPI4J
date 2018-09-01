@@ -184,18 +184,14 @@ public class UnitDataBridge {
             unitData[index + TILEPOSITION_X_INDEX], unitData[index + TILEPOSITION_Y_INDEX]);
     unit.initiallySpotted = frame;
     unit.initialHitPoints = unitData[index + INITIAL_HITPOINTS_INDEX];
-    unit.isInterruptible = unitData[index + IS_INTERRUPTIBLE_INDEX] == 1;
+    unit.interruptible = unitData[index + IS_INTERRUPTIBLE_INDEX] == 1;
     unit.lastKnownPosition = unit.initialPosition;
     unit.lastKnownTilePosition = unit.initialTilePosition;
     unit.lastKnownHitPoints = unit.initialHitPoints;
     unit.initialResources = unitData[index + INITIAL_RESOURCES_INDEX];
-    unit.carrierId = unitData[index + CARRIER_INDEX];
-    unit.hatcheryId = unitData[index + HATCHERY_INDEX];
   }
 
   public void preUpdate(UnitImpl unit) {
-    unit.isVisible = false;
-    unit.exists = false;
   }
 
   public void update(UnitImpl unit, int[] unitData, int index, int frame) {
@@ -208,10 +204,10 @@ public class UnitDataBridge {
     unit.angle =
         BridgeUtils.parsePreservedBwapiAngle(
             BridgeUtils.parsePreservedDouble(unitData[index + ANGLE_INDEX]));
-    unit.isVisible = unitData[index + IS_VISIBLE_INDEX] == 1;
+    unit.visible = unitData[index + IS_VISIBLE_INDEX] == 1;
     unit.exists = unitData[index + EXISTS_INDEX] == 1;
-    unit.isSelected = unitData[index + IS_SELECTED_INDEX] == 1;
-    unit.isFlying = unitData[index + IS_FLYING_INDEX] == 1;
+    unit.selected = unitData[index + IS_SELECTED_INDEX] == 1;
+    unit.flying = unitData[index + IS_FLYING_INDEX] == 1;
 
     unit.order = Order.values()[unitData[index + ORDER_ID_INDEX]];
     unit.orderTargetId = unitData[index + ORDER_TARGET_ID_INDEX];
@@ -221,55 +217,47 @@ public class UnitDataBridge {
     unit.orderTargetPosition = new Position(orderTargetPositionX, orderTargetPositionY);
 
     unit.secondaryOrder = Order.values()[unitData[index + SECONDARY_ORDER_ID_INDEX]];
-    unit.isUpgrading = unitData[index + IS_UPGRADING_INDEX] == 1;
-    unit.isResearching = unitData[index + IS_RESEARCHING_INDEX] == 1;
+    unit.upgrading = unitData[index + IS_UPGRADING_INDEX] == 1;
+    unit.researching = unitData[index + IS_RESEARCHING_INDEX] == 1;
     unit.remainingResearchTime = unitData[index + REMAINING_RESEARCH_TIME_INDEX];
     unit.remainingUpgradeTime = unitData[index + REMAINING_UPGRADE_TIME_INDEX];
-    unit.currentUpgrade = UpgradeType.withId(unitData[index + UPGRADE_ID_INDEX]);
-    unit.currentResearch = TechType.withId(unitData[index + TECH_ID_INDEX]);
-
-    unit.playerId = unitData[index + PLAYER_ID_INDEX];
+    unit.upgrade = UpgradeType.withId(unitData[index + UPGRADE_ID_INDEX]);
+    unit.tech = TechType.withId(unitData[index + TECH_ID_INDEX]);
 
     unit.hitPoints = unitData[index + HITPOINTS_INDEX];
     unit.shields = unitData[index + SHIELDS_INDEX];
     unit.killCount = unitData[index + KILLCOUNT_INDEX];
-    unit.isCloaked = unitData[index + IS_CLOAKED_INDEX] == 1;
-    unit.isDetected = unitData[index + IS_DETECTED_INDEX] == 1;
+    unit.cloaked = unitData[index + IS_CLOAKED_INDEX] == 1;
+    unit.detected = unitData[index + IS_DETECTED_INDEX] == 1;
     unit.velocityX = BridgeUtils.parsePreservedDouble(unitData[index + VELOCITY_X_INDEX]);
     unit.velocityY = BridgeUtils.parsePreservedDouble(unitData[index + VELOCITY_Y_INDEX]);
-    unit.isIdle = unitData[index + IS_IDLE_INDEX] == 1;
-    unit.isCompleted = unitData[index + IS_COMPLETED_INDEX] == 1;
+    unit.idle = unitData[index + IS_IDLE_INDEX] == 1;
+    unit.completed = unitData[index + IS_COMPLETED_INDEX] == 1;
     unit.spellCooldown = unitData[index + SPELL_COOLDOWN_INDEX];
-    unit.isAccelerating = unitData[index + IS_ACCELERATING_INDEX] == 1;
-    unit.isAttacking = unitData[index + IS_ATTACKING_INDEX] == 1;
-    unit.isAttackFrame = unitData[index + IS_ATTACK_FRAME_INDEX] == 1;
-    unit.isBeingConstructed = unitData[index + IS_BEING_CONSTRUCTED_INDEX] == 1;
-    unit.isBeingHealed = unitData[index + IS_BEING_HEALED_INDEX] == 1;
-    unit.isIrradiated = unitData[index + IS_IRRADIATED_INDEX] == 1;
-    unit.isLockedDown = unitData[index + IS_LOCKED_DOWN_INDEX] == 1;
-    unit.isMaelstrommed = unitData[index + IS_MAELSTROMMED_INDEX] == 1;
-    unit.isStartingAttack = unitData[index + IS_STARTING_ATTACK_INDEX] == 1;
-    unit.isUnderAttack = unitData[index + IS_UNDER_ATTACK_INDEX] == 1;
-    unit.isPowered = unitData[index + IS_POWERED_INDEX] == 1;
-    unit.targetId = unitData[index + TARGET_ID_INDEX];
-    unit.isInterruptible = unitData[index + IS_INTERRUPTIBLE_INDEX] == 1;
+    unit.accelerating = unitData[index + IS_ACCELERATING_INDEX] == 1;
+    unit.attacking = unitData[index + IS_ATTACKING_INDEX] == 1;
+    unit.attackFrame = unitData[index + IS_ATTACK_FRAME_INDEX] == 1;
+    unit.beingConstructed = unitData[index + IS_BEING_CONSTRUCTED_INDEX] == 1;
+    unit.beingHealed = unitData[index + IS_BEING_HEALED_INDEX] == 1;
+    unit.irradiated = unitData[index + IS_IRRADIATED_INDEX] == 1;
+    unit.lockedDown = unitData[index + IS_LOCKED_DOWN_INDEX] == 1;
+    unit.maelstrommed = unitData[index + IS_MAELSTROMMED_INDEX] == 1;
+    unit.startingAttack = unitData[index + IS_STARTING_ATTACK_INDEX] == 1;
+    unit.underAttack = unitData[index + IS_UNDER_ATTACK_INDEX] == 1;
+    unit.powered = unitData[index + IS_POWERED_INDEX] == 1;
+    unit.target = bw.getUnit(unitData[index + TARGET_ID_INDEX]);
+    unit.interruptible = unitData[index + IS_INTERRUPTIBLE_INDEX] == 1;
     unit.lastCommand = UnitCommandType.values()[unitData[index + LAST_COMMAND_TYPE_ID_INDEX]];
     unit.lastCommandFrame = unitData[index + LAST_COMMAND_FRAME_INDEX];
 
-    unit.builderId = unitData[index + BUILD_UNIT_ID_INDEX];
     unit.groundWeapon.update(
         unit.type.groundWeapon(), unitData[index + GROUND_WEAPON_COOLDOWN_INDEX]);
     unit.airWeapon.update(unit.type.airWeapon(), unitData[index + AIR_WEAPON_COOLDOWN_INDEX]);
     unit.energy = unitData[index + ENERGY_INDEX];
-    unit.isTraining = unitData[index + IS_TRAINING_INDEX] == 1;
-    unit.trainingQueueSize = unitData[index + TRAINING_QUEUE_SIZE_INDEX];
+    unit.training = unitData[index + IS_TRAINING_INDEX] == 1;
 
     /* Populate training queue. */
     unit.trainingQueue.clear();
-    for (int i = 0; i < unit.trainingQueueSize; ++i) {
-      int trainingQueueUnitTypeId = unitData[index + TRAINING_QUEUE_SLOT_0_INDEX + i];
-      unit.trainingQueue.add(unit.new TrainingSlot(i, UnitType.values()[trainingQueueUnitTypeId]));
-    }
 
     unit.spaceRemaining = unitData[index + SPACE_REMAINING_INDEX];
 
@@ -286,56 +274,51 @@ public class UnitDataBridge {
     }
 
     unit.remainingTrainTime = unitData[index + REMAINING_TRAIN_TIME_INDEX];
-    unit.rallyUnitId = unitData[index + RALLY_UNIT_INDEX];
     unit.rallyPosition = new Position(unitData[index + RALLY_POSITION_X_INDEX],
         unitData[index + RALLY_POSITION_Y_INDEX]);
 
-    unit.isLoaded = unitData[index + IS_LOADED_INDEX] == 1;
+    unit.loaded = unitData[index + IS_LOADED_INDEX] == 1;
     unit.interceptorCount = unitData[index + INTERCEPTOR_COUNT_INDEX];
 
-    unit.isFollowing = unitData[index + IS_FOLLOWING_INDEX] == 1;
-    unit.isHoldingPosition = unitData[index + IS_HOLDING_POSITION_INDEX] == 1;
-    unit.isStuck = unitData[index + IS_STUCK_INDEX] == 1;
-    unit.isStasised = unitData[index + IS_STASISED_INDEX] == 1;
-    unit.isUnderDarkSwarm = unitData[index + IS_UNDER_DARK_SWARM_INDEX] == 1;
-    unit.isUnderDisruptionWeb = unitData[index + IS_UNDER_DISRUPTION_WEB_INDEX] == 1;
-    unit.isUnderStorm = unitData[index + IS_UNDER_STORM_INDEX] == 1;
-    unit.isMoving = unitData[index + IS_MOVING_INDEX] == 1;
-    unit.isParasited = unitData[index + IS_PARASITED_INDEX] == 1;
-    unit.isPatrolling = unitData[index + IS_PATROLLING_INDEX] == 1;
-    unit.isPlagued = unitData[index + IS_PLAGUED_INDEX] == 1;
+    unit.following = unitData[index + IS_FOLLOWING_INDEX] == 1;
+    unit.holdingPosition = unitData[index + IS_HOLDING_POSITION_INDEX] == 1;
+    unit.stuck = unitData[index + IS_STUCK_INDEX] == 1;
+    unit.stasised = unitData[index + IS_STASISED_INDEX] == 1;
+    unit.underDarkSwarm = unitData[index + IS_UNDER_DARK_SWARM_INDEX] == 1;
+    unit.underDisruptionWeb = unitData[index + IS_UNDER_DISRUPTION_WEB_INDEX] == 1;
+    unit.underStorm = unitData[index + IS_UNDER_STORM_INDEX] == 1;
+    unit.moving = unitData[index + IS_MOVING_INDEX] == 1;
+    unit.parasited = unitData[index + IS_PARASITED_INDEX] == 1;
+    unit.patrolling = unitData[index + IS_PATROLLING_INDEX] == 1;
+    unit.plagued = unitData[index + IS_PLAGUED_INDEX] == 1;
     unit.targetPosition =
         new Position(
             unitData[index + TARGET_POSITION_X_INDEX], unitData[index + TARGET_POSITION_Y_INDEX]);
-    unit.transportId = unitData[index + TRANSPORT_INDEX];
     unit.acidSporeCount = unitData[index + ACID_SPORE_COUNT_INDEX];
-    unit.isHallucination = unitData[index + IS_HALLUCINATION_INDEX] == 1;
-    unit.isBlind = unitData[index + IS_BLIND_INDEX] == 1;
-    unit.isBraking = unitData[index + IS_BRAKING_INDEX] == 1;
-    unit.isDefenseMatrixed = unitData[index + IS_DEFENSE_MATRIXED_INDEX] == 1;
-    unit.isEnsnared = unitData[index + IS_ENSNARED_INDEX] == 1;
-    unit.addonId = unitData[index + ADDON_INDEX];
+    unit.hallucination = unitData[index + IS_HALLUCINATION_INDEX] == 1;
+    unit.blind = unitData[index + IS_BLIND_INDEX] == 1;
+    unit.braking = unitData[index + IS_BRAKING_INDEX] == 1;
+    unit.defenseMatrixed = unitData[index + IS_DEFENSE_MATRIXED_INDEX] == 1;
+    unit.ensnared = unitData[index + IS_ENSNARED_INDEX] == 1;
     unit.remainingBuildTime = unitData[index + REMAINING_BUILD_TIME_INDEX];
-    unit.isLifted = unitData[index + IS_LIFTED_INDEX] == 1;
+    unit.lifted = unitData[index + IS_LIFTED_INDEX] == 1;
     unit.burrowed = unitData[index + IS_BURROWED_INDEX] == 1;
-    unit.remainingMorphTime = unitData[index + REMAINING_BUILD_TIME_INDEX];
-    unit.isStimmed = unitData[index + IS_STIMMED_INDEX] == 1;
+    unit.stimmed = unitData[index + IS_STIMMED_INDEX] == 1;
     unit.resources = unitData[index + RESOURCES_INDEX];
-    unit.isBeingGathered = unitData[index + IS_BEING_GATHERED_INDEX] == 1;
+    unit.beingGathered = unitData[index + IS_BEING_GATHERED_INDEX] == 1;
     unit.hasNuke = unitData[index + HAS_NUKE_INDEX] == 1;
-    unit.nydusExitId = unitData[index + NYDUS_EXIT_INDEX];
     unit.scarabCount = unitData[index + SCARAB_COUNT_INDEX];
-    unit.isRepairing = unitData[index + IS_REPAIRING_INDEX] == 1;
+    unit.repairing = unitData[index + IS_REPAIRING_INDEX] == 1;
     unit.sieged = unitData[index + IS_SIEGED_INDEX] == 1;
     unit.spiderMineCount = unitData[index + SPIDERMINE_COUNT_INDEX];
-    unit.isConstructing = unitData[index + IS_CONSTRUCTING_INDEX] == 1;
-    unit.isGatheringGas = unitData[index + IS_GATHERING_GAS_INDEX] == 1;
-    unit.isGatheringMinerals = unitData[index + IS_GATHERING_MINERALS_INDEX] == 1;
-    unit.isCarryingGas = unitData[index + IS_CARRYING_GAS_INDEX] == 1;
-    unit.isCarryingMinerals = unitData[index + IS_CARRYING_MINERALS_INDEX] == 1;
+    unit.constructing = unitData[index + IS_CONSTRUCTING_INDEX] == 1;
+    unit.gatheringGas = unitData[index + IS_GATHERING_GAS_INDEX] == 1;
+    unit.gatheringMinerals = unitData[index + IS_GATHERING_MINERALS_INDEX] == 1;
+    unit.carryingGas = unitData[index + IS_CARRYING_GAS_INDEX] == 1;
+    unit.carryingMinerals = unitData[index + IS_CARRYING_MINERALS_INDEX] == 1;
     unit.buildType = UnitType.values()[unitData[index + BUILDTYPE_ID_INDEX]];
 
-    if (unit.isVisible) {
+    if (unit.visible) {
       unit.lastSpotted = frame;
       unit.lastKnownPosition = unit.position;
       unit.lastKnownTilePosition = unit.tilePosition;

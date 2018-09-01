@@ -26,6 +26,7 @@
 #include <math.h>
 
 #include "Logger.h"
+#include "org_openbw_bwapi4j_unit_UnitImplBridge.hpp"
 
 const double BridgeData::RADIANS_TO_DEGREES = 180.0 / M_PI;
 const double BridgeData::DECIMAL_PRESERVATION_SCALE = 100.0;
@@ -118,7 +119,7 @@ void BridgeData::addFields(const BWAPI::Bullet &bullet) {
   add(toPreservedDouble(bullet->getVelocityY()));
   add(bullet->isVisible());
 }
-
+/*
 void BridgeData::addFields(const BWAPI::Unit &unit) {
   add(unit->getID());
   add(unit->getReplayID());
@@ -250,9 +251,11 @@ void BridgeData::addFields(const BWAPI::Unit &unit) {
   add(unit->isResearching());
   add(unit->isFlying());
   addFields(unit->getOrderTargetPosition());
-
+*/
   // TODO: Refactor and reduce duplicated code with loaded units.
-  /* Training Queue */ {
+  /* Training Queue */
+  /*
+  {
     const size_t maxTrainingQueueSize = 5;
     for (size_t i = 0; i < trainingQueueSize; ++i) {
       const auto &unitType = trainingQueue[i];
@@ -265,9 +268,11 @@ void BridgeData::addFields(const BWAPI::Unit &unit) {
   }
 
   add(unit->getSpaceRemaining());
-
+*/
   // TODO: Refactor and reduce duplicated code with training queues.
-  /* Loaded Units */ {
+  /* Loaded Units */
+  /*
+  {
     const size_t maxLoadedUnitsCount = 8;
 
     const auto &loadedUnits = unit->getLoadedUnits();
@@ -283,6 +288,7 @@ void BridgeData::addFields(const BWAPI::Unit &unit) {
     }
   }
 }
+*/
 
 void BridgeData::addFields(const BWAPI::Player &player) {
   addId(player);
