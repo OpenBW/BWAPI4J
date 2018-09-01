@@ -18,7 +18,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <BWAPI/Client.h>
+#include <BWAPI.h>
+
 #include "org_openbw_bwapi4j_DamageEvaluator.h"
 
 JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_DamageEvaluator_getDamageFrom_1native__III(JNIEnv *, jobject, jint fromType, jint toType, jint fromPlayer) {

@@ -18,22 +18,35 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#pragma once
+#include "Globals.h"
 
-#include <bwem.h>
-
-#include "bwem_map_MapInitializerImpl.h"
+#include "BridgeEnum.h"
+#include "BridgeMap.h"
 
 namespace Bridge {
-class JniBwem {
- public:
-  JniBwem();
+namespace Globals {
+bool finished = false;
+DataBuffer dataBuffer;
+JavaRefs javaRefs;
+Callbacks callbacks;
+JNIEnv *env;
+jobject bw;
 
-  void initialize(BWAPI::Game *game);
-  BWEM::Map &getMap();
+void initialize(JNIEnv *newEnv, jobject newBW) {
+  env = newEnv;
+  bw = newBW;
 
- private:
-};
+  javaRefs.initialize(env);
 
-extern JniBwem bwem;
+  callbacks.initialize(env, Bridge::Globals::javaRefs.bwClass);
+}
+
+void initializeGame(JNIEnv *env, jobject bw) {
+  BridgeEnum enums;
+  enums.initialize(env, Bridge::Globals::javaRefs);
+
+  BridgeMap bwMap;
+  bwMap.initialize(env, bw, Bridge::Globals::javaRefs);
+}
+}  // namespace Globals
 }  // namespace Bridge

@@ -24,7 +24,7 @@
 
 #include <iostream>
 
-namespace BWAPI4JBridge {
+namespace Bridge {
 Logger::Logger(const std::string &name) {
 #ifdef BWAPI4JBRIDGE_ENABLE_LOGGER
   spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%f] [%n] [%P:%t] [%l] %v");
@@ -49,6 +49,6 @@ Logger::Logger(const std::string &name) {
 }
 
 Logger logger("BWAPI4JBridge");
-}  // namespace BWAPI4JBridge
+}  // namespace Bridge
 
 #endif

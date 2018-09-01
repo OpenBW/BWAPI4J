@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "JavaRefs.h"
+
 #include "Logger.h"
 
 void JavaRefs::initialize(JNIEnv *env) {
@@ -50,6 +51,8 @@ void JavaRefs::initialize(JNIEnv *env) {
 
   pairClass = env->FindClass("org/openbw/bwapi4j/util/Pair");
   pairClassConstructor = env->GetMethodID(pairClass, "<init>", "(Ljava/lang/Object;Ljava/lang/Object;)V");
+
+  bwClass = env->FindClass("org/openbw/bwapi4j/BW");
 
   bwMapClass = env->FindClass("org/openbw/bwapi4j/BWMapImpl");
 

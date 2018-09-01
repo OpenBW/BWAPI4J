@@ -50,6 +50,8 @@ struct JavaRefs {
   jclass pairClass;
   jmethodID pairClassConstructor;
 
+  jclass bwClass;
+
   jclass bwMapClass;
 
   void initialize(JNIEnv *);

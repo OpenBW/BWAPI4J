@@ -23,7 +23,7 @@
 #include <BWAPI.h>
 #include <jni.h>
 
-class BridgeData {
+class DataBuffer {
  public:
   static const double RADIANS_TO_DEGREES;
   static const double DECIMAL_PRESERVATION_SCALE;
@@ -33,7 +33,7 @@ class BridgeData {
 
   static const int NO_VALUE;
 
-  BridgeData();
+  DataBuffer();
 
   void reset();
 

@@ -19,32 +19,41 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "OpenBridgeModule.h"
+
 #include <jni.h>
-#include "Bridge.h"
+
 #include "BridgeEnum.h"
 #include "BridgeMap.h"
+#include "Globals.h"
 #include "Logger.h"
+
+#ifdef OPENBW
+#ifdef _WIN32
+#include <Windows.h>
+#define DLLEXPORT __declspec(dllexport)
+BOOL APIENTRY DllMain(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved) { return TRUE; }
+#else
+#define DLLEXPORT
+#endif
+
+extern "C" DLLEXPORT void gameInit(BWAPI::Game *game) { BWAPI::BroodwarPtr = game; }
+extern "C" DLLEXPORT BWAPI::AIModule *newAIModule() { return new OpenBridge::OpenBridgeModule(); }
+#endif
 
 namespace OpenBridge {
 void OpenBridgeModule::onStart() {
-  callbacks.initialize(globalEnv, globalEnv->GetObjectClass(globalBW));
+  Bridge::Globals::initializeGame(Bridge::Globals::env, Bridge::Globals::bw);
 
-  BridgeEnum bridgeEnum;
-  BridgeMap bridgeMap;
-
-  bridgeEnum.initialize(globalEnv);
-  bridgeMap.initialize(globalEnv, globalEnv->GetObjectClass(globalBW), globalBW, javaRefs.bwMapClass);
-
-  globalEnv->CallObjectMethod(globalBW, callbacks.preFrameCallback);
+  Bridge::Globals::env->CallObjectMethod(Bridge::Globals::bw, Bridge::Globals::callbacks.preFrameCallback);
   //	globalEnv->CallObjectMethod(globalBW, onStartCallback);
 }
 
 void OpenBridgeModule::onEnd(bool isWinner) {}
 
 void OpenBridgeModule::onFrame() {
-  callbacks.processEvents(globalEnv, globalBW, BWAPI::Broodwar->getEvents());
+  Bridge::Globals::callbacks.processEvents(Bridge::Globals::env, Bridge::Globals::bw, BWAPI::Broodwar->getEvents());
 
-  globalEnv->CallObjectMethod(globalBW, callbacks.onFrameCallback);
+  Bridge::Globals::env->CallObjectMethod(Bridge::Globals::bw, Bridge::Globals::callbacks.onFrameCallback);
 }
 
 void OpenBridgeModule::onSendText(std::string text) {}

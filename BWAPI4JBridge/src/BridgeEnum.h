@@ -22,15 +22,15 @@
 
 #include <jni.h>
 
+#include "JavaRefs.h"
+
 class BridgeEnum {
  public:
-  void initialize(JNIEnv *);
+  void initialize(JNIEnv *, const JavaRefs &);
 
  private:
-  JNIEnv *_env;
-
-  void createUpgradeTypeEnum();
-  void createTechTypeEnum();
-  void createWeaponTypeEnum();
-  void createUnitTypeEnum();
+  void createUpgradeTypeEnum(JNIEnv *, const JavaRefs &);
+  void createTechTypeEnum(JNIEnv *, const JavaRefs &);
+  void createWeaponTypeEnum(JNIEnv *, const JavaRefs &);
+  void createUnitTypeEnum(JNIEnv *, const JavaRefs &);
 };

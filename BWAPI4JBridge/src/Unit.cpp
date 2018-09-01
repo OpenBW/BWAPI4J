@@ -18,7 +18,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <BWAPI/Client.h>
+#include <BWAPI.h>
+
 #include "org_openbw_bwapi4j_unit_UnitImpl.h"
 
 JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_UnitImpl_issueCommand(JNIEnv *, jobject, jint unitID, jint unitCommandTypeID, jint targetUnitID, jint x,
