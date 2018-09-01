@@ -59,6 +59,7 @@ class BridgeData {
   void addId(const BWAPI::PlayerType &playerType);
   void addId(const BWAPI::Force &force);
   void addId(const BWAPI::GameType &gameType);
+  void addId(const BWAPI::WeaponType &weaponType);
 
   void addIds(const BWAPI::Playerset &playerset);
 

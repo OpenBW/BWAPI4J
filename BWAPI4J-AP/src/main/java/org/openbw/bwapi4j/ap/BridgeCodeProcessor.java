@@ -47,6 +47,7 @@ public class BridgeCodeProcessor extends AbstractProcessor {
             return super.toString(o.toString(), formatString, locale);
           }
         });
+    cppTemplate.registerRenderer(String.class, new StringRenderer());
   }
 
   @Override
@@ -117,7 +118,7 @@ public class BridgeCodeProcessor extends AbstractProcessor {
     return typeElement
         .getEnclosedElements()
         .stream()
-        .filter(e -> e.getAnnotation(Native.class) != null)
+        .filter(e -> e.getAnnotation(BridgeValue.class) != null)
         .sorted(
             (a, b) -> {
               if (a.getAnnotation(Named.class) != null && b.getAnnotation(Named.class) == null) {
@@ -137,22 +138,52 @@ public class BridgeCodeProcessor extends AbstractProcessor {
               if (elementType != null
                   && elementType.getKind() != ElementKind.ENUM
                   && elementType.getAnnotation(NativeClass.class) != null
-                  && elementType.getAnnotation(NativeLookup.class) == null) {
+                  && elementType.getAnnotation(LookedUp.class) == null) {
                 return mapDelegateUpdate(
                     bridgeModel, e.getSimpleName(), packageName, elementType, allNativeClasses);
               }
-              Native aNative = e.getAnnotation(Native.class);
+              BridgeValue aBridgeValue = e.getAnnotation(BridgeValue.class);
               String accessor;
-              if (aNative.accessor().isEmpty()) {
+              if (aBridgeValue.accessor().isEmpty()) {
                 accessor = null;
               } else {
-                accessor = aNative.accessor();
+                accessor = aBridgeValue.accessor();
+              }
+              String indirection;
+              if (aBridgeValue.indirection().isEmpty()) {
+                indirection = null;
+              } else {
+                indirection = aBridgeValue.indirection();
               }
               Named aNamed = e.getAnnotation(Named.class);
+              String namedIndex = null;
               if (aNamed != null) {
                 bridgeModel.addNamedField(aNamed.name());
+                namedIndex = aNamed.name();
+              } else if (aBridgeValue.initializeOnly()) {
+                throw new IllegalStateException(
+                    "Field "
+                        + ((Element) e).getSimpleName()
+                        + " is initializeOnly, it must also be marked @Named!");
               }
-              return new Assignment(e.getSimpleName(), valueFrom(e.asType()), accessor);
+              Reset aReset = e.getAnnotation(Reset.class);
+              if (aReset != null) {
+                bridgeModel.addResetAssignment(
+                    new Assignment(
+                        e.getSimpleName(),
+                        new RValue(aReset.value()),
+                        null,
+                        null,
+                        false,
+                        null));
+              }
+              return new Assignment(
+                  e.getSimpleName(),
+                  valueFrom(e.asType()),
+                  accessor,
+                  indirection,
+                  aBridgeValue.initializeOnly(),
+                  namedIndex);
             })
         .collect(Collectors.toList());
   }
@@ -174,7 +205,7 @@ public class BridgeCodeProcessor extends AbstractProcessor {
         typeElement
             .getEnclosedElements()
             .stream()
-            .filter(e -> e.getAnnotation(Native.class) != null)
+            .filter(e -> e.getAnnotation(BridgeValue.class) != null)
             .collect(Collectors.toList());
     List<RValue> constructorArguments =
         elementsToSet
@@ -218,7 +249,7 @@ public class BridgeCodeProcessor extends AbstractProcessor {
       return new RValue(new EnumValue(typeElement.getQualifiedName()));
     }
 
-    NativeLookup nativeDeclaration = typeElement.getAnnotation(NativeLookup.class);
+    LookedUp nativeDeclaration = typeElement.getAnnotation(LookedUp.class);
     if (nativeDeclaration != null && !nativeDeclaration.method().equals("")) {
       return new RValue(
           new BWMappedValue(nativeDeclaration.method(), typeElement.getQualifiedName()));

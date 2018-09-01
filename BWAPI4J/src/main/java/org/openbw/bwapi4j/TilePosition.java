@@ -20,7 +20,7 @@
 
 package org.openbw.bwapi4j;
 
-import org.openbw.bwapi4j.ap.Native;
+import org.openbw.bwapi4j.ap.BridgeValue;
 
 public class TilePosition {
   public static final int SIZE_IN_PIXELS = 32;
@@ -28,7 +28,7 @@ public class TilePosition {
   private final int x;
   private final int y;
 
-  @Native
+  @BridgeValue
   public TilePosition(final int x, final int y) {
     this.x = x;
     this.y = y;

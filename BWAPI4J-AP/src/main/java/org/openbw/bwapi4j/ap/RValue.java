@@ -7,6 +7,7 @@ public class RValue {
   private NewObjectValue newObjectValue;
   private PrimitiveValue primitiveValue;
   private BWMappedValue bwMappedValue;
+  private String constant;
 
   public RValue(EnumValue enumValue) {
     this.enumValue = enumValue;
@@ -28,6 +29,10 @@ public class RValue {
     this.bwMappedValue = bwMappedValue;
   }
 
+  public RValue(String constant) {
+    this.constant = constant;
+  }
+
   public EnumValue getEnumValue() {
     return enumValue;
   }
@@ -46,5 +51,9 @@ public class RValue {
 
   public BWMappedValue getBwMappedValue() {
     return bwMappedValue;
+  }
+
+  public String getConstant() {
+    return constant;
   }
 }

@@ -46,9 +46,10 @@ import org.openbw.bwapi4j.DamageEvaluator;
 import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
+import org.openbw.bwapi4j.ap.BridgeValue;
 import org.openbw.bwapi4j.ap.Named;
-import org.openbw.bwapi4j.ap.Native;
 import org.openbw.bwapi4j.ap.NativeClass;
+import org.openbw.bwapi4j.ap.Reset;
 import org.openbw.bwapi4j.type.Order;
 import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitCommandType;
@@ -62,216 +63,228 @@ public abstract class UnitImpl implements Unit {
 
   private static final Logger logger = LogManager.getLogger();
 
-  @Native
+  @BridgeValue(initializeOnly = true)
   @Named(name = "ID")
   int iD;
 
+  @BridgeValue(accessor = "getPosition()", initializeOnly = true)
+  @Named(name = "INITIAL_POSITION")
   Position initialPosition;
+
+  @BridgeValue(accessor = "getTilePosition()", initializeOnly = true)
+  @Named(name = "INITIAL_TILE_POSITION")
   TilePosition initialTilePosition;
+
   int initiallySpotted;
 
   @Named(name = "TYPE")
-  @Native
+  @BridgeValue
   UnitType type;
 
   // dynamic
-  protected int x;
-  protected int y;
-  @Native
+  @BridgeValue
   protected Position position;
-  @Native
+  @BridgeValue
   protected TilePosition tilePosition;
-  @Native
+  @BridgeValue
   double angle;
   int lastCommandFrame;
-  @Native
+  @BridgeValue
   UnitCommandType lastCommand;
 
-  @Native
+  @Reset(value = "false")
+  @BridgeValue
   boolean visible;
 
-  @Native(accessor = "exists()")
+  @Reset(value = "false")
+  @BridgeValue(accessor = "exists()")
   boolean exists;
 
-  @Native
+  @BridgeValue
   boolean selected;
-  @Native
+  @BridgeValue
   boolean flying;
 
-  @Native
+  @BridgeValue
   boolean upgrading;
-  @Native
+  @BridgeValue
   boolean researching;
-  @Native
+  @BridgeValue
   int remainingResearchTime;
-  @Native
+  @BridgeValue
   int remainingUpgradeTime;
-  @Native
+  @BridgeValue
   UpgradeType upgrade;
-  @Native
+  @BridgeValue
   TechType tech;
 
   // static
+  @BridgeValue(initializeOnly = true)
+  @Named(name = "INITIAL_HIT_POINTS")
   int initialHitPoints;
 
   // dynamic
-  @Native
+  @BridgeValue
   int hitPoints;
-  @Native
+  @BridgeValue
   int shields;
-  @Native
+  @BridgeValue
   int killCount;
-  @Native
+  @BridgeValue
   boolean cloaked;
-  @Native
+  @BridgeValue
   boolean detected;
-  @Native
+  @BridgeValue
   double velocityX;
-  @Native
+  @BridgeValue
   double velocityY;
-  @Native
+  @BridgeValue
   boolean idle;
-  @Native
+  @BridgeValue
   boolean completed;
-  @Native
+  @BridgeValue
   Weapon groundWeapon = new Weapon(WeaponType.None, 0);
-  @Native
+  @BridgeValue
   Weapon airWeapon = new Weapon(WeaponType.None, 0);
-  @Native
+  @BridgeValue
   int spellCooldown;
-  @Native
+  @BridgeValue
   Unit target;
-  @Native
+  @BridgeValue
   boolean accelerating;
-  @Native
+  @BridgeValue
   boolean attacking;
-  @Native
+  @BridgeValue
   boolean attackFrame;
-  @Native
+  @BridgeValue
   boolean beingConstructed;
-  @Native
+  @BridgeValue
   boolean beingHealed;
-  @Native
+  @BridgeValue
   boolean irradiated;
-  @Native
+  @BridgeValue
   boolean lockedDown;
-  @Native
+  @BridgeValue
   boolean maelstrommed;
-  @Native
+  @BridgeValue
   boolean startingAttack;
-  @Native
+  @BridgeValue
   boolean underAttack;
-  @Native
+  @BridgeValue
   boolean powered;
-  @Native
+  @BridgeValue
   boolean interruptible;
-  @Native
+  @BridgeValue
   Player player;
-  @Native
+  @BridgeValue
   int energy;
-  @Native
+  @BridgeValue
   boolean training;
-  @Native
+  @BridgeValue
   Unit buildUnit;
-  @Native
+  @BridgeValue
   int remainingTrainTime;
-  @Native
+  @BridgeValue
   Position rallyPosition;
-  @Native
+  @BridgeValue
   Unit rallyUnit;
-  @Native
+  @BridgeValue
   List<TrainingSlot> trainingQueue = new ArrayList<>();
-  @Native
+  @BridgeValue
   boolean loaded;
-  @Native
+  @BridgeValue
   int spaceRemaining;
-  @Native
+  @BridgeValue
   List<Unit> loadedUnits = new ArrayList<>();
-  @Native
+  @BridgeValue
   int interceptorCount;
-  @Native
+  @BridgeValue
   boolean following;
-  @Native
+  @BridgeValue
   boolean holdingPosition;
-  @Native
+  @BridgeValue
   boolean stuck;
-  @Native
+  @BridgeValue
   boolean stasised;
-  @Native
+  @BridgeValue
   boolean underDarkSwarm;
-  @Native
+  @BridgeValue
   boolean underDisruptionWeb;
-  @Native
+  @BridgeValue
   boolean underStorm;
-  @Native
+  @BridgeValue
   boolean moving;
-  @Native
+  @BridgeValue
   boolean parasited;
-  @Native
+  @BridgeValue
   boolean patrolling;
-  @Native
+  @BridgeValue
   boolean plagued;
-  @Native
+  @BridgeValue
   Position targetPosition;
-  @Native
+  @BridgeValue
   Unit transport;
-  @Native
+  @BridgeValue
   int acidSporeCount;
-  @Native
+  @BridgeValue
   boolean hallucination;
-  @Native
+  @BridgeValue
   boolean blind;
-  @Native
+  @BridgeValue
   boolean braking;
-  @Native
+  @BridgeValue
   boolean defenseMatrixed;
-  @Native
+  @BridgeValue
   boolean ensnared;
-  @Native
+  @BridgeValue
   Unit addon;
-  @Native
+  @BridgeValue
   int remainingBuildTime;
-  @Native
+  @BridgeValue
   boolean lifted;
-  @Native
+  @BridgeValue
   boolean burrowed;
-  @Native
+  @BridgeValue
   UnitType buildType;
-  @Native
+  @BridgeValue
   boolean stimmed;
+
+  @BridgeValue(initializeOnly = true)
+  @Named(name = "INITIAL_RESOURCES")
   int initialResources;
-  @Native
+
+  @BridgeValue
   int resources;
-  @Native
+  @BridgeValue
   boolean beingGathered;
-  @Native
+  @BridgeValue
   Unit carrier;
-  @Native
+  @BridgeValue
   Unit hatchery;
   int lastKnownResources;
 
-  @Native(accessor = "hasNuke()")
+  @BridgeValue(accessor = "hasNuke()")
   boolean hasNuke;
 
-  @Native
+  @BridgeValue
   Unit nydusExit;
-  @Native
+  @BridgeValue
   int scarabCount;
-  @Native
+  @BridgeValue
   boolean repairing;
-  @Native
+  @BridgeValue
   boolean sieged;
-  @Native
+  @BridgeValue
   int spiderMineCount;
-  @Native
+  @BridgeValue
   boolean constructing;
-  @Native
+  @BridgeValue
   boolean gatheringGas;
-  @Native
+  @BridgeValue
   boolean gatheringMinerals;
-  @Native
+  @BridgeValue
   boolean carryingGas;
-  @Native
+  @BridgeValue
   boolean carryingMinerals;
 
   // other
@@ -283,10 +296,7 @@ public abstract class UnitImpl implements Unit {
   private BW bw;
   int lastSpotted;
 
-  protected UnitImpl(int id, UnitType unitType) {
-    this.iD = id;
-    this.type = unitType;
-    this.lastSpotted = 0;
+  protected UnitImpl() {
   }
 
   final void setBW(BW bw) {
@@ -330,19 +340,19 @@ public abstract class UnitImpl implements Unit {
   }
 
   public int getLeft() {
-    return this.x - this.type.dimensionLeft();
+    return position.getX() - this.type.dimensionLeft();
   }
 
   public int getTop() {
-    return this.y - this.type.dimensionUp();
+    return position.getY() - this.type.dimensionUp();
   }
 
   public int getRight() {
-    return this.x + this.type.dimensionRight();
+    return position.getX() + this.type.dimensionRight();
   }
 
   public int getBottom() {
-    return this.y + this.type.dimensionDown();
+    return position.getY() + this.type.dimensionDown();
   }
 
   public Position getMiddle(Unit unit) {
@@ -484,7 +494,7 @@ public abstract class UnitImpl implements Unit {
   }
 
   protected Unit getOrderTarget() {
-    return (this.orderTargetId >= 0) ? this.getUnit(this.orderTargetId) : null;
+    return orderTarget;
   }
 
   protected Position getOrderTargetPosition() {
@@ -625,29 +635,49 @@ public abstract class UnitImpl implements Unit {
   // --------------------------------------------------
   // dynamic
 
-  private int replayID;
-  private int resourceGroup;
-  private Player lastAttackingPlayer;
-  private int defenseMatrixPoints;
-  private int defenseMatrixTimer;
-  private int ensnareTimer;
-  private int irradiateTimer;
-  private int lockDownTimer;
-  private int maelstromTimer;
-  private int orderTimer;
-  private int plagueTimer;
-  private int removeTimer;
-  private int stasisTimer;
-  private int stimTimer;
+  @BridgeValue
+  int replayID;
+  @BridgeValue
+  int resourceGroup;
+  @BridgeValue
+  Player lastAttackingPlayer;
+  @BridgeValue
+  int defenseMatrixPoints;
+  @BridgeValue
+  int defenseMatrixTimer;
+  @BridgeValue
+  int ensnareTimer;
+  @BridgeValue
+  int irradiateTimer;
+  @BridgeValue
+  int lockdownTimer;
+  @BridgeValue
+  int maelstromTimer;
+  @BridgeValue
+  int orderTimer;
+  @BridgeValue
+  int plagueTimer;
+  @BridgeValue
+  int removeTimer;
+  @BridgeValue
+  int stasisTimer;
+  @BridgeValue
+  int stimTimer;
 
+  @BridgeValue
   Order order;
-  int orderTargetId;
+  @BridgeValue
+  Unit orderTarget;
+  @BridgeValue
   Position orderTargetPosition;
 
   Order secondaryOrder;
-  private boolean morphing;
-  private boolean targetable;
-  private boolean invincible;
+  @BridgeValue
+  boolean morphing;
+  @BridgeValue
+  boolean targetable;
+  @BridgeValue
+  boolean invincible;
 
   public class TrainingSlot {
 
@@ -655,7 +685,7 @@ public abstract class UnitImpl implements Unit {
 
     private final UnitType unitType;
 
-    @Native
+    @BridgeValue
     TrainingSlot(final int slotIndex, final UnitType unitType) {
       this.slotIndex = slotIndex;
       this.unitType = unitType;

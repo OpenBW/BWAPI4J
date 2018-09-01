@@ -29,13 +29,8 @@ import static org.openbw.bwapi4j.type.UnitCommandType.Patrol;
 import static org.openbw.bwapi4j.type.UnitCommandType.Stop;
 
 import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.type.UnitType;
 
 public abstract class MobileUnitImpl extends PlayerUnitImpl implements MobileUnit {
-  protected MobileUnitImpl(int id, UnitType unitType) {
-    super(id, unitType);
-  }
-
   public boolean attack(Position p) {
     return attack(p, false);
   }

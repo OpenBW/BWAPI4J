@@ -4,11 +4,11 @@ import java.util.Collection;
 import java.util.List;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
-import org.openbw.bwapi4j.ap.NativeLookup;
+import org.openbw.bwapi4j.ap.LookedUp;
 import org.openbw.bwapi4j.type.UnitSizeType;
 import org.openbw.bwapi4j.type.UnitType;
 
-@NativeLookup(method = "getUnit")
+@LookedUp(method = "getUnit")
 public interface Unit extends Comparable<Unit> {
 
   int getKillCount();

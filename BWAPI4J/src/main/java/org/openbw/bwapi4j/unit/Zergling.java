@@ -23,13 +23,7 @@ package org.openbw.bwapi4j.unit;
 import static org.openbw.bwapi4j.type.UnitCommandType.Burrow;
 import static org.openbw.bwapi4j.type.UnitCommandType.Unburrow;
 
-import org.openbw.bwapi4j.type.UnitType;
-
 public class Zergling extends MobileUnitImpl implements Organic, Burrowable, GroundAttacker {
-  protected Zergling(int id) {
-    super(id, UnitType.Zerg_Zergling);
-  }
-
   @Override
   public boolean burrow() {
     return issueCommand(this.iD, Burrow, -1, -1, -1, -1);

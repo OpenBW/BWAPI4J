@@ -37,67 +37,67 @@ public class UnitFactory {
   }
 
   protected MineralPatch getMineralPatch(int unitId, int timeSpotted) {
-    return new MineralPatch(unitId);
+    return new MineralPatch();
   }
 
   protected VespeneGeyser getVespeneGeyser(int unitId, int timeSpotted) {
-    return new VespeneGeyser(unitId);
+    return new VespeneGeyser();
   }
 
-  protected Refinery getRefinery(int unitId, int timeSpotted) {
-    return new Refinery(unitId, timeSpotted);
+  protected Refinery getRefinery(UnitType unitType, int timeSpotted) {
+    return new Refinery(unitType, timeSpotted);
   }
 
   protected SCV getSCV(int unitId, int timeSpotted) {
-    return new SCV(unitId);
+    return new SCV();
   }
 
   protected Marine getMarine(int unitId, int timeSpotted) {
-    return new Marine(unitId);
+    return new Marine();
   }
 
   protected Medic getMedic(int unitId, int timeSpotted) {
-    return new Medic(unitId);
+    return new Medic();
   }
 
   protected Firebat getFirebat(int unitId, int timeSpotted) {
-    return new Firebat(unitId);
+    return new Firebat();
   }
 
   protected Ghost getGhost(int unitId, int timeSpotted) {
-    return new Ghost(unitId);
+    return new Ghost();
   }
 
   protected Vulture getVulture(int unitId, int timeSpotted) {
-    return new Vulture(unitId);
+    return new Vulture();
   }
 
   protected Goliath getGoliath(int unitId, int timeSpotted) {
-    return new Goliath(unitId);
+    return new Goliath();
   }
 
   protected SiegeTank getSiegeTank(int unitId, int timeSpotted, boolean sieged) {
-    return new SiegeTank(unitId, sieged);
+    return new SiegeTank();
   }
 
   protected Wraith getWraith(int unitId, int timeSpotted) {
-    return new Wraith(unitId);
+    return new Wraith();
   }
 
   protected Dropship getDropship(int unitId, int timeSpotted) {
-    return new Dropship(unitId);
+    return new Dropship();
   }
 
   protected Valkyrie getValkyrie(int unitId, int timeSpotted) {
-    return new Valkyrie(unitId);
+    return new Valkyrie();
   }
 
   protected BattleCruiser getBattleCruiser(int unitId, int timeSpotted) {
-    return new BattleCruiser(unitId);
+    return new BattleCruiser();
   }
 
   protected ScienceVessel getScienceVessel(int unitId, int timeSpotted) {
-    return new ScienceVessel(unitId);
+    return new ScienceVessel();
   }
 
   // TODO all the other getters
@@ -114,40 +114,40 @@ public class UnitFactory {
     UnitImpl unit;
     switch (unitType) {
       case Terran_Academy:
-        unit = new Academy(unitId, timeSpotted);
+        unit = new Academy(unitType, timeSpotted);
         break;
       case Terran_Armory:
-        unit = new Armory(unitId, timeSpotted);
+        unit = new Armory(unitType, timeSpotted);
         break;
       case Terran_Barracks:
-        unit = new Barracks(unitId, timeSpotted);
+        unit = new Barracks(unitType, timeSpotted);
         break;
       case Terran_Battlecruiser:
         unit = getBattleCruiser(unitId, timeSpotted);
         break;
       case Terran_Bunker:
-        unit = new Bunker(unitId, timeSpotted);
+        unit = new Bunker(unitType, timeSpotted);
         break;
       case Terran_Command_Center:
-        unit = new CommandCenter(unitId, timeSpotted);
+        unit = new CommandCenter(unitType, timeSpotted);
         break;
       case Terran_Comsat_Station:
-        unit = new ComsatStation(unitId, timeSpotted);
+        unit = new ComsatStation(unitType, timeSpotted);
         break;
       case Terran_Control_Tower:
-        unit = new ControlTower(unitId, timeSpotted);
+        unit = new ControlTower(unitType, timeSpotted);
         break;
       case Terran_Covert_Ops:
-        unit = new CovertOps(unitId, timeSpotted);
+        unit = new CovertOps(unitType, timeSpotted);
         break;
       case Terran_Dropship:
         unit = getDropship(unitId, timeSpotted);
         break;
       case Terran_Engineering_Bay:
-        unit = new EngineeringBay(unitId, timeSpotted);
+        unit = new EngineeringBay(unitType, timeSpotted);
         break;
       case Terran_Factory:
-        unit = new Factory(unitId, timeSpotted);
+        unit = new Factory(unitType, timeSpotted);
         break;
       case Terran_Firebat:
         unit = getFirebat(unitId, timeSpotted);
@@ -159,7 +159,7 @@ public class UnitFactory {
         unit = getGoliath(unitId, timeSpotted);
         break;
       case Terran_Machine_Shop:
-        unit = new MachineShop(unitId, timeSpotted);
+        unit = new MachineShop(unitType, timeSpotted);
         break;
       case Terran_Marine:
         unit = getMarine(unitId, timeSpotted);
@@ -168,19 +168,19 @@ public class UnitFactory {
         unit = getMedic(unitId, timeSpotted);
         break;
       case Terran_Missile_Turret:
-        unit = new MissileTurret(unitId, timeSpotted);
+        unit = new MissileTurret(unitType, timeSpotted);
         break;
       case Terran_Nuclear_Silo:
-        unit = new NuclearSilo(unitId, timeSpotted);
+        unit = new NuclearSilo(unitType, timeSpotted);
         break;
       case Terran_Physics_Lab:
-        unit = new PhysicsLab(unitId, timeSpotted);
+        unit = new PhysicsLab(unitType, timeSpotted);
         break;
       case Terran_Refinery:
-        unit = getRefinery(unitId, timeSpotted);
+        unit = getRefinery(unitType, timeSpotted);
         break;
       case Terran_Science_Facility:
-        unit = new ScienceFacility(unitId, timeSpotted);
+        unit = new ScienceFacility(unitType, timeSpotted);
         break;
       case Terran_Science_Vessel:
         unit = getScienceVessel(unitId, timeSpotted);
@@ -195,13 +195,13 @@ public class UnitFactory {
         unit = getSiegeTank(unitId, timeSpotted, true);
         break;
       case Terran_Vulture_Spider_Mine:
-        unit = new SpiderMine(unitId);
+        unit = new SpiderMine();
         break;
       case Terran_Starport:
-        unit = new Starport(unitId, timeSpotted);
+        unit = new Starport(unitType, timeSpotted);
         break;
       case Terran_Supply_Depot:
-        unit = new SupplyDepot(unitId, timeSpotted);
+        unit = new SupplyDepot(unitType, timeSpotted);
         break;
       case Terran_Valkyrie:
         unit = getValkyrie(unitId, timeSpotted);
@@ -213,58 +213,58 @@ public class UnitFactory {
         unit = getWraith(unitId, timeSpotted);
         break;
       case Zerg_Zergling:
-        unit = new Zergling(unitId);
+        unit = new Zergling();
         break;
       case Zerg_Hydralisk:
-        unit = new Hydralisk(unitId);
+        unit = new Hydralisk();
         break;
       case Zerg_Ultralisk:
-        unit = new Ultralisk(unitId);
+        unit = new Ultralisk();
         break;
       case Zerg_Broodling:
-        unit = new Broodling(unitId);
+        unit = new Broodling();
         break;
       case Zerg_Drone:
-        unit = new Drone(unitId);
+        unit = new Drone();
         break;
       case Zerg_Overlord:
-        unit = new Overlord(unitId);
+        unit = new Overlord();
         break;
       case Zerg_Mutalisk:
-        unit = new Mutalisk(unitId);
+        unit = new Mutalisk();
         break;
       case Zerg_Guardian:
-        unit = new Guardian(unitId);
+        unit = new Guardian();
         break;
       case Zerg_Queen:
-        unit = new Queen(unitId);
+        unit = new Queen();
         break;
       case Zerg_Defiler:
-        unit = new Defiler(unitId);
+        unit = new Defiler();
         break;
       case Zerg_Scourge:
-        unit = new Scourge(unitId);
+        unit = new Scourge();
         break;
       case Zerg_Lurker:
-        unit = new Lurker(unitId);
+        unit = new Lurker();
         break;
       case Zerg_Infested_Terran:
-        unit = new InfestedTerran(unitId);
+        unit = new InfestedTerran();
         break;
       case Zerg_Devourer:
-        unit = new Devourer(unitId);
+        unit = new Devourer();
         break;
       case Zerg_Larva:
-        unit = new Larva(unitId);
+        unit = new Larva();
         break;
       case Zerg_Egg:
-        unit = new Egg(unitId);
+        unit = new Egg();
         break;
       case Zerg_Cocoon:
-        unit = new Cocoon(unitId);
+        unit = new Cocoon();
         break;
       case Zerg_Lurker_Egg:
-        unit = new LurkerEgg(unitId);
+        unit = new LurkerEgg();
         break;
       case Resource_Mineral_Field:
       case Resource_Mineral_Field_Type_2:
@@ -275,163 +275,163 @@ public class UnitFactory {
         unit = getVespeneGeyser(unitId, timeSpotted);
         break;
       case Terran_Nuclear_Missile:
-        unit = new NuclearMissile(unitId);
+        unit = new NuclearMissile();
         break;
       case Zerg_Infested_Command_Center:
-        unit = new InfestedCommandCenter(unitId, timeSpotted);
+        unit = new InfestedCommandCenter(unitType, timeSpotted);
         break;
       case Zerg_Hatchery:
-        unit = new Hatchery(unitId, timeSpotted);
+        unit = new Hatchery(unitType, timeSpotted);
         break;
       case Zerg_Lair:
-        unit = new Lair(unitId, timeSpotted);
+        unit = new Lair(unitType, timeSpotted);
         break;
       case Zerg_Hive:
-        unit = new Hive(unitId, timeSpotted);
+        unit = new Hive(unitType, timeSpotted);
         break;
       case Zerg_Nydus_Canal:
-        unit = new NydusCanal(unitId, timeSpotted);
+        unit = new NydusCanal(unitType, timeSpotted);
         break;
       case Zerg_Hydralisk_Den:
-        unit = new HydraliskDen(unitId, timeSpotted);
+        unit = new HydraliskDen(unitType, timeSpotted);
         break;
       case Zerg_Defiler_Mound:
-        unit = new DefilerMound(unitId, timeSpotted);
+        unit = new DefilerMound(unitType, timeSpotted);
         break;
       case Zerg_Greater_Spire:
-        unit = new GreaterSpire(unitId, timeSpotted);
+        unit = new GreaterSpire(unitType, timeSpotted);
         break;
       case Zerg_Queens_Nest:
-        unit = new QueensNest(unitId, timeSpotted);
+        unit = new QueensNest(unitType, timeSpotted);
         break;
       case Zerg_Evolution_Chamber:
-        unit = new EvolutionChamber(unitId, timeSpotted);
+        unit = new EvolutionChamber(unitType, timeSpotted);
         break;
       case Zerg_Ultralisk_Cavern:
-        unit = new UltraliskCavern(unitId, timeSpotted);
+        unit = new UltraliskCavern(unitType, timeSpotted);
         break;
       case Zerg_Spire:
-        unit = new Spire(unitId, timeSpotted);
+        unit = new Spire(unitType, timeSpotted);
         break;
       case Zerg_Spawning_Pool:
-        unit = new SpawningPool(unitId, timeSpotted);
+        unit = new SpawningPool(unitType, timeSpotted);
         break;
       case Zerg_Creep_Colony:
-        unit = new CreepColony(unitId, timeSpotted);
+        unit = new CreepColony(unitType, timeSpotted);
         break;
       case Zerg_Spore_Colony:
-        unit = new SporeColony(unitId, timeSpotted);
+        unit = new SporeColony(unitType, timeSpotted);
         break;
       case Zerg_Sunken_Colony:
-        unit = new SunkenColony(unitId, timeSpotted);
+        unit = new SunkenColony(unitType, timeSpotted);
         break;
       case Zerg_Extractor:
-        unit = new Extractor(unitId, timeSpotted);
+        unit = new Extractor(unitType, timeSpotted);
         break;
       case Protoss_Corsair:
-        unit = new Corsair(unitId);
+        unit = new Corsair();
         break;
       case Protoss_Dark_Templar:
-        unit = new DarkTemplar(unitId);
+        unit = new DarkTemplar();
         break;
       case Protoss_Dark_Archon:
-        unit = new DarkArchon(unitId);
+        unit = new DarkArchon();
         break;
       case Protoss_Probe:
-        unit = new Probe(unitId);
+        unit = new Probe();
         break;
       case Protoss_Zealot:
-        unit = new Zealot(unitId);
+        unit = new Zealot();
         break;
       case Protoss_Dragoon:
-        unit = new Dragoon(unitId);
+        unit = new Dragoon();
         break;
       case Protoss_High_Templar:
-        unit = new HighTemplar(unitId);
+        unit = new HighTemplar();
         break;
       case Protoss_Archon:
-        unit = new Archon(unitId);
+        unit = new Archon();
         break;
       case Protoss_Shuttle:
-        unit = new Shuttle(unitId);
+        unit = new Shuttle();
         break;
       case Protoss_Scout:
-        unit = new Scout(unitId);
+        unit = new Scout();
         break;
       case Protoss_Arbiter:
-        unit = new Arbiter(unitId);
+        unit = new Arbiter();
         break;
       case Protoss_Carrier:
-        unit = new Carrier(unitId);
+        unit = new Carrier();
         break;
       case Protoss_Interceptor:
-        unit = new Interceptor(unitId);
+        unit = new Interceptor();
         break;
       case Protoss_Reaver:
-        unit = new Reaver(unitId);
+        unit = new Reaver();
         break;
       case Protoss_Observer:
-        unit = new Observer(unitId);
+        unit = new Observer();
         break;
       case Protoss_Scarab:
-        unit = new Scarab(unitId);
+        unit = new Scarab();
         break;
       case Protoss_Nexus:
-        unit = new Nexus(unitId, timeSpotted);
+        unit = new Nexus(unitType, timeSpotted);
         break;
       case Protoss_Robotics_Facility:
-        unit = new RoboticsFacility(unitId, timeSpotted);
+        unit = new RoboticsFacility(unitType, timeSpotted);
         break;
       case Protoss_Pylon:
-        unit = new Pylon(unitId, timeSpotted);
+        unit = new Pylon(unitType, timeSpotted);
         break;
       case Protoss_Assimilator:
-        unit = new Assimilator(unitId, timeSpotted);
+        unit = new Assimilator(unitType, timeSpotted);
         break;
       case Protoss_Observatory:
-        unit = new Observatory(unitId, timeSpotted);
+        unit = new Observatory(unitType, timeSpotted);
         break;
       case Protoss_Gateway:
-        unit = new Gateway(unitId, timeSpotted);
+        unit = new Gateway(unitType, timeSpotted);
         break;
       case Protoss_Photon_Cannon:
-        unit = new PhotonCannon(unitId, timeSpotted);
+        unit = new PhotonCannon(unitType, timeSpotted);
         break;
       case Protoss_Citadel_of_Adun:
-        unit = new CitadelOfAdun(unitId, timeSpotted);
+        unit = new CitadelOfAdun(unitType, timeSpotted);
         break;
       case Protoss_Cybernetics_Core:
-        unit = new CyberneticsCore(unitId, timeSpotted);
+        unit = new CyberneticsCore(unitType, timeSpotted);
         break;
       case Protoss_Templar_Archives:
-        unit = new TemplarArchives(unitId, timeSpotted);
+        unit = new TemplarArchives(unitType, timeSpotted);
         break;
       case Protoss_Forge:
-        unit = new Forge(unitId, timeSpotted);
+        unit = new Forge(unitType, timeSpotted);
         break;
       case Protoss_Stargate:
-        unit = new Stargate(unitId, timeSpotted);
+        unit = new Stargate(unitType, timeSpotted);
         break;
       case Protoss_Fleet_Beacon:
-        unit = new FleetBeacon(unitId, timeSpotted);
+        unit = new FleetBeacon(unitType, timeSpotted);
         break;
       case Protoss_Arbiter_Tribunal:
-        unit = new ArbiterTribunal(unitId, timeSpotted);
+        unit = new ArbiterTribunal(unitType, timeSpotted);
         break;
       case Protoss_Robotics_Support_Bay:
-        unit = new RoboticsSupportBay(unitId, timeSpotted);
+        unit = new RoboticsSupportBay(unitType, timeSpotted);
         break;
       case Protoss_Shield_Battery:
-        unit = new ShieldBattery(unitId, timeSpotted);
+        unit = new ShieldBattery(unitType, timeSpotted);
         break;
       case Spell_Scanner_Sweep:
-        unit = new ScannerSweep(unitId, timeSpotted);
+        unit = new ScannerSweep(timeSpotted);
         break;
       case Spell_Disruption_Web:
-        unit = new DisruptionWeb(unitId, timeSpotted);
+        unit = new DisruptionWeb(timeSpotted);
         break;
       case Spell_Dark_Swarm:
-        unit = new DarkSwarm(unitId, timeSpotted);
+        unit = new DarkSwarm(timeSpotted);
         break;
         // treat all critter units as the same class
       case Critter_Rhynadon:
@@ -440,7 +440,7 @@ public class UnitFactory {
       case Critter_Kakaru:
       case Critter_Ragnasaur:
       case Critter_Ursadon:
-        unit = new Critter(unitId, unitType);
+        unit = new Critter();
         break;
 
         // treat the following special units as the same class
@@ -457,7 +457,7 @@ public class UnitFactory {
       case Special_Wall_Flame_Trap:
       case Special_Right_Wall_Missile_Trap:
       case Special_Right_Wall_Flame_Trap:
-        unit = new SpecialUnit(unitId, unitType);
+        unit = new SpecialUnit();
         break;
 
       case Special_Independant_Starport:
@@ -476,7 +476,7 @@ public class UnitFactory {
       case Special_Overmind_Cocoon:
       case Special_Overmind_With_Shell:
       case Special_Stasis_Cell_Prison:
-        unit = new SpecialBuilding(unitId, unitType, timeSpotted);
+        unit = new SpecialBuilding(unitId, unitType, unitType, timeSpotted);
         break;
 
         // ignore special pseudo units

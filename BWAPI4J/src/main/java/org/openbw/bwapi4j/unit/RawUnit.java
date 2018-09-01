@@ -11,10 +11,6 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class RawUnit extends UnitImpl {
-  protected RawUnit(int id, UnitType unitType) {
-    super(id, unitType);
-  }
-
   public UnitType getType() {
     return type;
   }

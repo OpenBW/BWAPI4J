@@ -25,8 +25,9 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class ArbiterTribunal extends BuildingImpl implements Mechanical, ResearchingFacility {
-  protected ArbiterTribunal(int id, int timeSpotted) {
-    super(id, UnitType.Protoss_Arbiter_Tribunal, timeSpotted);
+
+  protected ArbiterTribunal(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   public boolean researchStasisField() {

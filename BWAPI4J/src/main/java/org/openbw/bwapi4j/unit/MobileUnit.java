@@ -1,9 +1,9 @@
 package org.openbw.bwapi4j.unit;
 
 import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.ap.NativeLookup;
+import org.openbw.bwapi4j.ap.LookedUp;
 
-@NativeLookup(method = "getUnit")
+@LookedUp(method = "getUnit")
 public interface MobileUnit extends PlayerUnit {
 
   boolean attack(Position p);

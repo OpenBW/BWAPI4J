@@ -25,13 +25,8 @@ import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Position;
 
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.TechType;
-import org.openbw.bwapi4j.type.UnitType;
 
 public class Corsair extends MobileUnitImpl implements Mechanical, SpellCaster, AirAttacker {
-  protected Corsair(int id) {
-    super(id, UnitType.Protoss_Corsair);
-  }
-
   @Override
   public int getEnergy() {
     return this.energy;

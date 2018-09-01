@@ -27,8 +27,9 @@ import org.openbw.bwapi4j.type.UpgradeType;
 
 public class EngineeringBay extends BuildingImpl
     implements Mechanical, FlyingBuilding, ResearchingFacility {
-  protected EngineeringBay(int id, int timeSpotted) {
-    super(id, UnitType.Terran_Engineering_Bay, timeSpotted);
+
+  protected EngineeringBay(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   @Override

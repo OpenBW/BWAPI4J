@@ -23,15 +23,7 @@ package org.openbw.bwapi4j.unit;
 import static org.openbw.bwapi4j.type.UnitCommandType.Siege;
 import static org.openbw.bwapi4j.type.UnitCommandType.Unsiege;
 
-import org.openbw.bwapi4j.type.UnitType;
-
 public class SiegeTank extends MobileUnitImpl implements Mechanical, GroundAttacker {
-  protected SiegeTank(int id, boolean sieged) {
-    super(
-        id, sieged ? UnitType.Terran_Siege_Tank_Siege_Mode : UnitType.Terran_Siege_Tank_Tank_Mode);
-    this.sieged = sieged;
-  }
-
   public boolean siege() {
     return issueCommand(this.iD, Siege, -1, -1, -1, -1);
   }

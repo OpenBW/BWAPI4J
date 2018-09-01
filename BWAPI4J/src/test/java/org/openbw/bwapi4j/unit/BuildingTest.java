@@ -422,10 +422,8 @@ public class BuildingTest {
       for (int x = 0; x < MAX; ++x) {
         final TilePosition tpos = new TilePosition(x, y);
         final Position pos = tpos.toPosition();
-        unit1.x = x;
-        unit1.y = y;
-        unit2.x = x;
-        unit2.y = y;
+        unit1.position = new Position(x, y);
+        unit2.position = new Position(x, y);
 
         final int index = MAX * y + x;
 
@@ -457,10 +455,9 @@ public class BuildingTest {
       for (int x = 0; x < MAX; ++x) {
         final TilePosition tpos = new TilePosition(x, y);
         final Position pos = tpos.toPosition();
-        unit1.x = x;
-        unit1.y = y;
-        unit2.x = x;
-        unit2.y = y;
+        unit1.position = new Position(x, y);
+        unit2.position = new Position(x, y);
+
         tilePositionValuesString.append(building.getLastKnownDistance(tpos)).append(", ");
         positionValuesString.append(building.getLastKnownDistance(pos)).append(", ");
         unitPositionValuesString1.append(building.getLastKnownDistance(unit1)).append(", ");

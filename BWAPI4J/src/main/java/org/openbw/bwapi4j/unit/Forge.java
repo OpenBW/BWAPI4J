@@ -25,8 +25,9 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class Forge extends BuildingImpl implements Mechanical, ResearchingFacility {
-  protected Forge(int id, int timeSpotted) {
-    super(id, UnitType.Protoss_Forge, timeSpotted);
+
+  protected Forge(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   public boolean upgradeGroundArmor() {

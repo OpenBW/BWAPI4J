@@ -31,8 +31,9 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class CommandCenter extends BuildingImpl
     implements Mechanical, FlyingBuilding, TrainingFacility, ExtendibleByAddon, ResourceDepot {
-  protected CommandCenter(int id, int timeSpotted) {
-    super(id, UnitType.Terran_Command_Center, timeSpotted);
+
+  protected CommandCenter(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   /**

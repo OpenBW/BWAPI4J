@@ -25,8 +25,9 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class SpawningPool extends BuildingImpl implements Organic, ResearchingFacility {
-  protected SpawningPool(int id, int timeSpotted) {
-    super(id, UnitType.Zerg_Spawning_Pool, timeSpotted);
+
+  protected SpawningPool(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   public boolean upgradeMetabolicBoost() {

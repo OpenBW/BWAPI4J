@@ -31,12 +31,9 @@ import org.openbw.bwapi4j.type.UpgradeType;
 
 public class Hatchery extends BuildingImpl
     implements Organic, ResearchingFacility, ResourceDepot, Morphable {
-  protected Hatchery(int id, UnitType type, int timeSpotted) {
-    super(id, type, timeSpotted);
-  }
 
-  protected Hatchery(int id, int timeSpotted) {
-    this(id, UnitType.Zerg_Hatchery, timeSpotted);
+  protected Hatchery(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   @Override

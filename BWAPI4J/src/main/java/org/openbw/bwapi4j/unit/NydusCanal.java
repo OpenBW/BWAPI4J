@@ -27,8 +27,9 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class NydusCanal extends BuildingImpl implements Organic {
-  protected NydusCanal(int id, int timeSpotted) {
-    super(id, UnitType.Zerg_Nydus_Canal, timeSpotted);
+
+  protected NydusCanal(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   public NydusCanal getNydusExit() {

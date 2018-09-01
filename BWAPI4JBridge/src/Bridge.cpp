@@ -260,34 +260,36 @@ JNIEXPORT jstring JNICALL Java_org_openbw_bwapi4j_BW_getPlayerName(JNIEnv *env, 
   */
 }
 
-// TODO: Refactor to be one call for all players. Possibly also merge with "getUpgradeStatus".
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getResearchStatus(JNIEnv *env, jobject, jint playerID) {
+// TODO: Refactor to be one call for all players.
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getPlayerExtra(JNIEnv *env, jobject, jint playerID) {
   bridgeData.reset();
 
   const auto &player = BWAPI::Broodwar->getPlayer(playerID);
 
-  for (const auto &techType : BWAPI::TechTypes::allTechTypes()) {
+  const auto &upgradeTypes = BWAPI::UpgradeTypes::allUpgradeTypes();
+  bridgeData.add(upgradeTypes.size());
+  for (const auto &upgradeType : upgradeTypes) {
+    bridgeData.addId(upgradeType);
+    bridgeData.add(player->getUpgradeLevel(upgradeType));
+    bridgeData.add(player->isUpgrading(upgradeType));
+  }
+
+  const auto &techTypes = BWAPI::TechTypes::allTechTypes();
+  bridgeData.add(techTypes.size());
+  for (const auto &techType : techTypes) {
     bridgeData.addId(techType);
     bridgeData.add(player->hasResearched(techType));
     bridgeData.add(player->isResearching(techType));
   }
 
-  jintArray result = env->NewIntArray(bridgeData.getIndex());
-  env->SetIntArrayRegion(result, 0, bridgeData.getIndex(), bridgeData.intBuf);
-  return result;
-}
-
-// TODO: Refactor to be one call for all players. Possibly also merge with "getResearchStatus".
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUpgradeStatus(JNIEnv *env, jobject, jint playerID) {
-  bridgeData.reset();
-
-  const auto &player = BWAPI::Broodwar->getPlayer(playerID);
-
-  for (const auto &upgradeType : BWAPI::UpgradeTypes::allUpgradeTypes()) {
-    bridgeData.addId(upgradeType);
-    bridgeData.add(player->getUpgradeLevel(upgradeType));
-    bridgeData.add(player->isUpgrading(upgradeType));
+  if (BWAPI::Broodwar->isReplay()) {
+    bridgeData.add(BridgeData::NO_VALUE);
+    bridgeData.add(BridgeData::NO_VALUE);
+  } else {
+    bridgeData.add(player->getID() == BWAPI::Broodwar->self()->getID() || player->isAlly(BWAPI::Broodwar->self()));
+    bridgeData.add(player->getID() != BWAPI::Broodwar->self()->getID() && player->isEnemy(BWAPI::Broodwar->self()));
   }
+
 
   jintArray result = env->NewIntArray(bridgeData.getIndex());
   env->SetIntArrayRegion(result, 0, bridgeData.getIndex(), bridgeData.intBuf);

@@ -25,8 +25,9 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class Armory extends BuildingImpl implements Mechanical, ResearchingFacility {
-  protected Armory(int id, int timeSpotted) {
-    super(id, UnitType.Terran_Armory, timeSpotted);
+
+  protected Armory(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   public boolean upgradeVehiclePlating() {

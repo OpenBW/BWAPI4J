@@ -38,10 +38,6 @@ import org.openbw.bwapi4j.type.UnitType;
 public class Defiler extends MobileUnitImpl implements Organic, SpellCaster, Burrowable {
   private static final Logger logger = LogManager.getLogger();
 
-  protected Defiler(int id) {
-    super(id, UnitType.Zerg_Defiler);
-  }
-
   @Override
   public int getEnergy() {
     return this.energy;

@@ -23,14 +23,8 @@ package org.openbw.bwapi4j.unit;
 import static org.openbw.bwapi4j.type.UnitCommandType.Cloak;
 import static org.openbw.bwapi4j.type.UnitCommandType.Decloak;
 
-import org.openbw.bwapi4j.type.UnitType;
-
 public class Wraith extends MobileUnitImpl
     implements Mechanical, Cloakable, GroundAttacker, AirAttacker {
-  protected Wraith(int id) {
-    super(id, UnitType.Terran_Wraith);
-  }
-
   public int getEnergy() {
     return this.energy;
   }

@@ -23,13 +23,7 @@ package org.openbw.bwapi4j.unit;
 import static org.openbw.bwapi4j.type.TechType.Dark_Archon_Meld;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech;
 
-import org.openbw.bwapi4j.type.UnitType;
-
 public class DarkTemplar extends MobileUnitImpl implements Organic, Cloakable, GroundAttacker {
-  protected DarkTemplar(int id) {
-    super(id, UnitType.Protoss_Dark_Templar);
-  }
-
   /**
    * Merges two dark templars into one dark archon. Both templars must be selected.
    *

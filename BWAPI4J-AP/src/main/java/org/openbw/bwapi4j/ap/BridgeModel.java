@@ -16,6 +16,7 @@ public class BridgeModel {
   private final String nativeClassParentName;
   private List<String> namedFields = new ArrayList<>();
   private List<Assignment> assignments;
+  private List<Assignment> resetAssignments = new ArrayList<>();
   private Set<Delegate> delegates = new HashSet<>();
 
   public BridgeModel(
@@ -80,5 +81,13 @@ public class BridgeModel {
 
   public List<String> getNamedFields() {
     return namedFields;
+  }
+
+  public void addResetAssignment(Assignment assignment) {
+    resetAssignments.add(assignment);
+  }
+
+  public List<Assignment> getResetAssignments() {
+    return resetAssignments;
   }
 }

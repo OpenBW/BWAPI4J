@@ -59,6 +59,8 @@ public class BW {
   private DamageEvaluator damageEvaluator;
   private BWMapImpl bwMap;
   private UnitImplBridge unitDataBridge;
+  private PlayerBridge playerBridge;
+  private BulletBridge bulletBridge;
 
   private Map<Integer, Player> players;
   private Map<Integer, UnitImpl> units;
@@ -128,6 +130,8 @@ public class BW {
     this.damageEvaluator = new DamageEvaluator();
     this.bwMap = new BWMapImpl(this.interactionHandler);
     this.unitDataBridge = new UnitImplBridge(this, new WeaponBridge(this));
+    this.playerBridge = new PlayerBridge(this);
+    this.bulletBridge = new BulletBridge(this);
     setUnitFactory(new UnitFactory());
 
     try {
@@ -213,9 +217,7 @@ public class BW {
 
   private native String getPlayerName(int playerId);
 
-  private native int[] getResearchStatus(int playerId);
-
-  private native int[] getUpgradeStatus(int playerId);
+  private native int[] getPlayerExtra(int playerId);
 
   public void setUnitFactory(UnitFactory unitFactory) {
     this.unitFactory = unitFactory;
@@ -246,15 +248,16 @@ public class BW {
   private void updateAllBullets() {
     int[] bulletData = this.getAllBulletsData();
 
-    for (int index = 0; index < bulletData.length; index += Bullet.CacheIndex.values().length) {
-      int bulletId = bulletData[index + Bullet.CacheIndex.ID.ordinal()];
+    int index = 0;
+    while (index < bulletData.length) {
+      int bulletId = bulletData[index + BulletBridge.ID];
       Bullet bullet = this.bullets.get(bulletId);
       if (bullet == null) {
         bullet = new Bullet(this);
         this.bullets.put(bulletId, bullet);
-        bullet.initialize(bulletData, index);
+        bulletBridge.initialize(bullet, bulletData, index);
       }
-      bullet.update(bulletData, index);
+      index = bulletBridge.update(bullet, bulletData, index);
     }
   }
 
@@ -266,8 +269,7 @@ public class BW {
 
   private void updateAllUnits(int frame) {
     for (UnitImpl unit : this.units.values()) {
-//      unit.visible = false;
-//      unit.exists = false;
+      unitDataBridge.reset(unit);
     }
     int[] unitData = this.getAllUnitsData();
 
@@ -299,7 +301,7 @@ public class BW {
           logger.trace("state: {}", unit.exists() ? "completed" : "created");
 
           this.units.put(unitId, unit);
-//          unitDataBridge.initialize(unit, unitData, index, frame);
+          unitDataBridge.initialize(unit, unitData, index);
           index = unitDataBridge.update(unit, unitData, index);
           logger.trace("initial pos: {}", unit.getInitialTilePosition());
           logger.trace("current pos: {}", unit.getTilePosition());
@@ -310,10 +312,6 @@ public class BW {
         index = unitDataBridge.update(unit, unitData, index);
       }
     }
-//    for (int index = 0; index < unitData.length; index += UnitDataBridge.TOTAL_PROPERTIES) {
-//      int unitId = unitData[index + 0]; // TODO: Use the enum from the Unit class.
-//      int typeId = unitData[index + 3]; // TODO: Use the enum from the Unit class.
-//    }
   }
 
   // TODO: Determine why this function seems to be called twice when using OpenBW. E.g.
@@ -324,8 +322,9 @@ public class BW {
   private void updateAllPlayers() {
     int[] playerData = this.getAllPlayersData();
 
-    for (int index = 0; index < playerData.length; index += Player.CacheIndex.values().length) {
-      int playerId = playerData[index + 0]; // TODO: Use the enum from the Player class.
+    int index = 0;
+    while (index < playerData.length) {
+      int playerId = playerData[index + PlayerBridge.ID];
       Player player = this.players.get(playerId);
       if (player == null) {
         logger.debug("creating player for id {} ...", playerId);
@@ -333,11 +332,12 @@ public class BW {
         logger.trace("player name: {}", player.getName());
         this.players.put(playerId, player);
         logger.trace("initializing...");
-        player.initialize(playerData, index);
+        playerBridge.initialize(player, playerData, index);
+        player.initialize();
         logger.trace(" done.");
       }
-      player.update(
-          playerData, index, this.getResearchStatus(playerId), this.getUpgradeStatus(playerId));
+      index = playerBridge.update(player, playerData, index);
+      player.update(this.getPlayerExtra(playerId));
     }
   }
 

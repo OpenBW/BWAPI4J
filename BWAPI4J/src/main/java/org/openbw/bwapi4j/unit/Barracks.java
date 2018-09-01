@@ -25,8 +25,9 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class Barracks extends BuildingImpl implements Mechanical, FlyingBuilding, TrainingFacility {
-  protected Barracks(int id, int timeSpotted) {
-    super(id, UnitType.Terran_Barracks, timeSpotted);
+
+  protected Barracks(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   public boolean trainMarine() {

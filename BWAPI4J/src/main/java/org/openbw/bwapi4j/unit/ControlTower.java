@@ -25,8 +25,9 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class ControlTower extends AddonImpl implements Mechanical, ResearchingFacility {
-  protected ControlTower(int id, int timeSpotted) {
-    super(id, UnitType.Terran_Control_Tower, timeSpotted);
+
+  protected ControlTower(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   public boolean researchCloakingField() {

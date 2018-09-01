@@ -27,13 +27,8 @@ import static org.openbw.bwapi4j.type.UnitCommandType.Attack_Move;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Unit;
 
 import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.type.UnitType;
 
 public class Medic extends MobileUnitImpl implements SpellCaster, Organic {
-  protected Medic(int id) {
-    super(id, UnitType.Terran_Medic);
-  }
-
   public boolean heal(PlayerUnit unit) {
     return issueCommand(this.iD, Use_Tech_Unit, unit.getId(), -1, -1, Healing.getId());
   }

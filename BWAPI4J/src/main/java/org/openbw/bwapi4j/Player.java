@@ -26,10 +26,10 @@ import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import org.openbw.bwapi4j.ap.BridgeValue;
+import org.openbw.bwapi4j.ap.LookedUp;
 import org.openbw.bwapi4j.ap.Named;
-import org.openbw.bwapi4j.ap.Native;
 import org.openbw.bwapi4j.ap.NativeClass;
-import org.openbw.bwapi4j.ap.NativeLookup;
 import org.openbw.bwapi4j.type.Color;
 import org.openbw.bwapi4j.type.PlayerType;
 import org.openbw.bwapi4j.type.Race;
@@ -40,145 +40,129 @@ import org.openbw.bwapi4j.unit.ExtendibleByAddon;
 import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.unit.Unit;
 
-@NativeLookup(method = "getPlayer")
+@LookedUp(method = "getPlayer")
 @NativeClass(name = "BWAPI::Player")
 public class Player {
 
-  enum CacheIndex {
-    ID,
-    RACE,
-    POSITION_X,
-    POSITION_Y,
-    COLOR,
-    TEXT_COLOR,
-    TYPE,
-    FORCE_ID,
-    IS_NEUTRAL,
-    IS_ALLY,
-    IS_ENEMY,
-    IS_VICTORIOUS,
-    IS_DEFEATED,
-    LEFT_GAME,
-    MINERALS,
-    GAS,
-    GATHERED_MINERALS,
-    GATHERED_GAS,
-    REPAIRED_MINERALS,
-    REPAIRED_GAS,
-    REFUNDED_MINERALS,
-    REFUNDED_GAS,
-    SPENT_MINERALS,
-    SPENT_GAS,
-    SUPPLY_TOTAL,
-    UNIT_SCORE,
-    KILL_SCORE,
-    BUILDING_SCORE,
-    RAZING_SCORE,
-    CUSTOM_SCORE,
-    IS_OBSERVER,
-    SUPPLY_USED,
-    SUPPLY_TOTAL_ZERG,
-    SUPPLY_TOTAL_TERRAN,
-    SUPPLY_TOTAL_PROTOSS,
-    SUPPLY_USED_ZERG,
-    SUPPLY_USED_TERRAN,
-    SUPPLY_USED_PROTOSS,
-    ALL_UNIT_COUNT,
-    VISIBLE_UNIT_COUNT,
-    COMPLETED_UNIT_COUNT,
-    INCOMPLETE_UNIT_COUNT,
-    DEAD_UNIT_COUNT,
-    KILLED_UNIT_COUNT
-  }
-
   // constant
-  @Native
+  @BridgeValue(initializeOnly = true)
   @Named(name = "ID")
-  int id;
+  int iD;
+
   private String name;
   private final BW bw;
-  @Native
+  @BridgeValue
   Race race;
-  @Native
+
+  @BridgeValue(initializeOnly = true)
+  @Named(name = "START_LOCATION")
   TilePosition startLocation;
-  private Color color;
-  private char textColor;
-  @Native
-  PlayerType playerType;
+
+  @BridgeValue(initializeOnly = true)
+  @Named(name = "COLOR")
+  Color color;
+  @BridgeValue(initializeOnly = true)
+  @Named(name = "TEXT_COLOR")
+  char textColor;
+  @BridgeValue
+  PlayerType type;
 
   // dynamic: update per frame
-  @Native
-  int forceId;
-  @Native
-  boolean isNeutral;
-  @Native
-  boolean isVictorious;
-  @Native
-  boolean isDefeated;
-  @Native
+  //  @BridgeValue
+  //  int forceId;
+  @BridgeValue
+  boolean neutral;
+  @BridgeValue
+  boolean victorious;
+  @BridgeValue
+  boolean defeated;
+
+  @BridgeValue(accessor = "leftGame()")
   boolean leftGame;
-  @Native
+
+  @BridgeValue(accessor = "minerals()")
   int minerals;
-  @Native
+
+  @BridgeValue(accessor = "gas()")
   int gas;
-  @Native
+
+  @BridgeValue(accessor = "gatheredMinerals()")
   int gatheredMinerals;
-  @Native
+
+  @BridgeValue(accessor = "gatheredGas()")
   int gatheredGas;
-  @Native
+
+  @BridgeValue(accessor = "repairedMinerals()")
   int repairedMinerals;
-  @Native
+
+  @BridgeValue(accessor = "repairedGas()")
   int repairedGas;
-  @Native
+
+  @BridgeValue(accessor = "refundedMinerals()")
   int refundedMinerals;
-  @Native
+
+  @BridgeValue(accessor = "refundedGas()")
   int refundedGas;
-  @Native
+
+  @BridgeValue(accessor = "spentMinerals()")
   int spentMinerals;
-  @Native
+
+  @BridgeValue(accessor = "spentGas()")
   int spentGas;
-  @Native
+
+  @BridgeValue(accessor = "supplyTotal()")
   int supplyTotal;
-  @Native
+
+  @BridgeValue
   int unitScore;
-  @Native
+  @BridgeValue
   int killScore;
-  @Native
+  @BridgeValue
   int buildingScore;
-  @Native
+  @BridgeValue
   int razingScore;
-  @Native
+  @BridgeValue
   int customScore;
-  @Native
-  boolean isObserver;
-  @Native
+  @BridgeValue
+  boolean observer;
+
+  @BridgeValue(accessor = "supplyUsed()")
   int supplyUsed;
+
   private int[] supplyTotalRace;
   private int[] supplyUsedRace;
-  @Native
+
+  @BridgeValue(accessor = "allUnitCount()")
   int allUnitCount;
-  @Native
+
+  @BridgeValue(accessor = "visibleUnitCount()")
   int visibleUnitCount;
-  @Native
+
+  @BridgeValue(accessor = "completedUnitCount()")
   int completedUnitCount;
-  @Native
+
+  @BridgeValue(accessor = "incompleteUnitCount()")
   int incompleteUnitCount;
-  @Native
+
+  @BridgeValue(accessor = "deadUnitCount()")
   int deadUnitCount;
-  @Native
+
+  @BridgeValue(accessor = "killedUnitCount()")
   int killedUnitCount;
-  @Native
-  boolean isAlly;
-  @Native
-  boolean isEnemy;
+  //  @BridgeValue
+  //  boolean ally;
+  //  @BridgeValue
+  //  boolean enemy;
 
   Map<TechType, boolean[]> researchStatus;
   Map<UpgradeType, int[]> upgradeStatus;
 
   private final UnitStatCalculator unitStatCalculator;
+  private boolean ally;
+  private boolean enemy;
 
   Player(int id, String name, BW bw) {
-    this.id = id;
+    this.iD = id;
     this.name = name;
     this.bw = bw;
     this.supplyTotalRace = new int[3];
@@ -188,19 +172,8 @@ public class Player {
 
   /**
    * Initializes a player with static information (constant through the course of a game).
-   *
-   * @param playerData raw data array
-   * @param index current pointer
    */
-  public void initialize(int[] playerData, int index) {
-    this.race = Race.values()[playerData[index + CacheIndex.RACE.ordinal()]];
-    this.startLocation =
-        new TilePosition(
-            playerData[index + CacheIndex.POSITION_X.ordinal()],
-            playerData[index + CacheIndex.POSITION_Y.ordinal()]);
-    this.color = Color.valueOf(playerData[index + CacheIndex.COLOR.ordinal()]);
-    this.textColor = (char) playerData[index + CacheIndex.TEXT_COLOR.ordinal()];
-    this.playerType = PlayerType.values()[playerData[index + CacheIndex.TYPE.ordinal()]];
+  public void initialize() {
     researchStatus = new EnumMap<>(TechType.class);
     for (TechType tech : TechType.values()) {
       researchStatus.put(tech, new boolean[2]);
@@ -214,60 +187,32 @@ public class Player {
   /**
    * Updates dynamic player information. To be called once per frame.
    *
-   * @param playerData raw data array
-   * @param index current pointer
-   * @param researchStatus status for each possible research
-   * @param upgradeStatus status for each possible upgrade
    */
-  public void update(int[] playerData, int index, int[] researchStatus, int[] upgradeStatus) {
-    this.forceId = playerData[index + CacheIndex.FORCE_ID.ordinal()];
-    this.isNeutral = playerData[index + CacheIndex.IS_NEUTRAL.ordinal()] == 1;
-    this.isAlly = playerData[index + CacheIndex.IS_ALLY.ordinal()] == 1;
-    this.isEnemy = playerData[index + CacheIndex.IS_ENEMY.ordinal()] == 1;
-    this.isVictorious = playerData[index + CacheIndex.IS_VICTORIOUS.ordinal()] == 1;
-    this.isDefeated = playerData[index + CacheIndex.IS_DEFEATED.ordinal()] == 1;
-    this.leftGame = playerData[index + CacheIndex.LEFT_GAME.ordinal()] == 1;
-    this.minerals = playerData[index + CacheIndex.MINERALS.ordinal()];
-    this.gas = playerData[index + CacheIndex.GAS.ordinal()];
-    this.gatheredMinerals = playerData[index + CacheIndex.GATHERED_MINERALS.ordinal()];
-    this.gatheredGas = playerData[index + CacheIndex.GATHERED_GAS.ordinal()];
-    this.repairedMinerals = playerData[index + CacheIndex.REPAIRED_MINERALS.ordinal()];
-    this.repairedGas = playerData[index + CacheIndex.REPAIRED_GAS.ordinal()];
-    this.refundedMinerals = playerData[index + CacheIndex.REFUNDED_MINERALS.ordinal()];
-    this.refundedGas = playerData[index + CacheIndex.REFUNDED_GAS.ordinal()];
-    this.spentMinerals = playerData[index + CacheIndex.SPENT_MINERALS.ordinal()];
-    this.spentGas = playerData[index + CacheIndex.SPENT_GAS.ordinal()];
-    this.supplyTotal = playerData[index + CacheIndex.SUPPLY_TOTAL.ordinal()];
-    this.unitScore = playerData[index + CacheIndex.UNIT_SCORE.ordinal()];
-    this.killScore = playerData[index + CacheIndex.KILL_SCORE.ordinal()];
-    this.buildingScore = playerData[index + CacheIndex.BUILDING_SCORE.ordinal()];
-    this.razingScore = playerData[index + CacheIndex.RAZING_SCORE.ordinal()];
-    this.customScore = playerData[index + CacheIndex.CUSTOM_SCORE.ordinal()];
-    this.isObserver = playerData[index + CacheIndex.IS_OBSERVER.ordinal()] == 1;
-    this.supplyUsed = playerData[index + CacheIndex.SUPPLY_USED.ordinal()];
-    this.supplyTotalRace[0] = playerData[index + CacheIndex.SUPPLY_TOTAL_ZERG.ordinal()];
-    this.supplyTotalRace[1] = playerData[index + CacheIndex.SUPPLY_TOTAL_TERRAN.ordinal()];
-    this.supplyTotalRace[2] = playerData[index + CacheIndex.SUPPLY_TOTAL_PROTOSS.ordinal()];
-    this.supplyUsedRace[0] = playerData[index + CacheIndex.SUPPLY_USED_ZERG.ordinal()];
-    this.supplyUsedRace[1] = playerData[index + CacheIndex.SUPPLY_USED_TERRAN.ordinal()];
-    this.supplyUsedRace[2] = playerData[index + CacheIndex.SUPPLY_USED_PROTOSS.ordinal()];
-    this.allUnitCount = playerData[index + CacheIndex.SUPPLY_USED_PROTOSS.ordinal()];
-    this.visibleUnitCount = playerData[index + CacheIndex.VISIBLE_UNIT_COUNT.ordinal()];
-    this.completedUnitCount = playerData[index + CacheIndex.COMPLETED_UNIT_COUNT.ordinal()];
-    this.incompleteUnitCount = playerData[index + CacheIndex.INCOMPLETE_UNIT_COUNT.ordinal()];
-    this.deadUnitCount = playerData[index + CacheIndex.DEAD_UNIT_COUNT.ordinal()];
-    this.killedUnitCount = playerData[index + CacheIndex.KILLED_UNIT_COUNT.ordinal()];
+  public void update(int[] extra) {
+    int index = 0;
+    int researchStatusAmount = extra[index++];
+    for (int i = 0; i < researchStatusAmount; i++) {
+      boolean[] status = this.researchStatus.get(TechType.withId(extra[index++]));
+      status[0] = extra[index++] == 1;
+      status[1] = extra[index++] == 1;
+    }
+    int upgradeStatusAmount = extra[index++];
+    for (int i = 0; i < upgradeStatusAmount; i++) {
+      int[] status = this.upgradeStatus.get(UpgradeType.withId(extra[index++]));
+      status[0] = extra[index++];
+      status[1] = extra[index++];
+    }
 
-    for (int i = 0; i < researchStatus.length; i += 3) {
-      boolean[] status = this.researchStatus.get(TechType.withId(researchStatus[i]));
-      status[0] = researchStatus[i + 1] == 1;
-      status[1] = researchStatus[i + 2] == 1;
-    }
-    for (int i = 0; i < upgradeStatus.length; i += 3) {
-      int[] status = this.upgradeStatus.get(UpgradeType.withId(upgradeStatus[i]));
-      status[0] = upgradeStatus[i + 1];
-      status[1] = upgradeStatus[i + 2];
-    }
+    ally = extra[index++] == 1;
+    enemy = extra[index] == 1;
+  }
+
+  public boolean isAlly() {
+    return ally;
+  }
+
+  public boolean isEnemy() {
+    return enemy;
   }
 
   /**
@@ -275,7 +220,7 @@ public class Player {
    * player.
    */
   public int getId() {
-    return this.id;
+    return this.iD;
   }
 
   /**
@@ -309,16 +254,16 @@ public class Player {
    * ) BWAPI::Broodwar << "Looks like something I can abuse!" << std::endl; }
    */
   public PlayerType getType() {
-    return this.playerType;
+    return this.type;
   }
 
   /**
    * Retrieves the player's force. A force is the team that the player is playing on. Returns The
    * Force object that the player is part of.
    */
-  public int getForceID() {
-    return this.forceId;
-  }
+  //  public int getForceID() {
+  //    return this.forceId;
+  //  }
 
   // TODO implement isAlly(player)
   // /**
@@ -353,16 +298,16 @@ public class Player {
    * player. false if this player is any other player.
    */
   public boolean isNeutral() {
-    return this.isNeutral;
+    return this.neutral;
   }
 
-  public boolean isAlly() {
-    return this.isAlly;
-  }
+  //  public boolean isAlly() {
+  //    return this.ally;
+  //  }
 
-  public boolean isEnemy() {
-    return this.isEnemy;
-  }
+  //  public boolean isEnemy() {
+  //    return this.enemy;
+  //  }
 
   /**
    * Retrieve's the player's starting location. Returns A TilePosition containing the position of
@@ -379,14 +324,14 @@ public class Player {
    * otherwise false
    */
   public boolean isVictorious() {
-    return this.isVictorious;
+    return this.victorious;
   }
 
   /**
    * Checks if the player has been defeated. Returns true if the player is defeated, otherwise false
    */
   public boolean isDefeated() {
-    return this.isDefeated;
+    return this.defeated;
   }
 
   /**
@@ -737,7 +682,7 @@ public class Player {
    * false if the player is capable of playing in the game.
    */
   public boolean isObserver() {
-    return this.isObserver;
+    return this.observer;
   }
 
   /** Returns true if the this player can train/build the given type immediately. */

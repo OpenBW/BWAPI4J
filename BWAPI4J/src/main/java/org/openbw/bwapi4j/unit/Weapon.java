@@ -20,7 +20,7 @@
 
 package org.openbw.bwapi4j.unit;
 
-import org.openbw.bwapi4j.ap.Native;
+import org.openbw.bwapi4j.ap.BridgeValue;
 import org.openbw.bwapi4j.ap.NativeClass;
 import org.openbw.bwapi4j.type.WeaponType;
 
@@ -28,8 +28,9 @@ import org.openbw.bwapi4j.type.WeaponType;
 @NativeClass(parentName = "BWAPI::Unit")
 public class Weapon {
 
+  @BridgeValue(indirection = "type")
   WeaponType type;
-  @Native
+  @BridgeValue
   int cooldown;
 
   public Weapon(WeaponType type, int cooldown) {
@@ -51,10 +52,5 @@ public class Weapon {
 
   public int maxCooldown() {
     return type.damageCooldown();
-  }
-
-  void update(WeaponType type, int cooldown) {
-    this.type = type;
-    this.cooldown = cooldown;
   }
 }

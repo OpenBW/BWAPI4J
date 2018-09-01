@@ -23,8 +23,9 @@ package org.openbw.bwapi4j.unit;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class NuclearSilo extends AddonImpl implements Mechanical {
-  protected NuclearSilo(int id, int timeSpotted) {
-    super(id, UnitType.Terran_Nuclear_Silo, timeSpotted);
+
+  protected NuclearSilo(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   public boolean hasNuke() {

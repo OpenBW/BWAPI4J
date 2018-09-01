@@ -26,8 +26,9 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class InfestedCommandCenter extends BuildingImpl
     implements Organic, FlyingBuilding, TrainingFacility {
-  protected InfestedCommandCenter(int id, int timeSpotted) {
-    super(id, UnitType.Zerg_Infested_Command_Center, timeSpotted);
+
+  protected InfestedCommandCenter(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   public boolean trainInfestedTerran() {

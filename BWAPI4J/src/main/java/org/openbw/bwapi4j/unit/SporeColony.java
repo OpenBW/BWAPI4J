@@ -25,8 +25,9 @@ import static org.openbw.bwapi4j.type.UnitCommandType.Attack_Unit;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class SporeColony extends BuildingImpl implements Organic, AirAttacker {
-  protected SporeColony(int id, int timeSpotted) {
-    super(id, UnitType.Zerg_Spore_Colony, timeSpotted);
+
+  protected SporeColony(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   @Override

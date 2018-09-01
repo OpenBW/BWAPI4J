@@ -32,8 +32,8 @@ import org.openbw.bwapi4j.type.UnitType;
 public class Bunker extends BuildingImpl implements Mechanical, Loadable {
   private static final Logger logger = LogManager.getLogger();
 
-  protected Bunker(final int id, final int timeSpotted) {
-    super(id, UnitType.Terran_Bunker, timeSpotted);
+  protected Bunker(UnitType unitType, final int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   public boolean isLoaded() {

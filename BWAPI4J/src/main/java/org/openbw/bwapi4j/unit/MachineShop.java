@@ -25,8 +25,9 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class MachineShop extends AddonImpl implements Mechanical, ResearchingFacility {
-  protected MachineShop(int id, int timeSpotted) {
-    super(id, UnitType.Terran_Machine_Shop, timeSpotted);
+
+  protected MachineShop(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   public boolean researchSiegeMode() {

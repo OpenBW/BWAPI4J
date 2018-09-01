@@ -29,13 +29,8 @@ import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Unit;
 
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.TechType;
-import org.openbw.bwapi4j.type.UnitType;
 
 public class HighTemplar extends MobileUnitImpl implements Organic, SpellCaster {
-  protected HighTemplar(int id) {
-    super(id, UnitType.Protoss_High_Templar);
-  }
-
   @Override
   public int getEnergy() {
     return this.energy;

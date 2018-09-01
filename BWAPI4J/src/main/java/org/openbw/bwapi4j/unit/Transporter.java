@@ -29,14 +29,9 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.type.UnitType;
 
 public abstract class Transporter extends MobileUnitImpl implements Loadable {
   private static final Logger logger = LogManager.getLogger();
-
-  protected Transporter(final int id, final UnitType unitType) {
-    super(id, unitType);
-  }
 
   @Override
   public boolean isLoaded() {

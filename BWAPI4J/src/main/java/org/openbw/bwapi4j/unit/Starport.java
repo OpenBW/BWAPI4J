@@ -30,8 +30,9 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class Starport extends BuildingImpl
     implements Mechanical, FlyingBuilding, TrainingFacility, ExtendibleByAddon {
-  protected Starport(int id, int timeSpotted) {
-    super(id, UnitType.Terran_Starport, timeSpotted);
+
+  protected Starport(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   @Override

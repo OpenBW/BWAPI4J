@@ -20,43 +20,45 @@
 
 package org.openbw.bwapi4j;
 
+import org.openbw.bwapi4j.ap.BridgeValue;
+import org.openbw.bwapi4j.ap.LookedUp;
+import org.openbw.bwapi4j.ap.Named;
+import org.openbw.bwapi4j.ap.NativeClass;
 import org.openbw.bwapi4j.type.BulletType;
 import org.openbw.bwapi4j.unit.Unit;
-import org.openbw.bwapi4j.util.BridgeUtils;
 
+@LookedUp(method = "getBullet")
+@NativeClass(name = "BWAPI::Bullet")
 public class Bullet {
-  enum CacheIndex {
-    EXISTS,
-    ANGLE,
-    ID,
-    PLAYER,
-    POSITION_X,
-    POSITION_Y,
-    REMOVE_TIMER,
-    SOURCE,
-    TARGET,
-    TARGET_POSITION_X,
-    TARGET_POSITION_Y,
-    TYPE,
-    VELOCITY_X,
-    VELOCITY_Y,
-    VISIBLE
-  }
 
-  private boolean exists;
-  private double angle;
-  private int id;
-  private int playerId;
-  private Position position;
-  private int removeTimer;
-  private int sourceId;
-  private int targetId;
-  private Position targetPosition;
-  private BulletType type;
-  private double velocityX;
-  private double velocityY;
-  private boolean visible;
-  private Player player;
+  @BridgeValue(accessor = "exists()")
+  boolean exists;
+  @BridgeValue
+  double angle;
+  @BridgeValue(initializeOnly = true)
+  @Named(name = "ID")
+  int iD;
+  @BridgeValue
+  Player player;
+  @BridgeValue
+  Position position;
+  @BridgeValue
+  int removeTimer;
+  @BridgeValue
+  Unit source;
+  @BridgeValue
+  Unit target;
+  @BridgeValue
+  Position targetPosition;
+  @Named(name = "TYPE")
+  @BridgeValue(initializeOnly = true)
+  BulletType type;
+  @BridgeValue
+  double velocityX;
+  @BridgeValue
+  double velocityY;
+  @BridgeValue
+  boolean visible;
 
   private BW bw;
 
@@ -64,56 +66,16 @@ public class Bullet {
     this.bw = bw;
   }
 
-  /**
-   * Initializes a bullet with static information (constant through the course of a game).
-   *
-   * @param bulletData raw data array
-   * @param index current pointer
-   */
-  public void initialize(int[] bulletData, int index) {
-    this.id = bulletData[index + CacheIndex.ID.ordinal()];
-    this.playerId = bulletData[index + CacheIndex.PLAYER.ordinal()];
-    this.player = bw.getPlayer(this.playerId);
-    this.sourceId = bulletData[index + CacheIndex.SOURCE.ordinal()];
-    this.type = BulletType.valueOf(bulletData[index + CacheIndex.TYPE.ordinal()]);
-  }
-
-  /**
-   * Updates dynamic bullet information. To be called once per frame.
-   *
-   * @param bulletData raw data array
-   * @param index current pointer
-   */
-  public void update(int[] bulletData, int index) {
-    this.exists = bulletData[index + CacheIndex.EXISTS.ordinal()] == 1;
-    this.angle =
-        BridgeUtils.parsePreservedBwapiAngle(
-            BridgeUtils.parsePreservedDouble(bulletData[index + CacheIndex.ANGLE.ordinal()]));
-    int x = bulletData[index + CacheIndex.POSITION_X.ordinal()];
-    int y = bulletData[index + CacheIndex.POSITION_Y.ordinal()];
-    this.position = new Position(x, y);
-    this.removeTimer = bulletData[index + CacheIndex.REMOVE_TIMER.ordinal()];
-    this.targetId = bulletData[index + CacheIndex.TARGET.ordinal()];
-    int tx = bulletData[index + CacheIndex.TARGET_POSITION_X.ordinal()];
-    int ty = bulletData[index + CacheIndex.TARGET_POSITION_Y.ordinal()];
-    this.targetPosition = new Position(tx, ty);
-    this.velocityX =
-        BridgeUtils.parsePreservedDouble(bulletData[index + CacheIndex.VELOCITY_X.ordinal()]);
-    this.velocityY =
-        BridgeUtils.parsePreservedDouble(bulletData[index + CacheIndex.VELOCITY_Y.ordinal()]);
-    this.visible = bulletData[index + CacheIndex.VISIBLE.ordinal()] == 1;
-  }
-
   public Player getPlayer() {
     return this.player;
   }
 
   public Unit getSource() {
-    return this.bw.getUnit(this.sourceId);
+    return source;
   }
 
   public Unit getTarget() {
-    return this.bw.getUnit(this.targetId);
+    return target;
   }
 
   public boolean isExists() {
@@ -125,7 +87,7 @@ public class Bullet {
   }
 
   public int getId() {
-    return id;
+    return iD;
   }
 
   public Position getPosition() {

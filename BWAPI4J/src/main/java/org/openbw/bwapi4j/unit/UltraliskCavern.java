@@ -25,8 +25,9 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class UltraliskCavern extends BuildingImpl implements Organic, ResearchingFacility {
-  protected UltraliskCavern(int id, int timeSpotted) {
-    super(id, UnitType.Zerg_Ultralisk_Cavern, timeSpotted);
+
+  protected UltraliskCavern(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   public boolean upgradeChitinousPlating() {

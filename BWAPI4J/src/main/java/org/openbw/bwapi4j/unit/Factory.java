@@ -30,8 +30,9 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class Factory extends BuildingImpl
     implements Mechanical, FlyingBuilding, TrainingFacility, ExtendibleByAddon {
-  protected Factory(int id, int timeSpotted) {
-    super(id, UnitType.Terran_Factory, timeSpotted);
+
+  protected Factory(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   public boolean trainVulture() {

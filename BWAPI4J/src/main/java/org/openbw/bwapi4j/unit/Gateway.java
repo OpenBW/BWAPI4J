@@ -25,8 +25,9 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class Gateway extends BuildingImpl implements Mechanical, TrainingFacility {
-  protected Gateway(int id, int timeSpotted) {
-    super(id, UnitType.Protoss_Gateway, timeSpotted);
+
+  protected Gateway(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   public boolean trainZealot() {

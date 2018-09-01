@@ -27,13 +27,8 @@ import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Position;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Unit;
 
 import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.type.UnitType;
 
 public class ScienceVessel extends MobileUnitImpl implements Mechanical, SpellCaster, Detector {
-  protected ScienceVessel(int id) {
-    super(id, UnitType.Terran_Science_Vessel);
-  }
-
   public boolean defensiveMatrix(PlayerUnit unit) {
     return issueCommand(this.iD, Use_Tech_Unit, unit.getId(), -1, -1, Defensive_Matrix.getId());
   }

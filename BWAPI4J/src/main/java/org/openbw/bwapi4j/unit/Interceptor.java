@@ -20,13 +20,7 @@
 
 package org.openbw.bwapi4j.unit;
 
-import org.openbw.bwapi4j.type.UnitType;
-
 public class Interceptor extends MobileUnitImpl implements Mechanical, GroundAttacker, AirAttacker {
-  protected Interceptor(int id) {
-    super(id, UnitType.Protoss_Interceptor);
-  }
-
   public Carrier getCarrier() {
     return (Carrier) carrier;
   }

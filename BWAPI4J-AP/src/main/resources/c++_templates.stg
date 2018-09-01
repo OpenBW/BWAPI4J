@@ -47,22 +47,32 @@ primitiveValue(assignment, value) ::= "$({dataAs$value.typeName$})(assignment)$"
 dataAsboolean(assignment) ::= "$isGetter(assignment)$"
 dataAsint(assignment) ::= "$getter(assignment)$"
 dataAsdouble(assignment) ::= "toPreservedDouble($getter(assignment)$)"
+dataAschar(assignment) ::= "$getter(assignment)$"
 
 bwMappedValue(assignment) ::= "$getter(assignment)$"
 enumValue(value) ::= "$getter(assignment)$"
 newObjectValue(value) ::= "$getter(assignment)$"
 
 getter(assignment) ::= <%
-$if(assignment.accessor)
-$entity->$assignment.accessor$
+entity->
+$if(assignment.indirection)$
+get$assignment.indirection; format="cap"$().
+$endif$
+$if(assignment.accessor)$
+$assignment.accessor$
 $else$
-entity->get$prefix; format="cap"$$assignment.field; format="cap"$()
+$if(!assignment.indirection)$
+get$prefix; format="cap"$$assignment.field; format="cap"$
+$else$
+$prefix$
+$endif$
+()
 $endif$
 %>
 
 isGetter(assignment) ::= <%
-$if(assignment.accessor)
-$entity->$assignment.accessor$
+$if(assignment.accessor)$
+entity->$assignment.accessor$
 $else$
 entity->is$prefix; format="cap"$$assignment.field; format="cap"$()
 $endif$

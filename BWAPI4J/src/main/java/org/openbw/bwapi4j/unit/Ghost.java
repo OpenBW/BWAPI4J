@@ -30,15 +30,10 @@ import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Unit;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.type.UnitType;
 
 public class Ghost extends MobileUnitImpl
     implements SpellCaster, Organic, GroundAttacker, AirAttacker {
   private static final Logger logger = LogManager.getLogger();
-
-  protected Ghost(int id) {
-    super(id, UnitType.Terran_Ghost);
-  }
 
   @Override
   public int getEnergy() {

@@ -25,8 +25,9 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class EvolutionChamber extends BuildingImpl implements Organic, ResearchingFacility {
-  protected EvolutionChamber(int id, int timeSpotted) {
-    super(id, UnitType.Zerg_Evolution_Chamber, timeSpotted);
+
+  protected EvolutionChamber(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   public boolean upgradeMeleeAttacks() {

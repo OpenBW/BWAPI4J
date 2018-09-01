@@ -1,6 +1,9 @@
 delimiters "$", "$"
 
 entry(model) ::= <<
+/**
+ * THIS FILE IS GENERATED, PLEASE DO NOT MANUALLY EDIT IT!
+ */
 package $model.packageName$;
 
 import org.openbw.bwapi4j.util.BridgeUtils;
@@ -18,6 +21,20 @@ public class $model.bridgeClassName$ {
     $model.delegates:{d|this.$d.fieldName$ = $d.fieldName$;}$
   }
 
+  /**
+   * Called before each update of $model.name$.
+   */
+  public void reset($model.name$ entity) {
+    $model.resetAssignments:handleAssignment()$
+  }
+
+  /**
+   * Called the first time $model.name$ is encountered.
+   */
+  public void initialize($model.name$ entity, int[] data, int index) {
+    $model.assignments:{a|$if(a.initializeOnly)$$handleAssignment(a, a.namedIndex)$$endif$}$
+  }
+
   public int update($model.name$ entity, int[] data, int index) {
     $model.assignments:handleAssignment()$
     return index;
@@ -25,13 +42,17 @@ public class $model.bridgeClassName$ {
 }
 >>
 
-handleAssignment(assignment) ::= <<
+handleAssignment(assignment, fixedIndex=false) ::= <<
+$if(assignment.initializeOnly&&!fixedIndex)$
+index++;  // Might be wrong if '$assignment.field$' uses more than one data[] entry!
+$else$
 $if(assignment.rValue && !assignment.rValue.listValue)$
 entity.$assignment.field$ = $valueOf(assignment.rValue)$;
 $elseif(assignment.delegateAssignment)$
 $delegateAssignment(assignment.field, assignment.delegateAssignment)$
 $elseif(assignment.rValue.listValue)$
 $listValue(assignment.field, assignment.rValue.listValue)$
+$endif$
 $endif$
 >>
 
@@ -44,12 +65,14 @@ $elseif(rValue.enumValue)$
 $enumValue(rValue.enumValue)$
 $elseif(rValue.bwMappedValue)$
 $bwMappedValue(rValue.bwMappedValue)$
+$elseif(rValue.constant)$
+$assignment.rValue.constant$
 $endif$
 %>
 
 listValue(field, listValue) ::= <<
 entity.$field$.clear();
-int $field$Amount = data[index++];
+int $field$Amount = data[$data()$];
 for (int i = 0; i < $field$Amount; i++) {
   entity.$field$.add($valueOf(listValue.rValue)$);
 }
@@ -58,11 +81,14 @@ for (int i = 0; i < $field$Amount; i++) {
 
 delegateAssignment(field, delegate) ::= "index = $delegate.delegate.fieldName$.update(entity.$field$, data, index);"
 
-bwMappedValue(value) ::= "($value.targetType$) bw.$value.bwMethod$(data[index++])"
-enumValue(value) ::= "$value.enumName$.values()[data[index++]]"
+bwMappedValue(value) ::= "($value.targetType$) bw.$value.bwMethod$($data()$)"
+enumValue(value) ::= "$value.enumName$.values()[$data()$]"
 primitiveValue(value) ::= "$({dataAs$value.typeName$})(value)$"
 newObjectValue(value) ::= "$if(value.needsOuterClass)$entity.new $value.className$$else$new $value.fqClassName$$endif$($value.constructorArgs:valueOf(); separator=\", \"$)"
 
-dataAsboolean(value) ::= "data[index++] == 1"
-dataAsint(value) ::= "data[index++]"
-dataAsdouble(value) ::= "BridgeUtils.parsePreservedDouble(data[index++])"
+dataAsboolean(value) ::= "$data()$ == 1"
+dataAsint(value) ::= "$data()$"
+dataAsdouble(value) ::= "BridgeUtils.parsePreservedDouble($data()$)"
+dataAschar(value) ::= "(char) $data()$"
+
+data() ::= "$if(fixedIndex)$data[index + $fixedIndex$]$else$data[index++]$endif$"

@@ -25,8 +25,9 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class Academy extends BuildingImpl implements Mechanical, ResearchingFacility {
-  protected Academy(int id, int timeSpotted) {
-    super(id, UnitType.Terran_Academy, timeSpotted);
+
+  protected Academy(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   public boolean researchStimPacks() {

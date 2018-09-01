@@ -22,21 +22,16 @@ package org.openbw.bwapi4j.unit;
 
 import static org.openbw.bwapi4j.type.UnitCommandType.Morph;
 import static org.openbw.bwapi4j.type.UnitType.Zerg_Greater_Spire;
-import static org.openbw.bwapi4j.type.UnitType.Zerg_Spire;
 
 import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class Spire extends BuildingImpl implements Organic, ResearchingFacility, Morphable {
-  protected Spire(int id, int timeSpotted) {
-    this(id, Zerg_Spire, timeSpotted);
-  }
 
-  protected Spire(int id, UnitType type, int timeSpotted) {
-    super(id, type, timeSpotted);
+  protected Spire(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
-
   public boolean upgradeFlyerAttacks() {
     return super.upgrade(UpgradeType.Zerg_Flyer_Attacks);
   }

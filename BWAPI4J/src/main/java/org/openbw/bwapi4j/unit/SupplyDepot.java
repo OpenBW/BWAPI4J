@@ -23,8 +23,9 @@ package org.openbw.bwapi4j.unit;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class SupplyDepot extends BuildingImpl implements Mechanical, SupplyProvider {
-  protected SupplyDepot(int id, int timeSpotted) {
-    super(id, UnitType.Terran_Supply_Depot, timeSpotted);
+
+  protected SupplyDepot(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   @Override

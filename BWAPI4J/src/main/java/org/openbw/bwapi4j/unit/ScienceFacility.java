@@ -31,8 +31,9 @@ import org.openbw.bwapi4j.type.UpgradeType;
 
 public class ScienceFacility extends BuildingImpl
     implements Mechanical, ResearchingFacility, ExtendibleByAddon {
-  protected ScienceFacility(int id, int timeSpotted) {
-    super(id, UnitType.Terran_Science_Facility, timeSpotted);
+
+  protected ScienceFacility(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   /**

@@ -27,10 +27,6 @@ import static org.openbw.bwapi4j.type.UnitCommandType.Unburrow;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class Drone extends Worker implements Organic, Burrowable, Morphable {
-  protected Drone(int id) {
-    super(id, UnitType.Zerg_Drone);
-  }
-
   public boolean burrow() {
     return issueCommand(this.iD, Burrow, -1, -1, -1, -1);
   }

@@ -29,10 +29,6 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class Hydralisk extends MobileUnitImpl
     implements Organic, Burrowable, GroundAttacker, AirAttacker, Morphable {
-  protected Hydralisk(int id) {
-    super(id, UnitType.Zerg_Hydralisk);
-  }
-
   @Override
   public boolean burrow() {
     return issueCommand(this.iD, Burrow, -1, -1, -1, -1);

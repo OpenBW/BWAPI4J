@@ -32,13 +32,8 @@ import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.UnitStatCalculator;
 import org.openbw.bwapi4j.type.Order;
 import org.openbw.bwapi4j.type.UnitCommandType;
-import org.openbw.bwapi4j.type.UnitType;
 
 public abstract class PlayerUnitImpl extends UnitImpl implements PlayerUnit {
-  protected PlayerUnitImpl(int id, UnitType unitType) {
-    super(id, unitType);
-  }
-
   public PlayerUnit getBuildUnit() {
     return (PlayerUnit) buildUnit;
   }

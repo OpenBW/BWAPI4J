@@ -27,12 +27,9 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class Lair extends Hatchery {
-  protected Lair(int id, int timeSpotted) {
-    super(id, UnitType.Zerg_Lair, timeSpotted);
-  }
 
-  protected Lair(int id, UnitType type, int timeSpotted) {
-    super(id, type, timeSpotted);
+  protected Lair(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   @Override

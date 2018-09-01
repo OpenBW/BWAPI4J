@@ -25,10 +25,6 @@ import static org.openbw.bwapi4j.type.UnitCommandType.Morph;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class Larva extends PlayerUnitImpl implements Organic, Morphable {
-  protected Larva(int id) {
-    super(id, UnitType.Zerg_Larva);
-  }
-
   public Hatchery getHatchery() {
     return (Hatchery) hatchery;
   }

@@ -23,13 +23,8 @@ package org.openbw.bwapi4j.unit;
 import static org.openbw.bwapi4j.type.TechType.Yamato_Gun;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Unit;
 
-import org.openbw.bwapi4j.type.UnitType;
-
 public class BattleCruiser extends MobileUnitImpl
     implements Mechanical, SpellCaster, GroundAttacker, AirAttacker {
-  protected BattleCruiser(int id) {
-    super(id, UnitType.Terran_Battlecruiser);
-  }
 
   public boolean yamatoGun(PlayerUnit unit) {
     return issueCommand(this.iD, Use_Tech_Unit, unit.getId(), -1, -1, Yamato_Gun.getId());

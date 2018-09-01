@@ -5,9 +5,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({ElementType.FIELD, ElementType.CONSTRUCTOR})
+@Target({ElementType.FIELD})
 @Retention(RetentionPolicy.SOURCE)
-public @interface Native {
+public @interface Reset {
 
-  String accessor() default "";
+  String value();
 }

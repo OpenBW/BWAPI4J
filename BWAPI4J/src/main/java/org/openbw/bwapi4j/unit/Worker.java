@@ -28,10 +28,6 @@ import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.UnitType;
 
 public abstract class Worker extends MobileUnitImpl implements GroundAttacker {
-  protected Worker(int id, UnitType unitType) {
-    super(id, unitType);
-  }
-
   public UnitType getBuildType() {
     return buildType;
   }

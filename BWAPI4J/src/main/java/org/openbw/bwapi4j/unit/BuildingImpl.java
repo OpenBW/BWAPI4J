@@ -35,8 +35,8 @@ public abstract class BuildingImpl extends PlayerUnitImpl implements Building {
 
   protected int probableConstructionStart;
 
-  protected BuildingImpl(int id, UnitType type, int timeSpotted) {
-    super(id, type);
+  protected BuildingImpl(UnitType unitType, int timeSpotted) {
+    this.type = unitType;
     this.probableConstructionStart = calculateProbableConstructionStart(timeSpotted);
   }
 
