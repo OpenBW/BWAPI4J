@@ -23,8 +23,8 @@
 #include <jni.h>
 
 struct JavaRefs {
-  jclass arrayListClass;
-  jmethodID arrayListClass_add;
+  jclass listClass;
+  jmethodID listClass_add;
 
   jclass integerClass;
   jmethodID integerClassConstructor;

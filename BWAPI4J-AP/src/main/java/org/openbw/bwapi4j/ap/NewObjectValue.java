@@ -33,4 +33,8 @@ public class NewObjectValue {
   public boolean isNeedsOuterClass() {
     return needsOuterClass;
   }
+
+  public int getDataAmount() {
+    return constructorArgs.stream().mapToInt(RValue::getDataAmount).sum();
+  }
 }

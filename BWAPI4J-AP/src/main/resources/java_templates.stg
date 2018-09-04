@@ -13,7 +13,7 @@ public class $model.bridgeClassName$ {
   $model.delegates:{d|private final $d.fqClassName$ $d.fieldName$;
   }$
 
-  $model.namedFields:{n|public static final int $n$ = $i0$;
+  $model.assignments.namedAssignments:{n|public static final int $n.name$ = $n.index$;
   }$
 
   public $model.bridgeClassName$(org.openbw.bwapi4j.BW bw$if(model.delegates)$, $model.delegates:{d|$d.fqClassName$ $d.fieldName$}; separator=", "$$endif$) {
@@ -25,31 +25,51 @@ public class $model.bridgeClassName$ {
    * Called before each update of $model.name$.
    */
   public void reset($model.name$ entity) {
-    $model.resetAssignments:handleAssignment()$
+    $model.assignments.resetAssignments:handleAssignment()$
   }
 
   /**
    * Called the first time $model.name$ is encountered.
    */
   public void initialize($model.name$ entity, int[] data, int index) {
-    $model.assignments:{a|$if(a.initializeOnly)$$handleAssignment(a, a.namedIndex)$$endif$}$
+    $model.assignments.namedAssignments:{a|$if(a.initializeOnly)$$handleAssignment(a, {index + $a.name$})$$endif$}$
+
+    $if(model.assignments.delegatedAssignments)$
+    // Now handle delegated initializers
+    index += $model.assignments.firstDelegateIndex$;
+    $model.assignments.delegatedAssignments:{a|$delegateInitialize(a.field, a.byDelegate)$
+$skipAssignment(a)$
+}$
+    $endif$
   }
 
   public int update($model.name$ entity, int[] data, int index) {
-    $model.assignments:handleAssignment()$
+    $model.assignments.namedAssignments:handleAssignment()$
+    $model.assignments.delegatedAssignments:handleAssignment()$
+    $model.assignments.assignments:handleAssignment()$
+    return index;
+  }
+
+  /**
+   * Used to skip fields that are only used in initialization, but are provided each frame
+   */
+  public int skip(int[] data, int index) {
+    $model.assignments.namedAssignments:skipAssignment()$
+    $model.assignments.delegatedAssignments:skipAssignment()$
+    $model.assignments.assignments:skipAssignment()$
     return index;
   }
 }
 >>
 
-handleAssignment(assignment, fixedIndex=false) ::= <<
+handleAssignment(assignment,fixedIndex=false) ::= <<
 $if(assignment.initializeOnly&&!fixedIndex)$
-index++;  // Might be wrong if '$assignment.field$' uses more than one data[] entry!
+$skipAssignment(assignment)$
 $else$
 $if(assignment.rValue && !assignment.rValue.listValue)$
 entity.$assignment.field$ = $valueOf(assignment.rValue)$;
-$elseif(assignment.delegateAssignment)$
-$delegateAssignment(assignment.field, assignment.delegateAssignment)$
+$elseif(assignment.byDelegate)$
+$byDelegate(assignment.field, assignment.byDelegate)$
 $elseif(assignment.rValue.listValue)$
 $listValue(assignment.field, assignment.rValue.listValue)$
 $endif$
@@ -79,7 +99,9 @@ for (int i = 0; i < $field$Amount; i++) {
 >>
 
 
-delegateAssignment(field, delegate) ::= "index = $delegate.delegate.fieldName$.update(entity.$field$, data, index);"
+byDelegate(field, byDelegate) ::= "index = $byDelegate.fieldName$.update(entity.$field$, data, index);"
+delegateInitialize(field, byDelegate) ::= "$byDelegate.fieldName$.initialize(entity.$field$, data, index);"
+
 
 bwMappedValue(value) ::= "($value.targetType$) bw.$value.bwMethod$($data()$)"
 enumValue(value) ::= "$value.enumName$.values()[$data()$]"
@@ -91,4 +113,32 @@ dataAsint(value) ::= "$data()$"
 dataAsdouble(value) ::= "BridgeUtils.parsePreservedDouble($data()$)"
 dataAschar(value) ::= "(char) $data()$"
 
-data() ::= "$if(fixedIndex)$data[index + $fixedIndex$]$else$data[index++]$endif$"
+data() ::= "$if(fixedIndex)$data[$fixedIndex$]$else$data[index++]$endif$"
+
+skipAssignment(assignment) ::= <<
+$if(assignment.rValue && !assignment.rValue.listValue)$
+$skipRvalue(assignment.rValue)$$\\$
+$elseif(assignment.byDelegate)$
+$skipDelegate(assignment.byDelegate)$$\\$
+$elseif(assignment.rValue.listValue)$
+$skipListValue(assignment.rValue.listValue)$$\\$
+$endif$// Skipping '$assignment.field$'
+>>
+
+skipRvalue(rValue) ::= <%
+$if(rValue.primitiveValue)$
+index++;
+$elseif(rValue.newObjectValue)$
+$skipNewObjectValue(rValue.newObjectValue)$
+$elseif(rValue.enumValue)$
+index++;
+$elseif(rValue.bwMappedValue)$
+index++;
+$elseif(rValue.constant)$
+$endif$
+%>
+
+skipNewObjectValue(value) ::= "index += $value.dataAmount$;"
+
+skipDelegate(byDelegate) ::= "index = $byDelegate.fieldName$.skip(data, index);"
+skipListValue(value) ::= "index += data[index] + 1;"

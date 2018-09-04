@@ -20,6 +20,9 @@
 
 package org.openbw.bwapi4j.type;
 
+import org.openbw.bwapi4j.ap.LookedUp;
+
+@LookedUp(method = "getColor")
 public enum Color {
   RED(111),
   BLUE(165),
@@ -44,12 +47,7 @@ public enum Color {
     return this.rgb;
   }
 
-  public static Color valueOf(int rgb) {
-    for (Color color : Color.values()) {
-      if (color.rgb == rgb) {
-        return color;
-      }
-    }
-    return null;
+  public boolean matches(int rgb) {
+    return this.rgb == rgb;
   }
 }

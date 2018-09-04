@@ -78,7 +78,7 @@ public abstract class UnitImpl implements Unit {
   int initiallySpotted;
 
   @Named(name = "TYPE")
-  @BridgeValue
+  @BridgeValue(initializeOnly = true)
   UnitType type;
 
   // dynamic
@@ -142,10 +142,13 @@ public abstract class UnitImpl implements Unit {
   boolean idle;
   @BridgeValue
   boolean completed;
+
   @BridgeValue
   Weapon groundWeapon = new Weapon(WeaponType.None, 0);
+
   @BridgeValue
   Weapon airWeapon = new Weapon(WeaponType.None, 0);
+
   @BridgeValue
   int spellCooldown;
   @BridgeValue

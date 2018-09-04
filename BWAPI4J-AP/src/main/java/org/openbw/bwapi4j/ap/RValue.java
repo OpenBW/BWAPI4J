@@ -56,4 +56,20 @@ public class RValue {
   public String getConstant() {
     return constant;
   }
+
+  public int getDataAmount() {
+    if (enumValue != null) {
+      return 1;
+    }
+    if (newObjectValue != null) {
+      return newObjectValue.getDataAmount();
+    }
+    if (primitiveValue != null) {
+      return 1;
+    }
+    if (bwMappedValue != null) {
+      return 1;
+    }
+    throw new IllegalStateException("Invalid type of RValue for data amount!");
+  }
 }

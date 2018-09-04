@@ -25,8 +25,8 @@
 void JavaRefs::initialize(JNIEnv *env) {
   LOGGER("Initializing Java references...");
 
-  arrayListClass = env->FindClass("java/util/ArrayList");
-  arrayListClass_add = env->GetMethodID(arrayListClass, "add", "(Ljava/lang/Object;)Z");
+  listClass = env->FindClass("java/util/List");
+  listClass_add = env->GetMethodID(listClass, "add", "(Ljava/lang/Object;)Z");
 
   integerClass = env->FindClass("java/lang/Integer");
   integerClassConstructor = env->GetMethodID(integerClass, "<init>", "(I)V");

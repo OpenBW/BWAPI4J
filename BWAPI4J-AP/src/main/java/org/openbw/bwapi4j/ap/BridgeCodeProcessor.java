@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UncheckedIOException;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -110,38 +111,19 @@ public class BridgeCodeProcessor extends AbstractProcessor {
     return true;
   }
 
-  private List<Assignment> parseAssignments(
+  private Assignments parseAssignments(
       Set<? extends Element> allNativeClasses,
       TypeElement typeElement,
       Name packageName,
       BridgeModel bridgeModel) {
-    return typeElement
+    Assignments assignments = new Assignments();
+    typeElement
         .getEnclosedElements()
         .stream()
         .filter(e -> e.getAnnotation(BridgeValue.class) != null)
-        .sorted(
-            (a, b) -> {
-              if (a.getAnnotation(Named.class) != null && b.getAnnotation(Named.class) == null) {
-                return -1;
-              }
-              if (b.getAnnotation(Named.class) != null && a.getAnnotation(Named.class) == null) {
-                return 1;
-              }
-              return a.getSimpleName()
-                  .toString()
-                  .toLowerCase()
-                  .compareTo(b.getSimpleName().toString().toLowerCase());
-            })
-        .map(
+        .sorted(Comparator.comparing(a -> a.getSimpleName().toString().toLowerCase()))
+        .forEach(
             e -> {
-              TypeElement elementType = asTypeElement(e.asType());
-              if (elementType != null
-                  && elementType.getKind() != ElementKind.ENUM
-                  && elementType.getAnnotation(NativeClass.class) != null
-                  && elementType.getAnnotation(LookedUp.class) == null) {
-                return mapDelegateUpdate(
-                    bridgeModel, e.getSimpleName(), packageName, elementType, allNativeClasses);
-              }
               BridgeValue aBridgeValue = e.getAnnotation(BridgeValue.class);
               String accessor;
               if (aBridgeValue.accessor().isEmpty()) {
@@ -149,43 +131,74 @@ public class BridgeCodeProcessor extends AbstractProcessor {
               } else {
                 accessor = aBridgeValue.accessor();
               }
+
+              Named aNamed = e.getAnnotation(Named.class);
+
+              String namedIndex = null;
+              if (aNamed != null) {
+                namedIndex = aNamed.name();
+              } else if (aBridgeValue.initializeOnly()) {
+                throw new IllegalStateException(
+                    "Field "
+                        + e.getSimpleName()
+                        + " is initializeOnly, it must also be marked @Named!");
+              }
+
+              TypeElement elementType = asTypeElement(e.asType());
+              if (isDelegate(elementType)) {
+                if (aNamed != null) {
+                  throw new IllegalStateException(
+                      "Field "
+                          + e.getSimpleName()
+                          + " is a delegate, a named index might not be possible");
+                }
+                Delegate byDelegate =
+                    mapByDelegate(bridgeModel, packageName, elementType, allNativeClasses);
+                assignments.addDelegatedAssignment(new Assignment(e.getSimpleName(), byDelegate));
+                return;
+              }
               String indirection;
               if (aBridgeValue.indirection().isEmpty()) {
                 indirection = null;
               } else {
                 indirection = aBridgeValue.indirection();
               }
-              Named aNamed = e.getAnnotation(Named.class);
-              String namedIndex = null;
-              if (aNamed != null) {
-                bridgeModel.addNamedField(aNamed.name());
-                namedIndex = aNamed.name();
-              } else if (aBridgeValue.initializeOnly()) {
-                throw new IllegalStateException(
-                    "Field "
-                        + ((Element) e).getSimpleName()
-                        + " is initializeOnly, it must also be marked @Named!");
-              }
               Reset aReset = e.getAnnotation(Reset.class);
-              if (aReset != null) {
-                bridgeModel.addResetAssignment(
+              if (aReset != null && bridgeModel != null) {
+                assignments.addResetAssignment(
                     new Assignment(
-                        e.getSimpleName(),
-                        new RValue(aReset.value()),
-                        null,
-                        null,
-                        false,
-                        null));
+                        e.getSimpleName(), new RValue(aReset.value()), null, null));
               }
-              return new Assignment(
-                  e.getSimpleName(),
-                  valueFrom(e.asType()),
-                  accessor,
-                  indirection,
-                  aBridgeValue.initializeOnly(),
-                  namedIndex);
-            })
-        .collect(Collectors.toList());
+              RValue rValue = valueFrom(e.asType());
+              if (namedIndex != null && bridgeModel != null) {
+                int index = assignments.namedFieldIndex;
+                assignments.namedFieldIndex += rValue.getDataAmount();
+                assignments.addNamedAssignment(
+                    new NamedAssignment(
+                        e.getSimpleName(),
+                        rValue,
+                        accessor,
+                        indirection,
+                        aBridgeValue.initializeOnly(),
+                        namedIndex,
+                        index));
+                return;
+              }
+              assignments.addAssignment(
+                  new Assignment(
+                      e.getSimpleName(),
+                      rValue,
+                      accessor,
+                      indirection));
+            });
+    return assignments;
+  }
+
+  private boolean isDelegate(TypeElement elementType) {
+    return elementType != null
+        && elementType.getKind() != ElementKind.ENUM
+        && elementType.getAnnotation(NativeClass.class) != null
+        && elementType.getAnnotation(LookedUp.class) == null;
   }
 
   private TypeElement asTypeElement(TypeMirror typeMirror) {
@@ -218,7 +231,7 @@ public class BridgeCodeProcessor extends AbstractProcessor {
                         .getParameters()
                         .stream()
                         .map(Element::asType)
-                        .map(t -> valueFrom(t))
+                        .map(this::valueFrom)
                         .collect(Collectors.toList()))
             .orElse(Collections.emptyList());
     return new NewObjectValue(
@@ -245,14 +258,15 @@ public class BridgeCodeProcessor extends AbstractProcessor {
       }
       return new RValue(new PrimitiveValue(type));
     }
-    if (typeElement.getKind() == ElementKind.ENUM) {
-      return new RValue(new EnumValue(typeElement.getQualifiedName()));
-    }
 
     LookedUp nativeDeclaration = typeElement.getAnnotation(LookedUp.class);
-    if (nativeDeclaration != null && !nativeDeclaration.method().equals("")) {
+    if (nativeDeclaration != null && !nativeDeclaration.method().isEmpty()) {
       return new RValue(
           new BWMappedValue(nativeDeclaration.method(), typeElement.getQualifiedName()));
+    }
+
+    if (typeElement.getKind() == ElementKind.ENUM) {
+      return new RValue(new EnumValue(typeElement.getQualifiedName()));
     }
 
     if (typeElement
@@ -267,13 +281,12 @@ public class BridgeCodeProcessor extends AbstractProcessor {
     return new RValue(newObjectValue);
   }
 
-  private Assignment mapDelegateUpdate(
+  private Delegate mapByDelegate(
       BridgeModel bridgeModel,
-      Name name,
       Name packageName,
       TypeElement elementType,
       Set<? extends Element> allNativeClasses) {
-    List<Assignment> delegatedAssignments =
+    List<Assignments> delegatedAssignments =
         allNativeClasses
             .stream()
             .filter(
@@ -281,17 +294,18 @@ public class BridgeCodeProcessor extends AbstractProcessor {
                     it.getAnnotation(NativeClass.class)
                         .parentName()
                         .equals(bridgeModel.getNativeClassName()))
-            .flatMap(
-                it ->
-                    parseAssignments(allNativeClasses, (TypeElement) it, packageName, bridgeModel)
-                        .stream())
+            .map(it -> parseAssignments(allNativeClasses, (TypeElement) it, packageName, null))
             .collect(Collectors.toList());
+    if (delegatedAssignments.size() != 1) {
+      throw new IllegalStateException("Invalid delegate for " + elementType);
+    }
+
     Delegate delegate =
         new Delegate(
             toFQBridgeClassName(packageName, elementType),
             toBridgeName(elementType),
-            delegatedAssignments);
+            delegatedAssignments.get(0));
     bridgeModel.addDelegate(delegate);
-    return new Assignment(name, new DelegateAssignment(delegate));
+    return delegate;
   }
 }

@@ -21,6 +21,7 @@
 package org.openbw.bwapi4j.unit;
 
 import org.openbw.bwapi4j.ap.BridgeValue;
+import org.openbw.bwapi4j.ap.Named;
 import org.openbw.bwapi4j.ap.NativeClass;
 import org.openbw.bwapi4j.type.WeaponType;
 
@@ -28,8 +29,10 @@ import org.openbw.bwapi4j.type.WeaponType;
 @NativeClass(parentName = "BWAPI::Unit")
 public class Weapon {
 
-  @BridgeValue(indirection = "type")
+  @BridgeValue(indirection = "type", initializeOnly = true)
+  @Named(name = "TYPE")
   WeaponType type;
+
   @BridgeValue
   int cooldown;
 

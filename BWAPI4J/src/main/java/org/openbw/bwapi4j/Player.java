@@ -190,17 +190,17 @@ public class Player {
    */
   public void update(int[] extra) {
     int index = 0;
-    int researchStatusAmount = extra[index++];
-    for (int i = 0; i < researchStatusAmount; i++) {
-      boolean[] status = this.researchStatus.get(TechType.withId(extra[index++]));
-      status[0] = extra[index++] == 1;
-      status[1] = extra[index++] == 1;
-    }
     int upgradeStatusAmount = extra[index++];
     for (int i = 0; i < upgradeStatusAmount; i++) {
       int[] status = this.upgradeStatus.get(UpgradeType.withId(extra[index++]));
       status[0] = extra[index++];
       status[1] = extra[index++];
+    }
+    int researchStatusAmount = extra[index++];
+    for (int i = 0; i < researchStatusAmount; i++) {
+      boolean[] status = this.researchStatus.get(TechType.withId(extra[index++]));
+      status[0] = extra[index++] == 1;
+      status[1] = extra[index++] == 1;
     }
 
     ally = extra[index++] == 1;

@@ -1,16 +1,15 @@
 package org.openbw.bwapi4j.ap;
 
-import java.util.List;
 import java.util.Objects;
 
 public class Delegate {
 
   private final String fqClassName;
   private final String fieldName;
-  private final List<Assignment> assignments;
+  private final Assignments assignments;
 
   public Delegate(String fqClassName, String fieldName,
-      List<Assignment> assignments) {
+      Assignments assignments) {
     this.fqClassName = fqClassName;
     this.fieldName = fieldName;
     this.assignments = assignments;
@@ -24,7 +23,7 @@ public class Delegate {
     return fqClassName;
   }
 
-  public List<Assignment> getAssignments() {
+  public Assignments getAssignments() {
     return assignments;
   }
 

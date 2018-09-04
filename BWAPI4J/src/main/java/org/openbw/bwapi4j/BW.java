@@ -34,6 +34,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openbw.bwapi4j.type.Color;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.unit.MineralPatch;
 import org.openbw.bwapi4j.unit.PlayerUnit;
@@ -344,6 +345,16 @@ public class BW {
   public Player getPlayer(int playerId) {
     return this.players.get(playerId);
   }
+
+  public Color getColor(int rgb) {
+    for (Color color : Color.values()) {
+      if (color.matches(rgb)) {
+        return color;
+      }
+    }
+    return null;
+  }
+
 
   public Collection<Player> getAllPlayers() {
     return this.players.values();
