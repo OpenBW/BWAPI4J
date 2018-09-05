@@ -57,6 +57,8 @@ void Bridge::BWAPILauncher::run(JNIEnv *env) {
     printf("Error: %s\n", e.what());
   }
   Bridge::Globals::finished = true;
+
+  mainThread.join();
 }
 
 #endif
