@@ -20,11 +20,19 @@
 
 package org.openbw.bwapi4j.test;
 
-import java.lang.reflect.*;
-import java.util.*;
-import java.util.stream.*;
-import org.openbw.bwapi4j.type.*;
-import org.openbw.bwapi4j.util.*;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import org.openbw.bwapi4j.type.Race;
+import org.openbw.bwapi4j.type.TechType;
+import org.openbw.bwapi4j.type.UnitSizeType;
+import org.openbw.bwapi4j.type.UnitType;
+import org.openbw.bwapi4j.type.UpgradeType;
+import org.openbw.bwapi4j.type.WeaponType;
+import org.openbw.bwapi4j.util.Pair;
 
 class UnitTypes {
   static void initializeUnitType() throws Exception {
@@ -1688,7 +1696,7 @@ class UnitTypes {
         .get("abilities")
         .set(UnitType.Terran_Vulture_Spider_Mine, new ArrayList(Arrays.asList()));
     fields.get("upgrades").set(UnitType.Terran_Vulture_Spider_Mine, new ArrayList(Arrays.asList()));
-    fields.get("armorUpgrade").set(UnitType.Terran_Vulture_Spider_Mine, UpgradeType.Upgrade_60);
+//    fields.get("armorUpgrade").set(UnitType.Terran_Vulture_Spider_Mine, UpgradeType.Upgrade_60);
     fields.get("maxHitPoints").set(UnitType.Terran_Vulture_Spider_Mine, 20);
     fields.get("maxShields").set(UnitType.Terran_Vulture_Spider_Mine, 0);
     fields.get("maxEnergy").set(UnitType.Terran_Vulture_Spider_Mine, 0);
@@ -1791,7 +1799,7 @@ class UnitTypes {
     fields.get("cloakingTech").set(UnitType.Terran_Nuclear_Missile, TechType.None);
     fields.get("abilities").set(UnitType.Terran_Nuclear_Missile, new ArrayList(Arrays.asList()));
     fields.get("upgrades").set(UnitType.Terran_Nuclear_Missile, new ArrayList(Arrays.asList()));
-    fields.get("armorUpgrade").set(UnitType.Terran_Nuclear_Missile, UpgradeType.Upgrade_60);
+//    fields.get("armorUpgrade").set(UnitType.Terran_Nuclear_Missile, UpgradeType.Upgrade_60);
     fields.get("maxHitPoints").set(UnitType.Terran_Nuclear_Missile, 100);
     fields.get("maxShields").set(UnitType.Terran_Nuclear_Missile, 0);
     fields.get("maxEnergy").set(UnitType.Terran_Nuclear_Missile, 0);
@@ -3786,7 +3794,7 @@ class UnitTypes {
     fields.get("cloakingTech").set(UnitType.Spell_Scanner_Sweep, TechType.None);
     fields.get("abilities").set(UnitType.Spell_Scanner_Sweep, new ArrayList(Arrays.asList()));
     fields.get("upgrades").set(UnitType.Spell_Scanner_Sweep, new ArrayList(Arrays.asList()));
-    fields.get("armorUpgrade").set(UnitType.Spell_Scanner_Sweep, UpgradeType.Upgrade_60);
+//    fields.get("armorUpgrade").set(UnitType.Spell_Scanner_Sweep, UpgradeType.Upgrade_60);
     fields.get("maxHitPoints").set(UnitType.Spell_Scanner_Sweep, 0);
     fields.get("maxShields").set(UnitType.Spell_Scanner_Sweep, 0);
     fields.get("maxEnergy").set(UnitType.Spell_Scanner_Sweep, 0);
@@ -9963,7 +9971,7 @@ class UnitTypes {
     fields.get("cloakingTech").set(UnitType.Special_Mercenary_Gunship, TechType.None);
     fields.get("abilities").set(UnitType.Special_Mercenary_Gunship, new ArrayList(Arrays.asList()));
     fields.get("upgrades").set(UnitType.Special_Mercenary_Gunship, new ArrayList(Arrays.asList()));
-    fields.get("armorUpgrade").set(UnitType.Special_Mercenary_Gunship, UpgradeType.Upgrade_60);
+//    fields.get("armorUpgrade").set(UnitType.Special_Mercenary_Gunship, UpgradeType.Upgrade_60);
     fields.get("maxHitPoints").set(UnitType.Special_Mercenary_Gunship, 125);
     fields.get("maxShields").set(UnitType.Special_Mercenary_Gunship, 0);
     fields.get("maxEnergy").set(UnitType.Special_Mercenary_Gunship, 0);

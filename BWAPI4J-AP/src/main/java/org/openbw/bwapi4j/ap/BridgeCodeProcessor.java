@@ -164,13 +164,13 @@ public class BridgeCodeProcessor extends AbstractProcessor {
                 indirection = aBridgeValue.indirection();
               }
               Reset aReset = e.getAnnotation(Reset.class);
-              if (aReset != null && bridgeModel != null) {
+              if (aReset != null) {
                 assignments.addResetAssignment(
                     new Assignment(
                         e.getSimpleName(), new RValue(aReset.value()), null, null));
               }
               RValue rValue = valueFrom(e.asType());
-              if (namedIndex != null && bridgeModel != null) {
+              if (namedIndex != null) {
                 int index = assignments.namedFieldIndex;
                 assignments.namedFieldIndex += rValue.getDataAmount();
                 assignments.addNamedAssignment(

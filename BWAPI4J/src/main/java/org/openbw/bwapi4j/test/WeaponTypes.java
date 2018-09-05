@@ -20,11 +20,16 @@
 
 package org.openbw.bwapi4j.test;
 
-import java.lang.reflect.*;
-import java.util.*;
-import java.util.stream.*;
-import org.openbw.bwapi4j.type.*;
-import org.openbw.bwapi4j.util.*;
+import java.lang.reflect.Field;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import org.openbw.bwapi4j.type.DamageType;
+import org.openbw.bwapi4j.type.ExplosionType;
+import org.openbw.bwapi4j.type.TechType;
+import org.openbw.bwapi4j.type.UnitType;
+import org.openbw.bwapi4j.type.UpgradeType;
+import org.openbw.bwapi4j.type.WeaponType;
 
 class WeaponTypes {
   static void initializeWeaponType() throws Exception {
@@ -107,7 +112,7 @@ class WeaponTypes {
     initializeWeaponType_Psionic_Storm();
     initializeWeaponType_Warp_Blades_Zeratul();
     initializeWeaponType_Warp_Blades_Hero();
-    initializeWeaponType_Platform_Laser_Battery();
+//    initializeWeaponType_Platform_Laser_Battery();
     initializeWeaponType_Independant_Laser_Battery();
     initializeWeaponType_Twin_Autocannons_Floor_Trap();
     initializeWeaponType_Hellfire_Missile_Pack_Wall_Trap();
@@ -3150,42 +3155,42 @@ class WeaponTypes {
     fields.get("targetsOwn").set(WeaponType.Warp_Blades_Hero, false);
   }
 
-  private static void initializeWeaponType_Platform_Laser_Battery() throws Exception {
-    Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Platform_Laser_Battery, 0);
-    fields.get("tech").set(WeaponType.Platform_Laser_Battery, null);
-    fields.get("whatUses").set(WeaponType.Platform_Laser_Battery, null);
-    fields.get("damageAmount").set(WeaponType.Platform_Laser_Battery, 0);
-    fields.get("damageBonus").set(WeaponType.Platform_Laser_Battery, 0);
-    fields.get("damageCooldown").set(WeaponType.Platform_Laser_Battery, 0);
-    fields.get("damageFactor").set(WeaponType.Platform_Laser_Battery, 0);
-    fields.get("upgradeType").set(WeaponType.Platform_Laser_Battery, null);
-    fields.get("damageType").set(WeaponType.Platform_Laser_Battery, null);
-    fields.get("explosionType").set(WeaponType.Platform_Laser_Battery, null);
-    fields.get("minRange").set(WeaponType.Platform_Laser_Battery, 0);
-    fields.get("maxRange").set(WeaponType.Platform_Laser_Battery, 0);
-    fields.get("innerSplashRadius").set(WeaponType.Platform_Laser_Battery, 0);
-    fields.get("medianSplashRadius").set(WeaponType.Platform_Laser_Battery, 0);
-    fields.get("outerSplashRadius").set(WeaponType.Platform_Laser_Battery, 0);
-    fields.get("targetsAir").set(WeaponType.Platform_Laser_Battery, false);
-    fields.get("targetsGround").set(WeaponType.Platform_Laser_Battery, false);
-    fields.get("targetsMechanical").set(WeaponType.Platform_Laser_Battery, false);
-    fields.get("targetsOrganic").set(WeaponType.Platform_Laser_Battery, false);
-    fields.get("targetsNonBuilding").set(WeaponType.Platform_Laser_Battery, false);
-    fields.get("targetsNonRobotic").set(WeaponType.Platform_Laser_Battery, false);
-    fields.get("targetsTerrain").set(WeaponType.Platform_Laser_Battery, false);
-    fields.get("targetsOrgOrMech").set(WeaponType.Platform_Laser_Battery, false);
-    fields.get("targetsOwn").set(WeaponType.Platform_Laser_Battery, false);
-  }
+//  private static void initializeWeaponType_Platform_Laser_Battery() throws Exception {
+//    Class<?> c = WeaponType.class;
+//    Map<String, Field> fields =
+//        Stream.of(c.getDeclaredFields())
+//            .collect(
+//                Collectors.toMap(
+//                    f -> f.getName(),
+//                    f -> {
+//                      f.setAccessible(true);
+//                      return f;
+//                    }));
+//    fields.get("id").set(WeaponType.Platform_Laser_Battery, 0);
+//    fields.get("tech").set(WeaponType.Platform_Laser_Battery, null);
+//    fields.get("whatUses").set(WeaponType.Platform_Laser_Battery, null);
+//    fields.get("damageAmount").set(WeaponType.Platform_Laser_Battery, 0);
+//    fields.get("damageBonus").set(WeaponType.Platform_Laser_Battery, 0);
+//    fields.get("damageCooldown").set(WeaponType.Platform_Laser_Battery, 0);
+//    fields.get("damageFactor").set(WeaponType.Platform_Laser_Battery, 0);
+//    fields.get("upgradeType").set(WeaponType.Platform_Laser_Battery, null);
+//    fields.get("damageType").set(WeaponType.Platform_Laser_Battery, null);
+//    fields.get("explosionType").set(WeaponType.Platform_Laser_Battery, null);
+//    fields.get("minRange").set(WeaponType.Platform_Laser_Battery, 0);
+//    fields.get("maxRange").set(WeaponType.Platform_Laser_Battery, 0);
+//    fields.get("innerSplashRadius").set(WeaponType.Platform_Laser_Battery, 0);
+//    fields.get("medianSplashRadius").set(WeaponType.Platform_Laser_Battery, 0);
+//    fields.get("outerSplashRadius").set(WeaponType.Platform_Laser_Battery, 0);
+//    fields.get("targetsAir").set(WeaponType.Platform_Laser_Battery, false);
+//    fields.get("targetsGround").set(WeaponType.Platform_Laser_Battery, false);
+//    fields.get("targetsMechanical").set(WeaponType.Platform_Laser_Battery, false);
+//    fields.get("targetsOrganic").set(WeaponType.Platform_Laser_Battery, false);
+//    fields.get("targetsNonBuilding").set(WeaponType.Platform_Laser_Battery, false);
+//    fields.get("targetsNonRobotic").set(WeaponType.Platform_Laser_Battery, false);
+//    fields.get("targetsTerrain").set(WeaponType.Platform_Laser_Battery, false);
+//    fields.get("targetsOrgOrMech").set(WeaponType.Platform_Laser_Battery, false);
+//    fields.get("targetsOwn").set(WeaponType.Platform_Laser_Battery, false);
+//  }
 
   private static void initializeWeaponType_Independant_Laser_Battery() throws Exception {
     Class<?> c = WeaponType.class;

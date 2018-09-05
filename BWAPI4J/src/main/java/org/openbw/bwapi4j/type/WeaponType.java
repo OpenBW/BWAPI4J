@@ -20,6 +20,9 @@
 
 package org.openbw.bwapi4j.type;
 
+import org.openbw.bwapi4j.ap.LookedUp;
+
+@LookedUp(method = "getWeapon")
 public enum WeaponType {
   Gauss_Rifle,
   Gauss_Rifle_Jim_Raynor,
@@ -100,7 +103,7 @@ public enum WeaponType {
   Psionic_Storm,
   Warp_Blades_Zeratul,
   Warp_Blades_Hero,
-  Platform_Laser_Battery,
+  //  Platform_Laser_Battery,
   Independant_Laser_Battery,
   Twin_Autocannons_Floor_Trap,
   Hellfire_Missile_Pack_Wall_Trap,

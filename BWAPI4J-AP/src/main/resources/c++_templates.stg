@@ -5,15 +5,17 @@ entry(model) ::= <<
 // File for $model.bridgeClassName$
 
 void DataBuffer::addFields(const $model.nativeClassName$ &entity) {
-  $model.assignments:handleAssignment()$
+  $model.assignments.namedAssignments:handleAssignment()$
+  $model.assignments.delegatedAssignments:handleAssignment()$
+  $model.assignments.assignments:handleAssignment()$
 }
 >>
 
 handleAssignment(assignment, prefix="") ::= <<
 $if(assignment.rValue && !assignment.rValue.listValue)$
 $valueOf(assignment, assignment.rValue)$
-$elseif(assignment.delegateAssignment)$
-$delegateAssignment(assignment.field, assignment.delegateAssignment)$
+$elseif(assignment.byDelegate)$
+$byDelegate(assignment.field, assignment.byDelegate)$
 $elseif(assignment.rValue.listValue)$
 $listValue(assignment)$
 $endif$
@@ -40,7 +42,14 @@ for (const auto &element : $assignment.field$) {
 }
 >>
 
-delegateAssignment(field, delegate) ::= "$delegate.delegate.assignments:handleAssignment(field)$"
+byDelegate(field, byDelegate) ::= <<
+// Mapped to $byDelegate.fqClassName$
+$byDelegate.assignments.namedAssignments:handleAssignment(field)$
+$byDelegate.assignments.delegatedAssignments:handleAssignment(field)$
+$byDelegate.assignments.assignments:handleAssignment(field)$
+// --- End of mapping
+
+>>
 
 primitiveValue(assignment, value) ::= "$({dataAs$value.typeName$})(assignment)$"
 

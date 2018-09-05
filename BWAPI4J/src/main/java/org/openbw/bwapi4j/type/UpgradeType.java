@@ -23,7 +23,9 @@ package org.openbw.bwapi4j.type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
+import org.openbw.bwapi4j.ap.LookedUp;
 
+@LookedUp(method = "getUpgradeType")
 public enum UpgradeType {
   Terran_Infantry_Armor,
   Terran_Vehicle_Plating,
@@ -79,7 +81,7 @@ public enum UpgradeType {
   None,
   Unknown;
 
-  private int id;
+  private int id = 60;
   private Race race;
   private int[] mineralPrices;
   private int mineralPriceFactor;
@@ -195,6 +197,7 @@ public enum UpgradeType {
   }
 
   private static class IdMapper {
+
     static UpgradeType[] upgradeTypesForId;
 
     static {

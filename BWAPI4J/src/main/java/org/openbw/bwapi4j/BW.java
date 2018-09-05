@@ -24,6 +24,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.charset.UnsupportedCharsetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -31,11 +32,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.type.Color;
+import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitType;
+import org.openbw.bwapi4j.type.UpgradeType;
+import org.openbw.bwapi4j.type.WeaponType;
 import org.openbw.bwapi4j.unit.MineralPatch;
 import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.unit.Unit;
@@ -66,6 +71,9 @@ public class BW {
   private Map<Integer, Player> players;
   private Map<Integer, UnitImpl> units;
   private Map<Integer, Bullet> bullets;
+  private Map<Integer, WeaponType> weaponTypes;
+  private Map<Integer, UpgradeType> upgradeTypes;
+  private Map<Integer, TechType> techTypes;
   private UnitFactory unitFactory;
   private Charset charset;
 
@@ -346,6 +354,18 @@ public class BW {
     return this.players.get(playerId);
   }
 
+  public WeaponType getWeapon(int typeId) {
+    return weaponTypes.get(typeId);
+  }
+
+  public UpgradeType getUpgradeType(int typeId) {
+    return upgradeTypes.get(typeId);
+  }
+
+  public TechType getTechType(int typeId) {
+    return techTypes.get(typeId);
+  }
+
   public Color getColor(int rgb) {
     for (Color color : Color.values()) {
       if (color.matches(rgb)) {
@@ -431,6 +451,15 @@ public class BW {
       this.players.clear();
       this.units.clear();
       this.bullets.clear();
+
+      logger.trace(" -- precaching types");
+      // TODO use Arrays/Lists instead!
+      weaponTypes = Arrays.stream(WeaponType.values())
+          .collect(Collectors.toMap(WeaponType::getId, Function.identity()));
+      upgradeTypes = Arrays.stream(UpgradeType.values())
+          .collect(Collectors.toMap(UpgradeType::getId, Function.identity()));
+      techTypes = Arrays.stream(TechType.values())
+          .collect(Collectors.toMap(TechType::getId, Function.identity()));
 
       logger.trace(" --- calling initial preFrame...");
       preFrame();

@@ -21,7 +21,9 @@
 package org.openbw.bwapi4j.type;
 
 import java.util.stream.Stream;
+import org.openbw.bwapi4j.ap.LookedUp;
 
+@LookedUp(method = "getTechType")
 public enum TechType {
   Stim_Packs,
   Lockdown,
@@ -176,6 +178,7 @@ public enum TechType {
   }
 
   private static class IdMapper {
+
     static final TechType[] techTypesForId;
 
     static {

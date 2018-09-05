@@ -76,7 +76,7 @@ $endif$
 $endif$
 >>
 
-valueOf(rValue) ::= <%
+valueOf(rValue, dx=false) ::= <%
 $if(rValue.primitiveValue)$
 $primitiveValue(rValue.primitiveValue)$
 $elseif(rValue.newObjectValue)$
@@ -92,7 +92,7 @@ $endif$
 
 listValue(field, listValue) ::= <<
 entity.$field$.clear();
-int $field$Amount = data[$data()$];
+int $field$Amount = $data()$;
 for (int i = 0; i < $field$Amount; i++) {
   entity.$field$.add($valueOf(listValue.rValue)$);
 }
@@ -106,14 +106,17 @@ delegateInitialize(field, byDelegate) ::= "$byDelegate.fieldName$.initialize(ent
 bwMappedValue(value) ::= "($value.targetType$) bw.$value.bwMethod$($data()$)"
 enumValue(value) ::= "$value.enumName$.values()[$data()$]"
 primitiveValue(value) ::= "$({dataAs$value.typeName$})(value)$"
-newObjectValue(value) ::= "$if(value.needsOuterClass)$entity.new $value.className$$else$new $value.fqClassName$$endif$($value.constructorArgs:valueOf(); separator=\", \"$)"
+newObjectValue(value) ::= <<
+$if(value.needsOuterClass)$entity.new $value.className$$else$new $value.fqClassName$$endif$$\\$
+($value.constructorArgs:{c|$valueOf(c, i0)$}; separator=", "$)
+>>
 
 dataAsboolean(value) ::= "$data()$ == 1"
 dataAsint(value) ::= "$data()$"
 dataAsdouble(value) ::= "BridgeUtils.parsePreservedDouble($data()$)"
 dataAschar(value) ::= "(char) $data()$"
 
-data() ::= "$if(fixedIndex)$data[$fixedIndex$]$else$data[index++]$endif$"
+data() ::= "$if(fixedIndex)$data[$fixedIndex$$if(dx)$ + $dx$$endif$]$else$data[index++]$endif$"
 
 skipAssignment(assignment) ::= <<
 $if(assignment.rValue && !assignment.rValue.listValue)$
