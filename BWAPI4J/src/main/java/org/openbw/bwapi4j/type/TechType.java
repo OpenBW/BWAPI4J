@@ -20,11 +20,11 @@
 
 package org.openbw.bwapi4j.type;
 
-import java.util.stream.Stream;
-import org.openbw.bwapi4j.ap.LookedUp;
+import org.openbw.bwapi4j.ap.BridgeValue;
+import org.openbw.bwapi4j.ap.NativeClass;
 
-@LookedUp(method = "getTechType")
-public enum TechType {
+@NativeClass(name = "BWAPI::TechType", accessOperator = ".")
+public enum TechType implements WithId {
   Stim_Packs,
   Lockdown,
   EMP_Shockwave,
@@ -62,23 +62,35 @@ public enum TechType {
   Nuclear_Strike,
   Unknown;
 
-  private int id;
-  private Race race;
-  private int mineralPrice;
-  private int gasPrice;
-  private int researchTime;
-  private int energyCost;
-  private UnitType whatResearches;
-  private WeaponType weaponType;
-  private boolean targetsUnit;
-  private boolean targetsPosition;
-  private Order order;
-  private UnitType requiredUnit;
+  int id;
+  @BridgeValue
+  Race race;
+  @BridgeValue(accessor = "mineralPrice()")
+  int mineralPrice;
+  @BridgeValue(accessor = "gasPrice()")
+  int gasPrice;
+  @BridgeValue(accessor = "researchTime()")
+  int researchTime;
+  @BridgeValue(accessor = "energyCost()")
+  int energyCost;
+  @BridgeValue(accessor = "whatResearches()")
+  UnitType whatResearches;
+  @BridgeValue(accessor = "getWeapon()")
+  WeaponType weaponType;
+  @BridgeValue(accessor = "targetsUnit()")
+  boolean targetsUnit;
+  @BridgeValue(accessor = "targetsPosition()")
+  boolean targetsPosition;
+  @BridgeValue
+  Order order;
+  @BridgeValue(accessor = "requiredUnit()")
+  UnitType requiredUnit;
 
   public static TechType withId(int id) {
     return IdMapper.techTypesForId[id];
   }
 
+  @Override
   public int getId() {
     return this.id;
   }
@@ -179,14 +191,6 @@ public enum TechType {
 
   private static class IdMapper {
 
-    static final TechType[] techTypesForId;
-
-    static {
-      int maxTechTypeId = Stream.of(values()).mapToInt(TechType::getId).max().getAsInt();
-      techTypesForId = new TechType[maxTechTypeId + 1];
-      for (TechType type : TechType.values()) {
-        techTypesForId[type.getId()] = type;
-      }
-    }
+    static final TechType[] techTypesForId = IdMapperHelper.toIdTypeArray(TechType.class);
   }
 }

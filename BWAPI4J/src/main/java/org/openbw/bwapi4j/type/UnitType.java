@@ -21,14 +21,16 @@
 package org.openbw.bwapi4j.type;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.ap.BridgeValue;
 import org.openbw.bwapi4j.ap.NativeClass;
 import org.openbw.bwapi4j.util.Pair;
 
-@NativeClass
-public enum UnitType {
+@NativeClass(name = "BWAPI::UnitType", accessOperator = ".")
+public enum UnitType implements WithId {
   Terran_Marine,
   Terran_Ghost,
   Terran_Vulture,
@@ -264,170 +266,168 @@ public enum UnitType {
   Factories,
   Unknown;
 
-
-  @BridgeValue
   int id;
   @BridgeValue
   Race race;
   private Pair<UnitType, Integer> whatBuilds;
-  @BridgeValue
+  @BridgeValue(accessor = "buildsWhat()")
   List<UnitType> buildsWhat;
-  @BridgeValue
-  List<UnitType> requiredUnits;
-  @BridgeValue
+  @BridgeValue(accessor = "requiredUnits()")
+  Map<UnitType, Integer> requiredUnits;
+  @BridgeValue(accessor = "requiredTech()")
   TechType requiredTech;
-  @BridgeValue
+  @BridgeValue(accessor = "cloakingTech()")
   TechType cloakingTech;
-  @BridgeValue
+  @BridgeValue(accessor = "abilities()")
   List<TechType> abilities;
-  @BridgeValue
+  @BridgeValue(accessor = "upgrades()")
   List<UpgradeType> upgrades;
-  @BridgeValue
+  @BridgeValue(accessor = "armorUpgrade()")
   UpgradeType armorUpgrade;
-  @BridgeValue
+  @BridgeValue(accessor = "maxHitPoints()")
   int maxHitPoints;
-  @BridgeValue
+  @BridgeValue(accessor = "maxShields()")
   int maxShields;
-  @BridgeValue
+  @BridgeValue(accessor = "maxEnergy()")
   int maxEnergy;
-  @BridgeValue
+  @BridgeValue(accessor = "armor()")
   int armor;
-  @BridgeValue
+  @BridgeValue(accessor = "mineralPrice()")
   int mineralPrice;
-  @BridgeValue
+  @BridgeValue(accessor = "gasPrice()")
   int gasPrice;
-  @BridgeValue
+  @BridgeValue(accessor = "buildTime()")
   int buildTime;
-  @BridgeValue
+  @BridgeValue(accessor = "supplyRequired()")
   int supplyRequired;
-  @BridgeValue
+  @BridgeValue(accessor = "supplyProvided()")
   int supplyProvided;
-  @BridgeValue
+  @BridgeValue(accessor = "spaceRequired()")
   int spaceRequired;
-  @BridgeValue
+  @BridgeValue(accessor = "spaceProvided()")
   int spaceProvided;
-  @BridgeValue
+  @BridgeValue(accessor = "buildScore()")
   int buildScore;
-  @BridgeValue
+  @BridgeValue(accessor = "destroyScore()")
   int destroyScore;
-  @BridgeValue
+  @BridgeValue(accessor = "size()")
   UnitSizeType size;
-  @BridgeValue
+  @BridgeValue(accessor = "tileWidth()")
   int tileWidth;
-  @BridgeValue
+  @BridgeValue(accessor = "tileHeight()")
   int tileHeight;
-  @BridgeValue
+  @BridgeValue(accessor = "dimensionLeft()")
   int dimensionLeft;
-  @BridgeValue
+  @BridgeValue(accessor = "dimensionUp()")
   int dimensionUp;
-  @BridgeValue
+  @BridgeValue(accessor = "dimensionRight()")
   int dimensionRight;
-  @BridgeValue
+  @BridgeValue(accessor = "dimensionDown()")
   int dimensionDown;
-  @BridgeValue
+  @BridgeValue(accessor = "width()")
   int width;
-  @BridgeValue
+  @BridgeValue(accessor = "height()")
   int height;
-  @BridgeValue
+  @BridgeValue(accessor = "seekRange()")
   int seekRange;
-  @BridgeValue
+  @BridgeValue(accessor = "sightRange()")
   int sightRange;
-  @BridgeValue
+  @BridgeValue(accessor = "groundWeapon()")
   WeaponType groundWeapon;
-  @BridgeValue
+  @BridgeValue(accessor = "maxGroundHits()")
   int maxGroundHits;
-  @BridgeValue
+  @BridgeValue(accessor = "airWeapon()")
   WeaponType airWeapon;
-  @BridgeValue
+  @BridgeValue(accessor = "maxAirHits()")
   int maxAirHits;
-  @BridgeValue
+  @BridgeValue(accessor = "topSpeed()")
   double topSpeed;
-  @BridgeValue
+  @BridgeValue(accessor = "acceleration()")
   int acceleration;
-  @BridgeValue
+  @BridgeValue(accessor = "haltDistance()")
   int haltDistance;
-  @BridgeValue
+  @BridgeValue(accessor = "turnRadius()")
   int turnRadius;
-  @BridgeValue
+  @BridgeValue(accessor = "canProduce()")
   boolean canProduce;
-  @BridgeValue
+  @BridgeValue(accessor = "canAttack()")
   boolean canAttack;
-  @BridgeValue
+  @BridgeValue(accessor = "canMove()")
   boolean canMove;
   @BridgeValue
-  boolean isFlyer;
-  @BridgeValue
+  boolean flyer;
+  @BridgeValue(accessor = "regeneratesHP()")
   boolean regeneratesHP;
   @BridgeValue
-  boolean isSpellcaster;
-  @BridgeValue
+  boolean spellcaster;
+  @BridgeValue(accessor = "hasPermanentCloak()")
   boolean hasPermanentCloak;
   @BridgeValue
-  boolean isInvincible;
+  boolean invincible;
   @BridgeValue
-  boolean isOrganic;
+  boolean organic;
   @BridgeValue
-  boolean isMechanical;
+  boolean mechanical;
   @BridgeValue
-  boolean isRobotic;
+  boolean robotic;
   @BridgeValue
-  boolean isDetector;
+  boolean detector;
   @BridgeValue
-  boolean isResourceContainer;
+  boolean resourceContainer;
   @BridgeValue
-  boolean isResourceDepot;
+  boolean resourceDepot;
   @BridgeValue
-  boolean isRefinery;
+  boolean refinery;
   @BridgeValue
-  boolean isWorker;
-  @BridgeValue
+  boolean worker;
+  @BridgeValue(accessor = "requiresPsi()")
   boolean requiresPsi;
-  @BridgeValue
+  @BridgeValue(accessor = "requiresCreep()")
   boolean requiresCreep;
   @BridgeValue
-  boolean isTwoUnitsInOneEgg;
+  boolean twoUnitsInOneEgg;
   @BridgeValue
-  boolean isBurrowable;
+  boolean burrowable;
   @BridgeValue
-  boolean isCloakable;
+  boolean cloakable;
   @BridgeValue
-  boolean isBuilding;
+  boolean building;
   @BridgeValue
-  boolean isAddon;
+  boolean addon;
   @BridgeValue
-  boolean isFlyingBuilding;
+  boolean flyingBuilding;
   @BridgeValue
-  boolean isNeutral;
+  boolean neutral;
   @BridgeValue
-  boolean isHero;
+  boolean hero;
   @BridgeValue
-  boolean isPowerup;
+  boolean powerup;
   @BridgeValue
-  boolean isBeacon;
+  boolean beacon;
   @BridgeValue
-  boolean isFlagBeacon;
+  boolean flagBeacon;
   @BridgeValue
-  boolean isSpecialBuilding;
+  boolean specialBuilding;
   @BridgeValue
-  boolean isSpell;
-  @BridgeValue
+  boolean spell;
+  @BridgeValue(accessor = "producesCreep()")
   boolean producesCreep;
-  @BridgeValue
+  @BridgeValue(accessor = "producesLarva()")
   boolean producesLarva;
   @BridgeValue
-  boolean isMineralField;
+  boolean mineralField;
   @BridgeValue
-  boolean isCritter;
-  @BridgeValue
+  boolean critter;
+  @BridgeValue(accessor = "canBuildAddon()")
   boolean canBuildAddon;
-  @BridgeValue
+  @BridgeValue(accessor = "researchesWhat()")
   List<TechType> researchesWhat;
-  @BridgeValue
+  @BridgeValue(accessor = "upgradesWhat()")
   List<UpgradeType> upgradesWhat;
 
   private UnitType() {
     // this.whatBuilds will be created via JNI
-    this.requiredUnits = new ArrayList<>();
+    this.requiredUnits = new HashMap<>();
     this.abilities = new ArrayList<>();
     this.upgrades = new ArrayList<>();
     this.researchesWhat = new ArrayList<>();
@@ -435,6 +435,11 @@ public enum UnitType {
     buildsWhat = new ArrayList<>();
   }
 
+  public static UnitType withId(int id) {
+    return IdMapper.unitTypeForId[id];
+  }
+
+  @Override
   public int getId() {
     return this.id;
   }
@@ -467,15 +472,8 @@ public enum UnitType {
    * Retrieves the immediate technology tree requirements to make this unit type. Returns std::map
    * containing a UnitType to number mapping of UnitTypes required.
    */
-  public List<UnitType> requiredUnits() {
+  public Map<UnitType, Integer> requiredUnits() {
     return this.requiredUnits;
-  }
-
-  /** Called by native API */
-  private void addRequiredUnit(int typeId, int amount) {
-    //        System.out.print("unit type: ");
-    //        System.out.println(UnitType.values()[typeId] + ":" + amount);
-    this.requiredUnits.add(UnitType.values()[typeId]);
   }
 
   /**
@@ -844,7 +842,7 @@ public enum UnitType {
    * Returns true if this unit type is in the air by default, and false otherwise.
    */
   public boolean isFlyer() {
-    return this.isFlyer;
+    return this.flyer;
   }
 
   /**
@@ -860,7 +858,7 @@ public enum UnitType {
    * Returns true if this unit type generates energy, and false if it does not have an energy pool.
    */
   public boolean isSpellcaster() {
-    return this.isSpellcaster;
+    return this.spellcaster;
   }
 
   /**
@@ -877,7 +875,7 @@ public enum UnitType {
    * true if this unit type is invincible, and false if it is vulnerable to attacks.
    */
   public boolean isInvincible() {
-    return this.isInvincible;
+    return this.invincible;
   }
 
   /**
@@ -885,7 +883,7 @@ public enum UnitType {
    * such as Heal. Returns true if this unit type has the organic property, and false otherwise.
    */
   public boolean isOrganic() {
-    return this.isOrganic;
+    return this.organic;
   }
 
   /**
@@ -893,7 +891,7 @@ public enum UnitType {
    * Repair. Returns true if this unit type has the mechanical property, and false otherwise.
    */
   public boolean isMechanical() {
-    return this.isMechanical;
+    return this.mechanical;
   }
 
   /**
@@ -902,7 +900,7 @@ public enum UnitType {
    * the robotic property, and false otherwise.
    */
   public boolean isRobotic() {
-    return this.isRobotic;
+    return this.robotic;
   }
 
   /**
@@ -910,7 +908,7 @@ public enum UnitType {
    * true if this unit type is a detector by default, false if it does not have this property
    */
   public boolean isDetector() {
-    return this.isDetector;
+    return this.detector;
   }
 
   /**
@@ -919,7 +917,7 @@ public enum UnitType {
    * can be harvested, false otherwise.
    */
   public boolean isResourceContainer() {
-    return this.isResourceContainer;
+    return this.resourceContainer;
   }
 
   /**
@@ -932,11 +930,11 @@ public enum UnitType {
    * false if it is not.
    */
   public boolean isResourceDepot() {
-    return this.isResourceDepot;
+    return this.resourceDepot;
   }
 
   public boolean isRefinery() {
-    return this.isRefinery;
+    return this.refinery;
   }
 
   /**
@@ -945,7 +943,7 @@ public enum UnitType {
    * type is a worker, and false if it is not.
    */
   public boolean isWorker() {
-    return this.isWorker;
+    return this.worker;
   }
 
   /**
@@ -974,7 +972,7 @@ public enum UnitType {
    * them, and false if only one is spawned.
    */
   public boolean isTwoUnitsInOneEgg() {
-    return this.isTwoUnitsInOneEgg;
+    return this.twoUnitsInOneEgg;
   }
 
   /**
@@ -985,7 +983,7 @@ public enum UnitType {
    * successful state: getRace() == Races::Zerg, !isBuilding(), canMove()
    */
   public boolean isBurrowable() {
-    return this.isBurrowable;
+    return this.burrowable;
   }
 
   /**
@@ -995,7 +993,7 @@ public enum UnitType {
    * hasPermanentCloak, TechTypes::Cloaking_Field, TechTypes::Personnel_Cloaking
    */
   public boolean isCloakable() {
-    return this.isCloakable;
+    return this.cloakable;
   }
 
   /**
@@ -1003,7 +1001,7 @@ public enum UnitType {
    * true if this unit is a building, and false otherwise.
    */
   public boolean isBuilding() {
-    return this.isBuilding;
+    return this.building;
   }
 
   /**
@@ -1013,7 +1011,7 @@ public enum UnitType {
    * successful state: getRace() == Races::Terran, isBuilding()
    */
   public boolean isAddon() {
-    return this.isAddon;
+    return this.addon;
   }
 
   /**
@@ -1022,7 +1020,7 @@ public enum UnitType {
    * state, then the following function calls will also return a successful state: isBuilding()
    */
   public boolean isFlyingBuilding() {
-    return this.isFlyingBuilding;
+    return this.flyingBuilding;
   }
 
   /**
@@ -1030,7 +1028,7 @@ public enum UnitType {
    * this unit is intended to be neutral, and false otherwise.
    */
   public boolean isNeutral() {
-    return this.isNeutral;
+    return this.neutral;
   }
 
   /**
@@ -1040,7 +1038,7 @@ public enum UnitType {
    * if this unit type is a hero type, and false otherwise.
    */
   public boolean isHero() {
-    return this.isHero;
+    return this.hero;
   }
 
   /**
@@ -1049,7 +1047,7 @@ public enum UnitType {
    * a powerup type, and false otherwise.
    */
   public boolean isPowerup() {
-    return this.isPowerup;
+    return this.powerup;
   }
 
   /**
@@ -1059,7 +1057,7 @@ public enum UnitType {
    * of the three race beacons, and false otherwise.
    */
   public boolean isBeacon() {
-    return this.isBeacon;
+    return this.beacon;
   }
 
   /**
@@ -1070,7 +1068,7 @@ public enum UnitType {
    * flag beacons, and false otherwise.
    */
   public boolean isFlagBeacon() {
-    return this.isFlagBeacon;
+    return this.flagBeacon;
   }
 
   /**
@@ -1080,7 +1078,7 @@ public enum UnitType {
    * state: isBuilding()
    */
   public boolean isSpecialBuilding() {
-    return this.isSpecialBuilding;
+    return this.specialBuilding;
   }
 
   /**
@@ -1091,7 +1089,7 @@ public enum UnitType {
    * type is used for an ability, and false otherwise.
    */
   public boolean isSpell() {
-    return this.isSpell;
+    return this.spell;
   }
 
   /**
@@ -1121,7 +1119,7 @@ public enum UnitType {
    * true if this unit type is a mineral field resource.
    */
   public boolean isMineralField() {
-    return this.isMineralField;
+    return this.mineralField;
   }
 
   /**
@@ -1135,7 +1133,7 @@ public enum UnitType {
    * BWAPI::Filter::IsOwned); if ( myQueen ) myQueen->useTech(BWAPI::TechTypes::Parasite, u); } }
    */
   public boolean isCritter() {
-    return this.isCritter;
+    return this.critter;
   }
 
   /**
@@ -1180,5 +1178,10 @@ public enum UnitType {
    */
   public List<UnitType> buildsWhat() {
     return buildsWhat;
+  }
+
+  private static class IdMapper {
+
+    static final UnitType[] unitTypeForId = IdMapperHelper.toIdTypeArray(UnitType.class);
   }
 }

@@ -554,6 +554,7 @@ public abstract class UnitImpl implements Unit {
     return this.type.equals(type.whatBuilds().getFirst())
         && player.canMake(type)
         && type.requiredUnits()
+        .keySet()
         .stream()
         .allMatch(ut -> !ut.isAddon() || (addon != null && addon.getType() == ut));
   }

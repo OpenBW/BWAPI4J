@@ -2,12 +2,14 @@ package org.openbw.bwapi4j.ap;
 
 public class RValue {
 
+  private MapValue mapValue;
   private ListValue listValue;
   private EnumValue enumValue;
   private NewObjectValue newObjectValue;
   private PrimitiveValue primitiveValue;
   private BWMappedValue bwMappedValue;
   private String constant;
+  private boolean string;
 
   public RValue(EnumValue enumValue) {
     this.enumValue = enumValue;
@@ -33,6 +35,14 @@ public class RValue {
     this.constant = constant;
   }
 
+  public RValue(MapValue mapValue) {
+    this.mapValue = mapValue;
+  }
+
+  public RValue() {
+    string = true;
+  }
+
   public EnumValue getEnumValue() {
     return enumValue;
   }
@@ -49,12 +59,20 @@ public class RValue {
     return listValue;
   }
 
+  public MapValue getMapValue() {
+    return mapValue;
+  }
+
   public BWMappedValue getBwMappedValue() {
     return bwMappedValue;
   }
 
   public String getConstant() {
     return constant;
+  }
+
+  public boolean isString() {
+    return string;
   }
 
   public int getDataAmount() {

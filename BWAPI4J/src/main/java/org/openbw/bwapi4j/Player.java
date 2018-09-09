@@ -50,6 +50,7 @@ public class Player {
   int iD;
 
   private String name;
+
   private final BW bw;
   @BridgeValue
   Race race;
@@ -61,9 +62,11 @@ public class Player {
   @BridgeValue(initializeOnly = true)
   @Named(name = "COLOR")
   Color color;
+
   @BridgeValue(initializeOnly = true)
   @Named(name = "TEXT_COLOR")
   char textColor;
+
   @BridgeValue
   PlayerType type;
 
@@ -184,10 +187,7 @@ public class Player {
     }
   }
 
-  /**
-   * Updates dynamic player information. To be called once per frame.
-   *
-   */
+  /** Updates dynamic player information. To be called once per frame. */
   public void update(int[] extra) {
     int index = 0;
     int upgradeStatusAmount = extra[index++];
@@ -695,7 +695,7 @@ public class Player {
         && gas >= type.gasPrice()
         && (type.supplyRequired() == 0 || supplyUsed + supplyRequired <= supplyTotal)
         && hasResearched(type.requiredTech())
-        && getMissingUnits(bw.getUnits(this), type.requiredUnits()).isEmpty();
+        && getMissingUnits(bw.getUnits(this), type.requiredUnits().keySet()).isEmpty();
   }
 
   public boolean canMake(Unit builder, UnitType type) {
@@ -703,6 +703,7 @@ public class Player {
       return false;
     }
     return type.requiredUnits()
+        .keySet()
         .stream()
         .filter(UnitType::isAddon)
         .findAny()

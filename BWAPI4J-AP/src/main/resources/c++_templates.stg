@@ -12,12 +12,14 @@ void DataBuffer::addFields(const $model.nativeClassName$ &entity) {
 >>
 
 handleAssignment(assignment, prefix="") ::= <<
-$if(assignment.rValue && !assignment.rValue.listValue)$
+$if(assignment.rValue.listValue)$
+$listValue(assignment)$
+$elseif(assignment.rValue.mapValue)$
+$mapValue(assignment, assignment.rValue)$
+$elseif(assignment.rValue)$
 $valueOf(assignment, assignment.rValue)$
 $elseif(assignment.byDelegate)$
 $byDelegate(assignment.field, assignment.byDelegate)$
-$elseif(assignment.rValue.listValue)$
-$listValue(assignment)$
 $endif$
 >>
 
@@ -42,6 +44,15 @@ for (const auto &element : $assignment.field$) {
 }
 >>
 
+mapValue(assignment, rValue) ::= <<
+const auto &$assignment.field$ = $getter(assignment)$;
+const auto $assignment.field$Size = $assignment.field$.size();
+for(const auto &element : $assignment.field$) {
+  addId(element.first);
+  add(element.second);
+}
+>>
+
 byDelegate(field, byDelegate) ::= <<
 // Mapped to $byDelegate.fqClassName$
 $byDelegate.assignments.namedAssignments:handleAssignment(field)$
@@ -57,13 +68,16 @@ dataAsboolean(assignment) ::= "$isGetter(assignment)$"
 dataAsint(assignment) ::= "$getter(assignment)$"
 dataAsdouble(assignment) ::= "toPreservedDouble($getter(assignment)$)"
 dataAschar(assignment) ::= "$getter(assignment)$"
+dataAsString(assignment) ::= <<
+strncpy(..., $getter(assignment)$.c_str(), 200);
+>>
 
 bwMappedValue(assignment) ::= "$getter(assignment)$"
 enumValue(value) ::= "$getter(assignment)$"
 newObjectValue(value) ::= "$getter(assignment)$"
 
 getter(assignment) ::= <%
-entity->
+entity$model.accessOperator$
 $if(assignment.indirection)$
 get$assignment.indirection; format="cap"$().
 $endif$
@@ -81,8 +95,8 @@ $endif$
 
 isGetter(assignment) ::= <%
 $if(assignment.accessor)$
-entity->$assignment.accessor$
+entity$model.accessOperator$$assignment.accessor$
 $else$
-entity->is$prefix; format="cap"$$assignment.field; format="cap"$()
+entity$model.accessOperator$is$prefix; format="cap"$$assignment.field; format="cap"$()
 $endif$
 %>

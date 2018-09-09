@@ -20,10 +20,7 @@
 
 package org.openbw.bwapi4j.type;
 
-import org.openbw.bwapi4j.ap.LookedUp;
-
-@LookedUp(method = "getColor")
-public enum Color {
+public enum Color implements WithId {
   RED(111),
   BLUE(165),
   TEAL(159),
@@ -39,15 +36,26 @@ public enum Color {
 
   private int rgb;
 
-  private Color(int rgb) {
+  Color(int rgb) {
     this.rgb = rgb;
+  }
+
+  public static Color withId(int id) {
+    return IdMapper.colorForId[id];
+  }
+
+  @Override
+  public int getId() {
+    return rgb;
   }
 
   public int getValue() {
     return this.rgb;
   }
 
-  public boolean matches(int rgb) {
-    return this.rgb == rgb;
+  private static class IdMapper {
+
+    static final Color[] colorForId = IdMapperHelper.toIdTypeArray(Color.class);
   }
+
 }

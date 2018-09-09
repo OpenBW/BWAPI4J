@@ -20,10 +20,11 @@
 
 package org.openbw.bwapi4j.type;
 
-import org.openbw.bwapi4j.ap.LookedUp;
+import org.openbw.bwapi4j.ap.BridgeValue;
+import org.openbw.bwapi4j.ap.NativeClass;
 
-@LookedUp(method = "getWeapon")
-public enum WeaponType {
+@NativeClass(name = "BWAPI::WeaponType", accessOperator = ".")
+public enum WeaponType implements WithId {
   Gauss_Rifle,
   Gauss_Rifle_Jim_Raynor,
   C_10_Canister_Rifle,
@@ -103,7 +104,7 @@ public enum WeaponType {
   Psionic_Storm,
   Warp_Blades_Zeratul,
   Warp_Blades_Hero,
-  //  Platform_Laser_Battery,
+  Platform_Laser_Battery,
   Independant_Laser_Battery,
   Twin_Autocannons_Floor_Trap,
   Hellfire_Missile_Pack_Wall_Trap,
@@ -128,31 +129,59 @@ public enum WeaponType {
   None,
   Unknown;
 
-  private int id;
-  private TechType tech;
-  private UnitType whatUses;
-  private int damageAmount;
-  private int damageBonus;
-  private int damageCooldown;
-  private int damageFactor;
-  private UpgradeType upgradeType;
-  private DamageType damageType;
-  private ExplosionType explosionType;
-  private int minRange;
-  private int maxRange;
-  private int innerSplashRadius;
-  private int medianSplashRadius;
-  private int outerSplashRadius;
-  private boolean targetsAir;
-  private boolean targetsGround;
-  private boolean targetsMechanical;
-  private boolean targetsOrganic;
-  private boolean targetsNonBuilding;
-  private boolean targetsNonRobotic;
-  private boolean targetsTerrain;
-  private boolean targetsOrgOrMech;
-  private boolean targetsOwn;
+  int id = 92;
+  @BridgeValue
+  TechType tech;
+  @BridgeValue(accessor = "whatUses()")
+  UnitType whatUses;
+  @BridgeValue(accessor = "damageAmount()")
+  int damageAmount;
+  @BridgeValue(accessor = "damageBonus()")
+  int damageBonus;
+  @BridgeValue(accessor = "damageCooldown()")
+  int damageCooldown;
+  @BridgeValue(accessor = "damageFactor()")
+  int damageFactor;
+  @BridgeValue(accessor = "upgradeType()")
+  UpgradeType upgradeType;
+  @BridgeValue(accessor = "damageType()")
+  DamageType damageType;
+  @BridgeValue(accessor = "explosionType()")
+  ExplosionType explosionType;
+  @BridgeValue(accessor = "minRange()")
+  int minRange;
+  @BridgeValue(accessor = "maxRange()")
+  int maxRange;
+  @BridgeValue(accessor = "innerSplashRadius()")
+  int innerSplashRadius;
+  @BridgeValue(accessor = "medianSplashRadius()")
+  int medianSplashRadius;
+  @BridgeValue(accessor = "outerSplashRadius()")
+  int outerSplashRadius;
+  @BridgeValue(accessor = "targetsAir()")
+  boolean targetsAir;
+  @BridgeValue(accessor = "targetsGround()")
+  boolean targetsGround;
+  @BridgeValue(accessor = "targetsMechanical()")
+  boolean targetsMechanical;
+  @BridgeValue(accessor = "targetsOrganic()")
+  boolean targetsOrganic;
+  @BridgeValue(accessor = "targetsNonBuilding()")
+  boolean targetsNonBuilding;
+  @BridgeValue(accessor = "targetsNonRobotic()")
+  boolean targetsNonRobotic;
+  @BridgeValue(accessor = "targetsTerrain()")
+  boolean targetsTerrain;
+  @BridgeValue(accessor = "targetsOrgOrMech()")
+  boolean targetsOrgOrMech;
+  @BridgeValue(accessor = "targetsOwn()")
+  boolean targetsOwn;
 
+  public static WeaponType withId(int id) {
+    return IdMapper.weaponTypeForId[id];
+  }
+
+  @Override
   public int getId() {
     return this.id;
   }
@@ -349,5 +378,10 @@ public enum WeaponType {
    */
   public boolean targetsOwn() {
     return this.targetsOwn;
+  }
+
+  private static class IdMapper {
+
+    static final WeaponType[] weaponTypeForId = IdMapperHelper.toIdTypeArray(WeaponType.class);
   }
 }

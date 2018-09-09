@@ -36,7 +36,6 @@ struct JavaRefs {
   jclass techTypeClass;
 
   jclass unitTypeClass;
-  jmethodID unitTypeClass_addRequiredUnit;
 
   jclass upgradeTypeClass;
   jmethodID upgradeTypeClass_addUsingUnit;

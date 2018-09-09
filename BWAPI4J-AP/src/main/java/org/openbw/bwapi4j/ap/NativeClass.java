@@ -12,4 +12,6 @@ public @interface NativeClass {
   String name() default "";
 
   String parentName() default "";
+
+  String accessOperator() default "->";
 }

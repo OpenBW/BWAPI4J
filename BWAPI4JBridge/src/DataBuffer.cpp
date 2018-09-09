@@ -30,6 +30,12 @@
 #include "org_openbw_bwapi4j_PlayerBridge.hpp"
 #include "org_openbw_bwapi4j_BulletBridge.hpp"
 
+// "Static" types
+#include "org_openbw_bwapi4j_type_TechTypeBridge.hpp"
+#include "org_openbw_bwapi4j_type_UnitTypeBridge.hpp"
+#include "org_openbw_bwapi4j_type_UpgradeTypeBridge.hpp"
+#include "org_openbw_bwapi4j_type_WeaponTypeBridge.hpp"
+
 const double DataBuffer::RADIANS_TO_DEGREES = 180.0 / M_PI;
 const double DataBuffer::DECIMAL_PRESERVATION_SCALE = 100.0;
 const int DataBuffer::NO_VALUE = -1;
@@ -101,6 +107,12 @@ void DataBuffer::addId(const BWAPI::Force &force) { add(force->getID()); }
 void DataBuffer::addId(const BWAPI::GameType &gameType) { add(gameType.getID()); }
 
 void DataBuffer::addId(const BWAPI::WeaponType &weaponType) { add(weaponType.getID()); }
+
+void DataBuffer::addId(const BWAPI::UnitSizeType &unitSizeType) { add(unitSizeType.getID()); }
+
+void DataBuffer::addId(const BWAPI::DamageType &damageType) { add(damageType.getID()); }
+
+void DataBuffer::addId(const BWAPI::ExplosionType &explosionType) { add(explosionType.getID()); }
 
 void DataBuffer::addIds(const BWAPI::Playerset &playerset) {
   for (const auto &player : playerset) {

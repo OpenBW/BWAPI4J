@@ -38,7 +38,6 @@ void JavaRefs::initialize(JNIEnv *env) {
   techTypeClass = env->FindClass("org/openbw/bwapi4j/type/TechType");
 
   unitTypeClass = env->FindClass("org/openbw/bwapi4j/type/UnitType");
-  unitTypeClass_addRequiredUnit = env->GetMethodID(unitTypeClass, "addRequiredUnit", "(II)V");
 
   upgradeTypeClass = env->FindClass("org/openbw/bwapi4j/type/UpgradeType");
   upgradeTypeClass_addUsingUnit = env->GetMethodID(upgradeTypeClass, "addUsingUnit", "(I)V");

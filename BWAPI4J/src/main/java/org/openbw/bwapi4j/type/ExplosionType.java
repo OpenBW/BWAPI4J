@@ -46,4 +46,8 @@ public enum ExplosionType {
   Maelstrom,
   Air_Splash,
   Unknown;
+
+  public static ExplosionType withId(int id) {
+    return values()[id];
+  }
 }

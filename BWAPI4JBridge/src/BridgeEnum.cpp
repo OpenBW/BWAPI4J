@@ -374,9 +374,6 @@ void BridgeEnum::createUnitTypeEnum(JNIEnv *env, const JavaRefs &javaRefs) {
     env->SetObjectField(CurrentUnitType, env->GetFieldID(javaRefs.unitTypeClass, "whatBuilds", "Lorg/openbw/bwapi4j/util/Pair;"), pairObject);
 
     // read existing requiredUnits map and put <UnitType,Integer> entries
-    for (auto const &req : unitType.requiredUnits()) {
-      env->CallObjectMethod(CurrentUnitType, javaRefs.unitTypeClass_addRequiredUnit, (jint)req.first.getID(), (jint)req.second);
-    }
     env->DeleteLocalRef(CurrentUnitType);
   }
 

@@ -12,6 +12,7 @@ public class BridgeModel {
   private final String bridgeClassName;
   private final String nativeClassName;
   private final String nativeClassParentName;
+  private final String accessOperator;
   private Set<Delegate> delegates = new HashSet<>();
   private Assignments assignments;
 
@@ -21,7 +22,8 @@ public class BridgeModel {
       Name name,
       String bridgeClassName,
       String nativeClassName,
-      String nativeClassParentName) {
+      String nativeClassParentName,
+      String accessOperator) {
 
     this.packageName = packageName;
     this.fqName = fqName;
@@ -29,6 +31,7 @@ public class BridgeModel {
     this.bridgeClassName = bridgeClassName;
     this.nativeClassName = nativeClassName;
     this.nativeClassParentName = nativeClassParentName;
+    this.accessOperator = accessOperator;
   }
 
   public Name getPackageName() {
@@ -70,5 +73,9 @@ public class BridgeModel {
 
   public void setAssignments(Assignments assignments) {
     this.assignments = assignments;
+  }
+
+  public String getAccessOperator() {
+    return accessOperator;
   }
 }

@@ -66,12 +66,14 @@ handleAssignment(assignment,fixedIndex=false) ::= <<
 $if(assignment.initializeOnly&&!fixedIndex)$
 $skipAssignment(assignment)$
 $else$
-$if(assignment.rValue && !assignment.rValue.listValue)$
+$if(assignment.rValue.listValue)$
+$listValue(assignment.field, assignment.rValue.listValue)$
+$elseif(assignment.rValue.mapValue)$
+$mapValue(assignment.field, assignment.rValue.mapValue)$
+$elseif(assignment.rValue)$
 entity.$assignment.field$ = $valueOf(assignment.rValue)$;
 $elseif(assignment.byDelegate)$
 $byDelegate(assignment.field, assignment.byDelegate)$
-$elseif(assignment.rValue.listValue)$
-$listValue(assignment.field, assignment.rValue.listValue)$
 $endif$
 $endif$
 >>
@@ -98,13 +100,21 @@ for (int i = 0; i < $field$Amount; i++) {
 }
 >>
 
+mapValue(field, mapValue) ::= <<
+entity.$field$.clear();
+int $field$Amount = $data()$;
+for (int i = 0; i < $field$Amount; i++) {
+  entity.$field$.put($valueOf(mapValue.index)$, $valueOf(mapValue.rValue)$);
+}
+>>
+
 
 byDelegate(field, byDelegate) ::= "index = $byDelegate.fieldName$.update(entity.$field$, data, index);"
 delegateInitialize(field, byDelegate) ::= "$byDelegate.fieldName$.initialize(entity.$field$, data, index);"
 
 
 bwMappedValue(value) ::= "($value.targetType$) bw.$value.bwMethod$($data()$)"
-enumValue(value) ::= "$value.enumName$.values()[$data()$]"
+enumValue(value) ::= "$value.enumName$.withId($data()$)"
 primitiveValue(value) ::= "$({dataAs$value.typeName$})(value)$"
 newObjectValue(value) ::= <<
 $if(value.needsOuterClass)$entity.new $value.className$$else$new $value.fqClassName$$endif$$\\$

@@ -76,7 +76,8 @@ public class BridgeCodeProcessor extends AbstractProcessor {
                   typeElement.getSimpleName(),
                   bridgeClassName,
                   nativeClass.name(),
-                  nativeClass.parentName());
+                  nativeClass.parentName(),
+                  nativeClass.accessOperator());
           bridgeModel.setAssignments(
               parseAssignments(allNativeClasses, typeElement, packageName, bridgeModel));
 
@@ -166,8 +167,7 @@ public class BridgeCodeProcessor extends AbstractProcessor {
               Reset aReset = e.getAnnotation(Reset.class);
               if (aReset != null) {
                 assignments.addResetAssignment(
-                    new Assignment(
-                        e.getSimpleName(), new RValue(aReset.value()), null, null));
+                    new Assignment(e.getSimpleName(), new RValue(aReset.value()), null, null));
               }
               RValue rValue = valueFrom(e.asType());
               if (namedIndex != null) {
@@ -185,11 +185,7 @@ public class BridgeCodeProcessor extends AbstractProcessor {
                 return;
               }
               assignments.addAssignment(
-                  new Assignment(
-                      e.getSimpleName(),
-                      rValue,
-                      accessor,
-                      indirection));
+                  new Assignment(e.getSimpleName(), rValue, accessor, indirection));
             });
     return assignments;
   }
@@ -275,6 +271,16 @@ public class BridgeCodeProcessor extends AbstractProcessor {
         .anyMatch(i -> i.toString().startsWith("java.util.Collection"))) {
       DeclaredType declaredType = (DeclaredType) typeMirror;
       return new RValue(new ListValue(valueFrom(declaredType.getTypeArguments().get(0))));
+    }
+    if (typeElement.getQualifiedName().toString().startsWith("java.util.Map")
+        || typeElement
+        .getInterfaces()
+        .stream()
+        .anyMatch(i -> i.toString().startsWith("java.util.Map"))) {
+      DeclaredType declaredType = (DeclaredType) typeMirror;
+      List<? extends TypeMirror> typeArguments = declaredType.getTypeArguments();
+      return new RValue(
+          new MapValue(valueFrom(typeArguments.get(0)), valueFrom(typeArguments.get(1))));
     }
 
     NewObjectValue newObjectValue = toNewObjectValue(typeElement);

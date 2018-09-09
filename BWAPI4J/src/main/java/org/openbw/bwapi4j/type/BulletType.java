@@ -20,7 +20,7 @@
 
 package org.openbw.bwapi4j.type;
 
-public enum BulletType {
+public enum BulletType implements WithId {
   Acid_Spore(163),
   Anti_Matter_Missile(154),
   Arclite_Shock_Cannon_Hit(150),
@@ -61,16 +61,21 @@ public enum BulletType {
 
   private int typeId;
 
-  private BulletType(int typeId) {
+  BulletType(int typeId) {
     this.typeId = typeId;
   }
 
-  public static BulletType valueOf(int typeId) {
-    for (BulletType type : BulletType.values()) {
-      if (type.typeId == typeId) {
-        return type;
-      }
-    }
-    return null;
+  @Override
+  public int getId() {
+    return typeId;
+  }
+
+  public static BulletType withId(int id) {
+    return IdMapper.bulletTypeForId[id];
+  }
+
+  private static class IdMapper {
+
+    static final BulletType[] bulletTypeForId = IdMapperHelper.toIdTypeArray(BulletType.class);
   }
 }

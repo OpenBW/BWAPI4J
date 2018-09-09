@@ -22,11 +22,11 @@ package org.openbw.bwapi4j.type;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
-import org.openbw.bwapi4j.ap.LookedUp;
+import org.openbw.bwapi4j.ap.BridgeValue;
+import org.openbw.bwapi4j.ap.NativeClass;
 
-@LookedUp(method = "getUpgradeType")
-public enum UpgradeType {
+@NativeClass(name = "BWAPI::UpgradeType", accessOperator = ".")
+public enum UpgradeType implements WithId {
   Terran_Infantry_Armor,
   Terran_Vehicle_Plating,
   Terran_Ship_Plating,
@@ -81,23 +81,31 @@ public enum UpgradeType {
   None,
   Unknown;
 
-  private int id = 60;
-  private Race race;
-  private int[] mineralPrices;
-  private int mineralPriceFactor;
-  private int[] gasPrices;
-  private int gasPriceFactor;
-  private int[] upgradeTimes;
-  private int upgradeTimeFactor;
-  private int maxRepeats;
-  private UnitType whatUpgrades;
-  private UnitType[] whatsRequired;
-  private List<UnitType> whatUses = new ArrayList<>();
+  int id = 60;
+  @BridgeValue
+  Race race;
+  int[] mineralPrices;
+  @BridgeValue(accessor = "mineralPriceFactor()")
+  int mineralPriceFactor;
+  int[] gasPrices;
+  @BridgeValue(accessor = "gasPriceFactor()")
+  int gasPriceFactor;
+  int[] upgradeTimes;
+  @BridgeValue(accessor = "upgradeTimeFactor()")
+  int upgradeTimeFactor;
+  @BridgeValue(accessor = "maxRepeats()")
+  int maxRepeats;
+  @BridgeValue(accessor = "whatUpgrades()")
+  UnitType whatUpgrades;
+  UnitType[] whatsRequired;
+  @BridgeValue(accessor = "whatUses()")
+  List<UnitType> whatUses = new ArrayList<>();
 
   public static UpgradeType withId(int id) {
-    return IdMapper.upgradeTypesForId[id];
+    return IdMapper.upgradeTypeForId[id];
   }
 
+  @Override
   public int getId() {
     return this.id;
   }
@@ -198,14 +206,6 @@ public enum UpgradeType {
 
   private static class IdMapper {
 
-    static UpgradeType[] upgradeTypesForId;
-
-    static {
-      int maxUpgradeTypeId = Stream.of(values()).mapToInt(UpgradeType::getId).max().getAsInt();
-      upgradeTypesForId = new UpgradeType[maxUpgradeTypeId + 1];
-      for (UpgradeType type : UpgradeType.values()) {
-        upgradeTypesForId[type.getId()] = type;
-      }
-    }
+    static final UpgradeType[] upgradeTypeForId = IdMapperHelper.toIdTypeArray(UpgradeType.class);
   }
 }

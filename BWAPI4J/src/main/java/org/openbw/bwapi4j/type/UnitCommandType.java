@@ -67,4 +67,8 @@ public enum UnitCommandType {
   Place_COP,
   None,
   Unknown;
+
+  public static UnitCommandType withId(int id) {
+    return values()[id];
+  }
 }
