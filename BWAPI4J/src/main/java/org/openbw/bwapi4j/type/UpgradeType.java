@@ -23,6 +23,7 @@ package org.openbw.bwapi4j.type;
 import java.util.ArrayList;
 import java.util.List;
 import org.openbw.bwapi4j.ap.BridgeValue;
+import org.openbw.bwapi4j.ap.Indexed;
 import org.openbw.bwapi4j.ap.NativeClass;
 
 @NativeClass(name = "BWAPI::UpgradeType", accessOperator = ".")
@@ -84,20 +85,38 @@ public enum UpgradeType implements WithId {
   int id = 60;
   @BridgeValue
   Race race;
+
+  @BridgeValue(accessor = "mineralPrice(i)")
+  @Indexed(getAmountBy = "maxRepeats()")
   int[] mineralPrices;
+
   @BridgeValue(accessor = "mineralPriceFactor()")
   int mineralPriceFactor;
+
+  @BridgeValue(accessor = "gasPrice(i)")
+  @Indexed(getAmountBy = "maxRepeats()")
   int[] gasPrices;
+
   @BridgeValue(accessor = "gasPriceFactor()")
   int gasPriceFactor;
+
+  @BridgeValue(accessor = "upgradeTime(i)")
+  @Indexed(getAmountBy = "maxRepeats()")
   int[] upgradeTimes;
+
   @BridgeValue(accessor = "upgradeTimeFactor()")
   int upgradeTimeFactor;
+
   @BridgeValue(accessor = "maxRepeats()")
   int maxRepeats;
+
   @BridgeValue(accessor = "whatUpgrades()")
   UnitType whatUpgrades;
+
+  @BridgeValue(accessor = "whatsRequired(i)")
+  @Indexed(getAmountBy = "maxRepeats()")
   UnitType[] whatsRequired;
+
   @BridgeValue(accessor = "whatUses()")
   List<UnitType> whatUses = new ArrayList<>();
 

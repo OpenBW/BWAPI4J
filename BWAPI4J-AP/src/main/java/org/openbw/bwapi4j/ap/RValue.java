@@ -8,6 +8,7 @@ public class RValue {
   private NewObjectValue newObjectValue;
   private PrimitiveValue primitiveValue;
   private BWMappedValue bwMappedValue;
+  private ArrayValue arrayValue;
   private String constant;
   private boolean string;
 
@@ -39,6 +40,10 @@ public class RValue {
     this.mapValue = mapValue;
   }
 
+  public RValue(ArrayValue arrayValue) {
+    this.arrayValue = arrayValue;
+  }
+
   public RValue() {
     string = true;
   }
@@ -65,6 +70,10 @@ public class RValue {
 
   public BWMappedValue getBwMappedValue() {
     return bwMappedValue;
+  }
+
+  public ArrayValue getArrayValue() {
+    return arrayValue;
   }
 
   public String getConstant() {

@@ -14,6 +14,8 @@ void DataBuffer::addFields(const $model.nativeClassName$ &entity) {
 handleAssignment(assignment, prefix="") ::= <<
 $if(assignment.rValue.listValue)$
 $listValue(assignment)$
+$elseif(assignment.rValue.arrayValue)$
+$arrayValue(assignment, assignment.rValue.arrayValue)$
 $elseif(assignment.rValue.mapValue)$
 $mapValue(assignment, assignment.rValue)$
 $elseif(assignment.rValue)$
@@ -41,6 +43,14 @@ const auto $assignment.field$Size = $assignment.field$.size();
 add($assignment.field$Size);
 for (const auto &element : $assignment.field$) {
   addId(element);
+}
+>>
+
+arrayValue(assignment, arrayValue) ::= <<
+const auto $assignment.field$Size = entity$model.accessOperator$$arrayValue.amountBy$;
+add($assignment.field$Size);
+for (int i = 0; i < $assignment.field$Size; ++ i) {
+  $valueOf(assignment, arrayValue.rValue)$
 }
 >>
 

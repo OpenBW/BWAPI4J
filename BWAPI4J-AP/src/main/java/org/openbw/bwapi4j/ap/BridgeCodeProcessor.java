@@ -21,6 +21,7 @@ import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Name;
 import javax.lang.model.element.QualifiedNameable;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.ArrayType;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeMirror;
 import javax.tools.StandardLocation;
@@ -169,7 +170,16 @@ public class BridgeCodeProcessor extends AbstractProcessor {
                 assignments.addResetAssignment(
                     new Assignment(e.getSimpleName(), new RValue(aReset.value()), null, null));
               }
-              RValue rValue = valueFrom(e.asType());
+
+              RValue rValue;
+              Indexed indexed = e.getAnnotation(Indexed.class);
+              if (indexed != null) {
+                ArrayType arrayType = (ArrayType) e.asType();
+                rValue = new RValue(
+                    new ArrayValue(indexed.getAmountBy(), valueFrom(arrayType.getComponentType())));
+              } else {
+                rValue = valueFrom(e.asType());
+              }
               if (namedIndex != null) {
                 int index = assignments.namedFieldIndex;
                 assignments.namedFieldIndex += rValue.getDataAmount();
