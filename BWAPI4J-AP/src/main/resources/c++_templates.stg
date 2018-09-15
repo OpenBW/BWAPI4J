@@ -39,8 +39,7 @@ $endif$
 
 listValue(assignment) ::= <<
 const auto &$assignment.field$ = $getter(assignment)$;
-const auto $assignment.field$Size = $assignment.field$.size();
-add($assignment.field$Size);
+add($assignment.field$.size());
 for (const auto &element : $assignment.field$) {
   addId(element);
 }
@@ -56,7 +55,7 @@ for (int i = 0; i < $assignment.field$Size; ++ i) {
 
 mapValue(assignment, rValue) ::= <<
 const auto &$assignment.field$ = $getter(assignment)$;
-const auto $assignment.field$Size = $assignment.field$.size();
+add($assignment.field$.size());
 for(const auto &element : $assignment.field$) {
   addId(element.first);
   add(element.second);

@@ -34,7 +34,14 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openbw.bwapi4j.type.TechType;
+import org.openbw.bwapi4j.type.TechTypeBridge;
 import org.openbw.bwapi4j.type.UnitType;
+import org.openbw.bwapi4j.type.UnitTypeBridge;
+import org.openbw.bwapi4j.type.UpgradeType;
+import org.openbw.bwapi4j.type.UpgradeTypeBridge;
+import org.openbw.bwapi4j.type.WeaponType;
+import org.openbw.bwapi4j.type.WeaponTypeBridge;
 import org.openbw.bwapi4j.unit.MineralPatch;
 import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.unit.Unit;
@@ -61,6 +68,11 @@ public class BW {
   private UnitImplBridge unitDataBridge;
   private PlayerBridge playerBridge;
   private BulletBridge bulletBridge;
+
+  private UpgradeTypeBridge upgradeTypeBridge;
+  private WeaponTypeBridge weaponTypeBridge;
+  private TechTypeBridge techTypeBridge;
+  private UnitTypeBridge unitTypeBridge;
 
   private Map<Integer, Player> players;
   private Map<Integer, UnitImpl> units;
@@ -132,6 +144,11 @@ public class BW {
     this.unitDataBridge = new UnitImplBridge(this, new WeaponBridge(this));
     this.playerBridge = new PlayerBridge(this);
     this.bulletBridge = new BulletBridge(this);
+    this.upgradeTypeBridge = new UpgradeTypeBridge(this);
+    this.weaponTypeBridge = new WeaponTypeBridge(this);
+    this.techTypeBridge = new TechTypeBridge(this);
+    this.unitTypeBridge = new UnitTypeBridge(this);
+
     setUnitFactory(new UnitFactory());
 
     try {
@@ -204,6 +221,14 @@ public class BW {
   public native void exit();
 
   private native void startGame(BW bw);
+
+  private native int[] getUpgradeTypesData();
+
+  private native int[] getWeaponTypesData();
+
+  private native int[] getTechTypesData();
+
+  private native int[] getUnitTypesData();
 
   private native int[] getAllUnitsData();
 
@@ -421,6 +446,8 @@ public class BW {
       this.units.clear();
       this.bullets.clear();
 
+      initializeTypes();
+
       logger.trace(" --- calling initial preFrame...");
       preFrame();
       logger.trace("done.");
@@ -428,6 +455,49 @@ public class BW {
     } catch (Throwable e) {
       logger.error("exception during onStart.", e);
       throw e;
+    }
+  }
+
+  private void initializeTypes() {
+    initializeUpgradeTypes();
+    initializeWeaponTypes();
+    initializeTechTypes();
+    initializeUnitTypes();
+  }
+
+  private void initializeUpgradeTypes() {
+    int data[] = getUpgradeTypesData();
+    int index = 0;
+    while (index < data.length) {
+      int id = data[index + UpgradeTypeBridge.ID];
+      index = upgradeTypeBridge.update(UpgradeType.withId(id), data, index);
+    }
+  }
+
+  private void initializeWeaponTypes() {
+    int data[] = getWeaponTypesData();
+    int index = 0;
+    while (index < data.length) {
+      int id = data[index + WeaponTypeBridge.ID];
+      index = weaponTypeBridge.update(WeaponType.withId(id), data, index);
+    }
+  }
+
+  private void initializeTechTypes() {
+    int data[] = getTechTypesData();
+    int index = 0;
+    while (index < data.length) {
+      int id = data[index + TechTypeBridge.ID];
+      index = techTypeBridge.update(TechType.withId(id), data, index);
+    }
+  }
+
+  private void initializeUnitTypes() {
+    int data[] = getUnitTypesData();
+    int index = 0;
+    while (index < data.length) {
+      int id = data[index + UnitTypeBridge.ID];
+      index = unitTypeBridge.update(UnitType.withId(id), data, index);
     }
   }
 

@@ -246,3 +246,63 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getGameData(JNIEnv *env, 
   env->SetIntArrayRegion(result, 0, Bridge::Globals::dataBuffer.getIndex(), Bridge::Globals::dataBuffer.intBuf);
   return result;
 }
+
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUpgradeTypesData(JNIEnv *env, jobject) { 
+  Bridge::Globals::dataBuffer.reset(); 
+
+  BridgeEnum enums;
+  enums.addUpgradeTypeEnums();
+
+  jintArray result = env->NewIntArray(Bridge::Globals::dataBuffer.getIndex());
+  env->SetIntArrayRegion(result, 0, Bridge::Globals::dataBuffer.getIndex(), Bridge::Globals::dataBuffer.intBuf);
+  return result;
+}
+
+
+/*
+ * Class:     org_openbw_bwapi4j_BW
+ * Method:    getWeaponTypesData
+ * Signature: ()[I
+ */
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getWeaponTypesData(JNIEnv *env, jobject) {
+  Bridge::Globals::dataBuffer.reset();
+ 
+  BridgeEnum enums;
+  enums.addWeaponTypeEnums();
+
+  jintArray result = env->NewIntArray(Bridge::Globals::dataBuffer.getIndex());
+  env->SetIntArrayRegion(result, 0, Bridge::Globals::dataBuffer.getIndex(), Bridge::Globals::dataBuffer.intBuf);
+  return result;
+}
+
+/*
+ * Class:     org_openbw_bwapi4j_BW
+ * Method:    getTechTypesData
+ * Signature: ()[I
+ */
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getTechTypesData(JNIEnv *env, jobject) {
+  Bridge::Globals::dataBuffer.reset();
+ 
+  BridgeEnum enums;
+  enums.addTechTypeEnums();
+
+  jintArray result = env->NewIntArray(Bridge::Globals::dataBuffer.getIndex());
+  env->SetIntArrayRegion(result, 0, Bridge::Globals::dataBuffer.getIndex(), Bridge::Globals::dataBuffer.intBuf);
+  return result;
+}
+
+/*
+ * Class:     org_openbw_bwapi4j_BW
+ * Method:    getUnitTypesData
+ * Signature: ()[I
+ */
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUnitTypesData(JNIEnv *env, jobject) {
+  Bridge::Globals::dataBuffer.reset();
+  
+  BridgeEnum enums;
+  enums.addUnitTypeEnums();
+
+  jintArray result = env->NewIntArray(Bridge::Globals::dataBuffer.getIndex());
+  env->SetIntArrayRegion(result, 0, Bridge::Globals::dataBuffer.getIndex(), Bridge::Globals::dataBuffer.intBuf);
+  return result;
+}

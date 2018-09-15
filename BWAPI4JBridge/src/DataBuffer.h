@@ -77,6 +77,7 @@ class DataBuffer {
   void addFields(const BWAPI::TechType &entity);
   void addFields(const BWAPI::UpgradeType &entity); 
   void addFields(const BWAPI::WeaponType &entity);
+  void addFields(const std::pair<BWAPI::UnitType, int> &entity);
 
  private:
   int _index;

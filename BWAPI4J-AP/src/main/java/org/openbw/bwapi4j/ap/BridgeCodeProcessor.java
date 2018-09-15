@@ -18,6 +18,7 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.Modifier;
 import javax.lang.model.element.Name;
 import javax.lang.model.element.QualifiedNameable;
 import javax.lang.model.element.TypeElement;
@@ -176,7 +177,8 @@ public class BridgeCodeProcessor extends AbstractProcessor {
               if (indexed != null) {
                 ArrayType arrayType = (ArrayType) e.asType();
                 rValue = new RValue(
-                    new ArrayValue(indexed.getAmountBy(), valueFrom(arrayType.getComponentType())));
+                    new ArrayValue(indexed.getAmountBy(), valueFrom(arrayType.getComponentType()),
+                        arrayType.getComponentType().toString()));
               } else {
                 rValue = valueFrom(e.asType());
               }
@@ -244,7 +246,8 @@ public class BridgeCodeProcessor extends AbstractProcessor {
         typeElement.getQualifiedName(),
         typeElement.getSimpleName(),
         constructorArguments,
-        typeElement.getEnclosingElement() instanceof TypeElement);
+        !typeElement.getModifiers().contains(Modifier.STATIC) && typeElement
+            .getEnclosingElement() instanceof TypeElement);
   }
 
   private RValue valueFrom(TypeMirror typeMirror) {

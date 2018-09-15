@@ -1,26 +1,7 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//    Copyright (C) 2017-2018 OpenBW Team
-//
-//    This file is part of BWAPI4J.
-//
-//    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published
-//    by the Free Software Foundation, version 3 only.
-//
-//    BWAPI4J is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU General Public License for more details.
-//
-//    You should have received a copy of the GNU General Public License
-//    along with BWAPI4J.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-
 package org.openbw.bwapi4j.test;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -32,6 +13,7 @@ import org.openbw.bwapi4j.type.UpgradeType;
 import org.openbw.bwapi4j.type.WeaponType;
 
 class WeaponTypes {
+
   static void initializeWeaponType() throws Exception {
     initializeWeaponType_Gauss_Rifle();
     initializeWeaponType_Gauss_Rifle_Jim_Raynor();
@@ -47,6 +29,7 @@ class WeaponTypes {
     initializeWeaponType_Arclite_Cannon();
     initializeWeaponType_Arclite_Cannon_Edmund_Duke();
     initializeWeaponType_Fusion_Cutter();
+    initializeWeaponType_unk_14();
     initializeWeaponType_Gemini_Missiles();
     initializeWeaponType_Burst_Lasers();
     initializeWeaponType_Gemini_Missiles_Tom_Kazansky();
@@ -76,10 +59,14 @@ class WeaponTypes {
     initializeWeaponType_Kaiser_Blades_Torrasque();
     initializeWeaponType_Toxic_Spores();
     initializeWeaponType_Spines();
+    initializeWeaponType_unk_44();
+    initializeWeaponType_unk_45();
     initializeWeaponType_Acid_Spore();
     initializeWeaponType_Acid_Spore_Kukulza();
     initializeWeaponType_Glave_Wurm();
     initializeWeaponType_Glave_Wurm_Kukulza();
+    initializeWeaponType_unk_50();
+    initializeWeaponType_unk_51();
     initializeWeaponType_Seeker_Spores();
     initializeWeaponType_Subterranean_Tentacle();
     initializeWeaponType_Suicide_Infested_Terran();
@@ -91,13 +78,16 @@ class WeaponTypes {
     initializeWeaponType_Plague();
     initializeWeaponType_Consume();
     initializeWeaponType_Particle_Beam();
+    initializeWeaponType_unk_63();
     initializeWeaponType_Psi_Blades();
     initializeWeaponType_Psi_Blades_Fenix();
     initializeWeaponType_Phase_Disruptor();
     initializeWeaponType_Phase_Disruptor_Fenix();
+    initializeWeaponType_unk_68();
     initializeWeaponType_Psi_Assault();
     initializeWeaponType_Psionic_Shockwave();
     initializeWeaponType_Psionic_Shockwave_TZ_Archon();
+    initializeWeaponType_unk_72();
     initializeWeaponType_Dual_Photon_Blasters();
     initializeWeaponType_Anti_Matter_Missiles();
     initializeWeaponType_Dual_Photon_Blasters_Mojo();
@@ -112,8 +102,15 @@ class WeaponTypes {
     initializeWeaponType_Psionic_Storm();
     initializeWeaponType_Warp_Blades_Zeratul();
     initializeWeaponType_Warp_Blades_Hero();
-//    initializeWeaponType_Platform_Laser_Battery();
+    initializeWeaponType_unk_87();
+    initializeWeaponType_unk_88();
+    initializeWeaponType_unk_89();
+    initializeWeaponType_unk_90();
+    initializeWeaponType_unk_91();
+    initializeWeaponType_Platform_Laser_Battery();
     initializeWeaponType_Independant_Laser_Battery();
+    initializeWeaponType_unk_94();
+    initializeWeaponType_unk_95();
     initializeWeaponType_Twin_Autocannons_Floor_Trap();
     initializeWeaponType_Hellfire_Missile_Pack_Wall_Trap();
     initializeWeaponType_Flame_Thrower_Wall_Trap();
@@ -136,20 +133,17 @@ class WeaponTypes {
     initializeWeaponType_C_10_Canister_Rifle_Alexei_Stukov();
     initializeWeaponType_None();
     initializeWeaponType_Unknown();
+    initializeWeaponType_MAX();
   }
 
   private static void initializeWeaponType_Gauss_Rifle() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Gauss_Rifle, 0);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Gauss_Rifle, 0);
     fields.get("tech").set(WeaponType.Gauss_Rifle, TechType.None);
     fields.get("whatUses").set(WeaponType.Gauss_Rifle, UnitType.Terran_Marine);
     fields.get("damageAmount").set(WeaponType.Gauss_Rifle, 6);
@@ -177,24 +171,19 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Gauss_Rifle_Jim_Raynor() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Gauss_Rifle_Jim_Raynor, 1);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Gauss_Rifle_Jim_Raynor, 1);
     fields.get("tech").set(WeaponType.Gauss_Rifle_Jim_Raynor, TechType.None);
     fields.get("whatUses").set(WeaponType.Gauss_Rifle_Jim_Raynor, UnitType.Hero_Jim_Raynor_Marine);
     fields.get("damageAmount").set(WeaponType.Gauss_Rifle_Jim_Raynor, 18);
     fields.get("damageBonus").set(WeaponType.Gauss_Rifle_Jim_Raynor, 1);
     fields.get("damageCooldown").set(WeaponType.Gauss_Rifle_Jim_Raynor, 15);
     fields.get("damageFactor").set(WeaponType.Gauss_Rifle_Jim_Raynor, 1);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.Gauss_Rifle_Jim_Raynor, UpgradeType.Terran_Infantry_Weapons);
     fields.get("damageType").set(WeaponType.Gauss_Rifle_Jim_Raynor, DamageType.Normal);
     fields.get("explosionType").set(WeaponType.Gauss_Rifle_Jim_Raynor, ExplosionType.Normal);
@@ -216,24 +205,19 @@ class WeaponTypes {
 
   private static void initializeWeaponType_C_10_Canister_Rifle() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.C_10_Canister_Rifle, 2);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.C_10_Canister_Rifle, 2);
     fields.get("tech").set(WeaponType.C_10_Canister_Rifle, TechType.None);
     fields.get("whatUses").set(WeaponType.C_10_Canister_Rifle, UnitType.Terran_Ghost);
     fields.get("damageAmount").set(WeaponType.C_10_Canister_Rifle, 10);
     fields.get("damageBonus").set(WeaponType.C_10_Canister_Rifle, 1);
     fields.get("damageCooldown").set(WeaponType.C_10_Canister_Rifle, 22);
     fields.get("damageFactor").set(WeaponType.C_10_Canister_Rifle, 1);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.C_10_Canister_Rifle, UpgradeType.Terran_Infantry_Weapons);
     fields.get("damageType").set(WeaponType.C_10_Canister_Rifle, DamageType.Concussive);
     fields.get("explosionType").set(WeaponType.C_10_Canister_Rifle, ExplosionType.Normal);
@@ -255,32 +239,24 @@ class WeaponTypes {
 
   private static void initializeWeaponType_C_10_Canister_Rifle_Sarah_Kerrigan() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, 3);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, 3);
     fields.get("tech").set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, TechType.None);
-    fields
-        .get("whatUses")
+    fields.get("whatUses")
         .set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, UnitType.Hero_Sarah_Kerrigan);
     fields.get("damageAmount").set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, 30);
     fields.get("damageBonus").set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, 1);
     fields.get("damageCooldown").set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, 22);
     fields.get("damageFactor").set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, 1);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, UpgradeType.Terran_Infantry_Weapons);
-    fields
-        .get("damageType")
+    fields.get("damageType")
         .set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, DamageType.Concussive);
-    fields
-        .get("explosionType")
+    fields.get("explosionType")
         .set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, ExplosionType.Normal);
     fields.get("minRange").set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, 0);
     fields.get("maxRange").set(WeaponType.C_10_Canister_Rifle_Sarah_Kerrigan, 192);
@@ -300,24 +276,19 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Fragmentation_Grenade() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Fragmentation_Grenade, 4);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Fragmentation_Grenade, 4);
     fields.get("tech").set(WeaponType.Fragmentation_Grenade, TechType.None);
     fields.get("whatUses").set(WeaponType.Fragmentation_Grenade, UnitType.Terran_Vulture);
     fields.get("damageAmount").set(WeaponType.Fragmentation_Grenade, 20);
     fields.get("damageBonus").set(WeaponType.Fragmentation_Grenade, 2);
     fields.get("damageCooldown").set(WeaponType.Fragmentation_Grenade, 30);
     fields.get("damageFactor").set(WeaponType.Fragmentation_Grenade, 1);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.Fragmentation_Grenade, UpgradeType.Terran_Vehicle_Weapons);
     fields.get("damageType").set(WeaponType.Fragmentation_Grenade, DamageType.Concussive);
     fields.get("explosionType").set(WeaponType.Fragmentation_Grenade, ExplosionType.Normal);
@@ -339,32 +310,24 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Fragmentation_Grenade_Jim_Raynor() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Fragmentation_Grenade_Jim_Raynor, 5);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Fragmentation_Grenade_Jim_Raynor, 5);
     fields.get("tech").set(WeaponType.Fragmentation_Grenade_Jim_Raynor, TechType.None);
-    fields
-        .get("whatUses")
+    fields.get("whatUses")
         .set(WeaponType.Fragmentation_Grenade_Jim_Raynor, UnitType.Hero_Jim_Raynor_Vulture);
     fields.get("damageAmount").set(WeaponType.Fragmentation_Grenade_Jim_Raynor, 30);
     fields.get("damageBonus").set(WeaponType.Fragmentation_Grenade_Jim_Raynor, 2);
     fields.get("damageCooldown").set(WeaponType.Fragmentation_Grenade_Jim_Raynor, 22);
     fields.get("damageFactor").set(WeaponType.Fragmentation_Grenade_Jim_Raynor, 1);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.Fragmentation_Grenade_Jim_Raynor, UpgradeType.Terran_Vehicle_Weapons);
-    fields
-        .get("damageType")
+    fields.get("damageType")
         .set(WeaponType.Fragmentation_Grenade_Jim_Raynor, DamageType.Concussive);
-    fields
-        .get("explosionType")
+    fields.get("explosionType")
         .set(WeaponType.Fragmentation_Grenade_Jim_Raynor, ExplosionType.Normal);
     fields.get("minRange").set(WeaponType.Fragmentation_Grenade_Jim_Raynor, 0);
     fields.get("maxRange").set(WeaponType.Fragmentation_Grenade_Jim_Raynor, 160);
@@ -384,16 +347,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Spider_Mines() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Spider_Mines, 6);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Spider_Mines, 6);
     fields.get("tech").set(WeaponType.Spider_Mines, TechType.Spider_Mines);
     fields.get("whatUses").set(WeaponType.Spider_Mines, UnitType.Terran_Vulture_Spider_Mine);
     fields.get("damageAmount").set(WeaponType.Spider_Mines, 125);
@@ -421,16 +380,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Twin_Autocannons() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Twin_Autocannons, 7);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Twin_Autocannons, 7);
     fields.get("tech").set(WeaponType.Twin_Autocannons, TechType.None);
     fields.get("whatUses").set(WeaponType.Twin_Autocannons, UnitType.Terran_Goliath);
     fields.get("damageAmount").set(WeaponType.Twin_Autocannons, 12);
@@ -458,24 +413,19 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Hellfire_Missile_Pack() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Hellfire_Missile_Pack, 8);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Hellfire_Missile_Pack, 8);
     fields.get("tech").set(WeaponType.Hellfire_Missile_Pack, TechType.None);
     fields.get("whatUses").set(WeaponType.Hellfire_Missile_Pack, UnitType.Terran_Goliath);
     fields.get("damageAmount").set(WeaponType.Hellfire_Missile_Pack, 10);
     fields.get("damageBonus").set(WeaponType.Hellfire_Missile_Pack, 2);
     fields.get("damageCooldown").set(WeaponType.Hellfire_Missile_Pack, 22);
     fields.get("damageFactor").set(WeaponType.Hellfire_Missile_Pack, 2);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.Hellfire_Missile_Pack, UpgradeType.Terran_Vehicle_Weapons);
     fields.get("damageType").set(WeaponType.Hellfire_Missile_Pack, DamageType.Explosive);
     fields.get("explosionType").set(WeaponType.Hellfire_Missile_Pack, ExplosionType.Normal);
@@ -497,26 +447,20 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Twin_Autocannons_Alan_Schezar() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Twin_Autocannons_Alan_Schezar, 9);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Twin_Autocannons_Alan_Schezar, 9);
     fields.get("tech").set(WeaponType.Twin_Autocannons_Alan_Schezar, TechType.None);
-    fields
-        .get("whatUses")
+    fields.get("whatUses")
         .set(WeaponType.Twin_Autocannons_Alan_Schezar, UnitType.Hero_Alan_Schezar);
     fields.get("damageAmount").set(WeaponType.Twin_Autocannons_Alan_Schezar, 24);
     fields.get("damageBonus").set(WeaponType.Twin_Autocannons_Alan_Schezar, 1);
     fields.get("damageCooldown").set(WeaponType.Twin_Autocannons_Alan_Schezar, 22);
     fields.get("damageFactor").set(WeaponType.Twin_Autocannons_Alan_Schezar, 1);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.Twin_Autocannons_Alan_Schezar, UpgradeType.Terran_Vehicle_Weapons);
     fields.get("damageType").set(WeaponType.Twin_Autocannons_Alan_Schezar, DamageType.Normal);
     fields.get("explosionType").set(WeaponType.Twin_Autocannons_Alan_Schezar, ExplosionType.Normal);
@@ -538,32 +482,24 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Hellfire_Missile_Pack_Alan_Schezar() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, 10);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, 10);
     fields.get("tech").set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, TechType.None);
-    fields
-        .get("whatUses")
+    fields.get("whatUses")
         .set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, UnitType.Hero_Alan_Schezar);
     fields.get("damageAmount").set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, 20);
     fields.get("damageBonus").set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, 1);
     fields.get("damageCooldown").set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, 22);
     fields.get("damageFactor").set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, 2);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, UpgradeType.Terran_Vehicle_Weapons);
-    fields
-        .get("damageType")
+    fields.get("damageType")
         .set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, DamageType.Explosive);
-    fields
-        .get("explosionType")
+    fields.get("explosionType")
         .set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, ExplosionType.Normal);
     fields.get("minRange").set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, 0);
     fields.get("maxRange").set(WeaponType.Hellfire_Missile_Pack_Alan_Schezar, 160);
@@ -583,16 +519,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Arclite_Cannon() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Arclite_Cannon, 11);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Arclite_Cannon, 11);
     fields.get("tech").set(WeaponType.Arclite_Cannon, TechType.None);
     fields.get("whatUses").set(WeaponType.Arclite_Cannon, UnitType.Terran_Siege_Tank_Tank_Mode);
     fields.get("damageAmount").set(WeaponType.Arclite_Cannon, 30);
@@ -620,26 +552,20 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Arclite_Cannon_Edmund_Duke() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Arclite_Cannon_Edmund_Duke, 12);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Arclite_Cannon_Edmund_Duke, 12);
     fields.get("tech").set(WeaponType.Arclite_Cannon_Edmund_Duke, TechType.None);
-    fields
-        .get("whatUses")
+    fields.get("whatUses")
         .set(WeaponType.Arclite_Cannon_Edmund_Duke, UnitType.Hero_Edmund_Duke_Tank_Mode);
     fields.get("damageAmount").set(WeaponType.Arclite_Cannon_Edmund_Duke, 70);
     fields.get("damageBonus").set(WeaponType.Arclite_Cannon_Edmund_Duke, 3);
     fields.get("damageCooldown").set(WeaponType.Arclite_Cannon_Edmund_Duke, 37);
     fields.get("damageFactor").set(WeaponType.Arclite_Cannon_Edmund_Duke, 1);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.Arclite_Cannon_Edmund_Duke, UpgradeType.Terran_Vehicle_Weapons);
     fields.get("damageType").set(WeaponType.Arclite_Cannon_Edmund_Duke, DamageType.Explosive);
     fields.get("explosionType").set(WeaponType.Arclite_Cannon_Edmund_Duke, ExplosionType.Normal);
@@ -661,16 +587,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Fusion_Cutter() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Fusion_Cutter, 13);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Fusion_Cutter, 13);
     fields.get("tech").set(WeaponType.Fusion_Cutter, TechType.None);
     fields.get("whatUses").set(WeaponType.Fusion_Cutter, UnitType.Terran_SCV);
     fields.get("damageAmount").set(WeaponType.Fusion_Cutter, 5);
@@ -696,18 +618,47 @@ class WeaponTypes {
     fields.get("targetsOwn").set(WeaponType.Fusion_Cutter, false);
   }
 
+  private static void initializeWeaponType_unk_14() throws Exception {
+    Class<?> c = WeaponType.class;
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.unk_14, 14);
+    fields.get("tech").set(WeaponType.unk_14, null);
+    fields.get("whatUses").set(WeaponType.unk_14, null);
+    fields.get("damageAmount").set(WeaponType.unk_14, 0);
+    fields.get("damageBonus").set(WeaponType.unk_14, 0);
+    fields.get("damageCooldown").set(WeaponType.unk_14, 0);
+    fields.get("damageFactor").set(WeaponType.unk_14, 0);
+    fields.get("upgradeType").set(WeaponType.unk_14, null);
+    fields.get("damageType").set(WeaponType.unk_14, null);
+    fields.get("explosionType").set(WeaponType.unk_14, null);
+    fields.get("minRange").set(WeaponType.unk_14, 0);
+    fields.get("maxRange").set(WeaponType.unk_14, 0);
+    fields.get("innerSplashRadius").set(WeaponType.unk_14, 0);
+    fields.get("medianSplashRadius").set(WeaponType.unk_14, 0);
+    fields.get("outerSplashRadius").set(WeaponType.unk_14, 0);
+    fields.get("targetsAir").set(WeaponType.unk_14, false);
+    fields.get("targetsGround").set(WeaponType.unk_14, false);
+    fields.get("targetsMechanical").set(WeaponType.unk_14, false);
+    fields.get("targetsOrganic").set(WeaponType.unk_14, false);
+    fields.get("targetsNonBuilding").set(WeaponType.unk_14, false);
+    fields.get("targetsNonRobotic").set(WeaponType.unk_14, false);
+    fields.get("targetsTerrain").set(WeaponType.unk_14, false);
+    fields.get("targetsOrgOrMech").set(WeaponType.unk_14, false);
+    fields.get("targetsOwn").set(WeaponType.unk_14, false);
+  }
+
   private static void initializeWeaponType_Gemini_Missiles() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Gemini_Missiles, 15);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Gemini_Missiles, 15);
     fields.get("tech").set(WeaponType.Gemini_Missiles, TechType.None);
     fields.get("whatUses").set(WeaponType.Gemini_Missiles, UnitType.Terran_Wraith);
     fields.get("damageAmount").set(WeaponType.Gemini_Missiles, 20);
@@ -735,16 +686,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Burst_Lasers() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Burst_Lasers, 16);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Burst_Lasers, 16);
     fields.get("tech").set(WeaponType.Burst_Lasers, TechType.None);
     fields.get("whatUses").set(WeaponType.Burst_Lasers, UnitType.Terran_Wraith);
     fields.get("damageAmount").set(WeaponType.Burst_Lasers, 8);
@@ -772,24 +719,19 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Gemini_Missiles_Tom_Kazansky() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Gemini_Missiles_Tom_Kazansky, 17);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Gemini_Missiles_Tom_Kazansky, 17);
     fields.get("tech").set(WeaponType.Gemini_Missiles_Tom_Kazansky, TechType.None);
     fields.get("whatUses").set(WeaponType.Gemini_Missiles_Tom_Kazansky, UnitType.Hero_Tom_Kazansky);
     fields.get("damageAmount").set(WeaponType.Gemini_Missiles_Tom_Kazansky, 40);
     fields.get("damageBonus").set(WeaponType.Gemini_Missiles_Tom_Kazansky, 2);
     fields.get("damageCooldown").set(WeaponType.Gemini_Missiles_Tom_Kazansky, 22);
     fields.get("damageFactor").set(WeaponType.Gemini_Missiles_Tom_Kazansky, 1);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.Gemini_Missiles_Tom_Kazansky, UpgradeType.Terran_Ship_Weapons);
     fields.get("damageType").set(WeaponType.Gemini_Missiles_Tom_Kazansky, DamageType.Explosive);
     fields.get("explosionType").set(WeaponType.Gemini_Missiles_Tom_Kazansky, ExplosionType.Normal);
@@ -811,24 +753,19 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Burst_Lasers_Tom_Kazansky() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Burst_Lasers_Tom_Kazansky, 18);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Burst_Lasers_Tom_Kazansky, 18);
     fields.get("tech").set(WeaponType.Burst_Lasers_Tom_Kazansky, TechType.None);
     fields.get("whatUses").set(WeaponType.Burst_Lasers_Tom_Kazansky, UnitType.Hero_Tom_Kazansky);
     fields.get("damageAmount").set(WeaponType.Burst_Lasers_Tom_Kazansky, 16);
     fields.get("damageBonus").set(WeaponType.Burst_Lasers_Tom_Kazansky, 1);
     fields.get("damageCooldown").set(WeaponType.Burst_Lasers_Tom_Kazansky, 30);
     fields.get("damageFactor").set(WeaponType.Burst_Lasers_Tom_Kazansky, 1);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.Burst_Lasers_Tom_Kazansky, UpgradeType.Terran_Ship_Weapons);
     fields.get("damageType").set(WeaponType.Burst_Lasers_Tom_Kazansky, DamageType.Normal);
     fields.get("explosionType").set(WeaponType.Burst_Lasers_Tom_Kazansky, ExplosionType.Normal);
@@ -850,16 +787,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_ATS_Laser_Battery() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.ATS_Laser_Battery, 19);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.ATS_Laser_Battery, 19);
     fields.get("tech").set(WeaponType.ATS_Laser_Battery, TechType.None);
     fields.get("whatUses").set(WeaponType.ATS_Laser_Battery, UnitType.Terran_Battlecruiser);
     fields.get("damageAmount").set(WeaponType.ATS_Laser_Battery, 25);
@@ -887,16 +820,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_ATA_Laser_Battery() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.ATA_Laser_Battery, 20);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.ATA_Laser_Battery, 20);
     fields.get("tech").set(WeaponType.ATA_Laser_Battery, TechType.None);
     fields.get("whatUses").set(WeaponType.ATA_Laser_Battery, UnitType.Terran_Battlecruiser);
     fields.get("damageAmount").set(WeaponType.ATA_Laser_Battery, 25);
@@ -924,24 +853,19 @@ class WeaponTypes {
 
   private static void initializeWeaponType_ATS_Laser_Battery_Hero() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.ATS_Laser_Battery_Hero, 21);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.ATS_Laser_Battery_Hero, 21);
     fields.get("tech").set(WeaponType.ATS_Laser_Battery_Hero, TechType.None);
     fields.get("whatUses").set(WeaponType.ATS_Laser_Battery_Hero, UnitType.Hero_Norad_II);
     fields.get("damageAmount").set(WeaponType.ATS_Laser_Battery_Hero, 50);
     fields.get("damageBonus").set(WeaponType.ATS_Laser_Battery_Hero, 3);
     fields.get("damageCooldown").set(WeaponType.ATS_Laser_Battery_Hero, 30);
     fields.get("damageFactor").set(WeaponType.ATS_Laser_Battery_Hero, 1);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.ATS_Laser_Battery_Hero, UpgradeType.Terran_Ship_Weapons);
     fields.get("damageType").set(WeaponType.ATS_Laser_Battery_Hero, DamageType.Normal);
     fields.get("explosionType").set(WeaponType.ATS_Laser_Battery_Hero, ExplosionType.Normal);
@@ -963,24 +887,19 @@ class WeaponTypes {
 
   private static void initializeWeaponType_ATA_Laser_Battery_Hero() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.ATA_Laser_Battery_Hero, 22);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.ATA_Laser_Battery_Hero, 22);
     fields.get("tech").set(WeaponType.ATA_Laser_Battery_Hero, TechType.None);
     fields.get("whatUses").set(WeaponType.ATA_Laser_Battery_Hero, UnitType.Hero_Norad_II);
     fields.get("damageAmount").set(WeaponType.ATA_Laser_Battery_Hero, 50);
     fields.get("damageBonus").set(WeaponType.ATA_Laser_Battery_Hero, 3);
     fields.get("damageCooldown").set(WeaponType.ATA_Laser_Battery_Hero, 30);
     fields.get("damageFactor").set(WeaponType.ATA_Laser_Battery_Hero, 1);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.ATA_Laser_Battery_Hero, UpgradeType.Terran_Ship_Weapons);
     fields.get("damageType").set(WeaponType.ATA_Laser_Battery_Hero, DamageType.Normal);
     fields.get("explosionType").set(WeaponType.ATA_Laser_Battery_Hero, ExplosionType.Normal);
@@ -1002,24 +921,19 @@ class WeaponTypes {
 
   private static void initializeWeaponType_ATS_Laser_Battery_Hyperion() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.ATS_Laser_Battery_Hyperion, 23);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.ATS_Laser_Battery_Hyperion, 23);
     fields.get("tech").set(WeaponType.ATS_Laser_Battery_Hyperion, TechType.None);
     fields.get("whatUses").set(WeaponType.ATS_Laser_Battery_Hyperion, UnitType.Hero_Hyperion);
     fields.get("damageAmount").set(WeaponType.ATS_Laser_Battery_Hyperion, 30);
     fields.get("damageBonus").set(WeaponType.ATS_Laser_Battery_Hyperion, 3);
     fields.get("damageCooldown").set(WeaponType.ATS_Laser_Battery_Hyperion, 22);
     fields.get("damageFactor").set(WeaponType.ATS_Laser_Battery_Hyperion, 1);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.ATS_Laser_Battery_Hyperion, UpgradeType.Terran_Ship_Weapons);
     fields.get("damageType").set(WeaponType.ATS_Laser_Battery_Hyperion, DamageType.Normal);
     fields.get("explosionType").set(WeaponType.ATS_Laser_Battery_Hyperion, ExplosionType.Normal);
@@ -1041,24 +955,19 @@ class WeaponTypes {
 
   private static void initializeWeaponType_ATA_Laser_Battery_Hyperion() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.ATA_Laser_Battery_Hyperion, 24);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.ATA_Laser_Battery_Hyperion, 24);
     fields.get("tech").set(WeaponType.ATA_Laser_Battery_Hyperion, TechType.None);
     fields.get("whatUses").set(WeaponType.ATA_Laser_Battery_Hyperion, UnitType.Hero_Hyperion);
     fields.get("damageAmount").set(WeaponType.ATA_Laser_Battery_Hyperion, 30);
     fields.get("damageBonus").set(WeaponType.ATA_Laser_Battery_Hyperion, 3);
     fields.get("damageCooldown").set(WeaponType.ATA_Laser_Battery_Hyperion, 22);
     fields.get("damageFactor").set(WeaponType.ATA_Laser_Battery_Hyperion, 1);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.ATA_Laser_Battery_Hyperion, UpgradeType.Terran_Ship_Weapons);
     fields.get("damageType").set(WeaponType.ATA_Laser_Battery_Hyperion, DamageType.Normal);
     fields.get("explosionType").set(WeaponType.ATA_Laser_Battery_Hyperion, ExplosionType.Normal);
@@ -1080,16 +989,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Flame_Thrower() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Flame_Thrower, 25);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Flame_Thrower, 25);
     fields.get("tech").set(WeaponType.Flame_Thrower, TechType.None);
     fields.get("whatUses").set(WeaponType.Flame_Thrower, UnitType.Terran_Firebat);
     fields.get("damageAmount").set(WeaponType.Flame_Thrower, 8);
@@ -1117,28 +1022,22 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Flame_Thrower_Gui_Montag() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Flame_Thrower_Gui_Montag, 26);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Flame_Thrower_Gui_Montag, 26);
     fields.get("tech").set(WeaponType.Flame_Thrower_Gui_Montag, TechType.None);
     fields.get("whatUses").set(WeaponType.Flame_Thrower_Gui_Montag, UnitType.Hero_Gui_Montag);
     fields.get("damageAmount").set(WeaponType.Flame_Thrower_Gui_Montag, 16);
     fields.get("damageBonus").set(WeaponType.Flame_Thrower_Gui_Montag, 1);
     fields.get("damageCooldown").set(WeaponType.Flame_Thrower_Gui_Montag, 22);
     fields.get("damageFactor").set(WeaponType.Flame_Thrower_Gui_Montag, 1);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.Flame_Thrower_Gui_Montag, UpgradeType.Terran_Infantry_Weapons);
     fields.get("damageType").set(WeaponType.Flame_Thrower_Gui_Montag, DamageType.Concussive);
-    fields
-        .get("explosionType")
+    fields.get("explosionType")
         .set(WeaponType.Flame_Thrower_Gui_Montag, ExplosionType.Enemy_Splash);
     fields.get("minRange").set(WeaponType.Flame_Thrower_Gui_Montag, 0);
     fields.get("maxRange").set(WeaponType.Flame_Thrower_Gui_Montag, 32);
@@ -1158,26 +1057,20 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Arclite_Shock_Cannon() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Arclite_Shock_Cannon, 27);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Arclite_Shock_Cannon, 27);
     fields.get("tech").set(WeaponType.Arclite_Shock_Cannon, TechType.None);
-    fields
-        .get("whatUses")
+    fields.get("whatUses")
         .set(WeaponType.Arclite_Shock_Cannon, UnitType.Terran_Siege_Tank_Siege_Mode);
     fields.get("damageAmount").set(WeaponType.Arclite_Shock_Cannon, 70);
     fields.get("damageBonus").set(WeaponType.Arclite_Shock_Cannon, 5);
     fields.get("damageCooldown").set(WeaponType.Arclite_Shock_Cannon, 75);
     fields.get("damageFactor").set(WeaponType.Arclite_Shock_Cannon, 1);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.Arclite_Shock_Cannon, UpgradeType.Terran_Vehicle_Weapons);
     fields.get("damageType").set(WeaponType.Arclite_Shock_Cannon, DamageType.Explosive);
     fields.get("explosionType").set(WeaponType.Arclite_Shock_Cannon, ExplosionType.Radial_Splash);
@@ -1199,30 +1092,23 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Arclite_Shock_Cannon_Edmund_Duke() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, 28);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, 28);
     fields.get("tech").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, TechType.None);
-    fields
-        .get("whatUses")
+    fields.get("whatUses")
         .set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, UnitType.Hero_Edmund_Duke_Siege_Mode);
     fields.get("damageAmount").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, 150);
     fields.get("damageBonus").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, 5);
     fields.get("damageCooldown").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, 75);
     fields.get("damageFactor").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, 1);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, UpgradeType.Terran_Vehicle_Weapons);
     fields.get("damageType").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, DamageType.Explosive);
-    fields
-        .get("explosionType")
+    fields.get("explosionType")
         .set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, ExplosionType.Radial_Splash);
     fields.get("minRange").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, 64);
     fields.get("maxRange").set(WeaponType.Arclite_Shock_Cannon_Edmund_Duke, 384);
@@ -1242,16 +1128,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Longbolt_Missile() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Longbolt_Missile, 29);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Longbolt_Missile, 29);
     fields.get("tech").set(WeaponType.Longbolt_Missile, TechType.None);
     fields.get("whatUses").set(WeaponType.Longbolt_Missile, UnitType.Terran_Missile_Turret);
     fields.get("damageAmount").set(WeaponType.Longbolt_Missile, 20);
@@ -1279,16 +1161,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Yamato_Gun() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Yamato_Gun, 30);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Yamato_Gun, 30);
     fields.get("tech").set(WeaponType.Yamato_Gun, TechType.Yamato_Gun);
     fields.get("whatUses").set(WeaponType.Yamato_Gun, UnitType.Terran_Battlecruiser);
     fields.get("damageAmount").set(WeaponType.Yamato_Gun, 260);
@@ -1316,16 +1194,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Nuclear_Strike() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Nuclear_Strike, 31);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Nuclear_Strike, 31);
     fields.get("tech").set(WeaponType.Nuclear_Strike, TechType.Nuclear_Strike);
     fields.get("whatUses").set(WeaponType.Nuclear_Strike, UnitType.Terran_Ghost);
     fields.get("damageAmount").set(WeaponType.Nuclear_Strike, 600);
@@ -1353,16 +1227,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Lockdown() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Lockdown, 32);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Lockdown, 32);
     fields.get("tech").set(WeaponType.Lockdown, TechType.Lockdown);
     fields.get("whatUses").set(WeaponType.Lockdown, UnitType.Terran_Ghost);
     fields.get("damageAmount").set(WeaponType.Lockdown, 0);
@@ -1390,16 +1260,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_EMP_Shockwave() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.EMP_Shockwave, 33);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.EMP_Shockwave, 33);
     fields.get("tech").set(WeaponType.EMP_Shockwave, TechType.EMP_Shockwave);
     fields.get("whatUses").set(WeaponType.EMP_Shockwave, UnitType.Terran_Science_Vessel);
     fields.get("damageAmount").set(WeaponType.EMP_Shockwave, 0);
@@ -1427,16 +1293,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Irradiate() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Irradiate, 34);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Irradiate, 34);
     fields.get("tech").set(WeaponType.Irradiate, TechType.Irradiate);
     fields.get("whatUses").set(WeaponType.Irradiate, UnitType.Terran_Science_Vessel);
     fields.get("damageAmount").set(WeaponType.Irradiate, 250);
@@ -1464,16 +1326,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Claws() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Claws, 35);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Claws, 35);
     fields.get("tech").set(WeaponType.Claws, TechType.None);
     fields.get("whatUses").set(WeaponType.Claws, UnitType.Zerg_Zergling);
     fields.get("damageAmount").set(WeaponType.Claws, 5);
@@ -1501,16 +1359,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Claws_Devouring_One() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Claws_Devouring_One, 36);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Claws_Devouring_One, 36);
     fields.get("tech").set(WeaponType.Claws_Devouring_One, TechType.None);
     fields.get("whatUses").set(WeaponType.Claws_Devouring_One, UnitType.Hero_Devouring_One);
     fields.get("damageAmount").set(WeaponType.Claws_Devouring_One, 10);
@@ -1538,24 +1392,19 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Claws_Infested_Kerrigan() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Claws_Infested_Kerrigan, 37);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Claws_Infested_Kerrigan, 37);
     fields.get("tech").set(WeaponType.Claws_Infested_Kerrigan, TechType.None);
     fields.get("whatUses").set(WeaponType.Claws_Infested_Kerrigan, UnitType.Hero_Infested_Kerrigan);
     fields.get("damageAmount").set(WeaponType.Claws_Infested_Kerrigan, 50);
     fields.get("damageBonus").set(WeaponType.Claws_Infested_Kerrigan, 1);
     fields.get("damageCooldown").set(WeaponType.Claws_Infested_Kerrigan, 15);
     fields.get("damageFactor").set(WeaponType.Claws_Infested_Kerrigan, 1);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.Claws_Infested_Kerrigan, UpgradeType.Zerg_Melee_Attacks);
     fields.get("damageType").set(WeaponType.Claws_Infested_Kerrigan, DamageType.Normal);
     fields.get("explosionType").set(WeaponType.Claws_Infested_Kerrigan, ExplosionType.Normal);
@@ -1577,16 +1426,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Needle_Spines() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Needle_Spines, 38);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Needle_Spines, 38);
     fields.get("tech").set(WeaponType.Needle_Spines, TechType.None);
     fields.get("whatUses").set(WeaponType.Needle_Spines, UnitType.Zerg_Hydralisk);
     fields.get("damageAmount").set(WeaponType.Needle_Spines, 10);
@@ -1614,24 +1459,19 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Needle_Spines_Hunter_Killer() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Needle_Spines_Hunter_Killer, 39);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Needle_Spines_Hunter_Killer, 39);
     fields.get("tech").set(WeaponType.Needle_Spines_Hunter_Killer, TechType.None);
     fields.get("whatUses").set(WeaponType.Needle_Spines_Hunter_Killer, UnitType.Hero_Hunter_Killer);
     fields.get("damageAmount").set(WeaponType.Needle_Spines_Hunter_Killer, 20);
     fields.get("damageBonus").set(WeaponType.Needle_Spines_Hunter_Killer, 1);
     fields.get("damageCooldown").set(WeaponType.Needle_Spines_Hunter_Killer, 15);
     fields.get("damageFactor").set(WeaponType.Needle_Spines_Hunter_Killer, 1);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.Needle_Spines_Hunter_Killer, UpgradeType.Zerg_Missile_Attacks);
     fields.get("damageType").set(WeaponType.Needle_Spines_Hunter_Killer, DamageType.Explosive);
     fields.get("explosionType").set(WeaponType.Needle_Spines_Hunter_Killer, ExplosionType.Normal);
@@ -1653,16 +1493,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Kaiser_Blades() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Kaiser_Blades, 40);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Kaiser_Blades, 40);
     fields.get("tech").set(WeaponType.Kaiser_Blades, TechType.None);
     fields.get("whatUses").set(WeaponType.Kaiser_Blades, UnitType.Zerg_Ultralisk);
     fields.get("damageAmount").set(WeaponType.Kaiser_Blades, 20);
@@ -1690,24 +1526,19 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Kaiser_Blades_Torrasque() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Kaiser_Blades_Torrasque, 41);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Kaiser_Blades_Torrasque, 41);
     fields.get("tech").set(WeaponType.Kaiser_Blades_Torrasque, TechType.None);
     fields.get("whatUses").set(WeaponType.Kaiser_Blades_Torrasque, UnitType.Hero_Torrasque);
     fields.get("damageAmount").set(WeaponType.Kaiser_Blades_Torrasque, 50);
     fields.get("damageBonus").set(WeaponType.Kaiser_Blades_Torrasque, 3);
     fields.get("damageCooldown").set(WeaponType.Kaiser_Blades_Torrasque, 15);
     fields.get("damageFactor").set(WeaponType.Kaiser_Blades_Torrasque, 1);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.Kaiser_Blades_Torrasque, UpgradeType.Zerg_Melee_Attacks);
     fields.get("damageType").set(WeaponType.Kaiser_Blades_Torrasque, DamageType.Normal);
     fields.get("explosionType").set(WeaponType.Kaiser_Blades_Torrasque, ExplosionType.Normal);
@@ -1729,16 +1560,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Toxic_Spores() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Toxic_Spores, 42);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Toxic_Spores, 42);
     fields.get("tech").set(WeaponType.Toxic_Spores, TechType.None);
     fields.get("whatUses").set(WeaponType.Toxic_Spores, UnitType.Zerg_Broodling);
     fields.get("damageAmount").set(WeaponType.Toxic_Spores, 4);
@@ -1766,16 +1593,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Spines() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Spines, 43);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Spines, 43);
     fields.get("tech").set(WeaponType.Spines, TechType.None);
     fields.get("whatUses").set(WeaponType.Spines, UnitType.Zerg_Drone);
     fields.get("damageAmount").set(WeaponType.Spines, 5);
@@ -1801,18 +1624,80 @@ class WeaponTypes {
     fields.get("targetsOwn").set(WeaponType.Spines, false);
   }
 
+  private static void initializeWeaponType_unk_44() throws Exception {
+    Class<?> c = WeaponType.class;
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.unk_44, 44);
+    fields.get("tech").set(WeaponType.unk_44, null);
+    fields.get("whatUses").set(WeaponType.unk_44, null);
+    fields.get("damageAmount").set(WeaponType.unk_44, 0);
+    fields.get("damageBonus").set(WeaponType.unk_44, 0);
+    fields.get("damageCooldown").set(WeaponType.unk_44, 0);
+    fields.get("damageFactor").set(WeaponType.unk_44, 0);
+    fields.get("upgradeType").set(WeaponType.unk_44, null);
+    fields.get("damageType").set(WeaponType.unk_44, null);
+    fields.get("explosionType").set(WeaponType.unk_44, null);
+    fields.get("minRange").set(WeaponType.unk_44, 0);
+    fields.get("maxRange").set(WeaponType.unk_44, 0);
+    fields.get("innerSplashRadius").set(WeaponType.unk_44, 0);
+    fields.get("medianSplashRadius").set(WeaponType.unk_44, 0);
+    fields.get("outerSplashRadius").set(WeaponType.unk_44, 0);
+    fields.get("targetsAir").set(WeaponType.unk_44, false);
+    fields.get("targetsGround").set(WeaponType.unk_44, false);
+    fields.get("targetsMechanical").set(WeaponType.unk_44, false);
+    fields.get("targetsOrganic").set(WeaponType.unk_44, false);
+    fields.get("targetsNonBuilding").set(WeaponType.unk_44, false);
+    fields.get("targetsNonRobotic").set(WeaponType.unk_44, false);
+    fields.get("targetsTerrain").set(WeaponType.unk_44, false);
+    fields.get("targetsOrgOrMech").set(WeaponType.unk_44, false);
+    fields.get("targetsOwn").set(WeaponType.unk_44, false);
+  }
+
+  private static void initializeWeaponType_unk_45() throws Exception {
+    Class<?> c = WeaponType.class;
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.unk_45, 45);
+    fields.get("tech").set(WeaponType.unk_45, null);
+    fields.get("whatUses").set(WeaponType.unk_45, null);
+    fields.get("damageAmount").set(WeaponType.unk_45, 0);
+    fields.get("damageBonus").set(WeaponType.unk_45, 0);
+    fields.get("damageCooldown").set(WeaponType.unk_45, 0);
+    fields.get("damageFactor").set(WeaponType.unk_45, 0);
+    fields.get("upgradeType").set(WeaponType.unk_45, null);
+    fields.get("damageType").set(WeaponType.unk_45, null);
+    fields.get("explosionType").set(WeaponType.unk_45, null);
+    fields.get("minRange").set(WeaponType.unk_45, 0);
+    fields.get("maxRange").set(WeaponType.unk_45, 0);
+    fields.get("innerSplashRadius").set(WeaponType.unk_45, 0);
+    fields.get("medianSplashRadius").set(WeaponType.unk_45, 0);
+    fields.get("outerSplashRadius").set(WeaponType.unk_45, 0);
+    fields.get("targetsAir").set(WeaponType.unk_45, false);
+    fields.get("targetsGround").set(WeaponType.unk_45, false);
+    fields.get("targetsMechanical").set(WeaponType.unk_45, false);
+    fields.get("targetsOrganic").set(WeaponType.unk_45, false);
+    fields.get("targetsNonBuilding").set(WeaponType.unk_45, false);
+    fields.get("targetsNonRobotic").set(WeaponType.unk_45, false);
+    fields.get("targetsTerrain").set(WeaponType.unk_45, false);
+    fields.get("targetsOrgOrMech").set(WeaponType.unk_45, false);
+    fields.get("targetsOwn").set(WeaponType.unk_45, false);
+  }
+
   private static void initializeWeaponType_Acid_Spore() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Acid_Spore, 46);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Acid_Spore, 46);
     fields.get("tech").set(WeaponType.Acid_Spore, TechType.None);
     fields.get("whatUses").set(WeaponType.Acid_Spore, UnitType.Zerg_Guardian);
     fields.get("damageAmount").set(WeaponType.Acid_Spore, 20);
@@ -1840,16 +1725,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Acid_Spore_Kukulza() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Acid_Spore_Kukulza, 47);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Acid_Spore_Kukulza, 47);
     fields.get("tech").set(WeaponType.Acid_Spore_Kukulza, TechType.None);
     fields.get("whatUses").set(WeaponType.Acid_Spore_Kukulza, UnitType.Hero_Kukulza_Guardian);
     fields.get("damageAmount").set(WeaponType.Acid_Spore_Kukulza, 40);
@@ -1877,16 +1758,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Glave_Wurm() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Glave_Wurm, 48);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Glave_Wurm, 48);
     fields.get("tech").set(WeaponType.Glave_Wurm, TechType.None);
     fields.get("whatUses").set(WeaponType.Glave_Wurm, UnitType.Zerg_Mutalisk);
     fields.get("damageAmount").set(WeaponType.Glave_Wurm, 9);
@@ -1914,16 +1791,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Glave_Wurm_Kukulza() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Glave_Wurm_Kukulza, 49);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Glave_Wurm_Kukulza, 49);
     fields.get("tech").set(WeaponType.Glave_Wurm_Kukulza, TechType.None);
     fields.get("whatUses").set(WeaponType.Glave_Wurm_Kukulza, UnitType.Hero_Kukulza_Mutalisk);
     fields.get("damageAmount").set(WeaponType.Glave_Wurm_Kukulza, 18);
@@ -1949,18 +1822,80 @@ class WeaponTypes {
     fields.get("targetsOwn").set(WeaponType.Glave_Wurm_Kukulza, false);
   }
 
+  private static void initializeWeaponType_unk_50() throws Exception {
+    Class<?> c = WeaponType.class;
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.unk_50, 50);
+    fields.get("tech").set(WeaponType.unk_50, null);
+    fields.get("whatUses").set(WeaponType.unk_50, null);
+    fields.get("damageAmount").set(WeaponType.unk_50, 0);
+    fields.get("damageBonus").set(WeaponType.unk_50, 0);
+    fields.get("damageCooldown").set(WeaponType.unk_50, 0);
+    fields.get("damageFactor").set(WeaponType.unk_50, 0);
+    fields.get("upgradeType").set(WeaponType.unk_50, null);
+    fields.get("damageType").set(WeaponType.unk_50, null);
+    fields.get("explosionType").set(WeaponType.unk_50, null);
+    fields.get("minRange").set(WeaponType.unk_50, 0);
+    fields.get("maxRange").set(WeaponType.unk_50, 0);
+    fields.get("innerSplashRadius").set(WeaponType.unk_50, 0);
+    fields.get("medianSplashRadius").set(WeaponType.unk_50, 0);
+    fields.get("outerSplashRadius").set(WeaponType.unk_50, 0);
+    fields.get("targetsAir").set(WeaponType.unk_50, false);
+    fields.get("targetsGround").set(WeaponType.unk_50, false);
+    fields.get("targetsMechanical").set(WeaponType.unk_50, false);
+    fields.get("targetsOrganic").set(WeaponType.unk_50, false);
+    fields.get("targetsNonBuilding").set(WeaponType.unk_50, false);
+    fields.get("targetsNonRobotic").set(WeaponType.unk_50, false);
+    fields.get("targetsTerrain").set(WeaponType.unk_50, false);
+    fields.get("targetsOrgOrMech").set(WeaponType.unk_50, false);
+    fields.get("targetsOwn").set(WeaponType.unk_50, false);
+  }
+
+  private static void initializeWeaponType_unk_51() throws Exception {
+    Class<?> c = WeaponType.class;
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.unk_51, 51);
+    fields.get("tech").set(WeaponType.unk_51, null);
+    fields.get("whatUses").set(WeaponType.unk_51, null);
+    fields.get("damageAmount").set(WeaponType.unk_51, 0);
+    fields.get("damageBonus").set(WeaponType.unk_51, 0);
+    fields.get("damageCooldown").set(WeaponType.unk_51, 0);
+    fields.get("damageFactor").set(WeaponType.unk_51, 0);
+    fields.get("upgradeType").set(WeaponType.unk_51, null);
+    fields.get("damageType").set(WeaponType.unk_51, null);
+    fields.get("explosionType").set(WeaponType.unk_51, null);
+    fields.get("minRange").set(WeaponType.unk_51, 0);
+    fields.get("maxRange").set(WeaponType.unk_51, 0);
+    fields.get("innerSplashRadius").set(WeaponType.unk_51, 0);
+    fields.get("medianSplashRadius").set(WeaponType.unk_51, 0);
+    fields.get("outerSplashRadius").set(WeaponType.unk_51, 0);
+    fields.get("targetsAir").set(WeaponType.unk_51, false);
+    fields.get("targetsGround").set(WeaponType.unk_51, false);
+    fields.get("targetsMechanical").set(WeaponType.unk_51, false);
+    fields.get("targetsOrganic").set(WeaponType.unk_51, false);
+    fields.get("targetsNonBuilding").set(WeaponType.unk_51, false);
+    fields.get("targetsNonRobotic").set(WeaponType.unk_51, false);
+    fields.get("targetsTerrain").set(WeaponType.unk_51, false);
+    fields.get("targetsOrgOrMech").set(WeaponType.unk_51, false);
+    fields.get("targetsOwn").set(WeaponType.unk_51, false);
+  }
+
   private static void initializeWeaponType_Seeker_Spores() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Seeker_Spores, 52);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Seeker_Spores, 52);
     fields.get("tech").set(WeaponType.Seeker_Spores, TechType.None);
     fields.get("whatUses").set(WeaponType.Seeker_Spores, UnitType.Zerg_Spore_Colony);
     fields.get("damageAmount").set(WeaponType.Seeker_Spores, 15);
@@ -1988,16 +1923,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Subterranean_Tentacle() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Subterranean_Tentacle, 53);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Subterranean_Tentacle, 53);
     fields.get("tech").set(WeaponType.Subterranean_Tentacle, TechType.None);
     fields.get("whatUses").set(WeaponType.Subterranean_Tentacle, UnitType.Zerg_Sunken_Colony);
     fields.get("damageAmount").set(WeaponType.Subterranean_Tentacle, 40);
@@ -2025,16 +1956,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Suicide_Infested_Terran() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Suicide_Infested_Terran, 54);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Suicide_Infested_Terran, 54);
     fields.get("tech").set(WeaponType.Suicide_Infested_Terran, TechType.None);
     fields.get("whatUses").set(WeaponType.Suicide_Infested_Terran, UnitType.Zerg_Infested_Terran);
     fields.get("damageAmount").set(WeaponType.Suicide_Infested_Terran, 500);
@@ -2043,8 +1970,7 @@ class WeaponTypes {
     fields.get("damageFactor").set(WeaponType.Suicide_Infested_Terran, 1);
     fields.get("upgradeType").set(WeaponType.Suicide_Infested_Terran, UpgradeType.Upgrade_60);
     fields.get("damageType").set(WeaponType.Suicide_Infested_Terran, DamageType.Explosive);
-    fields
-        .get("explosionType")
+    fields.get("explosionType")
         .set(WeaponType.Suicide_Infested_Terran, ExplosionType.Radial_Splash);
     fields.get("minRange").set(WeaponType.Suicide_Infested_Terran, 0);
     fields.get("maxRange").set(WeaponType.Suicide_Infested_Terran, 3);
@@ -2064,16 +1990,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Suicide_Scourge() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Suicide_Scourge, 55);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Suicide_Scourge, 55);
     fields.get("tech").set(WeaponType.Suicide_Scourge, TechType.None);
     fields.get("whatUses").set(WeaponType.Suicide_Scourge, UnitType.Zerg_Scourge);
     fields.get("damageAmount").set(WeaponType.Suicide_Scourge, 110);
@@ -2101,16 +2023,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Parasite() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Parasite, 56);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Parasite, 56);
     fields.get("tech").set(WeaponType.Parasite, TechType.Parasite);
     fields.get("whatUses").set(WeaponType.Parasite, UnitType.Zerg_Queen);
     fields.get("damageAmount").set(WeaponType.Parasite, 0);
@@ -2138,16 +2056,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Spawn_Broodlings() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Spawn_Broodlings, 57);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Spawn_Broodlings, 57);
     fields.get("tech").set(WeaponType.Spawn_Broodlings, TechType.Spawn_Broodlings);
     fields.get("whatUses").set(WeaponType.Spawn_Broodlings, UnitType.Zerg_Queen);
     fields.get("damageAmount").set(WeaponType.Spawn_Broodlings, 0);
@@ -2175,16 +2089,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Ensnare() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Ensnare, 58);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Ensnare, 58);
     fields.get("tech").set(WeaponType.Ensnare, TechType.Ensnare);
     fields.get("whatUses").set(WeaponType.Ensnare, UnitType.Zerg_Queen);
     fields.get("damageAmount").set(WeaponType.Ensnare, 0);
@@ -2212,16 +2122,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Dark_Swarm() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Dark_Swarm, 59);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Dark_Swarm, 59);
     fields.get("tech").set(WeaponType.Dark_Swarm, TechType.Dark_Swarm);
     fields.get("whatUses").set(WeaponType.Dark_Swarm, UnitType.Zerg_Defiler);
     fields.get("damageAmount").set(WeaponType.Dark_Swarm, 0);
@@ -2249,16 +2155,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Plague() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Plague, 60);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Plague, 60);
     fields.get("tech").set(WeaponType.Plague, TechType.Plague);
     fields.get("whatUses").set(WeaponType.Plague, UnitType.Zerg_Defiler);
     fields.get("damageAmount").set(WeaponType.Plague, 300);
@@ -2286,16 +2188,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Consume() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Consume, 61);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Consume, 61);
     fields.get("tech").set(WeaponType.Consume, TechType.Consume);
     fields.get("whatUses").set(WeaponType.Consume, UnitType.Zerg_Defiler);
     fields.get("damageAmount").set(WeaponType.Consume, 0);
@@ -2323,16 +2221,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Particle_Beam() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Particle_Beam, 62);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Particle_Beam, 62);
     fields.get("tech").set(WeaponType.Particle_Beam, TechType.None);
     fields.get("whatUses").set(WeaponType.Particle_Beam, UnitType.Protoss_Probe);
     fields.get("damageAmount").set(WeaponType.Particle_Beam, 5);
@@ -2358,18 +2252,47 @@ class WeaponTypes {
     fields.get("targetsOwn").set(WeaponType.Particle_Beam, false);
   }
 
+  private static void initializeWeaponType_unk_63() throws Exception {
+    Class<?> c = WeaponType.class;
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.unk_63, 63);
+    fields.get("tech").set(WeaponType.unk_63, null);
+    fields.get("whatUses").set(WeaponType.unk_63, null);
+    fields.get("damageAmount").set(WeaponType.unk_63, 0);
+    fields.get("damageBonus").set(WeaponType.unk_63, 0);
+    fields.get("damageCooldown").set(WeaponType.unk_63, 0);
+    fields.get("damageFactor").set(WeaponType.unk_63, 0);
+    fields.get("upgradeType").set(WeaponType.unk_63, null);
+    fields.get("damageType").set(WeaponType.unk_63, null);
+    fields.get("explosionType").set(WeaponType.unk_63, null);
+    fields.get("minRange").set(WeaponType.unk_63, 0);
+    fields.get("maxRange").set(WeaponType.unk_63, 0);
+    fields.get("innerSplashRadius").set(WeaponType.unk_63, 0);
+    fields.get("medianSplashRadius").set(WeaponType.unk_63, 0);
+    fields.get("outerSplashRadius").set(WeaponType.unk_63, 0);
+    fields.get("targetsAir").set(WeaponType.unk_63, false);
+    fields.get("targetsGround").set(WeaponType.unk_63, false);
+    fields.get("targetsMechanical").set(WeaponType.unk_63, false);
+    fields.get("targetsOrganic").set(WeaponType.unk_63, false);
+    fields.get("targetsNonBuilding").set(WeaponType.unk_63, false);
+    fields.get("targetsNonRobotic").set(WeaponType.unk_63, false);
+    fields.get("targetsTerrain").set(WeaponType.unk_63, false);
+    fields.get("targetsOrgOrMech").set(WeaponType.unk_63, false);
+    fields.get("targetsOwn").set(WeaponType.unk_63, false);
+  }
+
   private static void initializeWeaponType_Psi_Blades() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Psi_Blades, 64);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Psi_Blades, 64);
     fields.get("tech").set(WeaponType.Psi_Blades, TechType.None);
     fields.get("whatUses").set(WeaponType.Psi_Blades, UnitType.Protoss_Zealot);
     fields.get("damageAmount").set(WeaponType.Psi_Blades, 8);
@@ -2397,16 +2320,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Psi_Blades_Fenix() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Psi_Blades_Fenix, 65);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Psi_Blades_Fenix, 65);
     fields.get("tech").set(WeaponType.Psi_Blades_Fenix, TechType.None);
     fields.get("whatUses").set(WeaponType.Psi_Blades_Fenix, UnitType.Hero_Fenix_Zealot);
     fields.get("damageAmount").set(WeaponType.Psi_Blades_Fenix, 20);
@@ -2434,16 +2353,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Phase_Disruptor() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Phase_Disruptor, 66);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Phase_Disruptor, 66);
     fields.get("tech").set(WeaponType.Phase_Disruptor, TechType.None);
     fields.get("whatUses").set(WeaponType.Phase_Disruptor, UnitType.Protoss_Dragoon);
     fields.get("damageAmount").set(WeaponType.Phase_Disruptor, 20);
@@ -2471,24 +2386,19 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Phase_Disruptor_Fenix() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Phase_Disruptor_Fenix, 67);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Phase_Disruptor_Fenix, 67);
     fields.get("tech").set(WeaponType.Phase_Disruptor_Fenix, TechType.None);
     fields.get("whatUses").set(WeaponType.Phase_Disruptor_Fenix, UnitType.Hero_Fenix_Dragoon);
     fields.get("damageAmount").set(WeaponType.Phase_Disruptor_Fenix, 45);
     fields.get("damageBonus").set(WeaponType.Phase_Disruptor_Fenix, 2);
     fields.get("damageCooldown").set(WeaponType.Phase_Disruptor_Fenix, 22);
     fields.get("damageFactor").set(WeaponType.Phase_Disruptor_Fenix, 1);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.Phase_Disruptor_Fenix, UpgradeType.Protoss_Ground_Weapons);
     fields.get("damageType").set(WeaponType.Phase_Disruptor_Fenix, DamageType.Explosive);
     fields.get("explosionType").set(WeaponType.Phase_Disruptor_Fenix, ExplosionType.Normal);
@@ -2508,18 +2418,47 @@ class WeaponTypes {
     fields.get("targetsOwn").set(WeaponType.Phase_Disruptor_Fenix, false);
   }
 
+  private static void initializeWeaponType_unk_68() throws Exception {
+    Class<?> c = WeaponType.class;
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.unk_68, 68);
+    fields.get("tech").set(WeaponType.unk_68, null);
+    fields.get("whatUses").set(WeaponType.unk_68, null);
+    fields.get("damageAmount").set(WeaponType.unk_68, 0);
+    fields.get("damageBonus").set(WeaponType.unk_68, 0);
+    fields.get("damageCooldown").set(WeaponType.unk_68, 0);
+    fields.get("damageFactor").set(WeaponType.unk_68, 0);
+    fields.get("upgradeType").set(WeaponType.unk_68, null);
+    fields.get("damageType").set(WeaponType.unk_68, null);
+    fields.get("explosionType").set(WeaponType.unk_68, null);
+    fields.get("minRange").set(WeaponType.unk_68, 0);
+    fields.get("maxRange").set(WeaponType.unk_68, 0);
+    fields.get("innerSplashRadius").set(WeaponType.unk_68, 0);
+    fields.get("medianSplashRadius").set(WeaponType.unk_68, 0);
+    fields.get("outerSplashRadius").set(WeaponType.unk_68, 0);
+    fields.get("targetsAir").set(WeaponType.unk_68, false);
+    fields.get("targetsGround").set(WeaponType.unk_68, false);
+    fields.get("targetsMechanical").set(WeaponType.unk_68, false);
+    fields.get("targetsOrganic").set(WeaponType.unk_68, false);
+    fields.get("targetsNonBuilding").set(WeaponType.unk_68, false);
+    fields.get("targetsNonRobotic").set(WeaponType.unk_68, false);
+    fields.get("targetsTerrain").set(WeaponType.unk_68, false);
+    fields.get("targetsOrgOrMech").set(WeaponType.unk_68, false);
+    fields.get("targetsOwn").set(WeaponType.unk_68, false);
+  }
+
   private static void initializeWeaponType_Psi_Assault() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Psi_Assault, 69);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Psi_Assault, 69);
     fields.get("tech").set(WeaponType.Psi_Assault, TechType.None);
     fields.get("whatUses").set(WeaponType.Psi_Assault, UnitType.Hero_Tassadar);
     fields.get("damageAmount").set(WeaponType.Psi_Assault, 20);
@@ -2547,16 +2486,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Psionic_Shockwave() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Psionic_Shockwave, 70);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Psionic_Shockwave, 70);
     fields.get("tech").set(WeaponType.Psionic_Shockwave, TechType.None);
     fields.get("whatUses").set(WeaponType.Psionic_Shockwave, UnitType.Protoss_Archon);
     fields.get("damageAmount").set(WeaponType.Psionic_Shockwave, 30);
@@ -2584,30 +2519,23 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Psionic_Shockwave_TZ_Archon() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Psionic_Shockwave_TZ_Archon, 71);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Psionic_Shockwave_TZ_Archon, 71);
     fields.get("tech").set(WeaponType.Psionic_Shockwave_TZ_Archon, TechType.None);
-    fields
-        .get("whatUses")
+    fields.get("whatUses")
         .set(WeaponType.Psionic_Shockwave_TZ_Archon, UnitType.Hero_Tassadar_Zeratul_Archon);
     fields.get("damageAmount").set(WeaponType.Psionic_Shockwave_TZ_Archon, 60);
     fields.get("damageBonus").set(WeaponType.Psionic_Shockwave_TZ_Archon, 3);
     fields.get("damageCooldown").set(WeaponType.Psionic_Shockwave_TZ_Archon, 20);
     fields.get("damageFactor").set(WeaponType.Psionic_Shockwave_TZ_Archon, 1);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.Psionic_Shockwave_TZ_Archon, UpgradeType.Protoss_Ground_Weapons);
     fields.get("damageType").set(WeaponType.Psionic_Shockwave_TZ_Archon, DamageType.Normal);
-    fields
-        .get("explosionType")
+    fields.get("explosionType")
         .set(WeaponType.Psionic_Shockwave_TZ_Archon, ExplosionType.Enemy_Splash);
     fields.get("minRange").set(WeaponType.Psionic_Shockwave_TZ_Archon, 0);
     fields.get("maxRange").set(WeaponType.Psionic_Shockwave_TZ_Archon, 64);
@@ -2625,18 +2553,47 @@ class WeaponTypes {
     fields.get("targetsOwn").set(WeaponType.Psionic_Shockwave_TZ_Archon, false);
   }
 
+  private static void initializeWeaponType_unk_72() throws Exception {
+    Class<?> c = WeaponType.class;
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.unk_72, 72);
+    fields.get("tech").set(WeaponType.unk_72, null);
+    fields.get("whatUses").set(WeaponType.unk_72, null);
+    fields.get("damageAmount").set(WeaponType.unk_72, 0);
+    fields.get("damageBonus").set(WeaponType.unk_72, 0);
+    fields.get("damageCooldown").set(WeaponType.unk_72, 0);
+    fields.get("damageFactor").set(WeaponType.unk_72, 0);
+    fields.get("upgradeType").set(WeaponType.unk_72, null);
+    fields.get("damageType").set(WeaponType.unk_72, null);
+    fields.get("explosionType").set(WeaponType.unk_72, null);
+    fields.get("minRange").set(WeaponType.unk_72, 0);
+    fields.get("maxRange").set(WeaponType.unk_72, 0);
+    fields.get("innerSplashRadius").set(WeaponType.unk_72, 0);
+    fields.get("medianSplashRadius").set(WeaponType.unk_72, 0);
+    fields.get("outerSplashRadius").set(WeaponType.unk_72, 0);
+    fields.get("targetsAir").set(WeaponType.unk_72, false);
+    fields.get("targetsGround").set(WeaponType.unk_72, false);
+    fields.get("targetsMechanical").set(WeaponType.unk_72, false);
+    fields.get("targetsOrganic").set(WeaponType.unk_72, false);
+    fields.get("targetsNonBuilding").set(WeaponType.unk_72, false);
+    fields.get("targetsNonRobotic").set(WeaponType.unk_72, false);
+    fields.get("targetsTerrain").set(WeaponType.unk_72, false);
+    fields.get("targetsOrgOrMech").set(WeaponType.unk_72, false);
+    fields.get("targetsOwn").set(WeaponType.unk_72, false);
+  }
+
   private static void initializeWeaponType_Dual_Photon_Blasters() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Dual_Photon_Blasters, 73);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Dual_Photon_Blasters, 73);
     fields.get("tech").set(WeaponType.Dual_Photon_Blasters, TechType.None);
     fields.get("whatUses").set(WeaponType.Dual_Photon_Blasters, UnitType.Protoss_Scout);
     fields.get("damageAmount").set(WeaponType.Dual_Photon_Blasters, 8);
@@ -2664,16 +2621,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Anti_Matter_Missiles() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Anti_Matter_Missiles, 74);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Anti_Matter_Missiles, 74);
     fields.get("tech").set(WeaponType.Anti_Matter_Missiles, TechType.None);
     fields.get("whatUses").set(WeaponType.Anti_Matter_Missiles, UnitType.Protoss_Scout);
     fields.get("damageAmount").set(WeaponType.Anti_Matter_Missiles, 14);
@@ -2701,24 +2654,19 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Dual_Photon_Blasters_Mojo() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Dual_Photon_Blasters_Mojo, 75);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Dual_Photon_Blasters_Mojo, 75);
     fields.get("tech").set(WeaponType.Dual_Photon_Blasters_Mojo, TechType.None);
     fields.get("whatUses").set(WeaponType.Dual_Photon_Blasters_Mojo, UnitType.Hero_Mojo);
     fields.get("damageAmount").set(WeaponType.Dual_Photon_Blasters_Mojo, 20);
     fields.get("damageBonus").set(WeaponType.Dual_Photon_Blasters_Mojo, 1);
     fields.get("damageCooldown").set(WeaponType.Dual_Photon_Blasters_Mojo, 30);
     fields.get("damageFactor").set(WeaponType.Dual_Photon_Blasters_Mojo, 1);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.Dual_Photon_Blasters_Mojo, UpgradeType.Protoss_Air_Weapons);
     fields.get("damageType").set(WeaponType.Dual_Photon_Blasters_Mojo, DamageType.Normal);
     fields.get("explosionType").set(WeaponType.Dual_Photon_Blasters_Mojo, ExplosionType.Normal);
@@ -2740,24 +2688,19 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Anti_Matter_Missiles_Mojo() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Anti_Matter_Missiles_Mojo, 76);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Anti_Matter_Missiles_Mojo, 76);
     fields.get("tech").set(WeaponType.Anti_Matter_Missiles_Mojo, TechType.None);
     fields.get("whatUses").set(WeaponType.Anti_Matter_Missiles_Mojo, UnitType.Hero_Mojo);
     fields.get("damageAmount").set(WeaponType.Anti_Matter_Missiles_Mojo, 28);
     fields.get("damageBonus").set(WeaponType.Anti_Matter_Missiles_Mojo, 1);
     fields.get("damageCooldown").set(WeaponType.Anti_Matter_Missiles_Mojo, 22);
     fields.get("damageFactor").set(WeaponType.Anti_Matter_Missiles_Mojo, 2);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.Anti_Matter_Missiles_Mojo, UpgradeType.Protoss_Air_Weapons);
     fields.get("damageType").set(WeaponType.Anti_Matter_Missiles_Mojo, DamageType.Explosive);
     fields.get("explosionType").set(WeaponType.Anti_Matter_Missiles_Mojo, ExplosionType.Normal);
@@ -2779,24 +2722,19 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Phase_Disruptor_Cannon() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Phase_Disruptor_Cannon, 77);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Phase_Disruptor_Cannon, 77);
     fields.get("tech").set(WeaponType.Phase_Disruptor_Cannon, TechType.None);
     fields.get("whatUses").set(WeaponType.Phase_Disruptor_Cannon, UnitType.Protoss_Arbiter);
     fields.get("damageAmount").set(WeaponType.Phase_Disruptor_Cannon, 10);
     fields.get("damageBonus").set(WeaponType.Phase_Disruptor_Cannon, 1);
     fields.get("damageCooldown").set(WeaponType.Phase_Disruptor_Cannon, 45);
     fields.get("damageFactor").set(WeaponType.Phase_Disruptor_Cannon, 1);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.Phase_Disruptor_Cannon, UpgradeType.Protoss_Air_Weapons);
     fields.get("damageType").set(WeaponType.Phase_Disruptor_Cannon, DamageType.Explosive);
     fields.get("explosionType").set(WeaponType.Phase_Disruptor_Cannon, ExplosionType.Normal);
@@ -2818,28 +2756,22 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Phase_Disruptor_Cannon_Danimoth() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, 78);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, 78);
     fields.get("tech").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, TechType.None);
     fields.get("whatUses").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, UnitType.Hero_Danimoth);
     fields.get("damageAmount").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, 20);
     fields.get("damageBonus").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, 1);
     fields.get("damageCooldown").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, 45);
     fields.get("damageFactor").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, 1);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.Phase_Disruptor_Cannon_Danimoth, UpgradeType.Protoss_Air_Weapons);
     fields.get("damageType").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, DamageType.Explosive);
-    fields
-        .get("explosionType")
+    fields.get("explosionType")
         .set(WeaponType.Phase_Disruptor_Cannon_Danimoth, ExplosionType.Normal);
     fields.get("minRange").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, 0);
     fields.get("maxRange").set(WeaponType.Phase_Disruptor_Cannon_Danimoth, 160);
@@ -2859,16 +2791,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Pulse_Cannon() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Pulse_Cannon, 79);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Pulse_Cannon, 79);
     fields.get("tech").set(WeaponType.Pulse_Cannon, TechType.None);
     fields.get("whatUses").set(WeaponType.Pulse_Cannon, UnitType.Protoss_Interceptor);
     fields.get("damageAmount").set(WeaponType.Pulse_Cannon, 6);
@@ -2896,16 +2824,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_STS_Photon_Cannon() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.STS_Photon_Cannon, 80);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.STS_Photon_Cannon, 80);
     fields.get("tech").set(WeaponType.STS_Photon_Cannon, TechType.None);
     fields.get("whatUses").set(WeaponType.STS_Photon_Cannon, UnitType.Protoss_Photon_Cannon);
     fields.get("damageAmount").set(WeaponType.STS_Photon_Cannon, 20);
@@ -2933,16 +2857,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_STA_Photon_Cannon() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.STA_Photon_Cannon, 81);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.STA_Photon_Cannon, 81);
     fields.get("tech").set(WeaponType.STA_Photon_Cannon, TechType.None);
     fields.get("whatUses").set(WeaponType.STA_Photon_Cannon, UnitType.Protoss_Photon_Cannon);
     fields.get("damageAmount").set(WeaponType.STA_Photon_Cannon, 20);
@@ -2970,16 +2890,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Scarab() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Scarab, 82);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Scarab, 82);
     fields.get("tech").set(WeaponType.Scarab, TechType.None);
     fields.get("whatUses").set(WeaponType.Scarab, UnitType.Protoss_Scarab);
     fields.get("damageAmount").set(WeaponType.Scarab, 100);
@@ -3007,16 +2923,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Stasis_Field() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Stasis_Field, 83);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Stasis_Field, 83);
     fields.get("tech").set(WeaponType.Stasis_Field, TechType.Stasis_Field);
     fields.get("whatUses").set(WeaponType.Stasis_Field, UnitType.Protoss_Arbiter);
     fields.get("damageAmount").set(WeaponType.Stasis_Field, 0);
@@ -3044,16 +2956,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Psionic_Storm() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Psionic_Storm, 84);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Psionic_Storm, 84);
     fields.get("tech").set(WeaponType.Psionic_Storm, TechType.Psionic_Storm);
     fields.get("whatUses").set(WeaponType.Psionic_Storm, UnitType.Protoss_High_Templar);
     fields.get("damageAmount").set(WeaponType.Psionic_Storm, 14);
@@ -3081,24 +2989,19 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Warp_Blades_Zeratul() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Warp_Blades_Zeratul, 85);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Warp_Blades_Zeratul, 85);
     fields.get("tech").set(WeaponType.Warp_Blades_Zeratul, TechType.None);
     fields.get("whatUses").set(WeaponType.Warp_Blades_Zeratul, UnitType.Hero_Zeratul);
     fields.get("damageAmount").set(WeaponType.Warp_Blades_Zeratul, 100);
     fields.get("damageBonus").set(WeaponType.Warp_Blades_Zeratul, 1);
     fields.get("damageCooldown").set(WeaponType.Warp_Blades_Zeratul, 22);
     fields.get("damageFactor").set(WeaponType.Warp_Blades_Zeratul, 1);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.Warp_Blades_Zeratul, UpgradeType.Protoss_Ground_Weapons);
     fields.get("damageType").set(WeaponType.Warp_Blades_Zeratul, DamageType.Normal);
     fields.get("explosionType").set(WeaponType.Warp_Blades_Zeratul, ExplosionType.Normal);
@@ -3120,16 +3023,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Warp_Blades_Hero() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Warp_Blades_Hero, 86);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Warp_Blades_Hero, 86);
     fields.get("tech").set(WeaponType.Warp_Blades_Hero, TechType.None);
     fields.get("whatUses").set(WeaponType.Warp_Blades_Hero, UnitType.Hero_Dark_Templar);
     fields.get("damageAmount").set(WeaponType.Warp_Blades_Hero, 45);
@@ -3155,58 +3054,214 @@ class WeaponTypes {
     fields.get("targetsOwn").set(WeaponType.Warp_Blades_Hero, false);
   }
 
-//  private static void initializeWeaponType_Platform_Laser_Battery() throws Exception {
-//    Class<?> c = WeaponType.class;
-//    Map<String, Field> fields =
-//        Stream.of(c.getDeclaredFields())
-//            .collect(
-//                Collectors.toMap(
-//                    f -> f.getName(),
-//                    f -> {
-//                      f.setAccessible(true);
-//                      return f;
-//                    }));
-//    fields.get("id").set(WeaponType.Platform_Laser_Battery, 0);
-//    fields.get("tech").set(WeaponType.Platform_Laser_Battery, null);
-//    fields.get("whatUses").set(WeaponType.Platform_Laser_Battery, null);
-//    fields.get("damageAmount").set(WeaponType.Platform_Laser_Battery, 0);
-//    fields.get("damageBonus").set(WeaponType.Platform_Laser_Battery, 0);
-//    fields.get("damageCooldown").set(WeaponType.Platform_Laser_Battery, 0);
-//    fields.get("damageFactor").set(WeaponType.Platform_Laser_Battery, 0);
-//    fields.get("upgradeType").set(WeaponType.Platform_Laser_Battery, null);
-//    fields.get("damageType").set(WeaponType.Platform_Laser_Battery, null);
-//    fields.get("explosionType").set(WeaponType.Platform_Laser_Battery, null);
-//    fields.get("minRange").set(WeaponType.Platform_Laser_Battery, 0);
-//    fields.get("maxRange").set(WeaponType.Platform_Laser_Battery, 0);
-//    fields.get("innerSplashRadius").set(WeaponType.Platform_Laser_Battery, 0);
-//    fields.get("medianSplashRadius").set(WeaponType.Platform_Laser_Battery, 0);
-//    fields.get("outerSplashRadius").set(WeaponType.Platform_Laser_Battery, 0);
-//    fields.get("targetsAir").set(WeaponType.Platform_Laser_Battery, false);
-//    fields.get("targetsGround").set(WeaponType.Platform_Laser_Battery, false);
-//    fields.get("targetsMechanical").set(WeaponType.Platform_Laser_Battery, false);
-//    fields.get("targetsOrganic").set(WeaponType.Platform_Laser_Battery, false);
-//    fields.get("targetsNonBuilding").set(WeaponType.Platform_Laser_Battery, false);
-//    fields.get("targetsNonRobotic").set(WeaponType.Platform_Laser_Battery, false);
-//    fields.get("targetsTerrain").set(WeaponType.Platform_Laser_Battery, false);
-//    fields.get("targetsOrgOrMech").set(WeaponType.Platform_Laser_Battery, false);
-//    fields.get("targetsOwn").set(WeaponType.Platform_Laser_Battery, false);
-//  }
+  private static void initializeWeaponType_unk_87() throws Exception {
+    Class<?> c = WeaponType.class;
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.unk_87, 87);
+    fields.get("tech").set(WeaponType.unk_87, null);
+    fields.get("whatUses").set(WeaponType.unk_87, null);
+    fields.get("damageAmount").set(WeaponType.unk_87, 0);
+    fields.get("damageBonus").set(WeaponType.unk_87, 0);
+    fields.get("damageCooldown").set(WeaponType.unk_87, 0);
+    fields.get("damageFactor").set(WeaponType.unk_87, 0);
+    fields.get("upgradeType").set(WeaponType.unk_87, null);
+    fields.get("damageType").set(WeaponType.unk_87, null);
+    fields.get("explosionType").set(WeaponType.unk_87, null);
+    fields.get("minRange").set(WeaponType.unk_87, 0);
+    fields.get("maxRange").set(WeaponType.unk_87, 0);
+    fields.get("innerSplashRadius").set(WeaponType.unk_87, 0);
+    fields.get("medianSplashRadius").set(WeaponType.unk_87, 0);
+    fields.get("outerSplashRadius").set(WeaponType.unk_87, 0);
+    fields.get("targetsAir").set(WeaponType.unk_87, false);
+    fields.get("targetsGround").set(WeaponType.unk_87, false);
+    fields.get("targetsMechanical").set(WeaponType.unk_87, false);
+    fields.get("targetsOrganic").set(WeaponType.unk_87, false);
+    fields.get("targetsNonBuilding").set(WeaponType.unk_87, false);
+    fields.get("targetsNonRobotic").set(WeaponType.unk_87, false);
+    fields.get("targetsTerrain").set(WeaponType.unk_87, false);
+    fields.get("targetsOrgOrMech").set(WeaponType.unk_87, false);
+    fields.get("targetsOwn").set(WeaponType.unk_87, false);
+  }
+
+  private static void initializeWeaponType_unk_88() throws Exception {
+    Class<?> c = WeaponType.class;
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.unk_88, 88);
+    fields.get("tech").set(WeaponType.unk_88, null);
+    fields.get("whatUses").set(WeaponType.unk_88, null);
+    fields.get("damageAmount").set(WeaponType.unk_88, 0);
+    fields.get("damageBonus").set(WeaponType.unk_88, 0);
+    fields.get("damageCooldown").set(WeaponType.unk_88, 0);
+    fields.get("damageFactor").set(WeaponType.unk_88, 0);
+    fields.get("upgradeType").set(WeaponType.unk_88, null);
+    fields.get("damageType").set(WeaponType.unk_88, null);
+    fields.get("explosionType").set(WeaponType.unk_88, null);
+    fields.get("minRange").set(WeaponType.unk_88, 0);
+    fields.get("maxRange").set(WeaponType.unk_88, 0);
+    fields.get("innerSplashRadius").set(WeaponType.unk_88, 0);
+    fields.get("medianSplashRadius").set(WeaponType.unk_88, 0);
+    fields.get("outerSplashRadius").set(WeaponType.unk_88, 0);
+    fields.get("targetsAir").set(WeaponType.unk_88, false);
+    fields.get("targetsGround").set(WeaponType.unk_88, false);
+    fields.get("targetsMechanical").set(WeaponType.unk_88, false);
+    fields.get("targetsOrganic").set(WeaponType.unk_88, false);
+    fields.get("targetsNonBuilding").set(WeaponType.unk_88, false);
+    fields.get("targetsNonRobotic").set(WeaponType.unk_88, false);
+    fields.get("targetsTerrain").set(WeaponType.unk_88, false);
+    fields.get("targetsOrgOrMech").set(WeaponType.unk_88, false);
+    fields.get("targetsOwn").set(WeaponType.unk_88, false);
+  }
+
+  private static void initializeWeaponType_unk_89() throws Exception {
+    Class<?> c = WeaponType.class;
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.unk_89, 89);
+    fields.get("tech").set(WeaponType.unk_89, null);
+    fields.get("whatUses").set(WeaponType.unk_89, null);
+    fields.get("damageAmount").set(WeaponType.unk_89, 0);
+    fields.get("damageBonus").set(WeaponType.unk_89, 0);
+    fields.get("damageCooldown").set(WeaponType.unk_89, 0);
+    fields.get("damageFactor").set(WeaponType.unk_89, 0);
+    fields.get("upgradeType").set(WeaponType.unk_89, null);
+    fields.get("damageType").set(WeaponType.unk_89, null);
+    fields.get("explosionType").set(WeaponType.unk_89, null);
+    fields.get("minRange").set(WeaponType.unk_89, 0);
+    fields.get("maxRange").set(WeaponType.unk_89, 0);
+    fields.get("innerSplashRadius").set(WeaponType.unk_89, 0);
+    fields.get("medianSplashRadius").set(WeaponType.unk_89, 0);
+    fields.get("outerSplashRadius").set(WeaponType.unk_89, 0);
+    fields.get("targetsAir").set(WeaponType.unk_89, false);
+    fields.get("targetsGround").set(WeaponType.unk_89, false);
+    fields.get("targetsMechanical").set(WeaponType.unk_89, false);
+    fields.get("targetsOrganic").set(WeaponType.unk_89, false);
+    fields.get("targetsNonBuilding").set(WeaponType.unk_89, false);
+    fields.get("targetsNonRobotic").set(WeaponType.unk_89, false);
+    fields.get("targetsTerrain").set(WeaponType.unk_89, false);
+    fields.get("targetsOrgOrMech").set(WeaponType.unk_89, false);
+    fields.get("targetsOwn").set(WeaponType.unk_89, false);
+  }
+
+  private static void initializeWeaponType_unk_90() throws Exception {
+    Class<?> c = WeaponType.class;
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.unk_90, 90);
+    fields.get("tech").set(WeaponType.unk_90, null);
+    fields.get("whatUses").set(WeaponType.unk_90, null);
+    fields.get("damageAmount").set(WeaponType.unk_90, 0);
+    fields.get("damageBonus").set(WeaponType.unk_90, 0);
+    fields.get("damageCooldown").set(WeaponType.unk_90, 0);
+    fields.get("damageFactor").set(WeaponType.unk_90, 0);
+    fields.get("upgradeType").set(WeaponType.unk_90, null);
+    fields.get("damageType").set(WeaponType.unk_90, null);
+    fields.get("explosionType").set(WeaponType.unk_90, null);
+    fields.get("minRange").set(WeaponType.unk_90, 0);
+    fields.get("maxRange").set(WeaponType.unk_90, 0);
+    fields.get("innerSplashRadius").set(WeaponType.unk_90, 0);
+    fields.get("medianSplashRadius").set(WeaponType.unk_90, 0);
+    fields.get("outerSplashRadius").set(WeaponType.unk_90, 0);
+    fields.get("targetsAir").set(WeaponType.unk_90, false);
+    fields.get("targetsGround").set(WeaponType.unk_90, false);
+    fields.get("targetsMechanical").set(WeaponType.unk_90, false);
+    fields.get("targetsOrganic").set(WeaponType.unk_90, false);
+    fields.get("targetsNonBuilding").set(WeaponType.unk_90, false);
+    fields.get("targetsNonRobotic").set(WeaponType.unk_90, false);
+    fields.get("targetsTerrain").set(WeaponType.unk_90, false);
+    fields.get("targetsOrgOrMech").set(WeaponType.unk_90, false);
+    fields.get("targetsOwn").set(WeaponType.unk_90, false);
+  }
+
+  private static void initializeWeaponType_unk_91() throws Exception {
+    Class<?> c = WeaponType.class;
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.unk_91, 91);
+    fields.get("tech").set(WeaponType.unk_91, null);
+    fields.get("whatUses").set(WeaponType.unk_91, null);
+    fields.get("damageAmount").set(WeaponType.unk_91, 0);
+    fields.get("damageBonus").set(WeaponType.unk_91, 0);
+    fields.get("damageCooldown").set(WeaponType.unk_91, 0);
+    fields.get("damageFactor").set(WeaponType.unk_91, 0);
+    fields.get("upgradeType").set(WeaponType.unk_91, null);
+    fields.get("damageType").set(WeaponType.unk_91, null);
+    fields.get("explosionType").set(WeaponType.unk_91, null);
+    fields.get("minRange").set(WeaponType.unk_91, 0);
+    fields.get("maxRange").set(WeaponType.unk_91, 0);
+    fields.get("innerSplashRadius").set(WeaponType.unk_91, 0);
+    fields.get("medianSplashRadius").set(WeaponType.unk_91, 0);
+    fields.get("outerSplashRadius").set(WeaponType.unk_91, 0);
+    fields.get("targetsAir").set(WeaponType.unk_91, false);
+    fields.get("targetsGround").set(WeaponType.unk_91, false);
+    fields.get("targetsMechanical").set(WeaponType.unk_91, false);
+    fields.get("targetsOrganic").set(WeaponType.unk_91, false);
+    fields.get("targetsNonBuilding").set(WeaponType.unk_91, false);
+    fields.get("targetsNonRobotic").set(WeaponType.unk_91, false);
+    fields.get("targetsTerrain").set(WeaponType.unk_91, false);
+    fields.get("targetsOrgOrMech").set(WeaponType.unk_91, false);
+    fields.get("targetsOwn").set(WeaponType.unk_91, false);
+  }
+
+  private static void initializeWeaponType_Platform_Laser_Battery() throws Exception {
+    Class<?> c = WeaponType.class;
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Platform_Laser_Battery, 92);
+    fields.get("tech").set(WeaponType.Platform_Laser_Battery, null);
+    fields.get("whatUses").set(WeaponType.Platform_Laser_Battery, null);
+    fields.get("damageAmount").set(WeaponType.Platform_Laser_Battery, 0);
+    fields.get("damageBonus").set(WeaponType.Platform_Laser_Battery, 0);
+    fields.get("damageCooldown").set(WeaponType.Platform_Laser_Battery, 0);
+    fields.get("damageFactor").set(WeaponType.Platform_Laser_Battery, 0);
+    fields.get("upgradeType").set(WeaponType.Platform_Laser_Battery, null);
+    fields.get("damageType").set(WeaponType.Platform_Laser_Battery, null);
+    fields.get("explosionType").set(WeaponType.Platform_Laser_Battery, null);
+    fields.get("minRange").set(WeaponType.Platform_Laser_Battery, 0);
+    fields.get("maxRange").set(WeaponType.Platform_Laser_Battery, 0);
+    fields.get("innerSplashRadius").set(WeaponType.Platform_Laser_Battery, 0);
+    fields.get("medianSplashRadius").set(WeaponType.Platform_Laser_Battery, 0);
+    fields.get("outerSplashRadius").set(WeaponType.Platform_Laser_Battery, 0);
+    fields.get("targetsAir").set(WeaponType.Platform_Laser_Battery, false);
+    fields.get("targetsGround").set(WeaponType.Platform_Laser_Battery, false);
+    fields.get("targetsMechanical").set(WeaponType.Platform_Laser_Battery, false);
+    fields.get("targetsOrganic").set(WeaponType.Platform_Laser_Battery, false);
+    fields.get("targetsNonBuilding").set(WeaponType.Platform_Laser_Battery, false);
+    fields.get("targetsNonRobotic").set(WeaponType.Platform_Laser_Battery, false);
+    fields.get("targetsTerrain").set(WeaponType.Platform_Laser_Battery, false);
+    fields.get("targetsOrgOrMech").set(WeaponType.Platform_Laser_Battery, false);
+    fields.get("targetsOwn").set(WeaponType.Platform_Laser_Battery, false);
+  }
 
   private static void initializeWeaponType_Independant_Laser_Battery() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Independant_Laser_Battery, 93);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Independant_Laser_Battery, 93);
     fields.get("tech").set(WeaponType.Independant_Laser_Battery, TechType.None);
-    fields
-        .get("whatUses")
+    fields.get("whatUses")
         .set(WeaponType.Independant_Laser_Battery, UnitType.Special_Independant_Starport);
     fields.get("damageAmount").set(WeaponType.Independant_Laser_Battery, 7);
     fields.get("damageBonus").set(WeaponType.Independant_Laser_Battery, 1);
@@ -3231,28 +3286,88 @@ class WeaponTypes {
     fields.get("targetsOwn").set(WeaponType.Independant_Laser_Battery, false);
   }
 
+  private static void initializeWeaponType_unk_94() throws Exception {
+    Class<?> c = WeaponType.class;
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.unk_94, 94);
+    fields.get("tech").set(WeaponType.unk_94, null);
+    fields.get("whatUses").set(WeaponType.unk_94, null);
+    fields.get("damageAmount").set(WeaponType.unk_94, 0);
+    fields.get("damageBonus").set(WeaponType.unk_94, 0);
+    fields.get("damageCooldown").set(WeaponType.unk_94, 0);
+    fields.get("damageFactor").set(WeaponType.unk_94, 0);
+    fields.get("upgradeType").set(WeaponType.unk_94, null);
+    fields.get("damageType").set(WeaponType.unk_94, null);
+    fields.get("explosionType").set(WeaponType.unk_94, null);
+    fields.get("minRange").set(WeaponType.unk_94, 0);
+    fields.get("maxRange").set(WeaponType.unk_94, 0);
+    fields.get("innerSplashRadius").set(WeaponType.unk_94, 0);
+    fields.get("medianSplashRadius").set(WeaponType.unk_94, 0);
+    fields.get("outerSplashRadius").set(WeaponType.unk_94, 0);
+    fields.get("targetsAir").set(WeaponType.unk_94, false);
+    fields.get("targetsGround").set(WeaponType.unk_94, false);
+    fields.get("targetsMechanical").set(WeaponType.unk_94, false);
+    fields.get("targetsOrganic").set(WeaponType.unk_94, false);
+    fields.get("targetsNonBuilding").set(WeaponType.unk_94, false);
+    fields.get("targetsNonRobotic").set(WeaponType.unk_94, false);
+    fields.get("targetsTerrain").set(WeaponType.unk_94, false);
+    fields.get("targetsOrgOrMech").set(WeaponType.unk_94, false);
+    fields.get("targetsOwn").set(WeaponType.unk_94, false);
+  }
+
+  private static void initializeWeaponType_unk_95() throws Exception {
+    Class<?> c = WeaponType.class;
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.unk_95, 95);
+    fields.get("tech").set(WeaponType.unk_95, null);
+    fields.get("whatUses").set(WeaponType.unk_95, null);
+    fields.get("damageAmount").set(WeaponType.unk_95, 0);
+    fields.get("damageBonus").set(WeaponType.unk_95, 0);
+    fields.get("damageCooldown").set(WeaponType.unk_95, 0);
+    fields.get("damageFactor").set(WeaponType.unk_95, 0);
+    fields.get("upgradeType").set(WeaponType.unk_95, null);
+    fields.get("damageType").set(WeaponType.unk_95, null);
+    fields.get("explosionType").set(WeaponType.unk_95, null);
+    fields.get("minRange").set(WeaponType.unk_95, 0);
+    fields.get("maxRange").set(WeaponType.unk_95, 0);
+    fields.get("innerSplashRadius").set(WeaponType.unk_95, 0);
+    fields.get("medianSplashRadius").set(WeaponType.unk_95, 0);
+    fields.get("outerSplashRadius").set(WeaponType.unk_95, 0);
+    fields.get("targetsAir").set(WeaponType.unk_95, false);
+    fields.get("targetsGround").set(WeaponType.unk_95, false);
+    fields.get("targetsMechanical").set(WeaponType.unk_95, false);
+    fields.get("targetsOrganic").set(WeaponType.unk_95, false);
+    fields.get("targetsNonBuilding").set(WeaponType.unk_95, false);
+    fields.get("targetsNonRobotic").set(WeaponType.unk_95, false);
+    fields.get("targetsTerrain").set(WeaponType.unk_95, false);
+    fields.get("targetsOrgOrMech").set(WeaponType.unk_95, false);
+    fields.get("targetsOwn").set(WeaponType.unk_95, false);
+  }
+
   private static void initializeWeaponType_Twin_Autocannons_Floor_Trap() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Twin_Autocannons_Floor_Trap, 96);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Twin_Autocannons_Floor_Trap, 96);
     fields.get("tech").set(WeaponType.Twin_Autocannons_Floor_Trap, TechType.None);
-    fields
-        .get("whatUses")
+    fields.get("whatUses")
         .set(WeaponType.Twin_Autocannons_Floor_Trap, UnitType.Special_Floor_Gun_Trap);
     fields.get("damageAmount").set(WeaponType.Twin_Autocannons_Floor_Trap, 10);
     fields.get("damageBonus").set(WeaponType.Twin_Autocannons_Floor_Trap, 1);
     fields.get("damageCooldown").set(WeaponType.Twin_Autocannons_Floor_Trap, 22);
     fields.get("damageFactor").set(WeaponType.Twin_Autocannons_Floor_Trap, 1);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.Twin_Autocannons_Floor_Trap, UpgradeType.Terran_Vehicle_Weapons);
     fields.get("damageType").set(WeaponType.Twin_Autocannons_Floor_Trap, DamageType.Normal);
     fields.get("explosionType").set(WeaponType.Twin_Autocannons_Floor_Trap, ExplosionType.Normal);
@@ -3274,30 +3389,23 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Hellfire_Missile_Pack_Wall_Trap() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, 97);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, 97);
     fields.get("tech").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, TechType.None);
-    fields
-        .get("whatUses")
+    fields.get("whatUses")
         .set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, UnitType.Special_Wall_Missile_Trap);
     fields.get("damageAmount").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, 10);
     fields.get("damageBonus").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, 1);
     fields.get("damageCooldown").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, 22);
     fields.get("damageFactor").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, 2);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, UpgradeType.Terran_Vehicle_Weapons);
     fields.get("damageType").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, DamageType.Explosive);
-    fields
-        .get("explosionType")
+    fields.get("explosionType")
         .set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, ExplosionType.Normal);
     fields.get("minRange").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, 0);
     fields.get("maxRange").set(WeaponType.Hellfire_Missile_Pack_Wall_Trap, 160);
@@ -3317,26 +3425,20 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Flame_Thrower_Wall_Trap() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Flame_Thrower_Wall_Trap, 98);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Flame_Thrower_Wall_Trap, 98);
     fields.get("tech").set(WeaponType.Flame_Thrower_Wall_Trap, TechType.None);
-    fields
-        .get("whatUses")
+    fields.get("whatUses")
         .set(WeaponType.Flame_Thrower_Wall_Trap, UnitType.Special_Wall_Flame_Trap);
     fields.get("damageAmount").set(WeaponType.Flame_Thrower_Wall_Trap, 8);
     fields.get("damageBonus").set(WeaponType.Flame_Thrower_Wall_Trap, 1);
     fields.get("damageCooldown").set(WeaponType.Flame_Thrower_Wall_Trap, 22);
     fields.get("damageFactor").set(WeaponType.Flame_Thrower_Wall_Trap, 1);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.Flame_Thrower_Wall_Trap, UpgradeType.Terran_Infantry_Weapons);
     fields.get("damageType").set(WeaponType.Flame_Thrower_Wall_Trap, DamageType.Concussive);
     fields.get("explosionType").set(WeaponType.Flame_Thrower_Wall_Trap, ExplosionType.Enemy_Splash);
@@ -3358,30 +3460,23 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Hellfire_Missile_Pack_Floor_Trap() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, 99);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, 99);
     fields.get("tech").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, TechType.None);
-    fields
-        .get("whatUses")
+    fields.get("whatUses")
         .set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, UnitType.Special_Floor_Missile_Trap);
     fields.get("damageAmount").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, 10);
     fields.get("damageBonus").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, 1);
     fields.get("damageCooldown").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, 22);
     fields.get("damageFactor").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, 2);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, UpgradeType.Terran_Vehicle_Weapons);
     fields.get("damageType").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, DamageType.Explosive);
-    fields
-        .get("explosionType")
+    fields.get("explosionType")
         .set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, ExplosionType.Normal);
     fields.get("minRange").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, 0);
     fields.get("maxRange").set(WeaponType.Hellfire_Missile_Pack_Floor_Trap, 160);
@@ -3401,16 +3496,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Neutron_Flare() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Neutron_Flare, 100);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Neutron_Flare, 100);
     fields.get("tech").set(WeaponType.Neutron_Flare, TechType.None);
     fields.get("whatUses").set(WeaponType.Neutron_Flare, UnitType.Protoss_Corsair);
     fields.get("damageAmount").set(WeaponType.Neutron_Flare, 5);
@@ -3438,16 +3529,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Disruption_Web() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Disruption_Web, 101);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Disruption_Web, 101);
     fields.get("tech").set(WeaponType.Disruption_Web, TechType.Disruption_Web);
     fields.get("whatUses").set(WeaponType.Disruption_Web, UnitType.Protoss_Corsair);
     fields.get("damageAmount").set(WeaponType.Disruption_Web, 0);
@@ -3475,16 +3562,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Restoration() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Restoration, 102);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Restoration, 102);
     fields.get("tech").set(WeaponType.Restoration, TechType.Restoration);
     fields.get("whatUses").set(WeaponType.Restoration, UnitType.Terran_Medic);
     fields.get("damageAmount").set(WeaponType.Restoration, 20);
@@ -3512,16 +3595,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Halo_Rockets() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Halo_Rockets, 103);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Halo_Rockets, 103);
     fields.get("tech").set(WeaponType.Halo_Rockets, TechType.None);
     fields.get("whatUses").set(WeaponType.Halo_Rockets, UnitType.Terran_Valkyrie);
     fields.get("damageAmount").set(WeaponType.Halo_Rockets, 6);
@@ -3549,16 +3628,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Corrosive_Acid() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Corrosive_Acid, 104);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Corrosive_Acid, 104);
     fields.get("tech").set(WeaponType.Corrosive_Acid, TechType.None);
     fields.get("whatUses").set(WeaponType.Corrosive_Acid, UnitType.Zerg_Devourer);
     fields.get("damageAmount").set(WeaponType.Corrosive_Acid, 25);
@@ -3586,16 +3661,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Mind_Control() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Mind_Control, 105);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Mind_Control, 105);
     fields.get("tech").set(WeaponType.Mind_Control, TechType.Mind_Control);
     fields.get("whatUses").set(WeaponType.Mind_Control, UnitType.Protoss_Dark_Archon);
     fields.get("damageAmount").set(WeaponType.Mind_Control, 8);
@@ -3623,16 +3694,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Feedback() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Feedback, 106);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Feedback, 106);
     fields.get("tech").set(WeaponType.Feedback, TechType.Feedback);
     fields.get("whatUses").set(WeaponType.Feedback, UnitType.Protoss_Dark_Archon);
     fields.get("damageAmount").set(WeaponType.Feedback, 8);
@@ -3660,16 +3727,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Optical_Flare() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Optical_Flare, 107);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Optical_Flare, 107);
     fields.get("tech").set(WeaponType.Optical_Flare, TechType.Optical_Flare);
     fields.get("whatUses").set(WeaponType.Optical_Flare, UnitType.Terran_Medic);
     fields.get("damageAmount").set(WeaponType.Optical_Flare, 8);
@@ -3697,16 +3760,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Maelstrom() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Maelstrom, 108);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Maelstrom, 108);
     fields.get("tech").set(WeaponType.Maelstrom, TechType.Maelstrom);
     fields.get("whatUses").set(WeaponType.Maelstrom, UnitType.Protoss_Dark_Archon);
     fields.get("damageAmount").set(WeaponType.Maelstrom, 0);
@@ -3734,16 +3793,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Subterranean_Spines() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Subterranean_Spines, 109);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Subterranean_Spines, 109);
     fields.get("tech").set(WeaponType.Subterranean_Spines, TechType.None);
     fields.get("whatUses").set(WeaponType.Subterranean_Spines, UnitType.Zerg_Lurker);
     fields.get("damageAmount").set(WeaponType.Subterranean_Spines, 20);
@@ -3771,16 +3826,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Warp_Blades() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Warp_Blades, 111);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Warp_Blades, 111);
     fields.get("tech").set(WeaponType.Warp_Blades, TechType.None);
     fields.get("whatUses").set(WeaponType.Warp_Blades, UnitType.Protoss_Dark_Templar);
     fields.get("damageAmount").set(WeaponType.Warp_Blades, 40);
@@ -3808,30 +3859,23 @@ class WeaponTypes {
 
   private static void initializeWeaponType_C_10_Canister_Rifle_Samir_Duran() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, 112);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, 112);
     fields.get("tech").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, TechType.None);
-    fields
-        .get("whatUses")
+    fields.get("whatUses")
         .set(WeaponType.C_10_Canister_Rifle_Samir_Duran, UnitType.Hero_Samir_Duran);
     fields.get("damageAmount").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, 25);
     fields.get("damageBonus").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, 1);
     fields.get("damageCooldown").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, 22);
     fields.get("damageFactor").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, 1);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.C_10_Canister_Rifle_Samir_Duran, UpgradeType.Terran_Infantry_Weapons);
     fields.get("damageType").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, DamageType.Concussive);
-    fields
-        .get("explosionType")
+    fields.get("explosionType")
         .set(WeaponType.C_10_Canister_Rifle_Samir_Duran, ExplosionType.Normal);
     fields.get("minRange").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, 0);
     fields.get("maxRange").set(WeaponType.C_10_Canister_Rifle_Samir_Duran, 192);
@@ -3851,32 +3895,24 @@ class WeaponTypes {
 
   private static void initializeWeaponType_C_10_Canister_Rifle_Infested_Duran() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.C_10_Canister_Rifle_Infested_Duran, 113);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.C_10_Canister_Rifle_Infested_Duran, 113);
     fields.get("tech").set(WeaponType.C_10_Canister_Rifle_Infested_Duran, TechType.None);
-    fields
-        .get("whatUses")
+    fields.get("whatUses")
         .set(WeaponType.C_10_Canister_Rifle_Infested_Duran, UnitType.Hero_Infested_Duran);
     fields.get("damageAmount").set(WeaponType.C_10_Canister_Rifle_Infested_Duran, 25);
     fields.get("damageBonus").set(WeaponType.C_10_Canister_Rifle_Infested_Duran, 1);
     fields.get("damageCooldown").set(WeaponType.C_10_Canister_Rifle_Infested_Duran, 22);
     fields.get("damageFactor").set(WeaponType.C_10_Canister_Rifle_Infested_Duran, 1);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.C_10_Canister_Rifle_Infested_Duran, UpgradeType.Terran_Infantry_Weapons);
-    fields
-        .get("damageType")
+    fields.get("damageType")
         .set(WeaponType.C_10_Canister_Rifle_Infested_Duran, DamageType.Concussive);
-    fields
-        .get("explosionType")
+    fields.get("explosionType")
         .set(WeaponType.C_10_Canister_Rifle_Infested_Duran, ExplosionType.Normal);
     fields.get("minRange").set(WeaponType.C_10_Canister_Rifle_Infested_Duran, 0);
     fields.get("maxRange").set(WeaponType.C_10_Canister_Rifle_Infested_Duran, 192);
@@ -3896,24 +3932,19 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Dual_Photon_Blasters_Artanis() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Dual_Photon_Blasters_Artanis, 114);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Dual_Photon_Blasters_Artanis, 114);
     fields.get("tech").set(WeaponType.Dual_Photon_Blasters_Artanis, TechType.None);
     fields.get("whatUses").set(WeaponType.Dual_Photon_Blasters_Artanis, UnitType.Hero_Artanis);
     fields.get("damageAmount").set(WeaponType.Dual_Photon_Blasters_Artanis, 20);
     fields.get("damageBonus").set(WeaponType.Dual_Photon_Blasters_Artanis, 1);
     fields.get("damageCooldown").set(WeaponType.Dual_Photon_Blasters_Artanis, 30);
     fields.get("damageFactor").set(WeaponType.Dual_Photon_Blasters_Artanis, 1);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.Dual_Photon_Blasters_Artanis, UpgradeType.Protoss_Air_Weapons);
     fields.get("damageType").set(WeaponType.Dual_Photon_Blasters_Artanis, DamageType.Normal);
     fields.get("explosionType").set(WeaponType.Dual_Photon_Blasters_Artanis, ExplosionType.Normal);
@@ -3935,24 +3966,19 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Anti_Matter_Missiles_Artanis() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Anti_Matter_Missiles_Artanis, 115);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Anti_Matter_Missiles_Artanis, 115);
     fields.get("tech").set(WeaponType.Anti_Matter_Missiles_Artanis, TechType.None);
     fields.get("whatUses").set(WeaponType.Anti_Matter_Missiles_Artanis, UnitType.Hero_Artanis);
     fields.get("damageAmount").set(WeaponType.Anti_Matter_Missiles_Artanis, 28);
     fields.get("damageBonus").set(WeaponType.Anti_Matter_Missiles_Artanis, 1);
     fields.get("damageCooldown").set(WeaponType.Anti_Matter_Missiles_Artanis, 22);
     fields.get("damageFactor").set(WeaponType.Anti_Matter_Missiles_Artanis, 2);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.Anti_Matter_Missiles_Artanis, UpgradeType.Protoss_Air_Weapons);
     fields.get("damageType").set(WeaponType.Anti_Matter_Missiles_Artanis, DamageType.Explosive);
     fields.get("explosionType").set(WeaponType.Anti_Matter_Missiles_Artanis, ExplosionType.Normal);
@@ -3974,32 +4000,24 @@ class WeaponTypes {
 
   private static void initializeWeaponType_C_10_Canister_Rifle_Alexei_Stukov() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, 116);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, 116);
     fields.get("tech").set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, TechType.None);
-    fields
-        .get("whatUses")
+    fields.get("whatUses")
         .set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, UnitType.Hero_Alexei_Stukov);
     fields.get("damageAmount").set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, 30);
     fields.get("damageBonus").set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, 1);
     fields.get("damageCooldown").set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, 22);
     fields.get("damageFactor").set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, 1);
-    fields
-        .get("upgradeType")
+    fields.get("upgradeType")
         .set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, UpgradeType.Terran_Infantry_Weapons);
-    fields
-        .get("damageType")
+    fields.get("damageType")
         .set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, DamageType.Concussive);
-    fields
-        .get("explosionType")
+    fields.get("explosionType")
         .set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, ExplosionType.Normal);
     fields.get("minRange").set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, 0);
     fields.get("maxRange").set(WeaponType.C_10_Canister_Rifle_Alexei_Stukov, 192);
@@ -4019,16 +4037,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_None() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.None, 130);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.None, 130);
     fields.get("tech").set(WeaponType.None, TechType.None);
     fields.get("whatUses").set(WeaponType.None, UnitType.None);
     fields.get("damageAmount").set(WeaponType.None, 0);
@@ -4056,16 +4070,12 @@ class WeaponTypes {
 
   private static void initializeWeaponType_Unknown() throws Exception {
     Class<?> c = WeaponType.class;
-    Map<String, Field> fields =
-        Stream.of(c.getDeclaredFields())
-            .collect(
-                Collectors.toMap(
-                    f -> f.getName(),
-                    f -> {
-                      f.setAccessible(true);
-                      return f;
-                    }));
-    fields.get("id").set(WeaponType.Unknown, 131);
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.Unknown, 131);
     fields.get("tech").set(WeaponType.Unknown, TechType.None);
     fields.get("whatUses").set(WeaponType.Unknown, UnitType.Unknown);
     fields.get("damageAmount").set(WeaponType.Unknown, 0);
@@ -4089,5 +4099,46 @@ class WeaponTypes {
     fields.get("targetsTerrain").set(WeaponType.Unknown, false);
     fields.get("targetsOrgOrMech").set(WeaponType.Unknown, false);
     fields.get("targetsOwn").set(WeaponType.Unknown, false);
+  }
+
+  private static void initializeWeaponType_MAX() throws Exception {
+    Class<?> c = WeaponType.class;
+    Map<String, Field> fields = Stream.of(c.getDeclaredFields())
+        .collect(Collectors.toMap(f -> f.getName(), f -> {
+          f.setAccessible(true);
+          return f;
+        }));
+    fields.get("iD").set(WeaponType.MAX, 132);
+    fields.get("tech").set(WeaponType.MAX, null);
+    fields.get("whatUses").set(WeaponType.MAX, null);
+    fields.get("damageAmount").set(WeaponType.MAX, 0);
+    fields.get("damageBonus").set(WeaponType.MAX, 0);
+    fields.get("damageCooldown").set(WeaponType.MAX, 0);
+    fields.get("damageFactor").set(WeaponType.MAX, 0);
+    fields.get("upgradeType").set(WeaponType.MAX, null);
+    fields.get("damageType").set(WeaponType.MAX, null);
+    fields.get("explosionType").set(WeaponType.MAX, null);
+    fields.get("minRange").set(WeaponType.MAX, 0);
+    fields.get("maxRange").set(WeaponType.MAX, 0);
+    fields.get("innerSplashRadius").set(WeaponType.MAX, 0);
+    fields.get("medianSplashRadius").set(WeaponType.MAX, 0);
+    fields.get("outerSplashRadius").set(WeaponType.MAX, 0);
+    fields.get("targetsAir").set(WeaponType.MAX, false);
+    fields.get("targetsGround").set(WeaponType.MAX, false);
+    fields.get("targetsMechanical").set(WeaponType.MAX, false);
+    fields.get("targetsOrganic").set(WeaponType.MAX, false);
+    fields.get("targetsNonBuilding").set(WeaponType.MAX, false);
+    fields.get("targetsNonRobotic").set(WeaponType.MAX, false);
+    fields.get("targetsTerrain").set(WeaponType.MAX, false);
+    fields.get("targetsOrgOrMech").set(WeaponType.MAX, false);
+    fields.get("targetsOwn").set(WeaponType.MAX, false);
+  }
+
+  private static Map<?, ?> toMap(Object... element) {
+    Map<Object, Object> map = new HashMap<>();
+    for (int i = 0; i < element.length; i += 2) {
+      map.put(element[i], element[i + 1]);
+    }
+    return map;
   }
 }

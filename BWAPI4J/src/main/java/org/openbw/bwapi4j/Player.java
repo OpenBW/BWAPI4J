@@ -699,7 +699,7 @@ public class Player {
   }
 
   public boolean canMake(Unit builder, UnitType type) {
-    if (!canMake(type) || builder.getType() != type.whatBuilds().getFirst()) {
+    if (!canMake(type) || builder.getType() != type.whatBuilds().getUnitType()) {
       return false;
     }
     return type.requiredUnits()

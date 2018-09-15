@@ -2,6 +2,7 @@ package org.openbw.bwapi4j.type;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -17,13 +18,13 @@ import org.openbw.bwapi4j.unit.Unit;
 public class UnitTypeTest implements BWEventListener {
   private BW bw;
 
-  private <T> boolean isUnorderedListEqual(List<T> expected, List<T> actual) {
+  private <T> boolean isUnorderedCollectionEqual(Collection<T> expected, Collection<T> actual) {
     if (actual.size() != expected.size()) {
       return false;
     } else {
-      for (int i = 0; i < expected.size(); ++i) {
-        if (!actual.contains(expected.get(i))) {
-          System.out.println("Not found in actual list: " + expected.get(i).toString());
+      for (T element : expected) {
+        if (!actual.contains(expected)) {
+          System.out.println("Not found in actual list: " + element.toString());
           return false;
         }
       }
@@ -40,12 +41,13 @@ public class UnitTypeTest implements BWEventListener {
   }
 
   private void Assert_whatBuilds(final UnitType expectedUnitType, final UnitType unitType) {
-    Assert.assertEquals(expectedUnitType, unitType.whatBuilds().getFirst());
+    Assert.assertEquals(expectedUnitType, unitType.whatBuilds().getUnitType());
   }
 
   private void Assert_requiredUnits(
       final List<UnitType> expectedUnitTypes, final UnitType unitType) {
-    Assert.assertTrue(isUnorderedListEqual(expectedUnitTypes, unitType.requiredUnits()));
+    Assert.assertTrue(
+        isUnorderedCollectionEqual(expectedUnitTypes, unitType.requiredUnits().keySet()));
   }
 
   private void Assert_requiredTech(final TechType expectedTechType, final UnitType unitType) {
@@ -57,7 +59,7 @@ public class UnitTypeTest implements BWEventListener {
   }
 
   private void Assert_abilities(final List<TechType> expectedTechTypes, final UnitType unitType) {
-    Assert.assertTrue(isUnorderedListEqual(expectedTechTypes, unitType.abilities()));
+    Assert.assertTrue(isUnorderedCollectionEqual(expectedTechTypes, unitType.abilities()));
   }
 
   private void Assert_upgrades(
@@ -67,7 +69,7 @@ public class UnitTypeTest implements BWEventListener {
             + expectedUpgradeTypes.toString()
             + ", Actual: "
             + unitType.upgrades().toString(),
-        isUnorderedListEqual(expectedUpgradeTypes, unitType.upgrades()));
+        isUnorderedCollectionEqual(expectedUpgradeTypes, unitType.upgrades()));
   }
 
   private void Assert_armorUpgrade(final UpgradeType expectedUpgradeType, final UnitType unitType) {
@@ -361,12 +363,12 @@ public class UnitTypeTest implements BWEventListener {
   // UnitType.buildsWhat() is currently not implemented.
   private void Assert_researchesWhat(
       final List<TechType> expectedTechTypes, final UnitType unitType) {
-    Assert.assertTrue(isUnorderedListEqual(expectedTechTypes, unitType.researchesWhat()));
+    Assert.assertTrue(isUnorderedCollectionEqual(expectedTechTypes, unitType.researchesWhat()));
   }
 
   private void Assert_upgradesWhat(
       final List<UpgradeType> expectedUpgradeTypes, final UnitType unitType) {
-    Assert.assertTrue(isUnorderedListEqual(expectedUpgradeTypes, unitType.upgradesWhat()));
+    Assert.assertTrue(isUnorderedCollectionEqual(expectedUpgradeTypes, unitType.upgradesWhat()));
   }
 
   private void terranTest() {

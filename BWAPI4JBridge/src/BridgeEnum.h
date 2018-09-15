@@ -26,11 +26,8 @@
 
 class BridgeEnum {
  public:
-  void initialize(JNIEnv *, const JavaRefs &);
-
- private:
-  void createUpgradeTypeEnum(JNIEnv *, const JavaRefs &);
-  void createTechTypeEnum(JNIEnv *, const JavaRefs &);
-  void createWeaponTypeEnum(JNIEnv *, const JavaRefs &);
-  void createUnitTypeEnum(JNIEnv *, const JavaRefs &);
+  void addUpgradeTypeEnums();
+  void addTechTypeEnums();
+  void addWeaponTypeEnums();
+  void addUnitTypeEnums();
 };

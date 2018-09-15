@@ -114,6 +114,11 @@ void DataBuffer::addId(const BWAPI::DamageType &damageType) { add(damageType.get
 
 void DataBuffer::addId(const BWAPI::ExplosionType &explosionType) { add(explosionType.getID()); }
 
+void DataBuffer::addFields(const std::pair<BWAPI::UnitType, int> &entity) {
+  addId(entity.first);
+  add(entity.second);
+}
+
 void DataBuffer::addIds(const BWAPI::Playerset &playerset) {
   for (const auto &player : playerset) {
     addId(player);

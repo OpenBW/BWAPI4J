@@ -551,7 +551,7 @@ public abstract class UnitImpl implements Unit {
   }
 
   protected boolean canTrain(UnitType type) {
-    return this.type.equals(type.whatBuilds().getFirst())
+    return this.type.equals(type.whatBuilds().getUnitType())
         && player.canMake(type)
         && type.requiredUnits()
         .keySet()

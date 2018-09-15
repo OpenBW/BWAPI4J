@@ -8,6 +8,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -18,13 +19,14 @@ import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitType;
+import org.openbw.bwapi4j.type.UnitType.WhatBuilds;
 import org.openbw.bwapi4j.type.UpgradeType;
 import org.openbw.bwapi4j.type.WeaponType;
 import org.openbw.bwapi4j.unit.Unit;
-import org.openbw.bwapi4j.util.Pair;
 
 public class TestDataExporter implements BWEventListener {
-  private static final String TARGET_DIR = "BWAPI4J/out/";
+
+  private static final String TARGET_DIR = "BWAPI4J/build/";
   private static final Class[] toExport = {
     UnitType.class, UpgradeType.class, TechType.class, WeaponType.class
   };
@@ -132,15 +134,23 @@ public class TestDataExporter implements BWEventListener {
                   });
               out.println("    }");
             });
+    out.println("    private static Map<?, ?> toMap(Object... element) {");
+    out.println("        Map<Object, Object> map = new HashMap<>();");
+    out.println("        for (int i = 0; i < element.length; i += 2) {");
+    out.println("            map.put(element[i], element[i + 1]);");
+    out.println("        }");
+    out.println("        return map;");
+    out.println("    }");
   }
 
   private <E extends Enum<E>> String toValue(Object value) {
     if (value == null) return "null";
     if (value instanceof Enum<?>) {
       value = value.getClass().getSimpleName() + "." + ((Enum) value).name();
-    } else if (value instanceof Pair<?, ?>) {
-      Pair pair = (Pair) value;
-      value = "new Pair(" + toValue(pair.getFirst()) + ", " + toValue(pair.getSecond()) + ")";
+    } else if (value instanceof WhatBuilds) {
+      WhatBuilds pair = (WhatBuilds) value;
+      value = "new UnitType.WhatBuilds(" + toValue(pair.getUnitType()) + ", " + toValue(
+          pair.getAmount()) + ")";
     } else if (value instanceof ArrayList<?>) {
       List<?> list = (List<?>) value;
       value =
@@ -161,6 +171,10 @@ public class TestDataExporter implements BWEventListener {
               + " [] {"
               + Stream.of(array).map(this::toValue).collect(Collectors.joining(", "))
               + "}";
+    } else if (value instanceof Map<?, ?>) {
+      value = "toMap(" + ((Map<?, ?>) value).entrySet().stream()
+          .map(e -> toValue(e.getKey()) + ", " + toValue(e.getValue()))
+          .collect(Collectors.joining(", ")) + ")";
     }
     return value.toString();
   }

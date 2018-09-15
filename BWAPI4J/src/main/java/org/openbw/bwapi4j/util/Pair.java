@@ -21,11 +21,13 @@
 package org.openbw.bwapi4j.util;
 
 import java.util.Objects;
+import org.openbw.bwapi4j.ap.BridgeValue;
 
 public class Pair<K, V> {
   private final K first;
   private final V second;
 
+  @BridgeValue
   public Pair(K first, V second) {
     this.first = first;
     this.second = second;
