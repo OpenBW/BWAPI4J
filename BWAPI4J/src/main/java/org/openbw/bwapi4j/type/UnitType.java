@@ -499,6 +499,9 @@ public enum UnitType implements WithId {
   }
 
   public static UnitType withId(int id) {
+    if (id < 0) {
+      return null;
+    }
     UnitType result = IdMapper.unitTypeForId[id];
     if (result == null) {
       throw new IllegalStateException("UnitType with id " + id + " not found!");

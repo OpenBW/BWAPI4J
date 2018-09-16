@@ -191,8 +191,15 @@ public abstract class UnitImpl implements Unit {
   Position rallyPosition;
   @BridgeValue
   Unit rallyUnit;
+  // The bridge code currently cannot provide "generated" values, so we just provide the slot index here
   @BridgeValue
-  List<TrainingSlot> trainingQueue = new ArrayList<>();
+  List<TrainingSlot> trainingQueue = new ArrayList<TrainingSlot>() {
+    @Override
+    public boolean add(TrainingSlot trainingSlot) {
+      trainingSlot.slotIndex = size();
+      return super.add(trainingSlot);
+    }
+  };
   @BridgeValue
   boolean loaded;
   @BridgeValue
@@ -685,13 +692,12 @@ public abstract class UnitImpl implements Unit {
 
   public class TrainingSlot {
 
-    private final int slotIndex;
+    private int slotIndex;
 
     private final UnitType unitType;
 
     @BridgeValue
-    TrainingSlot(final int slotIndex, final UnitType unitType) {
-      this.slotIndex = slotIndex;
+    TrainingSlot(final UnitType unitType) {
       this.unitType = unitType;
     }
 

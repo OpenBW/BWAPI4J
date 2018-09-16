@@ -215,6 +215,9 @@ public enum Order {
   MAX;
 
   public static Order withId(int id) {
+    if (id < 0) {
+      return null;
+    }
     return values()[id];
   }
 }
