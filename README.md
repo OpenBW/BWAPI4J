@@ -2,15 +2,15 @@
 
 | | Windows | Linux | Download |
 |-|:-:|:-:|:-:|
-| **master** | [![AppVeyor master](https://ci.appveyor.com/api/projects/status/uby2l601herytp47/branch/master?svg=true)](https://ci.appveyor.com/project/adakitesystems/bwapi4j/branch/master) | [![Travis CI master](https://travis-ci.com/OpenBW/BWAPI4J.svg?branch=master)](https://travis-ci.com/OpenBW/BWAPI4J) | [![download](https://img.shields.io/badge/master-v0.8.1b-blue.svg)](https://github.com/OpenBW/BWAPI4J/releases/tag/v0.8.1b) |
-| **develop** | [![AppVeyor develop](https://ci.appveyor.com/api/projects/status/uby2l601herytp47/branch/develop?svg=true)](https://ci.appveyor.com/project/adakitesystems/bwapi4j/branch/develop) | [![Travis CI develop](https://travis-ci.com/OpenBW/BWAPI4J.svg?branch=develop)](https://travis-ci.com/OpenBW/BWAPI4J) | [![download](https://img.shields.io/badge/develop-v0.8.2b-orange.svg)](https://ci.appveyor.com/project/adakitesystems/bwapi4j/build/artifacts) |
+| **master** | [![AppVeyor master](https://ci.appveyor.com/api/projects/status/uby2l601herytp47/branch/master?svg=true)](https://ci.appveyor.com/project/adakitesystems/bwapi4j/branch/master) | [![Travis CI master](https://travis-ci.com/OpenBW/BWAPI4J.svg?branch=master)](https://travis-ci.com/OpenBW/BWAPI4J) | [![download](https://img.shields.io/badge/master-v0.8.2b-blue.svg)](https://github.com/OpenBW/BWAPI4J/releases/tag/v0.8.2b) |
+| **develop** | [![AppVeyor develop](https://ci.appveyor.com/api/projects/status/uby2l601herytp47/branch/develop?svg=true)](https://ci.appveyor.com/project/adakitesystems/bwapi4j/branch/develop) | [![Travis CI develop](https://travis-ci.com/OpenBW/BWAPI4J.svg?branch=develop)](https://travis-ci.com/OpenBW/BWAPI4J) | [![download](https://img.shields.io/badge/develop-v0.8.3b-orange.svg)](https://ci.appveyor.com/project/adakitesystems/bwapi4j/build/artifacts) |
 
-SHA-256 checksums for official version 0.8.1b:
+SHA-256 checksums for official version 0.8.2b:
 
 ```
-ea8d6a7c07fc4b3d77feebf983bd5aee446392bfaab6ac4485c8059a39bd9391  BWAPI4J-0.8.1b.jar
-af64af4659f1be307c2b697a3f975d4b5143bd5d207bb456d6b6c222f81da1d5  BWAPI4J-0.8.1b-javadoc.jar
-6ed30ab5e8449100e382a24814bbf9e0d9878ebb30276d3cab0fffd7c379b7bc  BWAPI4J-0.8.1b-sources.jar
+ab92c3b6fc5a9b4230606625954bf6e0ae62d37ecc3477254dcce0a50a1334a6  BWAPI4J-0.8.2b.jar
+e0a52dcae291151692cbbad51518b3d07fd5c3e9e94e2ffd20b093754b2e1799  BWAPI4J-0.8.2b-javadoc.jar
+6192b65fafbf702ea380fbfad7c6a0a71d25e79de4af2cb0475378dc9bea2146  BWAPI4J-0.8.2b-sources.jar
 ```
 
 # BWAPI4J
