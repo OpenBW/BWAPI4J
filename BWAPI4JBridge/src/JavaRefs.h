@@ -23,32 +23,11 @@
 #include <jni.h>
 
 struct JavaRefs {
-  jclass arrayListClass;
-  jmethodID arrayListClass_add;
-
-  jclass integerClass;
-  jmethodID integerClassConstructor;
+  jclass listClass;
+  jmethodID listClass_add;
 
   jclass tilePositionClass;
   jmethodID tilePositionConstructor;
-
-  jclass weaponTypeClass;
-  jclass techTypeClass;
-
-  jclass unitTypeClass;
-  jmethodID unitTypeClass_addRequiredUnit;
-
-  jclass upgradeTypeClass;
-  jmethodID upgradeTypeClass_addUsingUnit;
-
-  jclass damageTypeClass;
-  jclass explosionTypeClass;
-  jclass raceClass;
-  jclass unitSizeTypeClass;
-  jclass orderClass;
-
-  jclass pairClass;
-  jmethodID pairClassConstructor;
 
   jclass bwClass;
 

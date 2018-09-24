@@ -20,24 +20,22 @@
 
 package org.openbw.bwapi4j.unit;
 
-import static org.openbw.bwapi4j.type.UnitCommandType.*;
+import static org.openbw.bwapi4j.type.UnitCommandType.Load;
+import static org.openbw.bwapi4j.type.UnitCommandType.Unload;
+import static org.openbw.bwapi4j.type.UnitCommandType.Unload_All;
+import static org.openbw.bwapi4j.type.UnitCommandType.Unload_All_Position;
 
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.type.UnitType;
 
 public abstract class Transporter extends MobileUnitImpl implements Loadable {
   private static final Logger logger = LogManager.getLogger();
 
-  protected Transporter(final int id, final UnitType unitType) {
-    super(id, unitType);
-  }
-
   @Override
   public boolean isLoaded() {
-    return this.isLoaded;
+    return this.loaded;
   }
 
   @Override
@@ -51,13 +49,13 @@ public abstract class Transporter extends MobileUnitImpl implements Loadable {
       logger.error("Can't load a {} into a transport. Only non-flying units allowed.", target);
       return false;
     } else {
-      return issueCommand(this.id, Load, target.getId(), -1, -1, queued ? 1 : 0);
+      return issueCommand(this.iD, Load, target.getId(), -1, -1, queued ? 1 : 0);
     }
   }
 
   @Override
   public boolean unload(final MobileUnit target) {
-    return issueCommand(this.id, Unload, target.getId(), -1, -1, -1);
+    return issueCommand(this.iD, Unload, target.getId(), -1, -1, -1);
   }
 
   @Override
@@ -67,7 +65,7 @@ public abstract class Transporter extends MobileUnitImpl implements Loadable {
 
   @Override
   public boolean unloadAll(final boolean queued) {
-    return issueCommand(this.id, Unload_All, -1, -1, -1, queued ? 1 : 0);
+    return issueCommand(this.iD, Unload_All, -1, -1, -1, queued ? 1 : 0);
   }
 
   public boolean unloadAll(final Position p) {
@@ -75,7 +73,7 @@ public abstract class Transporter extends MobileUnitImpl implements Loadable {
   }
 
   public boolean unloadAll(final Position p, final boolean queued) {
-    return issueCommand(this.id, Unload_All_Position, -1, p.getX(), p.getY(), queued ? 1 : 0);
+    return issueCommand(this.iD, Unload_All_Position, -1, p.getX(), p.getY(), queued ? 1 : 0);
   }
 
   @Override
@@ -85,6 +83,6 @@ public abstract class Transporter extends MobileUnitImpl implements Loadable {
 
   @Override
   public List<MobileUnit> getLoadedUnits() {
-    return super.getLoadedUnits();
+    return (List<MobileUnit>) (List<?>) loadedUnits;
   }
 }

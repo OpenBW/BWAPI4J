@@ -34,4 +34,8 @@ public enum PlayerType {
   PlayerLeft,
   ComputerLeft,
   Unknown;
+
+  public static PlayerType withId(int id) {
+    return values()[id];
+  }
 }

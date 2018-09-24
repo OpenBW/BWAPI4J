@@ -25,8 +25,9 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class PhysicsLab extends AddonImpl implements Mechanical, ResearchingFacility {
-  protected PhysicsLab(int id, int timeSpotted) {
-    super(id, UnitType.Terran_Physics_Lab, timeSpotted);
+
+  protected PhysicsLab(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   public boolean researchYamatoGun() {
@@ -39,12 +40,12 @@ public class PhysicsLab extends AddonImpl implements Mechanical, ResearchingFaci
 
   @Override
   public boolean isUpgrading() {
-    return isUpgrading;
+    return upgrading;
   }
 
   @Override
   public boolean isResearching() {
-    return isResearching;
+    return researching;
   }
 
   @Override

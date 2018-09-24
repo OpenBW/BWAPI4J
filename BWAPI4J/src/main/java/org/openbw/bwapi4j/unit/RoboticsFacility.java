@@ -25,8 +25,9 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class RoboticsFacility extends BuildingImpl implements Mechanical, TrainingFacility {
-  protected RoboticsFacility(int id, int timeSpotted) {
-    super(id, UnitType.Protoss_Robotics_Facility, timeSpotted);
+
+  protected RoboticsFacility(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   public boolean trainShuttle() {
@@ -53,12 +54,7 @@ public class RoboticsFacility extends BuildingImpl implements Mechanical, Traini
 
   @Override
   public boolean isTraining() {
-    return isTraining;
-  }
-
-  @Override
-  public int getTrainingQueueSize() {
-    return trainingQueueSize;
+    return training;
   }
 
   @Override

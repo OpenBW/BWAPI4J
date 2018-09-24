@@ -20,25 +20,23 @@
 
 package org.openbw.bwapi4j.unit;
 
-import static org.openbw.bwapi4j.type.UnitCommandType.*;
+import static org.openbw.bwapi4j.type.UnitCommandType.Burrow;
+import static org.openbw.bwapi4j.type.UnitCommandType.Morph;
+import static org.openbw.bwapi4j.type.UnitCommandType.Unburrow;
 import static org.openbw.bwapi4j.type.UnitType.Zerg_Lurker;
 
 import org.openbw.bwapi4j.type.UnitType;
 
 public class Hydralisk extends MobileUnitImpl
     implements Organic, Burrowable, GroundAttacker, AirAttacker, Morphable {
-  protected Hydralisk(int id) {
-    super(id, UnitType.Zerg_Hydralisk);
-  }
-
   @Override
   public boolean burrow() {
-    return issueCommand(this.id, Burrow, -1, -1, -1, -1);
+    return issueCommand(this.iD, Burrow, -1, -1, -1, -1);
   }
 
   @Override
   public boolean unburrow() {
-    return issueCommand(this.id, Unburrow, -1, -1, -1, -1);
+    return issueCommand(this.iD, Unburrow, -1, -1, -1, -1);
   }
 
   @Override
@@ -51,7 +49,7 @@ public class Hydralisk extends MobileUnitImpl
     if (type != Zerg_Lurker) {
       throw new IllegalArgumentException("Cannot morph to " + type);
     }
-    return issueCommand(this.id, Morph, -1, -1, -1, Zerg_Lurker.getId());
+    return issueCommand(this.iD, Morph, -1, -1, -1, Zerg_Lurker.getId());
   }
 
   public boolean morph() {

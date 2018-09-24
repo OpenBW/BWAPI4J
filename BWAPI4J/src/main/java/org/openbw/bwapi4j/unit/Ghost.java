@@ -20,21 +20,20 @@
 
 package org.openbw.bwapi4j.unit;
 
-import static org.openbw.bwapi4j.type.TechType.*;
-import static org.openbw.bwapi4j.type.UnitCommandType.*;
+import static org.openbw.bwapi4j.type.TechType.Lockdown;
+import static org.openbw.bwapi4j.type.TechType.Nuclear_Strike;
+import static org.openbw.bwapi4j.type.TechType.Personnel_Cloaking;
+import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech;
+import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Position;
+import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Unit;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.type.UnitType;
 
 public class Ghost extends MobileUnitImpl
     implements SpellCaster, Organic, GroundAttacker, AirAttacker {
   private static final Logger logger = LogManager.getLogger();
-
-  protected Ghost(int id) {
-    super(id, UnitType.Terran_Ghost);
-  }
 
   @Override
   public int getEnergy() {
@@ -47,7 +46,7 @@ public class Ghost extends MobileUnitImpl
   }
 
   public boolean personnelCloaking() {
-    return issueCommand(this.id, Use_Tech, -1, -1, -1, Personnel_Cloaking.getId());
+    return issueCommand(this.iD, Use_Tech, -1, -1, -1, Personnel_Cloaking.getId());
   }
 
   /**
@@ -58,7 +57,7 @@ public class Ghost extends MobileUnitImpl
    */
   public boolean lockdown(Mechanical unit) {
     if (unit instanceof Unit) {
-      return issueCommand(this.id, Use_Tech_Unit, ((Unit) unit).getId(), -1, -1, Lockdown.getId());
+      return issueCommand(this.iD, Use_Tech_Unit, ((Unit) unit).getId(), -1, -1, Lockdown.getId());
     } else {
       logger.error("unit {} is not a valid target for lockDown.", unit);
       return false;
@@ -66,7 +65,7 @@ public class Ghost extends MobileUnitImpl
   }
 
   public boolean nuclearStrike(Position p) {
-    return issueCommand(this.id, Use_Tech_Position, -1, p.getX(), p.getY(), Nuclear_Strike.getId());
+    return issueCommand(this.iD, Use_Tech_Position, -1, p.getX(), p.getY(), Nuclear_Strike.getId());
   }
 
   @Override

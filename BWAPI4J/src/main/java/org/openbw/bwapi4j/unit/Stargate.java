@@ -25,8 +25,9 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class Stargate extends BuildingImpl implements Mechanical, TrainingFacility {
-  protected Stargate(int id, int timeSpotted) {
-    super(id, UnitType.Protoss_Stargate, timeSpotted);
+
+  protected Stargate(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   public boolean trainScout() {
@@ -57,12 +58,7 @@ public class Stargate extends BuildingImpl implements Mechanical, TrainingFacili
 
   @Override
   public boolean isTraining() {
-    return isTraining;
-  }
-
-  @Override
-  public int getTrainingQueueSize() {
-    return trainingQueueSize;
+    return training;
   }
 
   @Override

@@ -213,4 +213,11 @@ public enum Order {
   None,
   Unknown,
   MAX;
+
+  public static Order withId(int id) {
+    if (id < 0) {
+      return null;
+    }
+    return values()[id];
+  }
 }

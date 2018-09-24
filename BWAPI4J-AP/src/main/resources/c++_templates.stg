@@ -1,0 +1,111 @@
+delimiters "$", "$"
+
+entry(model) ::= <<
+#pragma once
+// File for $model.bridgeClassName$
+
+void DataBuffer::addFields(const $model.nativeClassName$ &entity) {
+  $model.assignments.namedAssignments:handleAssignment()$
+  $model.assignments.delegatedAssignments:handleAssignment()$
+  $model.assignments.assignments:handleAssignment()$
+}
+>>
+
+handleAssignment(assignment, prefix="") ::= <<
+$if(assignment.rValue.listValue)$
+$listValue(assignment)$
+$elseif(assignment.rValue.arrayValue)$
+$arrayValue(assignment, assignment.rValue.arrayValue)$
+$elseif(assignment.rValue.mapValue)$
+$mapValue(assignment, assignment.rValue)$
+$elseif(assignment.rValue)$
+$valueOf(assignment, assignment.rValue)$
+$elseif(assignment.byDelegate)$
+$byDelegate(assignment.field, assignment.byDelegate)$
+$endif$
+>>
+
+valueOf(assignment, rValue) ::= <%
+$if(rValue.primitiveValue)$
+add($primitiveValue(assignment, rValue.primitiveValue)$);
+$elseif(rValue.newObjectValue)$
+addFields($newObjectValue(rValue.newObjectValue)$);
+$elseif(rValue.enumValue)$
+addId($enumValue(rValue.enumValue)$);
+$elseif(rValue.bwMappedValue)$
+addId($bwMappedValue(assignment)$);
+$endif$
+%>
+
+listValue(assignment) ::= <<
+const auto &$assignment.field$ = $getter(assignment)$;
+add($assignment.field$.size());
+for (const auto &element : $assignment.field$) {
+  addId(element);
+}
+>>
+
+arrayValue(assignment, arrayValue) ::= <<
+const auto $assignment.field$Size = entity$model.accessOperator$$arrayValue.amountBy$;
+add($assignment.field$Size);
+for (int i = 0; i < $assignment.field$Size; ++ i) {
+  $valueOf(assignment, arrayValue.rValue)$
+}
+>>
+
+mapValue(assignment, rValue) ::= <<
+const auto &$assignment.field$ = $getter(assignment)$;
+add($assignment.field$.size());
+for(const auto &element : $assignment.field$) {
+  addId(element.first);
+  add(element.second);
+}
+>>
+
+byDelegate(field, byDelegate) ::= <<
+// Mapped to $byDelegate.fqClassName$
+$byDelegate.assignments.namedAssignments:handleAssignment(field)$
+$byDelegate.assignments.delegatedAssignments:handleAssignment(field)$
+$byDelegate.assignments.assignments:handleAssignment(field)$
+// --- End of mapping
+
+>>
+
+primitiveValue(assignment, value) ::= "$({dataAs$value.typeName$})(assignment)$"
+
+dataAsboolean(assignment) ::= "$isGetter(assignment)$"
+dataAsint(assignment) ::= "$getter(assignment)$"
+dataAsdouble(assignment) ::= "toPreservedDouble($getter(assignment)$)"
+dataAschar(assignment) ::= "$getter(assignment)$"
+dataAsString(assignment) ::= <<
+strncpy(..., $getter(assignment)$.c_str(), 200);
+>>
+
+bwMappedValue(assignment) ::= "$getter(assignment)$"
+enumValue(value) ::= "$getter(assignment)$"
+newObjectValue(value) ::= "$getter(assignment)$"
+
+getter(assignment) ::= <%
+entity$model.accessOperator$
+$if(assignment.indirection)$
+get$assignment.indirection; format="cap"$().
+$endif$
+$if(assignment.accessor)$
+$assignment.accessor$
+$else$
+$if(!assignment.indirection)$
+get$prefix; format="cap"$$assignment.field; format="cap"$
+$else$
+$prefix$
+$endif$
+()
+$endif$
+%>
+
+isGetter(assignment) ::= <%
+$if(assignment.accessor)$
+entity$model.accessOperator$$assignment.accessor$
+$else$
+entity$model.accessOperator$is$prefix; format="cap"$$assignment.field; format="cap"$()
+$endif$
+%>

@@ -26,8 +26,9 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class PhotonCannon extends BuildingImpl
     implements Detector, Mechanical, GroundAttacker, AirAttacker {
-  protected PhotonCannon(int id, int timeSpotted) {
-    super(id, UnitType.Protoss_Photon_Cannon, timeSpotted);
+
+  protected PhotonCannon(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   @Override
@@ -37,7 +38,7 @@ public class PhotonCannon extends BuildingImpl
 
   @Override
   public boolean attack(Unit target, boolean queued) {
-    return issueCommand(this.id, Attack_Unit, target.getId(), -1, -1, queued ? 1 : 0);
+    return issueCommand(this.iD, Attack_Unit, target.getId(), -1, -1, queued ? 1 : 0);
   }
 
   @Override

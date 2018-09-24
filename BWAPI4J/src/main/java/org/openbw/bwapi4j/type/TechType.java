@@ -20,65 +20,98 @@
 
 package org.openbw.bwapi4j.type;
 
-import java.util.stream.Stream;
+import org.openbw.bwapi4j.ap.BridgeValue;
+import org.openbw.bwapi4j.ap.Named;
+import org.openbw.bwapi4j.ap.NativeClass;
 
-public enum TechType {
-  Stim_Packs,
-  Lockdown,
-  EMP_Shockwave,
-  Spider_Mines,
-  Scanner_Sweep,
-  Tank_Siege_Mode,
-  Defensive_Matrix,
-  Irradiate,
-  Yamato_Gun,
-  Cloaking_Field,
-  Personnel_Cloaking,
-  Burrowing,
-  Infestation,
-  Spawn_Broodlings,
-  Dark_Swarm,
-  Plague,
-  Consume,
-  Ensnare,
-  Parasite,
-  Psionic_Storm,
-  Hallucination,
-  Recall,
-  Stasis_Field,
-  Archon_Warp,
-  Restoration,
-  Disruption_Web,
-  Mind_Control,
-  Dark_Archon_Meld,
-  Feedback,
-  Optical_Flare,
-  Maelstrom,
-  Lurker_Aspect,
-  Healing,
-  None,
-  Nuclear_Strike,
-  Unknown;
+@NativeClass(name = "BWAPI::TechType", accessOperator = ".")
+public enum TechType implements WithId {
+  Stim_Packs(0),
+  Lockdown(1),
+  EMP_Shockwave(2),
+  Spider_Mines(3),
+  Scanner_Sweep(4),
+  Tank_Siege_Mode(5),
+  Defensive_Matrix(6),
+  Irradiate(7),
+  Yamato_Gun(8),
+  Cloaking_Field(9),
+  Personnel_Cloaking(10),
+  Burrowing(11),
+  Infestation(12),
+  Spawn_Broodlings(13),
+  Dark_Swarm(14),
+  Plague(15),
+  Consume(16),
+  Ensnare(17),
+  Parasite(18),
+  Psionic_Storm(19),
+  Hallucination(20),
+  Recall(21),
+  Stasis_Field(22),
+  Archon_Warp(23),
+  Restoration(24),
+  Disruption_Web(25),
+  Unused_26(26),
+  Mind_Control(27),
+  Dark_Archon_Meld(28),
+  Feedback(29),
+  Optical_Flare(30),
+  Maelstrom(31),
+  Lurker_Aspect(32),
+  Unused_33(33),
+  Healing(34),
+  None(44),
+  Nuclear_Strike(45),
+  Unknown(46),
+  MAX(47);
 
-  private int id;
-  private Race race;
-  private int mineralPrice;
-  private int gasPrice;
-  private int researchTime;
-  private int energyCost;
-  private UnitType whatResearches;
-  private WeaponType weaponType;
-  private boolean targetsUnit;
-  private boolean targetsPosition;
-  private Order order;
-  private UnitType requiredUnit;
+  @Named(name = "ID")
+  @BridgeValue(initializeOnly = true)
+  int iD;
+
+  @BridgeValue Race race;
+
+  @BridgeValue(accessor = "mineralPrice()")
+  int mineralPrice;
+
+  @BridgeValue(accessor = "gasPrice()")
+  int gasPrice;
+
+  @BridgeValue(accessor = "researchTime()")
+  int researchTime;
+
+  @BridgeValue(accessor = "energyCost()")
+  int energyCost;
+
+  @BridgeValue(accessor = "whatResearches()")
+  UnitType whatResearches;
+
+  @BridgeValue(accessor = "getWeapon()")
+  WeaponType weaponType;
+
+  @BridgeValue(accessor = "targetsUnit()")
+  boolean targetsUnit;
+
+  @BridgeValue(accessor = "targetsPosition()")
+  boolean targetsPosition;
+
+  @BridgeValue Order order;
+
+  @BridgeValue(accessor = "requiredUnit()")
+  UnitType requiredUnit;
+
+  TechType(int id) {
+    this.iD = id;
+  }
 
   public static TechType withId(int id) {
     return IdMapper.techTypesForId[id];
   }
 
+  @Override
   public int getId() {
-    return this.id;
+    return this.iD;
   }
 
   /**
@@ -176,14 +209,7 @@ public enum TechType {
   }
 
   private static class IdMapper {
-    static final TechType[] techTypesForId;
 
-    static {
-      int maxTechTypeId = Stream.of(values()).mapToInt(TechType::getId).max().getAsInt();
-      techTypesForId = new TechType[maxTechTypeId + 1];
-      for (TechType type : TechType.values()) {
-        techTypesForId[type.getId()] = type;
-      }
-    }
+    static final TechType[] techTypesForId = IdMapperHelper.toIdTypeArray(TechType.class);
   }
 }

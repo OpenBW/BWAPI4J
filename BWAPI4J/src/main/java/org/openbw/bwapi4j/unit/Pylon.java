@@ -23,8 +23,9 @@ package org.openbw.bwapi4j.unit;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class Pylon extends BuildingImpl implements Mechanical, SupplyProvider {
-  protected Pylon(int id, int timeSpotted) {
-    super(id, UnitType.Protoss_Pylon, timeSpotted);
+
+  protected Pylon(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   @Override

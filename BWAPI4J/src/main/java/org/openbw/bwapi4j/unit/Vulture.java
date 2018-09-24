@@ -24,13 +24,8 @@ import static org.openbw.bwapi4j.type.TechType.Spider_Mines;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Position;
 
 import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.type.UnitType;
 
 public class Vulture extends MobileUnitImpl implements Mechanical, GroundAttacker {
-  protected Vulture(int id) {
-    super(id, UnitType.Terran_Vulture);
-  }
-
   public int getSpiderMineCount() {
     return this.spiderMineCount;
   }
@@ -43,7 +38,7 @@ public class Vulture extends MobileUnitImpl implements Mechanical, GroundAttacke
    */
   public boolean spiderMine(Position position) {
     return issueCommand(
-        this.id, Use_Tech_Position, -1, position.getX(), position.getY(), Spider_Mines.getId());
+        this.iD, Use_Tech_Position, -1, position.getX(), position.getY(), Spider_Mines.getId());
   }
 
   @Override

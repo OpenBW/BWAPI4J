@@ -28,4 +28,8 @@ public enum DamageType {
   Ignore_Armor,
   None,
   Unknown;
+
+  public static DamageType withId(int id) {
+    return values()[id];
+  }
 }

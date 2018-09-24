@@ -22,19 +22,15 @@ package org.openbw.bwapi4j.unit;
 
 import static org.openbw.bwapi4j.type.UnitCommandType.Morph;
 import static org.openbw.bwapi4j.type.UnitType.Zerg_Greater_Spire;
-import static org.openbw.bwapi4j.type.UnitType.Zerg_Spire;
 
 import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class Spire extends BuildingImpl implements Organic, ResearchingFacility, Morphable {
-  protected Spire(int id, int timeSpotted) {
-    this(id, Zerg_Spire, timeSpotted);
-  }
 
-  protected Spire(int id, UnitType type, int timeSpotted) {
-    super(id, type, timeSpotted);
+  protected Spire(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   public boolean upgradeFlyerAttacks() {
@@ -47,12 +43,12 @@ public class Spire extends BuildingImpl implements Organic, ResearchingFacility,
 
   @Override
   public boolean isUpgrading() {
-    return isUpgrading;
+    return upgrading;
   }
 
   @Override
   public boolean isResearching() {
-    return isResearching;
+    return researching;
   }
 
   @Override
@@ -70,7 +66,7 @@ public class Spire extends BuildingImpl implements Organic, ResearchingFacility,
     if (type != Zerg_Greater_Spire) {
       throw new IllegalArgumentException("Cannot morph to " + type);
     }
-    return issueCommand(this.id, Morph, -1, -1, -1, Zerg_Greater_Spire.getId());
+    return issueCommand(this.iD, Morph, -1, -1, -1, Zerg_Greater_Spire.getId());
   }
 
   @Override

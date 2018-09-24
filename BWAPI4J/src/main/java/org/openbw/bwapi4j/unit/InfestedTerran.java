@@ -23,21 +23,15 @@ package org.openbw.bwapi4j.unit;
 import static org.openbw.bwapi4j.type.UnitCommandType.Burrow;
 import static org.openbw.bwapi4j.type.UnitCommandType.Unburrow;
 
-import org.openbw.bwapi4j.type.UnitType;
-
 public class InfestedTerran extends MobileUnitImpl implements Organic, Burrowable, GroundAttacker {
-  protected InfestedTerran(int id) {
-    super(id, UnitType.Zerg_Infested_Terran);
-  }
-
   @Override
   public boolean burrow() {
-    return issueCommand(this.id, Burrow, -1, -1, -1, -1);
+    return issueCommand(this.iD, Burrow, -1, -1, -1, -1);
   }
 
   @Override
   public boolean unburrow() {
-    return issueCommand(this.id, Unburrow, -1, -1, -1, -1);
+    return issueCommand(this.iD, Unburrow, -1, -1, -1, -1);
   }
 
   @Override

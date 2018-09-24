@@ -78,7 +78,7 @@ void BridgeMap::initialize(JNIEnv *env, jobject bw, const JavaRefs &javaRefs) {
   auto startLocationsList = env->GetObjectField(bwMap, env->GetFieldID(javaRefs.bwMapClass, "startLocations", "Ljava/util/ArrayList;"));
   for (const auto &tilePosition : BWAPI::Broodwar->getStartLocations()) {
     auto startLocation = env->NewObject(javaRefs.tilePositionClass, javaRefs.tilePositionConstructor, tilePosition.x, tilePosition.y);
-    env->CallObjectMethod(startLocationsList, javaRefs.arrayListClass_add, startLocation);
+    env->CallObjectMethod(startLocationsList, javaRefs.listClass_add, startLocation);
   }
 
   if (env->ExceptionOccurred()) {

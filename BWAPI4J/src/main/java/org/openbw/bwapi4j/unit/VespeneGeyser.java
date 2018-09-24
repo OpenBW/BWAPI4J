@@ -20,14 +20,8 @@
 
 package org.openbw.bwapi4j.unit;
 
-import org.openbw.bwapi4j.type.UnitType;
-
 /** VespeneGeyser is not Gatherable, it needs a {@link GasMiningFacility}. */
 public class VespeneGeyser extends UnitImpl implements Resource {
-  protected VespeneGeyser(int id) {
-    super(id, UnitType.Resource_Vespene_Geyser);
-  }
-
   @Override
   public int getResources() {
     return this.resources;
@@ -45,6 +39,6 @@ public class VespeneGeyser extends UnitImpl implements Resource {
 
   @Override
   public boolean isBeingGathered() {
-    return this.isBeingGathered;
+    return this.beingGathered;
   }
 }

@@ -25,8 +25,9 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class TemplarArchives extends BuildingImpl implements Mechanical, ResearchingFacility {
-  protected TemplarArchives(int id, int timeSpotted) {
-    super(id, UnitType.Protoss_Templar_Archives, timeSpotted);
+
+  protected TemplarArchives(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   public boolean researchPsionicStorm() {
@@ -55,12 +56,12 @@ public class TemplarArchives extends BuildingImpl implements Mechanical, Researc
 
   @Override
   public boolean isUpgrading() {
-    return isUpgrading;
+    return upgrading;
   }
 
   @Override
   public boolean isResearching() {
-    return isResearching;
+    return researching;
   }
 
   @Override

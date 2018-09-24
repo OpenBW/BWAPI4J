@@ -31,17 +31,14 @@ import org.openbw.bwapi4j.type.UpgradeType;
 
 public class Hatchery extends BuildingImpl
     implements Organic, ResearchingFacility, ResourceDepot, Morphable {
-  protected Hatchery(int id, UnitType type, int timeSpotted) {
-    super(id, type, timeSpotted);
-  }
 
-  protected Hatchery(int id, int timeSpotted) {
-    this(id, UnitType.Zerg_Hatchery, timeSpotted);
+  protected Hatchery(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   @Override
   public boolean isReadyForResources() {
-    return isCompleted;
+    return completed;
   }
 
   @Override
@@ -68,12 +65,12 @@ public class Hatchery extends BuildingImpl
 
   @Override
   public boolean isUpgrading() {
-    return isUpgrading;
+    return upgrading;
   }
 
   @Override
   public boolean isResearching() {
-    return isResearching;
+    return researching;
   }
 
   @Override
@@ -92,7 +89,7 @@ public class Hatchery extends BuildingImpl
       throw new IllegalArgumentException("Cannot morph to " + type);
     }
 
-    return issueCommand(this.id, Morph, -1, -1, -1, Zerg_Lair.getId());
+    return issueCommand(this.iD, Morph, -1, -1, -1, Zerg_Lair.getId());
   }
 
   public boolean morph() {

@@ -11,10 +11,6 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class RawUnit extends UnitImpl {
-  protected RawUnit(int id, UnitType unitType) {
-    super(id, unitType);
-  }
-
   public UnitType getType() {
     return type;
   }
@@ -28,11 +24,11 @@ public class RawUnit extends UnitImpl {
   }
 
   public boolean isUpgrading() {
-    return isUpgrading;
+    return upgrading;
   }
 
   public boolean isResearching() {
-    return isResearching;
+    return researching;
   }
 
   public int getInitialHitPoints() {
@@ -48,11 +44,11 @@ public class RawUnit extends UnitImpl {
   }
 
   public boolean isCloaked() {
-    return isCloaked;
+    return cloaked;
   }
 
   public boolean isDetected() {
-    return isDetected;
+    return detected;
   }
 
   public double getVelocityX() {
@@ -64,11 +60,11 @@ public class RawUnit extends UnitImpl {
   }
 
   public boolean isIdle() {
-    return isIdle;
+    return idle;
   }
 
   public boolean isCompleted() {
-    return isCompleted;
+    return completed;
   }
 
   public Weapon getGroundWeapon() {
@@ -83,64 +79,64 @@ public class RawUnit extends UnitImpl {
     return spellCooldown;
   }
 
-  public int getTargetId() {
-    return targetId;
+  public Unit getTarget() {
+    return target;
   }
 
   public boolean isAccelerating() {
-    return isAccelerating;
+    return accelerating;
   }
 
   public boolean isAttacking() {
-    return isAttacking;
+    return attacking;
   }
 
   public boolean isAttackFrame() {
-    return isAttackFrame;
+    return attackFrame;
   }
 
   public boolean isBeingConstructed() {
-    return isBeingConstructed;
+    return beingConstructed;
   }
 
   public boolean isBeingHealed() {
-    return isBeingHealed;
+    return beingHealed;
   }
 
   public boolean isIrradiated() {
-    return isIrradiated;
+    return irradiated;
   }
 
   public boolean isLockedDown() {
-    return isLockedDown;
+    return lockedDown;
   }
 
   public boolean isMaelstrommed() {
-    return isMaelstrommed;
+    return maelstrommed;
   }
 
   public boolean isStartingAttack() {
-    return isStartingAttack;
+    return startingAttack;
   }
 
   public boolean isUnderAttack() {
-    return isUnderAttack;
+    return underAttack;
   }
 
   public boolean isPowered() {
-    return isPowered;
+    return powered;
   }
 
   public boolean isInterruptible() {
-    return isInterruptible;
+    return interruptible;
   }
 
-  public int getBuilderId() {
-    return builderId;
+  public Unit getBuildUnit() {
+    return buildUnit;
   }
 
-  public int getPlayerId() {
-    return playerId;
+  public Player getPlayer() {
+    return player;
   }
 
   public int getEnergy() {
@@ -148,11 +144,7 @@ public class RawUnit extends UnitImpl {
   }
 
   public boolean isTraining() {
-    return isTraining;
-  }
-
-  public int getTrainingQueueSize() {
-    return trainingQueueSize;
+    return training;
   }
 
   public int getRemainingTrainTime() {
@@ -164,7 +156,7 @@ public class RawUnit extends UnitImpl {
   }
 
   public boolean isLoaded() {
-    return isLoaded;
+    return loaded;
   }
 
   public int getInterceptorCount() {
@@ -172,55 +164,55 @@ public class RawUnit extends UnitImpl {
   }
 
   public boolean isFollowing() {
-    return isFollowing;
+    return following;
   }
 
   public boolean isHoldingPosition() {
-    return isHoldingPosition;
+    return holdingPosition;
   }
 
   public boolean isStuck() {
-    return isStuck;
+    return stuck;
   }
 
   public boolean isStasised() {
-    return isStasised;
+    return stasised;
   }
 
   public boolean isUnderDarkSwarm() {
-    return isUnderDarkSwarm;
+    return underDarkSwarm;
   }
 
   public boolean isUnderDisruptionWeb() {
-    return isUnderDisruptionWeb;
+    return underDisruptionWeb;
   }
 
   public boolean isUnderStorm() {
-    return isUnderStorm;
+    return underStorm;
   }
 
   public boolean isMoving() {
-    return isMoving;
+    return moving;
   }
 
   public boolean isParasited() {
-    return isParasited;
+    return parasited;
   }
 
   public boolean isPatrolling() {
-    return isPatrolling;
+    return patrolling;
   }
 
   public boolean isPlagued() {
-    return isPlagued;
+    return plagued;
   }
 
   public Position getTargetPosition() {
     return targetPosition;
   }
 
-  public int getTransportId() {
-    return transportId;
+  public Unit getTransportId() {
+    return transport;
   }
 
   public int getAcidSporeCount() {
@@ -228,27 +220,27 @@ public class RawUnit extends UnitImpl {
   }
 
   public boolean isHallucination() {
-    return isHallucination;
+    return hallucination;
   }
 
   public boolean isBlind() {
-    return isBlind;
+    return blind;
   }
 
   public boolean isBraking() {
-    return isBraking;
+    return braking;
   }
 
   public boolean isDefenseMatrixed() {
-    return isDefenseMatrixed;
+    return defenseMatrixed;
   }
 
   public boolean isEnsnared() {
-    return isEnsnared;
+    return ensnared;
   }
 
-  public int getAddonId() {
-    return addonId;
+  public Unit getAddonId() {
+    return addon;
   }
 
   public int getRemainingBuildTime() {
@@ -256,15 +248,11 @@ public class RawUnit extends UnitImpl {
   }
 
   public boolean isLifted() {
-    return isLifted;
+    return lifted;
   }
 
   public boolean isBurrowed() {
     return burrowed;
-  }
-
-  public int getRemainingMorphTime() {
-    return remainingMorphTime;
   }
 
   public UnitType getBuildType() {
@@ -272,7 +260,7 @@ public class RawUnit extends UnitImpl {
   }
 
   public boolean isStimmed() {
-    return isStimmed;
+    return stimmed;
   }
 
   public int getInitialResources() {
@@ -284,15 +272,15 @@ public class RawUnit extends UnitImpl {
   }
 
   public boolean isBeingGathered() {
-    return isBeingGathered;
+    return beingGathered;
   }
 
-  public int getCarrierId() {
-    return carrierId;
+  public Unit getCarrierId() {
+    return carrier;
   }
 
-  public int getHatcheryId() {
-    return hatcheryId;
+  public Unit getHatcheryId() {
+    return hatchery;
   }
 
   public int getLastKnownResources() {
@@ -303,8 +291,8 @@ public class RawUnit extends UnitImpl {
     return hasNuke;
   }
 
-  public int getNydusExitId() {
-    return nydusExitId;
+  public Unit getNydusExitId() {
+    return nydusExit;
   }
 
   public int getScarabCount() {
@@ -312,7 +300,7 @@ public class RawUnit extends UnitImpl {
   }
 
   public boolean isRepairing() {
-    return isRepairing;
+    return repairing;
   }
 
   public boolean isSieged() {
@@ -324,23 +312,23 @@ public class RawUnit extends UnitImpl {
   }
 
   public boolean isConstructing() {
-    return isConstructing;
+    return constructing;
   }
 
   public boolean isGatheringGas() {
-    return isGatheringGas;
+    return gatheringGas;
   }
 
   public boolean isGatheringMinerals() {
-    return isGatheringMinerals;
+    return gatheringMinerals;
   }
 
   public boolean isCarryingGas() {
-    return isCarryingGas;
+    return carryingGas;
   }
 
   public boolean isCarryingMinerals() {
-    return isCarryingMinerals;
+    return carryingMinerals;
   }
 
   public Position getLastKnownPosition() {
@@ -355,9 +343,8 @@ public class RawUnit extends UnitImpl {
     return lastKnownHitPoints;
   }
 
-  @Override
-  protected List<MobileUnit> getLoadedUnits() {
-    return super.getLoadedUnits();
+  public List<Unit> getLoadedUnits() {
+    return loadedUnits;
   }
 
   @Override

@@ -27,12 +27,13 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class ComsatStation extends AddonImpl implements Mechanical, SpellCaster {
-  protected ComsatStation(int id, int timeSpotted) {
-    super(id, UnitType.Terran_Comsat_Station, timeSpotted);
+
+  protected ComsatStation(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   public boolean scannerSweep(Position p) {
-    return issueCommand(this.id, Use_Tech_Position, -1, p.getX(), p.getY(), Scanner_Sweep.getId());
+    return issueCommand(this.iD, Use_Tech_Position, -1, p.getX(), p.getY(), Scanner_Sweep.getId());
   }
 
   @Override

@@ -65,6 +65,10 @@ public enum Race {
     }
   }
 
+  public static Race withId(int id) {
+    return values()[id];
+  }
+
   public int getId() {
     return this.id;
   }

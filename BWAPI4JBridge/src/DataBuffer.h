@@ -59,6 +59,10 @@ class DataBuffer {
   void addId(const BWAPI::PlayerType &playerType);
   void addId(const BWAPI::Force &force);
   void addId(const BWAPI::GameType &gameType);
+  void addId(const BWAPI::WeaponType &weaponType);
+  void addId(const BWAPI::UnitSizeType &unitSizeType);
+  void addId(const BWAPI::DamageType &damageType);
+  void addId(const BWAPI::ExplosionType &explosionType);
 
   void addIds(const BWAPI::Playerset &playerset);
 
@@ -68,6 +72,12 @@ class DataBuffer {
   void addFields(const BWAPI::Bullet &bullet);
   void addFields(const BWAPI::Unit &unit);
   void addFields(const BWAPI::Player &player);
+
+  void addFields(const BWAPI::UnitType &entity);
+  void addFields(const BWAPI::TechType &entity);
+  void addFields(const BWAPI::UpgradeType &entity); 
+  void addFields(const BWAPI::WeaponType &entity);
+  void addFields(const std::pair<BWAPI::UnitType, int> &entity);
 
  private:
   int _index;

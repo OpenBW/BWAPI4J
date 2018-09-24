@@ -30,8 +30,9 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class Factory extends BuildingImpl
     implements Mechanical, FlyingBuilding, TrainingFacility, ExtendibleByAddon {
-  protected Factory(int id, int timeSpotted) {
-    super(id, UnitType.Terran_Factory, timeSpotted);
+
+  protected Factory(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   public boolean trainVulture() {
@@ -58,7 +59,7 @@ public class Factory extends BuildingImpl
 
   @Override
   public boolean cancelAddon() {
-    return issueCommand(this.id, Cancel_Addon, -1, -1, -1, -1);
+    return issueCommand(this.iD, Cancel_Addon, -1, -1, -1, -1);
   }
 
   /**
@@ -67,11 +68,11 @@ public class Factory extends BuildingImpl
    * @return true if command successful, false else
    */
   public boolean buildMachineShop() {
-    return issueCommand(this.id, Build_Addon, -1, -1, -1, Terran_Machine_Shop.getId());
+    return issueCommand(this.iD, Build_Addon, -1, -1, -1, Terran_Machine_Shop.getId());
   }
 
   public MachineShop getMachineShop() {
-    return (MachineShop) this.getUnit(this.addonId);
+    return (MachineShop) addon;
   }
 
   @Override
@@ -81,12 +82,12 @@ public class Factory extends BuildingImpl
 
   @Override
   public boolean build(UnitType addon) {
-    return issueCommand(this.id, Build_Addon, -1, -1, -1, addon.getId());
+    return issueCommand(this.iD, Build_Addon, -1, -1, -1, addon.getId());
   }
 
   @Override
   public boolean isLifted() {
-    return isLifted;
+    return lifted;
   }
 
   @Override
@@ -106,12 +107,7 @@ public class Factory extends BuildingImpl
 
   @Override
   public boolean isTraining() {
-    return isTraining;
-  }
-
-  @Override
-  public int getTrainingQueueSize() {
-    return trainingQueueSize;
+    return training;
   }
 
   @Override

@@ -10,7 +10,7 @@ public class MineralPatchMock extends MineralPatch implements Resource, Gatherab
   private final TilePosition tilePosition;
 
   public MineralPatchMock(int id, int initialResources, final TilePosition tilePosition) {
-    super(id);
+    this.iD = id;
     this.initialResources = initialResources;
     this.tilePosition = tilePosition;
   }

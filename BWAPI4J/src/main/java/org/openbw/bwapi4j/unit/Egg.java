@@ -25,16 +25,8 @@ import static org.openbw.bwapi4j.type.UnitCommandType.Cancel_Morph;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class Egg extends PlayerUnitImpl implements Organic {
-  protected Egg(int id) {
-    super(id, UnitType.Zerg_Egg);
-  }
-
-  protected Egg(int id, UnitType unitType) {
-    super(id, unitType);
-  }
-
   public boolean cancelMorph() {
-    return issueCommand(this.id, Cancel_Morph, -1, -1, -1, -1);
+    return issueCommand(this.iD, Cancel_Morph, -1, -1, -1, -1);
   }
 
   public UnitType getBuildType() {
@@ -42,6 +34,6 @@ public class Egg extends PlayerUnitImpl implements Organic {
   }
 
   public int getRemainingMorphTime() {
-    return remainingMorphTime;
+    return remainingBuildTime;
   }
 }

@@ -27,8 +27,9 @@ import static org.openbw.bwapi4j.type.UnitType.Zerg_Sunken_Colony;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class CreepColony extends BuildingImpl implements Organic, Morphable {
-  protected CreepColony(int id, int timeSpotted) {
-    super(id, UnitType.Zerg_Creep_Colony, timeSpotted);
+
+  protected CreepColony(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   /**
@@ -49,10 +50,10 @@ public class CreepColony extends BuildingImpl implements Organic, Morphable {
   }
 
   public boolean morphSporeColony() {
-    return issueCommand(this.id, Morph, -1, -1, -1, Zerg_Spore_Colony.getId());
+    return issueCommand(this.iD, Morph, -1, -1, -1, Zerg_Spore_Colony.getId());
   }
 
   public boolean morphSunkenColony() {
-    return issueCommand(this.id, Morph, -1, -1, -1, Zerg_Sunken_Colony.getId());
+    return issueCommand(this.iD, Morph, -1, -1, -1, Zerg_Sunken_Colony.getId());
   }
 }

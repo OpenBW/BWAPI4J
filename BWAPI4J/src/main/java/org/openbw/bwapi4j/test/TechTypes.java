@@ -1,32 +1,18 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//    Copyright (C) 2017-2018 OpenBW Team
-//
-//    This file is part of BWAPI4J.
-//
-//    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published
-//    by the Free Software Foundation, version 3 only.
-//
-//    BWAPI4J is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU General Public License for more details.
-//
-//    You should have received a copy of the GNU General Public License
-//    along with BWAPI4J.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-
 package org.openbw.bwapi4j.test;
 
-import java.lang.reflect.*;
-import java.util.*;
-import java.util.stream.*;
-import org.openbw.bwapi4j.type.*;
-import org.openbw.bwapi4j.util.*;
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import org.openbw.bwapi4j.type.Order;
+import org.openbw.bwapi4j.type.Race;
+import org.openbw.bwapi4j.type.TechType;
+import org.openbw.bwapi4j.type.UnitType;
+import org.openbw.bwapi4j.type.WeaponType;
 
 class TechTypes {
+
   static void initializeTechType() throws Exception {
     initializeTechType_Stim_Packs();
     initializeTechType_Lockdown();
@@ -54,16 +40,19 @@ class TechTypes {
     initializeTechType_Archon_Warp();
     initializeTechType_Restoration();
     initializeTechType_Disruption_Web();
+    initializeTechType_Unused_26();
     initializeTechType_Mind_Control();
     initializeTechType_Dark_Archon_Meld();
     initializeTechType_Feedback();
     initializeTechType_Optical_Flare();
     initializeTechType_Maelstrom();
     initializeTechType_Lurker_Aspect();
+    initializeTechType_Unused_33();
     initializeTechType_Healing();
     initializeTechType_None();
     initializeTechType_Nuclear_Strike();
     initializeTechType_Unknown();
+    initializeTechType_MAX();
   }
 
   private static void initializeTechType_Stim_Packs() throws Exception {
@@ -77,7 +66,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Stim_Packs, 0);
+    fields.get("iD").set(TechType.Stim_Packs, 0);
     fields.get("race").set(TechType.Stim_Packs, Race.Terran);
     fields.get("mineralPrice").set(TechType.Stim_Packs, 100);
     fields.get("gasPrice").set(TechType.Stim_Packs, 100);
@@ -102,7 +91,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Lockdown, 1);
+    fields.get("iD").set(TechType.Lockdown, 1);
     fields.get("race").set(TechType.Lockdown, Race.Terran);
     fields.get("mineralPrice").set(TechType.Lockdown, 200);
     fields.get("gasPrice").set(TechType.Lockdown, 200);
@@ -127,7 +116,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.EMP_Shockwave, 2);
+    fields.get("iD").set(TechType.EMP_Shockwave, 2);
     fields.get("race").set(TechType.EMP_Shockwave, Race.Terran);
     fields.get("mineralPrice").set(TechType.EMP_Shockwave, 200);
     fields.get("gasPrice").set(TechType.EMP_Shockwave, 200);
@@ -152,7 +141,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Spider_Mines, 3);
+    fields.get("iD").set(TechType.Spider_Mines, 3);
     fields.get("race").set(TechType.Spider_Mines, Race.Terran);
     fields.get("mineralPrice").set(TechType.Spider_Mines, 100);
     fields.get("gasPrice").set(TechType.Spider_Mines, 100);
@@ -177,7 +166,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Scanner_Sweep, 4);
+    fields.get("iD").set(TechType.Scanner_Sweep, 4);
     fields.get("race").set(TechType.Scanner_Sweep, Race.Terran);
     fields.get("mineralPrice").set(TechType.Scanner_Sweep, 0);
     fields.get("gasPrice").set(TechType.Scanner_Sweep, 0);
@@ -202,7 +191,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Tank_Siege_Mode, 5);
+    fields.get("iD").set(TechType.Tank_Siege_Mode, 5);
     fields.get("race").set(TechType.Tank_Siege_Mode, Race.Terran);
     fields.get("mineralPrice").set(TechType.Tank_Siege_Mode, 150);
     fields.get("gasPrice").set(TechType.Tank_Siege_Mode, 150);
@@ -227,7 +216,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Defensive_Matrix, 6);
+    fields.get("iD").set(TechType.Defensive_Matrix, 6);
     fields.get("race").set(TechType.Defensive_Matrix, Race.Terran);
     fields.get("mineralPrice").set(TechType.Defensive_Matrix, 0);
     fields.get("gasPrice").set(TechType.Defensive_Matrix, 0);
@@ -252,7 +241,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Irradiate, 7);
+    fields.get("iD").set(TechType.Irradiate, 7);
     fields.get("race").set(TechType.Irradiate, Race.Terran);
     fields.get("mineralPrice").set(TechType.Irradiate, 200);
     fields.get("gasPrice").set(TechType.Irradiate, 200);
@@ -277,7 +266,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Yamato_Gun, 8);
+    fields.get("iD").set(TechType.Yamato_Gun, 8);
     fields.get("race").set(TechType.Yamato_Gun, Race.Terran);
     fields.get("mineralPrice").set(TechType.Yamato_Gun, 100);
     fields.get("gasPrice").set(TechType.Yamato_Gun, 100);
@@ -302,7 +291,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Cloaking_Field, 9);
+    fields.get("iD").set(TechType.Cloaking_Field, 9);
     fields.get("race").set(TechType.Cloaking_Field, Race.Terran);
     fields.get("mineralPrice").set(TechType.Cloaking_Field, 150);
     fields.get("gasPrice").set(TechType.Cloaking_Field, 150);
@@ -327,7 +316,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Personnel_Cloaking, 10);
+    fields.get("iD").set(TechType.Personnel_Cloaking, 10);
     fields.get("race").set(TechType.Personnel_Cloaking, Race.Terran);
     fields.get("mineralPrice").set(TechType.Personnel_Cloaking, 100);
     fields.get("gasPrice").set(TechType.Personnel_Cloaking, 100);
@@ -352,7 +341,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Burrowing, 11);
+    fields.get("iD").set(TechType.Burrowing, 11);
     fields.get("race").set(TechType.Burrowing, Race.Zerg);
     fields.get("mineralPrice").set(TechType.Burrowing, 100);
     fields.get("gasPrice").set(TechType.Burrowing, 100);
@@ -377,7 +366,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Infestation, 12);
+    fields.get("iD").set(TechType.Infestation, 12);
     fields.get("race").set(TechType.Infestation, Race.Zerg);
     fields.get("mineralPrice").set(TechType.Infestation, 0);
     fields.get("gasPrice").set(TechType.Infestation, 0);
@@ -402,7 +391,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Spawn_Broodlings, 13);
+    fields.get("iD").set(TechType.Spawn_Broodlings, 13);
     fields.get("race").set(TechType.Spawn_Broodlings, Race.Zerg);
     fields.get("mineralPrice").set(TechType.Spawn_Broodlings, 100);
     fields.get("gasPrice").set(TechType.Spawn_Broodlings, 100);
@@ -427,7 +416,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Dark_Swarm, 14);
+    fields.get("iD").set(TechType.Dark_Swarm, 14);
     fields.get("race").set(TechType.Dark_Swarm, Race.Zerg);
     fields.get("mineralPrice").set(TechType.Dark_Swarm, 0);
     fields.get("gasPrice").set(TechType.Dark_Swarm, 0);
@@ -452,7 +441,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Plague, 15);
+    fields.get("iD").set(TechType.Plague, 15);
     fields.get("race").set(TechType.Plague, Race.Zerg);
     fields.get("mineralPrice").set(TechType.Plague, 200);
     fields.get("gasPrice").set(TechType.Plague, 200);
@@ -477,7 +466,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Consume, 16);
+    fields.get("iD").set(TechType.Consume, 16);
     fields.get("race").set(TechType.Consume, Race.Zerg);
     fields.get("mineralPrice").set(TechType.Consume, 100);
     fields.get("gasPrice").set(TechType.Consume, 100);
@@ -502,7 +491,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Ensnare, 17);
+    fields.get("iD").set(TechType.Ensnare, 17);
     fields.get("race").set(TechType.Ensnare, Race.Zerg);
     fields.get("mineralPrice").set(TechType.Ensnare, 100);
     fields.get("gasPrice").set(TechType.Ensnare, 100);
@@ -527,7 +516,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Parasite, 18);
+    fields.get("iD").set(TechType.Parasite, 18);
     fields.get("race").set(TechType.Parasite, Race.Zerg);
     fields.get("mineralPrice").set(TechType.Parasite, 0);
     fields.get("gasPrice").set(TechType.Parasite, 0);
@@ -552,7 +541,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Psionic_Storm, 19);
+    fields.get("iD").set(TechType.Psionic_Storm, 19);
     fields.get("race").set(TechType.Psionic_Storm, Race.Protoss);
     fields.get("mineralPrice").set(TechType.Psionic_Storm, 200);
     fields.get("gasPrice").set(TechType.Psionic_Storm, 200);
@@ -577,7 +566,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Hallucination, 20);
+    fields.get("iD").set(TechType.Hallucination, 20);
     fields.get("race").set(TechType.Hallucination, Race.Protoss);
     fields.get("mineralPrice").set(TechType.Hallucination, 150);
     fields.get("gasPrice").set(TechType.Hallucination, 150);
@@ -602,7 +591,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Recall, 21);
+    fields.get("iD").set(TechType.Recall, 21);
     fields.get("race").set(TechType.Recall, Race.Protoss);
     fields.get("mineralPrice").set(TechType.Recall, 150);
     fields.get("gasPrice").set(TechType.Recall, 150);
@@ -627,7 +616,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Stasis_Field, 22);
+    fields.get("iD").set(TechType.Stasis_Field, 22);
     fields.get("race").set(TechType.Stasis_Field, Race.Protoss);
     fields.get("mineralPrice").set(TechType.Stasis_Field, 150);
     fields.get("gasPrice").set(TechType.Stasis_Field, 150);
@@ -652,7 +641,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Archon_Warp, 23);
+    fields.get("iD").set(TechType.Archon_Warp, 23);
     fields.get("race").set(TechType.Archon_Warp, Race.Protoss);
     fields.get("mineralPrice").set(TechType.Archon_Warp, 0);
     fields.get("gasPrice").set(TechType.Archon_Warp, 0);
@@ -677,7 +666,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Restoration, 24);
+    fields.get("iD").set(TechType.Restoration, 24);
     fields.get("race").set(TechType.Restoration, Race.Terran);
     fields.get("mineralPrice").set(TechType.Restoration, 100);
     fields.get("gasPrice").set(TechType.Restoration, 100);
@@ -702,7 +691,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Disruption_Web, 25);
+    fields.get("iD").set(TechType.Disruption_Web, 25);
     fields.get("race").set(TechType.Disruption_Web, Race.Protoss);
     fields.get("mineralPrice").set(TechType.Disruption_Web, 200);
     fields.get("gasPrice").set(TechType.Disruption_Web, 200);
@@ -716,6 +705,31 @@ class TechTypes {
     fields.get("requiredUnit").set(TechType.Disruption_Web, UnitType.None);
   }
 
+  private static void initializeTechType_Unused_26() throws Exception {
+    Class<?> c = TechType.class;
+    Map<String, Field> fields =
+        Stream.of(c.getDeclaredFields())
+            .collect(
+                Collectors.toMap(
+                    f -> f.getName(),
+                    f -> {
+                      f.setAccessible(true);
+                      return f;
+                    }));
+    fields.get("iD").set(TechType.Unused_26, 26);
+    fields.get("race").set(TechType.Unused_26, null);
+    fields.get("mineralPrice").set(TechType.Unused_26, 0);
+    fields.get("gasPrice").set(TechType.Unused_26, 0);
+    fields.get("researchTime").set(TechType.Unused_26, 0);
+    fields.get("energyCost").set(TechType.Unused_26, 0);
+    fields.get("whatResearches").set(TechType.Unused_26, null);
+    fields.get("weaponType").set(TechType.Unused_26, null);
+    fields.get("targetsUnit").set(TechType.Unused_26, false);
+    fields.get("targetsPosition").set(TechType.Unused_26, false);
+    fields.get("order").set(TechType.Unused_26, null);
+    fields.get("requiredUnit").set(TechType.Unused_26, null);
+  }
+
   private static void initializeTechType_Mind_Control() throws Exception {
     Class<?> c = TechType.class;
     Map<String, Field> fields =
@@ -727,7 +741,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Mind_Control, 27);
+    fields.get("iD").set(TechType.Mind_Control, 27);
     fields.get("race").set(TechType.Mind_Control, Race.Protoss);
     fields.get("mineralPrice").set(TechType.Mind_Control, 200);
     fields.get("gasPrice").set(TechType.Mind_Control, 200);
@@ -752,7 +766,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Dark_Archon_Meld, 28);
+    fields.get("iD").set(TechType.Dark_Archon_Meld, 28);
     fields.get("race").set(TechType.Dark_Archon_Meld, Race.Protoss);
     fields.get("mineralPrice").set(TechType.Dark_Archon_Meld, 0);
     fields.get("gasPrice").set(TechType.Dark_Archon_Meld, 0);
@@ -777,7 +791,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Feedback, 29);
+    fields.get("iD").set(TechType.Feedback, 29);
     fields.get("race").set(TechType.Feedback, Race.Protoss);
     fields.get("mineralPrice").set(TechType.Feedback, 100);
     fields.get("gasPrice").set(TechType.Feedback, 100);
@@ -802,7 +816,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Optical_Flare, 30);
+    fields.get("iD").set(TechType.Optical_Flare, 30);
     fields.get("race").set(TechType.Optical_Flare, Race.Terran);
     fields.get("mineralPrice").set(TechType.Optical_Flare, 100);
     fields.get("gasPrice").set(TechType.Optical_Flare, 100);
@@ -827,7 +841,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Maelstrom, 31);
+    fields.get("iD").set(TechType.Maelstrom, 31);
     fields.get("race").set(TechType.Maelstrom, Race.Protoss);
     fields.get("mineralPrice").set(TechType.Maelstrom, 100);
     fields.get("gasPrice").set(TechType.Maelstrom, 100);
@@ -852,7 +866,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Lurker_Aspect, 32);
+    fields.get("iD").set(TechType.Lurker_Aspect, 32);
     fields.get("race").set(TechType.Lurker_Aspect, Race.Zerg);
     fields.get("mineralPrice").set(TechType.Lurker_Aspect, 200);
     fields.get("gasPrice").set(TechType.Lurker_Aspect, 200);
@@ -866,6 +880,31 @@ class TechTypes {
     fields.get("requiredUnit").set(TechType.Lurker_Aspect, UnitType.Zerg_Lair);
   }
 
+  private static void initializeTechType_Unused_33() throws Exception {
+    Class<?> c = TechType.class;
+    Map<String, Field> fields =
+        Stream.of(c.getDeclaredFields())
+            .collect(
+                Collectors.toMap(
+                    f -> f.getName(),
+                    f -> {
+                      f.setAccessible(true);
+                      return f;
+                    }));
+    fields.get("iD").set(TechType.Unused_33, 33);
+    fields.get("race").set(TechType.Unused_33, null);
+    fields.get("mineralPrice").set(TechType.Unused_33, 0);
+    fields.get("gasPrice").set(TechType.Unused_33, 0);
+    fields.get("researchTime").set(TechType.Unused_33, 0);
+    fields.get("energyCost").set(TechType.Unused_33, 0);
+    fields.get("whatResearches").set(TechType.Unused_33, null);
+    fields.get("weaponType").set(TechType.Unused_33, null);
+    fields.get("targetsUnit").set(TechType.Unused_33, false);
+    fields.get("targetsPosition").set(TechType.Unused_33, false);
+    fields.get("order").set(TechType.Unused_33, null);
+    fields.get("requiredUnit").set(TechType.Unused_33, null);
+  }
+
   private static void initializeTechType_Healing() throws Exception {
     Class<?> c = TechType.class;
     Map<String, Field> fields =
@@ -877,7 +916,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Healing, 34);
+    fields.get("iD").set(TechType.Healing, 34);
     fields.get("race").set(TechType.Healing, Race.Terran);
     fields.get("mineralPrice").set(TechType.Healing, 0);
     fields.get("gasPrice").set(TechType.Healing, 0);
@@ -902,7 +941,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.None, 44);
+    fields.get("iD").set(TechType.None, 44);
     fields.get("race").set(TechType.None, Race.None);
     fields.get("mineralPrice").set(TechType.None, 0);
     fields.get("gasPrice").set(TechType.None, 0);
@@ -927,7 +966,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Nuclear_Strike, 45);
+    fields.get("iD").set(TechType.Nuclear_Strike, 45);
     fields.get("race").set(TechType.Nuclear_Strike, Race.Terran);
     fields.get("mineralPrice").set(TechType.Nuclear_Strike, 0);
     fields.get("gasPrice").set(TechType.Nuclear_Strike, 0);
@@ -952,7 +991,7 @@ class TechTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(TechType.Unknown, 46);
+    fields.get("iD").set(TechType.Unknown, 46);
     fields.get("race").set(TechType.Unknown, Race.Unknown);
     fields.get("mineralPrice").set(TechType.Unknown, 0);
     fields.get("gasPrice").set(TechType.Unknown, 0);
@@ -964,5 +1003,38 @@ class TechTypes {
     fields.get("targetsPosition").set(TechType.Unknown, false);
     fields.get("order").set(TechType.Unknown, Order.Unknown);
     fields.get("requiredUnit").set(TechType.Unknown, UnitType.None);
+  }
+
+  private static void initializeTechType_MAX() throws Exception {
+    Class<?> c = TechType.class;
+    Map<String, Field> fields =
+        Stream.of(c.getDeclaredFields())
+            .collect(
+                Collectors.toMap(
+                    f -> f.getName(),
+                    f -> {
+                      f.setAccessible(true);
+                      return f;
+                    }));
+    fields.get("iD").set(TechType.MAX, 47);
+    fields.get("race").set(TechType.MAX, null);
+    fields.get("mineralPrice").set(TechType.MAX, 0);
+    fields.get("gasPrice").set(TechType.MAX, 0);
+    fields.get("researchTime").set(TechType.MAX, 0);
+    fields.get("energyCost").set(TechType.MAX, 0);
+    fields.get("whatResearches").set(TechType.MAX, null);
+    fields.get("weaponType").set(TechType.MAX, null);
+    fields.get("targetsUnit").set(TechType.MAX, false);
+    fields.get("targetsPosition").set(TechType.MAX, false);
+    fields.get("order").set(TechType.MAX, null);
+    fields.get("requiredUnit").set(TechType.MAX, null);
+  }
+
+  private static Map<?, ?> toMap(Object... element) {
+    Map<Object, Object> map = new HashMap<>();
+    for (int i = 0; i < element.length; i += 2) {
+      map.put(element[i], element[i + 1]);
+    }
+    return map;
   }
 }

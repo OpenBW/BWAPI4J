@@ -25,8 +25,9 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class CyberneticsCore extends BuildingImpl implements Mechanical, ResearchingFacility {
-  protected CyberneticsCore(int id, int timeSpotted) {
-    super(id, UnitType.Protoss_Cybernetics_Core, timeSpotted);
+
+  protected CyberneticsCore(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   public boolean upgradeAirArmor() {
@@ -43,12 +44,12 @@ public class CyberneticsCore extends BuildingImpl implements Mechanical, Researc
 
   @Override
   public boolean isUpgrading() {
-    return isUpgrading;
+    return upgrading;
   }
 
   @Override
   public boolean isResearching() {
-    return isResearching;
+    return researching;
   }
 
   @Override

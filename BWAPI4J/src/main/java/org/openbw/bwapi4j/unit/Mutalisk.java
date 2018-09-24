@@ -26,16 +26,12 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public class Mutalisk extends MobileUnitImpl
     implements Organic, GroundAttacker, AirAttacker, Morphable {
-  protected Mutalisk(int id) {
-    super(id, UnitType.Zerg_Mutalisk);
-  }
-
   @Override
   public boolean morph(UnitType unitType) {
     if (unitType != UnitType.Zerg_Guardian && unitType != UnitType.Zerg_Devourer) {
       throw new IllegalArgumentException("Cannot morph to " + type);
     }
-    return issueCommand(this.id, Morph, -1, -1, -1, unitType.getId());
+    return issueCommand(this.iD, Morph, -1, -1, -1, unitType.getId());
   }
 
   public boolean morphGuardian() {

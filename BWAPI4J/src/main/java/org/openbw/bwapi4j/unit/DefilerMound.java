@@ -25,8 +25,9 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class DefilerMound extends BuildingImpl implements Organic, ResearchingFacility {
-  protected DefilerMound(int id, int timeSpotted) {
-    super(id, UnitType.Zerg_Defiler_Mound, timeSpotted);
+
+  protected DefilerMound(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   public boolean researchPlague() {
@@ -43,12 +44,12 @@ public class DefilerMound extends BuildingImpl implements Organic, ResearchingFa
 
   @Override
   public boolean isUpgrading() {
-    return isUpgrading;
+    return upgrading;
   }
 
   @Override
   public boolean isResearching() {
-    return isResearching;
+    return researching;
   }
 
   @Override

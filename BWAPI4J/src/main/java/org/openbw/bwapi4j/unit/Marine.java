@@ -23,19 +23,13 @@ package org.openbw.bwapi4j.unit;
 import static org.openbw.bwapi4j.type.TechType.Stim_Packs;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech;
 
-import org.openbw.bwapi4j.type.UnitType;
-
 public class Marine extends MobileUnitImpl implements Organic, GroundAttacker, AirAttacker {
-  protected Marine(int id) {
-    super(id, UnitType.Terran_Marine);
-  }
-
   public boolean isStimmed() {
-    return this.isStimmed;
+    return this.stimmed;
   }
 
   public boolean stimPack() {
-    return issueCommand(this.id, Use_Tech, -1, -1, -1, Stim_Packs.getId());
+    return issueCommand(this.iD, Use_Tech, -1, -1, -1, Stim_Packs.getId());
   }
 
   @Override

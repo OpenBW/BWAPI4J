@@ -1,32 +1,18 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//    Copyright (C) 2017-2018 OpenBW Team
-//
-//    This file is part of BWAPI4J.
-//
-//    BWAPI4J is free software: you can redistribute it and/or modify
-//    it under the terms of the Lesser GNU General Public License as published
-//    by the Free Software Foundation, version 3 only.
-//
-//    BWAPI4J is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU General Public License for more details.
-//
-//    You should have received a copy of the GNU General Public License
-//    along with BWAPI4J.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-
 package org.openbw.bwapi4j.test;
 
-import java.lang.reflect.*;
-import java.util.*;
-import java.util.stream.*;
-import org.openbw.bwapi4j.type.*;
-import org.openbw.bwapi4j.util.*;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import org.openbw.bwapi4j.type.Race;
+import org.openbw.bwapi4j.type.UnitType;
+import org.openbw.bwapi4j.type.UpgradeType;
 
 class UpgradeTypes {
+
   static void initializeUpgradeType() throws Exception {
     initializeUpgradeType_Terran_Infantry_Armor();
     initializeUpgradeType_Terran_Vehicle_Plating();
@@ -81,6 +67,7 @@ class UpgradeTypes {
     initializeUpgradeType_Upgrade_60();
     initializeUpgradeType_None();
     initializeUpgradeType_Unknown();
+    initializeUpgradeType_MAX();
   }
 
   private static void initializeUpgradeType_Terran_Infantry_Armor() throws Exception {
@@ -94,13 +81,13 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Terran_Infantry_Armor, 0);
+    fields.get("iD").set(UpgradeType.Terran_Infantry_Armor, 0);
     fields.get("race").set(UpgradeType.Terran_Infantry_Armor, Race.Terran);
-    fields.get("mineralPrices").set(UpgradeType.Terran_Infantry_Armor, new int[] {100, 175, 250});
+    fields.get("mineralPrices").set(UpgradeType.Terran_Infantry_Armor, new int[] {100, 100, 175});
     fields.get("mineralPriceFactor").set(UpgradeType.Terran_Infantry_Armor, 75);
-    fields.get("gasPrices").set(UpgradeType.Terran_Infantry_Armor, new int[] {100, 175, 250});
+    fields.get("gasPrices").set(UpgradeType.Terran_Infantry_Armor, new int[] {100, 100, 175});
     fields.get("gasPriceFactor").set(UpgradeType.Terran_Infantry_Armor, 75);
-    fields.get("upgradeTimes").set(UpgradeType.Terran_Infantry_Armor, new int[] {4000, 4480, 4960});
+    fields.get("upgradeTimes").set(UpgradeType.Terran_Infantry_Armor, new int[] {4000, 4000, 4480});
     fields.get("upgradeTimeFactor").set(UpgradeType.Terran_Infantry_Armor, 480);
     fields.get("maxRepeats").set(UpgradeType.Terran_Infantry_Armor, 3);
     fields
@@ -110,9 +97,7 @@ class UpgradeTypes {
         .get("whatsRequired")
         .set(
             UpgradeType.Terran_Infantry_Armor,
-            new UnitType[] {
-              UnitType.None, UnitType.Terran_Science_Facility, UnitType.Terran_Science_Facility
-            });
+            new UnitType[] {UnitType.None, UnitType.None, UnitType.Terran_Science_Facility});
     fields
         .get("whatUses")
         .set(
@@ -143,15 +128,15 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Terran_Vehicle_Plating, 1);
+    fields.get("iD").set(UpgradeType.Terran_Vehicle_Plating, 1);
     fields.get("race").set(UpgradeType.Terran_Vehicle_Plating, Race.Terran);
-    fields.get("mineralPrices").set(UpgradeType.Terran_Vehicle_Plating, new int[] {100, 175, 250});
+    fields.get("mineralPrices").set(UpgradeType.Terran_Vehicle_Plating, new int[] {100, 100, 175});
     fields.get("mineralPriceFactor").set(UpgradeType.Terran_Vehicle_Plating, 75);
-    fields.get("gasPrices").set(UpgradeType.Terran_Vehicle_Plating, new int[] {100, 175, 250});
+    fields.get("gasPrices").set(UpgradeType.Terran_Vehicle_Plating, new int[] {100, 100, 175});
     fields.get("gasPriceFactor").set(UpgradeType.Terran_Vehicle_Plating, 75);
     fields
         .get("upgradeTimes")
-        .set(UpgradeType.Terran_Vehicle_Plating, new int[] {4000, 4480, 4960});
+        .set(UpgradeType.Terran_Vehicle_Plating, new int[] {4000, 4000, 4480});
     fields.get("upgradeTimeFactor").set(UpgradeType.Terran_Vehicle_Plating, 480);
     fields.get("maxRepeats").set(UpgradeType.Terran_Vehicle_Plating, 3);
     fields.get("whatUpgrades").set(UpgradeType.Terran_Vehicle_Plating, UnitType.Terran_Armory);
@@ -159,9 +144,7 @@ class UpgradeTypes {
         .get("whatsRequired")
         .set(
             UpgradeType.Terran_Vehicle_Plating,
-            new UnitType[] {
-              UnitType.None, UnitType.Terran_Science_Facility, UnitType.Terran_Science_Facility
-            });
+            new UnitType[] {UnitType.None, UnitType.None, UnitType.Terran_Science_Facility});
     fields
         .get("whatUses")
         .set(
@@ -189,13 +172,13 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Terran_Ship_Plating, 2);
+    fields.get("iD").set(UpgradeType.Terran_Ship_Plating, 2);
     fields.get("race").set(UpgradeType.Terran_Ship_Plating, Race.Terran);
-    fields.get("mineralPrices").set(UpgradeType.Terran_Ship_Plating, new int[] {150, 225, 300});
+    fields.get("mineralPrices").set(UpgradeType.Terran_Ship_Plating, new int[] {150, 150, 225});
     fields.get("mineralPriceFactor").set(UpgradeType.Terran_Ship_Plating, 75);
-    fields.get("gasPrices").set(UpgradeType.Terran_Ship_Plating, new int[] {150, 225, 300});
+    fields.get("gasPrices").set(UpgradeType.Terran_Ship_Plating, new int[] {150, 150, 225});
     fields.get("gasPriceFactor").set(UpgradeType.Terran_Ship_Plating, 75);
-    fields.get("upgradeTimes").set(UpgradeType.Terran_Ship_Plating, new int[] {4000, 4480, 4960});
+    fields.get("upgradeTimes").set(UpgradeType.Terran_Ship_Plating, new int[] {4000, 4000, 4480});
     fields.get("upgradeTimeFactor").set(UpgradeType.Terran_Ship_Plating, 480);
     fields.get("maxRepeats").set(UpgradeType.Terran_Ship_Plating, 3);
     fields.get("whatUpgrades").set(UpgradeType.Terran_Ship_Plating, UnitType.Terran_Armory);
@@ -203,9 +186,7 @@ class UpgradeTypes {
         .get("whatsRequired")
         .set(
             UpgradeType.Terran_Ship_Plating,
-            new UnitType[] {
-              UnitType.None, UnitType.Terran_Science_Facility, UnitType.Terran_Science_Facility
-            });
+            new UnitType[] {UnitType.None, UnitType.None, UnitType.Terran_Science_Facility});
     fields
         .get("whatUses")
         .set(
@@ -236,13 +217,13 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Zerg_Carapace, 3);
+    fields.get("iD").set(UpgradeType.Zerg_Carapace, 3);
     fields.get("race").set(UpgradeType.Zerg_Carapace, Race.Zerg);
-    fields.get("mineralPrices").set(UpgradeType.Zerg_Carapace, new int[] {150, 225, 300});
+    fields.get("mineralPrices").set(UpgradeType.Zerg_Carapace, new int[] {150, 150, 225});
     fields.get("mineralPriceFactor").set(UpgradeType.Zerg_Carapace, 75);
-    fields.get("gasPrices").set(UpgradeType.Zerg_Carapace, new int[] {150, 225, 300});
+    fields.get("gasPrices").set(UpgradeType.Zerg_Carapace, new int[] {150, 150, 225});
     fields.get("gasPriceFactor").set(UpgradeType.Zerg_Carapace, 75);
-    fields.get("upgradeTimes").set(UpgradeType.Zerg_Carapace, new int[] {4000, 4480, 4960});
+    fields.get("upgradeTimes").set(UpgradeType.Zerg_Carapace, new int[] {4000, 4000, 4480});
     fields.get("upgradeTimeFactor").set(UpgradeType.Zerg_Carapace, 480);
     fields.get("maxRepeats").set(UpgradeType.Zerg_Carapace, 3);
     fields.get("whatUpgrades").set(UpgradeType.Zerg_Carapace, UnitType.Zerg_Evolution_Chamber);
@@ -250,7 +231,7 @@ class UpgradeTypes {
         .get("whatsRequired")
         .set(
             UpgradeType.Zerg_Carapace,
-            new UnitType[] {UnitType.None, UnitType.Zerg_Lair, UnitType.Zerg_Hive});
+            new UnitType[] {UnitType.None, UnitType.None, UnitType.Zerg_Lair});
     fields
         .get("whatUses")
         .set(
@@ -288,13 +269,13 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Zerg_Flyer_Carapace, 4);
+    fields.get("iD").set(UpgradeType.Zerg_Flyer_Carapace, 4);
     fields.get("race").set(UpgradeType.Zerg_Flyer_Carapace, Race.Zerg);
-    fields.get("mineralPrices").set(UpgradeType.Zerg_Flyer_Carapace, new int[] {150, 225, 300});
+    fields.get("mineralPrices").set(UpgradeType.Zerg_Flyer_Carapace, new int[] {150, 150, 225});
     fields.get("mineralPriceFactor").set(UpgradeType.Zerg_Flyer_Carapace, 75);
-    fields.get("gasPrices").set(UpgradeType.Zerg_Flyer_Carapace, new int[] {150, 225, 300});
+    fields.get("gasPrices").set(UpgradeType.Zerg_Flyer_Carapace, new int[] {150, 150, 225});
     fields.get("gasPriceFactor").set(UpgradeType.Zerg_Flyer_Carapace, 75);
-    fields.get("upgradeTimes").set(UpgradeType.Zerg_Flyer_Carapace, new int[] {4000, 4480, 4960});
+    fields.get("upgradeTimes").set(UpgradeType.Zerg_Flyer_Carapace, new int[] {4000, 4000, 4480});
     fields.get("upgradeTimeFactor").set(UpgradeType.Zerg_Flyer_Carapace, 480);
     fields.get("maxRepeats").set(UpgradeType.Zerg_Flyer_Carapace, 3);
     fields.get("whatUpgrades").set(UpgradeType.Zerg_Flyer_Carapace, UnitType.Zerg_Spire);
@@ -302,7 +283,7 @@ class UpgradeTypes {
         .get("whatsRequired")
         .set(
             UpgradeType.Zerg_Flyer_Carapace,
-            new UnitType[] {UnitType.None, UnitType.Zerg_Lair, UnitType.Zerg_Hive});
+            new UnitType[] {UnitType.None, UnitType.None, UnitType.Zerg_Lair});
     fields
         .get("whatUses")
         .set(
@@ -332,13 +313,13 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Protoss_Ground_Armor, 5);
+    fields.get("iD").set(UpgradeType.Protoss_Ground_Armor, 5);
     fields.get("race").set(UpgradeType.Protoss_Ground_Armor, Race.Protoss);
-    fields.get("mineralPrices").set(UpgradeType.Protoss_Ground_Armor, new int[] {100, 175, 250});
+    fields.get("mineralPrices").set(UpgradeType.Protoss_Ground_Armor, new int[] {100, 100, 175});
     fields.get("mineralPriceFactor").set(UpgradeType.Protoss_Ground_Armor, 75);
-    fields.get("gasPrices").set(UpgradeType.Protoss_Ground_Armor, new int[] {100, 175, 250});
+    fields.get("gasPrices").set(UpgradeType.Protoss_Ground_Armor, new int[] {100, 100, 175});
     fields.get("gasPriceFactor").set(UpgradeType.Protoss_Ground_Armor, 75);
-    fields.get("upgradeTimes").set(UpgradeType.Protoss_Ground_Armor, new int[] {4000, 4480, 4960});
+    fields.get("upgradeTimes").set(UpgradeType.Protoss_Ground_Armor, new int[] {4000, 4000, 4480});
     fields.get("upgradeTimeFactor").set(UpgradeType.Protoss_Ground_Armor, 480);
     fields.get("maxRepeats").set(UpgradeType.Protoss_Ground_Armor, 3);
     fields.get("whatUpgrades").set(UpgradeType.Protoss_Ground_Armor, UnitType.Protoss_Forge);
@@ -346,9 +327,7 @@ class UpgradeTypes {
         .get("whatsRequired")
         .set(
             UpgradeType.Protoss_Ground_Armor,
-            new UnitType[] {
-              UnitType.None, UnitType.Protoss_Templar_Archives, UnitType.Protoss_Templar_Archives
-            });
+            new UnitType[] {UnitType.None, UnitType.None, UnitType.Protoss_Templar_Archives});
     fields
         .get("whatUses")
         .set(
@@ -384,13 +363,13 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Protoss_Air_Armor, 6);
+    fields.get("iD").set(UpgradeType.Protoss_Air_Armor, 6);
     fields.get("race").set(UpgradeType.Protoss_Air_Armor, Race.Protoss);
-    fields.get("mineralPrices").set(UpgradeType.Protoss_Air_Armor, new int[] {150, 225, 300});
+    fields.get("mineralPrices").set(UpgradeType.Protoss_Air_Armor, new int[] {150, 150, 225});
     fields.get("mineralPriceFactor").set(UpgradeType.Protoss_Air_Armor, 75);
-    fields.get("gasPrices").set(UpgradeType.Protoss_Air_Armor, new int[] {150, 225, 300});
+    fields.get("gasPrices").set(UpgradeType.Protoss_Air_Armor, new int[] {150, 150, 225});
     fields.get("gasPriceFactor").set(UpgradeType.Protoss_Air_Armor, 75);
-    fields.get("upgradeTimes").set(UpgradeType.Protoss_Air_Armor, new int[] {4000, 4480, 4960});
+    fields.get("upgradeTimes").set(UpgradeType.Protoss_Air_Armor, new int[] {4000, 4000, 4480});
     fields.get("upgradeTimeFactor").set(UpgradeType.Protoss_Air_Armor, 480);
     fields.get("maxRepeats").set(UpgradeType.Protoss_Air_Armor, 3);
     fields
@@ -400,9 +379,7 @@ class UpgradeTypes {
         .get("whatsRequired")
         .set(
             UpgradeType.Protoss_Air_Armor,
-            new UnitType[] {
-              UnitType.None, UnitType.Protoss_Fleet_Beacon, UnitType.Protoss_Fleet_Beacon
-            });
+            new UnitType[] {UnitType.None, UnitType.None, UnitType.Protoss_Fleet_Beacon});
     fields
         .get("whatUses")
         .set(
@@ -434,15 +411,15 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Terran_Infantry_Weapons, 7);
+    fields.get("iD").set(UpgradeType.Terran_Infantry_Weapons, 7);
     fields.get("race").set(UpgradeType.Terran_Infantry_Weapons, Race.Terran);
-    fields.get("mineralPrices").set(UpgradeType.Terran_Infantry_Weapons, new int[] {100, 175, 250});
+    fields.get("mineralPrices").set(UpgradeType.Terran_Infantry_Weapons, new int[] {100, 100, 175});
     fields.get("mineralPriceFactor").set(UpgradeType.Terran_Infantry_Weapons, 75);
-    fields.get("gasPrices").set(UpgradeType.Terran_Infantry_Weapons, new int[] {100, 175, 250});
+    fields.get("gasPrices").set(UpgradeType.Terran_Infantry_Weapons, new int[] {100, 100, 175});
     fields.get("gasPriceFactor").set(UpgradeType.Terran_Infantry_Weapons, 75);
     fields
         .get("upgradeTimes")
-        .set(UpgradeType.Terran_Infantry_Weapons, new int[] {4000, 4480, 4960});
+        .set(UpgradeType.Terran_Infantry_Weapons, new int[] {4000, 4000, 4480});
     fields.get("upgradeTimeFactor").set(UpgradeType.Terran_Infantry_Weapons, 480);
     fields.get("maxRepeats").set(UpgradeType.Terran_Infantry_Weapons, 3);
     fields
@@ -452,9 +429,7 @@ class UpgradeTypes {
         .get("whatsRequired")
         .set(
             UpgradeType.Terran_Infantry_Weapons,
-            new UnitType[] {
-              UnitType.None, UnitType.Terran_Science_Facility, UnitType.Terran_Science_Facility
-            });
+            new UnitType[] {UnitType.None, UnitType.None, UnitType.Terran_Science_Facility});
     fields
         .get("whatUses")
         .set(
@@ -485,15 +460,15 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Terran_Vehicle_Weapons, 8);
+    fields.get("iD").set(UpgradeType.Terran_Vehicle_Weapons, 8);
     fields.get("race").set(UpgradeType.Terran_Vehicle_Weapons, Race.Terran);
-    fields.get("mineralPrices").set(UpgradeType.Terran_Vehicle_Weapons, new int[] {100, 175, 250});
+    fields.get("mineralPrices").set(UpgradeType.Terran_Vehicle_Weapons, new int[] {100, 100, 175});
     fields.get("mineralPriceFactor").set(UpgradeType.Terran_Vehicle_Weapons, 75);
-    fields.get("gasPrices").set(UpgradeType.Terran_Vehicle_Weapons, new int[] {100, 175, 250});
+    fields.get("gasPrices").set(UpgradeType.Terran_Vehicle_Weapons, new int[] {100, 100, 175});
     fields.get("gasPriceFactor").set(UpgradeType.Terran_Vehicle_Weapons, 75);
     fields
         .get("upgradeTimes")
-        .set(UpgradeType.Terran_Vehicle_Weapons, new int[] {4000, 4480, 4960});
+        .set(UpgradeType.Terran_Vehicle_Weapons, new int[] {4000, 4000, 4480});
     fields.get("upgradeTimeFactor").set(UpgradeType.Terran_Vehicle_Weapons, 480);
     fields.get("maxRepeats").set(UpgradeType.Terran_Vehicle_Weapons, 3);
     fields.get("whatUpgrades").set(UpgradeType.Terran_Vehicle_Weapons, UnitType.Terran_Armory);
@@ -501,9 +476,7 @@ class UpgradeTypes {
         .get("whatsRequired")
         .set(
             UpgradeType.Terran_Vehicle_Weapons,
-            new UnitType[] {
-              UnitType.None, UnitType.Terran_Science_Facility, UnitType.Terran_Science_Facility
-            });
+            new UnitType[] {UnitType.None, UnitType.None, UnitType.Terran_Science_Facility});
     fields
         .get("whatUses")
         .set(
@@ -535,13 +508,13 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Terran_Ship_Weapons, 9);
+    fields.get("iD").set(UpgradeType.Terran_Ship_Weapons, 9);
     fields.get("race").set(UpgradeType.Terran_Ship_Weapons, Race.Terran);
-    fields.get("mineralPrices").set(UpgradeType.Terran_Ship_Weapons, new int[] {100, 150, 200});
+    fields.get("mineralPrices").set(UpgradeType.Terran_Ship_Weapons, new int[] {100, 100, 150});
     fields.get("mineralPriceFactor").set(UpgradeType.Terran_Ship_Weapons, 50);
-    fields.get("gasPrices").set(UpgradeType.Terran_Ship_Weapons, new int[] {100, 150, 200});
+    fields.get("gasPrices").set(UpgradeType.Terran_Ship_Weapons, new int[] {100, 100, 150});
     fields.get("gasPriceFactor").set(UpgradeType.Terran_Ship_Weapons, 50);
-    fields.get("upgradeTimes").set(UpgradeType.Terran_Ship_Weapons, new int[] {4000, 4480, 4960});
+    fields.get("upgradeTimes").set(UpgradeType.Terran_Ship_Weapons, new int[] {4000, 4000, 4480});
     fields.get("upgradeTimeFactor").set(UpgradeType.Terran_Ship_Weapons, 480);
     fields.get("maxRepeats").set(UpgradeType.Terran_Ship_Weapons, 3);
     fields.get("whatUpgrades").set(UpgradeType.Terran_Ship_Weapons, UnitType.Terran_Armory);
@@ -549,9 +522,7 @@ class UpgradeTypes {
         .get("whatsRequired")
         .set(
             UpgradeType.Terran_Ship_Weapons,
-            new UnitType[] {
-              UnitType.None, UnitType.Terran_Science_Facility, UnitType.Terran_Science_Facility
-            });
+            new UnitType[] {UnitType.None, UnitType.None, UnitType.Terran_Science_Facility});
     fields
         .get("whatUses")
         .set(
@@ -579,13 +550,13 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Zerg_Melee_Attacks, 10);
+    fields.get("iD").set(UpgradeType.Zerg_Melee_Attacks, 10);
     fields.get("race").set(UpgradeType.Zerg_Melee_Attacks, Race.Zerg);
-    fields.get("mineralPrices").set(UpgradeType.Zerg_Melee_Attacks, new int[] {100, 150, 200});
+    fields.get("mineralPrices").set(UpgradeType.Zerg_Melee_Attacks, new int[] {100, 100, 150});
     fields.get("mineralPriceFactor").set(UpgradeType.Zerg_Melee_Attacks, 50);
-    fields.get("gasPrices").set(UpgradeType.Zerg_Melee_Attacks, new int[] {100, 150, 200});
+    fields.get("gasPrices").set(UpgradeType.Zerg_Melee_Attacks, new int[] {100, 100, 150});
     fields.get("gasPriceFactor").set(UpgradeType.Zerg_Melee_Attacks, 50);
-    fields.get("upgradeTimes").set(UpgradeType.Zerg_Melee_Attacks, new int[] {4000, 4480, 4960});
+    fields.get("upgradeTimes").set(UpgradeType.Zerg_Melee_Attacks, new int[] {4000, 4000, 4480});
     fields.get("upgradeTimeFactor").set(UpgradeType.Zerg_Melee_Attacks, 480);
     fields.get("maxRepeats").set(UpgradeType.Zerg_Melee_Attacks, 3);
     fields.get("whatUpgrades").set(UpgradeType.Zerg_Melee_Attacks, UnitType.Zerg_Evolution_Chamber);
@@ -593,7 +564,7 @@ class UpgradeTypes {
         .get("whatsRequired")
         .set(
             UpgradeType.Zerg_Melee_Attacks,
-            new UnitType[] {UnitType.None, UnitType.Zerg_Lair, UnitType.Zerg_Hive});
+            new UnitType[] {UnitType.None, UnitType.None, UnitType.Zerg_Lair});
     fields
         .get("whatUses")
         .set(
@@ -619,13 +590,13 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Zerg_Missile_Attacks, 11);
+    fields.get("iD").set(UpgradeType.Zerg_Missile_Attacks, 11);
     fields.get("race").set(UpgradeType.Zerg_Missile_Attacks, Race.Zerg);
-    fields.get("mineralPrices").set(UpgradeType.Zerg_Missile_Attacks, new int[] {100, 150, 200});
+    fields.get("mineralPrices").set(UpgradeType.Zerg_Missile_Attacks, new int[] {100, 100, 150});
     fields.get("mineralPriceFactor").set(UpgradeType.Zerg_Missile_Attacks, 50);
-    fields.get("gasPrices").set(UpgradeType.Zerg_Missile_Attacks, new int[] {100, 150, 200});
+    fields.get("gasPrices").set(UpgradeType.Zerg_Missile_Attacks, new int[] {100, 100, 150});
     fields.get("gasPriceFactor").set(UpgradeType.Zerg_Missile_Attacks, 50);
-    fields.get("upgradeTimes").set(UpgradeType.Zerg_Missile_Attacks, new int[] {4000, 4480, 4960});
+    fields.get("upgradeTimes").set(UpgradeType.Zerg_Missile_Attacks, new int[] {4000, 4000, 4480});
     fields.get("upgradeTimeFactor").set(UpgradeType.Zerg_Missile_Attacks, 480);
     fields.get("maxRepeats").set(UpgradeType.Zerg_Missile_Attacks, 3);
     fields
@@ -635,7 +606,7 @@ class UpgradeTypes {
         .get("whatsRequired")
         .set(
             UpgradeType.Zerg_Missile_Attacks,
-            new UnitType[] {UnitType.None, UnitType.Zerg_Lair, UnitType.Zerg_Hive});
+            new UnitType[] {UnitType.None, UnitType.None, UnitType.Zerg_Lair});
     fields
         .get("whatUses")
         .set(
@@ -656,13 +627,13 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Zerg_Flyer_Attacks, 12);
+    fields.get("iD").set(UpgradeType.Zerg_Flyer_Attacks, 12);
     fields.get("race").set(UpgradeType.Zerg_Flyer_Attacks, Race.Zerg);
-    fields.get("mineralPrices").set(UpgradeType.Zerg_Flyer_Attacks, new int[] {100, 175, 250});
+    fields.get("mineralPrices").set(UpgradeType.Zerg_Flyer_Attacks, new int[] {100, 100, 175});
     fields.get("mineralPriceFactor").set(UpgradeType.Zerg_Flyer_Attacks, 75);
-    fields.get("gasPrices").set(UpgradeType.Zerg_Flyer_Attacks, new int[] {100, 175, 250});
+    fields.get("gasPrices").set(UpgradeType.Zerg_Flyer_Attacks, new int[] {100, 100, 175});
     fields.get("gasPriceFactor").set(UpgradeType.Zerg_Flyer_Attacks, 75);
-    fields.get("upgradeTimes").set(UpgradeType.Zerg_Flyer_Attacks, new int[] {4000, 4480, 4960});
+    fields.get("upgradeTimes").set(UpgradeType.Zerg_Flyer_Attacks, new int[] {4000, 4000, 4480});
     fields.get("upgradeTimeFactor").set(UpgradeType.Zerg_Flyer_Attacks, 480);
     fields.get("maxRepeats").set(UpgradeType.Zerg_Flyer_Attacks, 3);
     fields.get("whatUpgrades").set(UpgradeType.Zerg_Flyer_Attacks, UnitType.Zerg_Spire);
@@ -670,7 +641,7 @@ class UpgradeTypes {
         .get("whatsRequired")
         .set(
             UpgradeType.Zerg_Flyer_Attacks,
-            new UnitType[] {UnitType.None, UnitType.Zerg_Lair, UnitType.Zerg_Hive});
+            new UnitType[] {UnitType.None, UnitType.None, UnitType.Zerg_Lair});
     fields
         .get("whatUses")
         .set(
@@ -695,15 +666,15 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Protoss_Ground_Weapons, 13);
+    fields.get("iD").set(UpgradeType.Protoss_Ground_Weapons, 13);
     fields.get("race").set(UpgradeType.Protoss_Ground_Weapons, Race.Protoss);
-    fields.get("mineralPrices").set(UpgradeType.Protoss_Ground_Weapons, new int[] {100, 150, 200});
+    fields.get("mineralPrices").set(UpgradeType.Protoss_Ground_Weapons, new int[] {100, 100, 150});
     fields.get("mineralPriceFactor").set(UpgradeType.Protoss_Ground_Weapons, 50);
-    fields.get("gasPrices").set(UpgradeType.Protoss_Ground_Weapons, new int[] {100, 150, 200});
+    fields.get("gasPrices").set(UpgradeType.Protoss_Ground_Weapons, new int[] {100, 100, 150});
     fields.get("gasPriceFactor").set(UpgradeType.Protoss_Ground_Weapons, 50);
     fields
         .get("upgradeTimes")
-        .set(UpgradeType.Protoss_Ground_Weapons, new int[] {4000, 4480, 4960});
+        .set(UpgradeType.Protoss_Ground_Weapons, new int[] {4000, 4000, 4480});
     fields.get("upgradeTimeFactor").set(UpgradeType.Protoss_Ground_Weapons, 480);
     fields.get("maxRepeats").set(UpgradeType.Protoss_Ground_Weapons, 3);
     fields.get("whatUpgrades").set(UpgradeType.Protoss_Ground_Weapons, UnitType.Protoss_Forge);
@@ -711,9 +682,7 @@ class UpgradeTypes {
         .get("whatsRequired")
         .set(
             UpgradeType.Protoss_Ground_Weapons,
-            new UnitType[] {
-              UnitType.None, UnitType.Protoss_Templar_Archives, UnitType.Protoss_Templar_Archives
-            });
+            new UnitType[] {UnitType.None, UnitType.None, UnitType.Protoss_Templar_Archives});
     fields
         .get("whatUses")
         .set(
@@ -744,13 +713,13 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Protoss_Air_Weapons, 14);
+    fields.get("iD").set(UpgradeType.Protoss_Air_Weapons, 14);
     fields.get("race").set(UpgradeType.Protoss_Air_Weapons, Race.Protoss);
-    fields.get("mineralPrices").set(UpgradeType.Protoss_Air_Weapons, new int[] {100, 175, 250});
+    fields.get("mineralPrices").set(UpgradeType.Protoss_Air_Weapons, new int[] {100, 100, 175});
     fields.get("mineralPriceFactor").set(UpgradeType.Protoss_Air_Weapons, 75);
-    fields.get("gasPrices").set(UpgradeType.Protoss_Air_Weapons, new int[] {100, 175, 250});
+    fields.get("gasPrices").set(UpgradeType.Protoss_Air_Weapons, new int[] {100, 100, 175});
     fields.get("gasPriceFactor").set(UpgradeType.Protoss_Air_Weapons, 75);
-    fields.get("upgradeTimes").set(UpgradeType.Protoss_Air_Weapons, new int[] {4000, 4480, 4960});
+    fields.get("upgradeTimes").set(UpgradeType.Protoss_Air_Weapons, new int[] {4000, 4000, 4480});
     fields.get("upgradeTimeFactor").set(UpgradeType.Protoss_Air_Weapons, 480);
     fields.get("maxRepeats").set(UpgradeType.Protoss_Air_Weapons, 3);
     fields
@@ -760,9 +729,7 @@ class UpgradeTypes {
         .get("whatsRequired")
         .set(
             UpgradeType.Protoss_Air_Weapons,
-            new UnitType[] {
-              UnitType.None, UnitType.Protoss_Fleet_Beacon, UnitType.Protoss_Fleet_Beacon
-            });
+            new UnitType[] {UnitType.None, UnitType.None, UnitType.Protoss_Fleet_Beacon});
     fields
         .get("whatUses")
         .set(
@@ -790,15 +757,15 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Protoss_Plasma_Shields, 15);
+    fields.get("iD").set(UpgradeType.Protoss_Plasma_Shields, 15);
     fields.get("race").set(UpgradeType.Protoss_Plasma_Shields, Race.Protoss);
-    fields.get("mineralPrices").set(UpgradeType.Protoss_Plasma_Shields, new int[] {200, 300, 400});
+    fields.get("mineralPrices").set(UpgradeType.Protoss_Plasma_Shields, new int[] {200, 200, 300});
     fields.get("mineralPriceFactor").set(UpgradeType.Protoss_Plasma_Shields, 100);
-    fields.get("gasPrices").set(UpgradeType.Protoss_Plasma_Shields, new int[] {200, 300, 400});
+    fields.get("gasPrices").set(UpgradeType.Protoss_Plasma_Shields, new int[] {200, 200, 300});
     fields.get("gasPriceFactor").set(UpgradeType.Protoss_Plasma_Shields, 100);
     fields
         .get("upgradeTimes")
-        .set(UpgradeType.Protoss_Plasma_Shields, new int[] {4000, 4480, 4960});
+        .set(UpgradeType.Protoss_Plasma_Shields, new int[] {4000, 4000, 4480});
     fields.get("upgradeTimeFactor").set(UpgradeType.Protoss_Plasma_Shields, 480);
     fields.get("maxRepeats").set(UpgradeType.Protoss_Plasma_Shields, 3);
     fields.get("whatUpgrades").set(UpgradeType.Protoss_Plasma_Shields, UnitType.Protoss_Forge);
@@ -806,9 +773,7 @@ class UpgradeTypes {
         .get("whatsRequired")
         .set(
             UpgradeType.Protoss_Plasma_Shields,
-            new UnitType[] {
-              UnitType.None, UnitType.Protoss_Cybernetics_Core, UnitType.Protoss_Cybernetics_Core
-            });
+            new UnitType[] {UnitType.None, UnitType.None, UnitType.Protoss_Cybernetics_Core});
     fields
         .get("whatUses")
         .set(
@@ -856,7 +821,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.U_238_Shells, 16);
+    fields.get("iD").set(UpgradeType.U_238_Shells, 16);
     fields.get("race").set(UpgradeType.U_238_Shells, Race.Terran);
     fields.get("mineralPrices").set(UpgradeType.U_238_Shells, new int[] {150});
     fields.get("mineralPriceFactor").set(UpgradeType.U_238_Shells, 0);
@@ -883,7 +848,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Ion_Thrusters, 17);
+    fields.get("iD").set(UpgradeType.Ion_Thrusters, 17);
     fields.get("race").set(UpgradeType.Ion_Thrusters, Race.Terran);
     fields.get("mineralPrices").set(UpgradeType.Ion_Thrusters, new int[] {100});
     fields.get("mineralPriceFactor").set(UpgradeType.Ion_Thrusters, 0);
@@ -910,7 +875,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Titan_Reactor, 19);
+    fields.get("iD").set(UpgradeType.Titan_Reactor, 19);
     fields.get("race").set(UpgradeType.Titan_Reactor, Race.Terran);
     fields.get("mineralPrices").set(UpgradeType.Titan_Reactor, new int[] {150});
     fields.get("mineralPriceFactor").set(UpgradeType.Titan_Reactor, 0);
@@ -939,7 +904,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Ocular_Implants, 20);
+    fields.get("iD").set(UpgradeType.Ocular_Implants, 20);
     fields.get("race").set(UpgradeType.Ocular_Implants, Race.Terran);
     fields.get("mineralPrices").set(UpgradeType.Ocular_Implants, new int[] {100});
     fields.get("mineralPriceFactor").set(UpgradeType.Ocular_Implants, 0);
@@ -966,7 +931,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Moebius_Reactor, 21);
+    fields.get("iD").set(UpgradeType.Moebius_Reactor, 21);
     fields.get("race").set(UpgradeType.Moebius_Reactor, Race.Terran);
     fields.get("mineralPrices").set(UpgradeType.Moebius_Reactor, new int[] {150});
     fields.get("mineralPriceFactor").set(UpgradeType.Moebius_Reactor, 0);
@@ -993,7 +958,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Apollo_Reactor, 22);
+    fields.get("iD").set(UpgradeType.Apollo_Reactor, 22);
     fields.get("race").set(UpgradeType.Apollo_Reactor, Race.Terran);
     fields.get("mineralPrices").set(UpgradeType.Apollo_Reactor, new int[] {200});
     fields.get("mineralPriceFactor").set(UpgradeType.Apollo_Reactor, 0);
@@ -1020,7 +985,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Colossus_Reactor, 23);
+    fields.get("iD").set(UpgradeType.Colossus_Reactor, 23);
     fields.get("race").set(UpgradeType.Colossus_Reactor, Race.Terran);
     fields.get("mineralPrices").set(UpgradeType.Colossus_Reactor, new int[] {150});
     fields.get("mineralPriceFactor").set(UpgradeType.Colossus_Reactor, 0);
@@ -1049,7 +1014,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Ventral_Sacs, 24);
+    fields.get("iD").set(UpgradeType.Ventral_Sacs, 24);
     fields.get("race").set(UpgradeType.Ventral_Sacs, Race.Zerg);
     fields.get("mineralPrices").set(UpgradeType.Ventral_Sacs, new int[] {200});
     fields.get("mineralPriceFactor").set(UpgradeType.Ventral_Sacs, 0);
@@ -1076,7 +1041,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Antennae, 25);
+    fields.get("iD").set(UpgradeType.Antennae, 25);
     fields.get("race").set(UpgradeType.Antennae, Race.Zerg);
     fields.get("mineralPrices").set(UpgradeType.Antennae, new int[] {150});
     fields.get("mineralPriceFactor").set(UpgradeType.Antennae, 0);
@@ -1103,7 +1068,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Pneumatized_Carapace, 26);
+    fields.get("iD").set(UpgradeType.Pneumatized_Carapace, 26);
     fields.get("race").set(UpgradeType.Pneumatized_Carapace, Race.Zerg);
     fields.get("mineralPrices").set(UpgradeType.Pneumatized_Carapace, new int[] {150});
     fields.get("mineralPriceFactor").set(UpgradeType.Pneumatized_Carapace, 0);
@@ -1133,7 +1098,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Metabolic_Boost, 27);
+    fields.get("iD").set(UpgradeType.Metabolic_Boost, 27);
     fields.get("race").set(UpgradeType.Metabolic_Boost, Race.Zerg);
     fields.get("mineralPrices").set(UpgradeType.Metabolic_Boost, new int[] {100});
     fields.get("mineralPriceFactor").set(UpgradeType.Metabolic_Boost, 0);
@@ -1160,7 +1125,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Adrenal_Glands, 28);
+    fields.get("iD").set(UpgradeType.Adrenal_Glands, 28);
     fields.get("race").set(UpgradeType.Adrenal_Glands, Race.Zerg);
     fields.get("mineralPrices").set(UpgradeType.Adrenal_Glands, new int[] {200});
     fields.get("mineralPriceFactor").set(UpgradeType.Adrenal_Glands, 0);
@@ -1170,9 +1135,7 @@ class UpgradeTypes {
     fields.get("upgradeTimeFactor").set(UpgradeType.Adrenal_Glands, 0);
     fields.get("maxRepeats").set(UpgradeType.Adrenal_Glands, 1);
     fields.get("whatUpgrades").set(UpgradeType.Adrenal_Glands, UnitType.Zerg_Spawning_Pool);
-    fields
-        .get("whatsRequired")
-        .set(UpgradeType.Adrenal_Glands, new UnitType[] {UnitType.Zerg_Hive});
+    fields.get("whatsRequired").set(UpgradeType.Adrenal_Glands, new UnitType[] {UnitType.None});
     fields
         .get("whatUses")
         .set(UpgradeType.Adrenal_Glands, new ArrayList(Arrays.asList(UnitType.Zerg_Zergling)));
@@ -1189,7 +1152,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Muscular_Augments, 29);
+    fields.get("iD").set(UpgradeType.Muscular_Augments, 29);
     fields.get("race").set(UpgradeType.Muscular_Augments, Race.Zerg);
     fields.get("mineralPrices").set(UpgradeType.Muscular_Augments, new int[] {150});
     fields.get("mineralPriceFactor").set(UpgradeType.Muscular_Augments, 0);
@@ -1216,7 +1179,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Grooved_Spines, 30);
+    fields.get("iD").set(UpgradeType.Grooved_Spines, 30);
     fields.get("race").set(UpgradeType.Grooved_Spines, Race.Zerg);
     fields.get("mineralPrices").set(UpgradeType.Grooved_Spines, new int[] {150});
     fields.get("mineralPriceFactor").set(UpgradeType.Grooved_Spines, 0);
@@ -1243,7 +1206,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Gamete_Meiosis, 31);
+    fields.get("iD").set(UpgradeType.Gamete_Meiosis, 31);
     fields.get("race").set(UpgradeType.Gamete_Meiosis, Race.Zerg);
     fields.get("mineralPrices").set(UpgradeType.Gamete_Meiosis, new int[] {150});
     fields.get("mineralPriceFactor").set(UpgradeType.Gamete_Meiosis, 0);
@@ -1270,7 +1233,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Metasynaptic_Node, 32);
+    fields.get("iD").set(UpgradeType.Metasynaptic_Node, 32);
     fields.get("race").set(UpgradeType.Metasynaptic_Node, Race.Zerg);
     fields.get("mineralPrices").set(UpgradeType.Metasynaptic_Node, new int[] {150});
     fields.get("mineralPriceFactor").set(UpgradeType.Metasynaptic_Node, 0);
@@ -1297,7 +1260,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Singularity_Charge, 33);
+    fields.get("iD").set(UpgradeType.Singularity_Charge, 33);
     fields.get("race").set(UpgradeType.Singularity_Charge, Race.Protoss);
     fields.get("mineralPrices").set(UpgradeType.Singularity_Charge, new int[] {150});
     fields.get("mineralPriceFactor").set(UpgradeType.Singularity_Charge, 0);
@@ -1327,7 +1290,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Leg_Enhancements, 34);
+    fields.get("iD").set(UpgradeType.Leg_Enhancements, 34);
     fields.get("race").set(UpgradeType.Leg_Enhancements, Race.Protoss);
     fields.get("mineralPrices").set(UpgradeType.Leg_Enhancements, new int[] {150});
     fields.get("mineralPriceFactor").set(UpgradeType.Leg_Enhancements, 0);
@@ -1354,7 +1317,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Scarab_Damage, 35);
+    fields.get("iD").set(UpgradeType.Scarab_Damage, 35);
     fields.get("race").set(UpgradeType.Scarab_Damage, Race.Protoss);
     fields.get("mineralPrices").set(UpgradeType.Scarab_Damage, new int[] {200});
     fields.get("mineralPriceFactor").set(UpgradeType.Scarab_Damage, 0);
@@ -1383,7 +1346,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Reaver_Capacity, 36);
+    fields.get("iD").set(UpgradeType.Reaver_Capacity, 36);
     fields.get("race").set(UpgradeType.Reaver_Capacity, Race.Protoss);
     fields.get("mineralPrices").set(UpgradeType.Reaver_Capacity, new int[] {200});
     fields.get("mineralPriceFactor").set(UpgradeType.Reaver_Capacity, 0);
@@ -1412,7 +1375,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Gravitic_Drive, 37);
+    fields.get("iD").set(UpgradeType.Gravitic_Drive, 37);
     fields.get("race").set(UpgradeType.Gravitic_Drive, Race.Protoss);
     fields.get("mineralPrices").set(UpgradeType.Gravitic_Drive, new int[] {200});
     fields.get("mineralPriceFactor").set(UpgradeType.Gravitic_Drive, 0);
@@ -1441,7 +1404,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Sensor_Array, 38);
+    fields.get("iD").set(UpgradeType.Sensor_Array, 38);
     fields.get("race").set(UpgradeType.Sensor_Array, Race.Protoss);
     fields.get("mineralPrices").set(UpgradeType.Sensor_Array, new int[] {150});
     fields.get("mineralPriceFactor").set(UpgradeType.Sensor_Array, 0);
@@ -1468,7 +1431,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Gravitic_Boosters, 39);
+    fields.get("iD").set(UpgradeType.Gravitic_Boosters, 39);
     fields.get("race").set(UpgradeType.Gravitic_Boosters, Race.Protoss);
     fields.get("mineralPrices").set(UpgradeType.Gravitic_Boosters, new int[] {150});
     fields.get("mineralPriceFactor").set(UpgradeType.Gravitic_Boosters, 0);
@@ -1496,7 +1459,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Khaydarin_Amulet, 40);
+    fields.get("iD").set(UpgradeType.Khaydarin_Amulet, 40);
     fields.get("race").set(UpgradeType.Khaydarin_Amulet, Race.Protoss);
     fields.get("mineralPrices").set(UpgradeType.Khaydarin_Amulet, new int[] {150});
     fields.get("mineralPriceFactor").set(UpgradeType.Khaydarin_Amulet, 0);
@@ -1525,7 +1488,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Apial_Sensors, 41);
+    fields.get("iD").set(UpgradeType.Apial_Sensors, 41);
     fields.get("race").set(UpgradeType.Apial_Sensors, Race.Protoss);
     fields.get("mineralPrices").set(UpgradeType.Apial_Sensors, new int[] {100});
     fields.get("mineralPriceFactor").set(UpgradeType.Apial_Sensors, 0);
@@ -1552,7 +1515,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Gravitic_Thrusters, 42);
+    fields.get("iD").set(UpgradeType.Gravitic_Thrusters, 42);
     fields.get("race").set(UpgradeType.Gravitic_Thrusters, Race.Protoss);
     fields.get("mineralPrices").set(UpgradeType.Gravitic_Thrusters, new int[] {200});
     fields.get("mineralPriceFactor").set(UpgradeType.Gravitic_Thrusters, 0);
@@ -1579,7 +1542,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Carrier_Capacity, 43);
+    fields.get("iD").set(UpgradeType.Carrier_Capacity, 43);
     fields.get("race").set(UpgradeType.Carrier_Capacity, Race.Protoss);
     fields.get("mineralPrices").set(UpgradeType.Carrier_Capacity, new int[] {100});
     fields.get("mineralPriceFactor").set(UpgradeType.Carrier_Capacity, 0);
@@ -1606,7 +1569,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Khaydarin_Core, 44);
+    fields.get("iD").set(UpgradeType.Khaydarin_Core, 44);
     fields.get("race").set(UpgradeType.Khaydarin_Core, Race.Protoss);
     fields.get("mineralPrices").set(UpgradeType.Khaydarin_Core, new int[] {150});
     fields.get("mineralPriceFactor").set(UpgradeType.Khaydarin_Core, 0);
@@ -1633,7 +1596,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Argus_Jewel, 47);
+    fields.get("iD").set(UpgradeType.Argus_Jewel, 47);
     fields.get("race").set(UpgradeType.Argus_Jewel, Race.Protoss);
     fields.get("mineralPrices").set(UpgradeType.Argus_Jewel, new int[] {100});
     fields.get("mineralPriceFactor").set(UpgradeType.Argus_Jewel, 0);
@@ -1660,7 +1623,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Argus_Talisman, 49);
+    fields.get("iD").set(UpgradeType.Argus_Talisman, 49);
     fields.get("race").set(UpgradeType.Argus_Talisman, Race.Protoss);
     fields.get("mineralPrices").set(UpgradeType.Argus_Talisman, new int[] {150});
     fields.get("mineralPriceFactor").set(UpgradeType.Argus_Talisman, 0);
@@ -1688,7 +1651,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Caduceus_Reactor, 51);
+    fields.get("iD").set(UpgradeType.Caduceus_Reactor, 51);
     fields.get("race").set(UpgradeType.Caduceus_Reactor, Race.Terran);
     fields.get("mineralPrices").set(UpgradeType.Caduceus_Reactor, new int[] {150});
     fields.get("mineralPriceFactor").set(UpgradeType.Caduceus_Reactor, 0);
@@ -1715,7 +1678,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Chitinous_Plating, 52);
+    fields.get("iD").set(UpgradeType.Chitinous_Plating, 52);
     fields.get("race").set(UpgradeType.Chitinous_Plating, Race.Zerg);
     fields.get("mineralPrices").set(UpgradeType.Chitinous_Plating, new int[] {150});
     fields.get("mineralPriceFactor").set(UpgradeType.Chitinous_Plating, 0);
@@ -1742,7 +1705,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Anabolic_Synthesis, 53);
+    fields.get("iD").set(UpgradeType.Anabolic_Synthesis, 53);
     fields.get("race").set(UpgradeType.Anabolic_Synthesis, Race.Zerg);
     fields.get("mineralPrices").set(UpgradeType.Anabolic_Synthesis, new int[] {200});
     fields.get("mineralPriceFactor").set(UpgradeType.Anabolic_Synthesis, 0);
@@ -1769,7 +1732,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Charon_Boosters, 54);
+    fields.get("iD").set(UpgradeType.Charon_Boosters, 54);
     fields.get("race").set(UpgradeType.Charon_Boosters, Race.Terran);
     fields.get("mineralPrices").set(UpgradeType.Charon_Boosters, new int[] {100});
     fields.get("mineralPriceFactor").set(UpgradeType.Charon_Boosters, 0);
@@ -1779,9 +1742,7 @@ class UpgradeTypes {
     fields.get("upgradeTimeFactor").set(UpgradeType.Charon_Boosters, 0);
     fields.get("maxRepeats").set(UpgradeType.Charon_Boosters, 1);
     fields.get("whatUpgrades").set(UpgradeType.Charon_Boosters, UnitType.Terran_Machine_Shop);
-    fields
-        .get("whatsRequired")
-        .set(UpgradeType.Charon_Boosters, new UnitType[] {UnitType.Terran_Armory});
+    fields.get("whatsRequired").set(UpgradeType.Charon_Boosters, new UnitType[] {UnitType.None});
     fields
         .get("whatUses")
         .set(UpgradeType.Charon_Boosters, new ArrayList(Arrays.asList(UnitType.Terran_Goliath)));
@@ -1798,7 +1759,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Upgrade_60, 0);
+    fields.get("iD").set(UpgradeType.Upgrade_60, 60);
     fields.get("race").set(UpgradeType.Upgrade_60, null);
     fields.get("mineralPrices").set(UpgradeType.Upgrade_60, null);
     fields.get("mineralPriceFactor").set(UpgradeType.Upgrade_60, 0);
@@ -1823,7 +1784,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.None, 61);
+    fields.get("iD").set(UpgradeType.None, 61);
     fields.get("race").set(UpgradeType.None, Race.None);
     fields.get("mineralPrices").set(UpgradeType.None, new int[] {});
     fields.get("mineralPriceFactor").set(UpgradeType.None, 0);
@@ -1848,7 +1809,7 @@ class UpgradeTypes {
                       f.setAccessible(true);
                       return f;
                     }));
-    fields.get("id").set(UpgradeType.Unknown, 62);
+    fields.get("iD").set(UpgradeType.Unknown, 62);
     fields.get("race").set(UpgradeType.Unknown, Race.Unknown);
     fields.get("mineralPrices").set(UpgradeType.Unknown, new int[] {});
     fields.get("mineralPriceFactor").set(UpgradeType.Unknown, 0);
@@ -1860,5 +1821,38 @@ class UpgradeTypes {
     fields.get("whatUpgrades").set(UpgradeType.Unknown, UnitType.None);
     fields.get("whatsRequired").set(UpgradeType.Unknown, new UnitType[] {});
     fields.get("whatUses").set(UpgradeType.Unknown, new ArrayList(Arrays.asList()));
+  }
+
+  private static void initializeUpgradeType_MAX() throws Exception {
+    Class<?> c = UpgradeType.class;
+    Map<String, Field> fields =
+        Stream.of(c.getDeclaredFields())
+            .collect(
+                Collectors.toMap(
+                    f -> f.getName(),
+                    f -> {
+                      f.setAccessible(true);
+                      return f;
+                    }));
+    fields.get("iD").set(UpgradeType.MAX, 63);
+    fields.get("race").set(UpgradeType.MAX, null);
+    fields.get("mineralPrices").set(UpgradeType.MAX, null);
+    fields.get("mineralPriceFactor").set(UpgradeType.MAX, 0);
+    fields.get("gasPrices").set(UpgradeType.MAX, null);
+    fields.get("gasPriceFactor").set(UpgradeType.MAX, 0);
+    fields.get("upgradeTimes").set(UpgradeType.MAX, null);
+    fields.get("upgradeTimeFactor").set(UpgradeType.MAX, 0);
+    fields.get("maxRepeats").set(UpgradeType.MAX, 0);
+    fields.get("whatUpgrades").set(UpgradeType.MAX, null);
+    fields.get("whatsRequired").set(UpgradeType.MAX, null);
+    fields.get("whatUses").set(UpgradeType.MAX, new ArrayList(Arrays.asList()));
+  }
+
+  private static Map<?, ?> toMap(Object... element) {
+    Map<Object, Object> map = new HashMap<>();
+    for (int i = 0; i < element.length; i += 2) {
+      map.put(element[i], element[i + 1]);
+    }
+    return map;
   }
 }

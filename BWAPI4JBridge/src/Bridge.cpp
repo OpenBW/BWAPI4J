@@ -178,34 +178,36 @@ JNIEXPORT jstring JNICALL Java_org_openbw_bwapi4j_BW_getPlayerName(JNIEnv *env, 
   */
 }
 
-// TODO: Refactor to be one call for all players. Possibly also merge with "getUpgradeStatus".
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getResearchStatus(JNIEnv *env, jobject, jint playerID) {
+// TODO: Refactor to be one call for all players.
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getPlayerExtra(JNIEnv *env, jobject, jint playerID) {
   Bridge::Globals::dataBuffer.reset();
 
   const auto &player = BWAPI::Broodwar->getPlayer(playerID);
 
-  for (const auto &techType : BWAPI::TechTypes::allTechTypes()) {
+  const auto &upgradeTypes = BWAPI::UpgradeTypes::allUpgradeTypes();
+  Bridge::Globals::dataBuffer.add(upgradeTypes.size());
+  for (const auto &upgradeType : upgradeTypes) {
+    Bridge::Globals::dataBuffer.addId(upgradeType);
+    Bridge::Globals::dataBuffer.add(player->getUpgradeLevel(upgradeType));
+    Bridge::Globals::dataBuffer.add(player->isUpgrading(upgradeType));
+  }
+
+  const auto &techTypes = BWAPI::TechTypes::allTechTypes();
+  Bridge::Globals::dataBuffer.add(techTypes.size());
+  for (const auto &techType : techTypes) {
     Bridge::Globals::dataBuffer.addId(techType);
     Bridge::Globals::dataBuffer.add(player->hasResearched(techType));
     Bridge::Globals::dataBuffer.add(player->isResearching(techType));
   }
 
-  jintArray result = env->NewIntArray(Bridge::Globals::dataBuffer.getIndex());
-  env->SetIntArrayRegion(result, 0, Bridge::Globals::dataBuffer.getIndex(), Bridge::Globals::dataBuffer.intBuf);
-  return result;
-}
-
-// TODO: Refactor to be one call for all players. Possibly also merge with "getResearchStatus".
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUpgradeStatus(JNIEnv *env, jobject, jint playerID) {
-  Bridge::Globals::dataBuffer.reset();
-
-  const auto &player = BWAPI::Broodwar->getPlayer(playerID);
-
-  for (const auto &upgradeType : BWAPI::UpgradeTypes::allUpgradeTypes()) {
-    Bridge::Globals::dataBuffer.addId(upgradeType);
-    Bridge::Globals::dataBuffer.add(player->getUpgradeLevel(upgradeType));
-    Bridge::Globals::dataBuffer.add(player->isUpgrading(upgradeType));
+  if (BWAPI::Broodwar->isReplay()) {
+    Bridge::Globals::dataBuffer.add(DataBuffer::NO_VALUE);
+    Bridge::Globals::dataBuffer.add(DataBuffer::NO_VALUE);
+  } else {
+    Bridge::Globals::dataBuffer.add(player->getID() == BWAPI::Broodwar->self()->getID() || player->isAlly(BWAPI::Broodwar->self()));
+    Bridge::Globals::dataBuffer.add(player->getID() != BWAPI::Broodwar->self()->getID() && player->isEnemy(BWAPI::Broodwar->self()));
   }
+
 
   jintArray result = env->NewIntArray(Bridge::Globals::dataBuffer.getIndex());
   env->SetIntArrayRegion(result, 0, Bridge::Globals::dataBuffer.getIndex(), Bridge::Globals::dataBuffer.intBuf);
@@ -239,6 +241,66 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getGameData(JNIEnv *env, 
   Bridge::Globals::dataBuffer.add(BWAPI::Broodwar->getAPM(true));
   Bridge::Globals::dataBuffer.addId(BWAPI::Broodwar->self());
   Bridge::Globals::dataBuffer.addId(BWAPI::Broodwar->enemy());
+
+  jintArray result = env->NewIntArray(Bridge::Globals::dataBuffer.getIndex());
+  env->SetIntArrayRegion(result, 0, Bridge::Globals::dataBuffer.getIndex(), Bridge::Globals::dataBuffer.intBuf);
+  return result;
+}
+
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUpgradeTypesData(JNIEnv *env, jobject) { 
+  Bridge::Globals::dataBuffer.reset(); 
+
+  BridgeEnum enums;
+  enums.addUpgradeTypeEnums();
+
+  jintArray result = env->NewIntArray(Bridge::Globals::dataBuffer.getIndex());
+  env->SetIntArrayRegion(result, 0, Bridge::Globals::dataBuffer.getIndex(), Bridge::Globals::dataBuffer.intBuf);
+  return result;
+}
+
+
+/*
+ * Class:     org_openbw_bwapi4j_BW
+ * Method:    getWeaponTypesData
+ * Signature: ()[I
+ */
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getWeaponTypesData(JNIEnv *env, jobject) {
+  Bridge::Globals::dataBuffer.reset();
+ 
+  BridgeEnum enums;
+  enums.addWeaponTypeEnums();
+
+  jintArray result = env->NewIntArray(Bridge::Globals::dataBuffer.getIndex());
+  env->SetIntArrayRegion(result, 0, Bridge::Globals::dataBuffer.getIndex(), Bridge::Globals::dataBuffer.intBuf);
+  return result;
+}
+
+/*
+ * Class:     org_openbw_bwapi4j_BW
+ * Method:    getTechTypesData
+ * Signature: ()[I
+ */
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getTechTypesData(JNIEnv *env, jobject) {
+  Bridge::Globals::dataBuffer.reset();
+ 
+  BridgeEnum enums;
+  enums.addTechTypeEnums();
+
+  jintArray result = env->NewIntArray(Bridge::Globals::dataBuffer.getIndex());
+  env->SetIntArrayRegion(result, 0, Bridge::Globals::dataBuffer.getIndex(), Bridge::Globals::dataBuffer.intBuf);
+  return result;
+}
+
+/*
+ * Class:     org_openbw_bwapi4j_BW
+ * Method:    getUnitTypesData
+ * Signature: ()[I
+ */
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUnitTypesData(JNIEnv *env, jobject) {
+  Bridge::Globals::dataBuffer.reset();
+  
+  BridgeEnum enums;
+  enums.addUnitTypeEnums();
 
   jintArray result = env->NewIntArray(Bridge::Globals::dataBuffer.getIndex());
   env->SetIntArrayRegion(result, 0, Bridge::Globals::dataBuffer.getIndex(), Bridge::Globals::dataBuffer.intBuf);

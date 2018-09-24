@@ -20,22 +20,23 @@
 
 package org.openbw.bwapi4j.unit;
 
-import static org.openbw.bwapi4j.type.UnitCommandType.*;
+import static org.openbw.bwapi4j.type.UnitCommandType.Attack_Move;
+import static org.openbw.bwapi4j.type.UnitCommandType.Attack_Unit;
+import static org.openbw.bwapi4j.type.UnitCommandType.Follow;
+import static org.openbw.bwapi4j.type.UnitCommandType.Hold_Position;
+import static org.openbw.bwapi4j.type.UnitCommandType.Move;
+import static org.openbw.bwapi4j.type.UnitCommandType.Patrol;
+import static org.openbw.bwapi4j.type.UnitCommandType.Stop;
 
 import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.type.UnitType;
 
 public abstract class MobileUnitImpl extends PlayerUnitImpl implements MobileUnit {
-  protected MobileUnitImpl(int id, UnitType unitType) {
-    super(id, unitType);
-  }
-
   public boolean attack(Position p) {
     return attack(p, false);
   }
 
   public boolean attack(Position p, boolean queued) {
-    return issueCommand(this.id, Attack_Move, -1, p.getX(), p.getY(), queued ? 1 : 0);
+    return issueCommand(this.iD, Attack_Move, -1, p.getX(), p.getY(), queued ? 1 : 0);
   }
 
   public boolean attack(Unit target) {
@@ -43,7 +44,7 @@ public abstract class MobileUnitImpl extends PlayerUnitImpl implements MobileUni
   }
 
   public boolean attack(Unit target, boolean queued) {
-    return issueCommand(this.id, Attack_Unit, target.getId(), -1, -1, queued ? 1 : 0);
+    return issueCommand(this.iD, Attack_Unit, target.getId(), -1, -1, queued ? 1 : 0);
   }
 
   public boolean move(Position p) {
@@ -51,7 +52,7 @@ public abstract class MobileUnitImpl extends PlayerUnitImpl implements MobileUni
   }
 
   public boolean move(Position p, boolean queued) {
-    return issueCommand(this.id, Move, -1, p.getX(), p.getY(), queued ? 1 : 0);
+    return issueCommand(this.iD, Move, -1, p.getX(), p.getY(), queued ? 1 : 0);
   }
 
   public boolean patrol(Position p) {
@@ -59,7 +60,7 @@ public abstract class MobileUnitImpl extends PlayerUnitImpl implements MobileUni
   }
 
   public boolean patrol(Position p, boolean queued) {
-    return issueCommand(this.id, Patrol, -1, p.getX(), p.getY(), queued ? 1 : 0);
+    return issueCommand(this.iD, Patrol, -1, p.getX(), p.getY(), queued ? 1 : 0);
   }
 
   public boolean holdPosition() {
@@ -67,63 +68,63 @@ public abstract class MobileUnitImpl extends PlayerUnitImpl implements MobileUni
   }
 
   public boolean holdPosition(boolean queued) {
-    return issueCommand(this.id, Hold_Position, -1, -1, -1, queued ? 1 : 0);
+    return issueCommand(this.iD, Hold_Position, -1, -1, -1, queued ? 1 : 0);
   }
 
   public boolean stop(boolean queued) {
-    return issueCommand(this.id, Stop, -1, -1, -1, queued ? 1 : 0);
+    return issueCommand(this.iD, Stop, -1, -1, -1, queued ? 1 : 0);
   }
 
   public boolean follow(Unit target, boolean queued) {
-    return issueCommand(this.id, Follow, target.getId(), -1, -1, queued ? 1 : 0);
+    return issueCommand(this.iD, Follow, target.getId(), -1, -1, queued ? 1 : 0);
   }
 
   public int getAcidSporeCount() {
     return this.acidSporeCount;
   }
 
-  public Unit getTransport() {
-    return this.getUnit(this.transportId);
+  public MobileUnit getTransport() {
+    return (MobileUnit) transport;
   }
 
   public boolean isFollowing() {
-    return isFollowing;
+    return following;
   }
 
   public boolean isHoldingPosition() {
-    return isHoldingPosition;
+    return holdingPosition;
   }
 
   public boolean isStasised() {
-    return isStasised;
+    return stasised;
   }
 
   public boolean isUnderDarkSwarm() {
-    return isUnderDarkSwarm;
+    return underDarkSwarm;
   }
 
   public boolean isUnderDisruptionWeb() {
-    return isUnderDisruptionWeb;
+    return underDisruptionWeb;
   }
 
   public boolean isUnderStorm() {
-    return isUnderStorm;
+    return underStorm;
   }
 
   public boolean isParasited() {
-    return isParasited;
+    return parasited;
   }
 
   public boolean isPatrolling() {
-    return isPatrolling;
+    return patrolling;
   }
 
   public boolean isPlagued() {
-    return isPlagued;
+    return plagued;
   }
 
   public boolean isMoving() {
-    return this.isMoving;
+    return this.moving;
   }
 
   public Position getTargetPosition() {
@@ -140,7 +141,7 @@ public abstract class MobileUnitImpl extends PlayerUnitImpl implements MobileUni
   }
 
   public boolean isStuck() {
-    return this.isStuck;
+    return this.stuck;
   }
 
   public int getSupplyRequired() {
@@ -148,23 +149,23 @@ public abstract class MobileUnitImpl extends PlayerUnitImpl implements MobileUni
   }
 
   public boolean isHallucination() {
-    return this.isHallucination;
+    return this.hallucination;
   }
 
   public boolean isBlind() {
-    return this.isBlind;
+    return this.blind;
   }
 
   public boolean isBraking() {
-    return this.isBraking;
+    return this.braking;
   }
 
   public boolean isDefenseMatrixed() {
-    return this.isDefenseMatrixed;
+    return this.defenseMatrixed;
   }
 
   public boolean isEnsnared() {
-    return this.isEnsnared;
+    return this.ensnared;
   }
 
   public double getTopSpeed() {

@@ -26,14 +26,9 @@ import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Position;
 
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.TechType;
-import org.openbw.bwapi4j.type.UnitType;
 
 public class Arbiter extends MobileUnitImpl
     implements Mechanical, SpellCaster, GroundAttacker, AirAttacker {
-  protected Arbiter(int id) {
-    super(id, UnitType.Protoss_Arbiter);
-  }
-
   @Override
   public int getEnergy() {
     return this.energy;
@@ -49,7 +44,7 @@ public class Arbiter extends MobileUnitImpl
       return false;
     } else {
       return issueCommand(
-          this.id, Use_Tech_Position, -1, position.getX(), position.getY(), Stasis_Field.getId());
+          this.iD, Use_Tech_Position, -1, position.getX(), position.getY(), Stasis_Field.getId());
     }
   }
 
@@ -58,7 +53,7 @@ public class Arbiter extends MobileUnitImpl
       return false;
     } else {
       return issueCommand(
-          this.id, Use_Tech_Position, -1, position.getX(), position.getY(), Recall.getId());
+          this.iD, Use_Tech_Position, -1, position.getX(), position.getY(), Recall.getId());
     }
   }
 

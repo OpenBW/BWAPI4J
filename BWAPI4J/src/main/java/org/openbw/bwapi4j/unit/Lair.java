@@ -27,12 +27,9 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class Lair extends Hatchery {
-  protected Lair(int id, int timeSpotted) {
-    super(id, UnitType.Zerg_Lair, timeSpotted);
-  }
 
-  protected Lair(int id, UnitType type, int timeSpotted) {
-    super(id, type, timeSpotted);
+  protected Lair(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   @Override
@@ -57,7 +54,7 @@ public class Lair extends Hatchery {
     if (type != Zerg_Hive) {
       throw new IllegalArgumentException("Cannot morph to " + type);
     }
-    return issueCommand(this.id, Morph, -1, -1, -1, Zerg_Hive.getId());
+    return issueCommand(this.iD, Morph, -1, -1, -1, Zerg_Hive.getId());
   }
 
   @Override

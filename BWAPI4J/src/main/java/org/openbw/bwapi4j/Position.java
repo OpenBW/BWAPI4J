@@ -22,10 +22,14 @@ package org.openbw.bwapi4j;
 
 import static org.openbw.bwapi4j.util.MathUtils.estimateDistanceBetween;
 
+import org.openbw.bwapi4j.ap.BridgeValue;
+
 public class Position {
+
   private final int x;
   private final int y;
 
+  @BridgeValue
   public Position(final int x, final int y) {
     this.x = x;
     this.y = y;

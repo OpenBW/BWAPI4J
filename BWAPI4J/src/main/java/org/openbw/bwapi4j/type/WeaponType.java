@@ -20,138 +20,219 @@
 
 package org.openbw.bwapi4j.type;
 
-public enum WeaponType {
-  Gauss_Rifle,
-  Gauss_Rifle_Jim_Raynor,
-  C_10_Canister_Rifle,
-  C_10_Canister_Rifle_Sarah_Kerrigan,
-  Fragmentation_Grenade,
-  Fragmentation_Grenade_Jim_Raynor,
-  Spider_Mines,
-  Twin_Autocannons,
-  Hellfire_Missile_Pack,
-  Twin_Autocannons_Alan_Schezar,
-  Hellfire_Missile_Pack_Alan_Schezar,
-  Arclite_Cannon,
-  Arclite_Cannon_Edmund_Duke,
-  Fusion_Cutter,
-  Gemini_Missiles,
-  Burst_Lasers,
-  Gemini_Missiles_Tom_Kazansky,
-  Burst_Lasers_Tom_Kazansky,
-  ATS_Laser_Battery,
-  ATA_Laser_Battery,
-  ATS_Laser_Battery_Hero,
-  ATA_Laser_Battery_Hero,
-  ATS_Laser_Battery_Hyperion,
-  ATA_Laser_Battery_Hyperion,
-  Flame_Thrower,
-  Flame_Thrower_Gui_Montag,
-  Arclite_Shock_Cannon,
-  Arclite_Shock_Cannon_Edmund_Duke,
-  Longbolt_Missile,
-  Yamato_Gun,
-  Nuclear_Strike,
-  Lockdown,
-  EMP_Shockwave,
-  Irradiate,
-  Claws,
-  Claws_Devouring_One,
-  Claws_Infested_Kerrigan,
-  Needle_Spines,
-  Needle_Spines_Hunter_Killer,
-  Kaiser_Blades,
-  Kaiser_Blades_Torrasque,
-  Toxic_Spores,
-  Spines,
-  Acid_Spore,
-  Acid_Spore_Kukulza,
-  Glave_Wurm,
-  Glave_Wurm_Kukulza,
-  Seeker_Spores,
-  Subterranean_Tentacle,
-  Suicide_Infested_Terran,
-  Suicide_Scourge,
-  Parasite,
-  Spawn_Broodlings,
-  Ensnare,
-  Dark_Swarm,
-  Plague,
-  Consume,
-  Particle_Beam,
-  Psi_Blades,
-  Psi_Blades_Fenix,
-  Phase_Disruptor,
-  Phase_Disruptor_Fenix,
-  Psi_Assault,
-  Psionic_Shockwave,
-  Psionic_Shockwave_TZ_Archon,
-  Dual_Photon_Blasters,
-  Anti_Matter_Missiles,
-  Dual_Photon_Blasters_Mojo,
-  Anti_Matter_Missiles_Mojo,
-  Phase_Disruptor_Cannon,
-  Phase_Disruptor_Cannon_Danimoth,
-  Pulse_Cannon,
-  STS_Photon_Cannon,
-  STA_Photon_Cannon,
-  Scarab,
-  Stasis_Field,
-  Psionic_Storm,
-  Warp_Blades_Zeratul,
-  Warp_Blades_Hero,
-  Platform_Laser_Battery,
-  Independant_Laser_Battery,
-  Twin_Autocannons_Floor_Trap,
-  Hellfire_Missile_Pack_Wall_Trap,
-  Flame_Thrower_Wall_Trap,
-  Hellfire_Missile_Pack_Floor_Trap,
-  Neutron_Flare,
-  Disruption_Web,
-  Restoration,
-  Halo_Rockets,
-  Corrosive_Acid,
-  Mind_Control,
-  Feedback,
-  Optical_Flare,
-  Maelstrom,
-  Subterranean_Spines,
-  Warp_Blades,
-  C_10_Canister_Rifle_Samir_Duran,
-  C_10_Canister_Rifle_Infested_Duran,
-  Dual_Photon_Blasters_Artanis,
-  Anti_Matter_Missiles_Artanis,
-  C_10_Canister_Rifle_Alexei_Stukov,
-  None,
-  Unknown;
+import org.openbw.bwapi4j.ap.BridgeValue;
+import org.openbw.bwapi4j.ap.Named;
+import org.openbw.bwapi4j.ap.NativeClass;
 
-  private int id;
-  private TechType tech;
-  private UnitType whatUses;
-  private int damageAmount;
-  private int damageBonus;
-  private int damageCooldown;
-  private int damageFactor;
-  private UpgradeType upgradeType;
-  private DamageType damageType;
-  private ExplosionType explosionType;
-  private int minRange;
-  private int maxRange;
-  private int innerSplashRadius;
-  private int medianSplashRadius;
-  private int outerSplashRadius;
-  private boolean targetsAir;
-  private boolean targetsGround;
-  private boolean targetsMechanical;
-  private boolean targetsOrganic;
-  private boolean targetsNonBuilding;
-  private boolean targetsNonRobotic;
-  private boolean targetsTerrain;
-  private boolean targetsOrgOrMech;
-  private boolean targetsOwn;
+@NativeClass(name = "BWAPI::WeaponType", accessOperator = ".")
+public enum WeaponType implements WithId {
+  Gauss_Rifle(0),
+  Gauss_Rifle_Jim_Raynor(1),
+  C_10_Canister_Rifle(2),
+  C_10_Canister_Rifle_Sarah_Kerrigan(3),
+  Fragmentation_Grenade(4),
+  Fragmentation_Grenade_Jim_Raynor(5),
+  Spider_Mines(6),
+  Twin_Autocannons(7),
+  Hellfire_Missile_Pack(8),
+  Twin_Autocannons_Alan_Schezar(9),
+  Hellfire_Missile_Pack_Alan_Schezar(10),
+  Arclite_Cannon(11),
+  Arclite_Cannon_Edmund_Duke(12),
+  Fusion_Cutter(13),
+  unk_14(14),
+  Gemini_Missiles(15),
+  Burst_Lasers(16),
+  Gemini_Missiles_Tom_Kazansky(17),
+  Burst_Lasers_Tom_Kazansky(18),
+  ATS_Laser_Battery(19),
+  ATA_Laser_Battery(20),
+  ATS_Laser_Battery_Hero(21),
+  ATA_Laser_Battery_Hero(22),
+  ATS_Laser_Battery_Hyperion(23),
+  ATA_Laser_Battery_Hyperion(24),
+  Flame_Thrower(25),
+  Flame_Thrower_Gui_Montag(26),
+  Arclite_Shock_Cannon(27),
+  Arclite_Shock_Cannon_Edmund_Duke(28),
+  Longbolt_Missile(29),
+  Yamato_Gun(30),
+  Nuclear_Strike(31),
+  Lockdown(32),
+  EMP_Shockwave(33),
+  Irradiate(34),
+  Claws(35),
+  Claws_Devouring_One(36),
+  Claws_Infested_Kerrigan(37),
+  Needle_Spines(38),
+  Needle_Spines_Hunter_Killer(39),
+  Kaiser_Blades(40),
+  Kaiser_Blades_Torrasque(41),
+  Toxic_Spores(42),
+  Spines(43),
+  unk_44(44),
+  unk_45(45),
+  Acid_Spore(46),
+  Acid_Spore_Kukulza(47),
+  Glave_Wurm(48),
+  Glave_Wurm_Kukulza(49),
+  unk_50(50),
+  unk_51(51),
+  Seeker_Spores(52),
+  Subterranean_Tentacle(53),
+  Suicide_Infested_Terran(54),
+  Suicide_Scourge(55),
+  Parasite(56),
+  Spawn_Broodlings(57),
+  Ensnare(58),
+  Dark_Swarm(59),
+  Plague(60),
+  Consume(61),
+  Particle_Beam(62),
+  unk_63(63),
+  Psi_Blades(64),
+  Psi_Blades_Fenix(65),
+  Phase_Disruptor(66),
+  Phase_Disruptor_Fenix(67),
+  unk_68(68),
+  Psi_Assault(69),
+  Psionic_Shockwave(70),
+  Psionic_Shockwave_TZ_Archon(71),
+  unk_72(72),
+  Dual_Photon_Blasters(73),
+  Anti_Matter_Missiles(74),
+  Dual_Photon_Blasters_Mojo(75),
+  Anti_Matter_Missiles_Mojo(76),
+  Phase_Disruptor_Cannon(77),
+  Phase_Disruptor_Cannon_Danimoth(78),
+  Pulse_Cannon(79),
+  STS_Photon_Cannon(80),
+  STA_Photon_Cannon(81),
+  Scarab(82),
+  Stasis_Field(83),
+  Psionic_Storm(84),
+  Warp_Blades_Zeratul(85),
+  Warp_Blades_Hero(86),
+  unk_87(87),
+  unk_88(88),
+  unk_89(89),
+  unk_90(90),
+  unk_91(91),
+  Platform_Laser_Battery(92),
+  Independant_Laser_Battery(93),
+  unk_94(94),
+  unk_95(95),
+  Twin_Autocannons_Floor_Trap(96),
+  Hellfire_Missile_Pack_Wall_Trap(97),
+  Flame_Thrower_Wall_Trap(98),
+  Hellfire_Missile_Pack_Floor_Trap(99),
+  Neutron_Flare(100),
+  Disruption_Web(101),
+  Restoration(102),
+  Halo_Rockets(103),
+  Corrosive_Acid(104),
+  Mind_Control(105),
+  Feedback(106),
+  Optical_Flare(107),
+  Maelstrom(108),
+  Subterranean_Spines(109),
+  Warp_Blades(111),
+  C_10_Canister_Rifle_Samir_Duran(112),
+  C_10_Canister_Rifle_Infested_Duran(113),
+  Dual_Photon_Blasters_Artanis(114),
+  Anti_Matter_Missiles_Artanis(115),
+  C_10_Canister_Rifle_Alexei_Stukov(116),
+  None(130),
+  Unknown(131),
+  MAX(132);
 
+  @Named(name = "ID")
+  @BridgeValue(initializeOnly = true)
+  int iD;
+
+  @BridgeValue TechType tech;
+
+  @BridgeValue(accessor = "whatUses()")
+  UnitType whatUses;
+
+  @BridgeValue(accessor = "damageAmount()")
+  int damageAmount;
+
+  @BridgeValue(accessor = "damageBonus()")
+  int damageBonus;
+
+  @BridgeValue(accessor = "damageCooldown()")
+  int damageCooldown;
+
+  @BridgeValue(accessor = "damageFactor()")
+  int damageFactor;
+
+  @BridgeValue(accessor = "upgradeType()")
+  UpgradeType upgradeType;
+
+  @BridgeValue(accessor = "damageType()")
+  DamageType damageType;
+
+  @BridgeValue(accessor = "explosionType()")
+  ExplosionType explosionType;
+
+  @BridgeValue(accessor = "minRange()")
+  int minRange;
+
+  @BridgeValue(accessor = "maxRange()")
+  int maxRange;
+
+  @BridgeValue(accessor = "innerSplashRadius()")
+  int innerSplashRadius;
+
+  @BridgeValue(accessor = "medianSplashRadius()")
+  int medianSplashRadius;
+
+  @BridgeValue(accessor = "outerSplashRadius()")
+  int outerSplashRadius;
+
+  @BridgeValue(accessor = "targetsAir()")
+  boolean targetsAir;
+
+  @BridgeValue(accessor = "targetsGround()")
+  boolean targetsGround;
+
+  @BridgeValue(accessor = "targetsMechanical()")
+  boolean targetsMechanical;
+
+  @BridgeValue(accessor = "targetsOrganic()")
+  boolean targetsOrganic;
+
+  @BridgeValue(accessor = "targetsNonBuilding()")
+  boolean targetsNonBuilding;
+
+  @BridgeValue(accessor = "targetsNonRobotic()")
+  boolean targetsNonRobotic;
+
+  @BridgeValue(accessor = "targetsTerrain()")
+  boolean targetsTerrain;
+
+  @BridgeValue(accessor = "targetsOrgOrMech()")
+  boolean targetsOrgOrMech;
+
+  @BridgeValue(accessor = "targetsOwn()")
+  boolean targetsOwn;
+
+  WeaponType(int id) {
+    this.iD = id;
+  }
+
+  public static WeaponType withId(int id) {
+    WeaponType result = IdMapper.weaponTypeForId[id];
+    if (result == null) {
+      throw new IllegalStateException("WeaponType with id " + id + " not found!");
+    }
+    return result;
+  }
+
+  @Override
   public int getId() {
-    return this.id;
+    return this.iD;
   }
 
   /**
@@ -346,5 +427,10 @@ public enum WeaponType {
    */
   public boolean targetsOwn() {
     return this.targetsOwn;
+  }
+
+  private static class IdMapper {
+
+    static final WeaponType[] weaponTypeForId = IdMapperHelper.toIdTypeArray(WeaponType.class);
   }
 }

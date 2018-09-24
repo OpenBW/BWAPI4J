@@ -44,6 +44,12 @@ public enum ExplosionType {
   Feedback,
   Optical_Flare,
   Maelstrom,
+  Unused,
   Air_Splash,
-  Unknown;
+  Unknown,
+  MAX;
+
+  public static ExplosionType withId(int id) {
+    return values()[id];
+  }
 }

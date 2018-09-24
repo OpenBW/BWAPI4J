@@ -30,13 +30,13 @@ import org.openbw.bwapi4j.type.UnitType;
 
 public abstract class BuildingImpl extends PlayerUnitImpl implements Building {
   public boolean cancelConstruction() {
-    return issueCommand(this.id, Cancel_Construction, -1, -1, -1, -1);
+    return issueCommand(this.iD, Cancel_Construction, -1, -1, -1, -1);
   }
 
   protected int probableConstructionStart;
 
-  protected BuildingImpl(int id, UnitType type, int timeSpotted) {
-    super(id, type);
+  protected BuildingImpl(UnitType unitType, int timeSpotted) {
+    this.type = unitType;
     this.probableConstructionStart = calculateProbableConstructionStart(timeSpotted);
   }
 

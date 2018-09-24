@@ -25,8 +25,9 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class CitadelOfAdun extends BuildingImpl implements Mechanical, ResearchingFacility {
-  protected CitadelOfAdun(int id, int timeSpotted) {
-    super(id, UnitType.Protoss_Citadel_of_Adun, timeSpotted);
+
+  protected CitadelOfAdun(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   public boolean upgradeLegEnhancements() {
@@ -35,12 +36,12 @@ public class CitadelOfAdun extends BuildingImpl implements Mechanical, Researchi
 
   @Override
   public boolean isUpgrading() {
-    return isUpgrading;
+    return upgrading;
   }
 
   @Override
   public boolean isResearching() {
-    return isResearching;
+    return researching;
   }
 
   @Override

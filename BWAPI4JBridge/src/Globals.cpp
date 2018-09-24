@@ -42,9 +42,6 @@ void initialize(JNIEnv *newEnv, jobject newBW) {
 }
 
 void initializeGame(JNIEnv *env, jobject bw) {
-  BridgeEnum enums;
-  enums.initialize(env, Bridge::Globals::javaRefs);
-
   BridgeMap bwMap;
   bwMap.initialize(env, bw, Bridge::Globals::javaRefs);
 }

@@ -20,7 +20,9 @@
 
 package org.openbw.bwapi4j.unit;
 
-import static org.openbw.bwapi4j.type.UnitCommandType.*;
+import static org.openbw.bwapi4j.type.UnitCommandType.Load;
+import static org.openbw.bwapi4j.type.UnitCommandType.Unload;
+import static org.openbw.bwapi4j.type.UnitCommandType.Unload_All;
 
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
@@ -30,12 +32,12 @@ import org.openbw.bwapi4j.type.UnitType;
 public class Bunker extends BuildingImpl implements Mechanical, Loadable {
   private static final Logger logger = LogManager.getLogger();
 
-  protected Bunker(final int id, final int timeSpotted) {
-    super(id, UnitType.Terran_Bunker, timeSpotted);
+  protected Bunker(UnitType unitType, final int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   public boolean isLoaded() {
-    return this.isLoaded;
+    return loaded;
   }
 
   @Override
@@ -49,13 +51,13 @@ public class Bunker extends BuildingImpl implements Mechanical, Loadable {
       logger.error("Can't load a {} into a garrison. Only non-flying units allowed.", target);
       return false;
     } else {
-      return issueCommand(this.id, Load, target.getId(), -1, -1, queued ? 1 : 0);
+      return issueCommand(this.iD, Load, target.getId(), -1, -1, queued ? 1 : 0);
     }
   }
 
   @Override
   public boolean unload(final MobileUnit target) {
-    return issueCommand(this.id, Unload, target.getId(), -1, -1, -1);
+    return issueCommand(this.iD, Unload, target.getId(), -1, -1, -1);
   }
 
   @Override
@@ -65,7 +67,7 @@ public class Bunker extends BuildingImpl implements Mechanical, Loadable {
 
   @Override
   public boolean unloadAll(final boolean queued) {
-    return issueCommand(this.id, Unload_All, -1, -1, -1, queued ? 1 : 0);
+    return issueCommand(this.iD, Unload_All, -1, -1, -1, queued ? 1 : 0);
   }
 
   @Override
@@ -75,6 +77,6 @@ public class Bunker extends BuildingImpl implements Mechanical, Loadable {
 
   @Override
   public List<MobileUnit> getLoadedUnits() {
-    return super.getLoadedUnits();
+    return (List<MobileUnit>) (List<?>) loadedUnits;
   }
 }

@@ -32,33 +32,14 @@ import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.UnitStatCalculator;
 import org.openbw.bwapi4j.type.Order;
 import org.openbw.bwapi4j.type.UnitCommandType;
-import org.openbw.bwapi4j.type.UnitType;
 
 public abstract class PlayerUnitImpl extends UnitImpl implements PlayerUnit {
-  protected PlayerUnitImpl(int id, UnitType unitType) {
-    super(id, unitType);
-  }
-
   public PlayerUnit getBuildUnit() {
-    final Unit unit = this.getUnit(builderId);
-    if (unit == null) {
-      return null;
-    } else {
-      if (unit instanceof PlayerUnit) {
-        return (PlayerUnit) unit;
-      } else {
-        throw new IllegalStateException(
-            "build unit for "
-                + this.toString()
-                + " should be PlayerUnit but is "
-                + unit.toString()
-                + ".");
-      }
-    }
+    return (PlayerUnit) buildUnit;
   }
 
   protected Unit getTargetUnit() {
-    return this.getUnit(this.targetId);
+    return target;
   }
 
   /**
@@ -90,7 +71,7 @@ public abstract class PlayerUnitImpl extends UnitImpl implements PlayerUnit {
    */
   public boolean rightClick(Position position, boolean queued) {
     return issueCommand(
-        this.id, Right_Click_Position, -1, position.getX(), position.getY(), queued ? 1 : 0);
+        this.iD, Right_Click_Position, -1, position.getX(), position.getY(), queued ? 1 : 0);
   }
 
   /**
@@ -101,11 +82,11 @@ public abstract class PlayerUnitImpl extends UnitImpl implements PlayerUnit {
    * @return true if command is successful, false else
    */
   public boolean rightClick(Unit target, boolean queued) {
-    return issueCommand(this.id, Right_Click_Unit, target.getId(), -1, -1, queued ? 1 : 0);
+    return issueCommand(this.iD, Right_Click_Unit, target.getId(), -1, -1, queued ? 1 : 0);
   }
 
   public boolean isCompleted() {
-    return this.isCompleted;
+    return completed;
   }
 
   public int maxHitPoints() {
@@ -116,8 +97,8 @@ public abstract class PlayerUnitImpl extends UnitImpl implements PlayerUnit {
     return this.hitPoints;
   }
 
-  protected UnitStatCalculator getUnitStatCalculator() {
-    return this.getPlayer(playerId).getUnitStatCalculator();
+  public UnitStatCalculator getUnitStatCalculator() {
+    return player.getUnitStatCalculator();
   }
 
   protected int getMaxEnergy() {
@@ -177,11 +158,11 @@ public abstract class PlayerUnitImpl extends UnitImpl implements PlayerUnit {
   }
 
   public boolean isDetected() {
-    return this.isDetected;
+    return detected;
   }
 
   public boolean isCloaked() {
-    return this.isCloaked;
+    return cloaked;
   }
 
   public boolean isFlyer() {
@@ -189,7 +170,7 @@ public abstract class PlayerUnitImpl extends UnitImpl implements PlayerUnit {
   }
 
   public boolean isInterruptible() {
-    return isInterruptible;
+    return interruptible;
   }
 
   @Override
@@ -223,51 +204,51 @@ public abstract class PlayerUnitImpl extends UnitImpl implements PlayerUnit {
   }
 
   public boolean isIdle() {
-    return this.isIdle;
+    return idle;
   }
 
   public boolean isAccelerating() {
-    return this.isAccelerating;
+    return accelerating;
   }
 
   public boolean isAttacking() {
-    return this.isAttacking;
+    return attacking;
   }
 
   public boolean isAttackFrame() {
-    return this.isAttackFrame;
+    return attackFrame;
   }
 
   public boolean isBeingConstructed() {
-    return this.isBeingConstructed;
+    return beingConstructed;
   }
 
   public boolean isBeingHealed() {
-    return this.isBeingHealed;
+    return beingHealed;
   }
 
   public boolean isIrradiated() {
-    return this.isIrradiated;
+    return irradiated;
   }
 
   public boolean isLockedDown() {
-    return this.isLockedDown;
+    return lockedDown;
   }
 
   public boolean isMaelstrommed() {
-    return this.isMaelstrommed;
+    return maelstrommed;
   }
 
   public boolean isStartingAttack() {
-    return this.isStartingAttack;
+    return startingAttack;
   }
 
   public boolean isUnderAttack() {
-    return this.isUnderAttack;
+    return underAttack;
   }
 
   public boolean isPowered() {
-    return this.isPowered;
+    return powered;
   }
 
   protected int getGroundWeaponMaxRange() {

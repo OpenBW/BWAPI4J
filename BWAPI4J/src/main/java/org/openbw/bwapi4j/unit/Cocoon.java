@@ -22,14 +22,8 @@ package org.openbw.bwapi4j.unit;
 
 import static org.openbw.bwapi4j.type.UnitCommandType.Cancel_Morph;
 
-import org.openbw.bwapi4j.type.UnitType;
-
 public class Cocoon extends PlayerUnitImpl implements Organic {
-  protected Cocoon(int id) {
-    super(id, UnitType.Zerg_Cocoon);
-  }
-
   public boolean cancelMorph() {
-    return issueCommand(this.id, Cancel_Morph, -1, -1, -1, -1);
+    return issueCommand(this.iD, Cancel_Morph, -1, -1, -1, -1);
   }
 }

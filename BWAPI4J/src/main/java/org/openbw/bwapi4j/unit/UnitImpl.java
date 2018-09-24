@@ -46,6 +46,10 @@ import org.openbw.bwapi4j.DamageEvaluator;
 import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
+import org.openbw.bwapi4j.ap.BridgeValue;
+import org.openbw.bwapi4j.ap.Named;
+import org.openbw.bwapi4j.ap.NativeClass;
+import org.openbw.bwapi4j.ap.Reset;
 import org.openbw.bwapi4j.type.Order;
 import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitCommandType;
@@ -54,123 +58,160 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 import org.openbw.bwapi4j.type.WeaponType;
 
+@NativeClass(name = "BWAPI::Unit")
 public abstract class UnitImpl implements Unit {
+
   private static final Logger logger = LogManager.getLogger();
 
-  protected int id;
+  @BridgeValue(initializeOnly = true)
+  @Named(name = "ID")
+  int iD;
+
+  @BridgeValue(accessor = "getPosition()", initializeOnly = true)
+  @Named(name = "INITIAL_POSITION")
   Position initialPosition;
+
+  @BridgeValue(accessor = "getTilePosition()", initializeOnly = true)
+  @Named(name = "INITIAL_TILE_POSITION")
   TilePosition initialTilePosition;
+
   int initiallySpotted;
-  protected final UnitType type;
+
+  @Named(name = "TYPE")
+  @BridgeValue(initializeOnly = true)
+  UnitType type;
 
   // dynamic
-  protected int x;
-  protected int y;
-  protected Position position;
-  protected TilePosition tilePosition;
-  double angle;
+  @BridgeValue Position position;
+  @BridgeValue TilePosition tilePosition;
+  @BridgeValue double angle;
   int lastCommandFrame;
-  UnitCommandType lastCommand;
+  @BridgeValue UnitCommandType lastCommand;
 
-  boolean isVisible;
+  @Reset(value = "false")
+  @BridgeValue
+  boolean visible;
+
+  @Reset(value = "false")
+  @BridgeValue(accessor = "exists()")
   boolean exists;
-  boolean isSelected;
-  boolean isFlying;
 
-  boolean isUpgrading;
-  boolean isResearching;
-  int remainingResearchTime;
-  int remainingUpgradeTime;
-  UpgradeType currentUpgrade;
-  TechType currentResearch;
+  @BridgeValue boolean selected;
+  @BridgeValue boolean flying;
+
+  @BridgeValue boolean upgrading;
+  @BridgeValue boolean researching;
+  @BridgeValue int remainingResearchTime;
+  @BridgeValue int remainingUpgradeTime;
+  @BridgeValue UpgradeType upgrade;
+  @BridgeValue TechType tech;
 
   // static
+  @BridgeValue(initializeOnly = true)
+  @Named(name = "INITIAL_HIT_POINTS")
   int initialHitPoints;
 
   // dynamic
-  int hitPoints;
-  int shields;
-  int killCount;
-  boolean isCloaked;
-  boolean isDetected;
-  double velocityX;
-  double velocityY;
-  boolean isIdle;
-  boolean isCompleted;
-  Weapon groundWeapon = new Weapon(WeaponType.None, 0);
-  Weapon airWeapon = new Weapon(WeaponType.None, 0);
-  int spellCooldown;
-  int targetId;
-  boolean isAccelerating;
-  boolean isAttacking;
-  boolean isAttackFrame;
-  boolean isBeingConstructed;
-  boolean isBeingHealed;
-  boolean isIrradiated;
-  boolean isLockedDown;
-  boolean isMaelstrommed;
-  boolean isStartingAttack;
-  boolean isUnderAttack;
-  boolean isPowered;
-  boolean isInterruptible;
-  int builderId;
-  int playerId;
-  Player player;
-  int energy;
-  boolean isTraining;
-  int trainingQueueSize;
-  int remainingTrainTime;
-  int rallyPositionX;
-  int rallyPositionY;
-  int rallyUnitId;
-  List<TrainingSlot> trainingQueue = new ArrayList<>();
-  boolean isLoaded;
-  int spaceRemaining;
-  List<MobileUnit> loadedUnits = new ArrayList<>();
-  int interceptorCount;
-  boolean isFollowing;
-  boolean isHoldingPosition;
-  boolean isStuck;
-  boolean isStasised;
-  boolean isUnderDarkSwarm;
-  boolean isUnderDisruptionWeb;
-  boolean isUnderStorm;
-  boolean isMoving;
-  boolean isParasited;
-  boolean isPatrolling;
-  boolean isPlagued;
-  Position targetPosition;
-  int transportId;
-  int acidSporeCount;
-  boolean isHallucination;
-  boolean isBlind;
-  boolean isBraking;
-  boolean isDefenseMatrixed;
-  boolean isEnsnared;
-  int addonId;
-  int remainingBuildTime;
-  boolean isLifted;
-  boolean burrowed;
-  int remainingMorphTime;
-  UnitType buildType;
-  boolean isStimmed;
+  @BridgeValue int hitPoints;
+  @BridgeValue int shields;
+  @BridgeValue int killCount;
+  @BridgeValue boolean cloaked;
+  @BridgeValue boolean detected;
+  @BridgeValue double velocityX;
+  @BridgeValue double velocityY;
+  @BridgeValue boolean idle;
+  @BridgeValue boolean completed;
+
+  @BridgeValue Weapon groundWeapon = new Weapon(WeaponType.None, 0);
+
+  @BridgeValue Weapon airWeapon = new Weapon(WeaponType.None, 0);
+
+  @BridgeValue int spellCooldown;
+  @BridgeValue Unit target;
+  @BridgeValue boolean accelerating;
+  @BridgeValue boolean attacking;
+  @BridgeValue boolean attackFrame;
+  @BridgeValue boolean beingConstructed;
+  @BridgeValue boolean beingHealed;
+  @BridgeValue boolean irradiated;
+  @BridgeValue boolean lockedDown;
+  @BridgeValue boolean maelstrommed;
+  @BridgeValue boolean startingAttack;
+  @BridgeValue boolean underAttack;
+  @BridgeValue boolean powered;
+  @BridgeValue boolean interruptible;
+  @BridgeValue Player player;
+  @BridgeValue int energy;
+  @BridgeValue boolean training;
+  @BridgeValue Unit buildUnit;
+  @BridgeValue int remainingTrainTime;
+  @BridgeValue Position rallyPosition;
+  @BridgeValue Unit rallyUnit;
+  // The bridge code currently cannot provide "generated" values, so we just provide the slot index
+  // here
+  @BridgeValue
+  List<TrainingSlot> trainingQueue =
+      new ArrayList<TrainingSlot>() {
+        @Override
+        public boolean add(TrainingSlot trainingSlot) {
+          trainingSlot.slotIndex = size();
+          return super.add(trainingSlot);
+        }
+      };
+
+  @BridgeValue boolean loaded;
+  @BridgeValue int spaceRemaining;
+  @BridgeValue List<Unit> loadedUnits = new ArrayList<>();
+  @BridgeValue int interceptorCount;
+  @BridgeValue boolean following;
+  @BridgeValue boolean holdingPosition;
+  @BridgeValue boolean stuck;
+  @BridgeValue boolean stasised;
+  @BridgeValue boolean underDarkSwarm;
+  @BridgeValue boolean underDisruptionWeb;
+  @BridgeValue boolean underStorm;
+  @BridgeValue boolean moving;
+  @BridgeValue boolean parasited;
+  @BridgeValue boolean patrolling;
+  @BridgeValue boolean plagued;
+  @BridgeValue Position targetPosition;
+  @BridgeValue Unit transport;
+  @BridgeValue int acidSporeCount;
+  @BridgeValue boolean hallucination;
+  @BridgeValue boolean blind;
+  @BridgeValue boolean braking;
+  @BridgeValue boolean defenseMatrixed;
+  @BridgeValue boolean ensnared;
+  @BridgeValue Unit addon;
+  @BridgeValue int remainingBuildTime;
+  @BridgeValue boolean lifted;
+  @BridgeValue boolean burrowed;
+  @BridgeValue UnitType buildType;
+  @BridgeValue boolean stimmed;
+
+  @BridgeValue(initializeOnly = true)
+  @Named(name = "INITIAL_RESOURCES")
   int initialResources;
-  int resources;
-  boolean isBeingGathered;
-  int carrierId;
-  int hatcheryId;
+
+  @BridgeValue int resources;
+  @BridgeValue boolean beingGathered;
+  @BridgeValue Unit carrier;
+  @BridgeValue Unit hatchery;
   int lastKnownResources;
+
+  @BridgeValue(accessor = "hasNuke()")
   boolean hasNuke;
-  int nydusExitId;
-  int scarabCount;
-  boolean isRepairing;
-  boolean sieged;
-  int spiderMineCount;
-  boolean isConstructing;
-  boolean isGatheringGas;
-  boolean isGatheringMinerals;
-  boolean isCarryingGas;
-  boolean isCarryingMinerals;
+
+  @BridgeValue Unit nydusExit;
+  @BridgeValue int scarabCount;
+  @BridgeValue boolean repairing;
+  @BridgeValue boolean sieged;
+  @BridgeValue int spiderMineCount;
+  @BridgeValue boolean constructing;
+  @BridgeValue boolean gatheringGas;
+  @BridgeValue boolean gatheringMinerals;
+  @BridgeValue boolean carryingGas;
+  @BridgeValue boolean carryingMinerals;
 
   // other
   Position lastKnownPosition;
@@ -181,11 +222,7 @@ public abstract class UnitImpl implements Unit {
   private BW bw;
   int lastSpotted;
 
-  protected UnitImpl(int id, UnitType unitType) {
-    this.id = id;
-    this.type = unitType;
-    this.lastSpotted = 0;
-  }
+  protected UnitImpl() {}
 
   final void setBW(BW bw) {
     this.bw = bw;
@@ -216,7 +253,7 @@ public abstract class UnitImpl implements Unit {
   }
 
   protected Player getPlayer() {
-    return this.player;
+    return player;
   }
 
   protected Player getPlayer(int id) {
@@ -224,23 +261,23 @@ public abstract class UnitImpl implements Unit {
   }
 
   public int getId() {
-    return this.id;
+    return this.iD;
   }
 
   public int getLeft() {
-    return this.x - this.type.dimensionLeft();
+    return position.getX() - this.type.dimensionLeft();
   }
 
   public int getTop() {
-    return this.y - this.type.dimensionUp();
+    return position.getY() - this.type.dimensionUp();
   }
 
   public int getRight() {
-    return this.x + this.type.dimensionRight();
+    return position.getX() + this.type.dimensionRight();
   }
 
   public int getBottom() {
-    return this.y + this.type.dimensionDown();
+    return position.getY() + this.type.dimensionDown();
   }
 
   public Position getMiddle(Unit unit) {
@@ -350,15 +387,15 @@ public abstract class UnitImpl implements Unit {
   }
 
   boolean lift() {
-    return issueCommand(id, Lift, -1, -1, -1, -1);
+    return issueCommand(iD, Lift, -1, -1, -1, -1);
   }
 
   boolean land(Position p) {
-    return issueCommand(id, Land, -1, p.getX(), p.getY(), -1);
+    return issueCommand(iD, Land, -1, p.getX(), p.getY(), -1);
   }
 
   boolean move(Position p) {
-    return issueCommand(id, Move, -1, p.getX(), p.getY(), -1);
+    return issueCommand(iD, Move, -1, p.getX(), p.getY(), -1);
   }
 
   public boolean exists() {
@@ -382,7 +419,7 @@ public abstract class UnitImpl implements Unit {
   }
 
   protected Unit getOrderTarget() {
-    return (this.orderTargetId >= 0) ? this.getUnit(this.orderTargetId) : null;
+    return orderTarget;
   }
 
   protected Position getOrderTargetPosition() {
@@ -398,98 +435,95 @@ public abstract class UnitImpl implements Unit {
   }
 
   protected boolean cancelResearch() {
-    return issueCommand(id, Cancel_Research, -1, -1, -1, -1);
+    return issueCommand(iD, Cancel_Research, -1, -1, -1, -1);
   }
 
   protected boolean cancelUpgrade() {
-    return issueCommand(id, Cancel_Upgrade, -1, -1, -1, -1);
+    return issueCommand(iD, Cancel_Upgrade, -1, -1, -1, -1);
   }
 
   protected boolean canResearch(TechType techType) {
-    return type.equals(techType.whatResearches()) && getPlayer(playerId).canResearch(techType);
+    return type.equals(techType.whatResearches()) && player.canResearch(techType);
   }
 
   protected boolean canUpgrade(UpgradeType upgradeType) {
-    return type.equals(upgradeType.whatUpgrades()) && getPlayer(playerId).canUpgrade(upgradeType);
+    return type.equals(upgradeType.whatUpgrades()) && player.canUpgrade(upgradeType);
   }
 
   protected boolean research(TechType techType) {
-    return issueCommand(id, Research, -1, -1, -1, techType.getId());
+    return issueCommand(iD, Research, -1, -1, -1, techType.getId());
   }
 
   protected boolean upgrade(UpgradeType upgrade) {
-    return issueCommand(id, Upgrade, -1, -1, -1, upgrade.getId());
+    return issueCommand(iD, Upgrade, -1, -1, -1, upgrade.getId());
   }
 
   protected ResearchingFacility.UpgradeInProgress getUpgradeInProgress() {
-    if (currentUpgrade == UpgradeType.None) {
+    if (upgrade == UpgradeType.None) {
       return ResearchingFacility.UpgradeInProgress.NONE;
     }
-    return new ResearchingFacility.UpgradeInProgress(currentUpgrade, remainingUpgradeTime);
+    return new ResearchingFacility.UpgradeInProgress(upgrade, remainingUpgradeTime);
   }
 
   protected ResearchingFacility.ResearchInProgress getResearchInProgress() {
-    if (currentResearch == TechType.None) {
+    if (tech == TechType.None) {
       return ResearchingFacility.ResearchInProgress.NONE;
     }
-    return new ResearchingFacility.ResearchInProgress(currentResearch, remainingResearchTime);
+    return new ResearchingFacility.ResearchInProgress(tech, remainingResearchTime);
   }
 
   protected boolean canTrain(UnitType type) {
-    return this.type.equals(type.whatBuilds().getFirst())
-        && getPlayer(playerId).canMake(type)
+    return this.type.equals(type.whatBuilds().getUnitType())
+        && player.canMake(type)
         && type.requiredUnits()
+            .keySet()
             .stream()
-            .allMatch(ut -> !ut.isAddon() || (addonId >= 0 && getUnit(addonId).getType() == ut));
+            .allMatch(ut -> !ut.isAddon() || (addon != null && addon.getType() == ut));
   }
 
   protected boolean train(UnitType type) {
-    return issueCommand(id, Train, -1, -1, -1, type.getId());
+    return issueCommand(iD, Train, -1, -1, -1, type.getId());
   }
 
   protected boolean cancelTrain(int slot) {
-    return issueCommand(id, Cancel_Train_Slot, -1, -1, -1, slot);
+    return issueCommand(iD, Cancel_Train_Slot, -1, -1, -1, slot);
   }
 
   protected boolean cancelTrain() {
-    return issueCommand(id, Cancel_Train, -1, -1, -1, -1);
+    return issueCommand(iD, Cancel_Train, -1, -1, -1, -1);
   }
 
   protected boolean setRallyPoint(Position p) {
-    return issueCommand(id, Set_Rally_Position, -1, p.getX(), p.getY(), -1);
+    return issueCommand(iD, Set_Rally_Position, -1, p.getX(), p.getY(), -1);
   }
 
   protected boolean setRallyPoint(Unit target) {
-    return issueCommand(id, Set_Rally_Unit, target.getId(), -1, -1, -1);
+    return issueCommand(iD, Set_Rally_Unit, target.getId(), -1, -1, -1);
   }
 
   protected Position getRallyPosition() {
-    return new Position(rallyPositionX, rallyPositionY);
+    return rallyPosition;
   }
 
   protected Unit getRallyUnit() {
-    return getUnit(this.rallyUnitId);
+    return rallyUnit;
   }
 
   public boolean isFlying() {
-    return isFlying;
+    return flying;
   }
 
   public boolean isVisible() {
-    return isVisible;
+    return visible;
   }
 
   public boolean isSelected() {
-    return isSelected;
-  }
-
-  protected List<MobileUnit> getLoadedUnits() {
-    return this.loadedUnits;
+    return selected;
   }
 
   @Override
   public int hashCode() {
-    return this.id;
+    return this.iD;
   }
 
   @Override
@@ -527,40 +561,38 @@ public abstract class UnitImpl implements Unit {
   // --------------------------------------------------
   // dynamic
 
-  private int replayID;
-  private int resourceGroup;
-  private Player lastAttackingPlayer;
-  private int defenseMatrixPoints;
-  private int defenseMatrixTimer;
-  private int ensnareTimer;
-  private int irradiateTimer;
-  private int lockDownTimer;
-  private int maelstromTimer;
-  private int orderTimer;
-  private int plagueTimer;
-  private int removeTimer;
-  private int stasisTimer;
-  private int stimTimer;
-  private TechType tech;
+  @BridgeValue int replayID;
+  @BridgeValue int resourceGroup;
+  @BridgeValue Player lastAttackingPlayer;
+  @BridgeValue int defenseMatrixPoints;
+  @BridgeValue int defenseMatrixTimer;
+  @BridgeValue int ensnareTimer;
+  @BridgeValue int irradiateTimer;
+  @BridgeValue int lockdownTimer;
+  @BridgeValue int maelstromTimer;
+  @BridgeValue int orderTimer;
+  @BridgeValue int plagueTimer;
+  @BridgeValue int removeTimer;
+  @BridgeValue int stasisTimer;
+  @BridgeValue int stimTimer;
 
-  private Unit buildUnit;
-  Order order;
-  int orderTargetId;
-  Position orderTargetPosition;
+  @BridgeValue Order order;
+  @BridgeValue Unit orderTarget;
+  @BridgeValue Position orderTargetPosition;
 
   Order secondaryOrder;
-  private boolean isMorphing;
-  private boolean isTargetable;
-  private boolean isInvincible;
+  @BridgeValue boolean morphing;
+  @BridgeValue boolean targetable;
+  @BridgeValue boolean invincible;
 
-  private boolean isInWeaponRange;
   public class TrainingSlot {
-    private final int slotIndex;
+
+    private int slotIndex;
 
     private final UnitType unitType;
 
-    protected TrainingSlot(final int slotIndex, final UnitType unitType) {
-      this.slotIndex = slotIndex;
+    @BridgeValue
+    TrainingSlot(final UnitType unitType) {
       this.unitType = unitType;
     }
 
@@ -569,7 +601,7 @@ public abstract class UnitImpl implements Unit {
     }
 
     public boolean cancel() {
-      return issueCommand(id, Cancel_Train_Slot, -1, -1, -1, this.slotIndex);
+      return issueCommand(iD, Cancel_Train_Slot, -1, -1, -1, this.slotIndex);
     }
 
     @Override

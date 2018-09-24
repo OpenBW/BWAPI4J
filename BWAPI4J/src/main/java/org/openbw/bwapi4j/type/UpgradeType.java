@@ -22,82 +22,124 @@ package org.openbw.bwapi4j.type;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
+import org.openbw.bwapi4j.ap.BridgeValue;
+import org.openbw.bwapi4j.ap.Indexed;
+import org.openbw.bwapi4j.ap.Named;
+import org.openbw.bwapi4j.ap.NativeClass;
 
-public enum UpgradeType {
-  Terran_Infantry_Armor,
-  Terran_Vehicle_Plating,
-  Terran_Ship_Plating,
-  Zerg_Carapace,
-  Zerg_Flyer_Carapace,
-  Protoss_Ground_Armor,
-  Protoss_Air_Armor,
-  Terran_Infantry_Weapons,
-  Terran_Vehicle_Weapons,
-  Terran_Ship_Weapons,
-  Zerg_Melee_Attacks,
-  Zerg_Missile_Attacks,
-  Zerg_Flyer_Attacks,
-  Protoss_Ground_Weapons,
-  Protoss_Air_Weapons,
-  Protoss_Plasma_Shields,
-  U_238_Shells, // marine range +1
-  Ion_Thrusters, // vulture speed +50%
-  Titan_Reactor, // science vessel start energy +12.5, max energy +50
-  Ocular_Implants, // ghost sight/detection range +2
-  Moebius_Reactor, // ghost start energy +12.5, max energy +50
-  Apollo_Reactor, // wraith start energy +12.5, max energy +50
-  Colossus_Reactor, // battlecruiser start energy +12.5, max energy +50
-  Ventral_Sacs, // overlord transport ability
-  Antennae, // overlord sight/detection range +2
-  Pneumatized_Carapace, // overlord speed +400%
-  Metabolic_Boost, // zergling speed +50%
-  Adrenal_Glands, // zergling attack rate increase (TODO HOW MUCH??)
-  Muscular_Augments, // hydralisk speed +50%
-  Grooved_Spines, // hydralisk range +1
-  Gamete_Meiosis, // queen start energy +12.5, max energy +50
-  Metasynaptic_Node, // defiler start energy +12.5, max energy +50
-  Singularity_Charge, // dragoon range +2
-  Leg_Enhancements, // zealot speed +50%
-  Scarab_Damage, // reaver scarab damage +25
-  Reaver_Capacity, // reaver capacity +5
-  Gravitic_Drive, // shuttle speed +50%
-  Sensor_Array, // observer sight/detection range +2
-  Gravitic_Boosters, // observer speed +50%
-  Khaydarin_Amulet, // high templar start energy +12.5, max energy +50
-  Apial_Sensors, // scout sight/detection range +2
-  Gravitic_Thrusters, // scout speed +50%
-  Carrier_Capacity, // carrier capacity +4
-  Khaydarin_Core, // arbiter start energy +12.5, max energy +50
-  Argus_Jewel, // corsair start energy +12.5, max energy +50
-  Argus_Talisman, // dark archon max energy +50
-  Caduceus_Reactor, // medic start energy +12.5, max energy +50
-  Chitinous_Plating, // ultralisk armor +2
-  Anabolic_Synthesis, // ultralisk speed +50%
-  Charon_Boosters, // goliath air range +3
-  Upgrade_60,
-  None,
-  Unknown;
+@NativeClass(name = "BWAPI::UpgradeType", accessOperator = ".")
+public enum UpgradeType implements WithId {
+  Terran_Infantry_Armor(0),
+  Terran_Vehicle_Plating(1),
+  Terran_Ship_Plating(2),
+  Zerg_Carapace(3),
+  Zerg_Flyer_Carapace(4),
+  Protoss_Ground_Armor(5),
+  Protoss_Air_Armor(6),
+  Terran_Infantry_Weapons(7),
+  Terran_Vehicle_Weapons(8),
+  Terran_Ship_Weapons(9),
+  Zerg_Melee_Attacks(10),
+  Zerg_Missile_Attacks(11),
+  Zerg_Flyer_Attacks(12),
+  Protoss_Ground_Weapons(13),
+  Protoss_Air_Weapons(14),
+  Protoss_Plasma_Shields(15),
+  U_238_Shells(16),
+  Ion_Thrusters(17),
 
-  private int id;
-  private Race race;
-  private int[] mineralPrices;
-  private int mineralPriceFactor;
-  private int[] gasPrices;
-  private int gasPriceFactor;
-  private int[] upgradeTimes;
-  private int upgradeTimeFactor;
-  private int maxRepeats;
-  private UnitType whatUpgrades;
-  private UnitType[] whatsRequired;
-  private List<UnitType> whatUses = new ArrayList<>();
+  Titan_Reactor(19),
+  Ocular_Implants(20),
+  Moebius_Reactor(21),
+  Apollo_Reactor(22),
+  Colossus_Reactor(23),
+  Ventral_Sacs(24),
+  Antennae(25),
+  Pneumatized_Carapace(26),
+  Metabolic_Boost(27),
+  Adrenal_Glands(28),
+  Muscular_Augments(29),
+  Grooved_Spines(30),
+  Gamete_Meiosis(31),
+  Metasynaptic_Node(32),
+  Singularity_Charge(33),
+  Leg_Enhancements(34),
+  Scarab_Damage(35),
+  Reaver_Capacity(36),
+  Gravitic_Drive(37),
+  Sensor_Array(38),
+  Gravitic_Boosters(39),
+  Khaydarin_Amulet(40),
+  Apial_Sensors(41),
+  Gravitic_Thrusters(42),
+  Carrier_Capacity(43),
+  Khaydarin_Core(44),
 
-  public static UpgradeType withId(int id) {
-    return IdMapper.upgradeTypesForId[id];
+  Argus_Jewel(47),
+
+  Argus_Talisman(49),
+
+  Caduceus_Reactor(51),
+  Chitinous_Plating(52),
+  Anabolic_Synthesis(53),
+  Charon_Boosters(54),
+
+  Upgrade_60(60),
+  None(61),
+  Unknown(62),
+  MAX(63);
+
+  @Named(name = "ID")
+  @BridgeValue(initializeOnly = true)
+  int iD;
+
+  @BridgeValue Race race;
+
+  @BridgeValue(accessor = "mineralPrice(i)")
+  @Indexed(getAmountBy = "maxRepeats()")
+  int[] mineralPrices;
+
+  @BridgeValue(accessor = "mineralPriceFactor()")
+  int mineralPriceFactor;
+
+  @BridgeValue(accessor = "gasPrice(i)")
+  @Indexed(getAmountBy = "maxRepeats()")
+  int[] gasPrices;
+
+  @BridgeValue(accessor = "gasPriceFactor()")
+  int gasPriceFactor;
+
+  @BridgeValue(accessor = "upgradeTime(i)")
+  @Indexed(getAmountBy = "maxRepeats()")
+  int[] upgradeTimes;
+
+  @BridgeValue(accessor = "upgradeTimeFactor()")
+  int upgradeTimeFactor;
+
+  @BridgeValue(accessor = "maxRepeats()")
+  int maxRepeats;
+
+  @BridgeValue(accessor = "whatUpgrades()")
+  UnitType whatUpgrades;
+
+  @BridgeValue(accessor = "whatsRequired(i)")
+  @Indexed(getAmountBy = "maxRepeats()")
+  UnitType[] whatsRequired;
+
+  @BridgeValue(accessor = "whatUses()")
+  List<UnitType> whatUses = new ArrayList<>();
+
+  UpgradeType(int id) {
+    this.iD = id;
   }
 
+  public static UpgradeType withId(int id) {
+    return IdMapper.upgradeTypeForId[id];
+  }
+
+  @Override
   public int getId() {
-    return this.id;
+    return this.iD;
   }
 
   /**
@@ -195,14 +237,7 @@ public enum UpgradeType {
   }
 
   private static class IdMapper {
-    static UpgradeType[] upgradeTypesForId;
 
-    static {
-      int maxUpgradeTypeId = Stream.of(values()).mapToInt(UpgradeType::getId).max().getAsInt();
-      upgradeTypesForId = new UpgradeType[maxUpgradeTypeId + 1];
-      for (UpgradeType type : UpgradeType.values()) {
-        upgradeTypesForId[type.getId()] = type;
-      }
-    }
+    static final UpgradeType[] upgradeTypeForId = IdMapperHelper.toIdTypeArray(UpgradeType.class);
   }
 }

@@ -10,7 +10,7 @@ public class VespeneGeyserMock extends VespeneGeyser implements Resource {
   private final TilePosition tilePosition;
 
   public VespeneGeyserMock(int id, int initialResources, final TilePosition tilePosition) {
-    super(id);
+    this.iD = id;
     this.initialResources = initialResources;
     this.tilePosition = tilePosition;
   }

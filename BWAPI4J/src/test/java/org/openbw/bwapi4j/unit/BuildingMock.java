@@ -11,11 +11,12 @@ public class BuildingMock extends BuildingImpl {
       int timeSpotted,
       final TilePosition lastKnownTilePosition,
       final Position lastKnownPosition) {
-    super(id, type, timeSpotted);
-    super.lastKnownTilePosition = lastKnownTilePosition;
-    super.lastKnownPosition = lastKnownPosition;
-    super.isCompleted = true;
-    super.hitPoints = maxHitPoints();
-    super.shields = maxShields();
+    super(type, timeSpotted);
+    this.iD = id;
+    this.lastKnownTilePosition = lastKnownTilePosition;
+    this.lastKnownPosition = lastKnownPosition;
+    this.completed = true;
+    this.hitPoints = maxHitPoints();
+    this.shields = maxShields();
   }
 }

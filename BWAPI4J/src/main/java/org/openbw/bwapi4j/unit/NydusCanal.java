@@ -27,12 +27,13 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitType;
 
 public class NydusCanal extends BuildingImpl implements Organic {
-  protected NydusCanal(int id, int timeSpotted) {
-    super(id, UnitType.Zerg_Nydus_Canal, timeSpotted);
+
+  protected NydusCanal(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
-  public Unit getNydusExit() {
-    return super.getUnit(nydusExitId);
+  public NydusCanal getNydusExit() {
+    return (NydusCanal) nydusExit;
   }
 
   /**
@@ -43,6 +44,6 @@ public class NydusCanal extends BuildingImpl implements Organic {
    */
   public boolean buildNydusExit(Position position) {
     return issueCommand(
-        this.id, Build, -1, position.getX(), position.getY(), Zerg_Nydus_Canal.getId());
+        this.iD, Build, -1, position.getX(), position.getY(), Zerg_Nydus_Canal.getId());
   }
 }

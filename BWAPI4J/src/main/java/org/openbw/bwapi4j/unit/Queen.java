@@ -20,7 +20,10 @@
 
 package org.openbw.bwapi4j.unit;
 
-import static org.openbw.bwapi4j.type.TechType.*;
+import static org.openbw.bwapi4j.type.TechType.Ensnare;
+import static org.openbw.bwapi4j.type.TechType.Infestation;
+import static org.openbw.bwapi4j.type.TechType.Parasite;
+import static org.openbw.bwapi4j.type.TechType.Spawn_Broodlings;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Position;
 import static org.openbw.bwapi4j.type.UnitCommandType.Use_Tech_Unit;
 
@@ -28,14 +31,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.TechType;
-import org.openbw.bwapi4j.type.UnitType;
 
 public class Queen extends MobileUnitImpl implements Organic, SpellCaster {
   private static final Logger logger = LogManager.getLogger();
-
-  protected Queen(int id) {
-    super(id, UnitType.Zerg_Queen);
-  }
 
   @Override
   public int getEnergy() {
@@ -58,7 +56,7 @@ public class Queen extends MobileUnitImpl implements Organic, SpellCaster {
       return false;
     } else {
       return issueCommand(
-          this.id, Use_Tech_Unit, commandCenter.getId(), -1, -1, Infestation.getId());
+          this.iD, Use_Tech_Unit, commandCenter.getId(), -1, -1, Infestation.getId());
     }
   }
 
@@ -72,7 +70,7 @@ public class Queen extends MobileUnitImpl implements Organic, SpellCaster {
     if (this.energy < TechType.Parasite.energyCost()) {
       return false;
     } else {
-      return issueCommand(this.id, Use_Tech_Unit, target.getId(), -1, -1, Parasite.getId());
+      return issueCommand(this.iD, Use_Tech_Unit, target.getId(), -1, -1, Parasite.getId());
     }
   }
 
@@ -85,7 +83,7 @@ public class Queen extends MobileUnitImpl implements Organic, SpellCaster {
       logger.info("Spawn Broodling spell cannot target a {}", target);
       return false;
     } else {
-      return issueCommand(this.id, Use_Tech_Unit, target.getId(), -1, -1, Spawn_Broodlings.getId());
+      return issueCommand(this.iD, Use_Tech_Unit, target.getId(), -1, -1, Spawn_Broodlings.getId());
     }
   }
 
@@ -94,7 +92,7 @@ public class Queen extends MobileUnitImpl implements Organic, SpellCaster {
       return false;
     } else {
       return issueCommand(
-          this.id, Use_Tech_Position, -1, position.getX(), position.getY(), Ensnare.getId());
+          this.iD, Use_Tech_Position, -1, position.getX(), position.getY(), Ensnare.getId());
     }
   }
 }

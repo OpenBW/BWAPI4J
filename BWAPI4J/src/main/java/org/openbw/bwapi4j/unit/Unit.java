@@ -4,20 +4,19 @@ import java.util.Collection;
 import java.util.List;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
+import org.openbw.bwapi4j.ap.LookedUp;
 import org.openbw.bwapi4j.type.UnitSizeType;
 import org.openbw.bwapi4j.type.UnitType;
 
+@LookedUp(method = "getUnit")
 public interface Unit extends Comparable<Unit> {
+
   int getKillCount();
 
-  /**
-   * Returns the frame number this unit was visible last.
-   */
+  /** Returns the frame number this unit was visible last. */
   int getLastSpotted();
 
-  /**
-   * Returns the frame number this unit was visible the first time.
-   */
+  /** Returns the frame number this unit was visible the first time. */
   int getInitiallySpotted();
 
   int getId();

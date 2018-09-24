@@ -20,13 +20,10 @@
 
 package org.openbw.bwapi4j.unit;
 
-import org.openbw.bwapi4j.type.UnitType;
-
 public abstract class Spell extends PlayerUnitImpl {
   protected int timeSpotted;
 
-  protected Spell(int id, int timeSpotted, UnitType unitType) {
-    super(id, unitType);
+  protected Spell(int timeSpotted) {
     this.timeSpotted = timeSpotted;
   }
 

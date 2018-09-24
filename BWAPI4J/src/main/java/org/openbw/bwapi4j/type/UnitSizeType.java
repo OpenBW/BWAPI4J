@@ -27,4 +27,8 @@ public enum UnitSizeType {
   Large,
   None,
   Unknown;
+
+  public static UnitSizeType withId(int id) {
+    return values()[id];
+  }
 }

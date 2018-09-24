@@ -23,11 +23,12 @@ package org.openbw.bwapi4j.unit;
 import org.openbw.bwapi4j.type.UnitType;
 
 public abstract class AddonImpl extends BuildingImpl implements Addon {
-  protected AddonImpl(int id, UnitType unitType, int timeSpotted) {
-    super(id, unitType, timeSpotted);
+
+  protected AddonImpl(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   public Building getMainBuilding() {
-    return (Building) this.getUnit(builderId);
+    return (Building) buildUnit;
   }
 }

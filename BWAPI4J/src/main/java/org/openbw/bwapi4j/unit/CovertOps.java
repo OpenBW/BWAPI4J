@@ -25,8 +25,9 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class CovertOps extends AddonImpl implements Mechanical, ResearchingFacility {
-  protected CovertOps(int id, int timeSpotted) {
-    super(id, UnitType.Terran_Covert_Ops, timeSpotted);
+
+  protected CovertOps(UnitType unitType, int timeSpotted) {
+    super(unitType, timeSpotted);
   }
 
   public boolean researchPersonnelCloaking() {
@@ -47,12 +48,12 @@ public class CovertOps extends AddonImpl implements Mechanical, ResearchingFacil
 
   @Override
   public boolean isUpgrading() {
-    return isUpgrading;
+    return upgrading;
   }
 
   @Override
   public boolean isResearching() {
-    return isResearching;
+    return researching;
   }
 
   @Override
