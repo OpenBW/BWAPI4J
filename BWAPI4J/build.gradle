@@ -4,7 +4,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 import java.nio.charset.StandardCharsets
 
 group 'org.openbw.bwapi4j'
-version '0.8.2b'
+version '0.8.3b'
 
 buildscript {
     repositories {
