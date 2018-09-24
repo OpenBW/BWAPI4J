@@ -18,9 +18,9 @@ build_script:
     gradlew.bat sourcesJar javadocJar shadowJar
 
 on_success:
-  - ps: ../webhooks/appveyor_discord.ps1 success $env:APPVEYOR_DISCORD_WEBHOOK_URL
+  - ps: webhooks/appveyor_discord.ps1 success $env:APPVEYOR_DISCORD_WEBHOOK_URL
 on_failure:
-  - ps: ../webhooks/appveyor_discord.ps1 failure $env:APPVEYOR_DISCORD_WEBHOOK_URL
+  - ps: webhooks/appveyor_discord.ps1 failure $env:APPVEYOR_DISCORD_WEBHOOK_URL
 
 cache:
   - '%USERPROFILE%\.gradle'
