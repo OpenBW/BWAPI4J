@@ -83,8 +83,8 @@ public abstract class MobileUnitImpl extends PlayerUnitImpl implements MobileUni
     return this.acidSporeCount;
   }
 
-  public MobileUnit getTransport() {
-    return (MobileUnit) transport;
+  public Loadable getTransport() {
+    return (Loadable) transport;
   }
 
   public boolean isFollowing() {

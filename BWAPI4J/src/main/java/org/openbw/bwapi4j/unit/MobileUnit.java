@@ -32,7 +32,7 @@ public interface MobileUnit extends PlayerUnit {
 
   int getAcidSporeCount();
 
-  Unit getTransport();
+  Loadable getTransport();
 
   boolean isFollowing();
 

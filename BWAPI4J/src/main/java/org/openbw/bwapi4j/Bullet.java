@@ -55,12 +55,6 @@ public class Bullet {
   @BridgeValue double velocityY;
   @BridgeValue boolean visible;
 
-  private BW bw;
-
-  Bullet(BW bw) {
-    this.bw = bw;
-  }
-
   public Player getPlayer() {
     return this.player;
   }

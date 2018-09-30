@@ -278,7 +278,7 @@ public class BW {
       int bulletId = bulletData[index + BulletBridge.ID];
       Bullet bullet = this.bullets.get(bulletId);
       if (bullet == null) {
-        bullet = new Bullet(this);
+        bullet = new Bullet();
         this.bullets.put(bulletId, bullet);
         bulletBridge.initialize(bullet, bulletData, index);
       }
