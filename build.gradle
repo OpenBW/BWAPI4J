@@ -70,7 +70,7 @@ project(":BWAPI4J") {
         relocate 'org.xguzm', 'org.openbw.bwapi4j.org.xguzm'
         relocate 'net.lingala.zip4j', 'org.openbw.bwapi4j.net.lingala.zip4j'
         classifier = null
-        from('BWAPI4JBridge/Release') {
+        from('../BWAPI4JBridge/Release') {
             include '*.dll'
             include '*.dylib'
             include '*.so'
