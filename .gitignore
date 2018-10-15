@@ -1,2 +1,6 @@
 /openbw/
-/.cache/
+.cache/
+.gradle/
+.idea/
+/BWAPI4J.iml
+/BWAPI4J-AP/build/
