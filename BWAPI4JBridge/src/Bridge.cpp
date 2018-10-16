@@ -96,6 +96,8 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject
 
     Bridge::Globals::initializeGame(env, bw);
 
+    LOGGER(fmt::format("Initial random seed: {}", BWAPI::Broodwar->getRandomSeed()));
+
     if (false && BWAPI::Broodwar->isReplay()) {  // right now don't treat replays any different
 
     } else {
@@ -208,7 +210,6 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getPlayerExtra(JNIEnv *en
     Bridge::Globals::dataBuffer.add(player->getID() != BWAPI::Broodwar->self()->getID() && player->isEnemy(BWAPI::Broodwar->self()));
   }
 
-
   jintArray result = env->NewIntArray(Bridge::Globals::dataBuffer.getIndex());
   env->SetIntArrayRegion(result, 0, Bridge::Globals::dataBuffer.getIndex(), Bridge::Globals::dataBuffer.intBuf);
   return result;
@@ -247,8 +248,8 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getGameData(JNIEnv *env, 
   return result;
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUpgradeTypesData(JNIEnv *env, jobject) { 
-  Bridge::Globals::dataBuffer.reset(); 
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUpgradeTypesData(JNIEnv *env, jobject) {
+  Bridge::Globals::dataBuffer.reset();
 
   BridgeEnum enums;
   enums.addUpgradeTypeEnums();
@@ -258,7 +259,6 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUpgradeTypesData(JNIEn
   return result;
 }
 
-
 /*
  * Class:     org_openbw_bwapi4j_BW
  * Method:    getWeaponTypesData
@@ -266,7 +266,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUpgradeTypesData(JNIEn
  */
 JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getWeaponTypesData(JNIEnv *env, jobject) {
   Bridge::Globals::dataBuffer.reset();
- 
+
   BridgeEnum enums;
   enums.addWeaponTypeEnums();
 
@@ -282,7 +282,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getWeaponTypesData(JNIEnv
  */
 JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getTechTypesData(JNIEnv *env, jobject) {
   Bridge::Globals::dataBuffer.reset();
- 
+
   BridgeEnum enums;
   enums.addTechTypeEnums();
 
@@ -298,7 +298,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getTechTypesData(JNIEnv *
  */
 JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUnitTypesData(JNIEnv *env, jobject) {
   Bridge::Globals::dataBuffer.reset();
-  
+
   BridgeEnum enums;
   enums.addUnitTypeEnums();
 

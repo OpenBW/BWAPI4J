@@ -26,9 +26,9 @@
 #include <math.h>
 
 #include "Logger.h"
-#include "org_openbw_bwapi4j_unit_UnitImplBridge.hpp"
-#include "org_openbw_bwapi4j_PlayerBridge.hpp"
 #include "org_openbw_bwapi4j_BulletBridge.hpp"
+#include "org_openbw_bwapi4j_PlayerBridge.hpp"
+#include "org_openbw_bwapi4j_unit_UnitImplBridge.hpp"
 
 // "Static" types
 #include "org_openbw_bwapi4j_type_TechTypeBridge.hpp"

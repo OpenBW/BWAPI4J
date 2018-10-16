@@ -19,8 +19,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "BridgeEnum.h"
-#include "Globals.h"
 #include "DataBuffer.h"
+#include "Globals.h"
 
 #include <BWAPI.h>
 
