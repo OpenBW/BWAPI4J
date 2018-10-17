@@ -157,49 +157,6 @@ public class BW {
       logger.warn("Korean character set not available. Some characters may not be read properly.");
       this.charset = StandardCharsets.ISO_8859_1;
     }
-
-    this.getUnitsFromPlayerCache =
-        new Cache<>(
-            () -> {
-              final Map<Player, List<PlayerUnit>> playerListMap = new HashMap<>();
-
-              for (final Unit unit : this.units.values()) {
-                if (unit instanceof PlayerUnit) {
-                  final PlayerUnit playerUnit = (PlayerUnit) unit;
-
-                  final Player player = playerUnit.getPlayer();
-
-                  if (player != null) {
-                    final List<PlayerUnit> units =
-                        playerListMap.computeIfAbsent(player, list -> new ArrayList<>());
-                    units.add(playerUnit);
-                  }
-                }
-              }
-
-              return playerListMap;
-            },
-            this.interactionHandler);
-    this.getMineralPatchesCache =
-        new Cache<>(
-            () ->
-                this.units
-                    .values()
-                    .stream()
-                    .filter(u -> u instanceof MineralPatch)
-                    .map(u -> (MineralPatch) u)
-                    .collect(Collectors.toList()),
-            this.interactionHandler);
-    this.getVespeneGeysersCache =
-        new Cache<>(
-            () ->
-                this.units
-                    .values()
-                    .stream()
-                    .filter(u -> u instanceof VespeneGeyser)
-                    .map(u -> (VespeneGeyser) u)
-                    .collect(Collectors.toList()),
-            this.interactionHandler);
   }
 
   public void startGame() {
@@ -439,12 +396,65 @@ public class BW {
     logger.trace("updated all bullets.");
   }
 
+  private void resetCache() {
+    this.getUnitsFromPlayerCache =
+        new Cache<>(
+            () -> {
+              final Map<Player, List<PlayerUnit>> playerListMap = new HashMap<>();
+
+              for (final Unit unit : this.units.values()) {
+                if (unit instanceof PlayerUnit) {
+                  final PlayerUnit playerUnit = (PlayerUnit) unit;
+
+                  final Player player = playerUnit.getPlayer();
+
+                  if (player != null) {
+                    final List<PlayerUnit> units =
+                        playerListMap.computeIfAbsent(player, list -> new ArrayList<>());
+                    units.add(playerUnit);
+                  }
+                }
+              }
+
+              return playerListMap;
+            },
+            this.interactionHandler);
+
+    this.getMineralPatchesCache =
+        new Cache<>(
+            () ->
+                this.units
+                    .values()
+                    .stream()
+                    .filter(u -> u instanceof MineralPatch)
+                    .map(u -> (MineralPatch) u)
+                    .collect(Collectors.toList()),
+            this.interactionHandler);
+
+    this.getVespeneGeysersCache =
+        new Cache<>(
+            () ->
+                this.units
+                    .values()
+                    .stream()
+                    .filter(u -> u instanceof VespeneGeyser)
+                    .map(u -> (VespeneGeyser) u)
+                    .collect(Collectors.toList()),
+            this.interactionHandler);
+
+    this.interactionHandler.resetCache();
+
+    this.bwMap.resetCache();
+  }
+
   private void onStart() {
     try {
       logger.trace(" --- onStart called.");
       this.players.clear();
       this.units.clear();
       this.bullets.clear();
+
+      resetCache();
 
       initializeTypes();
 

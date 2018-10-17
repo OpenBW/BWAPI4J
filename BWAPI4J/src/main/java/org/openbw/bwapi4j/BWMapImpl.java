@@ -53,6 +53,10 @@ class BWMapImpl implements BWMap {
   BWMapImpl(final InteractionHandler interactionHandler) {
     this.interactionHandler = interactionHandler;
     this.startLocations = new ArrayList<>();
+    resetCache();
+  }
+
+  void resetCache() {
     this.getCreepDataCache = new Cache<>(this::getCreepData, this.interactionHandler);
   }
 

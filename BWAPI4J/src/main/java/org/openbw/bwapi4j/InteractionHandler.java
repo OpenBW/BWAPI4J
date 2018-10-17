@@ -82,13 +82,17 @@ public final class InteractionHandler {
   private int apm;
   private int apm_including_selects;
 
-  private final Cache<List<Player>> getAlliesCache;
-  private final Cache<List<Player>> getEnemiesCache;
+  private Cache<List<Player>> getAlliesCache;
+  private Cache<List<Player>> getEnemiesCache;
 
-  private final Cache<List<Position>> getNukeDotsCache;
+  private Cache<List<Position>> getNukeDotsCache;
 
   InteractionHandler(final BW bw) {
     this.bw = bw;
+    resetCache();
+  }
+
+  void resetCache() {
     this.getAlliesCache = new Cache<>(this::allies_from_native, this);
     this.getEnemiesCache = new Cache<>(this::enemies_from_native, this);
     this.getNukeDotsCache = new Cache<>(this::getNukeDotsData, this);
