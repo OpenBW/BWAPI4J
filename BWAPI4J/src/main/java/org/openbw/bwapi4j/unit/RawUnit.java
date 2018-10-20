@@ -263,6 +263,10 @@ public class RawUnit extends UnitImpl {
     return stimmed;
   }
 
+  public int getStimTimer() {
+    return stimTimer;
+  }
+
   public int getInitialResources() {
     return initialResources;
   }

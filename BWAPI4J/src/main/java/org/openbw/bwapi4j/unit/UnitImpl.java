@@ -213,6 +213,9 @@ public abstract class UnitImpl implements Unit {
   @BridgeValue boolean carryingGas;
   @BridgeValue boolean carryingMinerals;
 
+  @BridgeValue
+  int stimTimer;
+
   // other
   Position lastKnownPosition;
   TilePosition lastKnownTilePosition;
@@ -574,7 +577,6 @@ public abstract class UnitImpl implements Unit {
   @BridgeValue int plagueTimer;
   @BridgeValue int removeTimer;
   @BridgeValue int stasisTimer;
-  @BridgeValue int stimTimer;
 
   @BridgeValue Order order;
   @BridgeValue Unit orderTarget;

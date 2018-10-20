@@ -28,6 +28,10 @@ public class Marine extends MobileUnitImpl implements Organic, GroundAttacker, A
     return this.stimmed;
   }
 
+  public int getStimTimer() {
+    return stimTimer;
+  }
+
   public boolean stimPack() {
     return issueCommand(this.iD, Use_Tech, -1, -1, -1, Stim_Packs.getId());
   }
