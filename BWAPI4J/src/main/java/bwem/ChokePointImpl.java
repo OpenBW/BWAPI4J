@@ -269,31 +269,19 @@ public class ChokePointImpl implements ChokePoint {
   }
 
   @Override
-  public boolean equals(final Object object) {
-    if (this == object) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
-    } else if (!(object instanceof ChokePointImpl)) {
-      return false;
-    } else {
-      final ChokePointImpl that = (ChokePointImpl) object;
-      final boolean lel = this.areas.getFirst().equals(that.areas.getFirst());
-      final boolean ler = this.areas.getFirst().equals(that.areas.getSecond());
-      final boolean rer = this.areas.getSecond().equals(that.areas.getSecond());
-      final boolean rel = this.areas.getSecond().equals(that.areas.getFirst());
-      return (((lel && rer)
-          || (ler && rel))); /* true if area pairs are an exact match or if one pair is reversed. */
     }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    ChokePointImpl that = (ChokePointImpl) o;
+    return Objects.equals(index, that.index);
   }
 
   @Override
   public int hashCode() {
-    int idLeft = areas.getFirst().getId().intValue();
-    int idRight = areas.getSecond().getId().intValue();
-    if (idLeft > idRight) {
-      final int idLeftTmp = idLeft;
-      idLeft = idRight;
-      idRight = idLeftTmp;
-    }
-    return Objects.hash(idLeft, idRight);
+    return Objects.hash(index);
   }
 }
