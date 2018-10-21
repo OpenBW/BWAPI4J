@@ -29,8 +29,8 @@
 template <typename F>
 void setJava2DIntArray(JNIEnv *env, jclass javaRef, jobject targetObject, const std::string &targetVariableName, const int maxX, const int maxY, F func) {
   auto data = env->NewObjectArray(maxX, env->GetObjectClass(env->NewIntArray(maxY)), 0);
+  auto *arr = new jint[maxY];
   for (int x = 0; x < maxX; ++x) {
-    auto *arr = new jint[maxY];
     for (int y = 0; y < maxY; ++y) {
       arr[y] = static_cast<int>(func(x, y));
     }
@@ -39,6 +39,7 @@ void setJava2DIntArray(JNIEnv *env, jclass javaRef, jobject targetObject, const 
     env->SetObjectArrayElement(data, x, jniArr);
   }
   env->SetObjectField(targetObject, env->GetFieldID(javaRef, targetVariableName.c_str(), "[[I"), data);
+  delete[] arr;
 }
 
 void BridgeMap::initialize(JNIEnv *env, jobject bw, const JavaRefs &javaRefs) {
