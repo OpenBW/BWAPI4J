@@ -2,5 +2,8 @@
 .cache/
 .gradle/
 .idea/
+out/
 /BWAPI4J.iml
 /BWAPI4J-AP/build/
+*.png
+*.log
