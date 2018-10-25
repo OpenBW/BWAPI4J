@@ -24,6 +24,24 @@ import org.openbw.bwapi4j.type.Color;
 
 /** Contains all map-drawing-related bwapi functionality. */
 public final class MapDrawer {
+  public enum CoordinateType {
+    None,
+    Screen,
+    Map,
+    Mouse
+  }
+
+  public enum Shape {
+    None,
+    Text,
+    Box,
+    Triangle,
+    Circle,
+    Ellipse,
+    Dot,
+    Line
+  }
+
   public enum TextSize {
     Small,
     Default,
@@ -31,146 +49,490 @@ public final class MapDrawer {
     Huge
   }
 
-  private boolean drawingEnabled;
+  private native void setTextSize_native(int textSize);
 
-  /* default */ MapDrawer() {
-    this.drawingEnabled = true;
+  public void setTextSize(final TextSize textSize) {
+    setTextSize_native(textSize.ordinal());
   }
 
-  /**
-   * Globally enable or disable drawing on the map.
-   *
-   * @param enabled true if drawing is enabled, false else.
-   */
-  public void setEnabled(boolean enabled) {
-    this.drawingEnabled = enabled;
+  private native void drawText_native(int coordinateType, int x, int y, String text);
+
+  private native void drawBox_native(
+      int coordinateType, int left, int top, int right, int bottom, int color, boolean isSolid);
+
+  private native void drawTriangle_native(
+      int coordinateType,
+      int ax,
+      int ay,
+      int bx,
+      int by,
+      int cx,
+      int cy,
+      int color,
+      boolean isSolid);
+
+  private native void drawCircle_native(
+      int coordinateType, int x, int y, int radius, int color, boolean isSolid);
+
+  private native void drawEllipse_native(
+      int coordinateType, int x, int y, int xrad, int yrad, int color, boolean isSolid);
+
+  private native void drawDot_native(int coordinateType, int x, int y, int color);
+
+  private native void drawLine_native(
+      int coordinateType, int ax, int ay, int bx, int by, int color);
+
+  public void drawText(CoordinateType ctype, int x, int y, String cstr_format) {
+    drawText_native(ctype.ordinal(), x, y, cstr_format);
   }
 
-  public boolean isEnabled() {
-    return drawingEnabled;
+  public void drawTextMap(int x, int y, String cstr_format) {
+    drawText_native(CoordinateType.Map.ordinal(), x, y, cstr_format);
   }
 
-  private native void drawCircleMap_native(int x, int y, int radius, int color);
-
-  private native void drawCircleMap_native(int x, int y, int radius, int color, boolean isSolid);
-
-  private native void drawBoxMap_native(int left, int top, int right, int bottom, int color);
-
-  private native void drawBoxMap_native(
-      int left, int top, int right, int bottom, int color, boolean isSolid);
-
-  private native void drawBoxScreen_native(
-      int left, int top, int right, int bottom, int color, boolean isSolid);
-
-  private native void drawLineMap_native(int x1, int y1, int x2, int y2, int color);
-
-  private native void drawTextMap_native(int x, int y, String cstr_format);
-
-  private native void drawTextScreen_native(int x, int y, String cstrFormat);
-
-  public void drawCircleMap(Position p, int radius, Color color) {
-    drawCircleMap(p.getX(), p.getY(), radius, color, false);
+  public void drawTextMap(Position p, String cstr_format) {
+    drawText_native(CoordinateType.Map.ordinal(), p.getX(), p.getY(), cstr_format);
   }
 
-  public void drawCircleMap(Position p, int radius, Color color, boolean isSolid) {
-    drawCircleMap(p.getX(), p.getY(), radius, color, isSolid);
+  public void drawTextMouse(int x, int y, String cstr_format) {
+    drawText_native(CoordinateType.Mouse.ordinal(), x, y, cstr_format);
   }
 
-  public void drawCircleMap(int x, int y, int radius, Color color) {
-    drawCircleMap(x, y, radius, color, false);
+  public void drawTextMouse(Position p, String cstr_format) {
+    drawText_native(CoordinateType.Mouse.ordinal(), p.getX(), p.getY(), cstr_format);
   }
 
-  public void drawCircleMap(int x, int y, int radius, Color color, boolean isSolid) {
-    if (drawingEnabled) {
-      drawCircleMap_native(x, y, radius, color.getValue(), isSolid);
-    }
+  public void drawTextScreen(int x, int y, String cstr_format) {
+    drawText_native(CoordinateType.Screen.ordinal(), x, y, cstr_format);
   }
 
-  public void drawBoxMap(Position topLeft, Position bottomRight, Color color) {
-    drawBoxMap(topLeft, bottomRight, color, false);
+  public void drawTextScreen(Position p, String cstr_format) {
+    drawText_native(CoordinateType.Screen.ordinal(), p.getX(), p.getY(), cstr_format);
   }
 
-  public void drawBoxMap(Position topLeft, Position bottomRight, Color color, boolean isSolid) {
-    drawBoxMap(
-        topLeft.getX(), topLeft.getY(), bottomRight.getX(), bottomRight.getY(), color, isSolid);
+  public void drawBox(CoordinateType ctype, int left, int top, int right, int bottom, Color color) {
+    drawBox_native(ctype.ordinal(), left, top, right, bottom, color.getValue(), false);
+  }
+
+  public void drawBox(
+      CoordinateType ctype,
+      int left,
+      int top,
+      int right,
+      int bottom,
+      Color color,
+      boolean isSolid) {
+    drawBox_native(ctype.ordinal(), left, top, right, bottom, color.getValue(), isSolid);
   }
 
   public void drawBoxMap(int left, int top, int right, int bottom, Color color) {
-    drawBoxMap(left, top, right, bottom, color, false);
+    drawBox_native(CoordinateType.Map.ordinal(), left, top, right, bottom, color.getValue(), false);
   }
 
   public void drawBoxMap(int left, int top, int right, int bottom, Color color, boolean isSolid) {
-    if (drawingEnabled) {
-      drawBoxMap_native(left, top, right, bottom, color.getValue(), isSolid);
-    }
+    drawBox_native(
+        CoordinateType.Map.ordinal(), left, top, right, bottom, color.getValue(), isSolid);
   }
 
-  public void drawBoxScreen(Position topLeft, Position bottomRight, Color color) {
-    drawBoxScreen(
-        topLeft.getX(), topLeft.getY(), bottomRight.getX(), bottomRight.getY(), color, false);
+  public void drawBoxMap(Position leftTop, Position rightBottom, Color color) {
+    drawBox_native(
+        CoordinateType.Map.ordinal(),
+        leftTop.getX(),
+        leftTop.getY(),
+        rightBottom.getX(),
+        rightBottom.getY(),
+        color.getValue(),
+        false);
   }
 
-  public void drawBoxScreen(Position topLeft, Position bottomRight, Color color, boolean isSolid) {
-    drawBoxScreen(
-        topLeft.getX(), topLeft.getY(), bottomRight.getX(), bottomRight.getY(), color, isSolid);
+  public void drawBoxMap(Position leftTop, Position rightBottom, Color color, boolean isSolid) {
+    drawBox_native(
+        CoordinateType.Map.ordinal(),
+        leftTop.getX(),
+        leftTop.getY(),
+        rightBottom.getX(),
+        rightBottom.getY(),
+        color.getValue(),
+        isSolid);
+  }
+
+  public void drawBoxMouse(int left, int top, int right, int bottom, Color color) {
+    drawBox_native(
+        CoordinateType.Mouse.ordinal(), left, top, right, bottom, color.getValue(), false);
+  }
+
+  public void drawBoxMouse(int left, int top, int right, int bottom, Color color, boolean isSolid) {
+    drawBox_native(
+        CoordinateType.Mouse.ordinal(), left, top, right, bottom, color.getValue(), isSolid);
+  }
+
+  public void drawBoxMouse(Position leftTop, Position rightBottom, Color color) {
+    drawBox_native(
+        CoordinateType.Mouse.ordinal(),
+        leftTop.getX(),
+        leftTop.getY(),
+        rightBottom.getX(),
+        rightBottom.getY(),
+        color.getValue(),
+        false);
+  }
+
+  public void drawBoxMouse(Position leftTop, Position rightBottom, Color color, boolean isSolid) {
+    drawBox_native(
+        CoordinateType.Mouse.ordinal(),
+        leftTop.getX(),
+        leftTop.getY(),
+        rightBottom.getX(),
+        rightBottom.getY(),
+        color.getValue(),
+        isSolid);
   }
 
   public void drawBoxScreen(int left, int top, int right, int bottom, Color color) {
-    drawBoxScreen(left, top, right, bottom, color, false);
+    drawBox_native(
+        CoordinateType.Screen.ordinal(), left, top, right, bottom, color.getValue(), false);
   }
 
   public void drawBoxScreen(
       int left, int top, int right, int bottom, Color color, boolean isSolid) {
-    if (drawingEnabled) {
-      drawBoxScreen_native(left, top, right, bottom, color.getValue(), isSolid);
-    }
+    drawBox_native(
+        CoordinateType.Screen.ordinal(), left, top, right, bottom, color.getValue(), isSolid);
   }
 
-  public void drawLineMap(Position a, Position b, Color color) {
-    drawLineMap(a.getX(), a.getY(), b.getX(), b.getY(), color);
+  public void drawBoxScreen(Position leftTop, Position rightBottom, Color color) {
+    drawBox_native(
+        CoordinateType.Screen.ordinal(),
+        leftTop.getX(),
+        leftTop.getY(),
+        rightBottom.getX(),
+        rightBottom.getY(),
+        color.getValue(),
+        false);
+  }
+
+  public void drawBoxScreen(Position leftTop, Position rightBottom, Color color, boolean isSolid) {
+    drawBox_native(
+        CoordinateType.Screen.ordinal(),
+        leftTop.getX(),
+        leftTop.getY(),
+        rightBottom.getX(),
+        rightBottom.getY(),
+        color.getValue(),
+        isSolid);
+  }
+
+  public void drawTriangle(
+      CoordinateType ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color) {
+    drawTriangle_native(ctype.ordinal(), ax, ay, bx, by, cx, cy, color.getValue(), false);
+  }
+
+  public void drawTriangle(
+      CoordinateType ctype,
+      int ax,
+      int ay,
+      int bx,
+      int by,
+      int cx,
+      int cy,
+      Color color,
+      boolean isSolid) {
+    drawTriangle_native(ctype.ordinal(), ax, ay, bx, by, cx, cy, color.getValue(), isSolid);
+  }
+
+  public void drawTriangleMap(int ax, int ay, int bx, int by, int cx, int cy, Color color) {
+    drawTriangle_native(
+        CoordinateType.Map.ordinal(), ax, ay, bx, by, cx, cy, color.getValue(), false);
+  }
+
+  public void drawTriangleMap(
+      int ax, int ay, int bx, int by, int cx, int cy, Color color, boolean isSolid) {
+    drawTriangle_native(
+        CoordinateType.Map.ordinal(), ax, ay, bx, by, cx, cy, color.getValue(), isSolid);
+  }
+
+  public void drawTriangleMap(Position a, Position b, Position c, Color color) {
+    drawTriangle_native(
+        CoordinateType.Map.ordinal(),
+        a.getX(),
+        a.getY(),
+        b.getX(),
+        b.getY(),
+        c.getX(),
+        c.getY(),
+        color.getValue(),
+        false);
+  }
+
+  public void drawTriangleMap(Position a, Position b, Position c, Color color, boolean isSolid) {
+    drawTriangle_native(
+        CoordinateType.Map.ordinal(),
+        a.getX(),
+        a.getY(),
+        b.getX(),
+        b.getY(),
+        c.getX(),
+        c.getY(),
+        color.getValue(),
+        isSolid);
+  }
+
+  public void drawTriangleMouse(int ax, int ay, int bx, int by, int cx, int cy, Color color) {
+    drawTriangle_native(
+        CoordinateType.Mouse.ordinal(), ax, ay, bx, by, cx, cy, color.getValue(), false);
+  }
+
+  public void drawTriangleMouse(
+      int ax, int ay, int bx, int by, int cx, int cy, Color color, boolean isSolid) {
+    drawTriangle_native(
+        CoordinateType.Mouse.ordinal(), ax, ay, bx, by, cx, cy, color.getValue(), isSolid);
+  }
+
+  public void drawTriangleMouse(Position a, Position b, Position c, Color color) {
+    drawTriangle_native(
+        CoordinateType.Mouse.ordinal(),
+        a.getX(),
+        a.getY(),
+        b.getX(),
+        b.getY(),
+        c.getX(),
+        c.getY(),
+        color.getValue(),
+        false);
+  }
+
+  public void drawTriangleMouse(Position a, Position b, Position c, Color color, boolean isSolid) {
+    drawTriangle_native(
+        CoordinateType.Mouse.ordinal(),
+        a.getX(),
+        a.getY(),
+        b.getX(),
+        b.getY(),
+        c.getX(),
+        c.getY(),
+        color.getValue(),
+        isSolid);
+  }
+
+  public void drawTriangleScreen(int ax, int ay, int bx, int by, int cx, int cy, Color color) {
+    drawTriangle_native(
+        CoordinateType.Screen.ordinal(), ax, ay, bx, by, cx, cy, color.getValue(), false);
+  }
+
+  public void drawTriangleScreen(
+      int ax, int ay, int bx, int by, int cx, int cy, Color color, boolean isSolid) {
+    drawTriangle_native(
+        CoordinateType.Screen.ordinal(), ax, ay, bx, by, cx, cy, color.getValue(), isSolid);
+  }
+
+  public void drawTriangleScreen(Position a, Position b, Position c, Color color) {
+    drawTriangle_native(
+        CoordinateType.Screen.ordinal(),
+        a.getX(),
+        a.getY(),
+        b.getX(),
+        b.getY(),
+        c.getX(),
+        c.getY(),
+        color.getValue(),
+        false);
+  }
+
+  public void drawTriangleScreen(Position a, Position b, Position c, Color color, boolean isSolid) {
+    drawTriangle_native(
+        CoordinateType.Screen.ordinal(),
+        a.getX(),
+        a.getY(),
+        b.getX(),
+        b.getY(),
+        c.getX(),
+        c.getY(),
+        color.getValue(),
+        isSolid);
+  }
+
+  public void drawCircle(CoordinateType ctype, int x, int y, int radius, Color color) {
+    drawCircle_native(ctype.ordinal(), x, y, radius, color.getValue(), false);
+  }
+
+  public void drawCircle(
+      CoordinateType ctype, int x, int y, int radius, Color color, boolean isSolid) {
+    drawCircle_native(ctype.ordinal(), x, y, radius, color.getValue(), isSolid);
+  }
+
+  public void drawCircleMap(int x, int y, int radius, Color color) {
+    drawCircle_native(CoordinateType.Map.ordinal(), x, y, radius, color.getValue(), false);
+  }
+
+  public void drawCircleMap(int x, int y, int radius, Color color, boolean isSolid) {
+    drawCircle_native(CoordinateType.Map.ordinal(), x, y, radius, color.getValue(), isSolid);
+  }
+
+  public void drawCircleMap(Position p, int radius, Color color) {
+    drawCircle_native(
+        CoordinateType.Map.ordinal(), p.getX(), p.getY(), radius, color.getValue(), false);
+  }
+
+  public void drawCircleMap(Position p, int radius, Color color, boolean isSolid) {
+    drawCircle_native(
+        CoordinateType.Map.ordinal(), p.getX(), p.getY(), radius, color.getValue(), isSolid);
+  }
+
+  public void drawCircleMouse(int x, int y, int radius, Color color) {
+    drawCircle_native(CoordinateType.Mouse.ordinal(), x, y, radius, color.getValue(), false);
+  }
+
+  public void drawCircleMouse(int x, int y, int radius, Color color, boolean isSolid) {
+    drawCircle_native(CoordinateType.Mouse.ordinal(), x, y, radius, color.getValue(), isSolid);
+  }
+
+  public void drawCircleMouse(Position p, int radius, Color color) {
+    drawCircle_native(
+        CoordinateType.Mouse.ordinal(), p.getX(), p.getY(), radius, color.getValue(), false);
+  }
+
+  public void drawCircleMouse(Position p, int radius, Color color, boolean isSolid) {
+    drawCircle_native(
+        CoordinateType.Mouse.ordinal(), p.getX(), p.getY(), radius, color.getValue(), isSolid);
+  }
+
+  public void drawCircleScreen(int x, int y, int radius, Color color) {
+    drawCircle_native(CoordinateType.Screen.ordinal(), x, y, radius, color.getValue(), false);
+  }
+
+  public void drawCircleScreen(int x, int y, int radius, Color color, boolean isSolid) {
+    drawCircle_native(CoordinateType.Screen.ordinal(), x, y, radius, color.getValue(), isSolid);
+  }
+
+  public void drawCircleScreen(Position p, int radius, Color color) {
+    drawCircle_native(
+        CoordinateType.Screen.ordinal(), p.getX(), p.getY(), radius, color.getValue(), false);
+  }
+
+  public void drawCircleScreen(Position p, int radius, Color color, boolean isSolid) {
+    drawCircle_native(
+        CoordinateType.Screen.ordinal(), p.getX(), p.getY(), radius, color.getValue(), isSolid);
+  }
+
+  public void drawEllipse(CoordinateType ctype, int x, int y, int xrad, int yrad, Color color) {
+    drawEllipse_native(ctype.ordinal(), x, y, xrad, yrad, color.getValue(), false);
+  }
+
+  public void drawEllipse(
+      CoordinateType ctype, int x, int y, int xrad, int yrad, Color color, boolean isSolid) {
+    drawEllipse_native(ctype.ordinal(), x, y, xrad, yrad, color.getValue(), isSolid);
+  }
+
+  public void drawEllipseMap(int x, int y, int xrad, int yrad, Color color) {
+    drawEllipse_native(CoordinateType.Map.ordinal(), x, y, xrad, yrad, color.getValue(), false);
+  }
+
+  public void drawEllipseMap(int x, int y, int xrad, int yrad, Color color, boolean isSolid) {
+    drawEllipse_native(CoordinateType.Map.ordinal(), x, y, xrad, yrad, color.getValue(), isSolid);
+  }
+
+  public void drawEllipseMap(Position p, int xrad, int yrad, Color color) {
+    drawEllipse_native(
+        CoordinateType.Map.ordinal(), p.getX(), p.getY(), xrad, yrad, color.getValue(), false);
+  }
+
+  public void drawEllipseMap(Position p, int xrad, int yrad, Color color, boolean isSolid) {
+    drawEllipse_native(
+        CoordinateType.Map.ordinal(), p.getX(), p.getY(), xrad, yrad, color.getValue(), isSolid);
+  }
+
+  public void drawEllipseMouse(int x, int y, int xrad, int yrad, Color color) {
+    drawEllipse_native(CoordinateType.Mouse.ordinal(), x, y, xrad, yrad, color.getValue(), false);
+  }
+
+  public void drawEllipseMouse(int x, int y, int xrad, int yrad, Color color, boolean isSolid) {
+    drawEllipse_native(CoordinateType.Mouse.ordinal(), x, y, xrad, yrad, color.getValue(), isSolid);
+  }
+
+  public void drawEllipseMouse(Position p, int xrad, int yrad, Color color) {
+    drawEllipse_native(
+        CoordinateType.Mouse.ordinal(), p.getX(), p.getY(), xrad, yrad, color.getValue(), false);
+  }
+
+  public void drawEllipseMouse(Position p, int xrad, int yrad, Color color, boolean isSolid) {
+    drawEllipse_native(
+        CoordinateType.Mouse.ordinal(), p.getX(), p.getY(), xrad, yrad, color.getValue(), isSolid);
+  }
+
+  public void drawEllipseScreen(int x, int y, int xrad, int yrad, Color color) {
+    drawEllipse_native(CoordinateType.Screen.ordinal(), x, y, xrad, yrad, color.getValue(), false);
+  }
+
+  public void drawEllipseScreen(int x, int y, int xrad, int yrad, Color color, boolean isSolid) {
+    drawEllipse_native(
+        CoordinateType.Screen.ordinal(), x, y, xrad, yrad, color.getValue(), isSolid);
+  }
+
+  public void drawEllipseScreen(Position p, int xrad, int yrad, Color color) {
+    drawEllipse_native(
+        CoordinateType.Screen.ordinal(), p.getX(), p.getY(), xrad, yrad, color.getValue(), false);
+  }
+
+  public void drawEllipseScreen(Position p, int xrad, int yrad, Color color, boolean isSolid) {
+    drawEllipse_native(
+        CoordinateType.Screen.ordinal(), p.getX(), p.getY(), xrad, yrad, color.getValue(), isSolid);
+  }
+
+  public void drawDot(CoordinateType ctype, int x, int y, Color color) {
+    drawDot_native(ctype.ordinal(), x, y, color.getValue());
+  }
+
+  public void drawDotMap(int x, int y, Color color) {
+    drawDot_native(CoordinateType.Map.ordinal(), x, y, color.getValue());
+  }
+
+  public void drawDotMap(Position p, Color color) {
+    drawDot_native(CoordinateType.Map.ordinal(), p.getX(), p.getY(), color.getValue());
+  }
+
+  public void drawDotMouse(int x, int y, Color color) {
+    drawDot_native(CoordinateType.Mouse.ordinal(), x, y, color.getValue());
+  }
+
+  public void drawDotMouse(Position p, Color color) {
+    drawDot_native(CoordinateType.Mouse.ordinal(), p.getX(), p.getY(), color.getValue());
+  }
+
+  public void drawDotScreen(int x, int y, Color color) {
+    drawDot_native(CoordinateType.Screen.ordinal(), x, y, color.getValue());
+  }
+
+  public void drawDotScreen(Position p, Color color) {
+    drawDot_native(CoordinateType.Screen.ordinal(), p.getX(), p.getY(), color.getValue());
+  }
+
+  public void drawLine(CoordinateType ctype, int x1, int y1, int x2, int y2, Color color) {
+    drawLine_native(ctype.ordinal(), x1, y1, x2, y2, color.getValue());
   }
 
   public void drawLineMap(int x1, int y1, int x2, int y2, Color color) {
-    if (drawingEnabled) {
-      drawLineMap_native(x1, y1, x2, y2, color.getValue());
-    }
+    drawLine_native(CoordinateType.Map.ordinal(), x1, y1, x2, y2, color.getValue());
   }
 
-  public void drawTextMap(Position position, String text) {
-    drawTextMap(position.getX(), position.getY(), text);
+  public void drawLineMap(Position a, Position b, Color color) {
+    drawLine_native(
+        CoordinateType.Map.ordinal(), a.getX(), a.getY(), b.getX(), b.getY(), color.getValue());
   }
 
-  public void drawTextMap(int x, int y, String text) {
-    if (drawingEnabled) {
-      drawTextMap_native(x, y, text);
-    }
+  public void drawLineMouse(int x1, int y1, int x2, int y2, Color color) {
+    drawLine_native(CoordinateType.Mouse.ordinal(), x1, y1, x2, y2, color.getValue());
   }
 
-  public void drawTextScreen(Position position, String text) {
-    drawTextScreen(position.getX(), position.getY(), text);
+  public void drawLineMouse(Position a, Position b, Color color) {
+    drawLine_native(
+        CoordinateType.Mouse.ordinal(), a.getX(), a.getY(), b.getX(), b.getY(), color.getValue());
   }
 
-  public void drawTextScreen(int x, int y, String text) {
-    if (drawingEnabled) {
-      drawTextScreen_native(x, y, text);
-    }
+  public void drawLineScreen(int x1, int y1, int x2, int y2, Color color) {
+    drawLine_native(CoordinateType.Screen.ordinal(), x1, y1, x2, y2, color.getValue());
   }
 
-  public void setTextSize(TextSize textSize) {
-    setTextSize(textSize.ordinal());
-  }
-
-  private native void setTextSize(int textSize);
-
-  private native void drawLineScreen_native(
-      final int x1, final int y1, final int x2, final int y2, final int colorValue);
-
-  public void drawLineScreen(
-      final int x1, final int y1, final int x2, final int y2, final Color color) {
-    drawLineScreen_native(x1, y1, x2, y2, color.getValue());
-  }
-
-  public void drawLineScreen(final Position a, final Position b, final Color color) {
-    drawLineScreen(a.getX(), a.getY(), b.getX(), b.getY(), color);
+  public void drawLineScreen(Position a, Position b, Color color) {
+    drawLine_native(
+        CoordinateType.Screen.ordinal(), a.getX(), a.getY(), b.getX(), b.getY(), color.getValue());
   }
 }

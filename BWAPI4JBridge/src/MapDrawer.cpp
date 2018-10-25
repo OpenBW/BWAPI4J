@@ -22,51 +22,7 @@
 
 #include "org_openbw_bwapi4j_MapDrawer.h"
 
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawCircleMap_1native__IIII(JNIEnv *, jobject, jint x, jint y, jint radius, jint colorValue) {
-  BWAPI::Color color(colorValue);
-  BWAPI::Broodwar->drawCircleMap(x, y, radius, color);
-}
-
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawCircleMap_1native__IIIIZ(JNIEnv *, jobject, jint x, jint y, jint radius, jint colorValue,
-                                                                                      jboolean isSolid) {
-  BWAPI::Color color(colorValue);
-  BWAPI::Broodwar->drawCircleMap(x, y, radius, color, isSolid);
-}
-
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawTextScreen_1native(JNIEnv *env, jobject, jint x, jint y, jstring cstr_format) {
-  const char *messagechars = env->GetStringUTFChars(cstr_format, 0);
-  BWAPI::Broodwar->drawTextScreen(x, y, messagechars);
-}
-
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawBoxMap_1native__IIIII(JNIEnv *, jobject, jint left, jint top, jint right, jint bottom,
-                                                                                   jint colorValue) {
-  BWAPI::Color color(colorValue);
-  BWAPI::Broodwar->drawBoxMap(left, top, right, bottom, color);
-}
-
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawBoxMap_1native__IIIIIZ(JNIEnv *, jobject, jint left, jint top, jint right, jint bottom,
-                                                                                    jint colorValue, jboolean isSolid) {
-  BWAPI::Color color(colorValue);
-  BWAPI::Broodwar->drawBoxMap(left, top, right, bottom, color, isSolid);
-}
-
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawBoxScreen_1native(JNIEnv *, jobject, jint left, jint top, jint right, jint bottom, jint colorValue,
-                                                                               jboolean isSolid) {
-  BWAPI::Color color(colorValue);
-  BWAPI::Broodwar->drawBoxScreen(left, top, right, bottom, color, isSolid);
-}
-
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawLineMap_1native(JNIEnv *, jobject, jint x1, jint y1, jint x2, jint y2, jint colorValue) {
-  BWAPI::Color color(colorValue);
-  BWAPI::Broodwar->drawLineMap(x1, y1, x2, y2, color);
-}
-
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawTextMap_1native(JNIEnv *env, jobject, jint x, jint y, jstring cstr_format) {
-  const char *messagechars = env->GetStringUTFChars(cstr_format, 0);
-  BWAPI::Broodwar->drawTextMap(x, y, messagechars);
-}
-
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_setTextSize(JNIEnv *env, jobject jObj, jint bwapi4jTextSize) {
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_setTextSize_1native(JNIEnv *env, jobject jObj, jint bwapi4jTextSize) {
   BWAPI::Text::Size::Enum textSize = BWAPI::Text::Size::Default;
 
   switch (bwapi4jTextSize) {
@@ -90,6 +46,36 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_setTextSize(JNIEnv *env
   BWAPI::Broodwar->setTextSize(textSize);
 }
 
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawLineScreen_1native(JNIEnv *, jobject, jint x1, jint y1, jint x2, jint y2, jint colorValue) {
-  BWAPI::Broodwar->drawLineScreen(BWAPI::Position(x1, y1), BWAPI::Position(x2, y2), BWAPI::Color(colorValue));
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawText_1native(JNIEnv *env, jobject, jint coordinateType, jint x, jint y, jstring text) {
+  const char *buffer = env->GetStringUTFChars(text, 0);
+  BWAPI::Broodwar->drawText(BWAPI::CoordinateType::Enum(coordinateType), x, y, buffer);
+}
+
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawBox_1native(JNIEnv *, jobject, jint coordinateType, jint left, jint top, jint right, jint bottom,
+                                                                         jint color, jboolean isSolid) {
+  BWAPI::Broodwar->drawBox(BWAPI::CoordinateType::Enum(coordinateType), left, top, right, bottom, BWAPI::Color(color), isSolid);
+}
+
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawTriangle_1native(JNIEnv *, jobject, jint coordinateType, jint ax, jint ay, jint bx, jint by,
+                                                                              jint cx, jint cy, jint color, jboolean isSolid) {
+  BWAPI::Broodwar->drawTriangle(BWAPI::CoordinateType::Enum(coordinateType), ax, ay, bx, by, cx, cy, BWAPI::Color(color), isSolid);
+}
+
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawCircle_1native(JNIEnv *, jobject, jint coordinateType, jint x, jint y, jint radius, jint color,
+                                                                            jboolean isSolid) {
+  BWAPI::Broodwar->drawCircle(BWAPI::CoordinateType::Enum(coordinateType), x, y, radius, BWAPI::Color(color), isSolid);
+}
+
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawEllipse_1native(JNIEnv *, jobject, jint coordinateType, jint x, jint y, jint xrad, jint yrad,
+                                                                             jint color, jboolean isSolid) {
+  BWAPI::Broodwar->drawEllipse(BWAPI::CoordinateType::Enum(coordinateType), x, y, xrad, yrad, BWAPI::Color(color), isSolid);
+}
+
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawDot_1native(JNIEnv *, jobject, jint coordinateType, jint x, jint y, jint color) {
+  BWAPI::Broodwar->drawDot(BWAPI::CoordinateType::Enum(coordinateType), x, y, BWAPI::Color(color));
+}
+
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawLine_1native(JNIEnv *, jobject, jint coordinateType, jint ax, jint ay, jint bx, jint by,
+                                                                          jint color) {
+  BWAPI::Broodwar->drawLine(BWAPI::CoordinateType::Enum(coordinateType), ax, ay, bx, by, BWAPI::Color(color));
 }
