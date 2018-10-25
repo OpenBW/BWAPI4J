@@ -49,6 +49,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_setTextSize_1native(JNI
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawText_1native(JNIEnv *env, jobject, jint coordinateType, jint x, jint y, jstring text) {
   const char *buffer = env->GetStringUTFChars(text, 0);
   BWAPI::Broodwar->drawText(BWAPI::CoordinateType::Enum(coordinateType), x, y, buffer);
+  env->ReleaseStringUTFChars(text, buffer);
 }
 
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_MapDrawer_drawBox_1native(JNIEnv *, jobject, jint coordinateType, jint left, jint top, jint right, jint bottom,
