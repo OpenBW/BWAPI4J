@@ -7,3 +7,7 @@ out/
 /BWAPI4J-AP/build/
 *.png
 *.log
+maps/
+*.mpq
+bwapi.ini
+
