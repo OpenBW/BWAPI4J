@@ -49,11 +49,11 @@ public abstract class BuildingImpl extends PlayerUnitImpl implements Building {
   }
 
   private int calculateProbableConstructionStart(int currentFrame) {
-    int time;
+    int time = 0;
     if (this.isCompleted()) {
       time = currentFrame - this.type.buildTime();
-    } else {
-      time = currentFrame - this.getHitPoints() * this.type.buildTime() / this.type.maxHitPoints();
+    } else if (this.type.maxHitPoints() > 0) {
+      time = currentFrame - this.type.buildTime() * this.getHitPoints() / this.type.maxHitPoints();
     }
     return time;
   }
