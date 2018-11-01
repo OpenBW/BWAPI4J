@@ -20,4 +20,8 @@
 
 package org.openbw.bwapi4j.unit;
 
-public class SpiderMine extends PlayerUnitImpl {}
+public class SpiderMine extends PlayerUnitImpl {
+  public boolean isBurrowed() {
+    return burrowed;
+  }
+}
