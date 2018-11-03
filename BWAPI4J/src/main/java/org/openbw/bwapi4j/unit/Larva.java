@@ -33,4 +33,12 @@ public class Larva extends PlayerUnitImpl implements Organic, Morphable {
   public boolean morph(UnitType type) {
     return issueCommand(this.iD, Morph, -1, -1, -1, type.getId());
   }
+
+  /**
+   * Returns a {@link org.openbw.bwapi4j.unit.UnitImpl.TrainingSlot} if this larva is about to morph
+   * or null if not.
+   */
+  public TrainingSlot getTrainingSlot() {
+    return trainingQueue.isEmpty() ? null : trainingQueue.get(0);
+  }
 }
