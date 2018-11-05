@@ -20,10 +20,10 @@
 
 #include <BWAPI.h>
 
-#include "org_openbw_bwapi4j_unit_UnitImpl.h"
+#include "org_openbw_bwapi4j_unit_Unit.h"
 
-JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_UnitImpl_issueCommand(JNIEnv *, jobject, jint unitID, jint unitCommandTypeID, jint targetUnitID, jint x,
-                                                                              jint y, jint extra) {
+JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_Unit_issueCommand(JNIEnv *, jobject, jint unitID, jint unitCommandTypeID, jint targetUnitID, jint x,
+                                                                          jint y, jint extra) {
   BWAPI::Unit unit = BWAPI::Broodwar->getUnit(unitID);
   if (unit) {
     BWAPI::UnitCommand c = BWAPI::UnitCommand();

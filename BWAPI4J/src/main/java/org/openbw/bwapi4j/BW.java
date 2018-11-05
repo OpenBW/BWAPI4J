@@ -42,15 +42,10 @@ import org.openbw.bwapi4j.type.UpgradeType;
 import org.openbw.bwapi4j.type.UpgradeTypeBridge;
 import org.openbw.bwapi4j.type.WeaponType;
 import org.openbw.bwapi4j.type.WeaponTypeBridge;
-import org.openbw.bwapi4j.unit.MineralPatch;
-import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.unit.Unit;
+import org.openbw.bwapi4j.unit.UnitBridge;
 import org.openbw.bwapi4j.unit.UnitFactory;
-import org.openbw.bwapi4j.unit.UnitImpl;
-import org.openbw.bwapi4j.unit.UnitImplBridge;
-import org.openbw.bwapi4j.unit.VespeneGeyser;
 import org.openbw.bwapi4j.unit.WeaponBridge;
-import org.openbw.bwapi4j.unit.Worker;
 import org.openbw.bwapi4j.util.Cache;
 import org.openbw.bwapi4j.util.DependencyManager;
 import org.openbw.bwapi4j.util.system.SystemUtils;
@@ -65,7 +60,7 @@ public class BW {
   private MapDrawer mapDrawer;
   private DamageEvaluator damageEvaluator;
   private BWMapImpl bwMap;
-  private UnitImplBridge unitDataBridge;
+  private UnitBridge unitDataBridge;
   private PlayerBridge playerBridge;
   private BulletBridge bulletBridge;
 
@@ -75,14 +70,14 @@ public class BW {
   private UnitTypeBridge unitTypeBridge;
 
   private Map<Integer, Player> players;
-  private Map<Integer, UnitImpl> units;
+  private Map<Integer, Unit> units;
   private Map<Integer, Bullet> bullets;
   private UnitFactory unitFactory;
   private Charset charset;
 
-  private Cache<Map<Player, List<PlayerUnit>>> getUnitsFromPlayerCache;
-  private Cache<List<MineralPatch>> getMineralPatchesCache;
-  private Cache<List<VespeneGeyser>> getVespeneGeysersCache;
+  private Cache<Map<Player, List<Unit>>> getUnitsFromPlayerCache;
+  private Cache<List<Unit>> getMineralPatchesCache;
+  private Cache<List<Unit>> getVespeneGeysersCache;
 
   /**
    * The default value for {@code BridgeType} is {@link BWAPI4J.BridgeType#VANILLA} on Windows and
@@ -141,7 +136,7 @@ public class BW {
     this.mapDrawer = new MapDrawer();
     this.damageEvaluator = new DamageEvaluator();
     this.bwMap = new BWMapImpl(this.interactionHandler);
-    this.unitDataBridge = new UnitImplBridge(this, new WeaponBridge(this));
+    this.unitDataBridge = new UnitBridge(this, new WeaponBridge(this));
     this.playerBridge = new PlayerBridge(this);
     this.bulletBridge = new BulletBridge(this);
     this.upgradeTypeBridge = new UpgradeTypeBridge(this);
@@ -149,7 +144,7 @@ public class BW {
     this.techTypeBridge = new TechTypeBridge(this);
     this.unitTypeBridge = new UnitTypeBridge(this);
 
-    setUnitFactory(new UnitFactory());
+    this.unitFactory = new UnitFactory(this);
 
     try {
       this.charset = Charset.forName("Cp949"); /* Korean char set */
@@ -201,11 +196,6 @@ public class BW {
 
   private native int[] getPlayerExtra(int playerId);
 
-  public void setUnitFactory(UnitFactory unitFactory) {
-    this.unitFactory = unitFactory;
-    this.unitFactory.setBW(this);
-  }
-
   public BWMap getBWMap() {
     return this.bwMap;
   }
@@ -250,16 +240,16 @@ public class BW {
   }
 
   private void updateAllUnits(int frame) {
-    for (UnitImpl unit : this.units.values()) {
+    for (Unit unit : this.units.values()) {
       unitDataBridge.reset(unit);
     }
     int[] unitData = this.getAllUnitsData();
 
     int index = 0;
     while (index < unitData.length) {
-      int unitId = unitData[index + UnitImplBridge.ID];
-      int typeId = unitData[index + UnitImplBridge.TYPE];
-      UnitImpl unit = this.units.get(unitId);
+      int unitId = unitData[index + UnitBridge.ID];
+      int typeId = unitData[index + UnitBridge.TYPE];
+      Unit unit = this.units.get(unitId);
       if (unit == null || typeChanged(unit.getType(), UnitType.values()[typeId])) {
         if (unit != null) {
           logger.debug(
@@ -349,7 +339,7 @@ public class BW {
    * @param player player whose units to return
    * @return list of <code>PlayerUnit</code>
    */
-  public List<PlayerUnit> getUnits(Player player) {
+  public List<Unit> getUnits(Player player) {
     return this.getUnitsFromPlayerCache.get().getOrDefault(player, Collections.emptyList());
   }
 
@@ -358,7 +348,7 @@ public class BW {
    *
    * @return list of mineral patches
    */
-  public List<MineralPatch> getMineralPatches() {
+  public List<Unit> getMineralPatches() {
     return this.getMineralPatchesCache.get();
   }
 
@@ -367,21 +357,12 @@ public class BW {
    *
    * @return list of vespene geysers
    */
-  public List<VespeneGeyser> getVespeneGeysers() {
+  public List<Unit> getVespeneGeysers() {
     return this.getVespeneGeysersCache.get();
   }
 
-  public Collection<UnitImpl> getAllUnits() {
+  public Collection<Unit> getAllUnits() {
     return this.units.values();
-  }
-
-  // TODO: Remove "canBuildHere" functions from this class. It should only be in bwMap
-  public boolean canBuildHere(TilePosition position, UnitType type) {
-    return bwMap.canBuildHere(position, type);
-  }
-
-  public boolean canBuildHere(TilePosition position, UnitType type, Worker builder) {
-    return bwMap.canBuildHere(position, type, builder);
   }
 
   private void preFrame() {
@@ -400,19 +381,15 @@ public class BW {
     this.getUnitsFromPlayerCache =
         new Cache<>(
             () -> {
-              final Map<Player, List<PlayerUnit>> playerListMap = new HashMap<>();
+              final Map<Player, List<Unit>> playerListMap = new HashMap<>();
 
               for (final Unit unit : this.units.values()) {
-                if (unit instanceof PlayerUnit) {
-                  final PlayerUnit playerUnit = (PlayerUnit) unit;
+                final Player player = unit.getPlayer();
 
-                  final Player player = playerUnit.getPlayer();
-
-                  if (player != null) {
-                    final List<PlayerUnit> units =
-                        playerListMap.computeIfAbsent(player, list -> new ArrayList<>());
-                    units.add(playerUnit);
-                  }
+                if (player != null) {
+                  final List<Unit> units =
+                      playerListMap.computeIfAbsent(player, list -> new ArrayList<>());
+                  units.add(unit);
                 }
               }
 
@@ -426,8 +403,7 @@ public class BW {
                 this.units
                     .values()
                     .stream()
-                    .filter(u -> u instanceof MineralPatch)
-                    .map(u -> (MineralPatch) u)
+                    .filter(u -> u.getType().isMineralField())
                     .collect(Collectors.toList()),
             this.interactionHandler);
 
@@ -437,8 +413,7 @@ public class BW {
                 this.units
                     .values()
                     .stream()
-                    .filter(u -> u instanceof VespeneGeyser)
-                    .map(u -> (VespeneGeyser) u)
+                    .filter(u -> u.getType() == UnitType.Resource_Vespene_Geyser)
                     .collect(Collectors.toList()),
             this.interactionHandler);
 

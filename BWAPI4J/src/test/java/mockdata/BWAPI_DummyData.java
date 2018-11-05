@@ -6,8 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.test.BWDataProvider;
-import org.openbw.bwapi4j.unit.MineralPatch;
-import org.openbw.bwapi4j.unit.VespeneGeyser;
+import org.openbw.bwapi4j.unit.Unit;
 
 /** Container class for BWAPI dummy data to feed into test and/or mocks. */
 public class BWAPI_DummyData {
@@ -66,8 +65,8 @@ public class BWAPI_DummyData {
   private final int[] groundHeightData;
   private final int[] isWalkableData;
   private final int[] isBuildableData;
-  private final List<MineralPatch> mineralPatches;
-  private final List<VespeneGeyser> vespeneGeysers;
+  private final List<Unit> mineralPatches;
+  private final List<Unit> vespeneGeysers;
 
   public BWAPI_DummyData(final String mapHash, final String dataSetBwapiVersion) throws Exception {
     BWDataProvider.injectValues();
@@ -179,11 +178,11 @@ public class BWAPI_DummyData {
     return this.isBuildableData;
   }
 
-  public List<MineralPatch> getMineralPatches() {
+  public List<Unit> getMineralPatches() {
     return this.mineralPatches;
   }
 
-  public List<VespeneGeyser> getVespeneGeysers() {
+  public List<Unit> getVespeneGeysers() {
     return this.vespeneGeysers;
   }
 }

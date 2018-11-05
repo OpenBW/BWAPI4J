@@ -4,7 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import org.openbw.bwapi4j.BW;
 
-/** Internal API to transfer unit data received from C++ to java {@link UnitImpl}s. */
+/** Internal API to transfer unit data received from C++ to java {@link Unit}s. */
 public class UnitDataBridge {
 
   private static final int ID_INDEX = 0;

@@ -36,8 +36,6 @@ import org.openbw.bwapi4j.type.Race;
 import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
-import org.openbw.bwapi4j.unit.ExtendibleByAddon;
-import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.unit.Unit;
 
 @LookedUp(method = "getPlayer")
@@ -696,8 +694,7 @@ public class Player {
         .findAny()
         .map(
             requiredAddon -> {
-              ExtendibleByAddon building = (ExtendibleByAddon) builder;
-              if (building.getAddon() == null || building.getAddon().getType() != requiredAddon) {
+              if (builder.getAddon() == null || builder.getAddon().getType() != requiredAddon) {
                 return false;
               }
               return true;
@@ -739,9 +736,9 @@ public class Player {
   }
 
   public static Collection<UnitType> getMissingUnits(
-      Collection<? extends PlayerUnit> group, Collection<UnitType> types) {
+      Collection<? extends Unit> group, Collection<UnitType> types) {
     HashSet<UnitType> result = new HashSet<>(types);
-    group.stream().filter(u -> u.isCompleted()).map(u -> u.getType()).forEach(result::remove);
+    group.stream().filter(Unit::isCompleted).map(Unit::getType).forEach(result::remove);
     return result;
   }
 

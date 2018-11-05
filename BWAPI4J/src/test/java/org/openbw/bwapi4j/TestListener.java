@@ -6,11 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import org.openbw.bwapi4j.type.Color;
 import org.openbw.bwapi4j.type.Race;
-import org.openbw.bwapi4j.unit.CommandCenter;
-import org.openbw.bwapi4j.unit.MineralPatch;
-import org.openbw.bwapi4j.unit.PlayerUnit;
+import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.unit.Unit;
-import org.openbw.bwapi4j.unit.Worker;
 
 public class TestListener implements BWEventListener {
   private static final int SCREEN_WIDTH =
@@ -22,7 +19,7 @@ public class TestListener implements BWEventListener {
   private BW bw; // main game object
 
   private Player self;
-  private List<Worker> workers;
+  private List<Unit> workers;
 
   /**
    * Tests if the specified position is within the current viewport area. Useful for ignoring shape
@@ -67,23 +64,22 @@ public class TestListener implements BWEventListener {
       self = bw.getInteractionHandler().self();
 
       // Compile list of workers.
-      for (final PlayerUnit u : bw.getUnits(self)) {
-        if (u instanceof Worker) {
-          final Worker worker = (Worker) u;
-          if (!workers.contains(worker)) {
-            workers.add(worker);
+      for (final Unit u : bw.getUnits(self)) {
+        if (u.getType().isWorker()) {
+          if (!workers.contains(u)) {
+            workers.add(u);
           }
         }
       }
 
       /* Basic gamestart worker auto-mine */ {
-        final List<MineralPatch> unassignedMineralPatches = bw.getMineralPatches();
-        final List<Worker> unassignedWorkers = new ArrayList<>(workers);
+        final List<Unit> unassignedMineralPatches = bw.getMineralPatches();
+        final List<Unit> unassignedWorkers = new ArrayList<>(workers);
         unassignedMineralPatches.sort(
             new UnitDistanceComparator(self.getStartLocation().toPosition()));
         while (!unassignedWorkers.isEmpty() && !unassignedMineralPatches.isEmpty()) {
-          final Worker unassignedWorker = unassignedWorkers.remove(0);
-          final MineralPatch unassignedMineralPatch = unassignedMineralPatches.remove(0);
+          final Unit unassignedWorker = unassignedWorkers.remove(0);
+          final Unit unassignedMineralPatch = unassignedMineralPatches.remove(0);
           unassignedWorker.gather(unassignedMineralPatch);
         }
       }
@@ -104,10 +100,10 @@ public class TestListener implements BWEventListener {
   public void onFrame() {
     try {
       // Send idle workers to mine at the closest mineral patch.
-      for (final Worker worker : workers) {
+      for (final Unit worker : workers) {
         if (worker.isIdle()) {
-          MineralPatch closestMineralPatch = null;
-          for (final MineralPatch mineralPatch : bw.getMineralPatches()) {
+          Unit closestMineralPatch = null;
+          for (final Unit mineralPatch : bw.getMineralPatches()) {
             if (closestMineralPatch == null) {
               closestMineralPatch = mineralPatch;
             } else {
@@ -125,11 +121,10 @@ public class TestListener implements BWEventListener {
 
       /* Train an SCV at every Command Center. */ {
         if (self.getRace() == Race.Terran) {
-          for (final PlayerUnit u : bw.getUnits(self)) {
-            if (u instanceof CommandCenter) {
-              final CommandCenter commandCenter = (CommandCenter) u;
-              if (!commandCenter.isTraining()) {
-                commandCenter.trainWorker();
+          for (final Unit u : bw.getUnits(self)) {
+            if (u.getType() == UnitType.Terran_Command_Center) {
+              if (!u.isTraining()) {
+                u.train(UnitType.Terran_SCV);
               }
             }
           }
@@ -137,7 +132,7 @@ public class TestListener implements BWEventListener {
       }
 
       /* Highlight workers. */ {
-        for (final Worker worker : workers) {
+        for (final Unit worker : workers) {
           final Position tileSize =
               new TilePosition(worker.tileWidth(), worker.tileHeight()).toPosition();
           final Position topLeft =
@@ -233,7 +228,7 @@ public class TestListener implements BWEventListener {
   public void onUnitDestroy(Unit unit) {
     System.out.println("onUnitDestroy: " + unit);
 
-    final Optional<Worker> destroyedWorker = workers.stream().filter(w -> w.equals(unit)).findAny();
+    final Optional<Unit> destroyedWorker = workers.stream().filter(w -> w.equals(unit)).findAny();
     destroyedWorker.ifPresent(workers::remove);
   }
 
@@ -256,10 +251,9 @@ public class TestListener implements BWEventListener {
   public void onUnitComplete(Unit unit) {
     System.out.println("onUnitComplete: " + unit);
 
-    if (unit instanceof Worker) {
-      final Worker worker = (Worker) unit;
-      if (worker.getPlayer().equals(self) && !workers.contains(worker)) {
-        workers.add(worker);
+    if (unit.getType().isWorker()) {
+      if (unit.getPlayer().equals(self) && !workers.contains(unit)) {
+        workers.add(unit);
       }
     }
   }
