@@ -6,11 +6,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.test.BWDataProvider;
-import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.unit.MineralPatch;
-import org.openbw.bwapi4j.unit.MineralPatchMock;
 import org.openbw.bwapi4j.unit.VespeneGeyser;
-import org.openbw.bwapi4j.unit.VespeneGeyserMock;
 
 /** Container class for BWAPI dummy data to feed into test and/or mocks. */
 public class BWAPI_DummyData {
@@ -131,16 +128,16 @@ public class BWAPI_DummyData {
       final int y = neutralsData[offset++];
       final TilePosition tilePosition = new TilePosition(x, y);
 
-      if (unitTypeId == UnitType.Resource_Mineral_Field.getId()) {
-        this.mineralPatches.add(new MineralPatchMock(i, initialResources, tilePosition));
-      } else if (unitTypeId == UnitType.Resource_Vespene_Geyser.getId()) {
-        this.vespeneGeysers.add(new VespeneGeyserMock(i, initialResources, tilePosition));
-      } else {
-        // TODO
-        //                /* Treat neutral as a special building. */
-        //                this.staticBuildings.add(new SpecialBuildingMock(i,
-        // UnitType.valueOf(unitTypeId), tilePosition));
-      }
+      //      if (unitTypeId == UnitType.Resource_Mineral_Field.getId()) {
+      //        this.mineralPatches.add(new MineralPatchMock(i, initialResources, tilePosition));
+      //      } else if (unitTypeId == UnitType.Resource_Vespene_Geyser.getId()) {
+      //        this.vespeneGeysers.add(new VespeneGeyserMock(i, initialResources, tilePosition));
+      //      } else {
+      //        // TODO
+      //        //                /* Treat neutral as a special building. */
+      //        //                this.staticBuildings.add(new SpecialBuildingMock(i,
+      //        // UnitType.valueOf(unitTypeId), tilePosition));
+      //      }
     }
     logger.debug("Added MineralPatches: count=" + this.mineralPatches.size());
     logger.debug("Added VespeneGeysers: count=" + this.vespeneGeysers.size());
