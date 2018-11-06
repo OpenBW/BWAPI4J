@@ -574,15 +574,16 @@ public class Unit implements Comparable<Unit> {
 
   protected boolean issueCommand(
       int unitId, UnitCommandType unitCommandType, int targetUnitId, int x, int y, int extra) {
-    if (issueCommand(unitId, unitCommandType.ordinal(), targetUnitId, x, y, extra)) {
+    if (issueCommand_native(unitId, unitCommandType.ordinal(), targetUnitId, x, y, extra)) {
       lastCommandFrame = getCurrentFrame();
       lastCommand = unitCommandType;
       return true;
+    } else {
+      return false;
     }
-    return false;
   }
 
-  private native boolean issueCommand(
+  private native boolean issueCommand_native(
       int unitId, int unitCommandTypeId, int targetUnitId, int x, int y, int extra);
 
   // --------------------------------------------------

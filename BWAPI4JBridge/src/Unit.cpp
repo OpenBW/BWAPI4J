@@ -22,18 +22,16 @@
 
 #include "org_openbw_bwapi4j_unit_Unit.h"
 
-JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_Unit_issueCommand(JNIEnv *, jobject, jint unitID, jint unitCommandTypeID, jint targetUnitID, jint x,
-                                                                          jint y, jint extra) {
-  BWAPI::Unit unit = BWAPI::Broodwar->getUnit(unitID);
+JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_Unit_issueCommand_1native(JNIEnv *, jobject, jint unitID, jint unitCommandTypeID, jint targetUnitID,
+                                                                                  jint x, jint y, jint extra) {
+  const auto &unit = BWAPI::Broodwar->getUnit(unitID);
   if (unit) {
-    BWAPI::UnitCommand c = BWAPI::UnitCommand();
-    c.unit = unit;
-    c.type = unitCommandTypeID;
-    c.target = BWAPI::Broodwar->getUnit(targetUnitID);
-    c.x = x;
-    c.y = y;
-    c.extra = extra;
-    return c.unit->issueCommand(c);
+    const BWAPI::UnitCommandType unitCommandType(unitCommandTypeID);
+    const auto &targetUnit = BWAPI::Broodwar->getUnit(targetUnitID);
+
+    const BWAPI::UnitCommand command(unit, unitCommandType, targetUnit, x, y, extra);
+
+    return command.unit->issueCommand(command);
   }
   return JNI_FALSE;
 }
