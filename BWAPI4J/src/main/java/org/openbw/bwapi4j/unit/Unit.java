@@ -310,52 +310,6 @@ public class Unit implements Comparable<Unit> {
     return group.stream().filter(t -> this.getDistance(t) <= radius).collect(Collectors.toList());
   }
 
-  public double getDistance(Position target) {
-    return getDistance(target.getX(), target.getY());
-  }
-
-  public double getDistance(int x, int y) {
-    int xDist = getLeft() - (x + 1);
-    if (xDist < 0) {
-      xDist = x - (getRight() + 1);
-      if (xDist < 0) {
-        xDist = 0;
-      }
-    }
-    int yDist = getTop() - (y + 1);
-    if (yDist < 0) {
-      yDist = y - (getBottom() + 1);
-      if (yDist < 0) {
-        yDist = 0;
-      }
-    }
-
-    return new Position(0, 0).getDistance(new Position(xDist, yDist));
-  }
-
-  public int getDistance(Unit target) {
-    if (this.position == target.getPosition()) {
-      return 0;
-    }
-
-    int xDist = getLeft() - (target.getRight() + 1);
-    if (xDist < 0) {
-      xDist = target.getLeft() - (getRight() + 1);
-      if (xDist < 0) {
-        xDist = 0;
-      }
-    }
-    int yDist = getTop() - (target.getBottom() + 1);
-    if (yDist < 0) {
-      yDist = target.getTop() - (getBottom() + 1);
-      if (yDist < 0) {
-        yDist = 0;
-      }
-    }
-
-    return new Position(0, 0).getDistance(new Position(xDist, yDist));
-  }
-
   public Weapon getGroundWeapon() {
     return groundWeapon;
   }
@@ -489,12 +443,50 @@ public class Unit implements Comparable<Unit> {
     return resourceGroup;
   }
 
-  public int getDistance(Position target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public int getDistance(final int x, final int y) {
+    int xDist = getLeft() - (x + 1);
+    if (xDist < 0) {
+      xDist = x - (getRight() + 1);
+      if (xDist < 0) {
+        xDist = 0;
+      }
+    }
+    int yDist = getTop() - (y + 1);
+    if (yDist < 0) {
+      yDist = y - (getBottom() + 1);
+      if (yDist < 0) {
+        yDist = 0;
+      }
+    }
+
+    return new Position(0, 0).getDistance(new Position(xDist, yDist));
   }
 
-  public int getDistance(Unit target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public int getDistance(Position target) {
+    return getDistance(target.getX(), target.getY());
+  }
+
+  public int getDistance(final Unit target) {
+    if (getPosition().equals(target.getPosition())) {
+      return 0;
+    }
+
+    int xDist = getLeft() - (target.getRight() + 1);
+    if (xDist < 0) {
+      xDist = target.getLeft() - (getRight() + 1);
+      if (xDist < 0) {
+        xDist = 0;
+      }
+    }
+    int yDist = getTop() - (target.getBottom() + 1);
+    if (yDist < 0) {
+      yDist = target.getTop() - (getBottom() + 1);
+      if (yDist < 0) {
+        yDist = 0;
+      }
+    }
+
+    return new Position(0, 0).getDistance(new Position(xDist, yDist));
   }
 
   public int getDistance(PositionOrUnit target) {
