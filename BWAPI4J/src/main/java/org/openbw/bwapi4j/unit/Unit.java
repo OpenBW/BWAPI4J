@@ -117,8 +117,8 @@ public class Unit implements Comparable<Unit> {
   @Named(name = "INITIAL_TILE_POSITION")
   TilePosition initialTilePosition;
 
+  @BridgeValue
   @Named(name = "TYPE")
-  @BridgeValue(initializeOnly = true)
   UnitType type;
 
   @BridgeValue Position position;

@@ -234,54 +234,63 @@ public class BW {
     }
   }
 
-  private boolean typeChanged(UnitType oldType, UnitType newType) {
+  private boolean typeChanged(final UnitType oldType, final UnitType newType) {
     return !oldType.equals(newType)
         && !oldType.equals(UnitType.Terran_Siege_Tank_Siege_Mode)
         && !newType.equals(UnitType.Terran_Siege_Tank_Siege_Mode);
   }
 
-  private void updateAllUnits(int frame) {
-    for (Unit unit : this.units.values()) {
+  private void updateAllUnits(final int frame) {
+    for (final Unit unit : this.units.values()) {
       unitDataBridge.reset(unit);
     }
-    int[] unitData = this.getAllUnitsData();
+
+    final int[] unitData = this.getAllUnitsData();
 
     int index = 0;
     while (index < unitData.length) {
-      int unitId = unitData[index + UnitBridge.ID];
-      int typeId = unitData[index + UnitBridge.TYPE];
-      Unit unit = this.units.get(unitId);
-      if (unit == null || typeChanged(unit.getType(), UnitType.values()[typeId])) {
-        if (unit != null) {
-          logger.debug(
-              "unit {} changed type from {} to {}.",
-              unit.getID(),
-              unit.getType(),
-              UnitType.values()[typeId]);
-        }
+      final int unitId = unitData[index + UnitBridge.ID];
+      final int unitTypeId = unitData[index + UnitBridge.TYPE];
+
+      Unit unit = units.get(unitId);
+
+      if (unit == null) {
         logger.trace(
             "creating unit for id {} and type {} ({}) ...",
             unitId,
-            typeId,
-            UnitType.values()[typeId]);
+            unitTypeId,
+            UnitType.values()[unitTypeId]);
 
-        unit = unitFactory.createUnit(unitId, UnitType.values()[typeId], frame);
+        unit = unitFactory.createUnit(unitId, UnitType.values()[unitTypeId], frame);
 
         if (unit == null) {
           logger.error(
-              "could not create unit for id {} and type {}.", unitId, UnitType.values()[typeId]);
+              "could not create unit for id {} and type {}.",
+              unitId,
+              UnitType.values()[unitTypeId]);
         } else {
           logger.trace("state: {}", unit.exists() ? "completed" : "created");
 
-          this.units.put(unitId, unit);
+          units.put(unitId, unit);
+
           unitDataBridge.initialize(unit, unitData, index);
+
           index = unitDataBridge.update(unit, unitData, index);
+
           logger.trace("initial pos: {}", unit.getInitialTilePosition());
           logger.trace("current pos: {}", unit.getTilePosition());
 
           logger.trace(" done.");
         }
       } else {
+        if (typeChanged(unit.getType(), UnitType.values()[unitTypeId])) {
+          logger.debug(
+              "unit {} changed type from {} to {}.",
+              unit.getID(),
+              unit.getType(),
+              UnitType.values()[unitTypeId]);
+        }
+
         index = unitDataBridge.update(unit, unitData, index);
       }
     }
