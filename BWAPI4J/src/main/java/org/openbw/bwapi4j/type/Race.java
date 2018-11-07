@@ -69,7 +69,7 @@ public enum Race {
     return values()[id];
   }
 
-  public int getId() {
+  public int getID() {
     return this.id;
   }
 

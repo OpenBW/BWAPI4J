@@ -75,7 +75,7 @@ public class Bullet {
     return angle;
   }
 
-  public int getId() {
+  public int getID() {
     return iD;
   }
 

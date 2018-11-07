@@ -198,11 +198,11 @@ class BWMapImpl implements BWMap {
   private native int _canBuildHere(int x, int y, int typeId, int builderId);
 
   public boolean canBuildHere(TilePosition position, UnitType type) {
-    return _canBuildHere(position.getX(), position.getY(), type.getId()) == 1;
+    return _canBuildHere(position.getX(), position.getY(), type.getID()) == 1;
   }
 
   public boolean canBuildHere(TilePosition position, UnitType type, Unit builder) {
-    return _canBuildHere(position.getX(), position.getY(), type.getId(), builder.getId()) == 1;
+    return _canBuildHere(position.getX(), position.getY(), type.getID(), builder.getID()) == 1;
   }
 
   private native int[] getCreepData_native();

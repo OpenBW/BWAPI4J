@@ -9,10 +9,10 @@ final class IdMapperHelper {
 
   static <E extends WithId> E[] toIdTypeArray(Class<E> enumClass) {
     E[] enumConstants = enumClass.getEnumConstants();
-    int maxId = Stream.of(enumConstants).mapToInt(E::getId).max().getAsInt();
+    int maxId = Stream.of(enumConstants).mapToInt(E::getID).max().getAsInt();
     E[] idToType = (E[]) Array.newInstance(enumClass, maxId + 1);
     for (E type : enumConstants) {
-      idToType[type.getId()] = type;
+      idToType[type.getID()] = type;
     }
     return idToType;
   }
@@ -20,5 +20,5 @@ final class IdMapperHelper {
 
 interface WithId {
 
-  int getId();
+  int getID();
 }

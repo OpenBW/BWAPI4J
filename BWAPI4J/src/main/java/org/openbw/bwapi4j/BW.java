@@ -159,13 +159,13 @@ public class BW {
   }
 
   public void createUnit(Player owner, UnitType type, int posX, int posY) {
-    this.createUnit(owner.getId(), type.getId(), posX, posY);
+    this.createUnit(owner.getID(), type.getID(), posX, posY);
   }
 
   private native void createUnit(int ownerId, int unitTypeId, int posX, int posY);
 
   public void killUnit(Unit unit) {
-    this.killUnit(unit.getId());
+    this.killUnit(unit.getID());
   }
 
   private native void killUnit(int unitID);
@@ -254,7 +254,7 @@ public class BW {
         if (unit != null) {
           logger.debug(
               "unit {} changed type from {} to {}.",
-              unit.getId(),
+              unit.getID(),
               unit.getType(),
               UnitType.values()[typeId]);
         }

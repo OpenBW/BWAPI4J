@@ -134,7 +134,8 @@ public class TestListener implements BWEventListener {
       /* Highlight workers. */ {
         for (final Unit worker : workers) {
           final Position tileSize =
-              new TilePosition(worker.tileWidth(), worker.tileHeight()).toPosition();
+              new TilePosition(worker.getType().tileWidth(), worker.getType().tileHeight())
+                  .toPosition();
           final Position topLeft =
               worker.getPosition().subtract(tileSize.divide(new Position(2, 2)));
           final Position bottomRight = topLeft.add(tileSize);

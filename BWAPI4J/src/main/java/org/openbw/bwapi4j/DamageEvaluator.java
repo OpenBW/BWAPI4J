@@ -40,7 +40,7 @@ public final class DamageEvaluator {
 
   public int getDamageFrom(UnitType fromType, UnitType toType, Player fromPlayer, Player toPlayer) {
     return getDamageFrom_native(
-        fromType.ordinal(), toType.ordinal(), fromPlayer.getId(), toPlayer.getId());
+        fromType.ordinal(), toType.ordinal(), fromPlayer.getID(), toPlayer.getID());
   }
 
   public int getDamageFrom(UnitType fromType, UnitType toType) {
@@ -48,7 +48,7 @@ public final class DamageEvaluator {
   }
 
   public int getDamageFrom(UnitType fromType, UnitType toType, Player fromPlayer) {
-    return getDamageFrom_native(fromType.ordinal(), toType.ordinal(), fromPlayer.getId());
+    return getDamageFrom_native(fromType.ordinal(), toType.ordinal(), fromPlayer.getID());
   }
 
   public int getDamageTo(UnitType toType, UnitType fromType) {
@@ -56,11 +56,11 @@ public final class DamageEvaluator {
   }
 
   public int getDamageTo(UnitType toType, UnitType fromType, Player toPlayer) {
-    return getDamageTo_native(toType.ordinal(), fromType.ordinal(), toPlayer.getId());
+    return getDamageTo_native(toType.ordinal(), fromType.ordinal(), toPlayer.getID());
   }
 
   public int getDamageTo(UnitType toType, UnitType fromType, Player toPlayer, Player fromPlayer) {
     return getDamageTo_native(
-        toType.ordinal(), fromType.ordinal(), toPlayer.getId(), fromPlayer.getId());
+        toType.ordinal(), fromType.ordinal(), toPlayer.getID(), fromPlayer.getID());
   }
 }

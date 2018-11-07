@@ -127,9 +127,9 @@ public class BWAPI_DummyData {
       final int y = neutralsData[offset++];
       final TilePosition tilePosition = new TilePosition(x, y);
 
-      //      if (unitTypeId == UnitType.Resource_Mineral_Field.getId()) {
+      //      if (unitTypeId == UnitType.Resource_Mineral_Field.getID()) {
       //        this.mineralPatches.add(new MineralPatchMock(i, initialResources, tilePosition));
-      //      } else if (unitTypeId == UnitType.Resource_Vespene_Geyser.getId()) {
+      //      } else if (unitTypeId == UnitType.Resource_Vespene_Geyser.getID()) {
       //        this.vespeneGeysers.add(new VespeneGeyserMock(i, initialResources, tilePosition));
       //      } else {
       //        // TODO

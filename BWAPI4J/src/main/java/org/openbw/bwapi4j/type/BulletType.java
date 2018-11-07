@@ -71,7 +71,7 @@ public enum BulletType implements WithId {
   }
 
   @Override
-  public int getId() {
+  public int getID() {
     return typeId;
   }
 

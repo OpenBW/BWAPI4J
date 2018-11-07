@@ -204,7 +204,7 @@ public class Player {
    * Retrieves a unique ID that represents the player. Returns An integer representing the ID of the
    * player.
    */
-  public int getId() {
+  public int getID() {
     return this.iD;
   }
 

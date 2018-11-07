@@ -483,7 +483,7 @@ public enum UnitType implements WithId {
   }
 
   @Override
-  public int getId() {
+  public int getID() {
     return this.iD;
   }
 

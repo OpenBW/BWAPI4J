@@ -998,7 +998,7 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean train(final UnitType unitType) {
-    return issueCommand(getID(), Train, -1, -1, -1, unitType.getId());
+    return issueCommand(getID(), Train, -1, -1, -1, unitType.getID());
   }
 
   public boolean morph(UnitType type) {
@@ -1006,11 +1006,11 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean research(final TechType techType) {
-    return issueCommand(getID(), Research, -1, -1, -1, techType.getId());
+    return issueCommand(getID(), Research, -1, -1, -1, techType.getID());
   }
 
   public boolean upgrade(final UpgradeType upgradeType) {
-    return issueCommand(getID(), Upgrade, -1, -1, -1, upgradeType.getId());
+    return issueCommand(getID(), Upgrade, -1, -1, -1, upgradeType.getID());
   }
 
   public boolean setRallyPoint(final Position target) {
