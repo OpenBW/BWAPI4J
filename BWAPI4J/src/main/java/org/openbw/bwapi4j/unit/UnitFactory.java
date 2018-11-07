@@ -20,18 +20,8 @@
 
 package org.openbw.bwapi4j.unit;
 
-import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.type.UnitType;
 
-public class UnitFactory {
-  private final BW bw;
-
-  public UnitFactory(final BW bw) {
-    this.bw = bw;
-  }
-
-  public Unit createUnit(final int unitId, final UnitType unitType, final int timeSpotted) {
-    final Unit unit = new Unit(bw, unitId, unitType, timeSpotted);
-    return unit;
-  }
+public interface UnitFactory {
+  Unit createUnit(int unitId, UnitType unitType, int timeSpotted);
 }

@@ -42,6 +42,7 @@ import org.openbw.bwapi4j.type.UpgradeType;
 import org.openbw.bwapi4j.type.UpgradeTypeBridge;
 import org.openbw.bwapi4j.type.WeaponType;
 import org.openbw.bwapi4j.type.WeaponTypeBridge;
+import org.openbw.bwapi4j.unit.DefaultUnitFactory;
 import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.unit.UnitBridge;
 import org.openbw.bwapi4j.unit.UnitFactory;
@@ -72,7 +73,7 @@ public class BW {
   private Map<Integer, Player> players;
   private Map<Integer, Unit> units;
   private Map<Integer, Bullet> bullets;
-  private UnitFactory unitFactory;
+  private final UnitFactory unitFactory;
   private Charset charset;
 
   private Cache<Map<Player, List<Unit>>> getUnitsFromPlayerCache;
@@ -144,7 +145,7 @@ public class BW {
     this.techTypeBridge = new TechTypeBridge(this);
     this.unitTypeBridge = new UnitTypeBridge(this);
 
-    this.unitFactory = new UnitFactory(this);
+    this.unitFactory = new DefaultUnitFactory(this);
 
     try {
       this.charset = Charset.forName("Cp949"); /* Korean char set */
