@@ -20,10 +20,12 @@
 
 package org.openbw.bwapi4j.unit;
 
+// TODO: Remove static imports...
 import static org.openbw.bwapi4j.type.UnitCommandType.Cancel_Research;
 import static org.openbw.bwapi4j.type.UnitCommandType.Cancel_Train;
 import static org.openbw.bwapi4j.type.UnitCommandType.Cancel_Train_Slot;
 import static org.openbw.bwapi4j.type.UnitCommandType.Cancel_Upgrade;
+import static org.openbw.bwapi4j.type.UnitCommandType.Gather;
 import static org.openbw.bwapi4j.type.UnitCommandType.Land;
 import static org.openbw.bwapi4j.type.UnitCommandType.Lift;
 import static org.openbw.bwapi4j.type.UnitCommandType.Move;
@@ -45,7 +47,10 @@ import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.DamageEvaluator;
 import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
+import org.openbw.bwapi4j.PositionOrUnit;
+import org.openbw.bwapi4j.Region;
 import org.openbw.bwapi4j.TilePosition;
+import org.openbw.bwapi4j.UnitCommand;
 import org.openbw.bwapi4j.ap.BridgeValue;
 import org.openbw.bwapi4j.ap.LookedUp;
 import org.openbw.bwapi4j.ap.Named;
@@ -232,12 +237,9 @@ public class Unit implements Comparable<Unit> {
     this.lastSpotted = lastSpotted;
   }
 
+  // TODO: Remove this function and mark "bw" object as final. Add to constructor.
   final void setBW(BW bw) {
     this.bw = bw;
-  }
-
-  public int getKillCount() {
-    return killCount;
   }
 
   public int getLastSpotted() {
@@ -260,32 +262,8 @@ public class Unit implements Comparable<Unit> {
     return bw.getDamageEvaluator();
   }
 
-  public Player getPlayer() {
-    return player;
-  }
-
   protected Player getPlayer(int id) {
     return bw.getPlayer(id);
-  }
-
-  public int getId() {
-    return this.iD;
-  }
-
-  public int getLeft() {
-    return position.getX() - this.type.dimensionLeft();
-  }
-
-  public int getTop() {
-    return position.getY() - this.type.dimensionUp();
-  }
-
-  public int getRight() {
-    return position.getX() + this.type.dimensionRight();
-  }
-
-  public int getBottom() {
-    return position.getY() + this.type.dimensionDown();
   }
 
   public Position getMiddle(Unit unit) {
@@ -296,10 +274,6 @@ public class Unit implements Comparable<Unit> {
     int dy = unit.getPosition().getY() - y;
 
     return new Position(x + dx / 2, y + dy / 2);
-  }
-
-  public double getAngle() {
-    return this.angle;
   }
 
   public <T extends Unit> T getClosest(Collection<T> group) {
@@ -333,14 +307,6 @@ public class Unit implements Comparable<Unit> {
 
   public int tileWidth() {
     return this.type.tileWidth();
-  }
-
-  public TilePosition getTilePosition() {
-    return this.tilePosition;
-  }
-
-  public Position getPosition() {
-    return this.position;
   }
 
   public UnitSizeType getSize() {
@@ -402,150 +368,8 @@ public class Unit implements Comparable<Unit> {
     return airWeapon;
   }
 
-  boolean lift() {
-    return issueCommand(iD, Lift, -1, -1, -1, -1);
-  }
-
-  boolean land(Position p) {
-    return issueCommand(iD, Land, -1, p.getX(), p.getY(), -1);
-  }
-
-  boolean move(Position p) {
-    return issueCommand(iD, Move, -1, p.getX(), p.getY(), -1);
-  }
-
-  public boolean exists() {
-    return this.exists;
-  }
-
-  public UnitType getType() {
-    return type;
-  }
-
-  public Position getInitialPosition() {
-    return initialPosition;
-  }
-
-  public TilePosition getInitialTilePosition() {
-    return initialTilePosition;
-  }
-
-  protected Order getOrder() {
-    return this.order;
-  }
-
-  protected Unit getOrderTarget() {
-    return orderTarget;
-  }
-
-  protected Position getOrderTargetPosition() {
-    return this.orderTargetPosition;
-  }
-
-  protected Order getSecondaryOrder() {
-    return this.secondaryOrder;
-  }
-
   protected int getCurrentFrame() {
     return bw.getInteractionHandler().getFrameCount();
-  }
-
-  protected boolean cancelResearch() {
-    return issueCommand(iD, Cancel_Research, -1, -1, -1, -1);
-  }
-
-  protected boolean cancelUpgrade() {
-    return issueCommand(iD, Cancel_Upgrade, -1, -1, -1, -1);
-  }
-
-  protected boolean canResearch(TechType techType) {
-    return type.equals(techType.whatResearches()) && player.canResearch(techType);
-  }
-
-  protected boolean canUpgrade(UpgradeType upgradeType) {
-    return type.equals(upgradeType.whatUpgrades()) && player.canUpgrade(upgradeType);
-  }
-
-  protected boolean research(TechType techType) {
-    return issueCommand(iD, Research, -1, -1, -1, techType.getId());
-  }
-
-  protected boolean upgrade(UpgradeType upgrade) {
-    return issueCommand(iD, Upgrade, -1, -1, -1, upgrade.getId());
-  }
-
-  protected boolean canTrain(UnitType type) {
-    return this.type.equals(type.whatBuilds().getUnitType())
-        && player.canMake(type)
-        && type.requiredUnits()
-            .keySet()
-            .stream()
-            .allMatch(ut -> !ut.isAddon() || (addon != null && addon.getType() == ut));
-  }
-
-  public boolean train(UnitType type) {
-    return issueCommand(iD, Train, -1, -1, -1, type.getId());
-  }
-
-  protected boolean cancelTrain(int slot) {
-    return issueCommand(iD, Cancel_Train_Slot, -1, -1, -1, slot);
-  }
-
-  protected boolean cancelTrain() {
-    return issueCommand(iD, Cancel_Train, -1, -1, -1, -1);
-  }
-
-  protected boolean setRallyPoint(Position p) {
-    return issueCommand(iD, Set_Rally_Position, -1, p.getX(), p.getY(), -1);
-  }
-
-  protected boolean setRallyPoint(Unit target) {
-    return issueCommand(iD, Set_Rally_Unit, target.getId(), -1, -1, -1);
-  }
-
-  protected Position getRallyPosition() {
-    return rallyPosition;
-  }
-
-  protected Unit getRallyUnit() {
-    return rallyUnit;
-  }
-
-  public boolean isTraining() {
-    return training;
-  }
-
-  public boolean isIdle() {
-    return idle;
-  }
-
-  public boolean isFlying() {
-    return flying;
-  }
-
-  public boolean isCompleted() {
-    return completed;
-  }
-
-  public Unit getAddon() {
-    return addon;
-  }
-
-  public boolean isVisible() {
-    return visible;
-  }
-
-  public boolean isSelected() {
-    return selected;
-  }
-
-  public boolean gather(Unit resource) {
-    return issueCommand(this.iD, UnitCommandType.Gather, resource.getId(), -1, -1, 0);
-  }
-
-  public boolean gather(Unit resource, boolean shiftQueueCommand) {
-    return issueCommand(
-        this.iD, UnitCommandType.Gather, resource.getId(), -1, -1, shiftQueueCommand ? 1 : 0);
   }
 
   @Override
@@ -554,9 +378,12 @@ public class Unit implements Comparable<Unit> {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (obj instanceof Unit) {
-      return this.getId() == ((Unit) obj).getId();
+  public boolean equals(final Object object) {
+    if (this == object) {
+      return true;
+    } else if (object instanceof Unit) {
+      final Unit that = (Unit) object;
+      return this.getID() == that.getID();
     } else {
       return false;
     }
@@ -564,12 +391,12 @@ public class Unit implements Comparable<Unit> {
 
   @Override
   public String toString() {
-    return this.getId() + ":" + this.type;
+    return getID() + ":" + getType();
   }
 
   @Override
-  public int compareTo(Unit otherUnit) {
-    return this.getId() - otherUnit.getId();
+  public int compareTo(final Unit other) {
+    return this.getID() - other.getID();
   }
 
   protected boolean issueCommand(
@@ -650,43 +477,43 @@ public class Unit implements Comparable<Unit> {
   }
 
   public int getID() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return iD;
   }
 
   public boolean exists() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return exists;
   }
 
   public int getReplayID() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return replayID;
   }
 
   public Player getPlayer() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return player;
   }
 
   public UnitType getType() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return type;
   }
 
   public Position getPosition() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return position;
   }
 
   public TilePosition getTilePosition() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return tilePosition;
   }
 
   public double getAngle() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return angle;
   }
 
   public double getVelocityX() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return velocityX;
   }
 
   public double getVelocityY() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return velocityY;
   }
 
   public Region getRegion() {
@@ -694,39 +521,39 @@ public class Unit implements Comparable<Unit> {
   }
 
   public int getLeft() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return getPosition().getX() - getType().dimensionLeft();
   }
 
   public int getTop() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return getPosition().getY() - getType().dimensionUp();
   }
 
   public int getRight() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return getPosition().getX() + getType().dimensionRight();
   }
 
   public int getBottom() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return getPosition().getY() + getType().dimensionDown();
   }
 
   public int getHitPoints() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return hitPoints;
   }
 
   public int getShields() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return shields;
   }
 
   public int getEnergy() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return energy;
   }
 
   public int getResources() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return resources;
   }
 
   public int getResourceGroup() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return resourceGroup;
   }
 
   public int getDistance(Position target) {
@@ -754,7 +581,7 @@ public class Unit implements Comparable<Unit> {
   }
 
   public int getLastCommandFrame() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return lastCommandFrame;
   }
 
   public UnitCommand getLastCommand() {
@@ -762,7 +589,7 @@ public class Unit implements Comparable<Unit> {
   }
 
   public Player getLastAttackingPlayer() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return lastAttackingPlayer;
   }
 
   public UnitType getInitialType() {
@@ -770,39 +597,39 @@ public class Unit implements Comparable<Unit> {
   }
 
   public Position getInitialPosition() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return initialPosition;
   }
 
   public TilePosition getInitialTilePosition() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return initialTilePosition;
   }
 
   public int getInitialHitPoints() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return initialHitPoints;
   }
 
   public int getInitialResources() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return initialResources;
   }
 
   public int getKillCount() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return killCount;
   }
 
   public int getAcidSporeCount() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return acidSporeCount;
   }
 
   public int getInterceptorCount() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return interceptorCount;
   }
 
   public int getScarabCount() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return scarabCount;
   }
 
   public int getSpiderMineCount() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return spiderMineCount;
   }
 
   public int getGroundWeaponCooldown() {
@@ -818,51 +645,51 @@ public class Unit implements Comparable<Unit> {
   }
 
   public int getDefenseMatrixPoints() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return defenseMatrixPoints;
   }
 
   public int getDefenseMatrixTimer() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return defenseMatrixTimer;
   }
 
   public int getEnsnareTimer() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return ensnareTimer;
   }
 
   public int getIrradiateTimer() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return irradiateTimer;
   }
 
   public int getLockdownTimer() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return lockdownTimer;
   }
 
   public int getMaelstromTimer() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return maelstromTimer;
   }
 
   public int getOrderTimer() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return orderTimer;
   }
 
   public int getPlagueTimer() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return plagueTimer;
   }
 
   public int getRemoveTimer() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return removeTimer;
   }
 
   public int getStasisTimer() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return stasisTimer;
   }
 
   public int getStimTimer() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return stimTimer;
   }
 
   public UnitType getBuildType() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return buildType;
   }
 
   public List<UnitType> getTrainingQueue() {
@@ -870,71 +697,71 @@ public class Unit implements Comparable<Unit> {
   }
 
   public TechType getTech() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return tech;
   }
 
   public UpgradeType getUpgrade() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return upgrade;
   }
 
   public int getRemainingBuildTime() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return remainingBuildTime;
   }
 
   public int getRemainingTrainTime() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return remainingTrainTime;
   }
 
   public int getRemainingResearchTime() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return remainingResearchTime;
   }
 
   public int getRemainingUpgradeTime() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return remainingUpgradeTime;
   }
 
   public Unit getBuildUnit() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return buildUnit;
   }
 
   public Unit getTarget() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return target;
   }
 
   public Position getTargetPosition() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return targetPosition;
   }
 
   public Order getOrder() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return order;
   }
 
   public Order getSecondaryOrder() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return secondaryOrder;
   }
 
   public Unit getOrderTarget() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return orderTarget;
   }
 
   public Position getOrderTargetPosition() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return orderTargetPosition;
   }
 
   public Position getRallyPosition() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return rallyPosition;
   }
 
   public Unit getRallyUnit() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return rallyUnit;
   }
 
   public Unit getAddon() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return addon;
   }
 
   public Unit getNydusExit() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return nydusExit;
   }
 
   public Unit getPowerUp() {
@@ -942,7 +769,7 @@ public class Unit implements Comparable<Unit> {
   }
 
   public Unit getTransport() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return transport;
   }
 
   public List<Unit> getLoadedUnits() {
@@ -950,11 +777,11 @@ public class Unit implements Comparable<Unit> {
   }
 
   public int getSpaceRemaining() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return spaceRemaining;
   }
 
   public Unit getCarrier() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return carrier;
   }
 
   public List<Unit> getInterceptors() {
@@ -962,7 +789,7 @@ public class Unit implements Comparable<Unit> {
   }
 
   public Unit getHatchery() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return hatchery;
   }
 
   public List<Unit> getLarva() {
@@ -978,111 +805,111 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean hasNuke() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return hasNuke;
   }
 
   public boolean isAccelerating() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return accelerating;
   }
 
   public boolean isAttacking() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return attacking;
   }
 
   public boolean isAttackFrame() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return attackFrame;
   }
 
   public boolean isBeingConstructed() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return beingConstructed;
   }
 
   public boolean isBeingGathered() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return beingGathered;
   }
 
   public boolean isBeingHealed() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return beingHealed;
   }
 
   public boolean isBlind() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return blind;
   }
 
   public boolean isBraking() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return braking;
   }
 
   public boolean isBurrowed() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return burrowed;
   }
 
   public boolean isCarryingGas() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return carryingGas;
   }
 
   public boolean isCarryingMinerals() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return carryingMinerals;
   }
 
   public boolean isCloaked() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return cloaked;
   }
 
   public boolean isCompleted() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return completed;
   }
 
   public boolean isConstructing() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return constructing;
   }
 
   public boolean isDefenseMatrixed() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return defenseMatrixed;
   }
 
   public boolean isDetected() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return detected;
   }
 
   public boolean isEnsnared() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return ensnared;
   }
 
   public boolean isFlying() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return flying;
   }
 
   public boolean isFollowing() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return following;
   }
 
   public boolean isGatheringGas() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return gatheringGas;
   }
 
   public boolean isGatheringMinerals() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return gatheringMinerals;
   }
 
   public boolean isHallucination() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return hallucination;
   }
 
   public boolean isHoldingPosition() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return holdingPosition;
   }
 
   public boolean isIdle() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return idle;
   }
 
   public boolean isInterruptible() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return interruptible;
   }
 
   public boolean isInvincible() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return invincible;
   }
 
   public boolean isInWeaponRange(Unit target) {
@@ -1090,107 +917,107 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean isIrradiated() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return irradiated;
   }
 
   public boolean isLifted() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return lifted;
   }
 
   public boolean isLoaded() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return loaded;
   }
 
   public boolean isLockedDown() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return lockedDown;
   }
 
   public boolean isMaelstrommed() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return maelstrommed;
   }
 
   public boolean isMorphing() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return morphing;
   }
 
   public boolean isMoving() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return moving;
   }
 
   public boolean isParasited() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return parasited;
   }
 
   public boolean isPatrolling() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return patrolling;
   }
 
   public boolean isPlagued() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return plagued;
   }
 
   public boolean isRepairing() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return repairing;
   }
 
   public boolean isResearching() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return researching;
   }
 
   public boolean isSelected() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return selected;
   }
 
   public boolean isSieged() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return sieged;
   }
 
   public boolean isStartingAttack() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return startingAttack;
   }
 
   public boolean isStasised() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return stasised;
   }
 
   public boolean isStimmed() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return stimmed;
   }
 
   public boolean isStuck() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return stuck;
   }
 
   public boolean isTraining() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return training;
   }
 
   public boolean isUnderAttack() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return underAttack;
   }
 
   public boolean isUnderDarkSwarm() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return underDarkSwarm;
   }
 
   public boolean isUnderDisruptionWeb() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return underDisruptionWeb;
   }
 
   public boolean isUnderStorm() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return underStorm;
   }
 
   public boolean isPowered() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return powered;
   }
 
   public boolean isUpgrading() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return upgrading;
   }
 
   public boolean isVisible() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return visible;
   }
 
   public boolean isVisible(Player player) {
@@ -1198,7 +1025,7 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean isTargetable() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return targetable;
   }
 
   public boolean issueCommand(UnitCommand command) {
@@ -1245,40 +1072,40 @@ public class Unit implements Comparable<Unit> {
     throw new UnsupportedOperationException("TODO"); // TODO
   }
 
-  public boolean train(UnitType type) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean train(final UnitType unitType) {
+    return issueCommand(iD, Train, -1, -1, -1, unitType.getId());
   }
 
   public boolean morph(UnitType type) {
     throw new UnsupportedOperationException("TODO"); // TODO
   }
 
-  public boolean research(TechType tech) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean research(final TechType techType) {
+    return issueCommand(iD, Research, -1, -1, -1, techType.getId());
   }
 
-  public boolean upgrade(UpgradeType upgrade) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean upgrade(final UpgradeType upgradeType) {
+    return issueCommand(iD, Upgrade, -1, -1, -1, upgradeType.getId());
   }
 
-  public boolean setRallyPoint(Position target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean setRallyPoint(final Position target) {
+    return issueCommand(iD, Set_Rally_Position, -1, target.getX(), target.getY(), -1);
   }
 
-  public boolean setRallyPoint(Unit target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean setRallyPoint(final Unit target) {
+    return issueCommand(iD, Set_Rally_Unit, target.getID(), -1, -1, -1);
   }
 
   public boolean setRallyPoint(PositionOrUnit target) {
     throw new UnsupportedOperationException("TODO"); // TODO
   }
 
-  public boolean move(Position target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean move(final Position target) {
+    return issueCommand(iD, Move, -1, target.getX(), target.getY(), -1);
   }
 
-  public boolean move(Position target, boolean shiftQueueCommand) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean move(final Position target, final boolean shiftQueueCommand) {
+    return issueCommand(iD, Move, -1, target.getX(), target.getY(), shiftQueueCommand ? 1 : 0);
   }
 
   public boolean patrol(Position target) {
@@ -1313,12 +1140,12 @@ public class Unit implements Comparable<Unit> {
     throw new UnsupportedOperationException("TODO"); // TODO
   }
 
-  public boolean gather(Unit target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean gather(final Unit resource) {
+    return issueCommand(this.iD, Gather, resource.getId(), -1, -1, 0);
   }
 
-  public boolean gather(Unit target, boolean shiftQueueCommand) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean gather(final Unit resource, boolean shiftQueueCommand) {
+    return issueCommand(this.iD, Gather, resource.getId(), -1, -1, shiftQueueCommand ? 1 : 0);
   }
 
   public boolean returnCargo() {
@@ -1362,11 +1189,11 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean lift() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(iD, Lift, -1, -1, -1, -1);
   }
 
-  public boolean land(TilePosition target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean land(final TilePosition target) {
+    return issueCommand(iD, Land, -1, target.getX(), target.getY(), -1);
   }
 
   public boolean load(Unit target) {
@@ -1434,11 +1261,11 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean cancelTrain() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(iD, Cancel_Train, -1, -1, -1, -1);
   }
 
-  public boolean cancelTrain(int slot) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean cancelTrain(final int slot) {
+    return issueCommand(iD, Cancel_Train_Slot, -1, -1, -1, slot);
   }
 
   public boolean cancelMorph() {
@@ -1446,11 +1273,11 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean cancelResearch() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(iD, Cancel_Research, -1, -1, -1, -1);
   }
 
   public boolean cancelUpgrade() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(iD, Cancel_Upgrade, -1, -1, -1, -1);
   }
 
   public boolean useTech(TechType tech) {
@@ -1967,8 +1794,14 @@ public class Unit implements Comparable<Unit> {
     throw new UnsupportedOperationException("TODO"); // TODO
   }
 
-  public boolean canTrain(UnitType uType) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean canTrain(final UnitType unitType) {
+    return getType().equals(unitType.whatBuilds().getUnitType())
+        && getPlayer().canMake(unitType)
+        && unitType
+            .requiredUnits()
+            .keySet()
+            .stream()
+            .allMatch(ut -> !ut.isAddon() || (addon != null && addon.getType() == ut));
   }
 
   public boolean canTrain(
@@ -2005,11 +1838,11 @@ public class Unit implements Comparable<Unit> {
     throw new UnsupportedOperationException("TODO"); // TODO
   }
 
-  public boolean canResearch(TechType type) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean canResearch(final TechType techType) {
+    return getType().equals(techType.whatResearches()) && getPlayer().canResearch(techType);
   }
 
-  public boolean canResearch(TechType type, boolean checkCanIssueCommandType) {
+  public boolean canResearch(final TechType type, boolean checkCanIssueCommandType) {
     throw new UnsupportedOperationException("TODO"); // TODO
   }
 
@@ -2021,8 +1854,8 @@ public class Unit implements Comparable<Unit> {
     throw new UnsupportedOperationException("TODO"); // TODO
   }
 
-  public boolean canUpgrade(UpgradeType type) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean canUpgrade(final UpgradeType upgradeType) {
+    return getType().equals(upgradeType.whatUpgrades()) && getPlayer().canUpgrade(upgradeType);
   }
 
   public boolean canUpgrade(UpgradeType type, boolean checkCanIssueCommandType) {
