@@ -44,7 +44,6 @@ import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.BW;
-import org.openbw.bwapi4j.DamageEvaluator;
 import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.PositionOrUnit;
@@ -59,7 +58,6 @@ import org.openbw.bwapi4j.ap.Reset;
 import org.openbw.bwapi4j.type.Order;
 import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitCommandType;
-import org.openbw.bwapi4j.type.UnitSizeType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 import org.openbw.bwapi4j.type.WeaponType;
@@ -67,8 +65,49 @@ import org.openbw.bwapi4j.type.WeaponType;
 @LookedUp(method = "getUnit")
 @NativeClass(name = "BWAPI::Unit")
 public class Unit implements Comparable<Unit> {
-
   private static final Logger logger = LogManager.getLogger();
+
+  public class TrainingSlot {
+    private int slotIndex;
+
+    private final UnitType unitType;
+
+    @BridgeValue
+    TrainingSlot(final UnitType unitType) {
+      this.unitType = unitType;
+    }
+
+    public UnitType getUnitType() {
+      return this.unitType;
+    }
+
+    public boolean cancel() {
+      return issueCommand(getID(), Cancel_Train_Slot, -1, -1, -1, this.slotIndex);
+    }
+
+    @Override
+    public boolean equals(final Object object) {
+      if (this == object) {
+        return true;
+      } else if (!(object instanceof TrainingSlot)) {
+        return false;
+      } else {
+        final TrainingSlot trainingSlot = (TrainingSlot) object;
+        return (this.slotIndex == trainingSlot.slotIndex && this.unitType == trainingSlot.unitType);
+      }
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(this.slotIndex, this.unitType);
+    }
+  }
+
+  Position lastKnownPosition;
+  TilePosition lastKnownTilePosition;
+  int lastKnownHitPoints;
+
+  protected BW bw;
 
   @BridgeValue(initializeOnly = true)
   @Named(name = "ID")
@@ -82,13 +121,10 @@ public class Unit implements Comparable<Unit> {
   @Named(name = "INITIAL_TILE_POSITION")
   TilePosition initialTilePosition;
 
-  int initiallySpotted;
-
   @Named(name = "TYPE")
   @BridgeValue(initializeOnly = true)
   UnitType type;
 
-  // dynamic
   @BridgeValue Position position;
   @BridgeValue TilePosition tilePosition;
   @BridgeValue double angle;
@@ -105,7 +141,6 @@ public class Unit implements Comparable<Unit> {
 
   @BridgeValue boolean selected;
   @BridgeValue boolean flying;
-
   @BridgeValue boolean upgrading;
   @BridgeValue boolean researching;
   @BridgeValue int remainingResearchTime;
@@ -113,12 +148,10 @@ public class Unit implements Comparable<Unit> {
   @BridgeValue UpgradeType upgrade;
   @BridgeValue TechType tech;
 
-  // static
   @BridgeValue(initializeOnly = true)
   @Named(name = "INITIAL_HIT_POINTS")
   int initialHitPoints;
 
-  // dynamic
   @BridgeValue int hitPoints;
   @BridgeValue int shields;
   @BridgeValue int killCount;
@@ -222,13 +255,29 @@ public class Unit implements Comparable<Unit> {
 
   @BridgeValue int stimTimer;
 
-  // other
-  Position lastKnownPosition;
-  TilePosition lastKnownTilePosition;
-  int lastKnownHitPoints;
+  @BridgeValue int replayID;
+  @BridgeValue int resourceGroup;
+  @BridgeValue Player lastAttackingPlayer;
+  @BridgeValue int defenseMatrixPoints;
+  @BridgeValue int defenseMatrixTimer;
+  @BridgeValue int ensnareTimer;
+  @BridgeValue int irradiateTimer;
+  @BridgeValue int lockdownTimer;
+  @BridgeValue int maelstromTimer;
+  @BridgeValue int orderTimer;
+  @BridgeValue int plagueTimer;
+  @BridgeValue int removeTimer;
+  @BridgeValue int stasisTimer;
 
-  // internal
-  private BW bw;
+  @BridgeValue Order order;
+  @BridgeValue Unit orderTarget;
+  @BridgeValue Position orderTargetPosition;
+  Order secondaryOrder; // TODO: Shouldn't this be a bridge value?
+
+  @BridgeValue boolean morphing;
+  @BridgeValue boolean targetable;
+  @BridgeValue boolean invincible;
+
   int lastSpotted;
 
   public Unit(final int id, final UnitType type, final int lastSpotted) {
@@ -244,26 +293,6 @@ public class Unit implements Comparable<Unit> {
 
   public int getLastSpotted() {
     return this.lastSpotted;
-  }
-
-  public int getInitiallySpotted() {
-    return initiallySpotted;
-  }
-
-  protected Collection<Unit> getAllUnits() {
-    return bw.getAllUnits();
-  }
-
-  protected Unit getUnit(int id) {
-    return bw.getUnit(id);
-  }
-
-  protected DamageEvaluator getDamageEvaluator() {
-    return bw.getDamageEvaluator();
-  }
-
-  protected Player getPlayer(int id) {
-    return bw.getPlayer(id);
   }
 
   public Position getMiddle(Unit unit) {
@@ -283,34 +312,6 @@ public class Unit implements Comparable<Unit> {
 
   public <T extends Unit> List<T> getUnitsInRadius(int radius, Collection<T> group) {
     return group.stream().filter(t -> this.getDistance(t) <= radius).collect(Collectors.toList());
-  }
-
-  public int getX() {
-    return this.position.getX();
-  }
-
-  public int getY() {
-    return this.position.getY();
-  }
-
-  public int height() {
-    return this.type.height();
-  }
-
-  public int width() {
-    return this.type.width();
-  }
-
-  public int tileHeight() {
-    return this.type.tileHeight();
-  }
-
-  public int tileWidth() {
-    return this.type.tileWidth();
-  }
-
-  public UnitSizeType getSize() {
-    return type.size();
   }
 
   public double getDistance(Position target) {
@@ -374,7 +375,7 @@ public class Unit implements Comparable<Unit> {
 
   @Override
   public int hashCode() {
-    return this.iD;
+    return getID();
   }
 
   @Override
@@ -412,69 +413,6 @@ public class Unit implements Comparable<Unit> {
 
   private native boolean issueCommand_native(
       int unitId, int unitCommandTypeId, int targetUnitId, int x, int y, int extra);
-
-  // --------------------------------------------------
-  // dynamic
-
-  @BridgeValue int replayID;
-  @BridgeValue int resourceGroup;
-  @BridgeValue Player lastAttackingPlayer;
-  @BridgeValue int defenseMatrixPoints;
-  @BridgeValue int defenseMatrixTimer;
-  @BridgeValue int ensnareTimer;
-  @BridgeValue int irradiateTimer;
-  @BridgeValue int lockdownTimer;
-  @BridgeValue int maelstromTimer;
-  @BridgeValue int orderTimer;
-  @BridgeValue int plagueTimer;
-  @BridgeValue int removeTimer;
-  @BridgeValue int stasisTimer;
-
-  @BridgeValue Order order;
-  @BridgeValue Unit orderTarget;
-  @BridgeValue Position orderTargetPosition;
-
-  Order secondaryOrder;
-  @BridgeValue boolean morphing;
-  @BridgeValue boolean targetable;
-  @BridgeValue boolean invincible;
-
-  public class TrainingSlot {
-
-    private int slotIndex;
-
-    private final UnitType unitType;
-
-    @BridgeValue
-    TrainingSlot(final UnitType unitType) {
-      this.unitType = unitType;
-    }
-
-    public UnitType getUnitType() {
-      return this.unitType;
-    }
-
-    public boolean cancel() {
-      return issueCommand(iD, Cancel_Train_Slot, -1, -1, -1, this.slotIndex);
-    }
-
-    @Override
-    public boolean equals(final Object object) {
-      if (this == object) {
-        return true;
-      } else if (!(object instanceof TrainingSlot)) {
-        return false;
-      } else {
-        final TrainingSlot trainingSlot = (TrainingSlot) object;
-        return (this.slotIndex == trainingSlot.slotIndex && this.unitType == trainingSlot.unitType);
-      }
-    }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(this.slotIndex, this.unitType);
-    }
-  }
 
   public int getID() {
     return iD;
@@ -1073,7 +1011,7 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean train(final UnitType unitType) {
-    return issueCommand(iD, Train, -1, -1, -1, unitType.getId());
+    return issueCommand(getID(), Train, -1, -1, -1, unitType.getId());
   }
 
   public boolean morph(UnitType type) {
@@ -1081,19 +1019,19 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean research(final TechType techType) {
-    return issueCommand(iD, Research, -1, -1, -1, techType.getId());
+    return issueCommand(getID(), Research, -1, -1, -1, techType.getId());
   }
 
   public boolean upgrade(final UpgradeType upgradeType) {
-    return issueCommand(iD, Upgrade, -1, -1, -1, upgradeType.getId());
+    return issueCommand(getID(), Upgrade, -1, -1, -1, upgradeType.getId());
   }
 
   public boolean setRallyPoint(final Position target) {
-    return issueCommand(iD, Set_Rally_Position, -1, target.getX(), target.getY(), -1);
+    return issueCommand(getID(), Set_Rally_Position, -1, target.getX(), target.getY(), -1);
   }
 
   public boolean setRallyPoint(final Unit target) {
-    return issueCommand(iD, Set_Rally_Unit, target.getID(), -1, -1, -1);
+    return issueCommand(getID(), Set_Rally_Unit, target.getID(), -1, -1, -1);
   }
 
   public boolean setRallyPoint(PositionOrUnit target) {
@@ -1101,11 +1039,11 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean move(final Position target) {
-    return issueCommand(iD, Move, -1, target.getX(), target.getY(), -1);
+    return issueCommand(getID(), Move, -1, target.getX(), target.getY(), -1);
   }
 
   public boolean move(final Position target, final boolean shiftQueueCommand) {
-    return issueCommand(iD, Move, -1, target.getX(), target.getY(), shiftQueueCommand ? 1 : 0);
+    return issueCommand(getID(), Move, -1, target.getX(), target.getY(), shiftQueueCommand ? 1 : 0);
   }
 
   public boolean patrol(Position target) {
@@ -1141,11 +1079,11 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean gather(final Unit resource) {
-    return issueCommand(this.iD, Gather, resource.getId(), -1, -1, 0);
+    return issueCommand(getID(), Gather, resource.getID(), -1, -1, 0);
   }
 
   public boolean gather(final Unit resource, boolean shiftQueueCommand) {
-    return issueCommand(this.iD, Gather, resource.getId(), -1, -1, shiftQueueCommand ? 1 : 0);
+    return issueCommand(getID(), Gather, resource.getID(), -1, -1, shiftQueueCommand ? 1 : 0);
   }
 
   public boolean returnCargo() {
@@ -1189,11 +1127,11 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean lift() {
-    return issueCommand(iD, Lift, -1, -1, -1, -1);
+    return issueCommand(getID(), Lift, -1, -1, -1, -1);
   }
 
   public boolean land(final TilePosition target) {
-    return issueCommand(iD, Land, -1, target.getX(), target.getY(), -1);
+    return issueCommand(getID(), Land, -1, target.getX(), target.getY(), -1);
   }
 
   public boolean load(Unit target) {
@@ -1261,11 +1199,11 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean cancelTrain() {
-    return issueCommand(iD, Cancel_Train, -1, -1, -1, -1);
+    return issueCommand(getID(), Cancel_Train, -1, -1, -1, -1);
   }
 
   public boolean cancelTrain(final int slot) {
-    return issueCommand(iD, Cancel_Train_Slot, -1, -1, -1, slot);
+    return issueCommand(getID(), Cancel_Train_Slot, -1, -1, -1, slot);
   }
 
   public boolean cancelMorph() {
@@ -1273,11 +1211,11 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean cancelResearch() {
-    return issueCommand(iD, Cancel_Research, -1, -1, -1, -1);
+    return issueCommand(getID(), Cancel_Research, -1, -1, -1, -1);
   }
 
   public boolean cancelUpgrade() {
-    return issueCommand(iD, Cancel_Upgrade, -1, -1, -1, -1);
+    return issueCommand(getID(), Cancel_Upgrade, -1, -1, -1, -1);
   }
 
   public boolean useTech(TechType tech) {
