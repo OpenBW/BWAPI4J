@@ -30,4 +30,4 @@ BWEM::Map &JniBwem::getMap() { return BWEM::Map::Instance(); }
 JniBwem bwem;
 }  // namespace Bridge
 
-JNIEXPORT void JNICALL Java_bwem_map_MapInitializerImpl_initialize_1native(JNIEnv *, jobject) { Bridge::bwem.initialize(BWAPI::BroodwarPtr); }
+// JNIEXPORT void JNICALL Java_bwem_map_MapInitializerImpl_initialize_1native(JNIEnv *, jobject) { Bridge::bwem.initialize(BWAPI::BroodwarPtr); }
