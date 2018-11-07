@@ -30,9 +30,8 @@ public class UnitFactory {
     this.bw = bw;
   }
 
-  public Unit createUnit(int unitId, UnitType unitType, int timeSpotted) {
-    Unit unit = new Unit(unitId, unitType, timeSpotted);
-    unit.setBW(bw);
+  public Unit createUnit(final int unitId, final UnitType unitType, final int timeSpotted) {
+    final Unit unit = new Unit(bw, unitId, unitType, timeSpotted);
     return unit;
   }
 }

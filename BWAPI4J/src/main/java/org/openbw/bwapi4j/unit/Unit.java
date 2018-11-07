@@ -103,7 +103,7 @@ public class Unit implements Comparable<Unit> {
   TilePosition lastKnownTilePosition;
   int lastKnownHitPoints;
 
-  protected BW bw;
+  protected final BW bw;
 
   @BridgeValue(initializeOnly = true)
   @Named(name = "ID")
@@ -274,17 +274,19 @@ public class Unit implements Comparable<Unit> {
   @BridgeValue boolean targetable;
   @BridgeValue boolean invincible;
 
+  private final int initiallySpotted;
   int lastSpotted;
 
-  public Unit(final int id, final UnitType type, final int lastSpotted) {
+  public Unit(final BW bw, final int id, final UnitType type, final int lastSpotted) {
+    this.bw = bw;
     this.iD = id;
     this.type = type;
+    this.initiallySpotted = lastSpotted;
     this.lastSpotted = lastSpotted;
   }
 
-  // TODO: Remove this function and mark "bw" object as final. Add to constructor.
-  final void setBW(BW bw) {
-    this.bw = bw;
+  public int getInitiallySpotted() {
+    return initiallySpotted;
   }
 
   public int getLastSpotted() {
