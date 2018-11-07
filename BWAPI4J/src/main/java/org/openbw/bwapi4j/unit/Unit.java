@@ -41,8 +41,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
@@ -65,8 +63,6 @@ import org.openbw.bwapi4j.type.WeaponType;
 @LookedUp(method = "getUnit")
 @NativeClass(name = "BWAPI::Unit")
 public class Unit implements Comparable<Unit> {
-  private static final Logger logger = LogManager.getLogger();
-
   public class TrainingSlot {
     private int slotIndex;
 
@@ -356,7 +352,6 @@ public class Unit implements Comparable<Unit> {
         yDist = 0;
       }
     }
-    logger.trace("dx, dy: {}, {}.", xDist, yDist);
 
     return new Position(0, 0).getDistance(new Position(xDist, yDist));
   }
