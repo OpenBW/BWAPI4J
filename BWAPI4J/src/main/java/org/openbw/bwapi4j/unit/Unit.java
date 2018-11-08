@@ -99,10 +99,6 @@ public class Unit implements Comparable<Unit> {
     }
   }
 
-  Position lastKnownPosition;
-  TilePosition lastKnownTilePosition;
-  int lastKnownHitPoints;
-
   protected final BW bw;
 
   @BridgeValue(initializeOnly = true)
@@ -233,7 +229,6 @@ public class Unit implements Comparable<Unit> {
   @BridgeValue boolean beingGathered;
   @BridgeValue Unit carrier;
   @BridgeValue Unit hatchery;
-  int lastKnownResources;
 
   @BridgeValue(accessor = "hasNuke()")
   boolean hasNuke;
@@ -275,22 +270,16 @@ public class Unit implements Comparable<Unit> {
   @BridgeValue boolean invincible;
 
   private final int initiallySpotted;
-  int lastSpotted;
 
-  public Unit(final BW bw, final int id, final UnitType type, final int lastSpotted) {
+  public Unit(final BW bw, final int id, final UnitType type, final int initiallySpotted) {
     this.bw = bw;
     this.iD = id;
     this.type = type;
-    this.initiallySpotted = lastSpotted;
-    this.lastSpotted = lastSpotted;
+    this.initiallySpotted = initiallySpotted;
   }
 
   public int getInitiallySpotted() {
     return initiallySpotted;
-  }
-
-  public int getLastSpotted() {
-    return this.lastSpotted;
   }
 
   public Position getMiddle(Unit unit) {
