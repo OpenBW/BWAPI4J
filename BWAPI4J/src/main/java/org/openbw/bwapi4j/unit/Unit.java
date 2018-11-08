@@ -120,8 +120,9 @@ public class Unit implements Comparable<Unit> {
   @BridgeValue Position position;
   @BridgeValue TilePosition tilePosition;
   @BridgeValue double angle;
+
   int lastCommandFrame;
-  @BridgeValue UnitCommandType lastCommand;
+  UnitCommandType lastCommandType;
 
   @Reset(value = "false")
   @BridgeValue
@@ -313,6 +314,10 @@ public class Unit implements Comparable<Unit> {
     return bw.getInteractionHandler().getFrameCount();
   }
 
+  public UnitCommandType getLastCommandType() {
+    return lastCommandType;
+  }
+
   @Override
   public int hashCode() {
     return getID();
@@ -344,7 +349,7 @@ public class Unit implements Comparable<Unit> {
       int unitId, UnitCommandType unitCommandType, int targetUnitId, int x, int y, int extra) {
     if (issueCommand_native(unitId, unitCommandType.ordinal(), targetUnitId, x, y, extra)) {
       lastCommandFrame = getCurrentFrame();
-      lastCommand = unitCommandType;
+      lastCommandType = unitCommandType;
       return true;
     } else {
       return false;
