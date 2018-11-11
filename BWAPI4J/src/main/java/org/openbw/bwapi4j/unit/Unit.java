@@ -333,7 +333,12 @@ public class Unit implements Comparable<Unit> {
   }
 
   protected boolean issueCommand(
-      int unitId, UnitCommandType unitCommandType, int targetUnitId, int x, int y, int extra) {
+      final int unitId,
+      final UnitCommandType unitCommandType,
+      final int targetUnitId,
+      final int x,
+      final int y,
+      final int extra) {
     if (issueCommand_native(unitId, unitCommandType.ordinal(), targetUnitId, x, y, extra)) {
       lastCommandFrame = getCurrentFrame();
       lastCommandType = unitCommandType;
@@ -445,7 +450,7 @@ public class Unit implements Comparable<Unit> {
     return new Position(0, 0).getDistance(new Position(xDist, yDist));
   }
 
-  public int getDistance(Position target) {
+  public int getDistance(final Position target) {
     return getDistance(target.getX(), target.getY());
   }
 
@@ -946,11 +951,11 @@ public class Unit implements Comparable<Unit> {
     throw new UnsupportedOperationException("TODO"); // TODO
   }
 
-  public boolean attack(Position target) {
+  public boolean attack(final Position target) {
     return issueCommand(getID(), UnitCommandType.Attack_Move, -1, target.getX(), target.getY(), 0);
   }
 
-  public boolean attack(Unit target) {
+  public boolean attack(final Unit target) {
     return issueCommand(getID(), UnitCommandType.Attack_Unit, target.getID(), -1, -1, 0);
   }
 
@@ -958,7 +963,7 @@ public class Unit implements Comparable<Unit> {
     throw new UnsupportedOperationException("TODO"); // TODO
   }
 
-  public boolean attack(Position target, boolean shiftQueueCommand) {
+  public boolean attack(final Position target, final boolean shiftQueueCommand) {
     return issueCommand(
         getID(),
         UnitCommandType.Attack_Move,
@@ -968,26 +973,26 @@ public class Unit implements Comparable<Unit> {
         shiftQueueCommand ? 1 : 0);
   }
 
-  public boolean attack(Unit target, boolean shiftQueueCommand) {
+  public boolean attack(final Unit target, final boolean shiftQueueCommand) {
     return issueCommand(
         getID(), UnitCommandType.Attack_Unit, target.getID(), -1, -1, shiftQueueCommand ? 1 : 0);
   }
 
-  public boolean attack(PositionOrUnit target, boolean shiftQueueCommand) {
+  public boolean attack(final PositionOrUnit target, final boolean shiftQueueCommand) {
     throw new UnsupportedOperationException("TODO"); // TODO
   }
 
-  public boolean build(UnitType unitType) {
+  public boolean build(final UnitType unitType) {
     return issueCommand(getID(), UnitCommandType.Build, -1, -1, -1, unitType.getID());
   }
 
-  public boolean build(UnitType unitType, TilePosition target) {
+  public boolean build(final UnitType unitType, final TilePosition target) {
     // TODO: Double-check that we should pass the XY of a TilePosition and not a Position.
     return issueCommand(
         getID(), UnitCommandType.Build, -1, target.getX(), target.getY(), unitType.getID());
   }
 
-  public boolean buildAddon(UnitType unitType) {
+  public boolean buildAddon(final UnitType unitType) {
     return issueCommand(getID(), UnitCommandType.Build_Addon, -1, -1, -1, unitType.getID());
   }
 
@@ -999,7 +1004,7 @@ public class Unit implements Comparable<Unit> {
     return issueCommand(getID(), UnitCommandType.Train, -1, -1, -1, unitType.getID());
   }
 
-  public boolean morph(UnitType unitType) {
+  public boolean morph(final UnitType unitType) {
     return issueCommand(getID(), UnitCommandType.Morph, -1, -1, -1, unitType.getID());
   }
 
@@ -1020,7 +1025,7 @@ public class Unit implements Comparable<Unit> {
     return issueCommand(getID(), UnitCommandType.Set_Rally_Unit, target.getID(), -1, -1, -1);
   }
 
-  public boolean setRallyPoint(PositionOrUnit target) {
+  public boolean setRallyPoint(final PositionOrUnit target) {
     throw new UnsupportedOperationException("TODO"); // TODO
   }
 
@@ -1033,11 +1038,11 @@ public class Unit implements Comparable<Unit> {
         getID(), UnitCommandType.Move, -1, target.getX(), target.getY(), shiftQueueCommand ? 1 : 0);
   }
 
-  public boolean patrol(Position target) {
+  public boolean patrol(final Position target) {
     return issueCommand(getID(), UnitCommandType.Patrol, -1, target.getX(), target.getY(), 0);
   }
 
-  public boolean patrol(Position target, boolean shiftQueueCommand) {
+  public boolean patrol(final Position target, final boolean shiftQueueCommand) {
     return issueCommand(
         getID(),
         UnitCommandType.Patrol,
@@ -1051,7 +1056,7 @@ public class Unit implements Comparable<Unit> {
     return issueCommand(getID(), UnitCommandType.Hold_Position, -1, -1, -1, 0);
   }
 
-  public boolean holdPosition(boolean shiftQueueCommand) {
+  public boolean holdPosition(final boolean shiftQueueCommand) {
     return issueCommand(
         getID(), UnitCommandType.Hold_Position, -1, -1, -1, shiftQueueCommand ? 1 : 0);
   }
@@ -1060,15 +1065,15 @@ public class Unit implements Comparable<Unit> {
     return issueCommand(getID(), UnitCommandType.Stop, -1, -1, -1, 0);
   }
 
-  public boolean stop(boolean shiftQueueCommand) {
+  public boolean stop(final boolean shiftQueueCommand) {
     return issueCommand(getID(), UnitCommandType.Stop, -1, -1, -1, shiftQueueCommand ? 1 : 0);
   }
 
-  public boolean follow(Unit target) {
+  public boolean follow(final Unit target) {
     return issueCommand(getID(), UnitCommandType.Follow, target.getID(), -1, -1, 0);
   }
 
-  public boolean follow(Unit target, boolean shiftQueueCommand) {
+  public boolean follow(final Unit target, final boolean shiftQueueCommand) {
     return issueCommand(
         getID(), UnitCommandType.Follow, target.getID(), -1, -1, shiftQueueCommand ? 1 : 0);
   }
@@ -1077,7 +1082,7 @@ public class Unit implements Comparable<Unit> {
     return issueCommand(getID(), UnitCommandType.Gather, resource.getID(), -1, -1, 0);
   }
 
-  public boolean gather(final Unit resource, boolean shiftQueueCommand) {
+  public boolean gather(final Unit resource, final boolean shiftQueueCommand) {
     return issueCommand(
         getID(), UnitCommandType.Gather, resource.getID(), -1, -1, shiftQueueCommand ? 1 : 0);
   }
@@ -1086,16 +1091,16 @@ public class Unit implements Comparable<Unit> {
     return issueCommand(getID(), UnitCommandType.Return_Cargo, -1, -1, -1, 0);
   }
 
-  public boolean returnCargo(boolean shiftQueueCommand) {
+  public boolean returnCargo(final boolean shiftQueueCommand) {
     return issueCommand(
         getID(), UnitCommandType.Return_Cargo, -1, -1, -1, shiftQueueCommand ? 1 : 0);
   }
 
-  public boolean repair(Unit target) {
+  public boolean repair(final Unit target) {
     return issueCommand(getID(), UnitCommandType.Repair, target.getID(), -1, -1, 0);
   }
 
-  public boolean repair(Unit target, boolean shiftQueueCommand) {
+  public boolean repair(final Unit target, final boolean shiftQueueCommand) {
     return issueCommand(
         getID(), UnitCommandType.Repair, target.getID(), -1, -1, shiftQueueCommand ? 1 : 0);
   }
@@ -1132,16 +1137,16 @@ public class Unit implements Comparable<Unit> {
     return issueCommand(getID(), UnitCommandType.Land, -1, -1, -1, -1);
   }
 
-  public boolean load(Unit target) {
+  public boolean load(final Unit target) {
     return issueCommand(getID(), UnitCommandType.Load, target.getID(), -1, -1, 0);
   }
 
-  public boolean load(Unit target, boolean shiftQueueCommand) {
+  public boolean load(final Unit target, final boolean shiftQueueCommand) {
     return issueCommand(
         getID(), UnitCommandType.Load, target.getID(), -1, -1, shiftQueueCommand ? 1 : 0);
   }
 
-  public boolean unload(Unit target) {
+  public boolean unload(final Unit target) {
     return issueCommand(getID(), UnitCommandType.Unload, target.getID(), -1, -1, -1);
   }
 
@@ -1149,16 +1154,16 @@ public class Unit implements Comparable<Unit> {
     return issueCommand(getID(), UnitCommandType.Unload_All, -1, -1, -1, 0);
   }
 
-  public boolean unloadAll(boolean shiftQueueCommand) {
+  public boolean unloadAll(final boolean shiftQueueCommand) {
     return issueCommand(getID(), UnitCommandType.Unload_All, -1, -1, -1, shiftQueueCommand ? 1 : 0);
   }
 
-  public boolean unloadAll(Position target) {
+  public boolean unloadAll(final Position target) {
     return issueCommand(
         getID(), UnitCommandType.Unload_All_Position, -1, target.getX(), target.getY(), 0);
   }
 
-  public boolean unloadAll(Position target, boolean shiftQueueCommand) {
+  public boolean unloadAll(final Position target, final boolean shiftQueueCommand) {
     return issueCommand(
         getID(),
         UnitCommandType.Unload_All_Position,
@@ -1168,20 +1173,20 @@ public class Unit implements Comparable<Unit> {
         shiftQueueCommand ? 1 : 0);
   }
 
-  public boolean rightClick(Position target) {
+  public boolean rightClick(final Position target) {
     return issueCommand(
         getID(), UnitCommandType.Right_Click_Position, -1, target.getX(), target.getY(), 0);
   }
 
-  public boolean rightClick(Unit target) {
+  public boolean rightClick(final Unit target) {
     return issueCommand(getID(), UnitCommandType.Right_Click_Unit, target.getID(), -1, -1, 0);
   }
 
-  public boolean rightClick(PositionOrUnit target) {
+  public boolean rightClick(final PositionOrUnit target) {
     throw new UnsupportedOperationException("TODO"); // TODO
   }
 
-  public boolean rightClick(Position target, boolean shiftQueueCommand) {
+  public boolean rightClick(final Position target, final boolean shiftQueueCommand) {
     return issueCommand(
         getID(),
         UnitCommandType.Right_Click_Position,
@@ -1191,7 +1196,7 @@ public class Unit implements Comparable<Unit> {
         shiftQueueCommand ? 1 : 0);
   }
 
-  public boolean rightClick(Unit target, boolean shiftQueueCommand) {
+  public boolean rightClick(final Unit target, final boolean shiftQueueCommand) {
     return issueCommand(
         getID(),
         UnitCommandType.Right_Click_Unit,
@@ -1201,7 +1206,7 @@ public class Unit implements Comparable<Unit> {
         shiftQueueCommand ? 1 : 0);
   }
 
-  public boolean rightClick(PositionOrUnit target, boolean shiftQueueCommand) {
+  public boolean rightClick(final PositionOrUnit target, final boolean shiftQueueCommand) {
     throw new UnsupportedOperationException("TODO"); // TODO
   }
 
@@ -1237,20 +1242,20 @@ public class Unit implements Comparable<Unit> {
     return issueCommand(getID(), UnitCommandType.Cancel_Upgrade, -1, -1, -1, -1);
   }
 
-  public boolean useTech(TechType tech) {
+  public boolean useTech(final TechType tech) {
     return issueCommand(getID(), UnitCommandType.Use_Tech, -1, -1, -1, -1);
   }
 
-  public boolean useTech(TechType tech, Position target) {
+  public boolean useTech(final TechType tech, final Position target) {
     return issueCommand(
         getID(), UnitCommandType.Use_Tech_Position, -1, target.getX(), target.getY(), -1);
   }
 
-  public boolean useTech(TechType tech, Unit target) {
+  public boolean useTech(final TechType tech, final Unit target) {
     return issueCommand(getID(), UnitCommandType.Use_Tech_Unit, target.getID(), -1, -1, -1);
   }
 
-  public boolean useTech(TechType tech, PositionOrUnit target) {
+  public boolean useTech(final TechType tech, final PositionOrUnit target) {
     throw new UnsupportedOperationException("TODO"); // TODO
   }
 
