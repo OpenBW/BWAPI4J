@@ -300,6 +300,10 @@ public final class InteractionHandler {
 
   public native void pauseGame();
 
+  public native void resumeGame();
+
+  public native void restartGame();
+
   public native void setGUI(boolean enabled);
 
   private native int[] getNukeDotsData_native();

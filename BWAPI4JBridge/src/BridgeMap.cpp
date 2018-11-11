@@ -128,3 +128,18 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BWMapImpl_getCreepData_1nati
   env->SetIntArrayRegion(result, 0, Bridge::Globals::dataBuffer.getIndex(), Bridge::Globals::dataBuffer.intBuf);
   return result;
 }
+
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BWMapImpl_getPylonPowerData_1native(JNIEnv *env, jobject) {
+  Bridge::Globals::dataBuffer.reset();
+
+  for (int tileX = 0; tileX < BWAPI::Broodwar->mapWidth(); ++tileX) {
+    for (int tileY = 0; tileY < BWAPI::Broodwar->mapHeight(); ++tileY) {
+      const auto currentTilePosition = BWAPI::TilePosition(tileX, tileY);
+      Bridge::Globals::dataBuffer.add(BWAPI::Broodwar->hasPower(currentTilePosition));
+    }
+  }
+
+  jintArray result = env->NewIntArray(Bridge::Globals::dataBuffer.getIndex());
+  env->SetIntArrayRegion(result, 0, Bridge::Globals::dataBuffer.getIndex(), Bridge::Globals::dataBuffer.intBuf);
+  return result;
+}

@@ -92,6 +92,10 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_setScreenPosit
 
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_pauseGame(JNIEnv *, jobject) { BWAPI::Broodwar->pauseGame(); }
 
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_resumeGame(JNIEnv *, jobject) { BWAPI::Broodwar->resumeGame(); }
+
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_restartGame(JNIEnv *, jobject) { BWAPI::Broodwar->restartGame(); }
+
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_setGUI(JNIEnv *, jobject, jboolean enabled) { BWAPI::Broodwar->setGUI(enabled); }
 
 JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_InteractionHandler_getNukeDotsData_1native(JNIEnv *env, jobject) {
