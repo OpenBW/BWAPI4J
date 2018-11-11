@@ -310,7 +310,7 @@ public class BW {
       Player player = this.players.get(playerId);
       if (player == null) {
         logger.debug("creating player for id {} ...", playerId);
-        player = new Player(playerId, this.getPlayerName(playerId), this);
+        player = new Player(this, playerId, this.getPlayerName(playerId));
         logger.trace("player name: {}", player.getName());
         this.players.put(playerId, player);
         logger.trace("initializing...");

@@ -42,6 +42,7 @@ import org.openbw.bwapi4j.unit.Unit;
 @LookedUp(method = "getPlayer")
 @NativeClass(name = "BWAPI::Player")
 public class Player {
+  private final BW bw;
 
   // constant
   @BridgeValue(initializeOnly = true)
@@ -50,7 +51,6 @@ public class Player {
 
   private String name;
 
-  private final BW bw;
   @BridgeValue Race race;
 
   @BridgeValue(initializeOnly = true)
@@ -152,10 +152,10 @@ public class Player {
   private boolean ally;
   private boolean enemy;
 
-  Player(int id, String name, BW bw) {
+  Player(final BW bw, final int id, final String name) {
+    this.bw = bw;
     this.iD = id;
     this.name = name;
-    this.bw = bw;
     this.supplyTotalRace = new int[3];
     this.supplyUsedRace = new int[3];
     this.unitStatCalculator = new UnitStatCalculator(this);
