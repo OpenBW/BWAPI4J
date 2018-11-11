@@ -34,6 +34,8 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openbw.bwapi4j.type.GameType;
+import org.openbw.bwapi4j.type.Key;
 import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.TechTypeBridge;
 import org.openbw.bwapi4j.type.UnitType;
@@ -323,20 +325,8 @@ public class BW {
     }
   }
 
-  public Player getPlayer(int playerId) {
-    return this.players.get(playerId);
-  }
-
   public Collection<Player> getAllPlayers() {
     return this.players.values();
-  }
-
-  public Unit getUnit(int unitId) {
-    return unitId > 0 ? this.units.get(unitId) : null;
-  }
-
-  public Collection<Bullet> getBullets() {
-    return this.bullets.values();
   }
 
   public Bullet getBullet(int bulletId) {
@@ -369,10 +359,6 @@ public class BW {
    */
   public List<Unit> getVespeneGeysers() {
     return this.getVespeneGeysersCache.get();
-  }
-
-  public Collection<Unit> getAllUnits() {
-    return this.units.values();
   }
 
   private void preFrame() {
@@ -638,8 +624,8 @@ public class BW {
     throw new UnsupportedOperationException("TODO"); // TODO
   }
 
-  public List<Unit> getAllUnits() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public Collection<Unit> getAllUnits() {
+    return units.values();
   }
 
   public List<Unit> getMinerals() {
@@ -666,8 +652,8 @@ public class BW {
     throw new UnsupportedOperationException("TODO"); // TODO
   }
 
-  public List<Bullet> getBullets() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public Collection<Bullet> getBullets() {
+    return bullets.values();
   }
 
   public List<Position> getNukeDots() {
@@ -678,12 +664,12 @@ public class BW {
     throw new UnsupportedOperationException("TODO"); // TODO
   }
 
-  public Player getPlayer(int playerID) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public Player getPlayer(final int playerId) {
+    return players.get(playerId);
   }
 
-  public Unit getUnit(int unitID) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public Unit getUnit(final int unitId) {
+    return units.get(unitId);
   }
 
   public Unit indexToUnit(int unitIndex) {
@@ -1052,361 +1038,6 @@ public class BW {
   }
 
   public List<Player> observers() {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void setTextSize() {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void setTextSize(bwapi.Text.Size.Enum size) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawText(bwapi.CoordinateType.Enum ctype, int x, int y, String cstr_format) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawTextMap(int x, int y, String cstr_format) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawTextMap(Position p, String cstr_format) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawTextMouse(int x, int y, String cstr_format) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawTextMouse(Position p, String cstr_format) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawTextScreen(int x, int y, String cstr_format) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawTextScreen(Position p, String cstr_format) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawBox(
-      bwapi.CoordinateType.Enum ctype, int left, int top, int right, int bottom, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawBox(
-      bwapi.CoordinateType.Enum ctype,
-      int left,
-      int top,
-      int right,
-      int bottom,
-      Color color,
-      boolean isSolid) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawBoxMap(int left, int top, int right, int bottom, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawBoxMap(int left, int top, int right, int bottom, Color color, boolean isSolid) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawBoxMap(Position leftTop, Position rightBottom, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawBoxMap(Position leftTop, Position rightBottom, Color color, boolean isSolid) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawBoxMouse(int left, int top, int right, int bottom, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawBoxMouse(int left, int top, int right, int bottom, Color color, boolean isSolid) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawBoxMouse(Position leftTop, Position rightBottom, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawBoxMouse(Position leftTop, Position rightBottom, Color color, boolean isSolid) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawBoxScreen(int left, int top, int right, int bottom, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawBoxScreen(
-      int left, int top, int right, int bottom, Color color, boolean isSolid) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawBoxScreen(Position leftTop, Position rightBottom, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawBoxScreen(Position leftTop, Position rightBottom, Color color, boolean isSolid) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawTriangle(
-      bwapi.CoordinateType.Enum ctype,
-      int ax,
-      int ay,
-      int bx,
-      int by,
-      int cx,
-      int cy,
-      Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawTriangle(
-      bwapi.CoordinateType.Enum ctype,
-      int ax,
-      int ay,
-      int bx,
-      int by,
-      int cx,
-      int cy,
-      Color color,
-      boolean isSolid) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawTriangleMap(int ax, int ay, int bx, int by, int cx, int cy, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawTriangleMap(
-      int ax, int ay, int bx, int by, int cx, int cy, Color color, boolean isSolid) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawTriangleMap(Position a, Position b, Position c, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawTriangleMap(Position a, Position b, Position c, Color color, boolean isSolid) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawTriangleMouse(int ax, int ay, int bx, int by, int cx, int cy, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawTriangleMouse(
-      int ax, int ay, int bx, int by, int cx, int cy, Color color, boolean isSolid) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawTriangleMouse(Position a, Position b, Position c, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawTriangleMouse(Position a, Position b, Position c, Color color, boolean isSolid) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawTriangleScreen(int ax, int ay, int bx, int by, int cx, int cy, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawTriangleScreen(
-      int ax, int ay, int bx, int by, int cx, int cy, Color color, boolean isSolid) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawTriangleScreen(Position a, Position b, Position c, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawTriangleScreen(Position a, Position b, Position c, Color color, boolean isSolid) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawCircle(bwapi.CoordinateType.Enum ctype, int x, int y, int radius, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawCircle(
-      bwapi.CoordinateType.Enum ctype, int x, int y, int radius, Color color, boolean isSolid) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawCircleMap(int x, int y, int radius, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawCircleMap(int x, int y, int radius, Color color, boolean isSolid) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawCircleMap(Position p, int radius, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawCircleMap(Position p, int radius, Color color, boolean isSolid) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawCircleMouse(int x, int y, int radius, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawCircleMouse(int x, int y, int radius, Color color, boolean isSolid) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawCircleMouse(Position p, int radius, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawCircleMouse(Position p, int radius, Color color, boolean isSolid) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawCircleScreen(int x, int y, int radius, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawCircleScreen(int x, int y, int radius, Color color, boolean isSolid) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawCircleScreen(Position p, int radius, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawCircleScreen(Position p, int radius, Color color, boolean isSolid) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawEllipse(
-      bwapi.CoordinateType.Enum ctype, int x, int y, int xrad, int yrad, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawEllipse(
-      bwapi.CoordinateType.Enum ctype,
-      int x,
-      int y,
-      int xrad,
-      int yrad,
-      Color color,
-      boolean isSolid) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawEllipseMap(int x, int y, int xrad, int yrad, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawEllipseMap(int x, int y, int xrad, int yrad, Color color, boolean isSolid) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawEllipseMap(Position p, int xrad, int yrad, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawEllipseMap(Position p, int xrad, int yrad, Color color, boolean isSolid) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawEllipseMouse(int x, int y, int xrad, int yrad, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawEllipseMouse(int x, int y, int xrad, int yrad, Color color, boolean isSolid) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawEllipseMouse(Position p, int xrad, int yrad, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawEllipseMouse(Position p, int xrad, int yrad, Color color, boolean isSolid) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawEllipseScreen(int x, int y, int xrad, int yrad, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawEllipseScreen(int x, int y, int xrad, int yrad, Color color, boolean isSolid) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawEllipseScreen(Position p, int xrad, int yrad, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawEllipseScreen(Position p, int xrad, int yrad, Color color, boolean isSolid) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawDot(bwapi.CoordinateType.Enum ctype, int x, int y, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawDotMap(int x, int y, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawDotMap(Position p, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawDotMouse(int x, int y, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawDotMouse(Position p, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawDotScreen(int x, int y, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawDotScreen(Position p, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawLine(
-      bwapi.CoordinateType.Enum ctype, int x1, int y1, int x2, int y2, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawLineMap(int x1, int y1, int x2, int y2, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawLineMap(Position a, Position b, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawLineMouse(int x1, int y1, int x2, int y2, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawLineMouse(Position a, Position b, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawLineScreen(int x1, int y1, int x2, int y2, Color color) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public void drawLineScreen(Position a, Position b, Color color) {
     throw new UnsupportedOperationException("TODO"); // TODO
   }
 
