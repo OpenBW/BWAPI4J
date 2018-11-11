@@ -143,4 +143,9 @@ public class BWMapMock implements BWMap {
   public boolean hasCreep(TilePosition tilePosition) {
     throw new UnsupportedOperationException();
   }
+
+  @Override
+  public boolean hasPower(TilePosition tilePosition) {
+    throw new UnsupportedOperationException();
+  }
 }
