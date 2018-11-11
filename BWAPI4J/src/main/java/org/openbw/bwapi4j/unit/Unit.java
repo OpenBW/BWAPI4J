@@ -947,11 +947,11 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean attack(Position target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(getID(), UnitCommandType.Attack_Move, -1, target.getX(), target.getY(), 0);
   }
 
   public boolean attack(Unit target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(getID(), UnitCommandType.Attack_Unit, target.getID(), -1, -1, 0);
   }
 
   public boolean attack(PositionOrUnit target) {
@@ -959,27 +959,36 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean attack(Position target, boolean shiftQueueCommand) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(
+        getID(),
+        UnitCommandType.Attack_Move,
+        -1,
+        target.getX(),
+        target.getY(),
+        shiftQueueCommand ? 1 : 0);
   }
 
   public boolean attack(Unit target, boolean shiftQueueCommand) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(
+        getID(), UnitCommandType.Attack_Unit, target.getID(), -1, -1, shiftQueueCommand ? 1 : 0);
   }
 
   public boolean attack(PositionOrUnit target, boolean shiftQueueCommand) {
     throw new UnsupportedOperationException("TODO"); // TODO
   }
 
-  public boolean build(UnitType type) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean build(UnitType unitType) {
+    return issueCommand(getID(), UnitCommandType.Build, -1, -1, -1, unitType.getID());
   }
 
-  public boolean build(UnitType type, TilePosition target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean build(UnitType unitType, TilePosition target) {
+    // TODO: Double-check that we should pass the XY of a TilePosition and not a Position.
+    return issueCommand(
+        getID(), UnitCommandType.Build, -1, target.getX(), target.getY(), unitType.getID());
   }
 
-  public boolean buildAddon(UnitType type) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean buildAddon(UnitType unitType) {
+    return issueCommand(getID(), UnitCommandType.Build_Addon, -1, -1, -1, unitType.getID());
   }
 
   public boolean train() {
@@ -990,8 +999,8 @@ public class Unit implements Comparable<Unit> {
     return issueCommand(getID(), UnitCommandType.Train, -1, -1, -1, unitType.getID());
   }
 
-  public boolean morph(UnitType type) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean morph(UnitType unitType) {
+    return issueCommand(getID(), UnitCommandType.Morph, -1, -1, -1, unitType.getID());
   }
 
   public boolean research(final TechType techType) {
@@ -1025,35 +1034,43 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean patrol(Position target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(getID(), UnitCommandType.Patrol, -1, target.getX(), target.getY(), 0);
   }
 
   public boolean patrol(Position target, boolean shiftQueueCommand) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(
+        getID(),
+        UnitCommandType.Patrol,
+        -1,
+        target.getX(),
+        target.getY(),
+        shiftQueueCommand ? 1 : 0);
   }
 
   public boolean holdPosition() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(getID(), UnitCommandType.Hold_Position, -1, -1, -1, 0);
   }
 
   public boolean holdPosition(boolean shiftQueueCommand) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(
+        getID(), UnitCommandType.Hold_Position, -1, -1, -1, shiftQueueCommand ? 1 : 0);
   }
 
   public boolean stop() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(getID(), UnitCommandType.Stop, -1, -1, -1, 0);
   }
 
   public boolean stop(boolean shiftQueueCommand) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(getID(), UnitCommandType.Stop, -1, -1, -1, shiftQueueCommand ? 1 : 0);
   }
 
   public boolean follow(Unit target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(getID(), UnitCommandType.Follow, target.getID(), -1, -1, 0);
   }
 
   public boolean follow(Unit target, boolean shiftQueueCommand) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(
+        getID(), UnitCommandType.Follow, target.getID(), -1, -1, shiftQueueCommand ? 1 : 0);
   }
 
   public boolean gather(final Unit resource) {
@@ -1066,43 +1083,45 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean returnCargo() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(getID(), UnitCommandType.Return_Cargo, -1, -1, -1, 0);
   }
 
   public boolean returnCargo(boolean shiftQueueCommand) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(
+        getID(), UnitCommandType.Return_Cargo, -1, -1, -1, shiftQueueCommand ? 1 : 0);
   }
 
   public boolean repair(Unit target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(getID(), UnitCommandType.Repair, target.getID(), -1, -1, 0);
   }
 
   public boolean repair(Unit target, boolean shiftQueueCommand) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(
+        getID(), UnitCommandType.Repair, target.getID(), -1, -1, shiftQueueCommand ? 1 : 0);
   }
 
   public boolean burrow() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(getID(), UnitCommandType.Burrow, -1, -1, -1, -1);
   }
 
   public boolean unburrow() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(getID(), UnitCommandType.Unburrow, -1, -1, -1, -1);
   }
 
   public boolean cloak() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(getID(), UnitCommandType.Cloak, -1, -1, -1, -1);
   }
 
   public boolean decloak() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(getID(), UnitCommandType.Decloak, -1, -1, -1, -1);
   }
 
   public boolean siege() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(getID(), UnitCommandType.Siege, -1, -1, -1, -1);
   }
 
   public boolean unsiege() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(getID(), UnitCommandType.Unsiege, -1, -1, -1, -1);
   }
 
   public boolean lift() {
@@ -1110,43 +1129,52 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean land(final TilePosition target) {
-    return issueCommand(getID(), UnitCommandType.Land, -1, target.getX(), target.getY(), -1);
+    return issueCommand(getID(), UnitCommandType.Land, -1, -1, -1, -1);
   }
 
   public boolean load(Unit target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(getID(), UnitCommandType.Load, target.getID(), -1, -1, 0);
   }
 
   public boolean load(Unit target, boolean shiftQueueCommand) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(
+        getID(), UnitCommandType.Load, target.getID(), -1, -1, shiftQueueCommand ? 1 : 0);
   }
 
   public boolean unload(Unit target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(getID(), UnitCommandType.Unload, target.getID(), -1, -1, -1);
   }
 
   public boolean unloadAll() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(getID(), UnitCommandType.Unload_All, -1, -1, -1, 0);
   }
 
   public boolean unloadAll(boolean shiftQueueCommand) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(getID(), UnitCommandType.Unload_All, -1, -1, -1, shiftQueueCommand ? 1 : 0);
   }
 
   public boolean unloadAll(Position target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(
+        getID(), UnitCommandType.Unload_All_Position, -1, target.getX(), target.getY(), 0);
   }
 
   public boolean unloadAll(Position target, boolean shiftQueueCommand) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(
+        getID(),
+        UnitCommandType.Unload_All_Position,
+        -1,
+        target.getX(),
+        target.getY(),
+        shiftQueueCommand ? 1 : 0);
   }
 
   public boolean rightClick(Position target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(
+        getID(), UnitCommandType.Right_Click_Position, -1, target.getX(), target.getY(), 0);
   }
 
   public boolean rightClick(Unit target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(getID(), UnitCommandType.Right_Click_Unit, target.getID(), -1, -1, 0);
   }
 
   public boolean rightClick(PositionOrUnit target) {
@@ -1154,11 +1182,23 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean rightClick(Position target, boolean shiftQueueCommand) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(
+        getID(),
+        UnitCommandType.Right_Click_Position,
+        -1,
+        target.getX(),
+        target.getY(),
+        shiftQueueCommand ? 1 : 0);
   }
 
   public boolean rightClick(Unit target, boolean shiftQueueCommand) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(
+        getID(),
+        UnitCommandType.Right_Click_Unit,
+        target.getID(),
+        -1,
+        -1,
+        shiftQueueCommand ? 1 : 0);
   }
 
   public boolean rightClick(PositionOrUnit target, boolean shiftQueueCommand) {
@@ -1166,15 +1206,15 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean haltConstruction() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(getID(), UnitCommandType.Halt_Construction, -1, -1, -1, -1);
   }
 
   public boolean cancelConstruction() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(getID(), UnitCommandType.Cancel_Construction, -1, -1, -1, -1);
   }
 
   public boolean cancelAddon() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(getID(), UnitCommandType.Cancel_Addon, -1, -1, -1, -1);
   }
 
   public boolean cancelTrain() {
@@ -1186,7 +1226,7 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean cancelMorph() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(getID(), UnitCommandType.Cancel_Morph, -1, -1, -1, -1);
   }
 
   public boolean cancelResearch() {
@@ -1198,15 +1238,16 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean useTech(TechType tech) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(getID(), UnitCommandType.Use_Tech, -1, -1, -1, -1);
   }
 
   public boolean useTech(TechType tech, Position target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(
+        getID(), UnitCommandType.Use_Tech_Position, -1, target.getX(), target.getY(), -1);
   }
 
   public boolean useTech(TechType tech, Unit target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return issueCommand(getID(), UnitCommandType.Use_Tech_Unit, target.getID(), -1, -1, -1);
   }
 
   public boolean useTech(TechType tech, PositionOrUnit target) {
