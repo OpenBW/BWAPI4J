@@ -55,44 +55,32 @@ public class Bullet {
   @BridgeValue double velocityY;
   @BridgeValue boolean visible;
 
+  public int getID() {
+    return iD;
+  }
+
+  public boolean exists() {
+    return exists;
+  }
+
   public Player getPlayer() {
-    return this.player;
+    return player;
+  }
+
+  public BulletType getType() {
+    return type;
   }
 
   public Unit getSource() {
     return source;
   }
 
-  public Unit getTarget() {
-    return target;
-  }
-
-  public boolean isExists() {
-    return exists;
-  }
-
-  public double getAngle() {
-    return angle;
-  }
-
-  public int getID() {
-    return iD;
-  }
-
   public Position getPosition() {
     return position;
   }
 
-  public int getRemoveTimer() {
-    return removeTimer;
-  }
-
-  public Position getTargetPosition() {
-    return targetPosition;
-  }
-
-  public BulletType getType() {
-    return type;
+  public double getAngle() {
+    return angle;
   }
 
   public double getVelocityX() {
@@ -103,73 +91,40 @@ public class Bullet {
     return velocityY;
   }
 
-  public boolean isVisible() {
-    return visible;
-  }
-
-  // ---
-
-  public int getID() {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public boolean exists() {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public Player getPlayer() {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public BulletType getType() {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public Unit getSource() {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public Position getPosition() {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public double getAngle() {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public double getVelocityX() {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public double getVelocityY() {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
   public Unit getTarget() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return target;
   }
 
   public Position getTargetPosition() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return targetPosition;
   }
 
   public int getRemoveTimer() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return removeTimer;
   }
 
   public boolean isVisible() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return visible;
   }
 
   public boolean isVisible(Player player) {
     throw new UnsupportedOperationException("TODO"); // TODO
   }
 
-  public boolean equals(Object that) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  @Override
+  public boolean equals(final Object object) {
+    if (this == object) {
+      return true;
+    } else if (object instanceof Bullet) {
+      final Bullet that = (Bullet) object;
+      return this.getID() == that.getID();
+    } else {
+      return false;
+    }
   }
 
+  @Override
   public int hashCode() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return getID();
   }
 }
