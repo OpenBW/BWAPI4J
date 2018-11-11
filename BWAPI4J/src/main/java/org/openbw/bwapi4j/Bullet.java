@@ -106,4 +106,70 @@ public class Bullet {
   public boolean isVisible() {
     return visible;
   }
+
+  // ---
+
+  public int getID() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public boolean exists() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public Player getPlayer() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public BulletType getType() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public Unit getSource() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public Position getPosition() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public double getAngle() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public double getVelocityX() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public double getVelocityY() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public Unit getTarget() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public Position getTargetPosition() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int getRemoveTimer() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public boolean isVisible() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public boolean isVisible(Player player) {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public boolean equals(Object that) {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int hashCode() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
 }
