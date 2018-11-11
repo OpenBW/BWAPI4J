@@ -251,7 +251,7 @@ public class Unit implements Comparable<Unit> {
   @BridgeValue Order order;
   @BridgeValue Unit orderTarget;
   @BridgeValue Position orderTargetPosition;
-  Order secondaryOrder; // TODO: Shouldn't this be a bridge value?
+  @BridgeValue Order secondaryOrder;
 
   @BridgeValue boolean morphing;
   @BridgeValue boolean targetable;
