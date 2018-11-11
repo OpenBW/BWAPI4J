@@ -539,15 +539,15 @@ public class Unit implements Comparable<Unit> {
   }
 
   public int getGroundWeaponCooldown() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return getGroundWeapon().cooldown();
   }
 
   public int getAirWeaponCooldown() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return getAirWeapon().cooldown();
   }
 
   public int getSpellCooldown() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return spellCooldown;
   }
 
   public int getDefenseMatrixPoints() {
@@ -599,7 +599,13 @@ public class Unit implements Comparable<Unit> {
   }
 
   public List<UnitType> getTrainingQueue() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final List<UnitType> unitTypeQueue = new ArrayList<>();
+
+    for (final TrainingSlot slot : trainingQueue) {
+      unitTypeQueue.add(slot.getUnitType());
+    }
+
+    return unitTypeQueue;
   }
 
   public TechType getTech() {
@@ -679,7 +685,7 @@ public class Unit implements Comparable<Unit> {
   }
 
   public List<Unit> getLoadedUnits() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return loadedUnits;
   }
 
   public int getSpaceRemaining() {
@@ -691,7 +697,22 @@ public class Unit implements Comparable<Unit> {
   }
 
   public List<Unit> getInterceptors() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    if (getInterceptorCount() < 1 || getType() != UnitType.Protoss_Carrier) {
+      return new ArrayList<>();
+    } else {
+      final List<Unit> interceptors = new ArrayList<>();
+
+      for (final Unit unit : bw.getUnits(getPlayer())) {
+        if (unit.getType() == UnitType.Protoss_Interceptor) {
+          final Unit carrier = unit.getCarrier();
+          if (carrier != null && carrier.getID() == getID()) {
+            interceptors.add(unit);
+          }
+        }
+      }
+
+      return interceptors;
+    }
   }
 
   public Unit getHatchery() {
@@ -699,7 +720,22 @@ public class Unit implements Comparable<Unit> {
   }
 
   public List<Unit> getLarva() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    if (!getType().producesLarva()) {
+      return new ArrayList<>();
+    } else {
+      final List<Unit> larva = new ArrayList<>();
+
+      for (final Unit unit : bw.getUnits(getPlayer())) {
+        if (unit.getType() == UnitType.Zerg_Larva) {
+          final Unit hatchery = unit.getHatchery();
+          if (hatchery != null && hatchery.getID() == getID()) {
+            larva.add(unit);
+          }
+        }
+      }
+
+      return larva;
+    }
   }
 
   public List<Unit> getUnitsInRadius(int radius) {
