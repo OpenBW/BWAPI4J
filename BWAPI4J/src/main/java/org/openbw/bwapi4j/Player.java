@@ -803,4 +803,264 @@ public class Player {
   // public boolean hasUnitTypeRequirement(UnitType unit, int amount) {
   // return hasUnitTypeRequirement_native(pointer, unit, amount);
   // }
+
+  public int getID() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public String getName() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public List<Unit> getUnits() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public Race getRace() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public PlayerType getType() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public Force getForce() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public boolean isAlly(Player player) {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public boolean isEnemy(Player player) {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public boolean isNeutral() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public TilePosition getStartLocation() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public boolean isVictorious() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public boolean isDefeated() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public boolean leftGame() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int minerals() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int gas() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int gatheredMinerals() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int gatheredGas() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int repairedMinerals() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int repairedGas() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int refundedMinerals() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int refundedGas() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int spentMinerals() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int spentGas() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int supplyTotal() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int supplyTotal(Race race) {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int supplyUsed() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int supplyUsed(Race race) {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int allUnitCount() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int allUnitCount(UnitType unit) {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int visibleUnitCount() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int visibleUnitCount(UnitType unit) {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int completedUnitCount() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int completedUnitCount(UnitType unit) {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int incompleteUnitCount() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int incompleteUnitCount(UnitType unit) {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int deadUnitCount() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int deadUnitCount(UnitType unit) {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int killedUnitCount() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int killedUnitCount(UnitType unit) {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int getUpgradeLevel(UpgradeType upgrade) {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public boolean hasResearched(TechType tech) {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public boolean isResearching(TechType tech) {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public boolean isUpgrading(UpgradeType upgrade) {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public Color getColor() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public char getTextColor() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int maxEnergy(UnitType unit) {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public double topSpeed(UnitType unit) {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int weaponMaxRange(WeaponType weapon) {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int sightRange(UnitType unit) {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int weaponDamageCooldown(UnitType unit) {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int armor(UnitType unit) {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int damage(WeaponType wpn) {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int getUnitScore() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int getKillScore() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int getBuildingScore() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int getRazingScore() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int getCustomScore() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public boolean isObserver() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int getMaxUpgradeLevel(UpgradeType upgrade) {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public boolean isResearchAvailable(TechType tech) {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public boolean isUnitAvailable(UnitType unit) {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public boolean hasUnitTypeRequirement(UnitType unit) {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public boolean hasUnitTypeRequirement(UnitType unit, int amount) {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public boolean equals(Object that) {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
+
+  public int hashCode() {
+    throw new UnsupportedOperationException("TODO"); // TODO
+  }
 }
