@@ -73,7 +73,7 @@ public class TestListener implements BWEventListener {
       }
 
       /* Basic gamestart worker auto-mine */ {
-        final List<Unit> unassignedMineralPatches = bw.getMineralPatches();
+        final List<Unit> unassignedMineralPatches = bw.getMinerals();
         final List<Unit> unassignedWorkers = new ArrayList<>(workers);
         unassignedMineralPatches.sort(
             new UnitDistanceComparator(self.getStartLocation().toPosition()));
@@ -103,7 +103,7 @@ public class TestListener implements BWEventListener {
       for (final Unit worker : workers) {
         if (worker.isIdle()) {
           Unit closestMineralPatch = null;
-          for (final Unit mineralPatch : bw.getMineralPatches()) {
+          for (final Unit mineralPatch : bw.getMinerals()) {
             if (closestMineralPatch == null) {
               closestMineralPatch = mineralPatch;
             } else {
