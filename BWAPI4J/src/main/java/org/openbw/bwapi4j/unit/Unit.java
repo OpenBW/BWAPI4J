@@ -20,21 +20,6 @@
 
 package org.openbw.bwapi4j.unit;
 
-// TODO: Remove static imports...
-import static org.openbw.bwapi4j.type.UnitCommandType.Cancel_Research;
-import static org.openbw.bwapi4j.type.UnitCommandType.Cancel_Train;
-import static org.openbw.bwapi4j.type.UnitCommandType.Cancel_Train_Slot;
-import static org.openbw.bwapi4j.type.UnitCommandType.Cancel_Upgrade;
-import static org.openbw.bwapi4j.type.UnitCommandType.Gather;
-import static org.openbw.bwapi4j.type.UnitCommandType.Land;
-import static org.openbw.bwapi4j.type.UnitCommandType.Lift;
-import static org.openbw.bwapi4j.type.UnitCommandType.Move;
-import static org.openbw.bwapi4j.type.UnitCommandType.Research;
-import static org.openbw.bwapi4j.type.UnitCommandType.Set_Rally_Position;
-import static org.openbw.bwapi4j.type.UnitCommandType.Set_Rally_Unit;
-import static org.openbw.bwapi4j.type.UnitCommandType.Train;
-import static org.openbw.bwapi4j.type.UnitCommandType.Upgrade;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -78,7 +63,7 @@ public class Unit implements Comparable<Unit> {
     }
 
     public boolean cancel() {
-      return issueCommand(getID(), Cancel_Train_Slot, -1, -1, -1, this.slotIndex);
+      return issueCommand(getID(), UnitCommandType.Cancel_Train_Slot, -1, -1, -1, this.slotIndex);
     }
 
     @Override
@@ -994,7 +979,7 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean train(final UnitType unitType) {
-    return issueCommand(getID(), Train, -1, -1, -1, unitType.getID());
+    return issueCommand(getID(), UnitCommandType.Train, -1, -1, -1, unitType.getID());
   }
 
   public boolean morph(UnitType type) {
@@ -1002,19 +987,20 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean research(final TechType techType) {
-    return issueCommand(getID(), Research, -1, -1, -1, techType.getID());
+    return issueCommand(getID(), UnitCommandType.Research, -1, -1, -1, techType.getID());
   }
 
   public boolean upgrade(final UpgradeType upgradeType) {
-    return issueCommand(getID(), Upgrade, -1, -1, -1, upgradeType.getID());
+    return issueCommand(getID(), UnitCommandType.Upgrade, -1, -1, -1, upgradeType.getID());
   }
 
   public boolean setRallyPoint(final Position target) {
-    return issueCommand(getID(), Set_Rally_Position, -1, target.getX(), target.getY(), -1);
+    return issueCommand(
+        getID(), UnitCommandType.Set_Rally_Position, -1, target.getX(), target.getY(), -1);
   }
 
   public boolean setRallyPoint(final Unit target) {
-    return issueCommand(getID(), Set_Rally_Unit, target.getID(), -1, -1, -1);
+    return issueCommand(getID(), UnitCommandType.Set_Rally_Unit, target.getID(), -1, -1, -1);
   }
 
   public boolean setRallyPoint(PositionOrUnit target) {
@@ -1022,11 +1008,12 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean move(final Position target) {
-    return issueCommand(getID(), Move, -1, target.getX(), target.getY(), -1);
+    return issueCommand(getID(), UnitCommandType.Move, -1, target.getX(), target.getY(), -1);
   }
 
   public boolean move(final Position target, final boolean shiftQueueCommand) {
-    return issueCommand(getID(), Move, -1, target.getX(), target.getY(), shiftQueueCommand ? 1 : 0);
+    return issueCommand(
+        getID(), UnitCommandType.Move, -1, target.getX(), target.getY(), shiftQueueCommand ? 1 : 0);
   }
 
   public boolean patrol(Position target) {
@@ -1062,11 +1049,12 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean gather(final Unit resource) {
-    return issueCommand(getID(), Gather, resource.getID(), -1, -1, 0);
+    return issueCommand(getID(), UnitCommandType.Gather, resource.getID(), -1, -1, 0);
   }
 
   public boolean gather(final Unit resource, boolean shiftQueueCommand) {
-    return issueCommand(getID(), Gather, resource.getID(), -1, -1, shiftQueueCommand ? 1 : 0);
+    return issueCommand(
+        getID(), UnitCommandType.Gather, resource.getID(), -1, -1, shiftQueueCommand ? 1 : 0);
   }
 
   public boolean returnCargo() {
@@ -1110,11 +1098,11 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean lift() {
-    return issueCommand(getID(), Lift, -1, -1, -1, -1);
+    return issueCommand(getID(), UnitCommandType.Lift, -1, -1, -1, -1);
   }
 
   public boolean land(final TilePosition target) {
-    return issueCommand(getID(), Land, -1, target.getX(), target.getY(), -1);
+    return issueCommand(getID(), UnitCommandType.Land, -1, target.getX(), target.getY(), -1);
   }
 
   public boolean load(Unit target) {
@@ -1182,11 +1170,11 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean cancelTrain() {
-    return issueCommand(getID(), Cancel_Train, -1, -1, -1, -1);
+    return issueCommand(getID(), UnitCommandType.Cancel_Train, -1, -1, -1, -1);
   }
 
   public boolean cancelTrain(final int slot) {
-    return issueCommand(getID(), Cancel_Train_Slot, -1, -1, -1, slot);
+    return issueCommand(getID(), UnitCommandType.Cancel_Train_Slot, -1, -1, -1, slot);
   }
 
   public boolean cancelMorph() {
@@ -1194,11 +1182,11 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean cancelResearch() {
-    return issueCommand(getID(), Cancel_Research, -1, -1, -1, -1);
+    return issueCommand(getID(), UnitCommandType.Cancel_Research, -1, -1, -1, -1);
   }
 
   public boolean cancelUpgrade() {
-    return issueCommand(getID(), Cancel_Upgrade, -1, -1, -1, -1);
+    return issueCommand(getID(), UnitCommandType.Cancel_Upgrade, -1, -1, -1, -1);
   }
 
   public boolean useTech(TechType tech) {
