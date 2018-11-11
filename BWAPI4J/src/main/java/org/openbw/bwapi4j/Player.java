@@ -297,7 +297,7 @@ public class Player {
   }
 
   public List<Unit> getUnits() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return bw.getUnits(this);
   }
 
   /**
