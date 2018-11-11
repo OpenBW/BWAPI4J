@@ -39,6 +39,7 @@ class BWMapImpl implements BWMap {
   private int[][] groundHeightData;
   private int[][] isBuildableData;
   private Cache<boolean[][]> getCreepDataCache;
+  private Cache<boolean[][]> getPylonPowerDataCache;
   private ArrayList<TilePosition> startLocations;
 
   // WalkPosition resolution
@@ -58,6 +59,7 @@ class BWMapImpl implements BWMap {
 
   void resetCache() {
     this.getCreepDataCache = new Cache<>(this::getCreepData, this.interactionHandler);
+    this.getPylonPowerDataCache = new Cache<>(this::getPylonPowerData, this.interactionHandler);
   }
 
   public String mapHash() {
@@ -233,5 +235,35 @@ class BWMapImpl implements BWMap {
   @Override
   public boolean hasCreep(final TilePosition tilePosition) {
     return hasCreep(tilePosition.getX(), tilePosition.getY());
+  }
+
+  private native int[] getPylonPowerData_native();
+
+  private boolean[][] getPylonPowerData() {
+    final int[] data = getPylonPowerData_native();
+
+    final int mapTileWidth = mapWidth();
+    final int mapTileHeight = mapHeight();
+
+    final boolean[][] powerData = new boolean[mapTileWidth][mapTileHeight];
+
+    int index = 0;
+
+    for (int tileX = 0; tileX < mapTileWidth; ++tileX) {
+      for (int tileY = 0; tileY < mapTileHeight; ++tileY) {
+        powerData[tileX][tileY] = data[index++] == 1;
+      }
+    }
+
+    return powerData;
+  }
+
+  public boolean hasPower(final int tileX, final int tileY) {
+    return this.getPylonPowerDataCache.get()[tileX][tileY];
+  }
+
+  @Override
+  public boolean hasPower(final TilePosition tilePosition) {
+    return hasPower(tilePosition.getX(), tilePosition.getY());
   }
 }
