@@ -344,15 +344,6 @@ public class BW {
   }
 
   /**
-   * Gets a list of all mineral patches.
-   *
-   * @return list of mineral patches
-   */
-  public List<Unit> getMineralPatches() {
-    return this.getMineralPatchesCache.get();
-  }
-
-  /**
    * Gets a list of all vespene geysers.
    *
    * @return list of vespene geysers
@@ -614,14 +605,12 @@ public class BW {
     }
   }
 
-  // ----
-
   public List<Force> getForces() {
     throw new UnsupportedOperationException("TODO"); // TODO
   }
 
-  public List<Player> getPlayers() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public Collection<Player> getPlayers() {
+    return players.values();
   }
 
   public Collection<Unit> getAllUnits() {
@@ -629,11 +618,11 @@ public class BW {
   }
 
   public List<Unit> getMinerals() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return getMineralPatchesCache.get();
   }
 
   public List<Unit> getGeysers() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return getVespeneGeysersCache.get();
   }
 
   public List<Unit> getNeutralUnits() {
@@ -673,7 +662,7 @@ public class BW {
   }
 
   public Unit indexToUnit(int unitIndex) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return getUnit(unitIndex);
   }
 
   public Region getRegion(int regionID) {
@@ -681,15 +670,15 @@ public class BW {
   }
 
   public GameType getGameType() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return interactionHandler.getGameType();
   }
 
   public int getLatency() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return interactionHandler.getLatency();
   }
 
   public int getFrameCount() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return interactionHandler.getFrameCount();
   }
 
   public int getReplayFrameCount() {
@@ -697,15 +686,15 @@ public class BW {
   }
 
   public int getFPS() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return interactionHandler.getFPS();
   }
 
   public double getAverageFPS() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return interactionHandler.getAverageFPS();
   }
 
   public Position getMousePosition() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return interactionHandler.getMousePosition();
   }
 
   public boolean getMouseState(MouseButton button) {
@@ -717,7 +706,7 @@ public class BW {
   }
 
   public Position getScreenPosition() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return interactionHandler.getScreenPosition();
   }
 
   public void setScreenPosition(int x, int y) {
@@ -781,15 +770,15 @@ public class BW {
   }
 
   public int mapWidth() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return bwMap.mapWidth();
   }
 
   public int mapHeight() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return bwMap.mapHeight();
   }
 
   public String mapFileName() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return bwMap.mapFileName();
   }
 
   public String mapPathName() {
@@ -797,67 +786,67 @@ public class BW {
   }
 
   public String mapName() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return bwMap.mapName();
   }
 
   public String mapHash() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return bwMap.mapHash();
   }
 
-  public boolean isWalkable(int walkX, int walkY) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean isWalkable(final int walkX, final int walkY) {
+    return bwMap.isWalkable(walkX, walkY);
   }
 
-  public boolean isWalkable(WalkPosition position) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean isWalkable(final WalkPosition walkPosition) {
+    return bwMap.isWalkable(walkPosition);
   }
 
-  public int getGroundHeight(int tileX, int tileY) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public int getGroundHeight(final int tileX, final int tileY) {
+    return bwMap.getGroundHeight(tileX, tileY);
   }
 
-  public int getGroundHeight(TilePosition position) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public int getGroundHeight(final TilePosition tilePosition) {
+    return bwMap.getGroundHeight(tilePosition);
   }
 
-  public boolean isBuildable(int tileX, int tileY) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean isBuildable(final int tileX, final int tileY) {
+    return bwMap.isBuildable(tileX, tileY);
   }
 
-  public boolean isBuildable(int tileX, int tileY, boolean includeBuildings) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean isBuildable(final int tileX, final int tileY, final boolean includeBuildings) {
+    return bwMap.isBuildable(tileX, tileY, includeBuildings);
   }
 
-  public boolean isBuildable(TilePosition position) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean isBuildable(final TilePosition position) {
+    return bwMap.isBuildable(position);
   }
 
-  public boolean isBuildable(TilePosition position, boolean includeBuildings) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean isBuildable(final TilePosition tilePosition, final boolean includeBuildings) {
+    return bwMap.isBuildable(tilePosition, includeBuildings);
   }
 
   public boolean isVisible(int tileX, int tileY) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return bwMap.isVisible(tileX, tileY);
   }
 
-  public boolean isVisible(TilePosition position) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean isVisible(final TilePosition tilePosition) {
+    return bwMap.isVisible(tilePosition);
   }
 
-  public boolean isExplored(int tileX, int tileY) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean isExplored(final int tileX, final int tileY) {
+    return bwMap.isExplored(tileX, tileY);
   }
 
-  public boolean isExplored(TilePosition position) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean isExplored(final TilePosition tilePosition) {
+    return bwMap.isExplored(tilePosition);
   }
 
-  public boolean hasCreep(int tileX, int tileY) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean hasCreep(final int tileX, final int tileY) {
+    return bwMap.hasCreep(tileX, tileY);
   }
 
-  public boolean hasCreep(TilePosition position) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean hasCreep(final TilePosition tilePosition) {
+    return bwMap.hasCreep(tilePosition);
   }
 
   public boolean hasPowerPrecise(int x, int y) {
@@ -958,11 +947,11 @@ public class BW {
   }
 
   public void printf(String cstr_format) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    interactionHandler.printf(cstr_format);
   }
 
   public void sendText(String cstr_format) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    interactionHandler.sendText(cstr_format);
   }
 
   public void sendTextEx(boolean toAllies, String cstr_format) {
@@ -982,15 +971,15 @@ public class BW {
   }
 
   public boolean isPaused() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return interactionHandler.isPaused();
   }
 
   public boolean isReplay() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return interactionHandler.isReplay();
   }
 
   public void pauseGame() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    interactionHandler.pauseGame();
   }
 
   public void resumeGame() {
@@ -998,7 +987,7 @@ public class BW {
   }
 
   public void leaveGame() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    interactionHandler.leaveGame();
   }
 
   public void restartGame() {
@@ -1006,7 +995,7 @@ public class BW {
   }
 
   public void setLocalSpeed(int speed) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    interactionHandler.setLocalSpeed(speed);
   }
 
   public boolean issueCommand(List<Unit> units, UnitCommand command) {
@@ -1018,11 +1007,11 @@ public class BW {
   }
 
   public Player self() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return interactionHandler.self();
   }
 
   public Player enemy() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return interactionHandler.enemy();
   }
 
   public Player neutral() {
@@ -1030,11 +1019,11 @@ public class BW {
   }
 
   public List<Player> allies() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return interactionHandler.allies();
   }
 
   public List<Player> enemies() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return interactionHandler.enemies();
   }
 
   public List<Player> observers() {
@@ -1042,7 +1031,7 @@ public class BW {
   }
 
   public int getLatencyFrames() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return interactionHandler.getLatencyFrames();
   }
 
   public int getLatencyTime() {
@@ -1050,7 +1039,7 @@ public class BW {
   }
 
   public int getRemainingLatencyFrames() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return interactionHandler.getRemainingLatencyFrames();
   }
 
   public int getRemainingLatencyTime() {
@@ -1066,11 +1055,11 @@ public class BW {
   }
 
   public boolean isLatComEnabled() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return interactionHandler.isLatComEnabled();
   }
 
   public void setLatCom(boolean isEnabled) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    interactionHandler.enableLatCom(isEnabled);
   }
 
   public boolean isGUIEnabled() {
@@ -1078,7 +1067,7 @@ public class BW {
   }
 
   public void setGUI(boolean enabled) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    interactionHandler.setGUI(enabled);
   }
 
   public int getInstanceNumber() {
@@ -1086,11 +1075,11 @@ public class BW {
   }
 
   public int getAPM() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return interactionHandler.getAPM();
   }
 
   public int getAPM(boolean includeSelects) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return interactionHandler.getAPM(includeSelects);
   }
 
   public boolean setMap(String cstr_mapFileName) {
@@ -1098,7 +1087,7 @@ public class BW {
   }
 
   public void setFrameSkip(int frameSkip) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    interactionHandler.setFrameSkip(frameSkip);
   }
 
   public boolean hasPath(Position source, Position destination) {
