@@ -180,6 +180,8 @@ public class Unit implements Comparable<Unit> {
   @BridgeValue boolean loaded;
   @BridgeValue int spaceRemaining;
   @BridgeValue List<Unit> loadedUnits = new ArrayList<>();
+  @BridgeValue List<Unit> larva = new ArrayList<>();
+  @BridgeValue List<Unit> interceptors = new ArrayList<>();
   @BridgeValue int interceptorCount;
   @BridgeValue boolean following;
   @BridgeValue boolean holdingPosition;
@@ -697,22 +699,7 @@ public class Unit implements Comparable<Unit> {
   }
 
   public List<Unit> getInterceptors() {
-    if (getInterceptorCount() < 1 || getType() != UnitType.Protoss_Carrier) {
-      return new ArrayList<>();
-    } else {
-      final List<Unit> interceptors = new ArrayList<>();
-
-      for (final Unit unit : bw.getUnits(getPlayer())) {
-        if (unit.getType() == UnitType.Protoss_Interceptor) {
-          final Unit carrier = unit.getCarrier();
-          if (carrier != null && carrier.getID() == getID()) {
-            interceptors.add(unit);
-          }
-        }
-      }
-
-      return interceptors;
-    }
+    return interceptors;
   }
 
   public Unit getHatchery() {
@@ -720,22 +707,7 @@ public class Unit implements Comparable<Unit> {
   }
 
   public List<Unit> getLarva() {
-    if (!getType().producesLarva()) {
-      return new ArrayList<>();
-    } else {
-      final List<Unit> larva = new ArrayList<>();
-
-      for (final Unit unit : bw.getUnits(getPlayer())) {
-        if (unit.getType() == UnitType.Zerg_Larva) {
-          final Unit hatchery = unit.getHatchery();
-          if (hatchery != null && hatchery.getID() == getID()) {
-            larva.add(unit);
-          }
-        }
-      }
-
-      return larva;
-    }
+    return larva;
   }
 
   public List<Unit> getUnitsInRadius(int radius) {
