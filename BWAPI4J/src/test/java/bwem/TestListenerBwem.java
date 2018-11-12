@@ -1,5 +1,6 @@
 package bwem;
 
+import bwem.util.PathLength;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -9,6 +10,7 @@ import org.openbw.bwapi4j.BWEventListener;
 import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
+import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.type.Color;
 import org.openbw.bwapi4j.type.Race;
 import org.openbw.bwapi4j.type.UnitType;
@@ -164,6 +166,35 @@ public class TestListenerBwem implements BWEventListener {
           if (isOnScreen(topLeft)) {
             bw.getMapDrawer().drawBoxMap(topLeft, bottomRight, Color.BROWN);
           }
+        }
+      }
+
+      /* Draw path from our base to center of the map */ {
+        final Position startingLocation = bw.self().getStartLocation().toPosition();
+        final Position mapCenter = bwem.Center();
+        final PathLength pathLength = new PathLength();
+
+        final List<WalkPosition> path = bwem.GetPath(startingLocation, mapCenter, pathLength);
+
+        final int radius = 5;
+        final Color chokepointColor = Color.RED;
+        final Color pathColor = Color.ORANGE;
+
+        WalkPosition prev = startingLocation.toWalkPosition();
+        bw.getMapDrawer().drawCircleMap(startingLocation, radius, chokepointColor);
+        for (final WalkPosition chokepoint : path) {
+          bw.getMapDrawer().drawLineMap(prev.toPosition(), chokepoint.toPosition(), pathColor);
+
+          bw.getMapDrawer().drawCircleMap(chokepoint.toPosition(), radius, chokepointColor);
+
+          prev = chokepoint;
+        }
+        bw.getMapDrawer().drawLineMap(prev.toPosition(), mapCenter, pathColor);
+        bw.getMapDrawer().drawCircleMap(mapCenter, radius, chokepointColor);
+
+        if (pathLength.getValue() > 0) {
+          bw.getMapDrawer()
+              .drawTextMap(mapCenter.getX() + 3, mapCenter.getY() + 3, "" + pathLength.getValue());
         }
       }
 

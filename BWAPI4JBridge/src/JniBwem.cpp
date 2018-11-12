@@ -73,3 +73,28 @@ JNIEXPORT void JNICALL Java_bwem_BWEM_OnStaticBuildingDestroyed_1native(JNIEnv *
   const auto &building = BWAPI::Broodwar->getUnit((int)unitId);
   Bridge::bwem.getMap().OnStaticBuildingDestroyed(building);
 }
+
+JNIEXPORT jintArray JNICALL Java_bwem_BWEM_GetPath_1native(JNIEnv *env, jobject, jint ax, jint ay, jint bx, jint by) {
+  Bridge::Globals::dataBuffer.reset();
+
+  const BWAPI::Position a((int)ax, (int)ay);
+  const BWAPI::Position b((int)bx, (int)by);
+
+  int length = 0;
+
+  const auto &path = Bridge::bwem.getMap().GetPath(a, b, &length);
+
+  const auto chokepointCount = path.size();
+  Bridge::Globals::dataBuffer.add(chokepointCount);
+
+  for (const auto &cp : path) {
+    const auto &center = cp->Center();
+    Bridge::Globals::dataBuffer.addFields(center);
+  }
+
+  Bridge::Globals::dataBuffer.add(length);
+
+  jintArray result = env->NewIntArray(Bridge::Globals::dataBuffer.getIndex());
+  env->SetIntArrayRegion(result, 0, Bridge::Globals::dataBuffer.getIndex(), Bridge::Globals::dataBuffer.intBuf);
+  return result;
+}

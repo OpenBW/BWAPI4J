@@ -1,5 +1,6 @@
 package bwem;
 
+import bwem.util.PathLength;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SplittableRandom;
@@ -302,6 +303,36 @@ public class BWEM {
   //  //       Then GetPath should perform very quick.
   //  virtual const CPPath &				GetPath(const BWAPI::Position & a, const BWAPI::Position & b, int *
   // pLength = nullptr) const = 0;
+
+  // TODO: Create a ChokePoint class and return a list of chokepoints.
+  private native int[] GetPath_native(int ax, int ay, int bx, int by);
+
+  public List<WalkPosition> GetPath(
+      final Position a, final Position b, final PathLength outputLength) {
+    final BwapiBufferData data =
+        new BwapiBufferData(GetPath_native(a.getX(), a.getY(), b.getX(), b.getY()));
+
+    final List<WalkPosition> path = new ArrayList<>();
+
+    final int chokepointCount = data.readInt();
+
+    for (int i = 0; i < chokepointCount; ++i) {
+      final WalkPosition chokepoint = data.readWalkPosition();
+      path.add(chokepoint);
+    }
+
+    final int length = data.readInt();
+    if (outputLength != null) {
+      outputLength.setValue(length);
+    }
+
+    return path;
+  }
+
+  public List<WalkPosition> GetPath(final Position a, final Position b) {
+    return GetPath(a, b, null);
+  }
+
   //
   //  // Generic algorithm for breadth first search in the Map.
   //  // See the several use cases in BWEM source files.
