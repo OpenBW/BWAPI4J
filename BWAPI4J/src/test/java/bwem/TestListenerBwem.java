@@ -1,15 +1,20 @@
-package org.openbw.bwapi4j;
+package bwem;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import org.openbw.bwapi4j.BW;
+import org.openbw.bwapi4j.BWEventListener;
+import org.openbw.bwapi4j.Player;
+import org.openbw.bwapi4j.Position;
+import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.Color;
 import org.openbw.bwapi4j.type.Race;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.unit.Unit;
 
-public class TestListener implements BWEventListener {
+public class TestListenerBwem implements BWEventListener {
   private static final int SCREEN_WIDTH =
       640; // only used for optimized shape drawing within the screen area
   private static final int SCREEN_HEIGHT =
@@ -17,6 +22,8 @@ public class TestListener implements BWEventListener {
   private static final Position SCREEN_SIZE = new Position(SCREEN_WIDTH, SCREEN_HEIGHT);
 
   private BW bw; // main game object
+
+  private BWEM bwem;
 
   private Player self;
   private List<Unit> workers;
@@ -62,6 +69,10 @@ public class TestListener implements BWEventListener {
       // bw.getInteractionHandler().enableCompleteMapInformation();
 
       self = bw.getInteractionHandler().self();
+
+      // Initialize BWEM.
+      bwem = new BWEM();
+      bwem.Initialize(bw);
 
       // Compile list of workers.
       for (final Unit u : bw.getUnits(self)) {
@@ -127,6 +138,17 @@ public class TestListener implements BWEventListener {
                 u.train(UnitType.Terran_SCV);
               }
             }
+          }
+        }
+      }
+
+      /* Highlight starting locations and possible base locations. */ {
+        final Position resourceDepotSize = UnitType.Terran_Command_Center.tileSize().toPosition();
+        for (final TilePosition tilePosition : bwem.StartingLocations()) {
+          final Color highlightColor = Color.GREEN;
+          final Position position = tilePosition.toPosition();
+          if (isOnScreen(position)) {
+            bw.getMapDrawer().drawBoxMap(position, position.add(resourceDepotSize), highlightColor);
           }
         }
       }
@@ -260,7 +282,7 @@ public class TestListener implements BWEventListener {
   }
 
   public static void main(String[] args) {
-    final TestListener listener = new TestListener();
+    final TestListenerBwem listener = new TestListenerBwem();
 
     final BW bw = new BW(listener);
     listener.bw = bw;

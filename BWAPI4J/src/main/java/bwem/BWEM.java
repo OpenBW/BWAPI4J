@@ -8,6 +8,7 @@ import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.util.Pair;
+import org.openbw.bwapi4j.util.XYCropper;
 import org.openbw.bwapi4j.util.buffer.BwapiBufferData;
 
 public class BWEM {
@@ -32,6 +33,10 @@ public class BWEM {
   private List<TilePosition> startingLocations = new ArrayList<>();
   private List<Pair<Pair<Integer, Integer>, WalkPosition>> rawFrontier = new ArrayList<>();
 
+  private XYCropper tileSizeCropper;
+  private XYCropper walkSizeCropper;
+  private XYCropper pixelSizeCropper;
+
   private native void Initialize_native();
 
   private native int[] getInitializedData_native();
@@ -51,6 +56,15 @@ public class BWEM {
     center = data.readPosition();
 
     maxAltitude = data.readInt();
+
+    final int startingLocationsCount = data.readInt();
+    for (int i = 0; i < startingLocationsCount; ++i) {
+      startingLocations.add(data.readTilePosition());
+    }
+
+    tileSizeCropper = new XYCropper(0, 0, Size().getX() - 1, Size().getY() - 1);
+    walkSizeCropper = new XYCropper(0, 0, WalkSize().getX() - 1, WalkSize().getY() - 1);
+    pixelSizeCropper = new XYCropper(0, 0, PixelSize().getX() - 1, PixelSize().getY() - 1);
   }
 
   /**
@@ -70,31 +84,40 @@ public class BWEM {
     return tileCount != 0;
   }
 
-  //  // Returns the status of the automatic path update (off (false) by default).
-  //  // When on, each time a blocking Neutral (either Mineral or StaticBuilding) is destroyed,
-  //  // any information relative to the paths through the Areas is updated accordingly.
-  //  // For this to function, the Map still needs to be informed of such destructions
-  //  // (by calling OnMineralDestroyed and OnStaticBuildingDestroyed).
-  //  virtual bool						AutomaticPathUpdate() const = 0;
-  //
-  //  // Enables the automatic path update (Cf. AutomaticPathUpdate()).
-  //  // One might NOT want to call this function, in order to make the accessibility between Areas
-  // remain the same throughout the game.
-  //  // Even in this case, one should keep calling OnMineralDestroyed and
-  // OnStaticBuildingDestroyed.
-  //  virtual void						EnableAutomaticPathAnalysis() const = 0;
-  //
-  //  // Tries to assign one Base for each starting Location in StartingLocations().
-  //  // Only nearby Bases can be assigned (Cf.
-  // detail::max_tiles_between_StartingLocation_and_its_AssignedBase).
-  //  // Each such assigned Base then has Starting() == true, and its Location() is updated.
-  //  // Returns whether the function succeeded (a fail may indicate a failure in BWEM's Base
-  // placement analysis
-  //  // or a suboptimal placement in one of the starting Locations).
-  //  // You normally should call this function, unless you want to compare the StartingLocations()
-  // with
-  //  // BWEM's suggested locations for the Bases.
-  //  virtual bool						FindBasesForStartingLocations() = 0;
+  /**
+   * Returns the status of the automatic path update (off (false) by default). When on, each time a
+   * blocking Neutral (either Mineral or StaticBuilding) is destroyed, any information relative to
+   * the paths through the Areas is updated accordingly. For this to function, the Map still needs
+   * to be informed of such destructions (by calling OnMineralDestroyed and
+   * OnStaticBuildingDestroyed).
+   */
+  public boolean AutomaticPathUpdate() {
+    return isAutomaticPathUpdateEnabled;
+  }
+
+  private native boolean EnableAutomaticPathAnalysis_native();
+
+  /**
+   * Enables the automatic path update (Cf. AutomaticPathUpdate()). One might NOT want to call this
+   * function, in order to make the accessibility between Areas remain the same throughout the game.
+   * Even in this case, one should keep calling OnMineralDestroyed and OnStaticBuildingDestroyed.
+   */
+  public void EnableAutomaticPathAnalysis() {
+    if (!isAutomaticPathUpdateEnabled) {
+      isAutomaticPathUpdateEnabled = EnableAutomaticPathAnalysis_native();
+    }
+  }
+
+  /**
+   * Tries to assign one Base for each starting Location in StartingLocations(). Only nearby Bases
+   * can be assigned (Cf. detail::max_tiles_between_StartingLocation_and_its_AssignedBase). Each
+   * such assigned Base then has Starting() == true, and its Location() is updated. Returns whether
+   * the function succeeded (a fail may indicate a failure in BWEM's Base placement analysis or a
+   * suboptimal placement in one of the starting Locations). You normally should call this function,
+   * unless you want to compare the StartingLocations() with BWEM's suggested locations for the
+   * Bases.
+   */
+  public native boolean FindBasesForStartingLocations();
 
   /** Returns the size of the Map in Tiles. */
   public TilePosition Size() {
@@ -155,23 +178,48 @@ public class BWEM {
   //
   //  // Provides access to the internal array of MiniTiles.
   //	const std::vector<MiniTile> &		MiniTiles() const								{ return m_MiniTiles; }
-  //
-  //  // Returns whether the position p is valid.
-  //  bool								Valid(const BWAPI::TilePosition & p) const		{ return (0 <= p.x) && (p.x <
-  // Size().x) && (0 <= p.y) && (p.y < Size().y); }
-  //  bool								Valid(const BWAPI::WalkPosition & p) const		{ return (0 <= p.x) && (p.x <
-  // WalkSize().x) && (0 <= p.y) && (p.y < WalkSize().y); }
-  //  bool								Valid(const BWAPI::Position & p) const			{ return Valid(BWAPI::WalkPosition(p)); }
-  //
-  //  // Returns the position closest to p that is valid.
-  //  BWAPI::WalkPosition					Crop(const BWAPI::WalkPosition & p) const;
-  //  BWAPI::TilePosition					Crop(const BWAPI::TilePosition & p) const;
-  //  BWAPI::Position						Crop(const BWAPI::Position & p) const;
-  //
-  //  // Returns a reference to the starting Locations.
-  //  // Note: these correspond to BWAPI::getStartLocations().
-  //  virtual const std::vector<BWAPI::TilePosition> &				StartingLocations() const = 0;
-  //
+
+  public boolean Valid(final TilePosition tilePosition) {
+    final int x = tilePosition.getX();
+    final int y = tilePosition.getY();
+    return (0 <= x) && (x < Size().getX()) && (0 <= y) && (y < Size().getY());
+  }
+
+  public boolean Valid(final WalkPosition walkPosition) {
+    final int x = walkPosition.getX();
+    final int y = walkPosition.getY();
+    return (0 <= x) && (x < WalkSize().getX()) && (0 <= y) && (y < WalkSize().getY());
+  }
+
+  public boolean Valid(final Position position) {
+    final int x = position.getX();
+    final int y = position.getY();
+    return (0 <= x) && (x < PixelSize().getX()) && (0 <= y) && (y < PixelSize().getY());
+  }
+
+  public TilePosition Crop(final TilePosition tilePosition) {
+    final int[] xy = tileSizeCropper.crop(tilePosition.getX(), tilePosition.getY());
+    return new TilePosition(xy[0], xy[1]);
+  }
+
+  public WalkPosition Crop(final WalkPosition walkPosition) {
+    final int[] xy = walkSizeCropper.crop(walkPosition.getX(), walkPosition.getY());
+    return new WalkPosition(xy[0], xy[1]);
+  }
+
+  public Position Crop(final Position position) {
+    final int[] xy = pixelSizeCropper.crop(position.getX(), position.getY());
+    return new Position(xy[0], xy[1]);
+  }
+
+  /**
+   * Returns a reference to the starting Locations. Note: these correspond to
+   * BWAPI::getStartLocations().
+   */
+  public List<TilePosition> StartingLocations() {
+    return startingLocations;
+  }
+
   //  // Returns a reference to the Minerals (Cf. Mineral).
   //  virtual const std::vector<std::unique_ptr<Mineral>> &			Minerals() const = 0;
   //

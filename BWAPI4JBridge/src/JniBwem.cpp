@@ -34,19 +34,32 @@ JniBwem bwem;
 JNIEXPORT void JNICALL Java_bwem_BWEM_Initialize_1native(JNIEnv *, jobject) { Bridge::bwem.initialize(BWAPI::BroodwarPtr); }
 
 JNIEXPORT jintArray JNICALL Java_bwem_BWEM_getInitializedData_1native(JNIEnv *env, jobject) {
-	Bridge::Globals::dataBuffer.reset();
+  Bridge::Globals::dataBuffer.reset();
 
-	Bridge::Globals::dataBuffer.add(Bridge::bwem.getMap().Tiles().size());
-	Bridge::Globals::dataBuffer.addFields(Bridge::bwem.getMap().Size());
+  Bridge::Globals::dataBuffer.add(Bridge::bwem.getMap().Tiles().size());
+  Bridge::Globals::dataBuffer.addFields(Bridge::bwem.getMap().Size());
 
-	Bridge::Globals::dataBuffer.add(Bridge::bwem.getMap().MiniTiles().size());
-	Bridge::Globals::dataBuffer.addFields(Bridge::bwem.getMap().WalkSize());
+  Bridge::Globals::dataBuffer.add(Bridge::bwem.getMap().MiniTiles().size());
+  Bridge::Globals::dataBuffer.addFields(Bridge::bwem.getMap().WalkSize());
 
-	Bridge::Globals::dataBuffer.addFields(Bridge::bwem.getMap().Center());
+  Bridge::Globals::dataBuffer.addFields(Bridge::bwem.getMap().Center());
 
-	Bridge::Globals::dataBuffer.add(Bridge::bwem.getMap().MaxAltitude());
+  Bridge::Globals::dataBuffer.add(Bridge::bwem.getMap().MaxAltitude());
 
-	jintArray result = env->NewIntArray(Bridge::Globals::dataBuffer.getIndex());
-	env->SetIntArrayRegion(result, 0, Bridge::Globals::dataBuffer.getIndex(), Bridge::Globals::dataBuffer.intBuf);
-	return result;
+  const auto &startingLocations = Bridge::bwem.getMap().StartingLocations();
+  Bridge::Globals::dataBuffer.add(startingLocations.size());
+  for (const auto &startingLocation : startingLocations) {
+    Bridge::Globals::dataBuffer.addFields(startingLocation);
+  }
+
+  jintArray result = env->NewIntArray(Bridge::Globals::dataBuffer.getIndex());
+  env->SetIntArrayRegion(result, 0, Bridge::Globals::dataBuffer.getIndex(), Bridge::Globals::dataBuffer.intBuf);
+  return result;
 }
+
+JNIEXPORT jboolean JNICALL Java_bwem_BWEM_EnableAutomaticPathAnalysis_1native(JNIEnv *, jobject) {
+  Bridge::bwem.getMap().EnableAutomaticPathAnalysis();
+  return Bridge::bwem.getMap().AutomaticPathUpdate();
+}
+
+JNIEXPORT jboolean JNICALL Java_bwem_BWEM_FindBasesForStartingLocations(JNIEnv *, jobject) { return Bridge::bwem.getMap().FindBasesForStartingLocations(); }
