@@ -1,23 +1,75 @@
 package bwem;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.SplittableRandom;
 import org.openbw.bwapi4j.BW;
+import org.openbw.bwapi4j.Position;
+import org.openbw.bwapi4j.TilePosition;
+import org.openbw.bwapi4j.WalkPosition;
+import org.openbw.bwapi4j.util.Pair;
+import org.openbw.bwapi4j.util.buffer.BwapiBufferData;
 
 public class BWEM {
   private BW bw = null;
 
+  private final SplittableRandom randomNumberGenerator = new SplittableRandom();
+
+  private int tileCount;
+  private TilePosition tileSize;
+  private int walkTileCount;
+  private WalkPosition walkSize;
+  private int pixelTileCount;
+  private Position pixelSize;
+  private Position center;
+
+  private int maxAltitude = 0;
+  private boolean isAutomaticPathUpdateEnabled = false;
+  private Graph graph = null;
+  private List<Mineral> minerals = new ArrayList<>();
+  private List<Geyser> geysers = new ArrayList<>();
+  private List<StaticBuilding> staticBuildings = new ArrayList<>();
+  private List<TilePosition> startingLocations = new ArrayList<>();
+  private List<Pair<Pair<Integer, Integer>, WalkPosition>> rawFrontier = new ArrayList<>();
+
   private native void Initialize_native();
 
-  // This has to be called before any other function is called.
-  // A good place to do this is in ExampleAIModule::onStart()
+  private native int[] getInitializedData_native();
+
+  private void readInitializedData() {
+    final BwapiBufferData data = new BwapiBufferData(getInitializedData_native());
+
+    tileCount = data.readInt();
+    tileSize = data.readTilePosition();
+
+    walkTileCount = data.readInt();
+    walkSize = data.readWalkPosition();
+
+    pixelSize = tileSize.toPosition();
+    pixelTileCount = pixelSize.getX() * pixelSize.getY();
+
+    center = data.readPosition();
+
+    maxAltitude = data.readInt();
+  }
+
+  /**
+   * This has to be called before any other function is called. A good place to do this is in
+   * ExampleAIModule::onStart()
+   */
   public void Initialize(final BW bw) {
     this.bw = bw;
 
     Initialize_native();
+
+    readInitializedData();
   }
 
-  //  // Will return true once Initialize() has been called.
-  //  bool								Initialized() const			{ return m_size != 0; }
-  //
+  /** Will return true once Initialize() has been called. */
+  public boolean Initialized() {
+    return tileCount != 0;
+  }
+
   //  // Returns the status of the automatic path update (off (false) by default).
   //  // When on, each time a blocking Neutral (either Mineral or StaticBuilding) is destroyed,
   //  // any information relative to the paths through the Areas is updated accordingly.
@@ -43,22 +95,39 @@ public class BWEM {
   // with
   //  // BWEM's suggested locations for the Bases.
   //  virtual bool						FindBasesForStartingLocations() = 0;
-  //
-  //  // Returns the size of the Map in Tiles.
-  //	const BWAPI::TilePosition &			Size() const								{ return m_Size; }
-  //
-  //  // Returns the size of the Map in MiniTiles.
-  //	const BWAPI::WalkPosition &			WalkSize() const							{ return m_WalkSize; }
-  //
-  //  // Returns the center of the Map in pixels.
-  //	const BWAPI::Position &				Center() const								{ return m_center; }
-  //
-  //  // Returns a random position in the Map in pixels.
-  //  BWAPI::Position						RandomPosition() const;
-  //
-  //  // Returns the maximum altitude in the whole Map (Cf. MiniTile::Altitude()).
-  //  virtual altitude_t					MaxAltitude() const = 0;
-  //
+
+  /** Returns the size of the Map in Tiles. */
+  public TilePosition Size() {
+    return tileSize;
+  }
+
+  /** Returns the size of the Map in MiniTiles. */
+  public WalkPosition WalkSize() {
+    return walkSize;
+  }
+
+  /** Returns the size of the Map in pixels. */
+  public Position PixelSize() {
+    return pixelSize;
+  }
+
+  /** Returns the center of the Map in pixels. */
+  public Position Center() {
+    return center;
+  }
+
+  /** Returns a random position in the Map in pixels. */
+  public Position RandomPosition() {
+    final int x = randomNumberGenerator.nextInt(PixelSize().getX());
+    final int y = randomNumberGenerator.nextInt(PixelSize().getY());
+    return new Position(x, y);
+  }
+
+  /** Returns the maximum altitude in the whole Map (Cf. MiniTile::Altitude()). */
+  public int MaxAltitude() {
+    return maxAltitude;
+  }
+
   //  // Returns the number of Bases.
   //  virtual int							BaseCount() const = 0;
   //

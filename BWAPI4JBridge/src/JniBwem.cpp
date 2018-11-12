@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "JniBwem.h"
+#include "Globals.h"
 
 namespace Bridge {
 JniBwem::JniBwem() {}
@@ -31,3 +32,21 @@ JniBwem bwem;
 }  // namespace Bridge
 
 JNIEXPORT void JNICALL Java_bwem_BWEM_Initialize_1native(JNIEnv *, jobject) { Bridge::bwem.initialize(BWAPI::BroodwarPtr); }
+
+JNIEXPORT jintArray JNICALL Java_bwem_BWEM_getInitializedData_1native(JNIEnv *env, jobject) {
+	Bridge::Globals::dataBuffer.reset();
+
+	Bridge::Globals::dataBuffer.add(Bridge::bwem.getMap().Tiles().size());
+	Bridge::Globals::dataBuffer.addFields(Bridge::bwem.getMap().Size());
+
+	Bridge::Globals::dataBuffer.add(Bridge::bwem.getMap().MiniTiles().size());
+	Bridge::Globals::dataBuffer.addFields(Bridge::bwem.getMap().WalkSize());
+
+	Bridge::Globals::dataBuffer.addFields(Bridge::bwem.getMap().Center());
+
+	Bridge::Globals::dataBuffer.add(Bridge::bwem.getMap().MaxAltitude());
+
+	jintArray result = env->NewIntArray(Bridge::Globals::dataBuffer.getIndex());
+	env->SetIntArrayRegion(result, 0, Bridge::Globals::dataBuffer.getIndex(), Bridge::Globals::dataBuffer.intBuf);
+	return result;
+}
