@@ -1,5 +1,6 @@
 package org.openbw.bwapi4j;
 
+import bwem.BWEM;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -17,6 +18,8 @@ public class TestListener implements BWEventListener {
   private static final Position SCREEN_SIZE = new Position(SCREEN_WIDTH, SCREEN_HEIGHT);
 
   private BW bw; // main game object
+
+  private BWEM bwem;
 
   private Player self;
   private List<Unit> workers;
@@ -62,6 +65,9 @@ public class TestListener implements BWEventListener {
       // bw.getInteractionHandler().enableCompleteMapInformation();
 
       self = bw.getInteractionHandler().self();
+
+      bwem = new BWEM();
+      bwem.Initialize(bw);
 
       // Compile list of workers.
       for (final Unit u : bw.getUnits(self)) {
