@@ -7,6 +7,7 @@ import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
+import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.util.Pair;
 import org.openbw.bwapi4j.util.XYCropper;
 import org.openbw.bwapi4j.util.buffer.BwapiBufferData;
@@ -236,14 +237,23 @@ public class BWEM {
   //  // If a Geyser wrappers the given BWAPI unit, returns a pointer to it.
   //  // Otherwise, returns nullptr.
   //  virtual Geyser *					GetGeyser(BWAPI::Unit g) const = 0;
-  //
-  //  // Should be called for each destroyed BWAPI unit u having u->getType().isMineralField() ==
-  // true
-  //  virtual void						OnMineralDestroyed(BWAPI::Unit u) = 0;
-  //
-  //  // Should be called for each destroyed BWAPI unit u having u->getType().isSpecialBuilding() ==
-  // true
-  //  virtual void						OnStaticBuildingDestroyed(BWAPI::Unit u) = 0;
+
+  private native void OnMineralDestroyed_native(int unitId);
+
+  private native void OnStaticBuildingDestroyed_native(int unitId);
+
+  public void onUnitDestroy(final Unit unit) {
+    if (unit.getType().isMineralField()) {
+      OnMineralDestroyed_native(unit.getID());
+    } else if (unit.getType().isBuilding()) {
+      // TODO: Loop through static buildings and compare against this unit's ID.
+
+      // OnStaticBuildingDestroyed_native();
+
+      throw new UnsupportedOperationException("TODO"); // TODO
+    }
+  }
+
   //
   //  // Returns a reference to the Areas.
   //  virtual const std::vector<Area> &	Areas() const = 0;

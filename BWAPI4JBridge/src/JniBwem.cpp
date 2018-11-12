@@ -63,3 +63,13 @@ JNIEXPORT jboolean JNICALL Java_bwem_BWEM_EnableAutomaticPathAnalysis_1native(JN
 }
 
 JNIEXPORT jboolean JNICALL Java_bwem_BWEM_FindBasesForStartingLocations(JNIEnv *, jobject) { return Bridge::bwem.getMap().FindBasesForStartingLocations(); }
+
+JNIEXPORT void JNICALL Java_bwem_BWEM_OnMineralDestroyed_1native(JNIEnv *, jobject, jint unitId) {
+  const auto &mineral = BWAPI::Broodwar->getUnit((int)unitId);
+  Bridge::bwem.getMap().OnMineralDestroyed(mineral);
+}
+
+JNIEXPORT void JNICALL Java_bwem_BWEM_OnStaticBuildingDestroyed_1native(JNIEnv *, jobject, jint unitId) {
+  const auto &building = BWAPI::Broodwar->getUnit((int)unitId);
+  Bridge::bwem.getMap().OnStaticBuildingDestroyed(building);
+}
