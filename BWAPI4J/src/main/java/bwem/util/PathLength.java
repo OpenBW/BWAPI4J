@@ -4,7 +4,7 @@ public class PathLength {
   private int value;
 
   public PathLength(final int value) {
-    setValue(0);
+    setValue(value);
   }
 
   public PathLength() {
