@@ -52,6 +52,33 @@ JNIEXPORT jintArray JNICALL Java_bwem_Map_getInitializedData_1native(JNIEnv *env
     Bridge::Globals::dataBuffer.addFields(startingLocation);
   }
 
+  {
+    const auto tileCount = Bridge::bwem.getMap().Tiles().size();
+    Bridge::Globals::dataBuffer.add(tileCount);
+    for (const auto &tile : Bridge::bwem.getMap().Tiles()) {
+      Bridge::Globals::dataBuffer.add(tile.Buildable());
+      Bridge::Globals::dataBuffer.add(tile.GroundHeight());
+      Bridge::Globals::dataBuffer.add(tile.Doodad());
+      Bridge::Globals::dataBuffer.add(tile.MinAltitude());
+      Bridge::Globals::dataBuffer.add(tile.AreaId());
+
+      if (tile.GetNeutral()) {
+        Bridge::Globals::dataBuffer.add(tile.GetNeutral()->Unit()->getID());
+      } else {
+        Bridge::Globals::dataBuffer.add(-1);
+      }
+    }
+  }
+
+  {
+    const auto miniTileCount = Bridge::bwem.getMap().MiniTiles().size();
+    Bridge::Globals::dataBuffer.add(miniTileCount);
+    for (const auto &miniTile : Bridge::bwem.getMap().MiniTiles()) {
+      Bridge::Globals::dataBuffer.add(miniTile.Altitude());
+      Bridge::Globals::dataBuffer.add(miniTile.AreaId());
+    }
+  }
+
   jintArray result = env->NewIntArray(Bridge::Globals::dataBuffer.getIndex());
   env->SetIntArrayRegion(result, 0, Bridge::Globals::dataBuffer.getIndex(), Bridge::Globals::dataBuffer.intBuf);
   return result;

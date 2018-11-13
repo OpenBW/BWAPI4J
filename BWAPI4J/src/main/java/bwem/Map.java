@@ -1,5 +1,7 @@
 package bwem;
 
+import bwem.tile.MiniTile;
+import bwem.tile.Tile;
 import bwem.unit.Geyser;
 import bwem.unit.Mineral;
 import bwem.unit.StaticBuilding;
@@ -14,6 +16,7 @@ import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.util.Pair;
 import org.openbw.bwapi4j.util.XYCropper;
 import org.openbw.bwapi4j.util.buffer.BwapiBufferData;
+import org.openbw.bwapi4j.util.buffer.BwemBufferData;
 
 public class Map {
   private BW bw = null;
@@ -37,6 +40,9 @@ public class Map {
   private List<TilePosition> startingLocations = new ArrayList<>();
   private List<Pair<Pair<Integer, Integer>, WalkPosition>> rawFrontier = new ArrayList<>();
 
+  private List<Tile> tiles = new ArrayList<>();
+  private List<MiniTile> miniTiles = new ArrayList<>();
+
   private XYCropper tileSizeCropper;
   private XYCropper walkSizeCropper;
   private XYCropper pixelSizeCropper;
@@ -46,7 +52,7 @@ public class Map {
   private native int[] getInitializedData_native();
 
   private void readInitializedData() {
-    final BwapiBufferData data = new BwapiBufferData(getInitializedData_native());
+    final BwemBufferData data = new BwemBufferData(getInitializedData_native());
 
     tileCount = data.readInt();
     tileSize = data.readTilePosition();
@@ -69,6 +75,22 @@ public class Map {
     tileSizeCropper = new XYCropper(0, 0, Size().getX() - 1, Size().getY() - 1);
     walkSizeCropper = new XYCropper(0, 0, WalkSize().getX() - 1, WalkSize().getY() - 1);
     pixelSizeCropper = new XYCropper(0, 0, PixelSize().getX() - 1, PixelSize().getY() - 1);
+
+    {
+      final int tileCount = data.readInt();
+      for (int i = 0; i < tileCount; ++i) {
+        final Tile tile = data.readTile();
+        tiles.add(tile);
+      }
+    }
+
+    {
+      final int miniTileCount = data.readInt();
+      for (int i = 0; i < miniTileCount; ++i) {
+        final MiniTile miniTile = data.readMiniTile();
+        miniTiles.add(miniTile);
+      }
+    }
   }
 
   /**
@@ -176,12 +198,16 @@ public class Map {
   //  template<class TPosition>
   //      const typename utils::TileOfPosition<TPosition>::type & GetTTile(const TPosition & p,
   // utils::check_t checkMode = utils::check_t::check) const;
-  //
-  //  // Provides access to the internal array of Tiles.
-  //	const std::vector<Tile> &			Tiles() const									{ return m_Tiles; }
-  //
-  //  // Provides access to the internal array of MiniTiles.
-  //	const std::vector<MiniTile> &		MiniTiles() const								{ return m_MiniTiles; }
+
+  // Provides access to the internal array of Tiles.
+  public List<Tile> Tiles() {
+    return tiles;
+  }
+
+  // Provides access to the internal array of MiniTiles.
+  public List<MiniTile> MiniTiles() {
+    return miniTiles;
+  }
 
   public boolean Valid(final TilePosition tilePosition) {
     final int x = tilePosition.getX();

@@ -77,6 +77,9 @@ public class TestListenerBwem implements BWEventListener {
       bwemMap = bwem.GetMap();
       bwemMap.Initialize(bw);
 
+      System.out.println("Tiles count: " + bwemMap.Tiles().size());
+      System.out.println("MiniTiles count: " + bwemMap.MiniTiles().size());
+
       // Compile list of workers.
       for (final Unit u : bw.getUnits(self)) {
         if (u.getType().isWorker()) {
