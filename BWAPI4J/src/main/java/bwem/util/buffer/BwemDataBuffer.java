@@ -57,7 +57,7 @@ public class BwemDataBuffer {
     return new MiniTileImpl(altitude, areaId);
   }
 
-  public static Mineral readMineral(final Collection<Unit> units, final DataBuffer data) {
+  public static Mineral readMineral(final DataBuffer data, final Collection<Unit> units) {
     final int unitId = data.readInt();
 
     Unit mineralUnit = null;
@@ -79,7 +79,7 @@ public class BwemDataBuffer {
     }
   }
 
-  public static Geyser readGeyser(final Collection<Unit> units, final DataBuffer data) {
+  public static Geyser readGeyser(final DataBuffer data, final Collection<Unit> units) {
     final int unitId = data.readInt();
 
     Unit geyserUnit = null;
@@ -102,7 +102,7 @@ public class BwemDataBuffer {
   }
 
   public static StaticBuilding readStaticBuilding(
-      final Collection<Unit> units, final DataBuffer data) {
+      final DataBuffer data, final Collection<Unit> units) {
     final int unitId = data.readInt();
 
     Unit staticBuilding = null;

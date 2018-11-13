@@ -81,7 +81,7 @@ public class Map {
     {
       final int mineralCount = data.readInt();
       for (int i = 0; i < mineralCount; ++i) {
-        final Mineral mineral = BwemDataBuffer.readMineral(bw.getAllUnits(), data);
+        final Mineral mineral = BwemDataBuffer.readMineral(data, bw.getAllUnits());
         minerals.add(mineral);
       }
     }
@@ -89,7 +89,7 @@ public class Map {
     {
       final int geyserCount = data.readInt();
       for (int i = 0; i < geyserCount; ++i) {
-        final Geyser geyser = BwemDataBuffer.readGeyser(bw.getAllUnits(), data);
+        final Geyser geyser = BwemDataBuffer.readGeyser(data, bw.getAllUnits());
         geysers.add(geyser);
       }
     }
@@ -98,7 +98,7 @@ public class Map {
       final int staticBuildingCount = data.readInt();
       for (int i = 0; i < staticBuildingCount; ++i) {
         final StaticBuilding staticBuilding =
-            BwemDataBuffer.readStaticBuilding(bw.getAllUnits(), data);
+            BwemDataBuffer.readStaticBuilding(data, bw.getAllUnits());
         staticBuildings.add(staticBuilding);
       }
     }
