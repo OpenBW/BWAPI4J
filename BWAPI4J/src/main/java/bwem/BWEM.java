@@ -1,5 +1,6 @@
 package bwem;
 
+import bwem.unit.StaticBuilding;
 import bwem.util.PathLength;
 import java.util.ArrayList;
 import java.util.List;
