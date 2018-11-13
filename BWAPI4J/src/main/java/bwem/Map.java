@@ -4,6 +4,7 @@ import bwem.tile.MiniTile;
 import bwem.tile.Tile;
 import bwem.unit.Geyser;
 import bwem.unit.Mineral;
+import bwem.unit.Neutral;
 import bwem.unit.StaticBuilding;
 import bwem.util.buffer.BwemDataBuffer;
 import java.util.ArrayList;
@@ -78,22 +79,6 @@ public class Map {
     pixelSizeCropper = new XYCropper(0, 0, PixelSize().getX() - 1, PixelSize().getY() - 1);
 
     {
-      final int tileCount = data.readInt();
-      for (int i = 0; i < tileCount; ++i) {
-        final Tile tile = BwemDataBuffer.readTile(data);
-        tiles.add(tile);
-      }
-    }
-
-    {
-      final int miniTileCount = data.readInt();
-      for (int i = 0; i < miniTileCount; ++i) {
-        final MiniTile miniTile = BwemDataBuffer.readMiniTile(data);
-        miniTiles.add(miniTile);
-      }
-    }
-
-    {
       final int mineralCount = data.readInt();
       for (int i = 0; i < mineralCount; ++i) {
         final Mineral mineral = BwemDataBuffer.readMineral(bw.getAllUnits(), data);
@@ -115,6 +100,27 @@ public class Map {
         final StaticBuilding staticBuilding =
             BwemDataBuffer.readStaticBuilding(bw.getAllUnits(), data);
         staticBuildings.add(staticBuilding);
+      }
+    }
+
+    {
+      final List<Neutral> neutrals = new ArrayList<>();
+      neutrals.addAll(Minerals());
+      neutrals.addAll(Geysers());
+      neutrals.addAll(StaticBuildings());
+
+      final int tileCount = data.readInt();
+      for (int i = 0; i < tileCount; ++i) {
+        final Tile tile = BwemDataBuffer.readTile(data, neutrals);
+        tiles.add(tile);
+      }
+    }
+
+    {
+      final int miniTileCount = data.readInt();
+      for (int i = 0; i < miniTileCount; ++i) {
+        final MiniTile miniTile = BwemDataBuffer.readMiniTile(data);
+        miniTiles.add(miniTile);
       }
     }
   }

@@ -6,6 +6,7 @@ import bwem.tile.Tile;
 import bwem.tile.TileImpl;
 import bwem.unit.Geyser;
 import bwem.unit.Mineral;
+import bwem.unit.Neutral;
 import bwem.unit.StaticBuilding;
 import java.util.Collection;
 import org.openbw.bwapi4j.type.UnitType;
@@ -13,7 +14,7 @@ import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.util.buffer.DataBuffer;
 
 public class BwemDataBuffer {
-  public static Tile readTile(final DataBuffer data) {
+  public static Tile readTile(final DataBuffer data, final Collection<Neutral> neutrals) {
     final boolean isBuildable = data.readBoolean();
     final int groundHeight = data.readInt();
     final boolean isDoodad = data.readBoolean();
@@ -38,7 +39,12 @@ public class BwemDataBuffer {
     tile.SetAreaId(areaId);
 
     if (neutralId != -1) {
-      // TODO: Set neutral object from ID.
+      for (final Neutral neutral : neutrals) {
+        if (neutral.Unit().getID() == neutralId) {
+          tile.AddNeutral(neutral);
+          break;
+        }
+      }
     }
 
     return tile;

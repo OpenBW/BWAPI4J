@@ -53,6 +53,30 @@ JNIEXPORT jintArray JNICALL Java_bwem_Map_getInitializedData_1native(JNIEnv *env
   }
 
   {
+    const auto &minerals = Bridge::bwem.getMap().Minerals();
+    Bridge::Globals::dataBuffer.add(minerals.size());
+    for (const auto &mineral : minerals) {
+      Bridge::Globals::dataBuffer.addId(mineral.get()->Unit());
+    }
+  }
+
+  {
+    const auto &geysers = Bridge::bwem.getMap().Geysers();
+    Bridge::Globals::dataBuffer.add(geysers.size());
+    for (const auto &geyser : geysers) {
+      Bridge::Globals::dataBuffer.addId(geyser.get()->Unit());
+    }
+  }
+
+  {
+    const auto &staticBuildings = Bridge::bwem.getMap().StaticBuildings();
+    Bridge::Globals::dataBuffer.add(staticBuildings.size());
+    for (const auto &staticBuilding : staticBuildings) {
+      Bridge::Globals::dataBuffer.addId(staticBuilding.get()->Unit());
+    }
+  }
+
+  {
     const auto &tiles = Bridge::bwem.getMap().Tiles();
     Bridge::Globals::dataBuffer.add(tiles.size());
     for (const auto &tile : tiles) {
@@ -76,30 +100,6 @@ JNIEXPORT jintArray JNICALL Java_bwem_Map_getInitializedData_1native(JNIEnv *env
     for (const auto &miniTile : miniTiles) {
       Bridge::Globals::dataBuffer.add(miniTile.Altitude());
       Bridge::Globals::dataBuffer.add(miniTile.AreaId());
-    }
-  }
-
-  {
-    const auto &minerals = Bridge::bwem.getMap().Minerals();
-    Bridge::Globals::dataBuffer.add(minerals.size());
-    for (const auto &mineral : minerals) {
-      Bridge::Globals::dataBuffer.addId(mineral.get()->Unit());
-    }
-  }
-
-  {
-    const auto &geysers = Bridge::bwem.getMap().Geysers();
-    Bridge::Globals::dataBuffer.add(geysers.size());
-    for (const auto &geyser : geysers) {
-      Bridge::Globals::dataBuffer.addId(geyser.get()->Unit());
-    }
-  }
-
-  {
-    const auto &staticBuildings = Bridge::bwem.getMap().StaticBuildings();
-    Bridge::Globals::dataBuffer.add(staticBuildings.size());
-    for (const auto &staticBuilding : staticBuildings) {
-      Bridge::Globals::dataBuffer.addId(staticBuilding.get()->Unit());
     }
   }
 
