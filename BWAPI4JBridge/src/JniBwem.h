@@ -22,7 +22,7 @@
 
 #include <bwem.h>
 
-#include "bwem_BWEM.h"
+#include "bwem_Map.h"
 
 namespace Bridge {
 class JniBwem {

@@ -25,6 +25,7 @@ public class TestListenerBwem implements BWEventListener {
   private BW bw; // main game object
 
   private BWEM bwem;
+  private Map bwemMap;
 
   private Player self;
   private List<Unit> workers;
@@ -73,7 +74,8 @@ public class TestListenerBwem implements BWEventListener {
 
       // Initialize BWEM.
       bwem = new BWEM();
-      bwem.Initialize(bw);
+      bwemMap = bwem.GetMap();
+      bwemMap.Initialize(bw);
 
       // Compile list of workers.
       for (final Unit u : bw.getUnits(self)) {
@@ -145,7 +147,7 @@ public class TestListenerBwem implements BWEventListener {
 
       /* Highlight starting locations and possible base locations. */ {
         final Position resourceDepotSize = UnitType.Terran_Command_Center.tileSize().toPosition();
-        for (final TilePosition tilePosition : bwem.StartingLocations()) {
+        for (final TilePosition tilePosition : bwemMap.StartingLocations()) {
           final Color highlightColor = Color.GREEN;
           final Position position = tilePosition.toPosition();
           if (isOnScreen(position)) {
@@ -170,10 +172,10 @@ public class TestListenerBwem implements BWEventListener {
 
       /* Draw path from our base to center of the map */ {
         final Position startingLocation = bw.self().getStartLocation().toPosition();
-        final Position mapCenter = bwem.Center();
+        final Position mapCenter = bwemMap.Center();
         final PathLength pathLength = new PathLength();
 
-        final List<WalkPosition> path = bwem.GetPath(startingLocation, mapCenter, pathLength);
+        final List<WalkPosition> path = bwemMap.GetPath(startingLocation, mapCenter, pathLength);
 
         final int radius = 5;
         final Color chokepointColor = Color.RED;

@@ -31,9 +31,9 @@ BWEM::Map &JniBwem::getMap() { return BWEM::Map::Instance(); }
 JniBwem bwem;
 }  // namespace Bridge
 
-JNIEXPORT void JNICALL Java_bwem_BWEM_Initialize_1native(JNIEnv *, jobject) { Bridge::bwem.initialize(BWAPI::BroodwarPtr); }
+JNIEXPORT void JNICALL Java_bwem_Map_Initialize_1native(JNIEnv *, jobject) { Bridge::bwem.initialize(BWAPI::BroodwarPtr); }
 
-JNIEXPORT jintArray JNICALL Java_bwem_BWEM_getInitializedData_1native(JNIEnv *env, jobject) {
+JNIEXPORT jintArray JNICALL Java_bwem_Map_getInitializedData_1native(JNIEnv *env, jobject) {
   Bridge::Globals::dataBuffer.reset();
 
   Bridge::Globals::dataBuffer.add(Bridge::bwem.getMap().Tiles().size());
@@ -57,24 +57,24 @@ JNIEXPORT jintArray JNICALL Java_bwem_BWEM_getInitializedData_1native(JNIEnv *en
   return result;
 }
 
-JNIEXPORT jboolean JNICALL Java_bwem_BWEM_EnableAutomaticPathAnalysis_1native(JNIEnv *, jobject) {
+JNIEXPORT jboolean JNICALL Java_bwem_Map_EnableAutomaticPathAnalysis_1native(JNIEnv *, jobject) {
   Bridge::bwem.getMap().EnableAutomaticPathAnalysis();
   return Bridge::bwem.getMap().AutomaticPathUpdate();
 }
 
-JNIEXPORT jboolean JNICALL Java_bwem_BWEM_FindBasesForStartingLocations(JNIEnv *, jobject) { return Bridge::bwem.getMap().FindBasesForStartingLocations(); }
+JNIEXPORT jboolean JNICALL Java_bwem_Map_FindBasesForStartingLocations(JNIEnv *, jobject) { return Bridge::bwem.getMap().FindBasesForStartingLocations(); }
 
-JNIEXPORT void JNICALL Java_bwem_BWEM_OnMineralDestroyed_1native(JNIEnv *, jobject, jint unitId) {
+JNIEXPORT void JNICALL Java_bwem_Map_OnMineralDestroyed_1native(JNIEnv *, jobject, jint unitId) {
   const auto &mineral = BWAPI::Broodwar->getUnit((int)unitId);
   Bridge::bwem.getMap().OnMineralDestroyed(mineral);
 }
 
-JNIEXPORT void JNICALL Java_bwem_BWEM_OnStaticBuildingDestroyed_1native(JNIEnv *, jobject, jint unitId) {
+JNIEXPORT void JNICALL Java_bwem_Map_OnStaticBuildingDestroyed_1native(JNIEnv *, jobject, jint unitId) {
   const auto &building = BWAPI::Broodwar->getUnit((int)unitId);
   Bridge::bwem.getMap().OnStaticBuildingDestroyed(building);
 }
 
-JNIEXPORT jintArray JNICALL Java_bwem_BWEM_GetPath_1native(JNIEnv *env, jobject, jint ax, jint ay, jint bx, jint by) {
+JNIEXPORT jintArray JNICALL Java_bwem_Map_GetPath_1native(JNIEnv *env, jobject, jint ax, jint ay, jint bx, jint by) {
   Bridge::Globals::dataBuffer.reset();
 
   const BWAPI::Position a((int)ax, (int)ay);

@@ -132,7 +132,7 @@ project(":BWAPI4J") {
         def classpath = sourceSets.main.java.outputDir
         def nativeIncludes = "src/native/include"
         commandLine "javah", "-jni", "-verbose", "-d", nativeIncludes, "-classpath", classpath,
-                "bwem.BWEM",
+                "bwem.Map",
                 "org.openbw.bwapi4j.BW",
                 "org.openbw.bwapi4j.BWMapImpl",
                 "org.openbw.bwapi4j.InteractionHandler",
