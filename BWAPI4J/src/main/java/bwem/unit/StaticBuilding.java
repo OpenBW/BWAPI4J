@@ -2,7 +2,7 @@ package bwem.unit;
 
 import org.openbw.bwapi4j.unit.Unit;
 
-public class StaticBuilding extends Neutral {
+public class StaticBuilding extends NeutralImpl {
   public StaticBuilding(final Unit unit) {
     super(unit);
   }

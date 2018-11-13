@@ -2,7 +2,7 @@ package bwem.unit;
 
 import org.openbw.bwapi4j.unit.Unit;
 
-public class Resource extends Neutral {
+public class Resource extends NeutralImpl {
   private final int initialAmount;
 
   protected Resource(final Unit unit) {

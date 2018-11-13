@@ -1,75 +1,44 @@
 package bwem.unit;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
-import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.unit.Unit;
 
-public abstract class Neutral {
-  private final Unit bwapiUnit;
-  protected Neutral nextStacked;
-  private final List<WalkPosition> blockedAreas = new ArrayList<>();
-
-  protected Neutral(final Unit unit) {
-    this.bwapiUnit = unit;
-  }
-
+public interface Neutral {
   // If this Neutral is a Ressource, returns a typed pointer to this Ressource.
   // Otherwise, returns nullptr.
-  public Resource IsResource() {
-    return null;
-  }
+  Resource IsResource();
 
   // If this Neutral is a Mineral, returns a typed pointer to this Mineral.
   // Otherwise, returns nullptr.
-  public Mineral IsMineral() {
-    return null;
-  }
+  Mineral IsMineral();
 
   // If this Neutral is a Geyser, returns a typed pointer to this Geyser.
   // Otherwise, returns nullptr.
-  public Geyser IsGeyser() {
-    return null;
-  }
+  Geyser IsGeyser();
 
   // If this Neutral is a StaticBuilding, returns a typed pointer to this StaticBuilding.
   // Otherwise, returns nullptr.
-  public StaticBuilding IsStaticBuilding() {
-    return null;
-  }
+  StaticBuilding IsStaticBuilding();
 
   // Returns the BWAPI::Unit this Neutral is wrapping around.
-  public Unit Unit() {
-    return bwapiUnit;
-  }
+  Unit Unit();
 
   // Returns the BWAPI::UnitType of the BWAPI::Unit this Neutral is wrapping around.
-  public UnitType Type() {
-    return Unit().getType();
-  }
+  UnitType Type();
 
   // Returns the center of this Neutral, in pixels (same as Unit()->getInitialPosition()).
-  public Position Pos() {
-    return Unit().getPosition();
-  }
+  Position Pos();
 
   // Returns the top left Tile position of this Neutral (same as Unit()->getInitialTilePosition()).
-  public TilePosition TopLeft() {
-    return Unit().getTilePosition();
-  }
+  TilePosition TopLeft();
 
   // Returns the bottom right Tile position of this Neutral
-  public TilePosition BottomRight() {
-    return TopLeft().add(Size());
-  }
+  TilePosition BottomRight();
 
   // Returns the size of this Neutral, in Tiles (same as Type()->tileSize())
-  public TilePosition Size() {
-    return Type().tileSize();
-  }
+  TilePosition Size();
 
   // Tells whether this Neutral is blocking some ChokePoint.
   // This applies to Minerals and StaticBuildings only.
@@ -78,10 +47,9 @@ public abstract class Neutral {
   // created.
   // Cf. definition of pseudo ChokePoints in class ChokePoint comment.
   // Cf. ChokePoint::BlockingNeutral and ChokePoint::Blocked.
-  public boolean Blocking() {
-    return !blockedAreas.isEmpty();
-  }
+  boolean Blocking();
 
+  // TODO
   // If Blocking() == true, returns the set of Areas blocked by this Neutral.
   //  std::vector<const Area *>		BlockedAreas() const;
 
@@ -89,23 +57,10 @@ public abstract class Neutral {
   // To iterate through the whole stack, one can use the following:
   // for (const Neutral * n = Map::GetTile(TopLeft()).GetNeutral() ; n ; n = n->NextStacked())
   //  Neutral *						NextStacked() const			{ return m_pNextStacked; }
-  public Neutral NextStacked() {
-    return nextStacked;
-  }
+  Neutral NextStacked();
 
   // Returns the last Neutral stacked over this Neutral, if ever.
   //  Neutral *						LastStacked()				{ Neutral * pTop = this; while (pTop->m_pNextStacked) pTop =
   // pTop->m_pNextStacked; return pTop; }
-  public Neutral LastStacked() {
-    Neutral top = this;
-    while (top.NextStacked() != null) {
-      top = top.NextStacked();
-    }
-    return top;
-  }
-
-  ////////////////////////////////////////////////////////////////////////////
-  //	Details: The functions below are used by the BWEM's internals
-
-  //  void							SetBlocking(const std::vector<BWAPI::WalkPosition> & blockedAreas);
+  Neutral LastStacked();
 }
