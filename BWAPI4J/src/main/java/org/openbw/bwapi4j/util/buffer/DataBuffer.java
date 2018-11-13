@@ -1,10 +1,10 @@
 package org.openbw.bwapi4j.util.buffer;
 
-public class BufferData {
+public class DataBuffer {
   private int index;
   private final int[] data;
 
-  public BufferData(final int[] data) {
+  public DataBuffer(final int[] data) {
     this.index = 0;
     this.data = data;
   }

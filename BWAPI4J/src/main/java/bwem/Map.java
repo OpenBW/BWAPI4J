@@ -5,6 +5,7 @@ import bwem.tile.Tile;
 import bwem.unit.Geyser;
 import bwem.unit.Mineral;
 import bwem.unit.StaticBuilding;
+import bwem.util.buffer.BwemDataBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SplittableRandom;
@@ -15,8 +16,8 @@ import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.util.Pair;
 import org.openbw.bwapi4j.util.XYCropper;
-import org.openbw.bwapi4j.util.buffer.BwapiBufferData;
-import org.openbw.bwapi4j.util.buffer.BwemBufferData;
+import org.openbw.bwapi4j.util.buffer.BwapiDataBuffer;
+import org.openbw.bwapi4j.util.buffer.DataBuffer;
 
 public class Map {
   private BW bw = null;
@@ -52,24 +53,24 @@ public class Map {
   private native int[] getInitializedData_native();
 
   private void readInitializedData() {
-    final BwemBufferData data = new BwemBufferData(getInitializedData_native());
+    final DataBuffer data = new DataBuffer(getInitializedData_native());
 
     tileCount = data.readInt();
-    tileSize = data.readTilePosition();
+    tileSize = BwapiDataBuffer.readTilePosition(data);
 
     walkTileCount = data.readInt();
-    walkSize = data.readWalkPosition();
+    walkSize = BwapiDataBuffer.readWalkPosition(data);
 
     pixelSize = tileSize.toPosition();
     pixelTileCount = pixelSize.getX() * pixelSize.getY();
 
-    center = data.readPosition();
+    center = BwapiDataBuffer.readPosition(data);
 
     maxAltitude = data.readInt();
 
     final int startingLocationsCount = data.readInt();
     for (int i = 0; i < startingLocationsCount; ++i) {
-      startingLocations.add(data.readTilePosition());
+      startingLocations.add(BwapiDataBuffer.readTilePosition(data));
     }
 
     tileSizeCropper = new XYCropper(0, 0, Size().getX() - 1, Size().getY() - 1);
@@ -79,7 +80,7 @@ public class Map {
     {
       final int tileCount = data.readInt();
       for (int i = 0; i < tileCount; ++i) {
-        final Tile tile = data.readTile();
+        final Tile tile = BwemDataBuffer.readTile(data);
         tiles.add(tile);
       }
     }
@@ -87,7 +88,7 @@ public class Map {
     {
       final int miniTileCount = data.readInt();
       for (int i = 0; i < miniTileCount; ++i) {
-        final MiniTile miniTile = data.readMiniTile();
+        final MiniTile miniTile = BwemDataBuffer.readMiniTile(data);
         miniTiles.add(miniTile);
       }
     }
@@ -337,15 +338,14 @@ public class Map {
 
   public List<WalkPosition> GetPath(
       final Position a, final Position b, final PathLength outputLength) {
-    final BwapiBufferData data =
-        new BwapiBufferData(GetPath_native(a.getX(), a.getY(), b.getX(), b.getY()));
+    final DataBuffer data = new DataBuffer(GetPath_native(a.getX(), a.getY(), b.getX(), b.getY()));
 
     final List<WalkPosition> path = new ArrayList<>();
 
     final int chokepointCount = data.readInt();
 
     for (int i = 0; i < chokepointCount; ++i) {
-      final WalkPosition chokepoint = data.readWalkPosition();
+      final WalkPosition chokepoint = BwapiDataBuffer.readWalkPosition(data);
       path.add(chokepoint);
     }
 
