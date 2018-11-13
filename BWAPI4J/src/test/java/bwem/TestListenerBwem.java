@@ -76,6 +76,7 @@ public class TestListenerBwem implements BWEventListener {
       bwem = new BWEM();
       bwemMap = bwem.GetMap();
       bwemMap.Initialize(bw);
+      bwemMap.EnableAutomaticPathAnalysis();
 
       System.out.println("Tiles count: " + bwemMap.Tiles().size());
       System.out.println("MiniTiles count: " + bwemMap.MiniTiles().size());
@@ -288,6 +289,8 @@ public class TestListenerBwem implements BWEventListener {
   @Override
   public void onUnitDestroy(Unit unit) {
     System.out.println("onUnitDestroy: " + unit);
+
+    bwemMap.onUnitDestroy(unit);
 
     final Optional<Unit> destroyedWorker = workers.stream().filter(w -> w.equals(unit)).findAny();
     destroyedWorker.ifPresent(workers::remove);

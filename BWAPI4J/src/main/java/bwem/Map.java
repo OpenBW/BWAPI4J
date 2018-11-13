@@ -313,11 +313,14 @@ public class Map {
     if (unit.getType().isMineralField()) {
       OnMineralDestroyed_native(unit.getID());
     } else if (unit.getType().isBuilding()) {
-      // TODO: Loop through static buildings and compare against this unit's ID.
+      final int unitId = unit.getID();
 
-      // OnStaticBuildingDestroyed_native();
-
-      throw new UnsupportedOperationException("TODO"); // TODO
+      for (final StaticBuilding staticBuilding : StaticBuildings()) {
+        if (staticBuilding.Unit().getID() == unitId) {
+          OnStaticBuildingDestroyed_native(unitId);
+          break;
+        }
+      }
     }
   }
 
