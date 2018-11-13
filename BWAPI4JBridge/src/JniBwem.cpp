@@ -53,9 +53,9 @@ JNIEXPORT jintArray JNICALL Java_bwem_Map_getInitializedData_1native(JNIEnv *env
   }
 
   {
-    const auto tileCount = Bridge::bwem.getMap().Tiles().size();
-    Bridge::Globals::dataBuffer.add(tileCount);
-    for (const auto &tile : Bridge::bwem.getMap().Tiles()) {
+    const auto &tiles = Bridge::bwem.getMap().Tiles();
+    Bridge::Globals::dataBuffer.add(tiles.size());
+    for (const auto &tile : tiles) {
       Bridge::Globals::dataBuffer.add(tile.Buildable());
       Bridge::Globals::dataBuffer.add(tile.GroundHeight());
       Bridge::Globals::dataBuffer.add(tile.Doodad());
@@ -71,11 +71,27 @@ JNIEXPORT jintArray JNICALL Java_bwem_Map_getInitializedData_1native(JNIEnv *env
   }
 
   {
-    const auto miniTileCount = Bridge::bwem.getMap().MiniTiles().size();
-    Bridge::Globals::dataBuffer.add(miniTileCount);
-    for (const auto &miniTile : Bridge::bwem.getMap().MiniTiles()) {
+    const auto &miniTiles = Bridge::bwem.getMap().MiniTiles();
+    Bridge::Globals::dataBuffer.add(miniTiles.size());
+    for (const auto &miniTile : miniTiles) {
       Bridge::Globals::dataBuffer.add(miniTile.Altitude());
       Bridge::Globals::dataBuffer.add(miniTile.AreaId());
+    }
+  }
+
+  {
+    const auto &minerals = Bridge::bwem.getMap().Minerals();
+    Bridge::Globals::dataBuffer.add(minerals.size());
+    for (const auto &mineral : minerals) {
+      Bridge::Globals::dataBuffer.addId(mineral.get()->Unit());
+    }
+  }
+
+  {
+    const auto &geysers = Bridge::bwem.getMap().Geysers();
+    Bridge::Globals::dataBuffer.add(geysers.size());
+    for (const auto &geyser : geysers) {
+      Bridge::Globals::dataBuffer.addId(geyser.get()->Unit());
     }
   }
 

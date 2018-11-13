@@ -4,6 +4,11 @@ import bwem.tile.MiniTile;
 import bwem.tile.MiniTileImpl;
 import bwem.tile.Tile;
 import bwem.tile.TileImpl;
+import bwem.unit.Geyser;
+import bwem.unit.Mineral;
+import java.util.Collection;
+import org.openbw.bwapi4j.type.UnitType;
+import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.util.buffer.DataBuffer;
 
 public class BwemDataBuffer {
@@ -43,5 +48,49 @@ public class BwemDataBuffer {
     final int areaId = data.readInt();
 
     return new MiniTileImpl(altitude, areaId);
+  }
+
+  public static Mineral readMineral(final Collection<Unit> units, final DataBuffer data) {
+    final int unitId = data.readInt();
+
+    Unit mineralUnit = null;
+    for (final Unit unit : units) {
+      if (unit.getID() == unitId) {
+        mineralUnit = unit;
+        break;
+      }
+    }
+
+    if (mineralUnit == null) {
+      throw new IllegalStateException(
+          "Failed to create Mineral for unitId=" + unitId + ": not found");
+    } else if (!mineralUnit.getType().isMineralField()) {
+      throw new IllegalStateException(
+          "Failed to create Mineral for unitId=" + unitId + ": unit is not a mineral field");
+    } else {
+      return new Mineral(mineralUnit);
+    }
+  }
+
+  public static Geyser readGeyser(final Collection<Unit> units, final DataBuffer data) {
+    final int unitId = data.readInt();
+
+    Unit geyserUnit = null;
+    for (final Unit unit : units) {
+      if (unit.getID() == unitId) {
+        geyserUnit = unit;
+        break;
+      }
+    }
+
+    if (geyserUnit == null) {
+      throw new IllegalStateException(
+          "Failed to create Geyser for unitId=" + unitId + ": not found");
+    } else if (geyserUnit.getType() != UnitType.Resource_Vespene_Geyser) {
+      throw new IllegalStateException(
+          "Failed to create Geyser for unitId=" + unitId + ": unit is not a vespene geyser");
+    } else {
+      return new Geyser(geyserUnit);
+    }
   }
 }

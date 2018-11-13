@@ -92,6 +92,22 @@ public class Map {
         miniTiles.add(miniTile);
       }
     }
+
+    {
+      final int mineralCount = data.readInt();
+      for (int i = 0; i < mineralCount; ++i) {
+        final Mineral mineral = BwemDataBuffer.readMineral(bw.getAllUnits(), data);
+        minerals.add(mineral);
+      }
+    }
+
+    {
+      final int geyserCount = data.readInt();
+      for (int i = 0; i < geyserCount; ++i) {
+        final Geyser geyser = BwemDataBuffer.readGeyser(bw.getAllUnits(), data);
+        geysers.add(geyser);
+      }
+    }
   }
 
   /**
@@ -251,12 +267,16 @@ public class Map {
     return startingLocations;
   }
 
-  //  // Returns a reference to the Minerals (Cf. Mineral).
-  //  virtual const std::vector<std::unique_ptr<Mineral>> &			Minerals() const = 0;
-  //
-  //  // Returns a reference to the Geysers (Cf. Geyser).
-  //  virtual const std::vector<std::unique_ptr<Geyser>> &			Geysers() const = 0;
-  //
+  // Returns a reference to the Minerals (Cf. Mineral).
+  public List<Mineral> Minerals() {
+    return minerals;
+  }
+
+  // Returns a reference to the Geysers (Cf. Geyser).
+  public List<Geyser> Geysers() {
+    return geysers;
+  }
+
   //  // Returns a reference to the StaticBuildings (Cf. StaticBuilding).
   //  virtual const std::vector<std::unique_ptr<StaticBuilding>> &	StaticBuildings() const = 0;
   //
