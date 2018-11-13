@@ -1,4 +1,4 @@
-package bwem.util;
+package bwem;
 
 public class PathLength {
   private int value;
