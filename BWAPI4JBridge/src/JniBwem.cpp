@@ -95,6 +95,14 @@ JNIEXPORT jintArray JNICALL Java_bwem_Map_getInitializedData_1native(JNIEnv *env
     }
   }
 
+  {
+    const auto &staticBuildings = Bridge::bwem.getMap().StaticBuildings();
+    Bridge::Globals::dataBuffer.add(staticBuildings.size());
+    for (const auto &staticBuilding : staticBuildings) {
+      Bridge::Globals::dataBuffer.addId(staticBuilding.get()->Unit());
+    }
+  }
+
   jintArray result = env->NewIntArray(Bridge::Globals::dataBuffer.getIndex());
   env->SetIntArrayRegion(result, 0, Bridge::Globals::dataBuffer.getIndex(), Bridge::Globals::dataBuffer.intBuf);
   return result;

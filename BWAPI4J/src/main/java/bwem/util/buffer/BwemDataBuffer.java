@@ -6,6 +6,7 @@ import bwem.tile.Tile;
 import bwem.tile.TileImpl;
 import bwem.unit.Geyser;
 import bwem.unit.Mineral;
+import bwem.unit.StaticBuilding;
 import java.util.Collection;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.unit.Unit;
@@ -91,6 +92,31 @@ public class BwemDataBuffer {
           "Failed to create Geyser for unitId=" + unitId + ": unit is not a vespene geyser");
     } else {
       return new Geyser(geyserUnit);
+    }
+  }
+
+  public static StaticBuilding readStaticBuilding(
+      final Collection<Unit> units, final DataBuffer data) {
+    final int unitId = data.readInt();
+
+    Unit staticBuilding = null;
+    for (final Unit unit : units) {
+      if (unit.getID() == unitId) {
+        staticBuilding = unit;
+        break;
+      }
+    }
+
+    if (staticBuilding == null) {
+      throw new IllegalStateException(
+          "Failed to create StaticBuilding for unitId=" + unitId + ": not found");
+    } else if (!staticBuilding.getType().isBuilding() || !staticBuilding.getPlayer().isNeutral()) {
+      throw new IllegalStateException(
+          "Failed to create StaticBuilding for unitId="
+              + unitId
+              + ": unit is not a neutral building");
+    } else {
+      return new StaticBuilding(staticBuilding);
     }
   }
 }

@@ -108,6 +108,15 @@ public class Map {
         geysers.add(geyser);
       }
     }
+
+    {
+      final int staticBuildingCount = data.readInt();
+      for (int i = 0; i < staticBuildingCount; ++i) {
+        final StaticBuilding staticBuilding =
+            BwemDataBuffer.readStaticBuilding(bw.getAllUnits(), data);
+        staticBuildings.add(staticBuilding);
+      }
+    }
   }
 
   /**
@@ -277,9 +286,11 @@ public class Map {
     return geysers;
   }
 
-  //  // Returns a reference to the StaticBuildings (Cf. StaticBuilding).
-  //  virtual const std::vector<std::unique_ptr<StaticBuilding>> &	StaticBuildings() const = 0;
-  //
+  // Returns a reference to the StaticBuildings (Cf. StaticBuilding).
+  public List<StaticBuilding> StaticBuildings() {
+    return staticBuildings;
+  }
+
   //  // If a Mineral wrappers the given BWAPI unit, returns a pointer to it.
   //  // Otherwise, returns nullptr.
   //  virtual Mineral *					GetMineral(BWAPI::Unit u) const = 0;
