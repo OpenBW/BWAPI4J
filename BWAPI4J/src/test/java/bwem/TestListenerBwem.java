@@ -76,6 +76,7 @@ public class TestListenerBwem implements BWEventListener {
       bwem = new BWEM();
       bwemMap = bwem.GetMap();
       bwemMap.Initialize(bw);
+      bwemMap.FindBasesForStartingLocations();
       bwemMap.EnableAutomaticPathAnalysis();
 
       System.out.println("Tiles count: " + bwemMap.Tiles().size());
