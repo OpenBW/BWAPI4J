@@ -297,13 +297,31 @@ public class Map {
     return staticBuildings;
   }
 
-  //  // If a Mineral wrappers the given BWAPI unit, returns a pointer to it.
-  //  // Otherwise, returns nullptr.
-  //  virtual Mineral *					GetMineral(BWAPI::Unit u) const = 0;
-  //
-  //  // If a Geyser wrappers the given BWAPI unit, returns a pointer to it.
-  //  // Otherwise, returns nullptr.
-  //  virtual Geyser *					GetGeyser(BWAPI::Unit g) const = 0;
+  // If a Mineral wrappers the given BWAPI unit, returns a pointer to it.
+  // Otherwise, returns nullptr.
+  public Mineral GetMineral(final Unit unit) {
+    final int unitId = unit.getID();
+    for (final Mineral mineral : minerals) {
+      if (mineral.Unit().getID() == unitId) {
+        return mineral;
+      }
+    }
+
+    return null;
+  }
+
+  // If a Geyser wrappers the given BWAPI unit, returns a pointer to it.
+  // Otherwise, returns nullptr.
+  public Geyser GetGeyser(final Unit unit) {
+    final int unitId = unit.getID();
+    for (final Geyser geyser : geysers) {
+      if (geyser.Unit().getID() == unitId) {
+        return geyser;
+      }
+    }
+
+    return null;
+  }
 
   private native void OnMineralDestroyed_native(int unitId);
 
