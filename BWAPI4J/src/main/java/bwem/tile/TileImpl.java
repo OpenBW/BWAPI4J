@@ -3,12 +3,12 @@ package bwem.tile;
 import bwem.unit.Neutral;
 
 public class TileImpl implements Tile {
-  private boolean buildable;
-  private int groundHeight;
-  private boolean doodad;
-  private Neutral neutral = null;
-  private int minAltitude;
-  private int areaId = 0;
+  public boolean buildable = false;
+  public int groundHeight = 0;
+  public boolean doodad = false;
+  public Neutral neutral = null;
+  public int minAltitude = Integer.MAX_VALUE;
+  public int areaId = 0;
 
   @Override
   public boolean Buildable() {
@@ -61,46 +61,5 @@ public class TileImpl implements Tile {
     }
 
     return count;
-  }
-
-  ////////////////////////////////////////////////////////////////////////////
-  //	Details: The functions below are used by the BWEM's internals
-
-  public void SetBuildable() {
-    buildable = true;
-  }
-
-  public void SetGroundHeight(final int height) {
-    //    bwem_assert((0 <= h) && (h <= 2)); // TODO
-    groundHeight = height;
-  }
-
-  public void SetDoodad() {
-    doodad = true;
-  }
-
-  public void AddNeutral(final Neutral pNeutral) {
-    //    bwem_assert(!neutral && pNeutral); // TODO
-    neutral = pNeutral;
-  }
-
-  public void SetAreaId(final int id) {
-    //    bwem_assert((id == -1) || !areaId && id); // TODO
-    areaId = id;
-  }
-
-  public void ResetAreaId() {
-    areaId = 0;
-  }
-
-  public void SetMinAltitude(final int a) {
-    //    bwem_assert(a >= 0); // TODO
-    minAltitude = a;
-  }
-
-  public void RemoveNeutral(Neutral pNeutral) {
-    //    bwem_assert(pNeutral && (neutral == pNeutral)); // TODO
-    //    utils::unused(pNeutral);
-    neutral = null;
   }
 }

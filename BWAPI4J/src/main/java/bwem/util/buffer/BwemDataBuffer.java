@@ -24,24 +24,16 @@ public class BwemDataBuffer {
 
     final TileImpl tile = new TileImpl();
 
-    if (isBuildable) {
-      tile.SetBuildable();
-    }
-
-    tile.SetGroundHeight(groundHeight);
-
-    if (isDoodad) {
-      tile.SetDoodad();
-    }
-
-    tile.SetMinAltitude(minAltitude);
-
-    tile.SetAreaId(areaId);
+    tile.buildable = isBuildable;
+    tile.groundHeight = groundHeight;
+    tile.doodad = isDoodad;
+    tile.minAltitude = minAltitude;
+    tile.areaId = areaId;
 
     if (neutralId != -1) {
       for (final Neutral neutral : neutrals) {
         if (neutral.Unit().getID() == neutralId) {
-          tile.AddNeutral(neutral);
+          tile.neutral = neutral;
           break;
         }
       }
