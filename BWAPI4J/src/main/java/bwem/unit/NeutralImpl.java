@@ -11,10 +11,11 @@ import org.openbw.bwapi4j.unit.Unit;
 public class NeutralImpl implements Neutral {
   private final Unit bwapiUnit;
   protected Neutral nextStacked;
-  private List<WalkPosition> blockedAreas = new ArrayList<>();
+  private final List<WalkPosition> blockedAreas;
 
   protected NeutralImpl(final Unit unit) {
     this.bwapiUnit = unit;
+    this.blockedAreas = new ArrayList<>();
   }
 
   public Resource IsResource() {
@@ -77,6 +78,9 @@ public class NeutralImpl implements Neutral {
   //	Details: The functions below are used by the BWEM's internals
 
   public void SetBlocking(final List<WalkPosition> blockedAreas) {
-    this.blockedAreas = blockedAreas;
+    if (blockedAreas != this.blockedAreas) {
+      this.blockedAreas.clear();
+      this.blockedAreas.addAll(blockedAreas);
+    }
   }
 }
