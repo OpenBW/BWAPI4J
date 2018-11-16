@@ -76,6 +76,7 @@ public class BW {
   private Map<Integer, Unit> units;
   private Map<Integer, Bullet> bullets;
   private final UnitFactory unitFactory;
+  private final UnitCommandSimulation unitCommandSimulation = new UnitCommandSimulation();
   private Charset charset;
 
   private Cache<Map<Player, List<Unit>>> getUnitsFromPlayerCache;
@@ -213,6 +214,10 @@ public class BW {
 
   public InteractionHandler getInteractionHandler() {
     return this.interactionHandler;
+  }
+
+  public UnitCommandSimulation getUnitCommandSimulation() {
+    return unitCommandSimulation;
   }
 
   private void updateGame() {
