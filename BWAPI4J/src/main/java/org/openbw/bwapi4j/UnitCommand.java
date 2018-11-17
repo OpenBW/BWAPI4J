@@ -6,19 +6,40 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 import org.openbw.bwapi4j.unit.Unit;
 
-// TODO
 public class UnitCommand {
-  private Unit unit = null;
-  private UnitCommandType unitCommandType = UnitCommandType.None;
-  private Unit target = null;
+  public static class Unused {
+    private Unused() throws InstantiationException {
+      throw new InstantiationException("This constructor is disabled.");
+    }
+
+    public static final int INTEGER = -1;
+    public static final Unit UNIT = null;
+    public static final UnitCommandType UNIT_COMMAND_TYPE = UnitCommandType.None;
+  }
+
+  private Unit unit;
+  private UnitCommandType unitCommandType;
+  private Unit target;
   private int x;
   private int y;
   private int extra;
 
-  public UnitCommand() {}
+  public UnitCommand() {
+    this.unit = Unused.UNIT;
+    this.unitCommandType = Unused.UNIT_COMMAND_TYPE;
+    this.target = Unused.UNIT;
+    this.x = Unused.INTEGER;
+    this.y = Unused.INTEGER;
+    this.extra = Unused.INTEGER;
+  }
 
   public UnitCommand(
-      Unit unit, UnitCommandType unitCommandType, Unit target, int x, int y, int extra) {
+      final Unit unit,
+      final UnitCommandType unitCommandType,
+      final Unit target,
+      final int x,
+      final int y,
+      final int extra) {
     this.unit = unit;
     this.unitCommandType = unitCommandType;
     this.target = target;
@@ -27,8 +48,10 @@ public class UnitCommand {
     this.extra = extra;
   }
 
-  public UnitCommand(Unit unit, UnitCommandType type) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public UnitCommand(final Unit unit, final UnitCommandType type) {
+    this();
+    this.unit = unit;
+    this.unitCommandType = type;
   }
 
   public static UnitCommand attack(Unit unit, Unit target) {

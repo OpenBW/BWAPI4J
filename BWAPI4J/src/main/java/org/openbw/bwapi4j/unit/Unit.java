@@ -63,7 +63,13 @@ public class Unit implements Comparable<Unit> {
     }
 
     public boolean cancel() {
-      return issueCommand(getID(), UnitCommandType.Cancel_Train_Slot, -1, -1, -1, this.slotIndex);
+      return issueCommand(
+          getID(),
+          UnitCommandType.Cancel_Train_Slot,
+          UnitCommand.Unused.INTEGER,
+          UnitCommand.Unused.INTEGER,
+          UnitCommand.Unused.INTEGER,
+          this.slotIndex);
     }
 
     @Override
@@ -952,11 +958,23 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean attack(final Position target) {
-    return issueCommand(getID(), UnitCommandType.Attack_Move, -1, target.getX(), target.getY(), 0);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Attack_Move,
+        UnitCommand.Unused.INTEGER,
+        target.getX(),
+        target.getY(),
+        0);
   }
 
   public boolean attack(final Unit target) {
-    return issueCommand(getID(), UnitCommandType.Attack_Unit, target.getID(), -1, -1, 0);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Attack_Unit,
+        target.getID(),
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        0);
   }
 
   public boolean attack(PositionOrUnit target) {
@@ -967,7 +985,7 @@ public class Unit implements Comparable<Unit> {
     return issueCommand(
         getID(),
         UnitCommandType.Attack_Move,
-        -1,
+        UnitCommand.Unused.INTEGER,
         target.getX(),
         target.getY(),
         shiftQueueCommand ? 1 : 0);
@@ -975,7 +993,12 @@ public class Unit implements Comparable<Unit> {
 
   public boolean attack(final Unit target, final boolean shiftQueueCommand) {
     return issueCommand(
-        getID(), UnitCommandType.Attack_Unit, target.getID(), -1, -1, shiftQueueCommand ? 1 : 0);
+        getID(),
+        UnitCommandType.Attack_Unit,
+        target.getID(),
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        shiftQueueCommand ? 1 : 0);
   }
 
   public boolean attack(final PositionOrUnit target, final boolean shiftQueueCommand) {
@@ -983,17 +1006,34 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean build(final UnitType unitType) {
-    return issueCommand(getID(), UnitCommandType.Build, -1, -1, -1, unitType.getID());
+    return issueCommand(
+        getID(),
+        UnitCommandType.Build,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        unitType.getID());
   }
 
   public boolean build(final UnitType unitType, final TilePosition target) {
     // TODO: Double-check that we should pass the XY of a TilePosition and not a Position.
     return issueCommand(
-        getID(), UnitCommandType.Build, -1, target.getX(), target.getY(), unitType.getID());
+        getID(),
+        UnitCommandType.Build,
+        UnitCommand.Unused.INTEGER,
+        target.getX(),
+        target.getY(),
+        unitType.getID());
   }
 
   public boolean buildAddon(final UnitType unitType) {
-    return issueCommand(getID(), UnitCommandType.Build_Addon, -1, -1, -1, unitType.getID());
+    return issueCommand(
+        getID(),
+        UnitCommandType.Build_Addon,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        unitType.getID());
   }
 
   public boolean train() {
@@ -1001,28 +1041,63 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean train(final UnitType unitType) {
-    return issueCommand(getID(), UnitCommandType.Train, -1, -1, -1, unitType.getID());
+    return issueCommand(
+        getID(),
+        UnitCommandType.Train,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        unitType.getID());
   }
 
   public boolean morph(final UnitType unitType) {
-    return issueCommand(getID(), UnitCommandType.Morph, -1, -1, -1, unitType.getID());
+    return issueCommand(
+        getID(),
+        UnitCommandType.Morph,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        unitType.getID());
   }
 
   public boolean research(final TechType techType) {
-    return issueCommand(getID(), UnitCommandType.Research, -1, -1, -1, techType.getID());
+    return issueCommand(
+        getID(),
+        UnitCommandType.Research,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        techType.getID());
   }
 
   public boolean upgrade(final UpgradeType upgradeType) {
-    return issueCommand(getID(), UnitCommandType.Upgrade, -1, -1, -1, upgradeType.getID());
+    return issueCommand(
+        getID(),
+        UnitCommandType.Upgrade,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        upgradeType.getID());
   }
 
   public boolean setRallyPoint(final Position target) {
     return issueCommand(
-        getID(), UnitCommandType.Set_Rally_Position, -1, target.getX(), target.getY(), -1);
+        getID(),
+        UnitCommandType.Set_Rally_Position,
+        UnitCommand.Unused.INTEGER,
+        target.getX(),
+        target.getY(),
+        UnitCommand.Unused.INTEGER);
   }
 
   public boolean setRallyPoint(final Unit target) {
-    return issueCommand(getID(), UnitCommandType.Set_Rally_Unit, target.getID(), -1, -1, -1);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Set_Rally_Unit,
+        target.getID(),
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER);
   }
 
   public boolean setRallyPoint(final PositionOrUnit target) {
@@ -1030,144 +1105,310 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean move(final Position target) {
-    return issueCommand(getID(), UnitCommandType.Move, -1, target.getX(), target.getY(), -1);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Move,
+        UnitCommand.Unused.INTEGER,
+        target.getX(),
+        target.getY(),
+        UnitCommand.Unused.INTEGER);
   }
 
   public boolean move(final Position target, final boolean shiftQueueCommand) {
     return issueCommand(
-        getID(), UnitCommandType.Move, -1, target.getX(), target.getY(), shiftQueueCommand ? 1 : 0);
+        getID(),
+        UnitCommandType.Move,
+        UnitCommand.Unused.INTEGER,
+        target.getX(),
+        target.getY(),
+        shiftQueueCommand ? 1 : 0);
   }
 
   public boolean patrol(final Position target) {
-    return issueCommand(getID(), UnitCommandType.Patrol, -1, target.getX(), target.getY(), 0);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Patrol,
+        UnitCommand.Unused.INTEGER,
+        target.getX(),
+        target.getY(),
+        0);
   }
 
   public boolean patrol(final Position target, final boolean shiftQueueCommand) {
     return issueCommand(
         getID(),
         UnitCommandType.Patrol,
-        -1,
+        UnitCommand.Unused.INTEGER,
         target.getX(),
         target.getY(),
         shiftQueueCommand ? 1 : 0);
   }
 
   public boolean holdPosition() {
-    return issueCommand(getID(), UnitCommandType.Hold_Position, -1, -1, -1, 0);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Hold_Position,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        0);
   }
 
   public boolean holdPosition(final boolean shiftQueueCommand) {
     return issueCommand(
-        getID(), UnitCommandType.Hold_Position, -1, -1, -1, shiftQueueCommand ? 1 : 0);
+        getID(),
+        UnitCommandType.Hold_Position,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        shiftQueueCommand ? 1 : 0);
   }
 
   public boolean stop() {
-    return issueCommand(getID(), UnitCommandType.Stop, -1, -1, -1, 0);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Stop,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        0);
   }
 
   public boolean stop(final boolean shiftQueueCommand) {
-    return issueCommand(getID(), UnitCommandType.Stop, -1, -1, -1, shiftQueueCommand ? 1 : 0);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Stop,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        shiftQueueCommand ? 1 : 0);
   }
 
   public boolean follow(final Unit target) {
-    return issueCommand(getID(), UnitCommandType.Follow, target.getID(), -1, -1, 0);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Follow,
+        target.getID(),
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        0);
   }
 
   public boolean follow(final Unit target, final boolean shiftQueueCommand) {
     return issueCommand(
-        getID(), UnitCommandType.Follow, target.getID(), -1, -1, shiftQueueCommand ? 1 : 0);
+        getID(),
+        UnitCommandType.Follow,
+        target.getID(),
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        shiftQueueCommand ? 1 : 0);
   }
 
   public boolean gather(final Unit resource) {
-    return issueCommand(getID(), UnitCommandType.Gather, resource.getID(), -1, -1, 0);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Gather,
+        resource.getID(),
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        0);
   }
 
   public boolean gather(final Unit resource, final boolean shiftQueueCommand) {
     return issueCommand(
-        getID(), UnitCommandType.Gather, resource.getID(), -1, -1, shiftQueueCommand ? 1 : 0);
+        getID(),
+        UnitCommandType.Gather,
+        resource.getID(),
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        shiftQueueCommand ? 1 : 0);
   }
 
   public boolean returnCargo() {
-    return issueCommand(getID(), UnitCommandType.Return_Cargo, -1, -1, -1, 0);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Return_Cargo,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        0);
   }
 
   public boolean returnCargo(final boolean shiftQueueCommand) {
     return issueCommand(
-        getID(), UnitCommandType.Return_Cargo, -1, -1, -1, shiftQueueCommand ? 1 : 0);
+        getID(),
+        UnitCommandType.Return_Cargo,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        shiftQueueCommand ? 1 : 0);
   }
 
   public boolean repair(final Unit target) {
-    return issueCommand(getID(), UnitCommandType.Repair, target.getID(), -1, -1, 0);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Repair,
+        target.getID(),
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        0);
   }
 
   public boolean repair(final Unit target, final boolean shiftQueueCommand) {
     return issueCommand(
-        getID(), UnitCommandType.Repair, target.getID(), -1, -1, shiftQueueCommand ? 1 : 0);
+        getID(),
+        UnitCommandType.Repair,
+        target.getID(),
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        shiftQueueCommand ? 1 : 0);
   }
 
   public boolean burrow() {
-    return issueCommand(getID(), UnitCommandType.Burrow, -1, -1, -1, -1);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Burrow,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER);
   }
 
   public boolean unburrow() {
-    return issueCommand(getID(), UnitCommandType.Unburrow, -1, -1, -1, -1);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Unburrow,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER);
   }
 
   public boolean cloak() {
-    return issueCommand(getID(), UnitCommandType.Cloak, -1, -1, -1, -1);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Cloak,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER);
   }
 
   public boolean decloak() {
-    return issueCommand(getID(), UnitCommandType.Decloak, -1, -1, -1, -1);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Decloak,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER);
   }
 
   public boolean siege() {
-    return issueCommand(getID(), UnitCommandType.Siege, -1, -1, -1, -1);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Siege,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER);
   }
 
   public boolean unsiege() {
-    return issueCommand(getID(), UnitCommandType.Unsiege, -1, -1, -1, -1);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Unsiege,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER);
   }
 
   public boolean lift() {
-    return issueCommand(getID(), UnitCommandType.Lift, -1, -1, -1, -1);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Lift,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER);
   }
 
   public boolean land(final TilePosition target) {
-    return issueCommand(getID(), UnitCommandType.Land, -1, -1, -1, -1);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Land,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER);
   }
 
   public boolean load(final Unit target) {
-    return issueCommand(getID(), UnitCommandType.Load, target.getID(), -1, -1, 0);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Load,
+        target.getID(),
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        0);
   }
 
   public boolean load(final Unit target, final boolean shiftQueueCommand) {
     return issueCommand(
-        getID(), UnitCommandType.Load, target.getID(), -1, -1, shiftQueueCommand ? 1 : 0);
+        getID(),
+        UnitCommandType.Load,
+        target.getID(),
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        shiftQueueCommand ? 1 : 0);
   }
 
   public boolean unload(final Unit target) {
-    return issueCommand(getID(), UnitCommandType.Unload, target.getID(), -1, -1, -1);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Unload,
+        target.getID(),
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER);
   }
 
   public boolean unloadAll() {
-    return issueCommand(getID(), UnitCommandType.Unload_All, -1, -1, -1, 0);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Unload_All,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        0);
   }
 
   public boolean unloadAll(final boolean shiftQueueCommand) {
-    return issueCommand(getID(), UnitCommandType.Unload_All, -1, -1, -1, shiftQueueCommand ? 1 : 0);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Unload_All,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        shiftQueueCommand ? 1 : 0);
   }
 
   public boolean unloadAll(final Position target) {
     return issueCommand(
-        getID(), UnitCommandType.Unload_All_Position, -1, target.getX(), target.getY(), 0);
+        getID(),
+        UnitCommandType.Unload_All_Position,
+        UnitCommand.Unused.INTEGER,
+        target.getX(),
+        target.getY(),
+        0);
   }
 
   public boolean unloadAll(final Position target, final boolean shiftQueueCommand) {
     return issueCommand(
         getID(),
         UnitCommandType.Unload_All_Position,
-        -1,
+        UnitCommand.Unused.INTEGER,
         target.getX(),
         target.getY(),
         shiftQueueCommand ? 1 : 0);
@@ -1175,11 +1416,22 @@ public class Unit implements Comparable<Unit> {
 
   public boolean rightClick(final Position target) {
     return issueCommand(
-        getID(), UnitCommandType.Right_Click_Position, -1, target.getX(), target.getY(), 0);
+        getID(),
+        UnitCommandType.Right_Click_Position,
+        UnitCommand.Unused.INTEGER,
+        target.getX(),
+        target.getY(),
+        0);
   }
 
   public boolean rightClick(final Unit target) {
-    return issueCommand(getID(), UnitCommandType.Right_Click_Unit, target.getID(), -1, -1, 0);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Right_Click_Unit,
+        target.getID(),
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        0);
   }
 
   public boolean rightClick(final PositionOrUnit target) {
@@ -1190,7 +1442,7 @@ public class Unit implements Comparable<Unit> {
     return issueCommand(
         getID(),
         UnitCommandType.Right_Click_Position,
-        -1,
+        UnitCommand.Unused.INTEGER,
         target.getX(),
         target.getY(),
         shiftQueueCommand ? 1 : 0);
@@ -1201,8 +1453,8 @@ public class Unit implements Comparable<Unit> {
         getID(),
         UnitCommandType.Right_Click_Unit,
         target.getID(),
-        -1,
-        -1,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
         shiftQueueCommand ? 1 : 0);
   }
 
@@ -1211,48 +1463,113 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean haltConstruction() {
-    return issueCommand(getID(), UnitCommandType.Halt_Construction, -1, -1, -1, -1);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Halt_Construction,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER);
   }
 
   public boolean cancelConstruction() {
-    return issueCommand(getID(), UnitCommandType.Cancel_Construction, -1, -1, -1, -1);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Cancel_Construction,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER);
   }
 
   public boolean cancelAddon() {
-    return issueCommand(getID(), UnitCommandType.Cancel_Addon, -1, -1, -1, -1);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Cancel_Addon,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER);
   }
 
   public boolean cancelTrain() {
-    return issueCommand(getID(), UnitCommandType.Cancel_Train, -1, -1, -1, -1);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Cancel_Train,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER);
   }
 
   public boolean cancelTrain(final int slot) {
-    return issueCommand(getID(), UnitCommandType.Cancel_Train_Slot, -1, -1, -1, slot);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Cancel_Train_Slot,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        slot);
   }
 
   public boolean cancelMorph() {
-    return issueCommand(getID(), UnitCommandType.Cancel_Morph, -1, -1, -1, -1);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Cancel_Morph,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER);
   }
 
   public boolean cancelResearch() {
-    return issueCommand(getID(), UnitCommandType.Cancel_Research, -1, -1, -1, -1);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Cancel_Research,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER);
   }
 
   public boolean cancelUpgrade() {
-    return issueCommand(getID(), UnitCommandType.Cancel_Upgrade, -1, -1, -1, -1);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Cancel_Upgrade,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER);
   }
 
   public boolean useTech(final TechType tech) {
-    return issueCommand(getID(), UnitCommandType.Use_Tech, -1, -1, -1, -1);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Use_Tech,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER);
   }
 
   public boolean useTech(final TechType tech, final Position target) {
     return issueCommand(
-        getID(), UnitCommandType.Use_Tech_Position, -1, target.getX(), target.getY(), -1);
+        getID(),
+        UnitCommandType.Use_Tech_Position,
+        UnitCommand.Unused.INTEGER,
+        target.getX(),
+        target.getY(),
+        UnitCommand.Unused.INTEGER);
   }
 
   public boolean useTech(final TechType tech, final Unit target) {
-    return issueCommand(getID(), UnitCommandType.Use_Tech_Unit, target.getID(), -1, -1, -1);
+    return issueCommand(
+        getID(),
+        UnitCommandType.Use_Tech_Unit,
+        target.getID(),
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER,
+        UnitCommand.Unused.INTEGER);
   }
 
   public boolean useTech(final TechType tech, final PositionOrUnit target) {
