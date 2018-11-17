@@ -45,5 +45,7 @@ The following people have contributed to BWAPI4J in at least one of the followin
 * [Jabbo16](https://github.com/Jabbo16)
 * [MasterFocus](https://github.com/MasterFocus)
 * [muandrew](https://github.com/muandrew)
+* [kdlin10](https://github.com/kdlin10)
+* [SonkoMagnus](https://github.com/SonkoMagnus)
 
 If you have contributed in some way and are not on the list, let us know or add yourself with a pull request.
