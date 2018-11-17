@@ -145,7 +145,7 @@ public class TestListenerBwem implements BWEventListener {
         if (self.getRace() == Race.Terran) {
           for (final Unit u : bw.getUnits(self)) {
             if (u.getType() == UnitType.Terran_Command_Center) {
-              if (!u.isTraining()) {
+              if (!u.isTraining() && u.canTrain(UnitType.Terran_SCV)) {
                 u.train(UnitType.Terran_SCV);
               }
             }
