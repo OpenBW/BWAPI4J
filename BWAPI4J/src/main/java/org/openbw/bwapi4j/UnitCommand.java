@@ -295,31 +295,67 @@ public class UnitCommand {
   }
 
   public Position getTargetPosition() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final boolean hasValue =
+        unitCommandType == UnitCommandType.Build
+            || unitCommandType == UnitCommandType.Land
+            || unitCommandType == UnitCommandType.Place_COP;
+    return hasValue ? new TilePosition(x, y).toPosition() : new Position(x, y);
   }
 
   public TilePosition getTargetTilePosition() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final boolean hasValue =
+        unitCommandType == UnitCommandType.Build
+            || unitCommandType == UnitCommandType.Land
+            || unitCommandType == UnitCommandType.Place_COP;
+    return hasValue ? new TilePosition(x, y) : new Position(x, y).toTilePosition();
   }
 
   public UnitType getUnitType() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final boolean hasValue =
+        unitCommandType == UnitCommandType.Build
+            || unitCommandType == UnitCommandType.Build_Addon
+            || unitCommandType == UnitCommandType.Train
+            || unitCommandType == UnitCommandType.Morph;
+    return hasValue ? UnitType.withId(extra) : UnitType.None;
   }
 
   public TechType getTechType() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final boolean hasvalue =
+        unitCommandType == UnitCommandType.Research
+            || unitCommandType == UnitCommandType.Use_Tech
+            || unitCommandType == UnitCommandType.Use_Tech_Position
+            || unitCommandType == UnitCommandType.Use_Tech_Unit;
+    return hasvalue ? TechType.withId(extra) : TechType.None;
   }
 
   public UpgradeType getUpgradeType() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final boolean hasValue = unitCommandType == UnitCommandType.Upgrade;
+    return hasValue ? UpgradeType.withId(extra) : UpgradeType.None;
   }
 
   public int getSlot() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final boolean hasValue = unitCommandType == UnitCommandType.Cancel_Train_Slot;
+    return hasValue ? extra : Unused.INTEGER;
   }
 
   public boolean isQueued() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final boolean hasValue =
+        unitCommandType == UnitCommandType.Attack_Move
+            || unitCommandType == UnitCommandType.Attack_Unit
+            || unitCommandType == UnitCommandType.Move
+            || unitCommandType == UnitCommandType.Patrol
+            || unitCommandType == UnitCommandType.Hold_Position
+            || unitCommandType == UnitCommandType.Stop
+            || unitCommandType == UnitCommandType.Follow
+            || unitCommandType == UnitCommandType.Gather
+            || unitCommandType == UnitCommandType.Return_Cargo
+            || unitCommandType == UnitCommandType.Repair
+            || unitCommandType == UnitCommandType.Load
+            || unitCommandType == UnitCommandType.Unload_All
+            || unitCommandType == UnitCommandType.Unload_All_Position
+            || unitCommandType == UnitCommandType.Right_Click_Position
+            || unitCommandType == UnitCommandType.Right_Click_Unit;
+    return hasValue && extra == 1;
   }
 
   // To be implemented, when there will be an abstract point class
