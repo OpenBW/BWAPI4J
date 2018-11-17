@@ -14,7 +14,10 @@ public class UnitCommand {
 
     public static final int INTEGER = -1;
     public static final Unit UNIT = null;
+    public static final TechType TECH_TYPE = TechType.None;
     public static final UnitCommandType UNIT_COMMAND_TYPE = UnitCommandType.None;
+    public static final UnitType UNIT_TYPE = UnitType.None;
+    public static final UpgradeType UPGRADE_TYPE = UpgradeType.None;
   }
 
   private Unit unit;
@@ -316,21 +319,21 @@ public class UnitCommand {
             || unitCommandType == UnitCommandType.Build_Addon
             || unitCommandType == UnitCommandType.Train
             || unitCommandType == UnitCommandType.Morph;
-    return hasValue ? UnitType.withId(extra) : UnitType.None;
+    return hasValue ? UnitType.withId(extra) : Unused.UNIT_TYPE;
   }
 
   public TechType getTechType() {
-    final boolean hasvalue =
+    final boolean hasValue =
         unitCommandType == UnitCommandType.Research
             || unitCommandType == UnitCommandType.Use_Tech
             || unitCommandType == UnitCommandType.Use_Tech_Position
             || unitCommandType == UnitCommandType.Use_Tech_Unit;
-    return hasvalue ? TechType.withId(extra) : TechType.None;
+    return hasValue ? TechType.withId(extra) : Unused.TECH_TYPE;
   }
 
   public UpgradeType getUpgradeType() {
     final boolean hasValue = unitCommandType == UnitCommandType.Upgrade;
-    return hasValue ? UpgradeType.withId(extra) : UpgradeType.None;
+    return hasValue ? UpgradeType.withId(extra) : Unused.UPGRADE_TYPE;
   }
 
   public int getSlot() {
