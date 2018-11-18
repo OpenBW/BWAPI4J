@@ -62,8 +62,40 @@ public class UnitCommand {
   }
 
   public static UnitCommand attack(Unit unit, Unit target, boolean shiftQueueCommand) {
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit=unit;
+    unitCommand.target=target;
+    unitCommand.extra = shiftQueueCommand ? 1 : 0;
+    unitCommand.unitCommandType=UnitCommandType.Attack_Unit;
+    return unitCommand;
+  }
+
+  public static UnitCommand attack(Unit unit, PositionOrUnit target) {
+   return attack(unit, target);
+  }
+
+  public static UnitCommand attack(Unit unit, PositionOrUnit target, boolean shiftQueueCommand) {
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit=unit;
+    if (target.getPOType() == PositionOrUnit.PositionOrUnitType.UNIT) {
+      unitCommand.unitCommandType = UnitCommandType.Attack_Unit;
+    }
+    if (target.getPOType() == PositionOrUnit.PositionOrUnitType.POSITION) {
+      unitCommand.unitCommandType = UnitCommandType.Attack_Move;
+    }
+    if (target.getPOType() == PositionOrUnit.PositionOrUnitType.TILE_POS) {
+      unitCommand.unitCommandType = UnitCommandType.Attack_Move;
+    }
+    if (target.getPOType() == PositionOrUnit.PositionOrUnitType.WALK_POS) {
+      unitCommand.unitCommandType = UnitCommandType.Attack_Move;
+      ;
+    }
+
+    unitCommand.extra = shiftQueueCommand ? 1 : 0;
+    //not finished, just a sample implementation
     throw new UnsupportedOperationException("TODO"); // TODO
   }
+
 
   public static UnitCommand build(Unit unit, TilePosition target, UnitType type) {
     throw new UnsupportedOperationException("TODO"); // TODO

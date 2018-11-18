@@ -20,11 +20,11 @@
 
 package org.openbw.bwapi4j;
 
-import static org.openbw.bwapi4j.util.MathUtils.estimateDistanceBetween;
-
 import org.openbw.bwapi4j.ap.BridgeValue;
 
-public class Position {
+import static org.openbw.bwapi4j.util.MathUtils.estimateDistanceBetween;
+
+public class Position implements PositionOrUnit {
 
   private final int x;
   private final int y;
@@ -123,5 +123,10 @@ public class Position {
   @Override
   public int hashCode() {
     return (getX() * 2048 * TilePosition.SIZE_IN_PIXELS + getY());
+  }
+
+  @Override
+  public PositionOrUnitType getPOType() {
+    return PositionOrUnitType.POSITION;
   }
 }

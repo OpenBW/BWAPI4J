@@ -20,7 +20,7 @@
 
 package org.openbw.bwapi4j;
 
-public class WalkPosition {
+public class WalkPosition implements PositionOrUnit {
   public static final int SIZE_IN_PIXELS = 8;
 
   private final int x;
@@ -114,5 +114,10 @@ public class WalkPosition {
   @Override
   public int hashCode() {
     return (getX() * 2048 * WalkPosition.SIZE_IN_PIXELS + getY());
+  }
+
+  @Override
+  public PositionOrUnitType getPOType() {
+    return PositionOrUnitType.WALK_POS;
   }
 }

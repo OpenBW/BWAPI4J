@@ -1,4 +1,12 @@
 package org.openbw.bwapi4j;
 
-// TODO
-public class PositionOrUnit {}
+
+public interface PositionOrUnit {
+
+    public enum PositionOrUnitType{
+        UNIT, POSITION, TILE_POS, WALK_POS
+    }
+
+    public PositionOrUnitType getPOType();
+
+}

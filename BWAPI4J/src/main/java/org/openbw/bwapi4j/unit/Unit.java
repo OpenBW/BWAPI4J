@@ -20,34 +20,18 @@
 
 package org.openbw.bwapi4j.unit;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+import org.openbw.bwapi4j.*;
+import org.openbw.bwapi4j.ap.*;
+import org.openbw.bwapi4j.type.*;
+
+import java.util.*;
 import java.util.stream.Collectors;
-import org.openbw.bwapi4j.BW;
-import org.openbw.bwapi4j.Player;
-import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.PositionOrUnit;
-import org.openbw.bwapi4j.Region;
-import org.openbw.bwapi4j.TilePosition;
-import org.openbw.bwapi4j.UnitCommand;
-import org.openbw.bwapi4j.ap.BridgeValue;
-import org.openbw.bwapi4j.ap.LookedUp;
-import org.openbw.bwapi4j.ap.Named;
-import org.openbw.bwapi4j.ap.NativeClass;
-import org.openbw.bwapi4j.ap.Reset;
-import org.openbw.bwapi4j.type.Order;
-import org.openbw.bwapi4j.type.TechType;
-import org.openbw.bwapi4j.type.UnitCommandType;
-import org.openbw.bwapi4j.type.UnitType;
-import org.openbw.bwapi4j.type.UpgradeType;
-import org.openbw.bwapi4j.type.WeaponType;
 
 @LookedUp(method = "getUnit")
 @NativeClass(name = "BWAPI::Unit")
-public class Unit implements Comparable<Unit> {
+public class Unit implements Comparable<Unit>, PositionOrUnit {
+
+
   public class TrainingSlot {
     private int slotIndex;
 
@@ -3485,5 +3469,10 @@ public class Unit implements Comparable<Unit> {
       final boolean checkCommandibility) {
     return bw.getUnitCommandSimulation()
         .canPlaceCOP(getID(), target, checkCanIssueCommandType, checkCommandibility);
+  }
+
+  @Override
+  public PositionOrUnitType getPOType() {
+    return PositionOrUnitType.UNIT;
   }
 }

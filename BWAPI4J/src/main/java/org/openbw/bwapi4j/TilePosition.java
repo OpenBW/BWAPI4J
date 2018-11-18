@@ -22,7 +22,7 @@ package org.openbw.bwapi4j;
 
 import org.openbw.bwapi4j.ap.BridgeValue;
 
-public class TilePosition {
+public class TilePosition implements PositionOrUnit {
   public static final int SIZE_IN_PIXELS = 32;
 
   private final int x;
@@ -124,5 +124,10 @@ public class TilePosition {
   @Override
   public int hashCode() {
     return (getX() * 2048 + getY());
+  }
+
+  @Override
+  public PositionOrUnitType getPOType() {
+    return PositionOrUnitType.TILE_POS;
   }
 }
