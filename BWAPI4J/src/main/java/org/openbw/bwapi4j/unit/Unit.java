@@ -43,6 +43,8 @@ import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 import org.openbw.bwapi4j.type.WeaponType;
+import org.openbw.bwapi4j.util.buffer.BwapiDataBuffer;
+import org.openbw.bwapi4j.util.buffer.DataBuffer;
 
 @LookedUp(method = "getUnit")
 @NativeClass(name = "BWAPI::Unit")
@@ -498,8 +500,11 @@ public class Unit implements Comparable<Unit> {
     return lastCommandFrame;
   }
 
+  private native int[] getLastCommand_native(int unitId);
+
   public UnitCommand getLastCommand() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final DataBuffer data = new DataBuffer(getLastCommand_native(getID()));
+    return BwapiDataBuffer.readUnitCommand(data, bw);
   }
 
   public Player getLastAttackingPlayer() {

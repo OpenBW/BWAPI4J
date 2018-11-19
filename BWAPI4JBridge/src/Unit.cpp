@@ -18,9 +18,11 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+#include "org_openbw_bwapi4j_unit_Unit.h"
+
 #include <BWAPI.h>
 
-#include "org_openbw_bwapi4j_unit_Unit.h"
+#include "Globals.h"
 
 JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_Unit_issueCommand_1native(JNIEnv *, jobject, jint unitID, jint unitCommandTypeID, jint targetUnitID,
                                                                                   jint x, jint y, jint extra) {
@@ -45,4 +47,27 @@ JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_Unit_hasPath_1native__II
   const auto &unit = BWAPI::Broodwar->getUnit((int)unitId);
   const auto &targetUnit = BWAPI::Broodwar->getUnit((int)targetUnitId);
   return unit && targetUnit && unit->hasPath(targetUnit);
+}
+
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_unit_Unit_getLastCommand_1native(JNIEnv *env, jobject, jint unitId) {
+  const auto &unit = BWAPI::Broodwar->getUnit((int)unitId);
+  const auto &unitCommand = unit->getLastCommand();
+
+  Bridge::Globals::dataBuffer.reset();
+
+  Bridge::Globals::dataBuffer.addId(unitCommand.unit);
+
+  Bridge::Globals::dataBuffer.add(unitCommand.type.getID());
+
+  const auto &targetUnit = unitCommand.target;
+  Bridge::Globals::dataBuffer.add(targetUnit ? targetUnit->getID() : -1);
+
+  Bridge::Globals::dataBuffer.add(unitCommand.x);
+  Bridge::Globals::dataBuffer.add(unitCommand.y);
+
+  Bridge::Globals::dataBuffer.add(unitCommand.extra);
+
+  jintArray result = env->NewIntArray(Bridge::Globals::dataBuffer.getIndex());
+  env->SetIntArrayRegion(result, 0, Bridge::Globals::dataBuffer.getIndex(), Bridge::Globals::dataBuffer.intBuf);
+  return result;
 }
