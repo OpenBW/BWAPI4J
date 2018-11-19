@@ -482,12 +482,16 @@ public class Unit implements Comparable<Unit> {
     return new Position(0, 0).getDistance(new Position(xDist, yDist));
   }
 
+  private native boolean hasPath_native(int unitId, int x, int y);
+
   public boolean hasPath(Position target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return hasPath_native(getID(), target.getX(), target.getY());
   }
 
+  private native boolean hasPath_native(int unitId, int targetUnitId);
+
   public boolean hasPath(Unit target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return hasPath_native(getID(), target.getID());
   }
 
   public int getLastCommandFrame() {

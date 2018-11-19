@@ -35,3 +35,14 @@ JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_Unit_issueCommand_1nativ
   }
   return JNI_FALSE;
 }
+
+JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_Unit_hasPath_1native__III(JNIEnv *, jobject, jint unitId, jint x, jint y) {
+  const auto &unit = BWAPI::Broodwar->getUnit((int)unitId);
+  return unit && unit->hasPath(BWAPI::Position((int)x, (int)y));
+}
+
+JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_Unit_hasPath_1native__II(JNIEnv *, jobject, jint unitId, jint targetUnitId) {
+  const auto &unit = BWAPI::Broodwar->getUnit((int)unitId);
+  const auto &targetUnit = BWAPI::Broodwar->getUnit((int)targetUnitId);
+  return unit && targetUnit && unit->hasPath(targetUnit);
+}
