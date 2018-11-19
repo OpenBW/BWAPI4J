@@ -752,12 +752,14 @@ public class Player {
     throw new UnsupportedOperationException("TODO"); // TODO
   }
 
+  private native boolean hasUnitTypeRequirement_native(int playerId, int unitTypeId, int amount);
+
   public boolean hasUnitTypeRequirement(UnitType unit) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return hasUnitTypeRequirement_native(getID(), unit.getID(), 1);
   }
 
   public boolean hasUnitTypeRequirement(UnitType unit, int amount) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return hasUnitTypeRequirement_native(getID(), unit.getID(), amount);
   }
 
   @Override
