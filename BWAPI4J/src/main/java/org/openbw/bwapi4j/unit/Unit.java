@@ -31,7 +31,6 @@ import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.Region;
 import org.openbw.bwapi4j.TilePosition;
-import org.openbw.bwapi4j.UnitCommand;
 import org.openbw.bwapi4j.ap.BridgeValue;
 import org.openbw.bwapi4j.ap.LookedUp;
 import org.openbw.bwapi4j.ap.Named;
@@ -955,8 +954,19 @@ public class Unit implements Comparable<Unit> {
     return targetable;
   }
 
-  public boolean issueCommand(UnitCommand command) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean issueCommand(final UnitCommand command) {
+    final int unitId =
+        command.getUnit() != null ? command.getUnit().getID() : UnitCommand.Unused.INTEGER;
+
+    final Unit targetUnit = command.getTarget();
+    final int targetUnitId = targetUnit != null ? targetUnit.getID() : UnitCommand.Unused.INTEGER;
+
+    final int x = command.x;
+    final int y = command.y;
+
+    final int extra = command.extra;
+
+    return issueCommand(unitId, command.getType(), targetUnitId, x, y, extra);
   }
 
   public boolean attack(final Position target) {

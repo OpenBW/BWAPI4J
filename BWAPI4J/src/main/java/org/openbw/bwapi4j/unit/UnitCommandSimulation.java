@@ -1,10 +1,11 @@
-package org.openbw.bwapi4j;
+package org.openbw.bwapi4j.unit;
 
+import org.openbw.bwapi4j.Position;
+import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
-import org.openbw.bwapi4j.unit.Unit;
 
 public class UnitCommandSimulation {
   public boolean canIssueCommand(

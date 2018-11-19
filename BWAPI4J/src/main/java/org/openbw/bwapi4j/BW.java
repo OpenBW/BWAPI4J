@@ -47,6 +47,8 @@ import org.openbw.bwapi4j.type.WeaponTypeBridge;
 import org.openbw.bwapi4j.unit.DefaultUnitFactory;
 import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.unit.UnitBridge;
+import org.openbw.bwapi4j.unit.UnitCommand;
+import org.openbw.bwapi4j.unit.UnitCommandSimulation;
 import org.openbw.bwapi4j.unit.UnitFactory;
 import org.openbw.bwapi4j.unit.WeaponBridge;
 import org.openbw.bwapi4j.util.Cache;

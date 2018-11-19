@@ -3,10 +3,10 @@ package org.openbw.bwapi4j.util.buffer;
 import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
-import org.openbw.bwapi4j.UnitCommand;
 import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.unit.Unit;
+import org.openbw.bwapi4j.unit.UnitCommand;
 
 public class BwapiDataBuffer {
   public static TilePosition readTilePosition(final DataBuffer data) {

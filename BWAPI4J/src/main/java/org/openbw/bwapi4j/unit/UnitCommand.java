@@ -1,11 +1,12 @@
-package org.openbw.bwapi4j;
+package org.openbw.bwapi4j.unit;
 
 import java.util.Objects;
+import org.openbw.bwapi4j.Position;
+import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
-import org.openbw.bwapi4j.unit.Unit;
 
 public class UnitCommand {
   public static class Unused {
@@ -21,12 +22,12 @@ public class UnitCommand {
     public static final UpgradeType UPGRADE_TYPE = UpgradeType.None;
   }
 
-  private Unit unit;
-  private UnitCommandType unitCommandType;
-  private Unit target;
-  private int x;
-  private int y;
-  private int extra;
+  Unit unit;
+  UnitCommandType unitCommandType;
+  Unit target;
+  int x;
+  int y;
+  int extra;
 
   public UnitCommand() {
     this.unit = Unused.UNIT;
