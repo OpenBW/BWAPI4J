@@ -945,8 +945,10 @@ public class Unit implements Comparable<Unit> {
     return visible;
   }
 
-  public boolean isVisible(Player player) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  private native boolean isVisible_native(int unitId, int playerId);
+
+  public boolean isVisible(final Player player) {
+    return isVisible_native(getID(), player.getID());
   }
 
   public boolean isTargetable() {
