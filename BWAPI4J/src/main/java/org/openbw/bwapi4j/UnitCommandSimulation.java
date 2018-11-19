@@ -237,14 +237,6 @@ public class UnitCommandSimulation {
       int unitId, int targetId, boolean checkCanTargetUnit, boolean checkCanIssueCommandType);
 
   public boolean canAttack(
-      final int unitId,
-      final PositionOrUnit target,
-      final boolean checkCanTargetUnit,
-      final boolean checkCanIssueCommandType) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public boolean canAttack(
       final int unitId, final Position target, final boolean checkCanTargetUnit) {
     return canAttack_native(unitId, target.getX(), target.getY(), checkCanTargetUnit);
   }
@@ -257,11 +249,6 @@ public class UnitCommandSimulation {
 
   private native boolean canAttack_native(int unitId, int targetId, boolean checkCanTargetUnit);
 
-  public boolean canAttack(
-      final int unitId, final PositionOrUnit target, final boolean checkCanTargetUnit) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
   public boolean canAttack(final int unitId, final Position target) {
     return canAttack_native(unitId, target.getX(), target.getY());
   }
@@ -273,10 +260,6 @@ public class UnitCommandSimulation {
   }
 
   private native boolean canAttack_native(int unitId, int targetId);
-
-  public boolean canAttack(final int unitId, final PositionOrUnit target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
 
   public boolean canAttack(
       final int unitId,
@@ -317,15 +300,6 @@ public class UnitCommandSimulation {
       boolean checkCanTargetUnit,
       boolean checkCanIssueCommandType,
       boolean checkCommandibility);
-
-  public boolean canAttack(
-      final int unitId,
-      final PositionOrUnit target,
-      final boolean checkCanTargetUnit,
-      final boolean checkCanIssueCommandType,
-      final boolean checkCommandibility) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
 
   public boolean canAttackGrouped(final int unitId, final boolean checkCommandibilityGrouped) {
     return canAttackGrouped_native(unitId, checkCommandibilityGrouped);
@@ -395,15 +369,6 @@ public class UnitCommandSimulation {
 
   public boolean canAttackGrouped(
       final int unitId,
-      final PositionOrUnit target,
-      final boolean checkCanTargetUnit,
-      final boolean checkCanIssueCommandType,
-      final boolean checkCommandibilityGrouped) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public boolean canAttackGrouped(
-      final int unitId,
       final Position target,
       final boolean checkCanTargetUnit,
       final boolean checkCanIssueCommandType) {
@@ -427,14 +392,6 @@ public class UnitCommandSimulation {
       int unitId, int targetId, boolean checkCanTargetUnit, boolean checkCanIssueCommandType);
 
   public boolean canAttackGrouped(
-      final int unitId,
-      final PositionOrUnit target,
-      final boolean checkCanTargetUnit,
-      final boolean checkCanIssueCommandType) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public boolean canAttackGrouped(
       final int unitId, final Position target, final boolean checkCanTargetUnit) {
     return canAttackGrouped_native(unitId, target.getX(), target.getY(), checkCanTargetUnit);
   }
@@ -450,11 +407,6 @@ public class UnitCommandSimulation {
   private native boolean canAttackGrouped_native(
       int unitId, int targetId, boolean checkCanTargetUnit);
 
-  public boolean canAttackGrouped(
-      final int unitId, final PositionOrUnit target, final boolean checkCanTargetUnit) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
   public boolean canAttackGrouped(final int unitId, final Position target) {
     return canAttackGrouped_native(unitId, target.getX(), target.getY());
   }
@@ -466,10 +418,6 @@ public class UnitCommandSimulation {
   }
 
   private native boolean canAttackGrouped_native(int unitId, int targetId);
-
-  public boolean canAttackGrouped(final int unitId, final PositionOrUnit target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
 
   public boolean canAttackGrouped(
       final int unitId,
@@ -520,16 +468,6 @@ public class UnitCommandSimulation {
       boolean checkCanIssueCommandType,
       boolean checkCommandibilityGrouped,
       boolean checkCommandibility);
-
-  public boolean canAttackGrouped(
-      final int unitId,
-      final PositionOrUnit target,
-      final boolean checkCanTargetUnit,
-      final boolean checkCanIssueCommandType,
-      final boolean checkCommandibilityGrouped,
-      final boolean checkCommandibility) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
 
   public boolean canAttackMove(final int unitId) {
     return canAttackMove_native(unitId);
@@ -1021,14 +959,6 @@ public class UnitCommandSimulation {
       int unitId, int targetId, boolean checkCanTargetUnit, boolean checkCanIssueCommandType);
 
   public boolean canSetRallyPoint(
-      final int unitId,
-      final PositionOrUnit target,
-      final boolean checkCanTargetUnit,
-      final boolean checkCanIssueCommandType) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public boolean canSetRallyPoint(
       final int unitId, final Position target, final boolean checkCanTargetUnit) {
     return canSetRallyPoint_native(unitId, target.getX(), target.getY(), checkCanTargetUnit);
   }
@@ -1044,11 +974,6 @@ public class UnitCommandSimulation {
   private native boolean canSetRallyPoint_native(
       int unitId, int targetId, boolean checkCanTargetUnit);
 
-  public boolean canSetRallyPoint(
-      final int unitId, final PositionOrUnit target, final boolean checkCanTargetUnit) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
   public boolean canSetRallyPoint(final int unitId, final Position target) {
     return canSetRallyPoint_native(unitId, target.getX(), target.getY());
   }
@@ -1060,10 +985,6 @@ public class UnitCommandSimulation {
   }
 
   private native boolean canSetRallyPoint_native(int unitId, int targetId);
-
-  public boolean canSetRallyPoint(final int unitId, final PositionOrUnit target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
 
   public boolean canSetRallyPoint(
       final int unitId,
@@ -1104,15 +1025,6 @@ public class UnitCommandSimulation {
       boolean checkCanTargetUnit,
       boolean checkCanIssueCommandType,
       boolean checkCommandibility);
-
-  public boolean canSetRallyPoint(
-      final int unitId,
-      final PositionOrUnit target,
-      final boolean checkCanTargetUnit,
-      final boolean checkCanIssueCommandType,
-      final boolean checkCommandibility) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
 
   public boolean canSetRallyPosition(final int unitId) {
     return canSetRallyPosition_native(unitId);
@@ -1854,14 +1766,6 @@ public class UnitCommandSimulation {
       int unitId, int targetId, boolean checkCanTargetUnit, boolean checkCanIssueCommandType);
 
   public boolean canRightClick(
-      final int unitId,
-      final PositionOrUnit target,
-      final boolean checkCanTargetUnit,
-      final boolean checkCanIssueCommandType) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public boolean canRightClick(
       final int unitId, final Position target, final boolean checkCanTargetUnit) {
     return canRightClick_native(unitId, target.getX(), target.getY(), checkCanTargetUnit);
   }
@@ -1875,11 +1779,6 @@ public class UnitCommandSimulation {
 
   private native boolean canRightClick_native(int unitId, int targetId, boolean checkCanTargetUnit);
 
-  public boolean canRightClick(
-      final int unitId, final PositionOrUnit target, final boolean checkCanTargetUnit) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
   public boolean canRightClick(final int unitId, final Position target) {
     return canRightClick_native(unitId, target.getX(), target.getY());
   }
@@ -1891,10 +1790,6 @@ public class UnitCommandSimulation {
   }
 
   private native boolean canRightClick_native(int unitId, int targetId);
-
-  public boolean canRightClick(final int unitId, final PositionOrUnit target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
 
   public boolean canRightClick(
       final int unitId,
@@ -1935,15 +1830,6 @@ public class UnitCommandSimulation {
       boolean checkCanTargetUnit,
       boolean checkCanIssueCommandType,
       boolean checkCommandibility);
-
-  public boolean canRightClick(
-      final int unitId,
-      final PositionOrUnit target,
-      final boolean checkCanTargetUnit,
-      final boolean checkCanIssueCommandType,
-      final boolean checkCommandibility) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
 
   public boolean canRightClickGrouped(final int unitId, final boolean checkCommandibilityGrouped) {
     return canRightClickGrouped_native(unitId, checkCommandibilityGrouped);
@@ -2014,15 +1900,6 @@ public class UnitCommandSimulation {
 
   public boolean canRightClickGrouped(
       final int unitId,
-      final PositionOrUnit target,
-      final boolean checkCanTargetUnit,
-      final boolean checkCanIssueCommandType,
-      final boolean checkCommandibilityGrouped) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public boolean canRightClickGrouped(
-      final int unitId,
       final Position target,
       final boolean checkCanTargetUnit,
       final boolean checkCanIssueCommandType) {
@@ -2046,14 +1923,6 @@ public class UnitCommandSimulation {
       int unitId, int targetId, boolean checkCanTargetUnit, boolean checkCanIssueCommandType);
 
   public boolean canRightClickGrouped(
-      final int unitId,
-      final PositionOrUnit target,
-      final boolean checkCanTargetUnit,
-      final boolean checkCanIssueCommandType) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public boolean canRightClickGrouped(
       final int unitId, final Position target, final boolean checkCanTargetUnit) {
     return canRightClickGrouped_native(unitId, target.getX(), target.getY(), checkCanTargetUnit);
   }
@@ -2069,11 +1938,6 @@ public class UnitCommandSimulation {
   private native boolean canRightClickGrouped_native(
       int unitId, int targetId, boolean checkCanTargetUnit);
 
-  public boolean canRightClickGrouped(
-      final int unitId, final PositionOrUnit target, final boolean checkCanTargetUnit) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
   public boolean canRightClickGrouped(final int unitId, final Position target) {
     return canRightClickGrouped_native(unitId, target.getX(), target.getY());
   }
@@ -2085,10 +1949,6 @@ public class UnitCommandSimulation {
   }
 
   private native boolean canRightClickGrouped_native(int unitId, int targetId);
-
-  public boolean canRightClickGrouped(final int unitId, final PositionOrUnit target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
 
   public boolean canRightClickGrouped(
       final int unitId,
@@ -2139,16 +1999,6 @@ public class UnitCommandSimulation {
       boolean checkCanIssueCommandType,
       boolean checkCommandibilityGrouped,
       boolean checkCommandibility);
-
-  public boolean canRightClickGrouped(
-      final int unitId,
-      final PositionOrUnit target,
-      final boolean checkCanTargetUnit,
-      final boolean checkCanIssueCommandType,
-      final boolean checkCommandibilityGrouped,
-      final boolean checkCommandibility) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
 
   public boolean canRightClickPosition(final int unitId) {
     return canRightClickPosition_native(unitId);
@@ -2555,16 +2405,6 @@ public class UnitCommandSimulation {
   public boolean canUseTech(
       final int unitId,
       final TechType tech,
-      final PositionOrUnit target,
-      final boolean checkCanTargetUnit,
-      final boolean checkTargetsType,
-      final boolean checkCanIssueCommandType) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public boolean canUseTech(
-      final int unitId,
-      final TechType tech,
       final Position target,
       final boolean checkCanTargetUnit,
       final boolean checkTargetsType) {
@@ -2591,15 +2431,6 @@ public class UnitCommandSimulation {
   public boolean canUseTech(
       final int unitId,
       final TechType tech,
-      final PositionOrUnit target,
-      final boolean checkCanTargetUnit,
-      final boolean checkTargetsType) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public boolean canUseTech(
-      final int unitId,
-      final TechType tech,
       final Position target,
       final boolean checkCanTargetUnit) {
     return canUseTech_native(
@@ -2617,14 +2448,6 @@ public class UnitCommandSimulation {
   private native boolean canUseTech_native(
       int unitId, int techId, int targetId, boolean checkCanTargetUnit);
 
-  public boolean canUseTech(
-      final int unitId,
-      final TechType tech,
-      final PositionOrUnit target,
-      final boolean checkCanTargetUnit) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
   public boolean canUseTech(final int unitId, final TechType tech, final Position target) {
     return canUseTech_native(unitId, tech.getID(), target.getX(), target.getY());
   }
@@ -2636,10 +2459,6 @@ public class UnitCommandSimulation {
   }
 
   private native boolean canUseTech_native(int unitId, int techId, int targetId);
-
-  public boolean canUseTech(final int unitId, final TechType tech, final PositionOrUnit target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
 
   public boolean canUseTech(final int unitId, final TechType tech) {
     return canUseTech_native(unitId, tech.getID());
@@ -2702,17 +2521,6 @@ public class UnitCommandSimulation {
       boolean checkTargetsType,
       boolean checkCanIssueCommandType,
       boolean checkCommandibility);
-
-  public boolean canUseTech(
-      final int unitId,
-      final TechType tech,
-      final PositionOrUnit target,
-      final boolean checkCanTargetUnit,
-      final boolean checkTargetsType,
-      final boolean checkCanIssueCommandType,
-      final boolean checkCommandibility) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
 
   public boolean canUseTechWithoutTarget(
       final int unitId, final TechType tech, final boolean checkCanIssueCommandType) {

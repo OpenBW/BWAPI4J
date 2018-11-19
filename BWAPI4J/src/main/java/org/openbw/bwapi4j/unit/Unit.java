@@ -29,7 +29,6 @@ import java.util.stream.Collectors;
 import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.PositionOrUnit;
 import org.openbw.bwapi4j.Region;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.UnitCommand;
@@ -483,19 +482,11 @@ public class Unit implements Comparable<Unit> {
     return new Position(0, 0).getDistance(new Position(xDist, yDist));
   }
 
-  public int getDistance(PositionOrUnit target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
   public boolean hasPath(Position target) {
     throw new UnsupportedOperationException("TODO"); // TODO
   }
 
   public boolean hasPath(Unit target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public boolean hasPath(PositionOrUnit target) {
     throw new UnsupportedOperationException("TODO"); // TODO
   }
 
@@ -977,10 +968,6 @@ public class Unit implements Comparable<Unit> {
         0);
   }
 
-  public boolean attack(PositionOrUnit target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
   public boolean attack(final Position target, final boolean shiftQueueCommand) {
     return issueCommand(
         getID(),
@@ -999,10 +986,6 @@ public class Unit implements Comparable<Unit> {
         UnitCommand.Unused.INTEGER,
         UnitCommand.Unused.INTEGER,
         shiftQueueCommand ? 1 : 0);
-  }
-
-  public boolean attack(final PositionOrUnit target, final boolean shiftQueueCommand) {
-    throw new UnsupportedOperationException("TODO"); // TODO
   }
 
   public boolean build(final UnitType unitType) {
@@ -1098,10 +1081,6 @@ public class Unit implements Comparable<Unit> {
         UnitCommand.Unused.INTEGER,
         UnitCommand.Unused.INTEGER,
         UnitCommand.Unused.INTEGER);
-  }
-
-  public boolean setRallyPoint(final PositionOrUnit target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
   }
 
   public boolean move(final Position target) {
@@ -1434,10 +1413,6 @@ public class Unit implements Comparable<Unit> {
         0);
   }
 
-  public boolean rightClick(final PositionOrUnit target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
   public boolean rightClick(final Position target, final boolean shiftQueueCommand) {
     return issueCommand(
         getID(),
@@ -1456,10 +1431,6 @@ public class Unit implements Comparable<Unit> {
         UnitCommand.Unused.INTEGER,
         UnitCommand.Unused.INTEGER,
         shiftQueueCommand ? 1 : 0);
-  }
-
-  public boolean rightClick(final PositionOrUnit target, final boolean shiftQueueCommand) {
-    throw new UnsupportedOperationException("TODO"); // TODO
   }
 
   public boolean haltConstruction() {
@@ -1570,10 +1541,6 @@ public class Unit implements Comparable<Unit> {
         UnitCommand.Unused.INTEGER,
         UnitCommand.Unused.INTEGER,
         UnitCommand.Unused.INTEGER);
-  }
-
-  public boolean useTech(final TechType tech, final PositionOrUnit target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
   }
 
   public boolean placeCOP(TilePosition target) {
@@ -1756,13 +1723,6 @@ public class Unit implements Comparable<Unit> {
         .canAttack(getID(), target, checkCanTargetUnit, checkCanIssueCommandType);
   }
 
-  public boolean canAttack(
-      final PositionOrUnit target,
-      final boolean checkCanTargetUnit,
-      final boolean checkCanIssueCommandType) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
   public boolean canAttack(final Position target, final boolean checkCanTargetUnit) {
     return bw.getUnitCommandSimulation().canAttack(getID(), target, checkCanTargetUnit);
   }
@@ -1771,20 +1731,12 @@ public class Unit implements Comparable<Unit> {
     return bw.getUnitCommandSimulation().canAttack(getID(), target, checkCanTargetUnit);
   }
 
-  public boolean canAttack(final PositionOrUnit target, final boolean checkCanTargetUnit) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
   public boolean canAttack(final Position target) {
     return bw.getUnitCommandSimulation().canAttack(getID(), target);
   }
 
   public boolean canAttack(final Unit target) {
     return bw.getUnitCommandSimulation().canAttack(getID(), target);
-  }
-
-  public boolean canAttack(final PositionOrUnit target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
   }
 
   public boolean canAttack(
@@ -1805,14 +1757,6 @@ public class Unit implements Comparable<Unit> {
     return bw.getUnitCommandSimulation()
         .canAttack(
             getID(), target, checkCanTargetUnit, checkCanIssueCommandType, checkCommandibility);
-  }
-
-  public boolean canAttack(
-      final PositionOrUnit target,
-      final boolean checkCanTargetUnit,
-      final boolean checkCanIssueCommandType,
-      final boolean checkCommandibility) {
-    throw new UnsupportedOperationException("TODO"); // TODO
   }
 
   public boolean canAttackGrouped(final boolean checkCommandibilityGrouped) {
@@ -1858,14 +1802,6 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean canAttackGrouped(
-      final PositionOrUnit target,
-      final boolean checkCanTargetUnit,
-      final boolean checkCanIssueCommandType,
-      final boolean checkCommandibilityGrouped) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public boolean canAttackGrouped(
       final Position target,
       final boolean checkCanTargetUnit,
       final boolean checkCanIssueCommandType) {
@@ -1879,13 +1815,6 @@ public class Unit implements Comparable<Unit> {
         .canAttackGrouped(getID(), target, checkCanTargetUnit, checkCanIssueCommandType);
   }
 
-  public boolean canAttackGrouped(
-      final PositionOrUnit target,
-      final boolean checkCanTargetUnit,
-      final boolean checkCanIssueCommandType) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
   public boolean canAttackGrouped(final Position target, final boolean checkCanTargetUnit) {
     return bw.getUnitCommandSimulation().canAttackGrouped(getID(), target, checkCanTargetUnit);
   }
@@ -1894,20 +1823,12 @@ public class Unit implements Comparable<Unit> {
     return bw.getUnitCommandSimulation().canAttackGrouped(getID(), target, checkCanTargetUnit);
   }
 
-  public boolean canAttackGrouped(final PositionOrUnit target, final boolean checkCanTargetUnit) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
   public boolean canAttackGrouped(final Position target) {
     return bw.getUnitCommandSimulation().canAttackGrouped(getID(), target);
   }
 
   public boolean canAttackGrouped(final Unit target) {
     return bw.getUnitCommandSimulation().canAttackGrouped(getID(), target);
-  }
-
-  public boolean canAttackGrouped(final PositionOrUnit target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
   }
 
   public boolean canAttackGrouped(
@@ -1940,15 +1861,6 @@ public class Unit implements Comparable<Unit> {
             checkCanIssueCommandType,
             checkCommandibilityGrouped,
             checkCommandibility);
-  }
-
-  public boolean canAttackGrouped(
-      final PositionOrUnit target,
-      final boolean checkCanTargetUnit,
-      final boolean checkCanIssueCommandType,
-      final boolean checkCommandibilityGrouped,
-      final boolean checkCommandibility) {
-    throw new UnsupportedOperationException("TODO"); // TODO
   }
 
   public boolean canAttackMove() {
@@ -2252,13 +2164,6 @@ public class Unit implements Comparable<Unit> {
         .canSetRallyPoint(getID(), target, checkCanTargetUnit, checkCanIssueCommandType);
   }
 
-  public boolean canSetRallyPoint(
-      final PositionOrUnit target,
-      final boolean checkCanTargetUnit,
-      final boolean checkCanIssueCommandType) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
   public boolean canSetRallyPoint(final Position target, final boolean checkCanTargetUnit) {
     return bw.getUnitCommandSimulation().canSetRallyPoint(getID(), target, checkCanTargetUnit);
   }
@@ -2267,20 +2172,12 @@ public class Unit implements Comparable<Unit> {
     return bw.getUnitCommandSimulation().canSetRallyPoint(getID(), target, checkCanTargetUnit);
   }
 
-  public boolean canSetRallyPoint(final PositionOrUnit target, final boolean checkCanTargetUnit) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
   public boolean canSetRallyPoint(final Position target) {
     return bw.getUnitCommandSimulation().canSetRallyPoint(getID(), target);
   }
 
   public boolean canSetRallyPoint(final Unit target) {
     return bw.getUnitCommandSimulation().canSetRallyPoint(getID(), target);
-  }
-
-  public boolean canSetRallyPoint(final PositionOrUnit target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
   }
 
   public boolean canSetRallyPoint(
@@ -2301,14 +2198,6 @@ public class Unit implements Comparable<Unit> {
     return bw.getUnitCommandSimulation()
         .canSetRallyPoint(
             getID(), target, checkCanTargetUnit, checkCanIssueCommandType, checkCommandibility);
-  }
-
-  public boolean canSetRallyPoint(
-      final PositionOrUnit target,
-      final boolean checkCanTargetUnit,
-      final boolean checkCanIssueCommandType,
-      final boolean checkCommandibility) {
-    throw new UnsupportedOperationException("TODO"); // TODO
   }
 
   public boolean canSetRallyPosition() {
@@ -2767,13 +2656,6 @@ public class Unit implements Comparable<Unit> {
         .canRightClick(getID(), target, checkCanTargetUnit, checkCanIssueCommandType);
   }
 
-  public boolean canRightClick(
-      final PositionOrUnit target,
-      final boolean checkCanTargetUnit,
-      final boolean checkCanIssueCommandType) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
   public boolean canRightClick(final Position target, final boolean checkCanTargetUnit) {
     return bw.getUnitCommandSimulation().canRightClick(getID(), target, checkCanTargetUnit);
   }
@@ -2782,20 +2664,12 @@ public class Unit implements Comparable<Unit> {
     return bw.getUnitCommandSimulation().canRightClick(getID(), target, checkCanTargetUnit);
   }
 
-  public boolean canRightClick(final PositionOrUnit target, final boolean checkCanTargetUnit) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
   public boolean canRightClick(final Position target) {
     return bw.getUnitCommandSimulation().canRightClick(getID(), target);
   }
 
   public boolean canRightClick(final Unit target) {
     return bw.getUnitCommandSimulation().canRightClick(getID(), target);
-  }
-
-  public boolean canRightClick(final PositionOrUnit target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
   }
 
   public boolean canRightClick(
@@ -2816,14 +2690,6 @@ public class Unit implements Comparable<Unit> {
     return bw.getUnitCommandSimulation()
         .canRightClick(
             getID(), target, checkCanTargetUnit, checkCanIssueCommandType, checkCommandibility);
-  }
-
-  public boolean canRightClick(
-      final PositionOrUnit target,
-      final boolean checkCanTargetUnit,
-      final boolean checkCanIssueCommandType,
-      final boolean checkCommandibility) {
-    throw new UnsupportedOperationException("TODO"); // TODO
   }
 
   public boolean canRightClickGrouped(final boolean checkCommandibilityGrouped) {
@@ -2869,14 +2735,6 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean canRightClickGrouped(
-      final PositionOrUnit target,
-      final boolean checkCanTargetUnit,
-      final boolean checkCanIssueCommandType,
-      final boolean checkCommandibilityGrouped) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public boolean canRightClickGrouped(
       final Position target,
       final boolean checkCanTargetUnit,
       final boolean checkCanIssueCommandType) {
@@ -2890,13 +2748,6 @@ public class Unit implements Comparable<Unit> {
         .canRightClickGrouped(getID(), target, checkCanTargetUnit, checkCanIssueCommandType);
   }
 
-  public boolean canRightClickGrouped(
-      final PositionOrUnit target,
-      final boolean checkCanTargetUnit,
-      final boolean checkCanIssueCommandType) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
   public boolean canRightClickGrouped(final Position target, final boolean checkCanTargetUnit) {
     return bw.getUnitCommandSimulation().canRightClickGrouped(getID(), target, checkCanTargetUnit);
   }
@@ -2905,21 +2756,12 @@ public class Unit implements Comparable<Unit> {
     return bw.getUnitCommandSimulation().canRightClickGrouped(getID(), target, checkCanTargetUnit);
   }
 
-  public boolean canRightClickGrouped(
-      final PositionOrUnit target, final boolean checkCanTargetUnit) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
   public boolean canRightClickGrouped(final Position target) {
     return bw.getUnitCommandSimulation().canRightClickGrouped(getID(), target);
   }
 
   public boolean canRightClickGrouped(final Unit target) {
     return bw.getUnitCommandSimulation().canRightClickGrouped(getID(), target);
-  }
-
-  public boolean canRightClickGrouped(final PositionOrUnit target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
   }
 
   public boolean canRightClickGrouped(
@@ -2952,15 +2794,6 @@ public class Unit implements Comparable<Unit> {
             checkCanIssueCommandType,
             checkCommandibilityGrouped,
             checkCommandibility);
-  }
-
-  public boolean canRightClickGrouped(
-      final PositionOrUnit target,
-      final boolean checkCanTargetUnit,
-      final boolean checkCanIssueCommandType,
-      final boolean checkCommandibilityGrouped,
-      final boolean checkCommandibility) {
-    throw new UnsupportedOperationException("TODO"); // TODO
   }
 
   public boolean canRightClickPosition() {
@@ -3214,15 +3047,6 @@ public class Unit implements Comparable<Unit> {
 
   public boolean canUseTech(
       final TechType tech,
-      final PositionOrUnit target,
-      final boolean checkCanTargetUnit,
-      final boolean checkTargetsType,
-      final boolean checkCanIssueCommandType) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public boolean canUseTech(
-      final TechType tech,
       final Position target,
       final boolean checkCanTargetUnit,
       final boolean checkTargetsType) {
@@ -3240,14 +3064,6 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean canUseTech(
-      final TechType tech,
-      final PositionOrUnit target,
-      final boolean checkCanTargetUnit,
-      final boolean checkTargetsType) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public boolean canUseTech(
       final TechType tech, final Position target, final boolean checkCanTargetUnit) {
     return bw.getUnitCommandSimulation().canUseTech(getID(), tech, target, checkCanTargetUnit);
   }
@@ -3257,21 +3073,12 @@ public class Unit implements Comparable<Unit> {
     return bw.getUnitCommandSimulation().canUseTech(getID(), tech, target, checkCanTargetUnit);
   }
 
-  public boolean canUseTech(
-      final TechType tech, final PositionOrUnit target, final boolean checkCanTargetUnit) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
   public boolean canUseTech(final TechType tech, final Position target) {
     return bw.getUnitCommandSimulation().canUseTech(getID(), tech, target);
   }
 
   public boolean canUseTech(final TechType tech, final Unit target) {
     return bw.getUnitCommandSimulation().canUseTech(getID(), tech, target);
-  }
-
-  public boolean canUseTech(final TechType tech, final PositionOrUnit target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
   }
 
   public boolean canUseTech(final TechType tech) {
@@ -3312,16 +3119,6 @@ public class Unit implements Comparable<Unit> {
             checkTargetsType,
             checkCanIssueCommandType,
             checkCommandibility);
-  }
-
-  public boolean canUseTech(
-      final TechType tech,
-      final PositionOrUnit target,
-      final boolean checkCanTargetUnit,
-      final boolean checkTargetsType,
-      final boolean checkCanIssueCommandType,
-      final boolean checkCommandibility) {
-    throw new UnsupportedOperationException("TODO"); // TODO
   }
 
   public boolean canUseTechWithoutTarget(
