@@ -1566,8 +1566,10 @@ public class Unit implements Comparable<Unit> {
         UnitCommand.Unused.INTEGER);
   }
 
-  public boolean placeCOP(TilePosition target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  private native boolean placeCOP_native(int unitId, int x, int y);
+
+  public boolean placeCOP(final TilePosition target) {
+    return placeCOP_native(getID(), target.getX(), target.getY());
   }
 
   public boolean canIssueCommand(

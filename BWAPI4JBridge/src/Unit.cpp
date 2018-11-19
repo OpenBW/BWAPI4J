@@ -83,3 +83,8 @@ JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_Unit_train_1native(JNIEn
   const auto &unit = BWAPI::Broodwar->getUnit((int)unitId);
   return unit && unit->train();
 }
+
+JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_Unit_placeCOP_1native(JNIEnv *, jobject, jint unitId, jint x, jint y) {
+  const auto &unit = BWAPI::Broodwar->getUnit((int)unitId);
+  return unit && unit->placeCOP(BWAPI::TilePosition((int)x, (int)y));
+}
