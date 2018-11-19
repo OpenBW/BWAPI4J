@@ -1040,8 +1040,10 @@ public class Unit implements Comparable<Unit> {
         unitType.getID());
   }
 
+  private native boolean train_native(int unitId);
+
   public boolean train() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return train_native(getID());
   }
 
   public boolean train(final UnitType unitType) {

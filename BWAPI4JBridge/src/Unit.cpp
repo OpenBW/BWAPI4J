@@ -78,3 +78,8 @@ JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_Unit_isVisible_1native(J
 
   return unit && player && unit->isVisible(player);
 }
+
+JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_Unit_train_1native(JNIEnv *, jobject, jint unitId) {
+  const auto &unit = BWAPI::Broodwar->getUnit((int)unitId);
+  return unit && unit->train();
+}
