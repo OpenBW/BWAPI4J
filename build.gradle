@@ -138,7 +138,7 @@ project(":BWAPI4J") {
                 "org.openbw.bwapi4j.InteractionHandler",
                 "org.openbw.bwapi4j.MapDrawer",
                 "org.openbw.bwapi4j.DamageEvaluator",
-                "org.openbw.bwapi4j.UnitCommandSimulation",
+                "org.openbw.bwapi4j.unit.UnitCommandSimulation",
                 "org.openbw.bwapi4j.unit.Unit"
 
         dependsOn classes
