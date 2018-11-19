@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import mockdata.BWAPI_DummyData;
 import org.openbw.bwapi4j.type.UnitType;
+import org.openbw.bwapi4j.unit.Unit;
 
 public class BWMapMock implements BWMap {
   private final BWAPI_DummyData data;
@@ -135,17 +136,28 @@ public class BWMapMock implements BWMap {
   }
 
   @Override
-  public boolean canBuildHere(final TilePosition position, final UnitType type) {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
   public boolean hasCreep(TilePosition tilePosition) {
     throw new UnsupportedOperationException();
   }
 
   @Override
   public boolean hasPower(TilePosition tilePosition) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public boolean canBuildHere(TilePosition tilePosition, UnitType type) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public boolean canBuildHere(TilePosition tilePosition, UnitType type, Unit builder) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public boolean canBuildHere(
+      TilePosition tilePosition, UnitType type, Unit builder, boolean checkExplored) {
     throw new UnsupportedOperationException();
   }
 }

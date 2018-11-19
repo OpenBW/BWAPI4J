@@ -106,12 +106,10 @@ JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl__1hasPath(JNIEnv *, job
   return BWAPI::Broodwar->hasPath(BWAPI::Position(x1, y1), BWAPI::Position(x2, y2)) ? 1 : 0;
 }
 
-JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl__1canBuildHere__III(JNIEnv *, jobject, jint x, jint y, jint typeId) {
-  return BWAPI::Broodwar->canBuildHere(BWAPI::TilePosition(x, y), (BWAPI::UnitType)typeId) ? 1 : 0;
-}
-
-JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl__1canBuildHere__IIII(JNIEnv *, jobject, jint x, jint y, jint typeId, jint builderId) {
-  return BWAPI::Broodwar->canBuildHere(BWAPI::TilePosition(x, y), (BWAPI::UnitType)typeId, BWAPI::Broodwar->getUnit(builderId)) ? 1 : 0;
+JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMapImpl_canBuildHere_1native(JNIEnv *, jobject, jint x, jint y, jint unitTypeId, jint builderId,
+                                                                                  jboolean checkExplored) {
+  const auto &builder = BWAPI::Broodwar->getUnit(builderId);
+  return BWAPI::Broodwar->canBuildHere(BWAPI::TilePosition((int)x, (int)y), BWAPI::UnitType((int)unitTypeId), builder, (bool)checkExplored);
 }
 
 JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BWMapImpl_getCreepData_1native(JNIEnv *env, jobject) {

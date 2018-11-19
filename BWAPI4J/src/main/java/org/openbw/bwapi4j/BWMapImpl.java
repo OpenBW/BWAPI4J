@@ -195,16 +195,26 @@ class BWMapImpl implements BWMap {
     return _hasPath(source.getX(), source.getY(), destination.getX(), destination.getY()) == 1;
   }
 
-  private native int _canBuildHere(int x, int y, int typeId);
+  private native boolean canBuildHere_native(
+      int x, int y, int unitTypeId, int builderId, boolean checkExplored);
 
-  private native int _canBuildHere(int x, int y, int typeId, int builderId);
-
-  public boolean canBuildHere(TilePosition position, UnitType type) {
-    return _canBuildHere(position.getX(), position.getY(), type.getID()) == 1;
+  public boolean canBuildHere(final TilePosition tilePosition, final UnitType unitType) {
+    return canBuildHere_native(
+        tilePosition.getX(), tilePosition.getY(), unitType.getID(), -1, false);
   }
 
-  public boolean canBuildHere(TilePosition position, UnitType type, Unit builder) {
-    return _canBuildHere(position.getX(), position.getY(), type.getID(), builder.getID()) == 1;
+  public boolean canBuildHere(
+      final TilePosition tilePosition, final UnitType unitType, final Unit builder) {
+    return canBuildHere(tilePosition, unitType, builder, false);
+  }
+
+  public boolean canBuildHere(
+      final TilePosition tilePosition,
+      final UnitType unitType,
+      final Unit builder,
+      final boolean checkExplored) {
+    return canBuildHere_native(
+        tilePosition.getX(), tilePosition.getY(), unitType.getID(), builder.getID(), checkExplored);
   }
 
   private native int[] getCreepData_native();

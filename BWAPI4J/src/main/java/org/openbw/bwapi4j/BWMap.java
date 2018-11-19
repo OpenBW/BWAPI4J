@@ -22,6 +22,7 @@ package org.openbw.bwapi4j;
 
 import java.util.List;
 import org.openbw.bwapi4j.type.UnitType;
+import org.openbw.bwapi4j.unit.Unit;
 
 public interface BWMap {
   public String mapHash();
@@ -72,9 +73,14 @@ public interface BWMap {
 
   public boolean hasPath(Position source, Position destination);
 
-  public boolean canBuildHere(TilePosition position, UnitType type);
-
   public boolean hasCreep(TilePosition tilePosition);
 
   public boolean hasPower(TilePosition tilePosition);
+
+  public boolean canBuildHere(TilePosition tilePosition, UnitType unitType);
+
+  public boolean canBuildHere(TilePosition tilePosition, UnitType unitType, Unit builder);
+
+  public boolean canBuildHere(
+      TilePosition tilePosition, UnitType unitType, Unit builder, boolean checkExplored);
 }

@@ -904,17 +904,21 @@ public class BW {
     throw new UnsupportedOperationException("TODO"); // TODO
   }
 
-  public boolean canBuildHere(TilePosition position, UnitType type, Unit builder) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public boolean canBuildHere(TilePosition position, UnitType type) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean canBuildHere(final TilePosition tilePosition, final UnitType type) {
+    return getBWMap().canBuildHere(tilePosition, type);
   }
 
   public boolean canBuildHere(
-      TilePosition position, UnitType type, Unit builder, boolean checkExplored) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+      final TilePosition tilePosition, final UnitType type, final Unit builder) {
+    return getBWMap().canBuildHere(tilePosition, type, builder, false);
+  }
+
+  public boolean canBuildHere(
+      final TilePosition tilePosition,
+      final UnitType type,
+      final Unit builder,
+      final boolean checkExplored) {
+    return getBWMap().canBuildHere(tilePosition, type, builder, checkExplored);
   }
 
   public boolean canMake(UnitType type) {
