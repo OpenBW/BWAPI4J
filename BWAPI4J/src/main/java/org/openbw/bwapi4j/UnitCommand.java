@@ -57,6 +57,40 @@ public class UnitCommand {
     this.unitCommandType = type;
   }
 
+  private void setTargetUnit(final Unit targetUnit) {
+    target = targetUnit;
+    x = Unused.INTEGER;
+    y = Unused.INTEGER;
+  }
+
+  private void setTargetPosition(final Position targetPosition) {
+    target = Unused.UNIT;
+
+    if (targetPosition == null) {
+      x = Unused.INTEGER;
+      y = Unused.INTEGER;
+    } else {
+      x = targetPosition.getX();
+      y = targetPosition.getY();
+    }
+  }
+
+  private void setShiftQueueCommand(final boolean shiftQueueCommand) {
+    extra = shiftQueueCommand ? 1 : 0;
+  }
+
+  private void setExtra(final UnitType type) {
+    extra = type.getID();
+  }
+
+  private void setExtra(final TechType type) {
+    extra = type.getID();
+  }
+
+  private void setExtra(final UpgradeType type) {
+    extra = type.getID();
+  }
+
   public static UnitCommand attack(Unit unit, Unit target) {
     return attack(unit, target, false);
   }
