@@ -1,5 +1,6 @@
 package org.openbw.bwapi4j;
 
+import java.util.Objects;
 import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;
@@ -75,6 +76,18 @@ public class UnitCommand {
     }
   }
 
+  private void setTargetTilePosition(final TilePosition targetPosition) {
+    target = Unused.UNIT;
+
+    if (targetPosition == null) {
+      x = Unused.INTEGER;
+      y = Unused.INTEGER;
+    } else {
+      x = targetPosition.getX();
+      y = targetPosition.getY();
+    }
+  }
+
   private void setShiftQueueCommand(final boolean shiftQueueCommand) {
     extra = shiftQueueCommand ? 1 : 0;
   }
@@ -96,39 +109,90 @@ public class UnitCommand {
   }
 
   public static UnitCommand attack(Unit unit, Unit target, boolean shiftQueueCommand) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Attack_Unit;
+    unitCommand.setTargetUnit(target);
+    unitCommand.setShiftQueueCommand(shiftQueueCommand);
+    return unitCommand;
   }
 
-  public static UnitCommand build(Unit unit, TilePosition target, UnitType type) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public static UnitCommand attack(Unit unit, Position target) {
+    return attack(unit, target, false);
   }
 
-  public static UnitCommand buildAddon(Unit unit, UnitType type) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public static UnitCommand attack(Unit unit, Position target, boolean shiftQueueCommand) {
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Attack_Move;
+    unitCommand.setTargetPosition(target);
+    unitCommand.setShiftQueueCommand(shiftQueueCommand);
+    return unitCommand;
   }
 
-  public static UnitCommand train(Unit unit, UnitType type) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public static UnitCommand build(Unit unit, TilePosition target, UnitType unitType) {
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Build;
+    unitCommand.setTargetTilePosition(target);
+    unitCommand.setExtra(unitType);
+    return unitCommand;
   }
 
-  public static UnitCommand morph(Unit unit, UnitType type) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public static UnitCommand buildAddon(Unit unit, UnitType unitType) {
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Build_Addon;
+    unitCommand.setExtra(unitType);
+    return unitCommand;
+  }
+
+  public static UnitCommand train(Unit unit, UnitType unitType) {
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Train;
+    unitCommand.setExtra(unitType);
+    return unitCommand;
+  }
+
+  public static UnitCommand morph(Unit unit, UnitType unitType) {
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Morph;
+    unitCommand.setExtra(unitType);
+    return unitCommand;
   }
 
   public static UnitCommand research(Unit unit, TechType tech) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Research;
+    unitCommand.setExtra(tech);
+    return unitCommand;
   }
 
   public static UnitCommand upgrade(Unit unit, UpgradeType upgrade) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Upgrade;
+    unitCommand.setExtra(upgrade);
+    return unitCommand;
   }
 
   public static UnitCommand setRallyPoint(Unit unit, Position target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Set_Rally_Position;
+    unitCommand.setTargetPosition(target);
+    return unitCommand;
   }
 
   public static UnitCommand setRallyPoint(Unit unit, Unit target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Set_Rally_Unit;
+    unitCommand.setTargetUnit(target);
+    return unitCommand;
   }
 
   public static UnitCommand move(Unit unit, Position target) {
@@ -136,7 +200,12 @@ public class UnitCommand {
   }
 
   public static UnitCommand move(Unit unit, Position target, boolean shiftQueueCommand) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Move;
+    unitCommand.setTargetPosition(target);
+    unitCommand.setShiftQueueCommand(shiftQueueCommand);
+    return unitCommand;
   }
 
   public static UnitCommand patrol(Unit unit, Position target) {
@@ -144,7 +213,12 @@ public class UnitCommand {
   }
 
   public static UnitCommand patrol(Unit unit, Position target, boolean shiftQueueCommand) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Patrol;
+    unitCommand.setTargetPosition(target);
+    unitCommand.setShiftQueueCommand(shiftQueueCommand);
+    return unitCommand;
   }
 
   public static UnitCommand holdPosition(Unit unit) {
@@ -152,7 +226,11 @@ public class UnitCommand {
   }
 
   public static UnitCommand holdPosition(Unit unit, boolean shiftQueueCommand) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Hold_Position;
+    unitCommand.setShiftQueueCommand(shiftQueueCommand);
+    return unitCommand;
   }
 
   public static UnitCommand stop(Unit unit) {
@@ -160,7 +238,11 @@ public class UnitCommand {
   }
 
   public static UnitCommand stop(Unit unit, boolean shiftQueueCommand) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Stop;
+    unitCommand.setShiftQueueCommand(shiftQueueCommand);
+    return unitCommand;
   }
 
   public static UnitCommand follow(Unit unit, Unit target) {
@@ -168,7 +250,12 @@ public class UnitCommand {
   }
 
   public static UnitCommand follow(Unit unit, Unit target, boolean shiftQueueCommand) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Follow;
+    unitCommand.setTargetUnit(target);
+    unitCommand.setShiftQueueCommand(shiftQueueCommand);
+    return unitCommand;
   }
 
   public static UnitCommand gather(Unit unit, Unit target) {
@@ -176,7 +263,12 @@ public class UnitCommand {
   }
 
   public static UnitCommand gather(Unit unit, Unit target, boolean shiftQueueCommand) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Gather;
+    unitCommand.setTargetUnit(target);
+    unitCommand.setShiftQueueCommand(shiftQueueCommand);
+    return unitCommand;
   }
 
   public static UnitCommand returnCargo(Unit unit) {
@@ -184,7 +276,11 @@ public class UnitCommand {
   }
 
   public static UnitCommand returnCargo(Unit unit, boolean shiftQueueCommand) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Return_Cargo;
+    unitCommand.setShiftQueueCommand(shiftQueueCommand);
+    return unitCommand;
   }
 
   public static UnitCommand repair(Unit unit, Unit target) {
@@ -192,39 +288,69 @@ public class UnitCommand {
   }
 
   public static UnitCommand repair(Unit unit, Unit target, boolean shiftQueueCommand) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Repair;
+    unitCommand.setTargetUnit(target);
+    unitCommand.setShiftQueueCommand(shiftQueueCommand);
+    return unitCommand;
   }
 
   public static UnitCommand burrow(Unit unit) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Burrow;
+    return unitCommand;
   }
 
   public static UnitCommand unburrow(Unit unit) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Unburrow;
+    return unitCommand;
   }
 
   public static UnitCommand cloak(Unit unit) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Cloak;
+    return unitCommand;
   }
 
   public static UnitCommand decloak(Unit unit) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Decloak;
+    return unitCommand;
   }
 
   public static UnitCommand siege(Unit unit) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Siege;
+    return unitCommand;
   }
 
   public static UnitCommand unsiege(Unit unit) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Unsiege;
+    return unitCommand;
   }
 
   public static UnitCommand lift(Unit unit) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Lift;
+    return unitCommand;
   }
 
   public static UnitCommand land(Unit unit, TilePosition target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Land;
+    unitCommand.setTargetTilePosition(target);
+    return unitCommand;
   }
 
   public static UnitCommand load(Unit unit, Unit target) {
@@ -232,11 +358,20 @@ public class UnitCommand {
   }
 
   public static UnitCommand load(Unit unit, Unit target, boolean shiftQueueCommand) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Load;
+    unitCommand.setTargetUnit(target);
+    unitCommand.setShiftQueueCommand(shiftQueueCommand);
+    return unitCommand;
   }
 
   public static UnitCommand unload(Unit unit, Unit target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Unload;
+    unitCommand.setTargetUnit(target);
+    return unitCommand;
   }
 
   public static UnitCommand unloadAll(Unit unit) {
@@ -244,7 +379,11 @@ public class UnitCommand {
   }
 
   public static UnitCommand unloadAll(Unit unit, boolean shiftQueueCommand) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Unload_All;
+    unitCommand.setShiftQueueCommand(shiftQueueCommand);
+    return unitCommand;
   }
 
   public static UnitCommand unloadAll(Unit unit, Position target) {
@@ -252,7 +391,12 @@ public class UnitCommand {
   }
 
   public static UnitCommand unloadAll(Unit unit, Position target, boolean shiftQueueCommand) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Unload_All_Position;
+    unitCommand.setTargetPosition(target);
+    unitCommand.setShiftQueueCommand(shiftQueueCommand);
+    return unitCommand;
   }
 
   public static UnitCommand rightClick(Unit unit, Position target) {
@@ -260,7 +404,12 @@ public class UnitCommand {
   }
 
   public static UnitCommand rightClick(Unit unit, Position target, boolean shiftQueueCommand) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Right_Click_Position;
+    unitCommand.setTargetPosition(target);
+    unitCommand.setShiftQueueCommand(shiftQueueCommand);
+    return unitCommand;
   }
 
   public static UnitCommand rightClick(Unit unit, Unit target) {
@@ -268,19 +417,33 @@ public class UnitCommand {
   }
 
   public static UnitCommand rightClick(Unit unit, Unit target, boolean shiftQueueCommand) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Right_Click_Unit;
+    unitCommand.setTargetUnit(target);
+    unitCommand.setShiftQueueCommand(shiftQueueCommand);
+    return unitCommand;
   }
 
   public static UnitCommand haltConstruction(Unit unit) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Halt_Construction;
+    return unitCommand;
   }
 
   public static UnitCommand cancelConstruction(Unit unit) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Cancel_Construction;
+    return unitCommand;
   }
 
   public static UnitCommand cancelAddon(Unit unit) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Cancel_Addon;
+    return unitCommand;
   }
 
   public static UnitCommand cancelTrain(Unit unit) {
@@ -288,35 +451,66 @@ public class UnitCommand {
   }
 
   public static UnitCommand cancelTrain(Unit unit, int slot) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Cancel_Train_Slot;
+    unitCommand.extra = slot;
+    return unitCommand;
   }
 
   public static UnitCommand cancelMorph(Unit unit) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Cancel_Morph;
+    return unitCommand;
   }
 
   public static UnitCommand cancelResearch(Unit unit) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Cancel_Research;
+    return unitCommand;
   }
 
   public static UnitCommand cancelUpgrade(Unit unit) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Cancel_Upgrade;
+    return unitCommand;
   }
 
   public static UnitCommand useTech(Unit unit, TechType tech) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Use_Tech;
+    unitCommand.setExtra(tech);
+    return unitCommand;
   }
 
   public static UnitCommand useTech(Unit unit, TechType tech, Position target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Use_Tech_Position;
+    unitCommand.setTargetPosition(target);
+    unitCommand.setExtra(tech);
+    return unitCommand;
   }
 
   public static UnitCommand useTech(Unit unit, TechType tech, Unit target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Use_Tech_Unit;
+    unitCommand.setTargetUnit(target);
+    unitCommand.setExtra(tech);
+    return unitCommand;
   }
 
   public static UnitCommand placeCOP(Unit unit, TilePosition target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final UnitCommand unitCommand = new UnitCommand();
+    unitCommand.unit = unit;
+    unitCommand.unitCommandType = UnitCommandType.Place_COP;
+    unitCommand.setTargetTilePosition(target);
+    return unitCommand;
   }
 
   public final UnitCommandType getType() {
@@ -395,8 +589,23 @@ public class UnitCommand {
     return hasValue && extra == 1;
   }
 
-  // To be implemented, when there will be an abstract point class
-  // void assignTarget(Point<T, S> target)
+  @Override
+  public boolean equals(final Object object) {
+    if (object instanceof UnitCommand) {
+      final UnitCommand that = (UnitCommand) object;
+      return this.unit.equals(that.unit)
+          && this.unitCommandType == that.unitCommandType
+          && this.target.equals(that.target)
+          && this.x == that.x
+          && this.y == that.y
+          && this.extra == that.extra;
+    } else {
+      return false;
+    }
+  }
 
-  // TODO: equals and hashCode overrides
+  @Override
+  public int hashCode() {
+    return Objects.hash(unit, unitCommandType, target, x, y, extra);
+  }
 }
