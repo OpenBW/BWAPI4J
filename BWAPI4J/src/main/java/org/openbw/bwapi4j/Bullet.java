@@ -107,8 +107,10 @@ public class Bullet {
     return visible;
   }
 
-  public boolean isVisible(Player player) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  private native boolean isVisible(int bulletId, int playerId);
+
+  public boolean isVisible(final Player player) {
+    return isVisible(getID(), player.getID());
   }
 
   @Override
