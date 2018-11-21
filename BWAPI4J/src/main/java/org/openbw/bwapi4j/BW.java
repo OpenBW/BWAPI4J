@@ -1175,27 +1175,36 @@ public class BW {
     throw new UnsupportedOperationException("TODO"); // TODO
   }
 
-  public int getDamageFrom(UnitType fromType, UnitType toType, Player fromPlayer) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public int getDamageFrom(
+      final UnitType fromType, final UnitType toType, final Player fromPlayer) {
+    return getDamageEvaluator().getDamageFrom(fromType, toType, fromPlayer);
   }
 
-  public int getDamageFrom(UnitType fromType, UnitType toType) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public int getDamageFrom(final UnitType fromType, final UnitType toType) {
+    return getDamageEvaluator().getDamageFrom(fromType, toType);
   }
 
-  public int getDamageFrom(UnitType fromType, UnitType toType, Player fromPlayer, Player toPlayer) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public int getDamageFrom(
+      final UnitType fromType,
+      final UnitType toType,
+      final Player fromPlayer,
+      final Player toPlayer) {
+    return getDamageEvaluator().getDamageFrom(fromType, toType, fromPlayer, toPlayer);
   }
 
-  public int getDamageTo(UnitType toType, UnitType fromType, Player toPlayer) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public int getDamageTo(final UnitType toType, final UnitType fromType, final Player toPlayer) {
+    return getDamageEvaluator().getDamageTo(toType, fromType, toPlayer);
   }
 
-  public int getDamageTo(UnitType toType, UnitType fromType) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public int getDamageTo(final UnitType toType, final UnitType fromType) {
+    return getDamageEvaluator().getDamageTo(toType, fromType);
   }
 
-  public int getDamageTo(UnitType toType, UnitType fromType, Player toPlayer, Player fromPlayer) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public int getDamageTo(
+      final UnitType toType,
+      final UnitType fromType,
+      final Player toPlayer,
+      final Player fromPlayer) {
+    return getDamageEvaluator().getDamageTo(toType, fromType, toPlayer, fromPlayer);
   }
 }
