@@ -874,7 +874,7 @@ public class BW {
   }
 
   public boolean hasPower(int tileX, int tileY) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return getBWMap().hasPower(tileX, tileY);
   }
 
   public boolean hasPower(int tileX, int tileY, UnitType unitType) {

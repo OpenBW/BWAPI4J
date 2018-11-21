@@ -269,6 +269,7 @@ class BWMapImpl implements BWMap {
     return powerData;
   }
 
+  @Override
   public boolean hasPower(final int tileX, final int tileY) {
     return this.getPylonPowerDataCache.get()[tileX][tileY];
   }
