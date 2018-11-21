@@ -55,7 +55,7 @@ public class TestListener implements BWEventListener {
                   + bw.getBWMap().mapHeight());
 
       // Enable the UserInput flag, which allows us to manually control units and type messages.
-      bw.getInteractionHandler().enableUserInput();
+      bw.getInteractionHandler().enableFlag(Flag.UserInput);
 
       // Uncomment the following line and the bot will know about everything through the fog of war
       // (cheat).

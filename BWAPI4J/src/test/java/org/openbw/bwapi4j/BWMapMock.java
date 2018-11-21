@@ -136,7 +136,17 @@ public class BWMapMock implements BWMap {
   }
 
   @Override
+  public boolean hasCreep(int tileX, int tileY) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
   public boolean hasCreep(TilePosition tilePosition) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public boolean hasPower(int tileX, int tileY) {
     throw new UnsupportedOperationException();
   }
 

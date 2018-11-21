@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.BWEventListener;
+import org.openbw.bwapi4j.Flag;
 import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
@@ -64,7 +65,7 @@ public class TestListenerBwem implements BWEventListener {
                   + bw.getBWMap().mapHeight());
 
       // Enable the UserInput flag, which allows us to manually control units and type messages.
-      bw.getInteractionHandler().enableUserInput();
+      bw.getInteractionHandler().enableFlag(Flag.UserInput);
 
       // Uncomment the following line and the bot will know about everything through the fog of war
       // (cheat).
