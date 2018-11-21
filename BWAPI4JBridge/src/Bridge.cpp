@@ -229,10 +229,12 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getGameData(JNIEnv *env, 
 
   Bridge::Globals::dataBuffer.addFields(BWAPI::Broodwar->getMousePosition());
   Bridge::Globals::dataBuffer.add(BWAPI::Broodwar->getFrameCount());
+  Bridge::Globals::dataBuffer.add(BWAPI::Broodwar->getReplayFrameCount());
   Bridge::Globals::dataBuffer.add(BWAPI::Broodwar->getFPS());
   Bridge::Globals::dataBuffer.add(BWAPI::Broodwar->getAverageFPS());
   Bridge::Globals::dataBuffer.add(BWAPI::Broodwar->isLatComEnabled());
   Bridge::Globals::dataBuffer.add(BWAPI::Broodwar->getRemainingLatencyFrames());
+  Bridge::Globals::dataBuffer.add(BWAPI::Broodwar->getRemainingLatencyTime());
   Bridge::Globals::dataBuffer.add(BWAPI::Broodwar->getLatencyFrames());
   Bridge::Globals::dataBuffer.add(BWAPI::Broodwar->getLatency());
   Bridge::Globals::dataBuffer.addId(BWAPI::Broodwar->getGameType());
@@ -242,6 +244,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getGameData(JNIEnv *env, 
   Bridge::Globals::dataBuffer.add(BWAPI::Broodwar->getAPM(true));
   Bridge::Globals::dataBuffer.addId(BWAPI::Broodwar->self());
   Bridge::Globals::dataBuffer.addId(BWAPI::Broodwar->enemy());
+  Bridge::Globals::dataBuffer.addId(BWAPI::Broodwar->neutral());
 
   jintArray result = env->NewIntArray(Bridge::Globals::dataBuffer.getIndex());
   env->SetIntArrayRegion(result, 0, Bridge::Globals::dataBuffer.getIndex(), Bridge::Globals::dataBuffer.intBuf);

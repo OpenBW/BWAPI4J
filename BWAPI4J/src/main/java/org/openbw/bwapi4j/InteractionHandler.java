@@ -44,10 +44,12 @@ public final class InteractionHandler {
     MOUSE_POSITION_X,
     MOUSE_POSITION_Y,
     FRAME_COUNT,
+    REPLAY_FRAME_COUNT,
     FPS,
     AVERAGE_FPS,
     LATCOM_ENABLED,
     REMAINING_LATENCY_FRAMES,
+    REMAINING_LATENCY_TIME,
     LATENCY_FRAMES,
     LATENCY,
     GAME_TYPE_ID,
@@ -56,7 +58,8 @@ public final class InteractionHandler {
     APM,
     APM_INCLUDING_SELECTS,
     SELF_ID,
-    ENEMY_ID
+    ENEMY_ID,
+    NEUTRAL_ID,
   }
 
   private final BW bw;
@@ -68,14 +71,17 @@ public final class InteractionHandler {
   private int mousePositionX;
   private int mousePositionY;
   private int frameCount;
+  private int replayFrameCount;
   private int fps;
   private double averageFPS;
   private boolean latComEnabled;
   private int remainingLatencyFrames;
+  private int remainingLatencyTime;
   private int latencyFrames;
   private int latency;
   private int selfId;
   private int enemyId;
+  private int neutralId;
   private int gameTypeId;
   private boolean isReplay;
   private boolean isPaused;
@@ -106,14 +112,17 @@ public final class InteractionHandler {
     this.mousePositionX = data[CacheIndex.MOUSE_POSITION_X.ordinal()];
     this.mousePositionY = data[CacheIndex.MOUSE_POSITION_Y.ordinal()];
     this.frameCount = data[CacheIndex.FRAME_COUNT.ordinal()];
+    this.replayFrameCount = data[CacheIndex.REPLAY_FRAME_COUNT.ordinal()];
     this.fps = data[CacheIndex.FPS.ordinal()];
     this.averageFPS = BridgeUtils.parsePreservedDouble(data[CacheIndex.AVERAGE_FPS.ordinal()]);
     this.latComEnabled = data[CacheIndex.LATCOM_ENABLED.ordinal()] == 1;
     this.remainingLatencyFrames = data[CacheIndex.REMAINING_LATENCY_FRAMES.ordinal()];
+    this.remainingLatencyTime = data[CacheIndex.REMAINING_LATENCY_TIME.ordinal()];
     this.latencyFrames = data[CacheIndex.LATENCY_FRAMES.ordinal()];
     this.latency = data[CacheIndex.LATENCY.ordinal()];
     this.selfId = data[CacheIndex.SELF_ID.ordinal()];
     this.enemyId = data[CacheIndex.ENEMY_ID.ordinal()];
+    this.neutralId = data[CacheIndex.NEUTRAL_ID.ordinal()];
     this.gameTypeId = data[CacheIndex.GAME_TYPE_ID.ordinal()];
     this.isReplay = data[CacheIndex.IS_REPLAY.ordinal()] == 1;
     this.isPaused = data[CacheIndex.IS_PAUSED.ordinal()] == 1;
@@ -178,6 +187,10 @@ public final class InteractionHandler {
     return parsePlayers(data);
   }
 
+  public Player neutral() {
+    return this.bw.getPlayer(this.neutralId);
+  }
+
   private List<Player> parsePlayers(final int[] data) {
     final List<Player> players = new ArrayList<>();
 
@@ -221,6 +234,10 @@ public final class InteractionHandler {
     return this.frameCount;
   }
 
+  public int getReplayFrameCount() {
+    return this.replayFrameCount;
+  }
+
   public int getFPS() {
     return this.fps;
   }
@@ -235,6 +252,10 @@ public final class InteractionHandler {
 
   public int getRemainingLatencyFrames() {
     return this.remainingLatencyFrames;
+  }
+
+  public int getRemainingLatencyTime() {
+    return this.remainingLatencyTime;
   }
 
   public int getLatencyFrames() {
@@ -329,5 +350,15 @@ public final class InteractionHandler {
 
   public List<Position> getNukeDots() {
     return this.getNukeDotsCache.get();
+  }
+
+  private native void pingMiniMap_native(int x, int y);
+
+  public void pingMiniMap(final int x, final int y) {
+    pingMiniMap_native(x, y);
+  }
+
+  public void pingMiniMap(final Position position) {
+    pingMiniMap_native(position.getX(), position.getY());
   }
 }

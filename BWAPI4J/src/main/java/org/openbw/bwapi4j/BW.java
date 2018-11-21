@@ -224,7 +224,7 @@ public class BW {
 
   private void updateGame() {
     int[] data = this.getGameData();
-    this.interactionHandler.update(data);
+    getInteractionHandler().update(data);
   }
 
   private void updateAllBullets() {
@@ -411,7 +411,7 @@ public class BW {
                     .collect(Collectors.toList()),
             this.interactionHandler);
 
-    this.interactionHandler.resetCache();
+    getInteractionHandler().resetCache();
 
     this.bwMap.resetCache();
   }
@@ -633,7 +633,7 @@ public class BW {
   }
 
   public List<Unit> getNeutralUnits() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return getUnits(neutral());
   }
 
   public List<Unit> getStaticMinerals() {
@@ -653,7 +653,7 @@ public class BW {
   }
 
   public List<Position> getNukeDots() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return getInteractionHandler().getNukeDots();
   }
 
   public Force getForce(int forceID) {
@@ -677,31 +677,31 @@ public class BW {
   }
 
   public GameType getGameType() {
-    return interactionHandler.getGameType();
+    return getInteractionHandler().getGameType();
   }
 
   public int getLatency() {
-    return interactionHandler.getLatency();
+    return getInteractionHandler().getLatency();
   }
 
   public int getFrameCount() {
-    return interactionHandler.getFrameCount();
+    return getInteractionHandler().getFrameCount();
   }
 
   public int getReplayFrameCount() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return getInteractionHandler().getReplayFrameCount();
   }
 
   public int getFPS() {
-    return interactionHandler.getFPS();
+    return getInteractionHandler().getFPS();
   }
 
   public double getAverageFPS() {
-    return interactionHandler.getAverageFPS();
+    return getInteractionHandler().getAverageFPS();
   }
 
   public Position getMousePosition() {
-    return interactionHandler.getMousePosition();
+    return getInteractionHandler().getMousePosition();
   }
 
   public boolean getMouseState(MouseButton button) {
@@ -713,23 +713,23 @@ public class BW {
   }
 
   public Position getScreenPosition() {
-    return interactionHandler.getScreenPosition();
+    return getInteractionHandler().getScreenPosition();
   }
 
   public void setScreenPosition(int x, int y) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    getInteractionHandler().setScreenPosition(new Position(x, y));
   }
 
   public void setScreenPosition(Position p) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    getInteractionHandler().setScreenPosition(p);
   }
 
   public void pingMinimap(int x, int y) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    getInteractionHandler().pingMiniMap(x, y);
   }
 
   public void pingMinimap(Position p) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    getInteractionHandler().pingMiniMap(p.getX(), p.getY());
   }
 
   public boolean isFlagEnabled(int flag) {
@@ -958,11 +958,11 @@ public class BW {
   }
 
   public void printf(String cstr_format) {
-    interactionHandler.printf(cstr_format);
+    getInteractionHandler().printf(cstr_format);
   }
 
   public void sendText(String cstr_format) {
-    interactionHandler.sendText(cstr_format);
+    getInteractionHandler().sendText(cstr_format);
   }
 
   public void sendTextEx(boolean toAllies, String cstr_format) {
@@ -982,15 +982,15 @@ public class BW {
   }
 
   public boolean isPaused() {
-    return interactionHandler.isPaused();
+    return getInteractionHandler().isPaused();
   }
 
   public boolean isReplay() {
-    return interactionHandler.isReplay();
+    return getInteractionHandler().isReplay();
   }
 
   public void pauseGame() {
-    interactionHandler.pauseGame();
+    getInteractionHandler().pauseGame();
   }
 
   public void resumeGame() {
@@ -998,7 +998,7 @@ public class BW {
   }
 
   public void leaveGame() {
-    interactionHandler.leaveGame();
+    getInteractionHandler().leaveGame();
   }
 
   public void restartGame() {
@@ -1006,7 +1006,7 @@ public class BW {
   }
 
   public void setLocalSpeed(int speed) {
-    interactionHandler.setLocalSpeed(speed);
+    getInteractionHandler().setLocalSpeed(speed);
   }
 
   public boolean issueCommand(List<Unit> units, UnitCommand command) {
@@ -1018,23 +1018,23 @@ public class BW {
   }
 
   public Player self() {
-    return interactionHandler.self();
+    return getInteractionHandler().self();
   }
 
   public Player enemy() {
-    return interactionHandler.enemy();
+    return getInteractionHandler().enemy();
   }
 
   public Player neutral() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return getInteractionHandler().neutral();
   }
 
   public List<Player> allies() {
-    return interactionHandler.allies();
+    return getInteractionHandler().allies();
   }
 
   public List<Player> enemies() {
-    return interactionHandler.enemies();
+    return getInteractionHandler().enemies();
   }
 
   public List<Player> observers() {
@@ -1042,7 +1042,7 @@ public class BW {
   }
 
   public int getLatencyFrames() {
-    return interactionHandler.getLatencyFrames();
+    return getInteractionHandler().getLatencyFrames();
   }
 
   public int getLatencyTime() {
@@ -1050,11 +1050,11 @@ public class BW {
   }
 
   public int getRemainingLatencyFrames() {
-    return interactionHandler.getRemainingLatencyFrames();
+    return getInteractionHandler().getRemainingLatencyFrames();
   }
 
   public int getRemainingLatencyTime() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return getInteractionHandler().getRemainingLatencyTime();
   }
 
   public int getRevision() {
@@ -1066,11 +1066,11 @@ public class BW {
   }
 
   public boolean isLatComEnabled() {
-    return interactionHandler.isLatComEnabled();
+    return getInteractionHandler().isLatComEnabled();
   }
 
   public void setLatCom(boolean isEnabled) {
-    interactionHandler.enableLatCom(isEnabled);
+    getInteractionHandler().enableLatCom(isEnabled);
   }
 
   public boolean isGUIEnabled() {
@@ -1078,7 +1078,7 @@ public class BW {
   }
 
   public void setGUI(boolean enabled) {
-    interactionHandler.setGUI(enabled);
+    getInteractionHandler().setGUI(enabled);
   }
 
   public int getInstanceNumber() {
@@ -1086,11 +1086,11 @@ public class BW {
   }
 
   public int getAPM() {
-    return interactionHandler.getAPM();
+    return getInteractionHandler().getAPM();
   }
 
   public int getAPM(boolean includeSelects) {
-    return interactionHandler.getAPM(includeSelects);
+    return getInteractionHandler().getAPM(includeSelects);
   }
 
   public boolean setMap(String cstr_mapFileName) {
@@ -1098,11 +1098,11 @@ public class BW {
   }
 
   public void setFrameSkip(int frameSkip) {
-    interactionHandler.setFrameSkip(frameSkip);
+    getInteractionHandler().setFrameSkip(frameSkip);
   }
 
   public boolean hasPath(Position source, Position destination) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return getBWMap().hasPath(source, destination);
   }
 
   public boolean setAlliance(Player player, boolean allied) {
