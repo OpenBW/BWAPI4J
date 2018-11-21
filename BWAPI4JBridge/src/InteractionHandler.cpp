@@ -24,9 +24,12 @@
 #include "Logger.h"
 #include "org_openbw_bwapi4j_InteractionHandler.h"
 
-JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_InteractionHandler_getKeyState(JNIEnv *, jobject, jint keyValue) {
-  jboolean result = BWAPI::Broodwar->getKeyState((BWAPI::Key)keyValue);
-  return result;
+JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_InteractionHandler_getKeyState_1native(JNIEnv *, jobject, jint keyValue) {
+  return BWAPI::Broodwar->getKeyState(BWAPI::Key(keyValue));
+}
+
+JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_InteractionHandler_getMouseState_1native(JNIEnv *, jobject, jint mouseButtonValue) {
+  return BWAPI::Broodwar->getMouseState(BWAPI::MouseButton(mouseButtonValue));
 }
 
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enableLatCom(JNIEnv *, jobject, jboolean enabled) {
@@ -51,11 +54,11 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_sendText(JNIEn
 
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_setLocalSpeed(JNIEnv *, jobject, jint speed) { BWAPI::Broodwar->setLocalSpeed(speed); }
 
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enableUserInput(JNIEnv *, jobject) { BWAPI::Broodwar->enableFlag(BWAPI::Flag::UserInput); }
-
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enableCompleteMapInformation(JNIEnv *, jobject) {
-  BWAPI::Broodwar->enableFlag(BWAPI::Flag::CompleteMapInformation);
+JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_InteractionHandler_isFlagEnabled_1native(JNIEnv *, jobject, jint flag) {
+  return BWAPI::Broodwar->isFlagEnabled((int)flag);
 }
+
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enableFlag_1native(JNIEnv *, jobject, jint flag) { BWAPI::Broodwar->enableFlag((int)flag); }
 
 // Move this into onStart initialziation.
 JNIEXPORT jlong JNICALL Java_org_openbw_bwapi4j_InteractionHandler_getRandomSeed(JNIEnv *, jobject) { return (jlong)BWAPI::Broodwar->getRandomSeed(); }

@@ -704,12 +704,12 @@ public class BW {
     return getInteractionHandler().getMousePosition();
   }
 
-  public boolean getMouseState(MouseButton button) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean getMouseState(final MouseButton button) {
+    return getInteractionHandler().getMouseState(button);
   }
 
-  public boolean getKeyState(Key key) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean getKeyState(final Key key) {
+    return getInteractionHandler().getKeyState(key);
   }
 
   public Position getScreenPosition() {
@@ -732,12 +732,12 @@ public class BW {
     getInteractionHandler().pingMiniMap(p.getX(), p.getY());
   }
 
-  public boolean isFlagEnabled(int flag) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean isFlagEnabled(final int flag) {
+    return getInteractionHandler().isFlagEnabled(flag);
   }
 
-  public void enableFlag(int flag) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public void enableFlag(final int flag) {
+    getInteractionHandler().enableFlag(flag);
   }
 
   public List<Unit> getUnitsOnTile(int tileX, int tileY) {

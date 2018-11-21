@@ -250,13 +250,13 @@ public enum Key {
   K_PA1(253),
   K_OEM_CLEAR(254);
 
-  private int value;
+  private final int value;
+
+  Key(final int value) {
+    this.value = value;
+  }
 
   public int getValue() {
     return value;
-  }
-
-  Key(int value) {
-    this.value = value;
   }
 }

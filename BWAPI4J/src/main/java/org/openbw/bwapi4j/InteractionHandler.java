@@ -250,6 +250,22 @@ public final class InteractionHandler {
     return this.latComEnabled;
   }
 
+  private native boolean isFlagEnabled_native(int flag);
+
+  public boolean isFlagEnabled(final int flag) {
+    return isFlagEnabled_native(flag);
+  }
+
+  private native void enableFlag_native(int flag);
+
+  public void enableFlag(final int flag) {
+    enableFlag_native(flag);
+  }
+
+  public void enableFlag(final Flag flag) {
+    enableFlag_native(flag.getValue());
+  }
+
   public int getRemainingLatencyFrames() {
     return this.remainingLatencyFrames;
   }
@@ -290,11 +306,17 @@ public final class InteractionHandler {
     return bw.getAllUnits().stream().filter(Unit::isSelected).collect(Collectors.toList());
   }
 
-  public boolean isKeyPressed(final Key key) {
-    return getKeyState(key.getValue());
+  private native boolean getKeyState_native(int keyValue);
+
+  public boolean getKeyState(final Key key) {
+    return getKeyState_native(key.getValue());
   }
 
-  private native boolean getKeyState(int keyCode);
+  private native boolean getMouseState_native(int mouseButtonValue);
+
+  public boolean getMouseState(final MouseButton mouseButton) {
+    return getMouseState_native(mouseButton.ordinal());
+  }
 
   public native void leaveGame();
 
@@ -310,10 +332,6 @@ public final class InteractionHandler {
   public native void setLocalSpeed(int speed);
 
   public native void enableLatCom(boolean enabled);
-
-  public native void enableUserInput();
-
-  public native void enableCompleteMapInformation();
 
   public native long getRandomSeed();
 
