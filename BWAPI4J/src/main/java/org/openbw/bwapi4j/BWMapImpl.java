@@ -82,7 +82,7 @@ class BWMapImpl implements BWMap {
     return this.groundHeightData[tileX][tileY];
   }
 
-  public List<TilePosition> getStartPositions() {
+  public List<TilePosition> getStartLocations() {
     return this.startLocations;
   }
 
@@ -238,6 +238,7 @@ class BWMapImpl implements BWMap {
     return creepData;
   }
 
+  @Override
   public boolean hasCreep(final int tileX, final int tileY) {
     return this.getCreepDataCache.get()[tileX][tileY];
   }

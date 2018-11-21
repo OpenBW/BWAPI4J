@@ -35,7 +35,7 @@ public interface BWMap {
 
   public int getGroundHeight(int tileX, int tileY);
 
-  public List<TilePosition> getStartPositions();
+  public List<TilePosition> getStartLocations();
 
   /**
    * Return true, if the given "walk position" is walkable. Coordinates must be within the map grid,
@@ -72,6 +72,8 @@ public interface BWMap {
   public boolean isVisible(TilePosition position);
 
   public boolean hasPath(Position source, Position destination);
+
+  public boolean hasCreep(int tileX, int tileY);
 
   public boolean hasCreep(TilePosition tilePosition);
 

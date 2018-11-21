@@ -99,6 +99,8 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_resumeGame(JNI
 
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_restartGame(JNIEnv *, jobject) { BWAPI::Broodwar->restartGame(); }
 
+JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_InteractionHandler_isGUIEnabled(JNIEnv *, jobject) { return BWAPI::Broodwar->isGUIEnabled(); }
+
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_setGUI(JNIEnv *, jobject, jboolean enabled) { BWAPI::Broodwar->setGUI(enabled); }
 
 JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_InteractionHandler_getNukeDotsData_1native(JNIEnv *env, jobject) {

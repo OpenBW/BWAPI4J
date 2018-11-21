@@ -28,7 +28,7 @@ public class BWMapMock implements BWMap {
   }
 
   @Override
-  public List<TilePosition> getStartPositions() {
+  public List<TilePosition> getStartLocations() {
     return Arrays.asList(this.data.getStartingLocations());
   }
 

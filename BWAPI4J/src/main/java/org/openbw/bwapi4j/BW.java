@@ -34,6 +34,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openbw.bwapi4j.type.BwError;
 import org.openbw.bwapi4j.type.GameType;
 import org.openbw.bwapi4j.type.Key;
 import org.openbw.bwapi4j.type.TechType;
@@ -413,7 +414,7 @@ public class BW {
 
     getInteractionHandler().resetCache();
 
-    this.bwMap.resetCache();
+    bwMap.resetCache();
   }
 
   private void onStart() {
@@ -764,8 +765,8 @@ public class BW {
     throw new UnsupportedOperationException("TODO"); // TODO
   }
 
-  public Error getLastError() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public BwError getLastError() {
+    return getInteractionHandler().getLastError();
   }
 
   public boolean setLastError() {
@@ -777,15 +778,15 @@ public class BW {
   }
 
   public int mapWidth() {
-    return bwMap.mapWidth();
+    return getBWMap().mapWidth();
   }
 
   public int mapHeight() {
-    return bwMap.mapHeight();
+    return getBWMap().mapHeight();
   }
 
   public String mapFileName() {
-    return bwMap.mapFileName();
+    return getBWMap().mapFileName();
   }
 
   public String mapPathName() {
@@ -793,67 +794,67 @@ public class BW {
   }
 
   public String mapName() {
-    return bwMap.mapName();
+    return getBWMap().mapName();
   }
 
   public String mapHash() {
-    return bwMap.mapHash();
+    return getBWMap().mapHash();
   }
 
   public boolean isWalkable(final int walkX, final int walkY) {
-    return bwMap.isWalkable(walkX, walkY);
+    return getBWMap().isWalkable(walkX, walkY);
   }
 
   public boolean isWalkable(final WalkPosition walkPosition) {
-    return bwMap.isWalkable(walkPosition);
+    return getBWMap().isWalkable(walkPosition);
   }
 
   public int getGroundHeight(final int tileX, final int tileY) {
-    return bwMap.getGroundHeight(tileX, tileY);
+    return getBWMap().getGroundHeight(tileX, tileY);
   }
 
   public int getGroundHeight(final TilePosition tilePosition) {
-    return bwMap.getGroundHeight(tilePosition);
+    return getBWMap().getGroundHeight(tilePosition);
   }
 
   public boolean isBuildable(final int tileX, final int tileY) {
-    return bwMap.isBuildable(tileX, tileY);
+    return getBWMap().isBuildable(tileX, tileY);
   }
 
   public boolean isBuildable(final int tileX, final int tileY, final boolean includeBuildings) {
-    return bwMap.isBuildable(tileX, tileY, includeBuildings);
+    return getBWMap().isBuildable(tileX, tileY, includeBuildings);
   }
 
   public boolean isBuildable(final TilePosition position) {
-    return bwMap.isBuildable(position);
+    return getBWMap().isBuildable(position);
   }
 
   public boolean isBuildable(final TilePosition tilePosition, final boolean includeBuildings) {
-    return bwMap.isBuildable(tilePosition, includeBuildings);
+    return getBWMap().isBuildable(tilePosition, includeBuildings);
   }
 
   public boolean isVisible(int tileX, int tileY) {
-    return bwMap.isVisible(tileX, tileY);
+    return getBWMap().isVisible(tileX, tileY);
   }
 
   public boolean isVisible(final TilePosition tilePosition) {
-    return bwMap.isVisible(tilePosition);
+    return getBWMap().isVisible(tilePosition);
   }
 
   public boolean isExplored(final int tileX, final int tileY) {
-    return bwMap.isExplored(tileX, tileY);
+    return getBWMap().isExplored(tileX, tileY);
   }
 
   public boolean isExplored(final TilePosition tilePosition) {
-    return bwMap.isExplored(tilePosition);
+    return getBWMap().isExplored(tilePosition);
   }
 
   public boolean hasCreep(final int tileX, final int tileY) {
-    return bwMap.hasCreep(tileX, tileY);
+    return getBWMap().hasCreep(tileX, tileY);
   }
 
   public boolean hasCreep(final TilePosition tilePosition) {
-    return bwMap.hasCreep(tilePosition);
+    return getBWMap().hasCreep(tilePosition);
   }
 
   public boolean hasPowerPrecise(int x, int y) {
@@ -880,8 +881,8 @@ public class BW {
     throw new UnsupportedOperationException("TODO"); // TODO
   }
 
-  public boolean hasPower(TilePosition position) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean hasPower(final TilePosition tilePosition) {
+    return getBWMap().hasPower(tilePosition);
   }
 
   public boolean hasPower(TilePosition position, UnitType unitType) {
@@ -954,7 +955,7 @@ public class BW {
   }
 
   public List<TilePosition> getStartLocations() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return getBWMap().getStartLocations();
   }
 
   public void printf(String cstr_format) {
@@ -1002,7 +1003,7 @@ public class BW {
   }
 
   public void restartGame() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    getInteractionHandler().restartGame();
   }
 
   public void setLocalSpeed(int speed) {
@@ -1046,7 +1047,7 @@ public class BW {
   }
 
   public int getLatencyTime() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return getInteractionHandler().getLatencyTime();
   }
 
   public int getRemainingLatencyFrames() {
@@ -1069,15 +1070,15 @@ public class BW {
     return getInteractionHandler().isLatComEnabled();
   }
 
-  public void setLatCom(boolean isEnabled) {
+  public void setLatCom(final boolean isEnabled) {
     getInteractionHandler().enableLatCom(isEnabled);
   }
 
   public boolean isGUIEnabled() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return getInteractionHandler().isGUIEnabled();
   }
 
-  public void setGUI(boolean enabled) {
+  public void setGUI(final boolean enabled) {
     getInteractionHandler().setGUI(enabled);
   }
 

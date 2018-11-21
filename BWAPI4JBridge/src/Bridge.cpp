@@ -236,6 +236,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getGameData(JNIEnv *env, 
   Bridge::Globals::dataBuffer.add(BWAPI::Broodwar->getRemainingLatencyFrames());
   Bridge::Globals::dataBuffer.add(BWAPI::Broodwar->getRemainingLatencyTime());
   Bridge::Globals::dataBuffer.add(BWAPI::Broodwar->getLatencyFrames());
+  Bridge::Globals::dataBuffer.add(BWAPI::Broodwar->getLatencyTime());
   Bridge::Globals::dataBuffer.add(BWAPI::Broodwar->getLatency());
   Bridge::Globals::dataBuffer.addId(BWAPI::Broodwar->getGameType());
   Bridge::Globals::dataBuffer.add(BWAPI::Broodwar->isReplay());

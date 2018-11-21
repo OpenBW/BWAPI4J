@@ -51,6 +51,7 @@ public final class InteractionHandler {
     REMAINING_LATENCY_FRAMES,
     REMAINING_LATENCY_TIME,
     LATENCY_FRAMES,
+    LATENCY_TIME,
     LATENCY,
     GAME_TYPE_ID,
     IS_REPLAY,
@@ -78,6 +79,7 @@ public final class InteractionHandler {
   private int remainingLatencyFrames;
   private int remainingLatencyTime;
   private int latencyFrames;
+  private int latencyTime;
   private int latency;
   private int selfId;
   private int enemyId;
@@ -119,6 +121,7 @@ public final class InteractionHandler {
     this.remainingLatencyFrames = data[CacheIndex.REMAINING_LATENCY_FRAMES.ordinal()];
     this.remainingLatencyTime = data[CacheIndex.REMAINING_LATENCY_TIME.ordinal()];
     this.latencyFrames = data[CacheIndex.LATENCY_FRAMES.ordinal()];
+    this.latencyTime = data[CacheIndex.LATENCY_TIME.ordinal()];
     this.latency = data[CacheIndex.LATENCY.ordinal()];
     this.selfId = data[CacheIndex.SELF_ID.ordinal()];
     this.enemyId = data[CacheIndex.ENEMY_ID.ordinal()];
@@ -278,6 +281,10 @@ public final class InteractionHandler {
     return this.latencyFrames;
   }
 
+  public int getLatencyTime() {
+    return this.latencyTime;
+  }
+
   public int getLatency() {
     return this.latency;
   }
@@ -342,6 +349,8 @@ public final class InteractionHandler {
   public native void resumeGame();
 
   public native void restartGame();
+
+  public native boolean isGUIEnabled();
 
   public native void setGUI(boolean enabled);
 
