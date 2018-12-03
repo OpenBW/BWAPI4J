@@ -3,7 +3,7 @@
 | | Windows | Linux | Download |
 |-|:-:|:-:|:-:|
 | **master** | [![AppVeyor master](https://ci.appveyor.com/api/projects/status/uby2l601herytp47/branch/master?svg=true)](https://ci.appveyor.com/project/adakitesystems/bwapi4j/branch/master) | [![Travis CI master](https://travis-ci.com/OpenBW/BWAPI4J.svg?branch=master)](https://travis-ci.com/OpenBW/BWAPI4J) | [![download](https://img.shields.io/badge/master-v0.8.2b-blue.svg)](https://github.com/OpenBW/BWAPI4J/releases/tag/v0.8.2b) |
-| **develop** | [![AppVeyor develop](https://ci.appveyor.com/api/projects/status/uby2l601herytp47/branch/develop?svg=true)](https://ci.appveyor.com/project/adakitesystems/bwapi4j/branch/develop) | [![Travis CI develop](https://travis-ci.com/OpenBW/BWAPI4J.svg?branch=develop)](https://travis-ci.com/OpenBW/BWAPI4J) | [![download](https://img.shields.io/badge/develop-v0.8.3b-orange.svg)](https://ci.appveyor.com/project/adakitesystems/bwapi4j/build/artifacts) |
+| **develop** | [![AppVeyor develop](https://ci.appveyor.com/api/projects/status/uby2l601herytp47/branch/develop?svg=true)](https://ci.appveyor.com/project/adakitesystems/bwapi4j/branch/develop) | [![Travis CI develop](https://travis-ci.com/OpenBW/BWAPI4J.svg?branch=develop)](https://travis-ci.com/OpenBW/BWAPI4J) | [![download](https://img.shields.io/badge/develop-v0.8.3b-orange.svg)](https://ci.appveyor.com/project/adakitesystems/bwapi4j/branch/develop/artifacts) |
 
 SHA-256 checksums for official version 0.8.2b:
 
