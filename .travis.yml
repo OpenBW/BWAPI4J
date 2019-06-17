@@ -24,7 +24,6 @@ env:
 - TERM=dumb
 
 before_install:
-- jdk_switcher use openjdk8
 - 'if [ ${TRAVIS_OS_NAME} = "linux" ]; then
      sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test && 
      sudo apt-get update -qq && 
