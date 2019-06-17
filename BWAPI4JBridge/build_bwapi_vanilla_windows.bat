@@ -6,5 +6,5 @@ cd %TARGET_BUILD_DIRECTORY%
 
 IF EXIST %TARGET_SOLUTION% (
 %DEV_CMD_BAT%
-msbuild %TARGET_SOLUTION% /t:BWAPI;BWAPIClient /p:Configuration=Release
+msbuild %TARGET_SOLUTION% /t:BWAPI;BWAPIClient /p:Configuration=Release_Pipeline
 )
