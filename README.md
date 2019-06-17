@@ -15,7 +15,7 @@ e0a52dcae291151692cbbad51518b3d07fd5c3e9e94e2ffd20b093754b2e1799  BWAPI4J-0.8.2b
 
 # BWAPI4J
 
-This is a Java wrapper for [BWAPI 4.2.0](https://github.com/bwapi/bwapi/).
+This is a Java wrapper for [BWAPI](https://github.com/bwapi/bwapi/).
 It is intended to replace older projects such as BWMirror and JNIBWAPI.
 
 BWAPI4J is compatible with the official BW 1.16.1 on Windows as well as OpenBW on Windows or Linux.
@@ -27,25 +27,31 @@ This project consists of two main parts:
 
 Notes:
 * This is a development version and breaking changes can occur at any time.
-* To develop a BWAPI4J bot, only the Java project is required.
-* If you want to compile the bridge, you will need a C++ development environment.
+* To develop a BWAPI4J bot, you will need a `BWAPI4J.jar` that also contains at least one bridge binary for the target platform.
+* A pre-compiled release library JAR is available on our releases page and also via the AppVeyor link at the top of this README.
 
 ### Why BWAPI4J?
 
-BWAPI4J was inspired by both bwmirror and jnibwapi. It strives to combine the advantages of both while eliminating some weaknesses.
+BWAPI4J was inspired by both BWMirror and JNIBWAPI. It strives to combine the advantages of both while eliminating some weaknesses.
 
 The main advantages of BWAPI4J are:
-* speed: BWAPI4J minimizes the amount of JNI calls and caches data likely to be queried every frame on the Java-side using a single large array copy
-* ease of debugging: automatically generated code is hard to debug, especially if c++ pointers are cached Java-side and there is no way to look up the values from a Java debugger. BWAPI4J is coded manually and caches relevant game data Java-side, rather than just pointers.
-* feature-completeness: other bridges either do not contain the full set of features or are prone to nasty bugs that lead to JVM crashes, in particular in conjunction with libraries such as BWTA. BWAPI4J aims to provide at least a rudimentary exception handling even for the c++ routines, such that bugs can be investigated
+* Speed: BWAPI4J minimizes the amount of JNI calls and caches data likely to be queried every frame on the Java-side using a single large array copy.
+* Ease of debugging: Automatically generated code is hard to debug, especially if c++ pointers are cached Java-side and there is no way to look up the values from a Java debugger. BWAPI4J is coded manually and caches relevant game data Java-side, rather than just pointers.
+* Feature-completeness: Other bridges either do not contain the full set of features or are prone to nasty bugs that lead to JVM crashes, in particular in conjunction with libraries such as BWTA. BWAPI4J aims to provide at least a rudimentary exception handling even for the C++ routines, such that bugs can be investigated.
 
-the fact that BWAPI4J is typed may or may not be seen as an advantage. Future version will provide a typed and a non-typed interface.
+The fact that BWAPI4J is typed may or may not be seen as an advantage. Future versions will provide a typed and a non-typed interface.
 
-Last but not least: BWAPI4J is **fully compatible with OpenBW** and therefore can be run on Linux (natively, no Wine required) at much greater speeds than the original BW.
+Last but not least: BWAPI4J is **fully compatible with [OpenBW](https://github.com/OpenBW/openbw)** and therefore can be run on Linux (natively, no Wine required) at much greater speeds than the original BW.
 
 ---
 
-## BWAPI4J (Java)
+# Getting Started
+
+If you would like to build the Java and C++ binaries yourself, see the "BWAPI4J" and "BWAPI4JBridge" sections. Otherwise, obtain a pre-compiled copy of our latest official version from our releases page or from the AppVeyor link at the top of this README and import it into your bot project. Take a look at the very basic example bots `TestListenerBwem.java` or `TestListener.java`.
+
+---
+
+## BWAPI4J
 
 ### Required JDK Version
 
@@ -138,6 +144,7 @@ java -Dbwapi4j.bridgeType=openbw -jar MyBot.jar
 
 ### Original BW on Windows
 
+Prerequisites:
 * BW 1.16.1
 * BWAPI 4.2.0
 * VC++ Redist 2017
@@ -145,6 +152,7 @@ java -Dbwapi4j.bridgeType=openbw -jar MyBot.jar
 
 ### OpenBW
 
+Prerequisites:
 - A compiled and working version of OpenBW.
 - The original BW does not need to be installed. Only the following three BW files are required ([available for free](https://www.battle.net/download/getInstallerForGame?os=win&locale=enUS&version=LIVE&gameProgram=STARCRAFT)). Copy them to your root project directory (case-sensitive): `BrooDat.mpq`, `StarDat.mpq`, `Patch_rt.mpq`
 - At least one Melee map. For example, **Fighting Spirit** from the [SSCAIT map pack](https://sscaitournament.com/files/sscai_map_pack.zip).
@@ -206,18 +214,20 @@ The following table outlines the Gradle tasks used for building a specific bridg
 
 Examples:
 ```
-./gradlew buildVanillaBridgeForWindows
+gradlew.bat buildVanillaBridgeForWindows
 ```
 ```
-./gradlew buildOpenBWBridgeForWindows
+gradlew.bat buildOpenBWBridgeForWindows
 ```
 ```
 ./gradlew buildOpenBWBridgeForLinux
 ```
 
-### Including the bridge with the BWAPI4J library JAR
+*Note: When building the bridge in Windows, it is recommended to use `gradlew.bat` in a native Windows terminal. The terminal must have access to Windows environment variables and the ability to load a Visual Studio environment.*
 
-The bridge needs to be built before it is packaged via `shadowJar`. Use one of the appropriate Gradle tasks to build the bridge, then use the following command:
+### Packaging the bridge with the BWAPI4J library JAR
+
+The bridge needs to be built before it is packaged via `shadowJar`. Use one of the appropriate Gradle tasks listed above to build the bridge, then use the following command:
 ```
 ./gradlew shadowJar
 ```
