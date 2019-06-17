@@ -146,7 +146,7 @@ java -Dbwapi4j.bridgeType=openbw -jar MyBot.jar
 
 Prerequisites:
 * BW 1.16.1
-* BWAPI 4.2.0
+* BWAPI 4.4.0
 * VC++ Redist 2017
 * Windows 7 or higher
 
