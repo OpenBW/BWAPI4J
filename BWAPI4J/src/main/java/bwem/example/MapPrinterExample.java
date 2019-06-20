@@ -33,6 +33,8 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.SplittableRandom;
+
+import bwem.util.Asserts;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.openbw.bwapi4j.TilePosition;
@@ -364,18 +366,14 @@ public class MapPrinterExample {
     if (path.isEmpty()) { // no ChokePoint between a and b:
       // let's verify that a and b are in the same Area:
       //    		bwem_assert(theMap.getNearestArea(a) == theMap.getNearestArea(b));
-      if (!(theMap.getNearestArea(a).equals(theMap.getNearestArea(b)))) {
-        throw new IllegalStateException();
-      }
+      Asserts.bwem_assert(theMap.getNearestArea(a).equals(theMap.getNearestArea(b)));
 
       // just draw a single line between them:
       mapPrinter.line(a, b, col, MapPrinter.dashed_t.dashed);
     } else { // at least one ChokePoint between a and b:
       // let's verify that a and b are not in the same Area:
       //    		bwem_assert(theMap.getNearestArea(a) != theMap.getNearestArea(b));
-      if (theMap.getNearestArea(a).equals(theMap.getNearestArea(b))) {
-        throw new IllegalStateException();
-      }
+      Asserts.bwem_assert(!theMap.getNearestArea(a).equals(theMap.getNearestArea(b)));
 
       // draw a line between each ChokePoint in path:
       ChokePoint cpPrevious = null;

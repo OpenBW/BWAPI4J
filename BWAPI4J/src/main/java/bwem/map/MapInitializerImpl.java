@@ -26,6 +26,7 @@ import bwem.unit.Neutral;
 import bwem.unit.NeutralDataImpl;
 import bwem.unit.NeutralImpl;
 import bwem.unit.StaticBuilding;
+import bwem.util.Asserts;
 import bwem.util.BwemExt;
 import bwem.util.PairGenericAltitudeComparator;
 import bwem.util.PairGenericMiniTileAltitudeComparator;
@@ -324,10 +325,13 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
               final MiniTile miniTile =
                   ((TerrainDataInitializer) terrainData).getMiniTile_(w, CheckMode.NO_CHECK);
               if (((MiniTileImpl) miniTile).isAltitudeMissing()) {
-                if (updatedHighestAltitude != null
-                    && updatedHighestAltitude.intValue() > altitude.intValue()) {
-                  throw new IllegalStateException();
-                }
+                // TODO: Why is this assertion here? Should it be removed?
+//                if (updatedHighestAltitude != null
+//                    && updatedHighestAltitude.intValue() > altitude.intValue()) {
+//                  throw new IllegalStateException();
+//                }
+                Asserts.bwem_assert(!(updatedHighestAltitude != null && updatedHighestAltitude.intValue() > altitude.intValue()));
+
                 updatedHighestAltitude = altitude;
                 current.setRight(altitude);
                 ((MiniTileImpl) miniTile).setAltitude(altitude);
@@ -701,9 +705,8 @@ public class MapInitializerImpl extends MapImpl implements MapInitializer {
       if (tempArea.isValid()) {
         if (tempArea.getSize() >= areaMinMiniTiles) {
           //                    bwem_assert(newAreaId <= tempArea.id());
-          if (!(newAreaId <= tempArea.getId().intValue())) {
-            throw new IllegalStateException();
-          }
+          Asserts.bwem_assert(newAreaId <= tempArea.getId().intValue());
+
           if (newAreaId != tempArea.getId().intValue()) {
             replaceAreaIds(tempArea.getWalkPositionWithHighestAltitude(), new AreaId(newAreaId));
           }

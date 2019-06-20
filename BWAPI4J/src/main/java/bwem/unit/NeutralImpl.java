@@ -20,6 +20,8 @@ import bwem.tile.Tile;
 import bwem.tile.TileImpl;
 import java.util.ArrayList;
 import java.util.List;
+
+import bwem.util.Asserts;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
@@ -119,7 +121,7 @@ public abstract class NeutralImpl implements Neutral {
         blockedAreas.add(getMap().getArea(w));
       } else {
 //        bwem_assert_plus(area, std::string("Walk position(") + my_to_string(w) + ") does not belongs to any area. Either it is non-walkable, or does not belong to any area.");
-//        throw new IllegalStateException("WalkPosition " + w.toString() + " either does not belong to any area or it is unwalkable");
+//        Asserts.bwem_assert(false, "WalkPosition " + w.toString() + " either does not belong to any area or it is unwalkable");
       }
     }
     return blockedAreas;
@@ -140,10 +142,9 @@ public abstract class NeutralImpl implements Neutral {
   }
 
   public void setBlocking(final List<WalkPosition> blockedAreas) {
-    //        bwem_assert (blockedAreas.empty() && !blockedAreas.empty());
-    if (!(this.blockedAreas.isEmpty() && !blockedAreas.isEmpty())) {
-      throw new IllegalStateException();
-    }
+    // bwem_assert(m_blockedAreas.empty() && !blockedAreas.empty());
+    Asserts.bwem_assert(this.blockedAreas.isEmpty() && !blockedAreas.isEmpty());
+
     this.blockedAreas = blockedAreas;
   }
 
@@ -153,9 +154,7 @@ public abstract class NeutralImpl implements Neutral {
 
   private void putOnTiles() {
     //        bwem_assert(!pNextStacked);
-    if (!(getNextStacked() == null)) {
-      throw new IllegalStateException();
-    }
+    Asserts.bwem_assert(getNextStacked() == null);
 
     for (int dy = 0; dy < getSize().getY(); ++dy)
       for (int dx = 0; dx < getSize().getX(); ++dx) {
@@ -171,38 +170,32 @@ public abstract class NeutralImpl implements Neutral {
             continue;
           }
 
-          if (this.equals(deltaTile.getNeutral())) {
-            //                    bwem_assert(this != tile.GetNeutral());
-            throw new IllegalStateException();
-          } else if (this.equals(topNeutral)) {
-            //                    bwem_assert(this != pTop);
-            throw new IllegalStateException();
-          } else if (topNeutral.getClass().getName().equals(Geyser.class.getName())) {
-            //                    bwem_assert(!pTop->IsGeyser());
-            throw new IllegalStateException();
-          } else if (!((NeutralImpl) topNeutral).isSameUnitTypeAs(this)) {
-            //                    bwem_assert_plus(pTop->Type() == Type(), "stacked neutrals have
-            // different types: " + pTop->Type().getName() + " / " + Type().getName());
-            throw new IllegalStateException(
-                "Stacked Neutral objects have different types: top="
-                    + topNeutral.getClass().getName()
-                    + ", this="
-                    + this.getClass().getName());
-          } else if (!(topNeutral.getTopLeft().equals(getTopLeft()))) {
-            //                    bwem_assert_plus(pTop->topLeft() == topLeft(), "stacked neutrals
-            // not aligned: " + my_to_string(pTop->topLeft()) + " / " + my_to_string(topLeft()));
-            throw new IllegalStateException(
-                "Stacked Neutral objects not aligned: top="
-                    + topNeutral.toString()
-                    + ", this="
-                    + getTopLeft().toString());
-          } else if (!(dx == 0 && dy == 0)) {
-            //                    bwem_assert((dx == 0) && (dy == 0));
-            throw new IllegalStateException();
-          } else {
-            ((NeutralImpl) topNeutral).nextStacked = this;
-            return;
-          }
+//          bwem_assert(this != tile.GetNeutral());
+          Asserts.bwem_assert(!this.equals(deltaTile.getNeutral()));
+
+//          bwem_assert(this != pTop);
+          Asserts.bwem_assert(!this.equals(topNeutral));
+
+//          bwem_assert(!pTop->IsGeyser());
+          Asserts.bwem_assert(!topNeutral.getClass().getName().equals(Geyser.class.getName()));
+
+//          bwem_assert_plus(pTop->Type() == Type(), "stacked neutrals have different types: " + pTop->Type().getName() + " / " + Type().getName() + " at position " + my_to_string(pTop->TopLeft()));
+          Asserts.bwem_assert(((NeutralImpl) topNeutral).isSameUnitTypeAs(this), "Stacked Neutral objects have different types: top="
+              + topNeutral.getClass().getName()
+              + ", this="
+              + this.getClass().getName());
+
+//          bwem_assert_plus(pTop->TopLeft() == TopLeft(), "stacked neutrals not aligned: " + my_to_string(pTop->TopLeft()) + " / " + my_to_string(TopLeft()) + ", type is " + pTop->Type().getName());
+          Asserts.bwem_assert(topNeutral.getTopLeft().equals(getTopLeft()), "Stacked Neutral objects not aligned: top="
+              + topNeutral.toString()
+              + ", this="
+              + getTopLeft().toString());
+
+//          bwem_assert((dx == 0) && (dy == 0));
+          Asserts.bwem_assert((dx == 0) && (dy == 0));
+
+          ((NeutralImpl) topNeutral).nextStacked = this;
+          return;
         }
       }
   }
@@ -218,9 +211,7 @@ public abstract class NeutralImpl implements Neutral {
             ((TerrainDataInitializer) getMap().getData())
                 .getTile_(getTopLeft().add(new TilePosition(dx, dy)));
         //            bwem_assert(tile.GetNeutral());
-        if (tile.getNeutral() == null) {
-          throw new IllegalStateException();
-        }
+        Asserts.bwem_assert(tile.getNeutral() != null);
 
         if (tile.getNeutral().equals(this)) {
           ((TileImpl) tile).removeNeutral(this);
@@ -234,19 +225,15 @@ public abstract class NeutralImpl implements Neutral {
             prevStacked = prevStacked.getNextStacked();
           }
 
-          if (!(dx == 0 && dy == 0)) {
-            //                    bwem_assert((dx == 0) && (dy == 0));
-            throw new IllegalStateException();
-          }
+          // bwem_assert((dx == 0) && (dy == 0));
+          Asserts.bwem_assert((dx == 0) && (dy == 0));
 
           if (prevStacked != null) {
-            if (!((NeutralImpl) prevStacked).isSameUnitTypeAs(this)) {
-              //                    bwem_assert(pPrevStacked->Type() == Type());
-              throw new IllegalStateException();
-            } else if (!(prevStacked.getTopLeft().equals(getTopLeft()))) {
-              //                    bwem_assert(pPrevStacked->topLeft() == topLeft());
-              throw new IllegalStateException();
-            }
+            //                    bwem_assert(pPrevStacked->Type() == Type());
+            Asserts.bwem_assert(((NeutralImpl) prevStacked).isSameUnitTypeAs(this));
+
+            //                    bwem_assert(pPrevStacked->topLeft() == topLeft());
+            Asserts.bwem_assert(prevStacked.getTopLeft().equals(getTopLeft()));
 
             ((NeutralImpl) prevStacked).nextStacked = nextStacked;
           }

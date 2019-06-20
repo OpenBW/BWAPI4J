@@ -32,6 +32,7 @@ import bwem.unit.Mineral;
 import bwem.unit.Neutral;
 import bwem.unit.Resource;
 import bwem.unit.StaticBuilding;
+import bwem.util.Asserts;
 import bwem.util.BwemExt;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -63,14 +64,12 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
     }
 
     final MiniTile topMiniTile = getMap().getData().getMiniTile(top);
+
     //        bwem_assert(topMiniTile.AreaId() == areaId);
-    if (!(topMiniTile.getAreaId().equals(areaId))) {
-      throw new IllegalStateException(
-          "assert failed: topMiniTile.AreaId().equals(areaId): expected: "
-              + topMiniTile.getAreaId().intValue()
-              + ", actual: "
-              + areaId.intValue());
-    }
+    Asserts.bwem_assert(topMiniTile.getAreaId().equals(areaId), "assert failed: topMiniTile.AreaId().equals(areaId): expected: "
+        + topMiniTile.getAreaId().intValue()
+        + ", actual: "
+        + areaId.intValue());
 
     super.highestAltitude = topMiniTile.getAltitude();
   }
@@ -99,18 +98,16 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
   @Override
   public void addMineral(final Mineral mineral) {
     //        bwem_assert(pMineral && !contains (minerals, pMineral));
-    if (!(mineral != null && !super.minerals.contains(mineral))) {
-      throw new IllegalStateException();
-    }
+    Asserts.bwem_assert(mineral != null && !super.minerals.contains(mineral));
+
     super.minerals.add(mineral);
   }
 
   @Override
   public void addGeyser(final Geyser geyser) {
     //        bwem_assert(pGeyser && !contains (geysers, pGeyser));
-    if (!(geyser != null && !super.geysers.contains(geyser))) {
-      throw new IllegalStateException();
-    }
+    Asserts.bwem_assert(geyser != null && !super.geysers.contains(geyser));
+
     super.geysers.add(geyser);
   }
 
@@ -162,9 +159,7 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
   @Override
   public int[] computeDistances(final ChokePoint startCP, final List<ChokePoint> targetCPs) {
     //        bwem_assert(!contains(targetCPs, startCP));
-    if (targetCPs.contains(startCP)) {
-      throw new IllegalStateException();
-    }
+    Asserts.bwem_assert(!targetCPs.contains(startCP));
 
     final TilePosition start =
         getMap()
@@ -226,14 +221,13 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
       final int currentDist = distanceAndTilePosition.getFirst();
       final TilePosition current = distanceAndTilePosition.getSecond();
       final Tile currentTile = getMap().getData().getTile(current, CheckMode.NO_CHECK);
+
       //            bwem_assert(currentTile.InternalData() == currentDist);
-      if (!(((TileImpl) currentTile).getInternalData() == currentDist)) {
-        throw new IllegalStateException(
-            "currentTile.InternalData().intValue()="
-                + ((TileImpl) currentTile).getInternalData()
-                + ", currentDist="
-                + currentDist);
-      }
+      Asserts.bwem_assert(((TileImpl) currentTile).getInternalData() == currentDist, "currentTile.InternalData().intValue()="
+          + ((TileImpl) currentTile).getInternalData()
+          + ", currentDist="
+          + currentDist);
+
       ((TileImpl) currentTile).setInternalData(0); // resets Tile::m_internalData for future usage
       ((TileImpl) currentTile).getMarkable().setMarked();
 
@@ -269,12 +263,11 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
               if (newNextDist
                   < ((TileImpl) nextTile).getInternalData()) { // nextNewDist < nextOldDist
                 // To update next's distance, we need to remove-insert it from toVisit:
-                //                                bwem_assert(iNext != range.second);
+                // bwem_assert(iNext != range.second);
                 final boolean removed =
                     toVisit.remove(new Pair<>(((TileImpl) nextTile).getInternalData(), next));
-                if (!removed) {
-                  throw new IllegalStateException();
-                }
+                Asserts.bwem_assert(removed);
+
                 ((TileImpl) nextTile).setInternalData(newNextDist);
                 toVisit.offer(new Pair<>(newNextDist, next));
               }
@@ -289,9 +282,7 @@ public class AreaInitializerImpl extends AreaImpl implements AreaInitializer {
     }
 
     //        bwem_assert(!remainingTargets);
-    if (!(remainingTargets == 0)) {
-      throw new IllegalStateException();
-    }
+    Asserts.bwem_assert(remainingTargets == 0);
 
     for (final Pair<Integer, TilePosition> distanceAndTilePosition : toVisit) {
       final TileImpl tileToUpdate =

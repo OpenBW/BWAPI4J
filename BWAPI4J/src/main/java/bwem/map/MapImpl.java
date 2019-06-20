@@ -35,6 +35,7 @@ import bwem.unit.Mineral;
 import bwem.unit.Neutral;
 import bwem.unit.NeutralData;
 import bwem.unit.StaticBuilding;
+import bwem.util.Asserts;
 import bwem.util.BwemExt;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -455,10 +456,10 @@ public abstract class MapImpl implements Map {
       }
     }
 
-    // TODO: Are we supposed to return start or not?
     //        bwem_assert(false);
-    throw new IllegalStateException();
-    //        return start;
+    Asserts.bwem_assert(false);
+
+    return start;
   }
 
   public TilePosition breadthFirstSearch(TilePosition start, Pred findCond, Pred visitCond) {
@@ -520,10 +521,10 @@ public abstract class MapImpl implements Map {
       }
     }
 
-    // TODO: Are we supposed to return start or not?
     //        bwem_assert(false);
-    throw new IllegalStateException();
-    //        return start;
+    Asserts.bwem_assert(false);
+
+    return start;
   }
 
   public WalkPosition breadthFirstSearch(
@@ -569,10 +570,9 @@ public abstract class MapImpl implements Map {
 
   public void setAreaIdInTile(final TilePosition t) {
     final Tile tile = ((TerrainDataInitializer) getData()).getTile_(t);
+
     //        bwem_assert(tile.AreaId() == 0);	// initialized to 0
-    if (!(tile.getAreaId().intValue() == 0)) { // initialized to 0
-      throw new IllegalStateException();
-    }
+    Asserts.bwem_assert(tile.getAreaId().intValue() == 0);
 
     for (int dy = 0; dy < 4; ++dy) {
       for (int dx = 0; dx < 4; ++dx) {

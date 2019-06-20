@@ -22,6 +22,8 @@ import bwem.unit.Neutral;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import bwem.util.Asserts;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.util.Pair;
@@ -237,10 +239,7 @@ public class ChokePointImpl implements ChokePoint {
   }
 
   public void onBlockingNeutralDestroyed(final Neutral pBlocking) {
-    //        bwem_assert(pBlocking && pBlocking->blocking());
-    if (!(pBlocking != null && pBlocking.isBlocking())) {
-      throw new IllegalStateException();
-    }
+    Asserts.bwem_assert(pBlocking != null && pBlocking.isBlocking());
 
     if (this.blockingNeutral.equals(pBlocking)) {
       // Ensures that in the case where several neutrals are stacked, blockingNeutral points to the

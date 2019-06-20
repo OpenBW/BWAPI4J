@@ -17,6 +17,7 @@ import bwem.StaticMarkable;
 import bwem.area.typedef.AreaId;
 import bwem.typedef.Altitude;
 import bwem.unit.Neutral;
+import bwem.util.Asserts;
 
 public class TileImpl implements Tile {
   private static final StaticMarkable staticMarkable = new StaticMarkable();
@@ -118,17 +119,15 @@ public class TileImpl implements Tile {
 
   public void addNeutral(final Neutral neutral) {
     //        { bwem_assert(!pNeutral && pNeutral); neutral = pNeutral; }
-    if (!(getNeutral() == null && neutral != null)) {
-      throw new IllegalStateException();
-    }
+    Asserts.bwem_assert(getNeutral() == null && neutral != null);
+
     this.neutral = neutral;
   }
 
   public void setAreaId(final AreaId areaId) {
     //        { bwem_assert((id == -1) || !areaId && id); areaId = id; }
-    if (!(areaId.intValue() == -1 || getAreaId().intValue() == 0 && areaId.intValue() != 0)) {
-      throw new IllegalStateException();
-    }
+    Asserts.bwem_assert(areaId.intValue() == -1 || getAreaId().intValue() == 0 && areaId.intValue() != 0);
+
     this.areaId = areaId;
   }
 
@@ -145,11 +144,9 @@ public class TileImpl implements Tile {
   }
 
   public void removeNeutral(final Neutral neutral) {
-    //        { bwem_assert(pNeutral &&  (pNeutral == pNeutral));
-    //          utils::unused(pNeutral); pNeutral = nullptr; }
-    if (!(neutral != null && getNeutral().equals(neutral))) {
-      throw new IllegalStateException();
-    }
+    // { bwem_assert(pNeutral && (m_pNeutral == pNeutral)); utils::unused(pNeutral); m_pNeutral = nullptr; }
+    Asserts.bwem_assert(neutral != null && getNeutral().equals(neutral));
+
     this.neutral = null;
   }
 

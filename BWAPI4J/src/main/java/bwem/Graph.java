@@ -29,6 +29,7 @@ import bwem.unit.Geyser;
 import bwem.unit.Mineral;
 import bwem.unit.Neutral;
 import bwem.unit.StaticBuilding;
+import bwem.util.Asserts;
 import bwem.util.BwemExt;
 import bwem.util.Utils;
 import java.util.ArrayList;
@@ -232,25 +233,19 @@ public final class Graph {
     }
 
     //        bwem_assert(minDistAB != numeric_limits<int>::max());
-    if (minDistAB == Integer.MAX_VALUE) {
-      throw new IllegalStateException();
-    }
+    Asserts.bwem_assert(minDistAB != Integer.MAX_VALUE);
 
     final CPPath path = getPath(pBestCpA, pBestCpB);
 
     if (pLength != null) {
       //            bwem_assert(Path.size() >= 1);
-      if (!(path.size() >= 1)) {
-        throw new IllegalStateException();
-      }
+      Asserts.bwem_assert(path.size() >= 1);
 
       pLength.setValue(minDistAB);
 
       if (path.size() == 1) {
         //                bwem_assert(pBestCpA == pBestCpB);
-        if (!pBestCpA.equals(pBestCpB)) {
-          throw new IllegalStateException();
-        }
+        Asserts.bwem_assert(pBestCpA.equals(pBestCpB));
 
         final Position cpEnd1 = BwemExt.center(pBestCpA.getNodePosition(ChokePoint.Node.END1));
         final Position cpEnd2 = BwemExt.center(pBestCpA.getNodePosition(ChokePoint.Node.END2));
@@ -334,19 +329,18 @@ public final class Graph {
     for (final MutablePair<MutablePair<AreaId, AreaId>, WalkPosition> raw : rawFrontier) {
       int a = raw.getLeft().getLeft().intValue();
       int b = raw.getLeft().getRight().intValue();
+
       if (a > b) {
         final int a_tmp = a;
         a = b;
         b = a_tmp;
       }
+
       //    		bwem_assert(a <= b);
-      if (!(a <= b)) {
-        throw new IllegalStateException();
-      }
+      Asserts.bwem_assert(a <= b);
+
       //    		bwem_assert((a >= 1) && (b <= areasCount()));
-      if (!((a >= 1) && (b <= getAreaCount()))) {
-        throw new IllegalStateException();
-      }
+      Asserts.bwem_assert((a >= 1) && (b <= getAreaCount()));
 
       final MutablePair<AreaId, AreaId> key = new MutablePair<>(new AreaId(a), new AreaId(b));
       rawFrontierByAreaPair.computeIfAbsent(key, mp -> new ArrayList<>()).add(raw.getRight());
@@ -417,7 +411,7 @@ public final class Graph {
           final int prev = altitudes.get(i - 1).intValue();
           final int curr = altitudes.get(i).intValue();
           if (prev < curr) {
-            throw new IllegalStateException();
+            Asserts.bwem_assert(false);
           }
         }
       }
@@ -720,10 +714,10 @@ public final class Graph {
       final ChokePoint current = distanceAndChokePoint.getSecond();
       final Tile currentTile =
           getMap().getData().getTile(current.getCenter().toTilePosition(), CheckMode.NO_CHECK);
+
       //            bwem_assert(currentTile.InternalData() == currentDist);
-      if (!(((TileImpl) currentTile).getInternalData() == currentDist)) {
-        throw new IllegalStateException();
-      }
+      Asserts.bwem_assert(((TileImpl) currentTile).getInternalData() == currentDist);
+
       ((TileImpl) currentTile).setInternalData(0); // resets Tile::m_internalData for future usage
       ((TileImpl) currentTile).getMarkable().setMarked();
 
@@ -757,8 +751,9 @@ public final class Graph {
                   final boolean removed =
                       toVisit.remove(new Pair<>(((TileImpl) nextTile).getInternalData(), next));
                   if (!removed) {
-                    throw new IllegalStateException();
+                    Asserts.bwem_assert(false);
                   }
+
                   ((TileImpl) nextTile).setInternalData(newNextDist);
                   ((ChokePointImpl) next).setPathBackTrace(current);
                   toVisit.offer(new Pair<>(newNextDist, next));

@@ -13,6 +13,7 @@
 package bwem;
 
 import bwem.map.Map;
+import bwem.util.Asserts;
 import bwem.util.BwemExt;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -116,9 +117,8 @@ public class MapPrinter {
 
   public void initialize(BW pBW, Map pMap) {
     //        bwem_assert_throw(pMap->Initialized());
-    if (!(pMap.isInitialized())) {
-      throw new IllegalStateException();
-    }
+    Asserts.bwem_assert(pMap.isInitialized());
+
     // TODO:
     //        bwem_assert_throw_plus(canWrite(m_fileName), "MapPrinter could not create the file " +
     // m_fileName);
