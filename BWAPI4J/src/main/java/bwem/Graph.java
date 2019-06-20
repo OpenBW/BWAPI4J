@@ -469,10 +469,9 @@ public final class Graph {
         final List<Area> blockedAreas = blockingNeutral.getBlockedAreas();
         for (final Area blockedAreaA : blockedAreas)
           for (final Area blockedAreaB : blockedAreas) {
-            if (blockedAreaB.equals(blockedAreaA)) {
+            if (blockedAreaB == null || blockedAreaA == null || blockedAreaB.equals(blockedAreaA)) {
               break; // breaks symmetry
             }
-
             final WalkPosition center =
                 getMap()
                     .breadthFirstSearch(

@@ -113,7 +113,14 @@ public abstract class NeutralImpl implements Neutral {
   public List<Area> getBlockedAreas() {
     final List<Area> blockedAreas = new ArrayList<>();
     for (final WalkPosition w : this.blockedAreas) {
-      blockedAreas.add(getMap().getArea(w));
+      final Area area = getMap().getArea(w);
+
+      if (area != null) {
+        blockedAreas.add(getMap().getArea(w));
+      } else {
+//        bwem_assert_plus(area, std::string("Walk position(") + my_to_string(w) + ") does not belongs to any area. Either it is non-walkable, or does not belong to any area.");
+//        throw new IllegalStateException("WalkPosition " + w.toString() + " either does not belong to any area or it is unwalkable");
+      }
     }
     return blockedAreas;
   }
@@ -159,6 +166,11 @@ public abstract class NeutralImpl implements Neutral {
           ((TileImpl) deltaTile).addNeutral(this);
         } else {
           final Neutral topNeutral = deltaTile.getNeutral().getLastStacked();
+
+          if (topNeutral == null || !getTopLeft().equals(topNeutral.getTopLeft()) || !getBottomRight().equals(topNeutral.getBottomRight())) {
+            continue;
+          }
+
           if (this.equals(deltaTile.getNeutral())) {
             //                    bwem_assert(this != tile.GetNeutral());
             throw new IllegalStateException();
@@ -217,21 +229,28 @@ public abstract class NeutralImpl implements Neutral {
           }
         } else {
           Neutral prevStacked = tile.getNeutral();
-          while (!prevStacked.getNextStacked().equals(this)) {
+
+          while (prevStacked != null && !this.equals(prevStacked.getNextStacked())) {
             prevStacked = prevStacked.getNextStacked();
           }
-          if (!((NeutralImpl) prevStacked).isSameUnitTypeAs(this)) {
-            //                    bwem_assert(pPrevStacked->Type() == Type());
-            throw new IllegalStateException();
-          } else if (!(prevStacked.getTopLeft().equals(getTopLeft()))) {
-            //                    bwem_assert(pPrevStacked->topLeft() == topLeft());
-            throw new IllegalStateException();
-          } else if (!(dx == 0 && dy == 0)) {
+
+          if (!(dx == 0 && dy == 0)) {
             //                    bwem_assert((dx == 0) && (dy == 0));
             throw new IllegalStateException();
           }
 
-          ((NeutralImpl) prevStacked).nextStacked = nextStacked;
+          if (prevStacked != null) {
+            if (!((NeutralImpl) prevStacked).isSameUnitTypeAs(this)) {
+              //                    bwem_assert(pPrevStacked->Type() == Type());
+              throw new IllegalStateException();
+            } else if (!(prevStacked.getTopLeft().equals(getTopLeft()))) {
+              //                    bwem_assert(pPrevStacked->topLeft() == topLeft());
+              throw new IllegalStateException();
+            }
+
+            ((NeutralImpl) prevStacked).nextStacked = nextStacked;
+          }
+
           this.nextStacked = null;
           return;
         }
