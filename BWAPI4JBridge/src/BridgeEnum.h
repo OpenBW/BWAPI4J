@@ -22,12 +22,13 @@
 
 #include <jni.h>
 
+#include "DataBuffer.h"
 #include "JavaRefs.h"
 
 class BridgeEnum {
  public:
-  void addUpgradeTypeEnums();
-  void addTechTypeEnums();
-  void addWeaponTypeEnums();
-  void addUnitTypeEnums();
+  void addUpgradeTypeEnumsTo(DataBuffer &dataBuffer);
+  void addTechTypeEnumsTo(DataBuffer &dataBuffer);
+  void addWeaponTypeEnumsTo(DataBuffer &dataBuffer);
+  void addUnitTypeEnumsTo(DataBuffer &dataBuffer);
 };

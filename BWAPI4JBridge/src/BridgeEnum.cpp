@@ -18,8 +18,6 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-/* TODO: Add dataBuffer parameter to each of these functions' signature instead of directing mutating the global buffer. */
-
 #include "BridgeEnum.h"
 #include "DataBuffer.h"
 #include "Globals.h"
@@ -28,41 +26,41 @@
 
 #include "Logger.h"
 
-void BridgeEnum::addUpgradeTypeEnums() {
+void BridgeEnum::addUpgradeTypeEnumsTo(DataBuffer &dataBuffer) {
   LOGGER("Reading upgrade types...");
 
   for (BWAPI::UpgradeType upgradeType : BWAPI::UpgradeTypes::allUpgradeTypes()) {
-    Bridge::Globals::dataBuffer.addFields(upgradeType);
+    dataBuffer.addFields(upgradeType);
   }
 
   LOGGER("Reading upgrade types... done");
 }
 
-void BridgeEnum::addTechTypeEnums() {
+void BridgeEnum::addTechTypeEnumsTo(DataBuffer &dataBuffer) {
   LOGGER("Reading tech types...");
 
   for (BWAPI::TechType techType : BWAPI::TechTypes::allTechTypes()) {
-    Bridge::Globals::dataBuffer.addFields(techType);
+    dataBuffer.addFields(techType);
   }
 
   LOGGER("Reading tech types... done");
 }
 
-void BridgeEnum::addWeaponTypeEnums() {
+void BridgeEnum::addWeaponTypeEnumsTo(DataBuffer &dataBuffer) {
   LOGGER("Reading weapon types...");
 
   for (BWAPI::WeaponType weaponType : BWAPI::WeaponTypes::allWeaponTypes()) {
-    Bridge::Globals::dataBuffer.addFields(weaponType);
+    dataBuffer.addFields(weaponType);
   }
 
   LOGGER("Reading weapon types... done");
 }
 
-void BridgeEnum::addUnitTypeEnums() {
+void BridgeEnum::addUnitTypeEnumsTo(DataBuffer &dataBuffer) {
   LOGGER("Reading unit types...");
 
   for (BWAPI::UnitType unitType : BWAPI::UnitTypes::allUnitTypes()) {
-    Bridge::Globals::dataBuffer.addFields(unitType);
+    dataBuffer.addFields(unitType);
   }
 
   LOGGER("Reading unit types... done");

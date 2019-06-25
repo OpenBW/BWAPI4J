@@ -246,7 +246,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUpgradeTypesData(JNIEn
   BUFFER_SETUP;
 
   BridgeEnum enums;
-  enums.addUpgradeTypeEnums();
+  enums.addUpgradeTypeEnumsTo(Bridge::Globals::dataBuffer);
 
   BUFFER_RETURN;
 }
@@ -255,7 +255,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getWeaponTypesData(JNIEnv
   BUFFER_SETUP;
 
   BridgeEnum enums;
-  enums.addWeaponTypeEnums();
+  enums.addWeaponTypeEnumsTo(Bridge::Globals::dataBuffer);
 
   BUFFER_RETURN;
 }
@@ -264,7 +264,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getTechTypesData(JNIEnv *
   BUFFER_SETUP;
 
   BridgeEnum enums;
-  enums.addTechTypeEnums();
+  enums.addTechTypeEnumsTo(Bridge::Globals::dataBuffer);
 
   BUFFER_RETURN;
 }
@@ -273,7 +273,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUnitTypesData(JNIEnv *
   BUFFER_SETUP;
 
   BridgeEnum enums;
-  enums.addUnitTypeEnums();
+  enums.addUnitTypeEnumsTo(Bridge::Globals::dataBuffer);
 
   BUFFER_RETURN;
 }
