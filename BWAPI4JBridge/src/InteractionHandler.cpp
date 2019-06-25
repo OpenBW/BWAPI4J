@@ -66,23 +66,19 @@ JNIEXPORT jlong JNICALL Java_org_openbw_bwapi4j_InteractionHandler_getRandomSeed
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_setFrameSkip(JNIEnv *, jobject, jint frameSkip) { BWAPI::Broodwar->setFrameSkip(frameSkip); }
 
 JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_InteractionHandler_allies_1native(JNIEnv *env, jobject) {
-  Bridge::Globals::dataBuffer.reset();
+  BUFFER_SETUP;
 
   Bridge::Globals::dataBuffer.addIds(BWAPI::Broodwar->allies());
 
-  jintArray result = env->NewIntArray(Bridge::Globals::dataBuffer.getIndex());
-  env->SetIntArrayRegion(result, 0, Bridge::Globals::dataBuffer.getIndex(), Bridge::Globals::dataBuffer.intBuf);
-  return result;
+  BUFFER_RETURN;
 }
 
 JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_InteractionHandler_enemies_1native(JNIEnv *env, jobject) {
-  Bridge::Globals::dataBuffer.reset();
+  BUFFER_SETUP;
 
   Bridge::Globals::dataBuffer.addIds(BWAPI::Broodwar->enemies());
 
-  jintArray result = env->NewIntArray(Bridge::Globals::dataBuffer.getIndex());
-  env->SetIntArrayRegion(result, 0, Bridge::Globals::dataBuffer.getIndex(), Bridge::Globals::dataBuffer.intBuf);
-  return result;
+  BUFFER_RETURN;
 }
 
 JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_InteractionHandler_getLastError_1native(JNIEnv *, jobject) {
@@ -104,13 +100,11 @@ JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_InteractionHandler_isGUIEnabl
 JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_InteractionHandler_setGUI(JNIEnv *, jobject, jboolean enabled) { BWAPI::Broodwar->setGUI(enabled); }
 
 JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_InteractionHandler_getNukeDotsData_1native(JNIEnv *env, jobject) {
-  Bridge::Globals::dataBuffer.reset();
+  BUFFER_SETUP;
 
   for (const auto &nukeDotPosition : BWAPI::Broodwar->getNukeDots()) {
     Bridge::Globals::dataBuffer.addFields(nukeDotPosition);
   }
 
-  jintArray result = env->NewIntArray(Bridge::Globals::dataBuffer.getIndex());
-  env->SetIntArrayRegion(result, 0, Bridge::Globals::dataBuffer.getIndex(), Bridge::Globals::dataBuffer.intBuf);
-  return result;
+  BUFFER_RETURN;
 }

@@ -23,6 +23,16 @@
 #include <BWAPI.h>
 #include <jni.h>
 
+#define BUFFER_SETUP \
+  { Bridge::Globals::dataBuffer.reset(); }
+
+#define BUFFER_RETURN                                                                                              \
+  {                                                                                                                \
+    jintArray result = env->NewIntArray(Bridge::Globals::dataBuffer.getIndex());                                   \
+    env->SetIntArrayRegion(result, 0, Bridge::Globals::dataBuffer.getIndex(), Bridge::Globals::dataBuffer.intBuf); \
+    return result;                                                                                                 \
+  }
+
 class DataBuffer {
  public:
   static const double RADIANS_TO_DEGREES;

@@ -53,7 +53,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_unit_Unit_getLastCommand_1na
   const auto &unit = BWAPI::Broodwar->getUnit((int)unitId);
   const auto &unitCommand = unit->getLastCommand();
 
-  Bridge::Globals::dataBuffer.reset();
+  BUFFER_SETUP;
 
   Bridge::Globals::dataBuffer.addId(unitCommand.unit);
 
@@ -67,9 +67,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_unit_Unit_getLastCommand_1na
 
   Bridge::Globals::dataBuffer.add(unitCommand.extra);
 
-  jintArray result = env->NewIntArray(Bridge::Globals::dataBuffer.getIndex());
-  env->SetIntArrayRegion(result, 0, Bridge::Globals::dataBuffer.getIndex(), Bridge::Globals::dataBuffer.intBuf);
-  return result;
+  BUFFER_RETURN;
 }
 
 JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_Unit_isVisible_1native(JNIEnv *, jobject, jint unitId, jint playerId) {

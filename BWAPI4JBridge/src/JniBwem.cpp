@@ -34,7 +34,7 @@ JniBwem bwem;
 JNIEXPORT void JNICALL Java_bwem_Map_Initialize_1native(JNIEnv *, jobject) { Bridge::bwem.initialize(BWAPI::BroodwarPtr); }
 
 JNIEXPORT jintArray JNICALL Java_bwem_Map_getInitializedData_1native(JNIEnv *env, jobject) {
-  Bridge::Globals::dataBuffer.reset();
+  BUFFER_SETUP;
 
   Bridge::Globals::dataBuffer.add(Bridge::bwem.getMap().Tiles().size());
   Bridge::Globals::dataBuffer.addFields(Bridge::bwem.getMap().Size());
@@ -103,9 +103,7 @@ JNIEXPORT jintArray JNICALL Java_bwem_Map_getInitializedData_1native(JNIEnv *env
     }
   }
 
-  jintArray result = env->NewIntArray(Bridge::Globals::dataBuffer.getIndex());
-  env->SetIntArrayRegion(result, 0, Bridge::Globals::dataBuffer.getIndex(), Bridge::Globals::dataBuffer.intBuf);
-  return result;
+  BUFFER_RETURN;
 }
 
 JNIEXPORT jboolean JNICALL Java_bwem_Map_EnableAutomaticPathAnalysis_1native(JNIEnv *, jobject) {
@@ -126,7 +124,7 @@ JNIEXPORT void JNICALL Java_bwem_Map_OnStaticBuildingDestroyed_1native(JNIEnv *,
 }
 
 JNIEXPORT jintArray JNICALL Java_bwem_Map_GetPath_1native(JNIEnv *env, jobject, jint ax, jint ay, jint bx, jint by) {
-  Bridge::Globals::dataBuffer.reset();
+  BUFFER_SETUP;
 
   const BWAPI::Position a((int)ax, (int)ay);
   const BWAPI::Position b((int)bx, (int)by);
@@ -145,7 +143,5 @@ JNIEXPORT jintArray JNICALL Java_bwem_Map_GetPath_1native(JNIEnv *env, jobject, 
 
   Bridge::Globals::dataBuffer.add(length);
 
-  jintArray result = env->NewIntArray(Bridge::Globals::dataBuffer.getIndex());
-  env->SetIntArrayRegion(result, 0, Bridge::Globals::dataBuffer.getIndex(), Bridge::Globals::dataBuffer.intBuf);
-  return result;
+  BUFFER_RETURN;
 }

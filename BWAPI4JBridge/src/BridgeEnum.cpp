@@ -18,6 +18,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+/* TODO: Add dataBuffer parameter to each of these functions' signature instead of directing mutating the global buffer. */
+
 #include "BridgeEnum.h"
 #include "DataBuffer.h"
 #include "Globals.h"
