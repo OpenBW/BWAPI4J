@@ -179,14 +179,14 @@ class BWMapImpl implements BWMap {
     return isExplored_native(tilePosition.getX(), tilePosition.getY()) == 1;
   }
 
-  private native int _isVisible(int tileX, int tileY);
+  private native int isVisible_native(int tileX, int tileY);
 
-  public boolean isVisible(int tileX, int tileY) {
-    return _isVisible(tileX, tileY) == 1;
+  public boolean isVisible(final int tileX, final int tileY) {
+    return isVisible_native(tileX, tileY) == 1;
   }
 
-  public boolean isVisible(TilePosition position) {
-    return _isVisible(position.getX(), position.getY()) == 1;
+  public boolean isVisible(final TilePosition tilePosition) {
+    return isVisible_native(tilePosition.getX(), tilePosition.getY()) == 1;
   }
 
   private native int _hasPath(int x1, int y1, int x2, int y2);

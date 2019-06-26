@@ -98,7 +98,7 @@ JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl_isExplored_1native(JNIE
   return BWAPI::Broodwar->isExplored(tileX, tileY) ? 1 : 0;
 }
 
-JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl__1isVisible(JNIEnv *, jobject, jint tileX, jint tileY) {
+JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl_isVisible_1native(JNIEnv *, jobject, jint tileX, jint tileY) {
   return BWAPI::Broodwar->isVisible(tileX, tileY) ? 1 : 0;
 }
 
