@@ -26,15 +26,15 @@
 #include <math.h>
 
 #include "Logger.h"
+#include "bwapi_BulletBridge.hpp"
+#include "bwapi_PlayerBridge.hpp"
 #include "bwapi_UnitBridge.hpp"
-#include "org_openbw_bwapi4j_BulletBridge.hpp"
-#include "org_openbw_bwapi4j_PlayerBridge.hpp"
 
 // "Static" types
-#include "org_openbw_bwapi4j_type_TechTypeBridge.hpp"
-#include "org_openbw_bwapi4j_type_UnitTypeBridge.hpp"
-#include "org_openbw_bwapi4j_type_UpgradeTypeBridge.hpp"
-#include "org_openbw_bwapi4j_type_WeaponTypeBridge.hpp"
+#include "bwapi_TechTypeBridge.hpp"
+#include "bwapi_UnitTypeBridge.hpp"
+#include "bwapi_UpgradeTypeBridge.hpp"
+#include "bwapi_WeaponTypeBridge.hpp"
 
 const double DataBuffer::RADIANS_TO_DEGREES = 180.0 / M_PI;
 const double DataBuffer::DECIMAL_PRESERVATION_SCALE = 100.0;

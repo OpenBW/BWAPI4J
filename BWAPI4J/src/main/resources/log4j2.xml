@@ -19,7 +19,7 @@
     <Loggers>
     
     	<!-- set log levels for individual classes like this -->
-		<Logger name="org.openbw.bwapi4j.BW"							level="info" additivity="false"><AppenderRef ref="Console"/><AppenderRef ref="File"/></Logger>
+		<Logger name="bwapi.BW" level="info" additivity="false"><AppenderRef ref="Console"/><AppenderRef ref="File"/></Logger>
 	    
         <Root level="debug">
             <AppenderRef ref="Console" />

@@ -20,8 +20,6 @@
 
 package bwapi;
 
-import org.openbw.bwapi4j.type.UnitType;
-
 public interface UnitFactory {
   Unit createUnit(int unitId, UnitType unitType, int timeSpotted);
 }

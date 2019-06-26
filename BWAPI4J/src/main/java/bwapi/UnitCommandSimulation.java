@@ -1,10 +1,5 @@
 package bwapi;
 
-import org.openbw.bwapi4j.type.TechType;
-import org.openbw.bwapi4j.type.UnitCommandType;
-import org.openbw.bwapi4j.type.UnitType;
-import org.openbw.bwapi4j.type.UpgradeType;
-
 public class UnitCommandSimulation {
   public boolean canIssueCommand(
       final int unitId,

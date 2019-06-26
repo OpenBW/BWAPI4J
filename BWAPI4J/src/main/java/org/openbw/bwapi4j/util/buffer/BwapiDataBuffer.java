@@ -1,15 +1,15 @@
 package org.openbw.bwapi4j.util.buffer;
 
+import bwapi.BW;
+import bwapi.Player;
 import bwapi.Position;
 import bwapi.TilePosition;
 import bwapi.Unit;
 import bwapi.UnitCommand;
+import bwapi.UnitCommandType;
 import bwapi.WalkPosition;
 import java.util.ArrayList;
 import java.util.List;
-import org.openbw.bwapi4j.BW;
-import org.openbw.bwapi4j.Player;
-import org.openbw.bwapi4j.type.UnitCommandType;
 
 public class BwapiDataBuffer {
   public static TilePosition readTilePosition(final DataBuffer data) {

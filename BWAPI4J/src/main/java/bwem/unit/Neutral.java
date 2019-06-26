@@ -3,7 +3,7 @@ package bwem.unit;
 import bwapi.Position;
 import bwapi.TilePosition;
 import bwapi.Unit;
-import org.openbw.bwapi4j.type.UnitType;
+import bwapi.UnitType;
 
 public interface Neutral {
   // If this Neutral is a Ressource, returns a typed pointer to this Ressource.

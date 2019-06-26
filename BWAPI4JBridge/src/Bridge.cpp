@@ -30,7 +30,7 @@
 #include "BridgeMap.h"
 #include "Globals.h"
 #include "Logger.h"
-#include "org_openbw_bwapi4j_BW.h"
+#include "bwapi_BW.h"
 
 #ifdef OPENBW
 #include "BW/BWData.h"
@@ -43,19 +43,19 @@
 
 #include "JniBwem.h"
 
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_createUnit_1native(JNIEnv *, jobject, jint playerID, jint unitType, jint posX, jint posY) {
+JNIEXPORT void JNICALL Java_bwapi_BW_createUnit_1native(JNIEnv *, jobject, jint playerID, jint unitType, jint posX, jint posY) {
 #ifdef OPENBW
   BWAPI::Broodwar->createUnit(BWAPI::Broodwar->getPlayer(playerID), (BWAPI::UnitType)unitType, BWAPI::Position(posX, posY));
 #endif
 }
 
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_killUnit_1native(JNIEnv *, jobject, jint unitID) {
+JNIEXPORT void JNICALL Java_bwapi_BW_killUnit_1native(JNIEnv *, jobject, jint unitID) {
 #ifdef OPENBW
   BWAPI::Broodwar->killUnit(BWAPI::Broodwar->getUnit(unitID));
 #endif
 }
 
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_exit(JNIEnv *, jobject) {
+JNIEXPORT void JNICALL Java_bwapi_BW_exit(JNIEnv *, jobject) {
 #ifndef OPENBW
   Bridge::Globals::finished = true;
   LOGGER("Exiting after current game.");
@@ -70,7 +70,7 @@ void reconnect() {
 }
 #endif
 
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame_1native(JNIEnv *env, jobject, jobject bw) {
+JNIEXPORT void JNICALL Java_bwapi_BW_startGame_1native(JNIEnv *env, jobject, jobject bw) {
   Bridge::Globals::initialize(env, bw);
 
 #ifdef OPENBW
@@ -123,7 +123,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame_1native(JNIEnv *env,
 #endif
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllBulletsData_1native(JNIEnv *env, jobject) {
+JNIEXPORT jintArray JNICALL Java_bwapi_BW_getAllBulletsData_1native(JNIEnv *env, jobject) {
   BUFFER_SETUP;
 
   for (BWAPI::Bullet bullet : BWAPI::Broodwar->getBullets()) {
@@ -133,7 +133,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllBulletsData_1native
   BUFFER_RETURN;
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllUnitsData_1native(JNIEnv *env, jobject) {
+JNIEXPORT jintArray JNICALL Java_bwapi_BW_getAllUnitsData_1native(JNIEnv *env, jobject) {
   BUFFER_SETUP;
 
   for (const auto &unit : BWAPI::Broodwar->getAllUnits()) {
@@ -143,7 +143,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllUnitsData_1native(J
   BUFFER_RETURN;
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllPlayersData_1native(JNIEnv *env, jobject) {
+JNIEXPORT jintArray JNICALL Java_bwapi_BW_getAllPlayersData_1native(JNIEnv *env, jobject) {
   BUFFER_SETUP;
 
   for (const auto &player : BWAPI::Broodwar->getPlayers()) {
@@ -160,9 +160,9 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllPlayersData_1native
   BUFFER_RETURN;
 }
 
-JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BW_getClientVersion(JNIEnv *, jobject) { return (jint)BWAPI::Broodwar->getClientVersion(); }
+JNIEXPORT jint JNICALL Java_bwapi_BW_getClientVersion(JNIEnv *, jobject) { return (jint)BWAPI::Broodwar->getClientVersion(); }
 
-JNIEXPORT jstring JNICALL Java_org_openbw_bwapi4j_BW_getPlayerName_1native(JNIEnv *env, jobject, jint playerID) {
+JNIEXPORT jstring JNICALL Java_bwapi_BW_getPlayerName_1native(JNIEnv *env, jobject, jint playerID) {
   // NewStringUTF can cause issues with unusual characters like Korean symbols
   return env->NewStringUTF(BWAPI::Broodwar->getPlayer(playerID)->getName().c_str());
   /* alternatively, use byte array:
@@ -175,7 +175,7 @@ JNIEXPORT jstring JNICALL Java_org_openbw_bwapi4j_BW_getPlayerName_1native(JNIEn
 }
 
 // TODO: Refactor to be one call for all players.
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getPlayerAdditionalData_1native(JNIEnv *env, jobject, jint playerID) {
+JNIEXPORT jintArray JNICALL Java_bwapi_BW_getPlayerAdditionalData_1native(JNIEnv *env, jobject, jint playerID) {
   BUFFER_SETUP;
 
   const auto &player = BWAPI::Broodwar->getPlayer(playerID);
@@ -207,7 +207,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getPlayerAdditionalData_1
   BUFFER_RETURN;
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getGameData_1native(JNIEnv *env, jobject) {
+JNIEXPORT jintArray JNICALL Java_bwapi_BW_getGameData_1native(JNIEnv *env, jobject) {
   BUFFER_SETUP;
 
   Bridge::Globals::dataBuffer.addFields(BWAPI::Broodwar->getScreenPosition());
@@ -242,7 +242,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getGameData_1native(JNIEn
   BUFFER_RETURN;
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUpgradeTypesData_1native(JNIEnv *env, jobject) {
+JNIEXPORT jintArray JNICALL Java_bwapi_BW_getUpgradeTypesData_1native(JNIEnv *env, jobject) {
   BUFFER_SETUP;
 
   BridgeEnum enums;
@@ -251,7 +251,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUpgradeTypesData_1nati
   BUFFER_RETURN;
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getWeaponTypesData_1native(JNIEnv *env, jobject) {
+JNIEXPORT jintArray JNICALL Java_bwapi_BW_getWeaponTypesData_1native(JNIEnv *env, jobject) {
   BUFFER_SETUP;
 
   BridgeEnum enums;
@@ -260,7 +260,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getWeaponTypesData_1nativ
   BUFFER_RETURN;
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getTechTypesData_1native(JNIEnv *env, jobject) {
+JNIEXPORT jintArray JNICALL Java_bwapi_BW_getTechTypesData_1native(JNIEnv *env, jobject) {
   BUFFER_SETUP;
 
   BridgeEnum enums;
@@ -269,7 +269,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getTechTypesData_1native(
   BUFFER_RETURN;
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUnitTypesData_1native(JNIEnv *env, jobject) {
+JNIEXPORT jintArray JNICALL Java_bwapi_BW_getUnitTypesData_1native(JNIEnv *env, jobject) {
   BUFFER_SETUP;
 
   BridgeEnum enums;
@@ -278,7 +278,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUnitTypesData_1native(
   BUFFER_RETURN;
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getStaticMinerals_1native(JNIEnv *env, jobject) {
+JNIEXPORT jintArray JNICALL Java_bwapi_BW_getStaticMinerals_1native(JNIEnv *env, jobject) {
   BUFFER_SETUP;
 
   for (const auto &staticMineral : BWAPI::Broodwar->getStaticMinerals()) {
@@ -288,7 +288,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getStaticMinerals_1native
   BUFFER_RETURN;
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getStaticGeysers_1native(JNIEnv *env, jobject) {
+JNIEXPORT jintArray JNICALL Java_bwapi_BW_getStaticGeysers_1native(JNIEnv *env, jobject) {
   BUFFER_SETUP;
 
   for (const auto &staticGeyser : BWAPI::Broodwar->getStaticGeysers()) {
@@ -298,7 +298,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getStaticGeysers_1native(
   BUFFER_RETURN;
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getStaticNeutralUnits_1native(JNIEnv *env, jobject) {
+JNIEXPORT jintArray JNICALL Java_bwapi_BW_getStaticNeutralUnits_1native(JNIEnv *env, jobject) {
   BUFFER_SETUP;
 
   for (const auto &staticNeutralUnit : BWAPI::Broodwar->getStaticNeutralUnits()) {
@@ -308,7 +308,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getStaticNeutralUnits_1na
   BUFFER_RETURN;
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUnitsOnTile_1native(JNIEnv *env, jobject, jint tileX, jint tileY) {
+JNIEXPORT jintArray JNICALL Java_bwapi_BW_getUnitsOnTile_1native(JNIEnv *env, jobject, jint tileX, jint tileY) {
   BUFFER_SETUP;
 
   for (const auto &unit : BWAPI::Broodwar->getUnitsOnTile(tileX, tileY)) {
@@ -318,7 +318,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUnitsOnTile_1native(JN
   BUFFER_RETURN;
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUnitsInRectangle_1native(JNIEnv *env, jobject, jint left, jint top, jint right, jint bottom) {
+JNIEXPORT jintArray JNICALL Java_bwapi_BW_getUnitsInRectangle_1native(JNIEnv *env, jobject, jint left, jint top, jint right, jint bottom) {
   BUFFER_SETUP;
 
   for (const auto &unit : BWAPI::Broodwar->getUnitsInRectangle(left, top, right, bottom)) {
@@ -328,7 +328,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUnitsInRectangle_1nati
   BUFFER_RETURN;
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUnitsInRadius_1native(JNIEnv *env, jobject, jint x, jint y, jint radius) {
+JNIEXPORT jintArray JNICALL Java_bwapi_BW_getUnitsInRadius_1native(JNIEnv *env, jobject, jint x, jint y, jint radius) {
   BUFFER_SETUP;
 
   for (const auto &unit : BWAPI::Broodwar->getUnitsInRadius(x, y, radius)) {
@@ -338,6 +338,4 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUnitsInRadius_1native(
   BUFFER_RETURN;
 }
 
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_setCommandOptimizationLevel(JNIEnv *, jobject, jint level) {
-  BWAPI::Broodwar->setCommandOptimizationLevel(level);
-}
+JNIEXPORT void JNICALL Java_bwapi_BW_setCommandOptimizationLevel(JNIEnv *, jobject, jint level) { BWAPI::Broodwar->setCommandOptimizationLevel(level); }

@@ -4,9 +4,9 @@ import bwapi.TilePosition;
 import bwapi.Unit;
 import java.util.ArrayList;
 import java.util.List;
+import mockdata.dataexporter.BWDataProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openbw.bwapi4j.test.BWDataProvider;
 
 /** Container class for BWAPI dummy data to feed into test and/or mocks. */
 public class BWAPI_DummyData {

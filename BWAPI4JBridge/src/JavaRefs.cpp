@@ -31,9 +31,9 @@ void JavaRefs::initialize(JNIEnv *env) {
   tilePositionClass = env->FindClass("bwapi/TilePosition");
   tilePositionConstructor = env->GetMethodID(tilePositionClass, "<init>", "(II)V");
 
-  bwClass = env->FindClass("org/openbw/bwapi4j/BW");
+  bwClass = env->FindClass("bwapi/BW");
 
-  bwMapClass = env->FindClass("org/openbw/bwapi4j/BWMapImpl");
+  bwMapClass = env->FindClass("bwapi/BWMapImpl");
 
   LOGGER("Initializing Java references... done");
 }

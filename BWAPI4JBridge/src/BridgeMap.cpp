@@ -24,7 +24,7 @@
 
 #include "Globals.h"
 #include "Logger.h"
-#include "org_openbw_bwapi4j_BWMapImpl.h"
+#include "bwapi_BWMapImpl.h"
 
 template <typename F>
 void setJava2DIntArray(JNIEnv *env, jclass javaRef, jobject targetObject, const std::string &targetVariableName, const int maxX, const int maxY, F func) {
@@ -45,7 +45,7 @@ void setJava2DIntArray(JNIEnv *env, jclass javaRef, jobject targetObject, const 
 void BridgeMap::initialize(JNIEnv *env, jobject bw, const JavaRefs &javaRefs) {
   LOGGER("Reading map information...");
 
-  auto bwMap = env->GetObjectField(bw, env->GetFieldID(javaRefs.bwClass, "bwMap", "Lorg/openbw/bwapi4j/BWMapImpl;"));
+  auto bwMap = env->GetObjectField(bw, env->GetFieldID(javaRefs.bwClass, "bwMap", "Lbwapi/BWMapImpl;"));
 
   auto mapHash = env->NewStringUTF(BWAPI::Broodwar->mapHash().c_str());
   env->SetObjectField(bwMap, env->GetFieldID(javaRefs.bwMapClass, "mapHash", "Ljava/lang/String;"), mapHash);
@@ -90,29 +90,29 @@ void BridgeMap::initialize(JNIEnv *env, jobject bw, const JavaRefs &javaRefs) {
   LOGGER("Reading map information... done");
 }
 
-JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl_isBuildable_1native(JNIEnv *, jobject, jint tileX, jint tileY, jboolean considerBuildings) {
+JNIEXPORT jint JNICALL Java_bwapi_BWMapImpl_isBuildable_1native(JNIEnv *, jobject, jint tileX, jint tileY, jboolean considerBuildings) {
   return BWAPI::Broodwar->isBuildable(tileX, tileY, considerBuildings) ? 1 : 0;
 }
 
-JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl_isExplored_1native(JNIEnv *, jobject, jint tileX, jint tileY) {
+JNIEXPORT jint JNICALL Java_bwapi_BWMapImpl_isExplored_1native(JNIEnv *, jobject, jint tileX, jint tileY) {
   return BWAPI::Broodwar->isExplored(tileX, tileY) ? 1 : 0;
 }
 
-JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl_isVisible_1native(JNIEnv *, jobject, jint tileX, jint tileY) {
+JNIEXPORT jint JNICALL Java_bwapi_BWMapImpl_isVisible_1native(JNIEnv *, jobject, jint tileX, jint tileY) {
   return BWAPI::Broodwar->isVisible(tileX, tileY) ? 1 : 0;
 }
 
-JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl_hasPath_1native(JNIEnv *, jobject, jint x1, jint y1, jint x2, jint y2) {
+JNIEXPORT jint JNICALL Java_bwapi_BWMapImpl_hasPath_1native(JNIEnv *, jobject, jint x1, jint y1, jint x2, jint y2) {
   return BWAPI::Broodwar->hasPath(BWAPI::Position(x1, y1), BWAPI::Position(x2, y2)) ? 1 : 0;
 }
 
-JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_BWMapImpl_canBuildHere_1native(JNIEnv *, jobject, jint x, jint y, jint unitTypeId, jint builderId,
-                                                                                  jboolean checkExplored) {
+JNIEXPORT jboolean JNICALL Java_bwapi_BWMapImpl_canBuildHere_1native(JNIEnv *, jobject, jint x, jint y, jint unitTypeId, jint builderId,
+                                                                     jboolean checkExplored) {
   const auto &builder = BWAPI::Broodwar->getUnit(builderId);
   return BWAPI::Broodwar->canBuildHere(BWAPI::TilePosition((int)x, (int)y), BWAPI::UnitType((int)unitTypeId), builder, (bool)checkExplored);
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BWMapImpl_getCreepData_1native(JNIEnv *env, jobject) {
+JNIEXPORT jintArray JNICALL Java_bwapi_BWMapImpl_getCreepData_1native(JNIEnv *env, jobject) {
   BUFFER_SETUP;
 
   for (int tileX = 0; tileX < BWAPI::Broodwar->mapWidth(); ++tileX) {
@@ -125,7 +125,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BWMapImpl_getCreepData_1nati
   BUFFER_RETURN;
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BWMapImpl_getPylonPowerData_1native(JNIEnv *env, jobject) {
+JNIEXPORT jintArray JNICALL Java_bwapi_BWMapImpl_getPylonPowerData_1native(JNIEnv *env, jobject) {
   BUFFER_SETUP;
 
   for (int tileX = 0; tileX < BWAPI::Broodwar->mapWidth(); ++tileX) {

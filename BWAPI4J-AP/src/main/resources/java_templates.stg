@@ -9,14 +9,14 @@ package $model.packageName$;
 import org.openbw.bwapi4j.util.BridgeUtils;
 
 public class $model.bridgeClassName$ {
-  private final org.openbw.bwapi4j.BW bw;
+  private final bwapi.BW bw;
   $model.delegates:{d|private final $d.fqClassName$ $d.fieldName$;
   }$
 
   $model.assignments.namedAssignments:{n|public static final int $n.name$ = $n.index$;
   }$
 
-  public $model.bridgeClassName$(org.openbw.bwapi4j.BW bw$if(model.delegates)$, $model.delegates:{d|$d.fqClassName$ $d.fieldName$}; separator=", "$$endif$) {
+  public $model.bridgeClassName$(bwapi.BW bw$if(model.delegates)$, $model.delegates:{d|$d.fqClassName$ $d.fieldName$}; separator=", "$$endif$) {
     this.bw = bw;
     $model.delegates:{d|this.$d.fieldName$ = $d.fieldName$;}$
   }

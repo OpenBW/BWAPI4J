@@ -133,13 +133,13 @@ project(":BWAPI4J") {
         def nativeIncludes = "src/native/include"
         commandLine "javah", "-jni", "-verbose", "-d", nativeIncludes, "-classpath", classpath,
                 "bwem.Map",
-                "org.openbw.bwapi4j.BW",
-                "org.openbw.bwapi4j.BWMapImpl",
-                "org.openbw.bwapi4j.InteractionHandler",
-                "org.openbw.bwapi4j.MapDrawer",
-                "org.openbw.bwapi4j.DamageEvaluator",
-                "org.openbw.bwapi4j.Player",
-                "org.openbw.bwapi4j.Bullet",
+                "bwapi.BW",
+                "bwapi.BWMapImpl",
+                "bwapi.InteractionHandler",
+                "bwapi.MapDrawer",
+                "bwapi.DamageEvaluator",
+                "bwapi.Player",
+                "bwapi.Bullet",
                 "bwapi.UnitCommandSimulation",
                 "bwapi.Unit"
 

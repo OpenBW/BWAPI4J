@@ -20,32 +20,30 @@
 
 #include <BWAPI.h>
 
-#include "org_openbw_bwapi4j_DamageEvaluator.h"
+#include "bwapi_DamageEvaluator.h"
 
-JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_DamageEvaluator_getDamageFrom_1native__III(JNIEnv *, jobject, jint fromType, jint toType, jint fromPlayer) {
+JNIEXPORT jint JNICALL Java_bwapi_DamageEvaluator_getDamageFrom_1native__III(JNIEnv *, jobject, jint fromType, jint toType, jint fromPlayer) {
   return BWAPI::Broodwar->getDamageFrom((BWAPI::UnitType)fromType, (BWAPI::UnitType)toType, BWAPI::Broodwar->getPlayer(fromPlayer));
 }
 
-JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_DamageEvaluator_getDamageFrom_1native__II(JNIEnv *, jobject, jint fromType, jint toType) {
+JNIEXPORT jint JNICALL Java_bwapi_DamageEvaluator_getDamageFrom_1native__II(JNIEnv *, jobject, jint fromType, jint toType) {
   return BWAPI::Broodwar->getDamageFrom((BWAPI::UnitType)fromType, (BWAPI::UnitType)toType);
 }
 
-JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_DamageEvaluator_getDamageFrom_1native__IIII(JNIEnv *, jobject, jint fromType, jint toType, jint fromPlayer,
-                                                                                           jint toPlayer) {
+JNIEXPORT jint JNICALL Java_bwapi_DamageEvaluator_getDamageFrom_1native__IIII(JNIEnv *, jobject, jint fromType, jint toType, jint fromPlayer, jint toPlayer) {
   return BWAPI::Broodwar->getDamageFrom((BWAPI::UnitType)fromType, (BWAPI::UnitType)toType, BWAPI::Broodwar->getPlayer(fromPlayer),
                                         BWAPI::Broodwar->getPlayer(toPlayer));
 }
 
-JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_DamageEvaluator_getDamageTo_1native__III(JNIEnv *, jobject, jint fromType, jint toType, jint fromPlayer) {
+JNIEXPORT jint JNICALL Java_bwapi_DamageEvaluator_getDamageTo_1native__III(JNIEnv *, jobject, jint fromType, jint toType, jint fromPlayer) {
   return BWAPI::Broodwar->getDamageTo((BWAPI::UnitType)fromType, (BWAPI::UnitType)toType, BWAPI::Broodwar->getPlayer(fromPlayer));
 }
 
-JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_DamageEvaluator_getDamageTo_1native__II(JNIEnv *, jobject, jint fromType, jint toType) {
+JNIEXPORT jint JNICALL Java_bwapi_DamageEvaluator_getDamageTo_1native__II(JNIEnv *, jobject, jint fromType, jint toType) {
   return BWAPI::Broodwar->getDamageTo((BWAPI::UnitType)fromType, (BWAPI::UnitType)toType);
 }
 
-JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_DamageEvaluator_getDamageTo_1native__IIII(JNIEnv *, jobject, jint fromType, jint toType, jint fromPlayer,
-                                                                                         jint toPlayer) {
+JNIEXPORT jint JNICALL Java_bwapi_DamageEvaluator_getDamageTo_1native__IIII(JNIEnv *, jobject, jint fromType, jint toType, jint fromPlayer, jint toPlayer) {
   return BWAPI::Broodwar->getDamageTo((BWAPI::UnitType)fromType, (BWAPI::UnitType)toType, BWAPI::Broodwar->getPlayer(fromPlayer),
                                       BWAPI::Broodwar->getPlayer(toPlayer));
 }

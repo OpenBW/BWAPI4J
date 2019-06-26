@@ -20,10 +20,10 @@
 
 package org.openbw.bwapi4j.util;
 
+import bwapi.InteractionHandler;
 import java.util.concurrent.Callable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openbw.bwapi4j.InteractionHandler;
 
 public class Cache<T> {
   private static final Logger logger = LogManager.getLogger();

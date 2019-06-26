@@ -1,8 +1,5 @@
 package bwapi;
 
-import org.openbw.bwapi4j.BW;
-import org.openbw.bwapi4j.type.UnitType;
-
 public class DefaultUnitFactory implements UnitFactory {
   private final BW bw;
 

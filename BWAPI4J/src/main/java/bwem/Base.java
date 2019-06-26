@@ -2,10 +2,10 @@ package bwem;
 
 import bwapi.Position;
 import bwapi.TilePosition;
+import bwapi.UnitType;
 import bwem.unit.Geyser;
 import bwem.unit.Mineral;
 import java.util.List;
-import org.openbw.bwapi4j.type.UnitType;
 
 public interface Base {
   Position RESOURCE_DEPOT_SIZE_IN_PIXELS = UnitType.Terran_Command_Center.tileSize().toPosition();

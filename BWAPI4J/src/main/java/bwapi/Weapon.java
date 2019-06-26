@@ -23,7 +23,6 @@ package bwapi;
 import org.openbw.bwapi4j.ap.BridgeValue;
 import org.openbw.bwapi4j.ap.Named;
 import org.openbw.bwapi4j.ap.NativeClass;
-import org.openbw.bwapi4j.type.WeaponType;
 
 /** Holds information for a ground/air weapon. */
 @NativeClass(parentName = "BWAPI::Unit")

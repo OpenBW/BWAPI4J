@@ -20,6 +20,8 @@
 
 package org.openbw.bwapi4j.util;
 
+import bwapi.BW;
+import bwapi.BWAPI4J;
 import java.awt.image.ColorModel;
 import java.io.File;
 import java.net.URL;
@@ -32,8 +34,6 @@ import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openbw.bwapi4j.BW;
-import org.openbw.bwapi4j.BWAPI4J;
 import org.openbw.bwapi4j.util.system.OSType;
 import org.openbw.bwapi4j.util.system.SystemUtils;
 
