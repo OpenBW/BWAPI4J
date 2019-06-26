@@ -54,6 +54,7 @@ import org.openbw.bwapi4j.unit.UnitFactory;
 import org.openbw.bwapi4j.unit.WeaponBridge;
 import org.openbw.bwapi4j.util.Cache;
 import org.openbw.bwapi4j.util.DependencyManager;
+import org.openbw.bwapi4j.util.buffer.DataBuffer;
 import org.openbw.bwapi4j.util.system.SystemUtils;
 
 public class BW {
@@ -650,8 +651,25 @@ public class BW {
     return getUnits(neutral());
   }
 
+  private native int[] getStaticMinerals_native();
+
   public List<Unit> getStaticMinerals() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final DataBuffer data = new DataBuffer(getStaticMinerals_native());
+    final int dataSize = data.size();
+
+    final List<Unit> staticMinerals = new ArrayList<>(dataSize);
+
+    for (int i = 0; i < dataSize; ++i) {
+      final int unitId = data.readInt();
+
+      final Unit unit = getUnit(unitId);
+
+      if (unit != null) {
+        staticMinerals.add(unit);
+      }
+    }
+
+    return staticMinerals;
   }
 
   public List<Unit> getStaticGeysers() {
