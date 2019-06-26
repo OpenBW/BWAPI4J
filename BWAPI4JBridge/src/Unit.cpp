@@ -76,34 +76,34 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_unit_Unit_getUnitsInRadius_1
   const auto &unit = BWAPI::Broodwar->getUnit(unitId);
 
   if (unit) {
-	  for (const auto &unitInRadius : unit->getUnitsInRadius(radius)) {
-		  Bridge::Globals::dataBuffer.add(unitInRadius->getID());
-	  }
+    for (const auto &unitInRadius : unit->getUnitsInRadius(radius)) {
+      Bridge::Globals::dataBuffer.add(unitInRadius->getID());
+    }
   }
 
   BUFFER_RETURN;
 }
 
 JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_unit_Unit_getUnitsInWeaponRange_1native(JNIEnv *env, jobject, jint unitId, jint weaponTypeId) {
-	BUFFER_SETUP;
+  BUFFER_SETUP;
 
-	const auto &unit = BWAPI::Broodwar->getUnit(unitId);
+  const auto &unit = BWAPI::Broodwar->getUnit(unitId);
 
-	if (unit) {
-		const auto weaponType = BWAPI::WeaponType(weaponTypeId);
-		for (const auto &unitInWeaponRange : unit->getUnitsInWeaponRange(weaponType)) {
-			Bridge::Globals::dataBuffer.add(unitInWeaponRange->getID());
-		}
-	}
+  if (unit) {
+    const auto weaponType = BWAPI::WeaponType(weaponTypeId);
+    for (const auto &unitInWeaponRange : unit->getUnitsInWeaponRange(weaponType)) {
+      Bridge::Globals::dataBuffer.add(unitInWeaponRange->getID());
+    }
+  }
 
-	BUFFER_RETURN;
+  BUFFER_RETURN;
 }
 
 JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_Unit_isInWeaponRange_1native(JNIEnv *, jobject, jint unitId, jint targetUnitId) {
-	const auto &unit = BWAPI::Broodwar->getUnit(unitId);
-	const auto &targetUnit = BWAPI::Broodwar->getUnit(targetUnitId);
+  const auto &unit = BWAPI::Broodwar->getUnit(unitId);
+  const auto &targetUnit = BWAPI::Broodwar->getUnit(targetUnitId);
 
-	return unit && targetUnit && unit->isInWeaponRange(targetUnit);
+  return unit && targetUnit && unit->isInWeaponRange(targetUnit);
 }
 
 JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_Unit_isVisible_1native(JNIEnv *, jobject, jint unitId, jint playerId) {
