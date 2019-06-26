@@ -175,11 +175,15 @@ public class BW {
     createUnit_native(owner.getID(), type.getID(), position.getX(), position.getY());
   }
 
-  public void killUnit(Unit unit) {
-    this.killUnit(unit.getID());
-  }
+  private native void killUnit_native(int unitID);
 
-  private native void killUnit(int unitID);
+  /**
+   * Kills the specified unit. This method only works with OpenBW and will do nothing if used with
+   * original BW.
+   */
+  public void killUnit(final Unit unit) {
+    killUnit_native(unit.getID());
+  }
 
   public native void exit();
 

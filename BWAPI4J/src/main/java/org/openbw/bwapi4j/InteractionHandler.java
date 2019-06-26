@@ -132,16 +132,6 @@ public final class InteractionHandler {
     this.apm_including_selects = data[CacheIndex.APM_INCLUDING_SELECTS.ordinal()];
   }
 
-  /**
-   * Kills the given unit. This method works with OpenBW only and will do nothing if used with
-   * original BW.
-   *
-   * @param unit to kill
-   */
-  public void killUnit(Unit unit) {
-    this.bw.killUnit(unit);
-  }
-
   /** @return the bot player */
   public Player self() {
     return this.bw.getPlayer(this.selfId);

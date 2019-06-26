@@ -49,7 +49,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_createUnit_1native(JNIEnv *, j
 #endif
 }
 
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_killUnit(JNIEnv *, jobject, jint unitID) {
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_killUnit_1native(JNIEnv *, jobject, jint unitID) {
 #ifdef OPENBW
   BWAPI::Broodwar->killUnit(BWAPI::Broodwar->getUnit(unitID));
 #endif
