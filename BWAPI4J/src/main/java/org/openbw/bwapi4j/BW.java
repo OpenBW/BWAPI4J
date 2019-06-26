@@ -165,11 +165,15 @@ public class BW {
     startGame(this);
   }
 
-  public void createUnit(Player owner, UnitType type, int posX, int posY) {
-    this.createUnit(owner.getID(), type.getID(), posX, posY);
-  }
+  private native void createUnit_native(int ownerId, int unitTypeId, int posX, int posY);
 
-  private native void createUnit(int ownerId, int unitTypeId, int posX, int posY);
+  /**
+   * Creates a unit of the specified type for the speceified player at the specified position. This
+   * method only works with OpenBW and will do nothing if used with original BW.
+   */
+  public void createUnit(final Player owner, final UnitType type, final Position position) {
+    createUnit_native(owner.getID(), type.getID(), position.getX(), position.getY());
+  }
 
   public void killUnit(Unit unit) {
     this.killUnit(unit.getID());

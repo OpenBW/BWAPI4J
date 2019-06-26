@@ -28,7 +28,6 @@ import org.apache.logging.log4j.Logger;
 import org.openbw.bwapi4j.type.BwError;
 import org.openbw.bwapi4j.type.GameType;
 import org.openbw.bwapi4j.type.Key;
-import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.util.BridgeUtils;
 import org.openbw.bwapi4j.util.Cache;
@@ -131,19 +130,6 @@ public final class InteractionHandler {
     this.isPaused = data[CacheIndex.IS_PAUSED.ordinal()] == 1;
     this.apm = data[CacheIndex.APM.ordinal()];
     this.apm_including_selects = data[CacheIndex.APM_INCLUDING_SELECTS.ordinal()];
-  }
-
-  /**
-   * Creates a unit of given type for given player at the given x,y coordinates. This method works
-   * with OpenBW only and will do nothing if used with original BW.
-   *
-   * @param owner
-   * @param type
-   * @param posX
-   * @param posY
-   */
-  public void createUnit(Player owner, UnitType type, int posX, int posY) {
-    this.bw.createUnit(owner, type, posX, posY);
   }
 
   /**

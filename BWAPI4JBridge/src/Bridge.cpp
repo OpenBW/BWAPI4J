@@ -43,7 +43,7 @@
 
 #include "JniBwem.h"
 
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_createUnit(JNIEnv *, jobject, jint playerID, jint unitType, jint posX, jint posY) {
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_createUnit_1native(JNIEnv *, jobject, jint playerID, jint unitType, jint posX, jint posY) {
 #ifdef OPENBW
   BWAPI::Broodwar->createUnit(BWAPI::Broodwar->getPlayer(playerID), (BWAPI::UnitType)unitType, BWAPI::Position(posX, posY));
 #endif
