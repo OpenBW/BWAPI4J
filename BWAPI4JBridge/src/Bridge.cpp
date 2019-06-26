@@ -297,3 +297,13 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getStaticGeysers_1native(
 
   BUFFER_RETURN;
 }
+
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getStaticNeutralUnits_1native(JNIEnv *env, jobject) {
+  BUFFER_SETUP;
+
+  for (const auto &staticNeutralUnit : BWAPI::Broodwar->getStaticNeutralUnits()) {
+    Bridge::Globals::dataBuffer.addId(staticNeutralUnit);
+  }
+
+  BUFFER_RETURN;
+}

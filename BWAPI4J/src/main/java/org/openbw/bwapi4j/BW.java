@@ -668,8 +668,12 @@ public class BW {
     return BwapiDataBuffer.readUnits(data, this);
   }
 
+  private native int[] getStaticNeutralUnits_native();
+
   public List<Unit> getStaticNeutralUnits() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final DataBuffer data = new DataBuffer(getStaticNeutralUnits_native());
+
+    return BwapiDataBuffer.readUnits(data, this);
   }
 
   public Collection<Bullet> getBullets() {
