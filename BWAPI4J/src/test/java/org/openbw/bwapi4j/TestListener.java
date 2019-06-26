@@ -1,5 +1,6 @@
 package org.openbw.bwapi4j;
 
+import bwapi.Flag;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;

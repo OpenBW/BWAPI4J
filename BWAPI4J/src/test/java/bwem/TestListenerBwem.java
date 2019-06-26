@@ -1,12 +1,12 @@
 package bwem;
 
+import bwapi.Flag;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.BWEventListener;
-import org.openbw.bwapi4j.Flag;
 import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;

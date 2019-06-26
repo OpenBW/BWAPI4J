@@ -1,4 +1,4 @@
-package org.openbw.bwapi4j;
+package bwapi;
 
 public enum MouseButton {
   M_LEFT,

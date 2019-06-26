@@ -1,6 +1,7 @@
-package org.openbw.bwapi4j;
+package bwapi;
 
 import java.util.List;
+import org.openbw.bwapi4j.Player;
 
 public class Force {
   public int getID() {

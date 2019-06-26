@@ -20,6 +20,8 @@
 
 package org.openbw.bwapi4j;
 
+import bwapi.Flag;
+import bwapi.MouseButton;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;

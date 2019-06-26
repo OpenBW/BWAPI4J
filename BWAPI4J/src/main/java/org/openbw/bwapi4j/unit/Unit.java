@@ -20,6 +20,7 @@
 
 package org.openbw.bwapi4j.unit;
 
+import bwapi.Region;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -29,7 +30,6 @@ import java.util.stream.Collectors;
 import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.Region;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.ap.BridgeValue;
 import org.openbw.bwapi4j.ap.LookedUp;

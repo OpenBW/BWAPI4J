@@ -20,6 +20,7 @@
 
 package org.openbw.bwapi4j;
 
+import bwapi.Force;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumMap;
