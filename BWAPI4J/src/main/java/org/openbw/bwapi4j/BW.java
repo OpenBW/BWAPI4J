@@ -1171,9 +1171,7 @@ public class BW {
     throw new UnsupportedOperationException("TODO"); // TODO
   }
 
-  public void setCommandOptimizationLevel(int level) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
+  public native void setCommandOptimizationLevel(int level);
 
   public int countdownTimer() {
     throw new UnsupportedOperationException("TODO"); // TODO

@@ -337,3 +337,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUnitsInRadius_1native(
 
   BUFFER_RETURN;
 }
+
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_setCommandOptimizationLevel(JNIEnv *, jobject, jint level) {
+  BWAPI::Broodwar->setCommandOptimizationLevel(level);
+}
