@@ -794,12 +794,16 @@ public class BW {
         topLeft.getX(), topLeft.getY(), bottomRight.getX(), bottomRight.getY());
   }
 
-  public List<Unit> getUnitsInRadius(int x, int y, int radius) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  private native int[] getUnitsInRadius_native(int x, int y, int radius);
+
+  public List<Unit> getUnitsInRadius(final int x, final int y, final int radius) {
+    final DataBuffer data = new DataBuffer(getUnitsInRadius_native(x, y, radius));
+
+    return BwapiDataBuffer.readUnits(data, this);
   }
 
-  public List<Unit> getUnitsInRadius(Position center, int radius) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public List<Unit> getUnitsInRadius(final Position center, final int radius) {
+    return getUnitsInRadius(center.getX(), center.getY(), radius);
   }
 
   public BwError getLastError() {

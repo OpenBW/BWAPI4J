@@ -331,3 +331,13 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUnitsInRectangle_1nati
 
   BUFFER_RETURN;
 }
+
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUnitsInRadius_1native(JNIEnv *env, jobject, jint x, jint y, jint radius) {
+  BUFFER_SETUP;
+
+  for (const auto &unit : BWAPI::Broodwar->getUnitsInRadius(x, y, radius)) {
+    Bridge::Globals::dataBuffer.addId(unit);
+  }
+
+  BUFFER_RETURN;
+}
