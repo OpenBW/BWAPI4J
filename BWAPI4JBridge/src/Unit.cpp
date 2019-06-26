@@ -99,6 +99,13 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_unit_Unit_getUnitsInWeaponRa
 	BUFFER_RETURN;
 }
 
+JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_Unit_isInWeaponRange_1native(JNIEnv *, jobject, jint unitId, jint targetUnitId) {
+	const auto &unit = BWAPI::Broodwar->getUnit(unitId);
+	const auto &targetUnit = BWAPI::Broodwar->getUnit(targetUnitId);
+
+	return unit && targetUnit && unit->isInWeaponRange(targetUnit);
+}
+
 JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_Unit_isVisible_1native(JNIEnv *, jobject, jint unitId, jint playerId) {
   const auto &unit = BWAPI::Broodwar->getUnit((int)unitId);
   const auto &player = BWAPI::Broodwar->getPlayer((int)playerId);

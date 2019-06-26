@@ -875,8 +875,10 @@ public class Unit implements Comparable<Unit> {
     return invincible;
   }
 
-  public boolean isInWeaponRange(Unit target) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  private native boolean isInWeaponRange_native(int unitId, int targetUnitId);
+
+  public boolean isInWeaponRange(final Unit target) {
+    return isInWeaponRange_native(getID(), target.getID());
   }
 
   public boolean isIrradiated() {
