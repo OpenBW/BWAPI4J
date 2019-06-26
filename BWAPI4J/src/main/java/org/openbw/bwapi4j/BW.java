@@ -660,8 +660,12 @@ public class BW {
     return BwapiDataBuffer.readUnits(data, this);
   }
 
+  private native int[] getStaticGeysers_native();
+
   public List<Unit> getStaticGeysers() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final DataBuffer data = new DataBuffer(getStaticGeysers_native());
+
+    return BwapiDataBuffer.readUnits(data, this);
   }
 
   public List<Unit> getStaticNeutralUnits() {

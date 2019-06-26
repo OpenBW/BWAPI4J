@@ -287,3 +287,13 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getStaticMinerals_1native
 
 	BUFFER_RETURN;
 }
+
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getStaticGeysers_1native(JNIEnv *env, jobject) {
+	BUFFER_SETUP;
+
+	for (const auto &staticGeyser : BWAPI::Broodwar->getStaticGeysers()) {
+		Bridge::Globals::dataBuffer.addId(staticGeyser);
+	}
+
+	BUFFER_RETURN;
+}
