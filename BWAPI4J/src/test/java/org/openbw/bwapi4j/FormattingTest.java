@@ -27,7 +27,7 @@ public class FormattingTest {
    */
   @Test
   public void CheckNativeSuffix() throws IOException {
-    for (final Path file : getDirectoryContents(Paths.get("src\\main\\java"))) {
+    for (final Path file : getDirectoryContents(Paths.get("src", "main", "java"))) {
       if (!Files.isRegularFile(file)) {
         continue;
       }
