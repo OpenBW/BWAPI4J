@@ -3,22 +3,24 @@ package org.openbw.bwapi4j.util.buffer;
 public class DataBuffer {
   private int index;
   private final int[] data;
+  private final int dataSize;
 
   public DataBuffer(final int[] data) {
     this.index = 0;
-    this.data = data;
+    this.data = data == null ? new int[0] : data;
+    this.dataSize = this.data.length;
   }
 
   public int size() {
-    return data == null ? 0 : data.length;
+    return dataSize;
   }
 
-  protected int readIntAndIncrementIndex() {
-    return data[index++];
+  public boolean hasNext() {
+    return index < dataSize;
   }
 
   public int readInt() {
-    return readIntAndIncrementIndex();
+    return data[index++];
   }
 
   public boolean readBoolean() {

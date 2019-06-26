@@ -1,6 +1,9 @@
 package org.openbw.bwapi4j.util.buffer;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.openbw.bwapi4j.BW;
+import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.WalkPosition;
@@ -40,5 +43,43 @@ public class BwapiDataBuffer {
     final Unit targetUnit = bw.getUnit(targetUnitId);
 
     return new UnitCommand(unit, unitCommandType, targetUnit, x, y, extra);
+  }
+
+  public static Unit readUnit(final DataBuffer data, final BW bw) {
+    final int unitId = data.readInt();
+    return bw.getUnit(unitId);
+  }
+
+  public static List<Unit> readUnits(final DataBuffer data, final BW bw) {
+    final List<Unit> units = new ArrayList<>(data.size());
+
+    while (data.hasNext()) {
+      final Unit unit = readUnit(data, bw);
+
+      if (unit != null) {
+        units.add(unit);
+      }
+    }
+
+    return units;
+  }
+
+  public static Player readPlayer(final DataBuffer data, final BW bw) {
+    final int playerId = data.readInt();
+    return bw.getPlayer(playerId);
+  }
+
+  public static List<Player> readPlayers(final DataBuffer data, final BW bw) {
+    final List<Player> players = new ArrayList<>(data.size());
+
+    while (data.hasNext()) {
+      final Player player = readPlayer(data, bw);
+
+      if (player != null) {
+        players.add(player);
+      }
+    }
+
+    return players;
   }
 }
