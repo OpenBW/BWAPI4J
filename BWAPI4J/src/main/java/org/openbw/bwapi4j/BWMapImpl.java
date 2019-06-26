@@ -169,14 +169,14 @@ class BWMapImpl implements BWMap {
     return isBuildable(tilePosition.getX(), tilePosition.getY());
   }
 
-  private native int _isExplored(int tileX, int tileY);
+  private native int isExplored_native(int tileX, int tileY);
 
-  public boolean isExplored(int tileX, int tileY) {
-    return _isExplored(tileX, tileY) == 1;
+  public boolean isExplored(final int tileX, final int tileY) {
+    return isExplored_native(tileX, tileY) == 1;
   }
 
-  public boolean isExplored(TilePosition position) {
-    return _isExplored(position.getX(), position.getY()) == 1;
+  public boolean isExplored(final TilePosition tilePosition) {
+    return isExplored_native(tilePosition.getX(), tilePosition.getY()) == 1;
   }
 
   private native int _isVisible(int tileX, int tileY);
