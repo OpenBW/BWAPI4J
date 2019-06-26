@@ -279,21 +279,21 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUnitTypesData_1native(
 }
 
 JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getStaticMinerals_1native(JNIEnv *env, jobject) {
-	BUFFER_SETUP;
+  BUFFER_SETUP;
 
-	for (const auto &staticMineral : BWAPI::Broodwar->getStaticMinerals()) {
-		Bridge::Globals::dataBuffer.addId(staticMineral);
-	}
+  for (const auto &staticMineral : BWAPI::Broodwar->getStaticMinerals()) {
+    Bridge::Globals::dataBuffer.addId(staticMineral);
+  }
 
-	BUFFER_RETURN;
+  BUFFER_RETURN;
 }
 
 JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getStaticGeysers_1native(JNIEnv *env, jobject) {
-	BUFFER_SETUP;
+  BUFFER_SETUP;
 
-	for (const auto &staticGeyser : BWAPI::Broodwar->getStaticGeysers()) {
-		Bridge::Globals::dataBuffer.addId(staticGeyser);
-	}
+  for (const auto &staticGeyser : BWAPI::Broodwar->getStaticGeysers()) {
+    Bridge::Globals::dataBuffer.addId(staticGeyser);
+  }
 
-	BUFFER_RETURN;
+  BUFFER_RETURN;
 }
