@@ -70,7 +70,7 @@ void reconnect() {
 }
 #endif
 
-JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame(JNIEnv *env, jobject, jobject bw) {
+JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame_1native(JNIEnv *env, jobject, jobject bw) {
   Bridge::Globals::initialize(env, bw);
 
 #ifdef OPENBW

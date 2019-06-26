@@ -161,10 +161,6 @@ public class BW {
     }
   }
 
-  public void startGame() {
-    startGame(this);
-  }
-
   private native void createUnit_native(int ownerId, int unitTypeId, int posX, int posY);
 
   /**
@@ -187,7 +183,11 @@ public class BW {
 
   public native void exit();
 
-  private native void startGame(BW bw);
+  private native void startGame_native(BW bw);
+
+  public void startGame() {
+    startGame_native(this);
+  }
 
   private native int[] getUpgradeTypesData();
 
