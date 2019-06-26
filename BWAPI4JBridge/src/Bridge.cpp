@@ -311,8 +311,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getStaticNeutralUnits_1na
 JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUnitsOnTile_1native(JNIEnv *env, jobject, jint tileX, jint tileY) {
   BUFFER_SETUP;
 
-  const auto tilePosition = BWAPI::TilePosition(tileX, tileY);
-  for (const auto &unit : BWAPI::Broodwar->getUnitsOnTile(tilePosition)) {
+  for (const auto &unit : BWAPI::Broodwar->getUnitsOnTile(tileX, tileY)) {
     Bridge::Globals::dataBuffer.addId(unit);
   }
 
@@ -322,10 +321,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUnitsOnTile_1native(JN
 JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUnitsInRectangle_1native(JNIEnv *env, jobject, jint left, jint top, jint right, jint bottom) {
   BUFFER_SETUP;
 
-  const auto topLeft = BWAPI::Position(left, top);
-  const auto bottomRight = BWAPI::Position(right, bottom);
-
-  for (const auto &unit : BWAPI::Broodwar->getUnitsInRectangle(topLeft, bottomRight)) {
+  for (const auto &unit : BWAPI::Broodwar->getUnitsInRectangle(left, top, right, bottom)) {
     Bridge::Globals::dataBuffer.addId(unit);
   }
 
