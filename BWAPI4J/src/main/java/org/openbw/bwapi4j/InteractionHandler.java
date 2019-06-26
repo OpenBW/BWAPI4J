@@ -20,7 +20,6 @@
 
 package org.openbw.bwapi4j;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
@@ -31,6 +30,8 @@ import org.openbw.bwapi4j.type.Key;
 import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.util.BridgeUtils;
 import org.openbw.bwapi4j.util.Cache;
+import org.openbw.bwapi4j.util.buffer.BwapiDataBuffer;
+import org.openbw.bwapi4j.util.buffer.DataBuffer;
 
 public final class InteractionHandler {
   private static final Logger logger = LogManager.getLogger();
@@ -171,17 +172,7 @@ public final class InteractionHandler {
   }
 
   private List<Player> parsePlayers(final int[] data) {
-    final List<Player> players = new ArrayList<>();
-
-    for (int i = 0; i < data.length; ++i) {
-      final int playerId = data[i];
-      final Player player = bw.getPlayer(playerId);
-      if (player != null) {
-        players.add(player);
-      }
-    }
-
-    return players;
+    return BwapiDataBuffer.readPlayers(new DataBuffer(data), bw);
   }
 
   private native int getLastError_native();
@@ -333,22 +324,7 @@ public final class InteractionHandler {
   private native int[] getNukeDotsData_native();
 
   private List<Position> getNukeDotsData() {
-    final List<Position> nukeDotPositions = new ArrayList<>();
-
-    final int[] data = getNukeDotsData_native();
-
-    int index = 0;
-
-    while (index < data.length) {
-      final int x = data[index++];
-      final int y = data[index++];
-
-      final Position nukeDotPosition = new Position(x, y);
-
-      nukeDotPositions.add(nukeDotPosition);
-    }
-
-    return nukeDotPositions;
+    return BwapiDataBuffer.readPositions(new DataBuffer(getNukeDotsData_native()));
   }
 
   public List<Position> getNukeDots() {

@@ -507,6 +507,7 @@ public class Unit implements Comparable<Unit> {
 
   public UnitCommand getLastCommand() {
     final DataBuffer data = new DataBuffer(getLastCommand_native(getID()));
+
     return BwapiDataBuffer.readUnitCommand(data, bw);
   }
 
@@ -728,21 +729,8 @@ public class Unit implements Comparable<Unit> {
 
   public List<Unit> getUnitsInRadius(final int radius) {
     final DataBuffer data = new DataBuffer(getUnitsInRadius_native(getID(), radius));
-    final int dataSize = data.size();
 
-    final List<Unit> units = new ArrayList<>(dataSize);
-
-    for (int i = 0; i < dataSize; ++i) {
-      final int unitId = data.readInt();
-
-      final Unit unit = bw.getUnit(unitId);
-
-      if (unit != null) {
-        units.add(unit);
-      }
-    }
-
-    return units;
+    return BwapiDataBuffer.readUnits(data, bw);
   }
 
   private native int[] getUnitsInWeaponRange_native(int unitId, int weaponTypeId);
@@ -750,21 +738,8 @@ public class Unit implements Comparable<Unit> {
   public List<Unit> getUnitsInWeaponRange(final WeaponType weaponType) {
     final DataBuffer data =
         new DataBuffer(getUnitsInWeaponRange_native(getID(), weaponType.getID()));
-    final int dataSize = data.size();
 
-    final List<Unit> units = new ArrayList<>(dataSize);
-
-    for (int i = 0; i < dataSize; ++i) {
-      final int unitId = data.readInt();
-
-      final Unit unit = bw.getUnit(unitId);
-
-      if (unit != null) {
-        units.add(unit);
-      }
-    }
-
-    return units;
+    return BwapiDataBuffer.readUnits(data, bw);
   }
 
   public boolean hasNuke() {

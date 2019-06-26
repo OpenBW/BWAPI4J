@@ -30,6 +30,16 @@ public class BwapiDataBuffer {
     return new Position(x, y);
   }
 
+  public static List<Position> readPositions(final DataBuffer data) {
+    final List<Position> positions = new ArrayList<>(data.size());
+
+    while (data.hasNext()) {
+      positions.add(readPosition(data));
+    }
+
+    return positions;
+  }
+
   public static UnitCommand readUnitCommand(final DataBuffer data, final BW bw) {
     final int unitId = data.readInt();
     final int unitCommandTypeId = data.readInt();
