@@ -145,11 +145,11 @@ class BWMapImpl implements BWMap {
     return this.pixelHeight;
   }
 
-  private native int _isBuildable(int tileX, int tileY, boolean considerBuildings);
+  private native int isBuildable_native(int tileX, int tileY, boolean considerBuildings);
 
   public boolean isBuildable(final int tileX, final int tileY, final boolean considerBuildings) {
     return considerBuildings
-        ? (_isBuildable(tileX, tileY, considerBuildings) == 1)
+        ? (isBuildable_native(tileX, tileY, considerBuildings) == 1)
         : isBuildable(tileX, tileY);
   }
 

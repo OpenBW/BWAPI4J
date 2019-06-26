@@ -90,7 +90,7 @@ void BridgeMap::initialize(JNIEnv *env, jobject bw, const JavaRefs &javaRefs) {
   LOGGER("Reading map information... done");
 }
 
-JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl__1isBuildable(JNIEnv *, jobject, jint tileX, jint tileY, jboolean considerBuildings) {
+JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BWMapImpl_isBuildable_1native(JNIEnv *, jobject, jint tileX, jint tileY, jboolean considerBuildings) {
   return BWAPI::Broodwar->isBuildable(tileX, tileY, considerBuildings) ? 1 : 0;
 }
 
