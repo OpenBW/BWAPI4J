@@ -108,6 +108,10 @@ public class Unit implements Comparable<Unit> {
   @Named(name = "TYPE")
   UnitType type;
 
+  @BridgeValue
+  @Named(name = "INITIAL_TYPE")
+  UnitType initialType;
+
   @BridgeValue Position position;
   @BridgeValue TilePosition tilePosition;
   @BridgeValue double angle;
@@ -511,7 +515,7 @@ public class Unit implements Comparable<Unit> {
   }
 
   public UnitType getInitialType() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return initialType;
   }
 
   public Position getInitialPosition() {
