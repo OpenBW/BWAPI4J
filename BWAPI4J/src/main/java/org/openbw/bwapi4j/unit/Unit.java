@@ -724,8 +724,25 @@ public class Unit implements Comparable<Unit> {
     return larva;
   }
 
-  public List<Unit> getUnitsInRadius(int radius) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  private native int[] getUnitsInRadius_native(int unitId, int radius);
+
+  public List<Unit> getUnitsInRadius(final int radius) {
+    final DataBuffer data = new DataBuffer(getUnitsInRadius_native(getID(), radius));
+    final int dataSize = data.size();
+
+    final List<Unit> units = new ArrayList<>(dataSize);
+
+    for (int i = 0; i < dataSize; ++i) {
+      final int unitId = data.readInt();
+
+      final Unit unit = bw.getUnit(unitId);
+
+      if (unit != null) {
+        units.add(unit);
+      }
+    }
+
+    return units;
   }
 
   public List<Unit> getUnitsInWeaponRange(WeaponType weapon) {

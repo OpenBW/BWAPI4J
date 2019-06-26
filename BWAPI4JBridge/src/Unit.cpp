@@ -70,6 +70,20 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_unit_Unit_getLastCommand_1na
   BUFFER_RETURN;
 }
 
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_unit_Unit_getUnitsInRadius_1native(JNIEnv *env, jobject, jint unitId, jint radius) {
+  BUFFER_SETUP;
+
+  const auto &unit = BWAPI::Broodwar->getUnit(unitId);
+
+  if (unit) {
+	  for (const auto &unitInRadius : unit->getUnitsInRadius(radius)) {
+		  Bridge::Globals::dataBuffer.add(unitInRadius->getID());
+	  }
+  }
+
+  BUFFER_RETURN;
+}
+
 JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_Unit_isVisible_1native(JNIEnv *, jobject, jint unitId, jint playerId) {
   const auto &unit = BWAPI::Broodwar->getUnit((int)unitId);
   const auto &player = BWAPI::Broodwar->getPlayer((int)playerId);
