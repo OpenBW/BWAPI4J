@@ -205,7 +205,7 @@ public class BW {
 
   private native int[] getGameData();
 
-  private native int getClientVersion();
+  public native int getClientVersion();
 
   private native String getPlayerName(int playerId);
 
