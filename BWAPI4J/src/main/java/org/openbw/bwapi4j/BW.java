@@ -780,12 +780,18 @@ public class BW {
     return getUnitsOnTile(tile.getX(), tile.getY());
   }
 
-  public List<Unit> getUnitsInRectangle(int left, int top, int right, int bottom) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  private native int[] getUnitsInRectangle_native(int left, int top, int right, int bottom);
+
+  public List<Unit> getUnitsInRectangle(
+      final int left, final int top, final int right, final int bottom) {
+    final DataBuffer data = new DataBuffer(getUnitsInRectangle_native(left, top, right, bottom));
+
+    return BwapiDataBuffer.readUnits(data, this);
   }
 
-  public List<Unit> getUnitsInRectangle(Position topLeft, Position bottomRight) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public List<Unit> getUnitsInRectangle(final Position topLeft, final Position bottomRight) {
+    return getUnitsInRectangle(
+        topLeft.getX(), topLeft.getY(), bottomRight.getX(), bottomRight.getY());
   }
 
   public List<Unit> getUnitsInRadius(int x, int y, int radius) {

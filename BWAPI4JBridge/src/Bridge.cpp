@@ -318,3 +318,16 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUnitsOnTile_1native(JN
 
   BUFFER_RETURN;
 }
+
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUnitsInRectangle_1native(JNIEnv *env, jobject, jint left, jint top, jint right, jint bottom) {
+  BUFFER_SETUP;
+
+  const auto topLeft = BWAPI::Position(left, top);
+  const auto bottomRight = BWAPI::Position(right, bottom);
+
+  for (const auto &unit : BWAPI::Broodwar->getUnitsInRectangle(topLeft, bottomRight)) {
+    Bridge::Globals::dataBuffer.addId(unit);
+  }
+
+  BUFFER_RETURN;
+}
