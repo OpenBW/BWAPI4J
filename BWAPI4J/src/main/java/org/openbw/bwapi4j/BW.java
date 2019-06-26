@@ -768,12 +768,16 @@ public class BW {
     getInteractionHandler().enableFlag(flag);
   }
 
-  public List<Unit> getUnitsOnTile(int tileX, int tileY) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  private native int[] getUnitsOnTile_native(int tileX, int tileY);
+
+  public List<Unit> getUnitsOnTile(final int tileX, final int tileY) {
+    final DataBuffer data = new DataBuffer(getUnitsOnTile_native(tileX, tileY));
+
+    return BwapiDataBuffer.readUnits(data, this);
   }
 
-  public List<Unit> getUnitsOnTile(TilePosition tile) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public List<Unit> getUnitsOnTile(final TilePosition tile) {
+    return getUnitsOnTile(tile.getX(), tile.getY());
   }
 
   public List<Unit> getUnitsInRectangle(int left, int top, int right, int bottom) {
