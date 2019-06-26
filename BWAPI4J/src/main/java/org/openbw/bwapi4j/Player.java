@@ -327,12 +327,16 @@ public class Player {
     throw new UnsupportedOperationException("TODO"); // TODO
   }
 
-  public boolean isAlly(Player player) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  private native boolean isAlly_native(int playerId, int targetPlayerId);
+
+  public boolean isAlly(final Player player) {
+    return isAlly_native(getID(), player.getID());
   }
 
-  public boolean isEnemy(Player player) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  private native boolean isEnemy_native(int playerId, int targetPlayerId);
+
+  public boolean isEnemy(final Player player) {
+    return isEnemy_native(getID(), player.getID());
   }
 
   /**

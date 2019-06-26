@@ -26,3 +26,17 @@ JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_Player_hasUnitTypeRequirement
   const auto &player = BWAPI::Broodwar->getPlayer((int)playerId);
   return player && player->hasUnitTypeRequirement(BWAPI::UnitType((int)unitTypeId), (int)amount);
 }
+
+JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_Player_isAlly_1native(JNIEnv *, jobject, jint playerId, jint targetPlayerId) {
+  const auto &player = BWAPI::Broodwar->getPlayer(playerId);
+  const auto &targetPlayer = BWAPI::Broodwar->getPlayer(targetPlayerId);
+
+  return player && targetPlayer && player->isAlly(targetPlayer);
+}
+
+JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_Player_isEnemy_1native(JNIEnv *, jobject, jint playerId, jint targetPlayerId) {
+  const auto &player = BWAPI::Broodwar->getPlayer(playerId);
+  const auto &targetPlayer = BWAPI::Broodwar->getPlayer(targetPlayerId);
+
+  return player && targetPlayer && player->isEnemy(targetPlayer);
+}
