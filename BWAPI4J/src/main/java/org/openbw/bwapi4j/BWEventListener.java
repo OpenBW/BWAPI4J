@@ -21,7 +21,7 @@
 package org.openbw.bwapi4j;
 
 import bwapi.Position;
-import org.openbw.bwapi4j.unit.Unit;
+import bwapi.Unit;
 
 public interface BWEventListener {
   public void onStart();

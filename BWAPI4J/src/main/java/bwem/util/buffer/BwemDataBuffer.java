@@ -1,5 +1,6 @@
 package bwem.util.buffer;
 
+import bwapi.Unit;
 import bwem.tile.MiniTile;
 import bwem.tile.MiniTileImpl;
 import bwem.tile.Tile;
@@ -10,7 +11,6 @@ import bwem.unit.Neutral;
 import bwem.unit.StaticBuilding;
 import java.util.Collection;
 import org.openbw.bwapi4j.type.UnitType;
-import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.util.buffer.DataBuffer;
 
 public class BwemDataBuffer {

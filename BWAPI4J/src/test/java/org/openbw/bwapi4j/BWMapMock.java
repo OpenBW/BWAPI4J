@@ -2,12 +2,12 @@ package org.openbw.bwapi4j;
 
 import bwapi.Position;
 import bwapi.TilePosition;
+import bwapi.Unit;
 import bwapi.WalkPosition;
 import java.util.Arrays;
 import java.util.List;
 import mockdata.BWAPI_DummyData;
 import org.openbw.bwapi4j.type.UnitType;
-import org.openbw.bwapi4j.unit.Unit;
 
 public class BWMapMock implements BWMap {
   private final BWAPI_DummyData data;

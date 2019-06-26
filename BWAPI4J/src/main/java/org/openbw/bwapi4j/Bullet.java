@@ -21,12 +21,12 @@
 package org.openbw.bwapi4j;
 
 import bwapi.Position;
+import bwapi.Unit;
 import org.openbw.bwapi4j.ap.BridgeValue;
 import org.openbw.bwapi4j.ap.LookedUp;
 import org.openbw.bwapi4j.ap.Named;
 import org.openbw.bwapi4j.ap.NativeClass;
 import org.openbw.bwapi4j.type.BulletType;
-import org.openbw.bwapi4j.unit.Unit;
 
 @LookedUp(method = "getBullet")
 @NativeClass(name = "BWAPI::Bullet")

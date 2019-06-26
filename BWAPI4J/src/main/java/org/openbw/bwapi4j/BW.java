@@ -20,12 +20,19 @@
 
 package org.openbw.bwapi4j;
 
+import bwapi.DefaultUnitFactory;
 import bwapi.Force;
 import bwapi.MouseButton;
 import bwapi.Position;
 import bwapi.Region;
 import bwapi.TilePosition;
+import bwapi.Unit;
+import bwapi.UnitBridge;
+import bwapi.UnitCommand;
+import bwapi.UnitCommandSimulation;
+import bwapi.UnitFactory;
 import bwapi.WalkPosition;
+import bwapi.WeaponBridge;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.charset.UnsupportedCharsetException;
@@ -51,13 +58,6 @@ import org.openbw.bwapi4j.type.UpgradeType;
 import org.openbw.bwapi4j.type.UpgradeTypeBridge;
 import org.openbw.bwapi4j.type.WeaponType;
 import org.openbw.bwapi4j.type.WeaponTypeBridge;
-import org.openbw.bwapi4j.unit.DefaultUnitFactory;
-import org.openbw.bwapi4j.unit.Unit;
-import org.openbw.bwapi4j.unit.UnitBridge;
-import org.openbw.bwapi4j.unit.UnitCommand;
-import org.openbw.bwapi4j.unit.UnitCommandSimulation;
-import org.openbw.bwapi4j.unit.UnitFactory;
-import org.openbw.bwapi4j.unit.WeaponBridge;
 import org.openbw.bwapi4j.util.Cache;
 import org.openbw.bwapi4j.util.DependencyManager;
 import org.openbw.bwapi4j.util.buffer.BwapiDataBuffer;

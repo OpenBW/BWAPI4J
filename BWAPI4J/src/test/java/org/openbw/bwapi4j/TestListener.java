@@ -3,6 +3,7 @@ package org.openbw.bwapi4j;
 import bwapi.Flag;
 import bwapi.Position;
 import bwapi.TilePosition;
+import bwapi.Unit;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -10,7 +11,6 @@ import java.util.Optional;
 import org.openbw.bwapi4j.type.Color;
 import org.openbw.bwapi4j.type.Race;
 import org.openbw.bwapi4j.type.UnitType;
-import org.openbw.bwapi4j.unit.Unit;
 
 public class TestListener implements BWEventListener {
   private static final int SCREEN_WIDTH =

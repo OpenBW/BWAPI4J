@@ -2,6 +2,7 @@ package org.openbw.bwapi4j.type;
 
 import bwapi.Position;
 import bwapi.TilePosition;
+import bwapi.Unit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -12,7 +13,6 @@ import org.junit.Test;
 import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.BWEventListener;
 import org.openbw.bwapi4j.Player;
-import org.openbw.bwapi4j.unit.Unit;
 
 /** These tests were ported from the original BWAPI unitTypesTest.cpp */
 public class UnitTypeTest implements BWEventListener {

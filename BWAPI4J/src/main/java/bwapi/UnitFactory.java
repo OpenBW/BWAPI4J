@@ -18,12 +18,10 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-package org.openbw.bwapi4j.unit;
+package bwapi;
 
-public class UnsupportedUnitException extends RuntimeException {
-  private static final long serialVersionUID = 1L;
+import org.openbw.bwapi4j.type.UnitType;
 
-  public UnsupportedUnitException(String message) {
-    super(message);
-  }
+public interface UnitFactory {
+  Unit createUnit(int unitId, UnitType unitType, int timeSpotted);
 }

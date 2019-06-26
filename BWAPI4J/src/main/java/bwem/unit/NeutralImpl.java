@@ -2,11 +2,11 @@ package bwem.unit;
 
 import bwapi.Position;
 import bwapi.TilePosition;
+import bwapi.Unit;
 import bwapi.WalkPosition;
 import java.util.ArrayList;
 import java.util.List;
 import org.openbw.bwapi4j.type.UnitType;
-import org.openbw.bwapi4j.unit.Unit;
 
 public class NeutralImpl implements Neutral {
   private final Unit bwapiUnit;

@@ -18,11 +18,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-package org.openbw.bwapi4j.unit;
+package bwapi;
 
-import bwapi.Position;
-import bwapi.Region;
-import bwapi.TilePosition;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;

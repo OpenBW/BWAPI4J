@@ -20,10 +20,10 @@
 
 package org.openbw.bwapi4j;
 
+import bwapi.Unit;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 import org.openbw.bwapi4j.type.WeaponType;
-import org.openbw.bwapi4j.unit.Unit;
 
 public class UnitStatCalculator {
   final Player player;

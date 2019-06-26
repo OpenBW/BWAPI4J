@@ -22,6 +22,7 @@ package org.openbw.bwapi4j;
 
 import bwapi.Force;
 import bwapi.TilePosition;
+import bwapi.Unit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumMap;
@@ -39,7 +40,6 @@ import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 import org.openbw.bwapi4j.type.WeaponType;
-import org.openbw.bwapi4j.unit.Unit;
 
 @LookedUp(method = "getPlayer")
 @NativeClass(name = "BWAPI::Player")

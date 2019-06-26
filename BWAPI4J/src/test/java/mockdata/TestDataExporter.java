@@ -1,6 +1,7 @@
 package mockdata;
 
 import bwapi.Position;
+import bwapi.Unit;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UncheckedIOException;
@@ -22,7 +23,6 @@ import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UnitType.WhatBuilds;
 import org.openbw.bwapi4j.type.UpgradeType;
 import org.openbw.bwapi4j.type.WeaponType;
-import org.openbw.bwapi4j.unit.Unit;
 
 public class TestDataExporter implements BWEventListener {
 

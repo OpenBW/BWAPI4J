@@ -22,11 +22,11 @@ package org.openbw.bwapi4j;
 
 import bwapi.Position;
 import bwapi.TilePosition;
+import bwapi.Unit;
 import bwapi.WalkPosition;
 import java.util.ArrayList;
 import java.util.List;
 import org.openbw.bwapi4j.type.UnitType;
-import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.util.Cache;
 
 class BWMapImpl implements BWMap {

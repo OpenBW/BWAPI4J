@@ -1,6 +1,6 @@
 package bwem.unit;
 
-import org.openbw.bwapi4j.unit.Unit;
+import bwapi.Unit;
 
 public class Geyser extends Resource {
   public Geyser(final Unit unit) {

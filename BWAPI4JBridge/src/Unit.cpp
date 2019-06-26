@@ -18,14 +18,14 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "org_openbw_bwapi4j_unit_Unit.h"
+#include "bwapi_Unit.h"
 
 #include <BWAPI.h>
 
 #include "Globals.h"
 
-JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_Unit_issueCommand_1native(JNIEnv *, jobject, jint unitID, jint unitCommandTypeID, jint targetUnitID,
-                                                                                  jint x, jint y, jint extra) {
+JNIEXPORT jboolean JNICALL Java_bwapi_Unit_issueCommand_1native(JNIEnv *, jobject, jint unitID, jint unitCommandTypeID, jint targetUnitID, jint x, jint y,
+                                                                jint extra) {
   const auto &unit = BWAPI::Broodwar->getUnit(unitID);
   if (unit) {
     const BWAPI::UnitCommandType unitCommandType(unitCommandTypeID);
@@ -38,18 +38,18 @@ JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_Unit_issueCommand_1nativ
   return JNI_FALSE;
 }
 
-JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_Unit_hasPath_1native__III(JNIEnv *, jobject, jint unitId, jint x, jint y) {
+JNIEXPORT jboolean JNICALL Java_bwapi_Unit_hasPath_1native__III(JNIEnv *, jobject, jint unitId, jint x, jint y) {
   const auto &unit = BWAPI::Broodwar->getUnit((int)unitId);
   return unit && unit->hasPath(BWAPI::Position((int)x, (int)y));
 }
 
-JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_Unit_hasPath_1native__II(JNIEnv *, jobject, jint unitId, jint targetUnitId) {
+JNIEXPORT jboolean JNICALL Java_bwapi_Unit_hasPath_1native__II(JNIEnv *, jobject, jint unitId, jint targetUnitId) {
   const auto &unit = BWAPI::Broodwar->getUnit((int)unitId);
   const auto &targetUnit = BWAPI::Broodwar->getUnit((int)targetUnitId);
   return unit && targetUnit && unit->hasPath(targetUnit);
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_unit_Unit_getLastCommand_1native(JNIEnv *env, jobject, jint unitId) {
+JNIEXPORT jintArray JNICALL Java_bwapi_Unit_getLastCommand_1native(JNIEnv *env, jobject, jint unitId) {
   const auto &unit = BWAPI::Broodwar->getUnit((int)unitId);
   const auto &unitCommand = unit->getLastCommand();
 
@@ -70,7 +70,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_unit_Unit_getLastCommand_1na
   BUFFER_RETURN;
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_unit_Unit_getUnitsInRadius_1native(JNIEnv *env, jobject, jint unitId, jint radius) {
+JNIEXPORT jintArray JNICALL Java_bwapi_Unit_getUnitsInRadius_1native(JNIEnv *env, jobject, jint unitId, jint radius) {
   BUFFER_SETUP;
 
   const auto &unit = BWAPI::Broodwar->getUnit(unitId);
@@ -84,7 +84,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_unit_Unit_getUnitsInRadius_1
   BUFFER_RETURN;
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_unit_Unit_getUnitsInWeaponRange_1native(JNIEnv *env, jobject, jint unitId, jint weaponTypeId) {
+JNIEXPORT jintArray JNICALL Java_bwapi_Unit_getUnitsInWeaponRange_1native(JNIEnv *env, jobject, jint unitId, jint weaponTypeId) {
   BUFFER_SETUP;
 
   const auto &unit = BWAPI::Broodwar->getUnit(unitId);
@@ -99,26 +99,26 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_unit_Unit_getUnitsInWeaponRa
   BUFFER_RETURN;
 }
 
-JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_Unit_isInWeaponRange_1native(JNIEnv *, jobject, jint unitId, jint targetUnitId) {
+JNIEXPORT jboolean JNICALL Java_bwapi_Unit_isInWeaponRange_1native(JNIEnv *, jobject, jint unitId, jint targetUnitId) {
   const auto &unit = BWAPI::Broodwar->getUnit(unitId);
   const auto &targetUnit = BWAPI::Broodwar->getUnit(targetUnitId);
 
   return unit && targetUnit && unit->isInWeaponRange(targetUnit);
 }
 
-JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_Unit_isVisible_1native(JNIEnv *, jobject, jint unitId, jint playerId) {
+JNIEXPORT jboolean JNICALL Java_bwapi_Unit_isVisible_1native(JNIEnv *, jobject, jint unitId, jint playerId) {
   const auto &unit = BWAPI::Broodwar->getUnit((int)unitId);
   const auto &player = BWAPI::Broodwar->getPlayer((int)playerId);
 
   return unit && player && unit->isVisible(player);
 }
 
-JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_Unit_train_1native(JNIEnv *, jobject, jint unitId) {
+JNIEXPORT jboolean JNICALL Java_bwapi_Unit_train_1native(JNIEnv *, jobject, jint unitId) {
   const auto &unit = BWAPI::Broodwar->getUnit((int)unitId);
   return unit && unit->train();
 }
 
-JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_unit_Unit_placeCOP_1native(JNIEnv *, jobject, jint unitId, jint x, jint y) {
+JNIEXPORT jboolean JNICALL Java_bwapi_Unit_placeCOP_1native(JNIEnv *, jobject, jint unitId, jint x, jint y) {
   const auto &unit = BWAPI::Broodwar->getUnit((int)unitId);
   return unit && unit->placeCOP(BWAPI::TilePosition((int)x, (int)y));
 }

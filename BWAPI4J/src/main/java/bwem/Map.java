@@ -2,6 +2,7 @@ package bwem;
 
 import bwapi.Position;
 import bwapi.TilePosition;
+import bwapi.Unit;
 import bwapi.WalkPosition;
 import bwem.tile.MiniTile;
 import bwem.tile.Tile;
@@ -14,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.SplittableRandom;
 import org.openbw.bwapi4j.BW;
-import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.util.Pair;
 import org.openbw.bwapi4j.util.XYCropper;
 import org.openbw.bwapi4j.util.buffer.BwapiDataBuffer;

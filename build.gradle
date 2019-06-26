@@ -140,8 +140,8 @@ project(":BWAPI4J") {
                 "org.openbw.bwapi4j.DamageEvaluator",
                 "org.openbw.bwapi4j.Player",
                 "org.openbw.bwapi4j.Bullet",
-                "org.openbw.bwapi4j.unit.UnitCommandSimulation",
-                "org.openbw.bwapi4j.unit.Unit"
+                "bwapi.UnitCommandSimulation",
+                "bwapi.Unit"
 
         dependsOn classes
     }

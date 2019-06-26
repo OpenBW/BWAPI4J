@@ -1,6 +1,6 @@
 package bwem.unit;
 
-import org.openbw.bwapi4j.unit.Unit;
+import bwapi.Unit;
 
 public class StaticBuilding extends NeutralImpl {
   public StaticBuilding(final Unit unit) {

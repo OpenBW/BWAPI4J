@@ -1,4 +1,4 @@
-package org.openbw.bwapi4j.unit;
+package bwapi;
 
 import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.type.UnitType;
