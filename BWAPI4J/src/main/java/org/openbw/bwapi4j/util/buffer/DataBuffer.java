@@ -9,6 +9,10 @@ public class DataBuffer {
     this.data = data;
   }
 
+  public int size() {
+    return data == null ? 0 : data.length;
+  }
+
   protected int readIntAndIncrementIndex() {
     return data[index++];
   }
