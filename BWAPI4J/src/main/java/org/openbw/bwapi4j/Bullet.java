@@ -103,14 +103,14 @@ public class Bullet {
     return removeTimer;
   }
 
-  public boolean isVisible() {
-    return visible;
-  }
-
-  private native boolean isVisible(int bulletId, int playerId);
+  private native boolean isVisible_native(int bulletId, int playerId);
 
   public boolean isVisible(final Player player) {
-    return isVisible(getID(), player.getID());
+    return isVisible_native(getID(), player.getID());
+  }
+
+  public boolean isVisible() {
+    return visible;
   }
 
   @Override

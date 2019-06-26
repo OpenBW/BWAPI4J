@@ -22,7 +22,7 @@
 
 #include <BWAPI.h>
 
-JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_Bullet_isVisible(JNIEnv *, jobject, jint bulletId, jint playerId) {
+JNIEXPORT jboolean JNICALL Java_org_openbw_bwapi4j_Bullet_isVisible_1native(JNIEnv *, jobject, jint bulletId, jint playerId) {
   const auto &player = BWAPI::Broodwar->getPlayer((int)playerId);
 
   for (const auto &bullet : BWAPI::Broodwar->getBullets()) {
