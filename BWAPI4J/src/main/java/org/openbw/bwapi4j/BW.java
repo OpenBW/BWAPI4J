@@ -207,9 +207,9 @@ public class BW {
 
   public native int getClientVersion();
 
-  private native String getPlayerName(int playerId);
+  private native String getPlayerName_native(int playerId);
 
-  private native int[] getPlayerExtra(int playerId);
+  private native int[] getPlayerAdditionalData_native(int playerId);
 
   public BWMap getBWMap() {
     return this.bwMap;
@@ -320,24 +320,29 @@ public class BW {
   // [DEBUG] [Thread-1] openbw.bwapi4j.BW:updateAllPlayers:617 - creating player for id 1 ...
   // [DEBUG] [Thread-1] openbw.bwapi4j.BW:updateAllPlayers:617 - creating player for id 0 ...
   private void updateAllPlayers() {
-    int[] playerData = this.getAllPlayersData_native();
+    final int[] playerData = getAllPlayersData_native();
 
     int index = 0;
     while (index < playerData.length) {
-      int playerId = playerData[index + PlayerBridge.ID];
+      final int playerId = playerData[index + PlayerBridge.ID];
       Player player = this.players.get(playerId);
+
       if (player == null) {
         logger.debug("creating player for id {} ...", playerId);
-        player = new Player(this, playerId, this.getPlayerName(playerId));
+        player = new Player(this, playerId, getPlayerName_native(playerId));
+
         logger.trace("player name: {}", player.getName());
-        this.players.put(playerId, player);
+        players.put(playerId, player);
+
         logger.trace("initializing...");
         playerBridge.initialize(player, playerData, index);
         player.initialize();
+
         logger.trace(" done.");
       }
+
       index = playerBridge.update(player, playerData, index);
-      player.update(this.getPlayerExtra(playerId));
+      player.update(getPlayerAdditionalData_native(playerId));
     }
   }
 

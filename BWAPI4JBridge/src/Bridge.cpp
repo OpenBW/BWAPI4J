@@ -162,7 +162,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllPlayersData_1native
 
 JNIEXPORT jint JNICALL Java_org_openbw_bwapi4j_BW_getClientVersion(JNIEnv *, jobject) { return (jint)BWAPI::Broodwar->getClientVersion(); }
 
-JNIEXPORT jstring JNICALL Java_org_openbw_bwapi4j_BW_getPlayerName(JNIEnv *env, jobject, jint playerID) {
+JNIEXPORT jstring JNICALL Java_org_openbw_bwapi4j_BW_getPlayerName_1native(JNIEnv *env, jobject, jint playerID) {
   // NewStringUTF can cause issues with unusual characters like Korean symbols
   return env->NewStringUTF(BWAPI::Broodwar->getPlayer(playerID)->getName().c_str());
   /* alternatively, use byte array:
@@ -175,7 +175,7 @@ JNIEXPORT jstring JNICALL Java_org_openbw_bwapi4j_BW_getPlayerName(JNIEnv *env, 
 }
 
 // TODO: Refactor to be one call for all players.
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getPlayerExtra(JNIEnv *env, jobject, jint playerID) {
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getPlayerAdditionalData_1native(JNIEnv *env, jobject, jint playerID) {
   BUFFER_SETUP;
 
   const auto &player = BWAPI::Broodwar->getPlayer(playerID);
