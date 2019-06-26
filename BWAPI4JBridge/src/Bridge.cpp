@@ -123,7 +123,7 @@ JNIEXPORT void JNICALL Java_org_openbw_bwapi4j_BW_startGame_1native(JNIEnv *env,
 #endif
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllBulletsData(JNIEnv *env, jobject) {
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllBulletsData_1native(JNIEnv *env, jobject) {
   BUFFER_SETUP;
 
   for (BWAPI::Bullet bullet : BWAPI::Broodwar->getBullets()) {
@@ -133,7 +133,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllBulletsData(JNIEnv 
   BUFFER_RETURN;
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllUnitsData(JNIEnv *env, jobject) {
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllUnitsData_1native(JNIEnv *env, jobject) {
   BUFFER_SETUP;
 
   for (const auto &unit : BWAPI::Broodwar->getAllUnits()) {
@@ -143,7 +143,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllUnitsData(JNIEnv *e
   BUFFER_RETURN;
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllPlayersData(JNIEnv *env, jobject) {
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getAllPlayersData_1native(JNIEnv *env, jobject) {
   BUFFER_SETUP;
 
   for (const auto &player : BWAPI::Broodwar->getPlayers()) {
@@ -207,7 +207,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getPlayerExtra(JNIEnv *en
   BUFFER_RETURN;
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getGameData(JNIEnv *env, jobject) {
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getGameData_1native(JNIEnv *env, jobject) {
   BUFFER_SETUP;
 
   Bridge::Globals::dataBuffer.addFields(BWAPI::Broodwar->getScreenPosition());
@@ -242,7 +242,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getGameData(JNIEnv *env, 
   BUFFER_RETURN;
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUpgradeTypesData(JNIEnv *env, jobject) {
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUpgradeTypesData_1native(JNIEnv *env, jobject) {
   BUFFER_SETUP;
 
   BridgeEnum enums;
@@ -251,7 +251,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUpgradeTypesData(JNIEn
   BUFFER_RETURN;
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getWeaponTypesData(JNIEnv *env, jobject) {
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getWeaponTypesData_1native(JNIEnv *env, jobject) {
   BUFFER_SETUP;
 
   BridgeEnum enums;
@@ -260,7 +260,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getWeaponTypesData(JNIEnv
   BUFFER_RETURN;
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getTechTypesData(JNIEnv *env, jobject) {
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getTechTypesData_1native(JNIEnv *env, jobject) {
   BUFFER_SETUP;
 
   BridgeEnum enums;
@@ -269,7 +269,7 @@ JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getTechTypesData(JNIEnv *
   BUFFER_RETURN;
 }
 
-JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUnitTypesData(JNIEnv *env, jobject) {
+JNIEXPORT jintArray JNICALL Java_org_openbw_bwapi4j_BW_getUnitTypesData_1native(JNIEnv *env, jobject) {
   BUFFER_SETUP;
 
   BridgeEnum enums;

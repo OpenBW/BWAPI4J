@@ -189,21 +189,21 @@ public class BW {
     startGame_native(this);
   }
 
-  private native int[] getUpgradeTypesData();
+  private native int[] getUpgradeTypesData_native();
 
-  private native int[] getWeaponTypesData();
+  private native int[] getWeaponTypesData_native();
 
-  private native int[] getTechTypesData();
+  private native int[] getTechTypesData_native();
 
-  private native int[] getUnitTypesData();
+  private native int[] getUnitTypesData_native();
 
-  private native int[] getAllUnitsData();
+  private native int[] getAllUnitsData_native();
 
-  private native int[] getAllBulletsData();
+  private native int[] getAllBulletsData_native();
 
-  private native int[] getAllPlayersData();
+  private native int[] getAllPlayersData_native();
 
-  private native int[] getGameData();
+  private native int[] getGameData_native();
 
   public native int getClientVersion();
 
@@ -232,12 +232,12 @@ public class BW {
   }
 
   private void updateGame() {
-    int[] data = this.getGameData();
+    int[] data = this.getGameData_native();
     getInteractionHandler().update(data);
   }
 
   private void updateAllBullets() {
-    int[] bulletData = this.getAllBulletsData();
+    int[] bulletData = this.getAllBulletsData_native();
 
     int index = 0;
     while (index < bulletData.length) {
@@ -263,7 +263,7 @@ public class BW {
       unitDataBridge.reset(unit);
     }
 
-    final int[] unitData = this.getAllUnitsData();
+    final int[] unitData = this.getAllUnitsData_native();
 
     int index = 0;
     while (index < unitData.length) {
@@ -320,7 +320,7 @@ public class BW {
   // [DEBUG] [Thread-1] openbw.bwapi4j.BW:updateAllPlayers:617 - creating player for id 1 ...
   // [DEBUG] [Thread-1] openbw.bwapi4j.BW:updateAllPlayers:617 - creating player for id 0 ...
   private void updateAllPlayers() {
-    int[] playerData = this.getAllPlayersData();
+    int[] playerData = this.getAllPlayersData_native();
 
     int index = 0;
     while (index < playerData.length) {
@@ -454,7 +454,7 @@ public class BW {
   }
 
   private void initializeUpgradeTypes() {
-    int data[] = getUpgradeTypesData();
+    int data[] = getUpgradeTypesData_native();
     int index = 0;
     while (index < data.length) {
       int id = data[index + UpgradeTypeBridge.ID];
@@ -463,7 +463,7 @@ public class BW {
   }
 
   private void initializeWeaponTypes() {
-    int data[] = getWeaponTypesData();
+    int data[] = getWeaponTypesData_native();
     int index = 0;
     while (index < data.length) {
       int id = data[index + WeaponTypeBridge.ID];
@@ -472,7 +472,7 @@ public class BW {
   }
 
   private void initializeTechTypes() {
-    int data[] = getTechTypesData();
+    int data[] = getTechTypesData_native();
     int index = 0;
     while (index < data.length) {
       int id = data[index + TechTypeBridge.ID];
@@ -481,7 +481,7 @@ public class BW {
   }
 
   private void initializeUnitTypes() {
-    int data[] = getUnitTypesData();
+    int data[] = getUnitTypesData_native();
     int index = 0;
     while (index < data.length) {
       int id = data[index + UnitTypeBridge.ID];
