@@ -1,11 +1,11 @@
 package mockdata;
 
+import bwapi.Position;
+import bwapi.WalkPosition;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.WalkPosition;
 
 public class BWEM_CPPathSamples {
   public static class CPPSample {

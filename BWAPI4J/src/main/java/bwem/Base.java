@@ -1,10 +1,10 @@
 package bwem;
 
+import bwapi.Position;
+import bwapi.TilePosition;
 import bwem.unit.Geyser;
 import bwem.unit.Mineral;
 import java.util.List;
-import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.UnitType;
 
 public interface Base {

@@ -1,10 +1,10 @@
 package bwem.unit;
 
+import bwapi.Position;
+import bwapi.TilePosition;
+import bwapi.WalkPosition;
 import java.util.ArrayList;
 import java.util.List;
-import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.TilePosition;
-import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.unit.Unit;
 

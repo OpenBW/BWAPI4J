@@ -1,5 +1,6 @@
 package mockdata;
 
+import bwapi.Position;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UncheckedIOException;
@@ -16,7 +17,6 @@ import java.util.stream.Stream;
 import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.BWEventListener;
 import org.openbw.bwapi4j.Player;
-import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UnitType.WhatBuilds;

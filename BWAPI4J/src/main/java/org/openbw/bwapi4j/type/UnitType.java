@@ -20,11 +20,11 @@
 
 package org.openbw.bwapi4j.type;
 
+import bwapi.TilePosition;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.ap.BridgeValue;
 import org.openbw.bwapi4j.ap.Named;
 import org.openbw.bwapi4j.ap.NativeClass;

@@ -20,6 +20,9 @@
 
 package org.openbw.bwapi4j;
 
+import bwapi.Position;
+import bwapi.TilePosition;
+import bwapi.WalkPosition;
 import java.util.ArrayList;
 import java.util.List;
 import org.openbw.bwapi4j.type.UnitType;

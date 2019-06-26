@@ -1,6 +1,8 @@
 package org.openbw.bwapi4j;
 
 import bwapi.Flag;
+import bwapi.Position;
+import bwapi.TilePosition;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;

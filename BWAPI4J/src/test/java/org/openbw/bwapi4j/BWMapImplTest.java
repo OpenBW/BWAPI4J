@@ -3,6 +3,9 @@ package org.openbw.bwapi4j;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import bwapi.Position;
+import bwapi.TilePosition;
+import bwapi.WalkPosition;
 import org.junit.Before;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.FromDataPoints;

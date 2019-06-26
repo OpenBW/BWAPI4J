@@ -18,7 +18,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-package org.openbw.bwapi4j;
+package bwapi;
 
 import static org.openbw.bwapi4j.util.MathUtils.estimateDistanceBetween;
 

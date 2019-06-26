@@ -1,7 +1,7 @@
 package bwem;
 
-import org.openbw.bwapi4j.TilePosition;
-import org.openbw.bwapi4j.WalkPosition;
+import bwapi.TilePosition;
+import bwapi.WalkPosition;
 
 public class Area {
   private final int id;

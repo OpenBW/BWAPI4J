@@ -1,7 +1,6 @@
 package bwapi;
 
 import java.util.List;
-import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.unit.Unit;
 
 public class Region {

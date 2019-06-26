@@ -1,4 +1,4 @@
-package org.openbw.bwapi4j;
+package bwapi;
 
 import java.util.HashMap;
 import org.junit.Assert;

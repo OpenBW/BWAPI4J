@@ -1,8 +1,8 @@
 package org.openbw.bwapi4j.unit;
 
+import bwapi.Position;
+import bwapi.TilePosition;
 import java.util.Objects;
-import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.TilePosition;
 import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.type.UnitType;

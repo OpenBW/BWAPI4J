@@ -20,6 +20,7 @@
 
 package org.openbw.bwapi4j;
 
+import bwapi.Position;
 import org.openbw.bwapi4j.ap.BridgeValue;
 import org.openbw.bwapi4j.ap.LookedUp;
 import org.openbw.bwapi4j.ap.Named;

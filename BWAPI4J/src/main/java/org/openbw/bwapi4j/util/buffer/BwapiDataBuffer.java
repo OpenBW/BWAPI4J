@@ -1,12 +1,12 @@
 package org.openbw.bwapi4j.util.buffer;
 
+import bwapi.Position;
+import bwapi.TilePosition;
+import bwapi.WalkPosition;
 import java.util.ArrayList;
 import java.util.List;
 import org.openbw.bwapi4j.BW;
 import org.openbw.bwapi4j.Player;
-import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.TilePosition;
-import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.type.UnitCommandType;
 import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.unit.UnitCommand;

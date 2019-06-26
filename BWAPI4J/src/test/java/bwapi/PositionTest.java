@@ -1,4 +1,4 @@
-package org.openbw.bwapi4j;
+package bwapi;
 
 import org.junit.Assert;
 import org.junit.Test;

@@ -20,6 +20,7 @@
 
 package org.openbw.bwapi4j;
 
+import bwapi.Position;
 import org.openbw.bwapi4j.type.Color;
 
 /** Contains all map-drawing-related bwapi functionality. */

@@ -1,4 +1,4 @@
-package org.openbw.bwapi4j;
+package bwapi;
 
 import java.util.ArrayList;
 import java.util.List;

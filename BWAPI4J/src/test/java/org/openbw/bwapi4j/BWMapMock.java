@@ -1,5 +1,8 @@
 package org.openbw.bwapi4j;
 
+import bwapi.Position;
+import bwapi.TilePosition;
+import bwapi.WalkPosition;
 import java.util.Arrays;
 import java.util.List;
 import mockdata.BWAPI_DummyData;

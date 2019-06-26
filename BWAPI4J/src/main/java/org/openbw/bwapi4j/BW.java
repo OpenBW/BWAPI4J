@@ -22,7 +22,10 @@ package org.openbw.bwapi4j;
 
 import bwapi.Force;
 import bwapi.MouseButton;
+import bwapi.Position;
 import bwapi.Region;
+import bwapi.TilePosition;
+import bwapi.WalkPosition;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.charset.UnsupportedCharsetException;

@@ -28,7 +28,7 @@ void JavaRefs::initialize(JNIEnv *env) {
   listClass = env->FindClass("java/util/List");
   listClass_add = env->GetMethodID(listClass, "add", "(Ljava/lang/Object;)Z");
 
-  tilePositionClass = env->FindClass("org/openbw/bwapi4j/TilePosition");
+  tilePositionClass = env->FindClass("bwapi/TilePosition");
   tilePositionConstructor = env->GetMethodID(tilePositionClass, "<init>", "(II)V");
 
   bwClass = env->FindClass("org/openbw/bwapi4j/BW");

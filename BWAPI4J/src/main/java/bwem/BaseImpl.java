@@ -1,12 +1,12 @@
 package bwem;
 
+import bwapi.Position;
+import bwapi.TilePosition;
 import bwem.unit.Geyser;
 import bwem.unit.Mineral;
 import bwem.unit.Resource;
 import java.util.ArrayList;
 import java.util.List;
-import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.TilePosition;
 
 public class BaseImpl implements Base {
   private final Area area;

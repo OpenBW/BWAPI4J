@@ -1,8 +1,8 @@
 package mockdata;
 
+import bwapi.TilePosition;
 import java.io.IOException;
 import java.util.List;
-import org.openbw.bwapi4j.TilePosition;
 
 /** Class for parsing map info from a dummy data set. */
 public class BWAPI_MapInfo {

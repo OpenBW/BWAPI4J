@@ -1,5 +1,8 @@
 package bwem;
 
+import bwapi.Position;
+import bwapi.TilePosition;
+import bwapi.WalkPosition;
 import bwem.tile.MiniTile;
 import bwem.tile.Tile;
 import bwem.unit.Geyser;
@@ -11,9 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.SplittableRandom;
 import org.openbw.bwapi4j.BW;
-import org.openbw.bwapi4j.Position;
-import org.openbw.bwapi4j.TilePosition;
-import org.openbw.bwapi4j.WalkPosition;
 import org.openbw.bwapi4j.unit.Unit;
 import org.openbw.bwapi4j.util.Pair;
 import org.openbw.bwapi4j.util.XYCropper;
