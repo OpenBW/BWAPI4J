@@ -168,7 +168,7 @@ public final class InteractionHandler {
   }
 
   private List<Player> parsePlayers(final int[] data) {
-    return BwapiDataBuffer.readPlayers(new DataBuffer(data), bw);
+    return BwapiDataBuffer.getPlayersByIds(new DataBuffer(data), bw);
   }
 
   private native int getLastError_native();

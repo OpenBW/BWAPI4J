@@ -610,8 +610,21 @@ public class BW {
     }
   }
 
+  private native int[] getForceIds_native();
+
   public List<Force> getForces() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    final DataBuffer data = new DataBuffer(getForceIds_native());
+
+    final List<Force> forces = new ArrayList<>(data.size());
+
+    while (data.hasNext()) {
+      final int id = data.readInt();
+
+      final Force force = new Force(id, this);
+      forces.add(force);
+    }
+
+    return forces;
   }
 
   public Collection<Player> getPlayers() {
@@ -639,7 +652,7 @@ public class BW {
   public List<Unit> getStaticMinerals() {
     final DataBuffer data = new DataBuffer(getStaticMinerals_native());
 
-    return BwapiDataBuffer.readUnits(data, this);
+    return BwapiDataBuffer.getUnitsByIds(data, this);
   }
 
   private native int[] getStaticGeysers_native();
@@ -647,7 +660,7 @@ public class BW {
   public List<Unit> getStaticGeysers() {
     final DataBuffer data = new DataBuffer(getStaticGeysers_native());
 
-    return BwapiDataBuffer.readUnits(data, this);
+    return BwapiDataBuffer.getUnitsByIds(data, this);
   }
 
   private native int[] getStaticNeutralUnits_native();
@@ -655,7 +668,7 @@ public class BW {
   public List<Unit> getStaticNeutralUnits() {
     final DataBuffer data = new DataBuffer(getStaticNeutralUnits_native());
 
-    return BwapiDataBuffer.readUnits(data, this);
+    return BwapiDataBuffer.getUnitsByIds(data, this);
   }
 
   public Collection<Bullet> getBullets() {
@@ -755,7 +768,7 @@ public class BW {
   public List<Unit> getUnitsOnTile(final int tileX, final int tileY) {
     final DataBuffer data = new DataBuffer(getUnitsOnTile_native(tileX, tileY));
 
-    return BwapiDataBuffer.readUnits(data, this);
+    return BwapiDataBuffer.getUnitsByIds(data, this);
   }
 
   public List<Unit> getUnitsOnTile(final TilePosition tile) {
@@ -768,7 +781,7 @@ public class BW {
       final int left, final int top, final int right, final int bottom) {
     final DataBuffer data = new DataBuffer(getUnitsInRectangle_native(left, top, right, bottom));
 
-    return BwapiDataBuffer.readUnits(data, this);
+    return BwapiDataBuffer.getUnitsByIds(data, this);
   }
 
   public List<Unit> getUnitsInRectangle(final Position topLeft, final Position bottomRight) {
@@ -781,7 +794,7 @@ public class BW {
   public List<Unit> getUnitsInRadius(final int x, final int y, final int radius) {
     final DataBuffer data = new DataBuffer(getUnitsInRadius_native(x, y, radius));
 
-    return BwapiDataBuffer.readUnits(data, this);
+    return BwapiDataBuffer.getUnitsByIds(data, this);
   }
 
   public List<Unit> getUnitsInRadius(final Position center, final int radius) {

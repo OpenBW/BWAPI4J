@@ -2,28 +2,40 @@ package bwapi;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.openbw.bwapi4j.util.buffer.BwapiDataBuffer;
+import org.openbw.bwapi4j.util.buffer.DataBuffer;
 
 public class Force {
   private final int id;
-  private final String name;
-  private final List<Player> players;
+  private final BW bw;
 
-  Force(final int id, final String name, final List<Player> players) {
+  Force(final int id, final BW bw) {
     this.id = id;
-    this.name = name;
-    this.players = new ArrayList<>(players);
+    this.bw = bw;
   }
 
   public int getID() {
     return id;
   }
 
+  private native String getName_native(int forceId);
+
   public String getName() {
-    return name;
+    return getName_native(getID());
   }
 
+  private native int[] getPlayerIds_native(int forceId);
+
   public List<Player> getPlayers() {
-    return new ArrayList<>(players);
+    final DataBuffer playerIds = new DataBuffer(getPlayerIds_native(getID()));
+
+    final List<Player> players = new ArrayList<>(playerIds.size());
+
+    while (playerIds.hasNext()) {
+      players.add(BwapiDataBuffer.getPlayerById(playerIds, bw));
+    }
+
+    return players;
   }
 
   @Override

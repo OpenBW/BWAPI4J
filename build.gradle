@@ -135,6 +135,7 @@ project(":BWAPI4J") {
                 "bwem.Map",
                 "bwapi.BW",
                 "bwapi.BWMapImpl",
+                "bwapi.Force",
                 "bwapi.InteractionHandler",
                 "bwapi.MapDrawer",
                 "bwapi.DamageEvaluator",

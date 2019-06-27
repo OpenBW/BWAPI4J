@@ -719,7 +719,7 @@ public class Unit implements Comparable<Unit> {
   public List<Unit> getUnitsInRadius(final int radius) {
     final DataBuffer data = new DataBuffer(getUnitsInRadius_native(getID(), radius));
 
-    return BwapiDataBuffer.readUnits(data, bw);
+    return BwapiDataBuffer.getUnitsByIds(data, bw);
   }
 
   private native int[] getUnitsInWeaponRange_native(int unitId, int weaponTypeId);
@@ -728,7 +728,7 @@ public class Unit implements Comparable<Unit> {
     final DataBuffer data =
         new DataBuffer(getUnitsInWeaponRange_native(getID(), weaponType.getID()));
 
-    return BwapiDataBuffer.readUnits(data, bw);
+    return BwapiDataBuffer.getUnitsByIds(data, bw);
   }
 
   public boolean hasNuke() {

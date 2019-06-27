@@ -55,16 +55,16 @@ public class BwapiDataBuffer {
     return new UnitCommand(unit, unitCommandType, targetUnit, x, y, extra);
   }
 
-  public static Unit readUnit(final DataBuffer data, final BW bw) {
+  public static Unit getUnitById(final DataBuffer data, final BW bw) {
     final int unitId = data.readInt();
     return bw.getUnit(unitId);
   }
 
-  public static List<Unit> readUnits(final DataBuffer data, final BW bw) {
+  public static List<Unit> getUnitsByIds(final DataBuffer data, final BW bw) {
     final List<Unit> units = new ArrayList<>(data.size());
 
     while (data.hasNext()) {
-      final Unit unit = readUnit(data, bw);
+      final Unit unit = getUnitById(data, bw);
 
       if (unit != null) {
         units.add(unit);
@@ -74,16 +74,16 @@ public class BwapiDataBuffer {
     return units;
   }
 
-  public static Player readPlayer(final DataBuffer data, final BW bw) {
+  public static Player getPlayerById(final DataBuffer data, final BW bw) {
     final int playerId = data.readInt();
     return bw.getPlayer(playerId);
   }
 
-  public static List<Player> readPlayers(final DataBuffer data, final BW bw) {
+  public static List<Player> getPlayersByIds(final DataBuffer data, final BW bw) {
     final List<Player> players = new ArrayList<>(data.size());
 
     while (data.hasNext()) {
-      final Player player = readPlayer(data, bw);
+      final Player player = getPlayerById(data, bw);
 
       if (player != null) {
         players.add(player);
