@@ -27,6 +27,7 @@ import org.openbw.bwapi4j.util.Cache;
 class BWMapImpl implements BWMap {
   private String mapHash;
   private String mapFileName;
+  private String mapPathName;
   private String mapName;
 
   private final InteractionHandler interactionHandler;
@@ -66,6 +67,10 @@ class BWMapImpl implements BWMap {
 
   public String mapFileName() {
     return this.mapFileName;
+  }
+
+  public String mapPathName() {
+    return this.mapPathName;
   }
 
   public String mapName() {

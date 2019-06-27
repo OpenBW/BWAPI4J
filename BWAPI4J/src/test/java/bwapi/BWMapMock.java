@@ -84,6 +84,11 @@ public class BWMapMock implements BWMap {
     return this.data.getMapFilename();
   }
 
+  @Override
+  public String mapPathName() {
+    throw new UnsupportedOperationException();
+  }
+
   public String mapName() {
     throw new UnsupportedOperationException();
   }

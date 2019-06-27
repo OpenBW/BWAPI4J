@@ -29,6 +29,8 @@ public interface BWMap {
 
   public String mapName();
 
+  public String mapPathName();
+
   public int getGroundHeight(TilePosition position);
 
   public int getGroundHeight(int tileX, int tileY);

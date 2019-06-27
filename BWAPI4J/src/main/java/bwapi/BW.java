@@ -826,7 +826,7 @@ public class BW {
   }
 
   public String mapPathName() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return getBWMap().mapPathName();
   }
 
   public String mapName() {

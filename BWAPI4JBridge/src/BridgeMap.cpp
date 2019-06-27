@@ -53,6 +53,9 @@ void BridgeMap::initialize(JNIEnv *env, jobject bw, const JavaRefs &javaRefs) {
   auto mapFileName = env->NewStringUTF(BWAPI::Broodwar->mapFileName().c_str());
   env->SetObjectField(bwMap, env->GetFieldID(javaRefs.bwMapClass, "mapFileName", "Ljava/lang/String;"), mapFileName);
 
+  auto mapPathName = env->NewStringUTF(BWAPI::Broodwar->mapPathName().c_str());
+  env->SetObjectField(bwMap, env->GetFieldID(javaRefs.bwMapClass, "mapPathName", "Ljava/lang/String;"), mapPathName);
+
   auto mapName = env->NewStringUTF(BWAPI::Broodwar->mapName().c_str());
   env->SetObjectField(bwMap, env->GetFieldID(javaRefs.bwMapClass, "mapName", "Ljava/lang/String;"), mapName);
 
