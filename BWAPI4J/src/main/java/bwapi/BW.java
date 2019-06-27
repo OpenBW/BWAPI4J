@@ -680,7 +680,7 @@ public class BW {
   }
 
   public Force getForce(int forceID) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return new Force(forceID, this);
   }
 
   public Player getPlayer(final int playerId) {
