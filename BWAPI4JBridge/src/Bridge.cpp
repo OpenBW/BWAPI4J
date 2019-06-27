@@ -279,13 +279,13 @@ JNIEXPORT jintArray JNICALL Java_bwapi_BW_getUnitTypesData_1native(JNIEnv *env, 
 }
 
 JNIEXPORT jintArray JNICALL Java_bwapi_BW_getForceIds_1native(JNIEnv *env, jobject) {
-	BUFFER_SETUP;
+  BUFFER_SETUP;
 
-	for (const auto &force : BWAPI::Broodwar->getForces()) {
-		Bridge::Globals::dataBuffer.addId(force);
-	}
+  for (const auto &force : BWAPI::Broodwar->getForces()) {
+    Bridge::Globals::dataBuffer.addId(force);
+  }
 
-	BUFFER_RETURN;
+  BUFFER_RETURN;
 }
 
 JNIEXPORT jintArray JNICALL Java_bwapi_BW_getStaticMinerals_1native(JNIEnv *env, jobject) {

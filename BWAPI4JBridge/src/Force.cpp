@@ -25,16 +25,16 @@
 #include "Globals.h"
 
 JNIEXPORT jstring JNICALL Java_bwapi_Force_getName_1native(JNIEnv *env, jobject, jint forceId) {
-	return env->NewStringUTF(BWAPI::Broodwar->getForce(forceId)->getName().c_str());
+  return env->NewStringUTF(BWAPI::Broodwar->getForce(forceId)->getName().c_str());
 }
 
 JNIEXPORT jintArray JNICALL Java_bwapi_Force_getPlayerIds_1native(JNIEnv *env, jobject, jint forceId) {
-	BUFFER_SETUP;
+  BUFFER_SETUP;
 
-	const auto &force = BWAPI::Broodwar->getForce(forceId);
-	for (const auto &player : force->getPlayers()) {
-		Bridge::Globals::dataBuffer.addId(player);
-	}
+  const auto &force = BWAPI::Broodwar->getForce(forceId);
+  for (const auto &player : force->getPlayers()) {
+    Bridge::Globals::dataBuffer.addId(player);
+  }
 
-	BUFFER_RETURN;
+  BUFFER_RETURN;
 }
