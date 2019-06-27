@@ -1031,7 +1031,7 @@ public class BW {
   }
 
   public void resumeGame() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    getInteractionHandler().resumeGame();
   }
 
   public void leaveGame() {
