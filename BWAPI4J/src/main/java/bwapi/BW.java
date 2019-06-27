@@ -788,7 +788,7 @@ public class BW {
     return getUnitsInRadius(center.getX(), center.getY(), radius);
   }
 
-  public BwError getLastError() {
+  public Error getLastError() {
     return getInteractionHandler().getLastError();
   }
 

@@ -20,7 +20,7 @@
 
 package bwapi;
 
-public enum BwError {
+public enum Error {
   Unit_Does_Not_Exist,
   Unit_Not_Visible,
   Unit_Not_Owned,
@@ -49,4 +49,8 @@ public enum BwError {
   Invalid_Parameter,
   None,
   Unknown;
+
+  public static Error withId(final int id) {
+    return values()[id];
+  }
 }

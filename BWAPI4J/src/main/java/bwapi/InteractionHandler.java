@@ -173,9 +173,8 @@ public final class InteractionHandler {
 
   private native int getLastError_native();
 
-  public BwError getLastError() {
-    final int lastErrorId = getLastError_native();
-    return BwError.values()[lastErrorId];
+  public Error getLastError() {
+    return Error.withId(getLastError_native());
   }
 
   public Position getScreenPosition() {
