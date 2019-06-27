@@ -1,23 +1,36 @@
 package bwapi;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Force {
+  private final int id;
+  private final String name;
+  private final List<Player> players;
+
+  Force(final int id, final String name, final List<Player> players) {
+    this.id = id;
+    this.name = name;
+    this.players = new ArrayList<>(players);
+  }
+
   public int getID() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return id;
   }
 
   public String getName() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return name;
   }
 
   public List<Player> getPlayers() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return new ArrayList<>(players);
   }
 
   @Override
   public boolean equals(final Object object) {
-    if (object instanceof Force) {
+    if (this == object) {
+      return true;
+    } else if (object instanceof Force) {
       final Force that = (Force) object;
       return this.getID() == that.getID();
     } else {
