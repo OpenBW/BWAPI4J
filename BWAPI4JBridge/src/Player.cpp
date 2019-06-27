@@ -68,3 +68,7 @@ JNIEXPORT jint JNICALL Java_bwapi_Player_armor_1native(JNIEnv *, jobject, jint p
 JNIEXPORT jint JNICALL Java_bwapi_Player_damage_1native(JNIEnv *, jobject, jint playerId, jint weaponTypeId) {
   return BWAPI::Broodwar->getPlayer(playerId)->damage(BWAPI::WeaponType(weaponTypeId));
 }
+
+JNIEXPORT jint JNICALL Java_bwapi_Player_getMaxUpgradeLevel_1native(JNIEnv *, jobject, jint playerId, jint upgradeTypeId) {
+  return BWAPI::Broodwar->getPlayer(playerId)->getMaxUpgradeLevel(BWAPI::UpgradeType(upgradeTypeId));
+}

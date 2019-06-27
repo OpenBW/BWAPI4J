@@ -750,8 +750,10 @@ public class Player {
     return observer;
   }
 
-  public int getMaxUpgradeLevel(UpgradeType upgrade) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  private native int getMaxUpgradeLevel_native(int playerId, int upgradeTypeId);
+
+  public int getMaxUpgradeLevel(final UpgradeType upgradeType) {
+    return getMaxUpgradeLevel_native(getID(), upgradeType.getID());
   }
 
   public boolean isResearchAvailable(TechType tech) {
