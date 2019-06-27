@@ -659,32 +659,46 @@ public class Player {
     return textColor;
   }
 
-  public int maxEnergy(UnitType unit) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  private native int maxEnergy_native(int playerId, int unitTypeId);
+
+  public int maxEnergy(final UnitType unitType) {
+    return maxEnergy_native(getID(), unitType.getID());
   }
 
-  public double topSpeed(UnitType unit) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  private native double topSpeed_native(int playerId, int unitTypeId);
+
+  public double topSpeed(final UnitType unitType) {
+    return topSpeed_native(getID(), unitType.getID());
   }
 
-  public int weaponMaxRange(WeaponType weapon) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  private native int weaponMaxRange_native(int playerId, int weaponTypeId);
+
+  public int weaponMaxRange(final WeaponType weaponType) {
+    return weaponMaxRange_native(getID(), weaponType.getID());
   }
 
-  public int sightRange(UnitType unit) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  private native int sightRange_native(int playerId, int unitTypeId);
+
+  public int sightRange(final UnitType unitType) {
+    return sightRange_native(getID(), unitType.getID());
   }
 
-  public int weaponDamageCooldown(UnitType unit) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  private native int weaponDamageCooldown_native(int playerId, int unitTypeId);
+
+  public int weaponDamageCooldown(final UnitType unitType) {
+    return weaponDamageCooldown_native(getID(), unitType.getID());
   }
 
-  public int armor(UnitType unit) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  private native int armor_native(int playerId, int unitTypeId);
+
+  public int armor(final UnitType unitType) {
+    return armor_native(getID(), unitType.getID());
   }
 
-  public int damage(WeaponType wpn) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  private native int damage_native(int playerId, int weaponTypeId);
+
+  public int damage(final WeaponType weaponType) {
+    return damage_native(getID(), weaponType.getID());
   }
 
   /**

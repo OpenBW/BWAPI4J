@@ -40,3 +40,31 @@ JNIEXPORT jboolean JNICALL Java_bwapi_Player_isEnemy_1native(JNIEnv *, jobject, 
 
   return player && targetPlayer && player->isEnemy(targetPlayer);
 }
+
+JNIEXPORT jint JNICALL Java_bwapi_Player_maxEnergy_1native(JNIEnv *, jobject, jint playerId, jint unitTypeId) {
+  return BWAPI::Broodwar->getPlayer(playerId)->maxEnergy(BWAPI::UnitType(unitTypeId));
+}
+
+JNIEXPORT jdouble JNICALL Java_bwapi_Player_topSpeed_1native(JNIEnv *, jobject, jint playerId, jint unitTypeId) {
+  return BWAPI::Broodwar->getPlayer(playerId)->topSpeed(BWAPI::UnitType(unitTypeId));
+}
+
+JNIEXPORT jint JNICALL Java_bwapi_Player_weaponMaxRange_1native(JNIEnv *, jobject, jint playerId, jint weaponTypeId) {
+  return BWAPI::Broodwar->getPlayer(playerId)->weaponMaxRange(BWAPI::WeaponType(weaponTypeId));
+}
+
+JNIEXPORT jint JNICALL Java_bwapi_Player_sightRange_1native(JNIEnv *, jobject, jint playerId, jint unitTypeId) {
+  return BWAPI::Broodwar->getPlayer(playerId)->sightRange(BWAPI::UnitType(unitTypeId));
+}
+
+JNIEXPORT jint JNICALL Java_bwapi_Player_weaponDamageCooldown_1native(JNIEnv *, jint playerId, jint unitTypeId) {
+  return BWAPI::Broodwar->getPlayer(playerId)->weaponDamageCooldown(BWAPI::UnitType(unitTypeId));
+}
+
+JNIEXPORT jint JNICALL Java_bwapi_Player_armor_1native(JNIEnv *, jobject, jint playerId, jint unitTypeId) {
+  return BWAPI::Broodwar->getPlayer(playerId)->armor(BWAPI::UnitType(unitTypeId));
+}
+
+JNIEXPORT jint JNICALL Java_bwapi_Player_damage_1native(JNIEnv *, jobject, jint playerId, jint weaponTypeId) {
+  return BWAPI::Broodwar->getPlayer(playerId)->damage(BWAPI::WeaponType(weaponTypeId));
+}
