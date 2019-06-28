@@ -13,17 +13,15 @@ public class XYCropper {
     this.maxY = maxY;
   }
 
-  public int cropX(int x) {
-    return (x < this.minX ? this.minX : (x > this.maxX) ? this.maxX : x);
+  public int cropX(final int x) {
+    return (x < minX) ? minX : (x > maxX) ? maxX : x;
   }
 
-  public int cropY(int y) {
-    return (y < this.minY ? this.minY : (y > this.maxY) ? this.maxY : y);
+  public int cropY(final int y) {
+    return (y < minY) ? minY : (y > maxY) ? maxY : y;
   }
 
-  public int[] crop(int x, int y) {
-    x = cropX(x);
-    y = cropY(y);
-    return new int[] {x, y};
+  public int[] crop(final int x, final int y) {
+    return new int[] {cropX(x), cropY(y)};
   }
 }

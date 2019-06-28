@@ -24,8 +24,13 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import org.openbw.bwapi4j.util.Utils;
 
-public class SystemUtils {
+public final class SystemUtils {
+  private SystemUtils() throws InstantiationException {
+    Utils.throwInstantiationException();
+  }
+
   public static boolean isWindowsPlatform() {
     return System.getProperty("os.name").contains("Windows");
   }

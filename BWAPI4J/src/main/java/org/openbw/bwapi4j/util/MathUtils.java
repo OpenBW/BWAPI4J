@@ -24,8 +24,10 @@ import static java.lang.Math.abs;
 import static java.lang.Math.sqrt;
 
 /** Contains utility functions for basic calculations. */
-public class MathUtils {
-  private MathUtils() {}
+public final class MathUtils {
+  private MathUtils() throws InstantiationException {
+    Utils.throwInstantiationException();
+  }
 
   /**
    * Returns the distance between two boxes. The distance is calculated from the edge of the boxes.
