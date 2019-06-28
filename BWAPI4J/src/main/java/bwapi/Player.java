@@ -756,8 +756,10 @@ public class Player {
     return getMaxUpgradeLevel_native(getID(), upgradeType.getID());
   }
 
-  public boolean isResearchAvailable(TechType tech) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  private native boolean isResearchAvailable_native(int playerId, int techTypeId);
+
+  public boolean isResearchAvailable(final TechType techType) {
+    return isResearchAvailable_native(getID(), techType.getID());
   }
 
   public boolean isUnitAvailable(UnitType unit) {
