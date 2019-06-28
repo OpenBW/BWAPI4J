@@ -32,6 +32,8 @@ JNIEXPORT jboolean JNICALL Java_bwapi_InteractionHandler_getMouseState_1native(J
   return BWAPI::Broodwar->getMouseState(BWAPI::MouseButton(mouseButtonValue));
 }
 
+JNIEXPORT jint JNICALL Java_bwapi_InteractionHandler_getRevision(JNIEnv *, jobject) { return BWAPI::Broodwar->getRevision(); }
+
 JNIEXPORT void JNICALL Java_bwapi_InteractionHandler_enableLatCom(JNIEnv *, jobject, jboolean enabled) {
   const bool parsedEnabled = (enabled == JNI_TRUE);
   LOGGER(fmt::format("Enable latency compensation: {}", parsedEnabled));

@@ -239,6 +239,8 @@ public final class InteractionHandler {
     return this.remainingLatencyTime;
   }
 
+  public native int getRevision();
+
   public int getLatencyFrames() {
     return this.latencyFrames;
   }

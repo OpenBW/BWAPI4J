@@ -1103,7 +1103,7 @@ public class BW {
   }
 
   public int getRevision() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    return getInteractionHandler().getRevision();
   }
 
   public boolean isDebug() {
