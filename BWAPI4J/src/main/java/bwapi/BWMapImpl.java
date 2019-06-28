@@ -23,6 +23,8 @@ package bwapi;
 import java.util.ArrayList;
 import java.util.List;
 import org.openbw.bwapi4j.util.Cache;
+import org.openbw.bwapi4j.util.buffer.BwapiDataBuffer;
+import org.openbw.bwapi4j.util.buffer.DataBuffer;
 
 class BWMapImpl implements BWMap {
   private String mapHash;
@@ -219,6 +221,36 @@ class BWMapImpl implements BWMap {
       final boolean checkExplored) {
     return canBuildHere_native(
         tilePosition.getX(), tilePosition.getY(), unitType.getID(), builder.getID(), checkExplored);
+  }
+
+  private native int[] getBuildLocation_native(
+      int unitTypeId, int tileX, int tileY, int maxRange, boolean creep);
+
+  public TilePosition getBuildLocation(
+      final UnitType unitType,
+      final TilePosition desiredTilePosition,
+      final int maxRange,
+      final boolean creep) {
+    final DataBuffer data =
+        new DataBuffer(
+            getBuildLocation_native(
+                unitType.getID(),
+                desiredTilePosition.getX(),
+                desiredTilePosition.getY(),
+                maxRange,
+                creep));
+
+    return BwapiDataBuffer.readTilePosition(data);
+  }
+
+  public TilePosition getBuildLocation(
+      final UnitType unitType, final TilePosition desiredTilePosition, final int maxRange) {
+    return getBuildLocation(unitType, desiredTilePosition, maxRange, false);
+  }
+
+  public TilePosition getBuildLocation(
+      final UnitType unitType, final TilePosition desiredTilePosition) {
+    return getBuildLocation(unitType, desiredTilePosition, 64);
   }
 
   private native int[] getCreepData_native();

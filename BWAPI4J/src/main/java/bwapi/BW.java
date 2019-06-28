@@ -1204,17 +1204,22 @@ public class BW {
     throw new UnsupportedOperationException("TODO"); // TODO
   }
 
-  public TilePosition getBuildLocation(UnitType type, TilePosition desiredPosition, int maxRange) {
-    throw new UnsupportedOperationException("TODO"); // TODO
-  }
-
-  public TilePosition getBuildLocation(UnitType type, TilePosition desiredPosition) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public TilePosition getBuildLocation(
+      final UnitType unitType,
+      final TilePosition desiredTilePosition,
+      final int maxRange,
+      final boolean creep) {
+    return getBWMap().getBuildLocation(unitType, desiredTilePosition, maxRange, creep);
   }
 
   public TilePosition getBuildLocation(
-      UnitType type, TilePosition desiredPosition, int maxRange, boolean creep) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+      final UnitType unitType, final TilePosition desiredTilePosition, final int maxRange) {
+    return getBWMap().getBuildLocation(unitType, desiredTilePosition, maxRange);
+  }
+
+  public TilePosition getBuildLocation(
+      final UnitType unitType, final TilePosition desiredTilePosition) {
+    return getBWMap().getBuildLocation(unitType, desiredTilePosition);
   }
 
   public int getDamageFrom(

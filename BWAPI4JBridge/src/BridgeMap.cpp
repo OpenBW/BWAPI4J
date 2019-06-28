@@ -115,6 +115,16 @@ JNIEXPORT jboolean JNICALL Java_bwapi_BWMapImpl_canBuildHere_1native(JNIEnv *, j
   return BWAPI::Broodwar->canBuildHere(BWAPI::TilePosition((int)x, (int)y), BWAPI::UnitType((int)unitTypeId), builder, (bool)checkExplored);
 }
 
+JNIEXPORT jintArray JNICALL Java_bwapi_BWMapImpl_getBuildLocation_1native(JNIEnv *env, jobject, jint unitTypeId, jint tileX, jint tileY, jint maxRange,
+                                                                          jboolean creep) {
+  BUFFER_SETUP;
+
+  const auto buildLocation = BWAPI::Broodwar->getBuildLocation(BWAPI::UnitType(unitTypeId), BWAPI::TilePosition(tileX, tileY), maxRange, creep);
+  Bridge::Globals::dataBuffer.addFields(buildLocation);
+
+  BUFFER_RETURN;
+}
+
 JNIEXPORT jintArray JNICALL Java_bwapi_BWMapImpl_getCreepData_1native(JNIEnv *env, jobject) {
   BUFFER_SETUP;
 

@@ -87,4 +87,12 @@ public interface BWMap {
 
   public boolean canBuildHere(
       TilePosition tilePosition, UnitType unitType, Unit builder, boolean checkExplored);
+
+  public TilePosition getBuildLocation(
+      UnitType unitType, TilePosition desiredTilePosition, int maxRange, boolean creep);
+
+  public TilePosition getBuildLocation(
+      UnitType unitType, TilePosition desiredTilePosition, int maxRange);
+
+  public TilePosition getBuildLocation(UnitType unitType, TilePosition desiredTilePosition);
 }
