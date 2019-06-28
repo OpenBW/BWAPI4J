@@ -68,7 +68,8 @@ public class TestListener implements BWEventListener {
         }
       }
 
-      /* Basic gamestart worker auto-mine */ {
+      /* Basic gamestart worker auto-mine */
+      {
         final List<Unit> unassignedMineralPatches = bw.getMinerals();
         final List<Unit> unassignedWorkers = new ArrayList<>(workers);
         unassignedMineralPatches.sort(
@@ -115,7 +116,8 @@ public class TestListener implements BWEventListener {
         }
       }
 
-      /* Train an SCV at every Command Center. */ {
+      /* Train an SCV at every Command Center. */
+      {
         if (self.getRace() == Race.Terran) {
           for (final Unit u : bw.getUnits(self)) {
             if (u.getType() == UnitType.Terran_Command_Center) {
@@ -127,7 +129,8 @@ public class TestListener implements BWEventListener {
         }
       }
 
-      /* Highlight workers. */ {
+      /* Highlight workers. */
+      {
         for (final Unit worker : workers) {
           final Position tileSize =
               new TilePosition(worker.getType().tileWidth(), worker.getType().tileHeight())
@@ -141,7 +144,8 @@ public class TestListener implements BWEventListener {
         }
       }
 
-      /* Draw mouse position debug info. */ {
+      /* Draw mouse position debug info. */
+      {
         final Position screenPosition = bw.getInteractionHandler().getScreenPosition();
         final Position mousePosition =
             screenPosition.add(bw.getInteractionHandler().getMousePosition());

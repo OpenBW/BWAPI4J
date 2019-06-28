@@ -95,7 +95,8 @@ public class TestListenerBwem implements BWEventListener {
         }
       }
 
-      /* Basic gamestart worker auto-mine */ {
+      /* Basic gamestart worker auto-mine */
+      {
         final List<Unit> unassignedMineralPatches = bw.getMinerals();
         final List<Unit> unassignedWorkers = new ArrayList<>(workers);
         unassignedMineralPatches.sort(
@@ -142,7 +143,8 @@ public class TestListenerBwem implements BWEventListener {
         }
       }
 
-      /* Train an SCV at every Command Center. */ {
+      /* Train an SCV at every Command Center. */
+      {
         if (self.getRace() == Race.Terran) {
           for (final Unit u : bw.getUnits(self)) {
             if (u.getType() == UnitType.Terran_Command_Center) {
@@ -154,7 +156,8 @@ public class TestListenerBwem implements BWEventListener {
         }
       }
 
-      /* Highlight starting locations and possible base locations. */ {
+      /* Highlight starting locations and possible base locations. */
+      {
         final Position resourceDepotSize = UnitType.Terran_Command_Center.tileSize().toPosition();
         for (final TilePosition tilePosition : bwemMap.StartingLocations()) {
           final Color highlightColor = Color.GREEN;
@@ -165,7 +168,8 @@ public class TestListenerBwem implements BWEventListener {
         }
       }
 
-      /* Highlight workers. */ {
+      /* Highlight workers. */
+      {
         for (final Unit worker : workers) {
           final Position tileSize =
               new TilePosition(worker.getType().tileWidth(), worker.getType().tileHeight())
@@ -179,7 +183,8 @@ public class TestListenerBwem implements BWEventListener {
         }
       }
 
-      /* Draw path from our base to center of the map */ {
+      /* Draw path from our base to center of the map */
+      {
         final Position startingLocation = bw.self().getStartLocation().toPosition();
         final Position mapCenter = bwemMap.Center();
         final PathLength pathLength = new PathLength();
@@ -208,7 +213,8 @@ public class TestListenerBwem implements BWEventListener {
         }
       }
 
-      /* Draw mouse position debug info. */ {
+      /* Draw mouse position debug info. */
+      {
         final Position screenPosition = bw.getInteractionHandler().getScreenPosition();
         final Position mousePosition =
             screenPosition.add(bw.getInteractionHandler().getMousePosition());

@@ -1,10 +1,15 @@
 package mockdata.dataexporter;
 
-import bwapi.*;
-import java.lang.reflect.*;
-import java.util.*;
-import java.util.stream.*;
-import org.openbw.bwapi4j.util.*;
+import bwapi.Order;
+import bwapi.Race;
+import bwapi.TechType;
+import bwapi.UnitType;
+import bwapi.WeaponType;
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 class TechTypes {
   static void initializeTechType() throws Exception {

@@ -352,6 +352,7 @@ public class UnitTypeTest implements BWEventListener {
   private void Assert_canBuildAddon(final boolean expectedCanBuildAddon, final UnitType unitType) {
     Assert.assertEquals(expectedCanBuildAddon, unitType.canBuildAddon());
   }
+
   //    private void Assert_buildsWhat(final List<UnitType> expectedUnitTypes, final UnitType
   // unitType) { Assert.assertTrue(isListEqual(expectedUnitTypes, unitType.buildsWhat())); } //TODO:
   // UnitType.buildsWhat() is currently not implemented.
