@@ -76,3 +76,7 @@ JNIEXPORT jint JNICALL Java_bwapi_Player_getMaxUpgradeLevel_1native(JNIEnv *, jo
 JNIEXPORT jboolean JNICALL Java_bwapi_Player_isResearchAvailable_1native(JNIEnv *, jobject, jint playerId, jint techTypeId) {
   return BWAPI::Broodwar->getPlayer(playerId)->isResearchAvailable(BWAPI::TechType(techTypeId));
 }
+
+JNIEXPORT jboolean JNICALL Java_bwapi_Player_isUnitAvailable_1native(JNIEnv *, jobject, jint playerId, jint unitTypeId) {
+  return BWAPI::Broodwar->getPlayer(playerId)->isUnitAvailable(unitTypeId);
+}

@@ -762,8 +762,10 @@ public class Player {
     return isResearchAvailable_native(getID(), techType.getID());
   }
 
-  public boolean isUnitAvailable(UnitType unit) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  private native boolean isUnitAvailable_native(int playerId, int unitTypeId);
+
+  public boolean isUnitAvailable(final UnitType unitType) {
+    return isUnitAvailable_native(getID(), unitType.getID());
   }
 
   private native boolean hasUnitTypeRequirement_native(int playerId, int unitTypeId, int amount);
