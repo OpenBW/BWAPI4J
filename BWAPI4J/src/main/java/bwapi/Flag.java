@@ -4,13 +4,13 @@ public enum Flag {
   CompleteMapInformation(0),
   UserInput(1);
 
-  private int value;
+  private final int value;
 
   Flag(final int value) {
     this.value = value;
   }
 
-  public int getValue() {
+  public int intValue() {
     return value;
   }
 }

@@ -145,6 +145,34 @@ public class BW {
     }
   }
 
+  public BWMap getBWMap() {
+    return bwMap;
+  }
+
+  public MapDrawer getMapDrawer() {
+    return mapDrawer;
+  }
+
+  public DamageEvaluator getDamageEvaluator() {
+    return damageEvaluator;
+  }
+
+  public InteractionHandler getInteractionHandler() {
+    return interactionHandler;
+  }
+
+  public UnitCommandSimulation getUnitCommandSimulation() {
+    return unitCommandSimulation;
+  }
+
+  private native void startGame_native(BW bw);
+
+  public void startGame() {
+    startGame_native(this);
+  }
+
+  public native void exit();
+
   private native void createUnit_native(int ownerId, int unitTypeId, int posX, int posY);
 
   /**
@@ -165,89 +193,50 @@ public class BW {
     killUnit_native(unit.getID());
   }
 
-  public native void exit();
-
-  private native void startGame_native(BW bw);
-
-  public void startGame() {
-    startGame_native(this);
-  }
-
-  private native int[] getUpgradeTypesData_native();
-
-  private native int[] getWeaponTypesData_native();
-
-  private native int[] getTechTypesData_native();
-
-  private native int[] getUnitTypesData_native();
-
-  private native int[] getAllUnitsData_native();
-
-  private native int[] getAllBulletsData_native();
-
-  private native int[] getAllPlayersData_native();
+  public native int getClientVersion();
 
   private native int[] getGameData_native();
 
-  public native int getClientVersion();
-
-  private native String getPlayerName_native(int playerId);
-
-  private native int[] getPlayerAdditionalData_native(int playerId);
-
-  public BWMap getBWMap() {
-    return this.bwMap;
-  }
-
-  public MapDrawer getMapDrawer() {
-    return this.mapDrawer;
-  }
-
-  public DamageEvaluator getDamageEvaluator() {
-    return this.damageEvaluator;
-  }
-
-  public InteractionHandler getInteractionHandler() {
-    return this.interactionHandler;
-  }
-
-  public UnitCommandSimulation getUnitCommandSimulation() {
-    return unitCommandSimulation;
-  }
-
   private void updateGame() {
-    int[] data = this.getGameData_native();
+    final int[] data = getGameData_native();
+
     getInteractionHandler().update(data);
   }
 
+  private native int[] getAllBulletsData_native();
+
   private void updateAllBullets() {
-    int[] bulletData = this.getAllBulletsData_native();
+    final int[] bulletData = getAllBulletsData_native();
 
     int index = 0;
     while (index < bulletData.length) {
-      int bulletId = bulletData[index + BulletBridge.ID];
-      Bullet bullet = this.bullets.get(bulletId);
+      final int bulletId = bulletData[index + BulletBridge.ID];
+
+      Bullet bullet = bullets.get(bulletId);
       if (bullet == null) {
         bullet = new Bullet();
-        this.bullets.put(bulletId, bullet);
+        bullets.put(bulletId, bullet);
         bulletBridge.initialize(bullet, bulletData, index);
       }
+
       index = bulletBridge.update(bullet, bulletData, index);
     }
   }
 
-  private boolean typeChanged(final UnitType oldType, final UnitType newType) {
-    return !oldType.equals(newType)
-        && !oldType.equals(UnitType.Terran_Siege_Tank_Siege_Mode)
-        && !newType.equals(UnitType.Terran_Siege_Tank_Siege_Mode);
+  private static boolean typeChanged(final UnitType oldType, final UnitType newType) {
+    return oldType != newType
+        && oldType != UnitType.Terran_Siege_Tank_Siege_Mode
+        && newType != UnitType.Terran_Siege_Tank_Siege_Mode;
   }
 
+  private native int[] getAllUnitsData_native();
+
   private void updateAllUnits(final int frame) {
-    for (final Unit unit : this.units.values()) {
+    for (final Unit unit : units.values()) {
       unitDataBridge.reset(unit);
     }
 
-    final int[] unitData = this.getAllUnitsData_native();
+    final int[] unitData = getAllUnitsData_native();
 
     int index = 0;
     while (index < unitData.length) {
@@ -255,7 +244,6 @@ public class BW {
       final int unitTypeId = unitData[index + UnitBridge.TYPE];
 
       Unit unit = units.get(unitId);
-
       if (unit == null) {
         logger.trace(
             "creating unit for id {} and type {} ({}) ...",
@@ -263,8 +251,11 @@ public class BW {
             unitTypeId,
             UnitType.values()[unitTypeId]);
 
-        unit = unitFactory.createUnit(unitId, UnitType.values()[unitTypeId], frame);
-
+        unit =
+            unitFactory.createUnit(
+                unitId,
+                UnitType.values()[unitTypeId],
+                frame); // TODO: Use "UnitType.withId(unitTypeId)" instead?
         if (unit == null) {
           logger.error(
               "could not create unit for id {} and type {}.",
@@ -285,6 +276,7 @@ public class BW {
           logger.trace(" done.");
         }
       } else {
+        // TODO: Use "UnitType.withId(unitTypeId)" instead?
         if (typeChanged(unit.getType(), UnitType.values()[unitTypeId])) {
           logger.debug(
               "unit {} changed type from {} to {}.",
@@ -298,6 +290,12 @@ public class BW {
     }
   }
 
+  private native int[] getAllPlayersData_native();
+
+  private native String getPlayerName_native(int playerId);
+
+  private native int[] getPlayerAdditionalData_native(int playerId);
+
   // TODO: Determine why this function seems to be called twice when using OpenBW. E.g.
   // [DEBUG] [Thread-1] openbw.bwapi4j.BW:updateAllPlayers:617 - creating player for id 1 ...
   // [DEBUG] [Thread-1] openbw.bwapi4j.BW:updateAllPlayers:617 - creating player for id 0 ...
@@ -309,8 +307,8 @@ public class BW {
     int index = 0;
     while (index < playerData.length) {
       final int playerId = playerData[index + PlayerBridge.ID];
-      Player player = this.players.get(playerId);
 
+      Player player = players.get(playerId);
       if (player == null) {
         logger.debug("creating player for id {} ...", playerId);
         player = new Player(this, playerId, getPlayerName_native(playerId));
@@ -330,52 +328,25 @@ public class BW {
     }
   }
 
-  public Collection<Player> getAllPlayers() {
-    return this.players.values();
+  public Bullet getBullet(final int bulletId) {
+    return bullets.get(bulletId);
   }
 
-  public Bullet getBullet(int bulletId) {
-    return this.bullets.get(bulletId);
+  public List<Unit> getUnits(final Player player) {
+    return getUnitsFromPlayerCache.get().getOrDefault(player, Collections.emptyList());
   }
 
-  /**
-   * Gets all units for given player.
-   *
-   * @param player player whose units to return
-   * @return list of <code>PlayerUnit</code>
-   */
-  public List<Unit> getUnits(Player player) {
-    return this.getUnitsFromPlayerCache.get().getOrDefault(player, Collections.emptyList());
-  }
-
-  /**
-   * Gets a list of all vespene geysers.
-   *
-   * @return list of vespene geysers
-   */
   public List<Unit> getVespeneGeysers() {
-    return this.getVespeneGeysersCache.get();
-  }
-
-  private void preFrame() {
-    //    logger.trace("updating game state for frame {}...", this.frame);
-    updateGame();
-    logger.trace("updated game.");
-    updateAllPlayers();
-    logger.trace("updated players.");
-    updateAllUnits(getInteractionHandler().getFrameCount());
-    logger.trace("updated all units.");
-    updateAllBullets();
-    logger.trace("updated all bullets.");
+    return getVespeneGeysersCache.get();
   }
 
   private void resetCache() {
-    this.getUnitsFromPlayerCache =
+    getUnitsFromPlayerCache =
         new Cache<>(
             () -> {
               final Map<Player, List<Unit>> playerListMap = new HashMap<>();
 
-              for (final Unit unit : this.units.values()) {
+              for (final Unit unit : units.values()) {
                 final Player player = unit.getPlayer();
 
                 if (player != null) {
@@ -387,39 +358,96 @@ public class BW {
 
               return playerListMap;
             },
-            this.interactionHandler);
+            interactionHandler);
 
-    this.getMineralPatchesCache =
+    getMineralPatchesCache =
         new Cache<>(
             () ->
-                this.units
+                units
                     .values()
                     .stream()
                     .filter(u -> u.getType().isMineralField())
                     .collect(Collectors.toList()),
-            this.interactionHandler);
+            interactionHandler);
 
-    this.getVespeneGeysersCache =
+    getVespeneGeysersCache =
         new Cache<>(
             () ->
-                this.units
+                units
                     .values()
                     .stream()
                     .filter(u -> u.getType() == UnitType.Resource_Vespene_Geyser)
                     .collect(Collectors.toList()),
-            this.interactionHandler);
+            interactionHandler);
 
     getInteractionHandler().resetCache();
 
     bwMap.resetCache();
   }
 
+  private void initializeTypes() {
+    initializeUpgradeTypes();
+    initializeWeaponTypes();
+    initializeTechTypes();
+    initializeUnitTypes();
+  }
+
+  private native int[] getUpgradeTypesData_native();
+
+  private void initializeUpgradeTypes() {
+    final int data[] = getUpgradeTypesData_native();
+
+    int index = 0;
+    while (index < data.length) {
+      final int id = data[index + UpgradeTypeBridge.ID];
+
+      index = upgradeTypeBridge.update(UpgradeType.withId(id), data, index);
+    }
+  }
+
+  private native int[] getWeaponTypesData_native();
+
+  private void initializeWeaponTypes() {
+    int data[] = getWeaponTypesData_native();
+    int index = 0;
+    while (index < data.length) {
+      int id = data[index + WeaponTypeBridge.ID];
+      index = weaponTypeBridge.update(WeaponType.withId(id), data, index);
+    }
+  }
+
+  private native int[] getTechTypesData_native();
+
+  private void initializeTechTypes() {
+    int data[] = getTechTypesData_native();
+    int index = 0;
+    while (index < data.length) {
+      int id = data[index + TechTypeBridge.ID];
+      index = techTypeBridge.update(TechType.withId(id), data, index);
+    }
+  }
+
+  private native int[] getUnitTypesData_native();
+
+  private void initializeUnitTypes() {
+    int data[] = getUnitTypesData_native();
+    int index = 0;
+    while (index < data.length) {
+      int id = data[index + UnitTypeBridge.ID];
+      index = unitTypeBridge.update(UnitType.withId(id), data, index);
+    }
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  // These functions are called from C++
+  ////////////////////////////////////////////////////////////////////////////////////
+
   private void onStart() {
     try {
       logger.trace(" --- onStart called.");
-      this.players.clear();
-      this.units.clear();
-      this.bullets.clear();
+      players.clear();
+      units.clear();
+      bullets.clear();
 
       resetCache();
 
@@ -435,51 +463,23 @@ public class BW {
     }
   }
 
-  private void initializeTypes() {
-    initializeUpgradeTypes();
-    initializeWeaponTypes();
-    initializeTechTypes();
-    initializeUnitTypes();
-  }
-
-  private void initializeUpgradeTypes() {
-    int data[] = getUpgradeTypesData_native();
-    int index = 0;
-    while (index < data.length) {
-      int id = data[index + UpgradeTypeBridge.ID];
-      index = upgradeTypeBridge.update(UpgradeType.withId(id), data, index);
-    }
-  }
-
-  private void initializeWeaponTypes() {
-    int data[] = getWeaponTypesData_native();
-    int index = 0;
-    while (index < data.length) {
-      int id = data[index + WeaponTypeBridge.ID];
-      index = weaponTypeBridge.update(WeaponType.withId(id), data, index);
-    }
-  }
-
-  private void initializeTechTypes() {
-    int data[] = getTechTypesData_native();
-    int index = 0;
-    while (index < data.length) {
-      int id = data[index + TechTypeBridge.ID];
-      index = techTypeBridge.update(TechType.withId(id), data, index);
-    }
-  }
-
-  private void initializeUnitTypes() {
-    int data[] = getUnitTypesData_native();
-    int index = 0;
-    while (index < data.length) {
-      int id = data[index + UnitTypeBridge.ID];
-      index = unitTypeBridge.update(UnitType.withId(id), data, index);
-    }
-  }
-
   private void onEnd(boolean isWinner) {
     catchAllCalling(listener::onEnd, isWinner);
+  }
+
+  private void preFrame() {
+    logger.trace("updating game state for frame {}...", getInteractionHandler().getFrameCount());
+    updateGame();
+    logger.trace("updated game.");
+
+    updateAllPlayers();
+    logger.trace("updated players.");
+
+    updateAllUnits(getInteractionHandler().getFrameCount());
+    logger.trace("updated all units.");
+
+    updateAllBullets();
+    logger.trace("updated all bullets.");
   }
 
   private void onFrame() {
@@ -492,105 +492,108 @@ public class BW {
     }
   }
 
-  private void onSendText(String text) {
+  private void onSendText(final String text) {
     catchAllCalling(listener::onSendText, text);
   }
 
-  private void onReceiveText(int playerId, String text) {
-    Player player = this.players.get(playerId);
+  private void onReceiveText(final int playerId, final String text) {
+    final Player player = players.get(playerId);
     catchAllCalling(listener::onReceiveText, player, text);
   }
 
-  private void onPlayerLeft(int playerId) {
-    Player player = this.players.get(playerId);
+  private void onPlayerLeft(final int playerId) {
+    final Player player = players.get(playerId);
     catchAllCalling(listener::onPlayerLeft, player);
   }
 
-  private void onNukeDetect(int x, int y) {
+  private void onNukeDetect(final int x, final int y) {
     catchAllCalling(listener::onNukeDetect, new Position(x, y));
   }
 
-  private void onUnitDiscover(int unitId) {
-    Unit unit = this.units.get(unitId);
+  private void onUnitDiscover(final int unitId) {
+    final Unit unit = units.get(unitId);
     if (unit == null) {
       logger.error("onUnitDiscover: no unit found for ID {}.", unitId);
     }
     catchAllCalling(listener::onUnitDiscover, unit);
   }
 
-  private void onUnitEvade(int unitId) {
-    Unit unit = this.units.get(unitId);
+  private void onUnitEvade(final int unitId) {
+    final Unit unit = units.get(unitId);
     if (unit == null) {
       logger.error("onUnitEvade: no unit found for ID {}.", unitId);
     }
     catchAllCalling(listener::onUnitEvade, unit);
   }
 
-  private void onUnitShow(int unitId) {
-    Unit unit = this.units.get(unitId);
+  private void onUnitShow(final int unitId) {
+    final Unit unit = units.get(unitId);
     if (unit == null) {
       logger.error("onUnitShow: no unit found for ID {}.", unitId);
     }
     catchAllCalling(listener::onUnitShow, unit);
   }
 
-  private void onUnitHide(int unitId) {
-    Unit unit = this.units.get(unitId);
+  private void onUnitHide(final int unitId) {
+    final Unit unit = units.get(unitId);
     if (unit == null) {
       logger.error("onUnitHide: no unit found for ID {}.", unitId);
     }
     catchAllCalling(listener::onUnitHide, unit);
   }
 
-  private void onUnitCreate(int unitId) {
-    Unit unit = this.units.get(unitId);
+  private void onUnitCreate(final int unitId) {
+    final Unit unit = units.get(unitId);
     if (unit == null) {
       logger.error("onUnitCreate: no unit found for ID {}.", unitId);
     }
     catchAllCalling(listener::onUnitCreate, unit);
   }
 
-  private void onUnitDestroy(int unitId) {
-    Unit unit = this.units.get(unitId);
+  private void onUnitDestroy(final int unitId) {
+    final Unit unit = units.get(unitId);
     if (unit == null) {
       logger.error("onUnitDestroy: no unit found for ID {}.", unitId);
     }
     catchAllCalling(listener::onUnitDestroy, unit);
-    this.units.remove(unitId);
+    units.remove(unitId);
   }
 
-  private void onUnitMorph(int unitId) {
-    Unit unit = this.units.get(unitId);
+  private void onUnitMorph(final int unitId) {
+    final Unit unit = units.get(unitId);
     if (unit == null) {
       logger.error("onUnitMorph: no unit found for ID {}.", unitId);
     }
     catchAllCalling(listener::onUnitMorph, unit);
   }
 
-  private void onUnitRenegade(int unitId) {
-    Unit unit = this.units.get(unitId);
+  private void onUnitRenegade(final int unitId) {
+    final Unit unit = units.get(unitId);
     if (unit == null) {
       logger.error("onUnitRenegade: no unit found for ID {}.", unitId);
     }
     catchAllCalling(listener::onUnitRenegade, unit);
   }
 
-  private void onSaveGame(String gameName) {
+  private void onSaveGame(final String gameName) {
     catchAllCalling(listener::onSaveGame, gameName);
   }
 
-  private void onUnitComplete(int unitId) {
-    Unit unit = this.units.get(unitId);
+  private void onUnitComplete(final int unitId) {
+    final Unit unit = units.get(unitId);
     if (unit == null) {
       logger.error("onUnitComplete: no unit found for ID {}.", unitId);
     }
     catchAllCalling(listener::onUnitComplete, unit);
   }
+
+  ////////////////////////////////////////////////////////////////////////////////////
+
   /**
    * Calls from native code would just ignore any kind of exception, therefore we catch and log them
    * before returning.
    */
-  private static <T> void catchAllCalling(Consumer<T> consumer, T param) {
+  private static <T> void catchAllCalling(final Consumer<T> consumer, final T param) {
     try {
       consumer.accept(param);
     } catch (Throwable t) {
@@ -602,7 +605,8 @@ public class BW {
    * Calls from native code would just ignore any kind of exception, therefore we catch and log them
    * before returning.
    */
-  private static <T, U> void catchAllCalling(BiConsumer<T, U> consumer, T param1, U param2) {
+  private static <T, U> void catchAllCalling(
+      final BiConsumer<T, U> consumer, final T param1, final U param2) {
     try {
       consumer.accept(param1, param2);
     } catch (Throwable t) {
@@ -994,15 +998,15 @@ public class BW {
     return getBWMap().getStartLocations();
   }
 
-  public void printf(String cstr_format) {
-    getInteractionHandler().printf(cstr_format);
+  public void printf(final String text) {
+    getInteractionHandler().printf(text);
   }
 
-  public void sendText(String cstr_format) {
-    getInteractionHandler().sendText(cstr_format);
+  public void sendText(final String text) {
+    getInteractionHandler().sendText(text);
   }
 
-  public void sendTextEx(boolean toAllies, String cstr_format) {
+  public void sendTextEx(boolean toAllies, String text) {
     throw new UnsupportedOperationException("TODO"); // TODO
   }
 

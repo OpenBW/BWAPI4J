@@ -228,7 +228,7 @@ public final class InteractionHandler {
   }
 
   public void enableFlag(final Flag flag) {
-    enableFlag_native(flag.getValue());
+    enableFlag_native(flag.intValue());
   }
 
   public int getRemainingLatencyFrames() {

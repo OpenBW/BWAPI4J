@@ -80,32 +80,32 @@ public final class MapDrawer {
   private native void drawLine_native(
       int coordinateType, int ax, int ay, int bx, int by, int color);
 
-  public void drawText(CoordinateType ctype, int x, int y, String cstr_format) {
-    drawText_native(ctype.ordinal(), x, y, cstr_format);
+  public void drawText(CoordinateType ctype, int x, int y, String text) {
+    drawText_native(ctype.ordinal(), x, y, text);
   }
 
-  public void drawTextMap(int x, int y, String cstr_format) {
-    drawText_native(CoordinateType.Map.ordinal(), x, y, cstr_format);
+  public void drawTextMap(int x, int y, String text) {
+    drawText_native(CoordinateType.Map.ordinal(), x, y, text);
   }
 
-  public void drawTextMap(Position p, String cstr_format) {
-    drawText_native(CoordinateType.Map.ordinal(), p.getX(), p.getY(), cstr_format);
+  public void drawTextMap(Position p, String text) {
+    drawText_native(CoordinateType.Map.ordinal(), p.getX(), p.getY(), text);
   }
 
-  public void drawTextMouse(int x, int y, String cstr_format) {
-    drawText_native(CoordinateType.Mouse.ordinal(), x, y, cstr_format);
+  public void drawTextMouse(int x, int y, String text) {
+    drawText_native(CoordinateType.Mouse.ordinal(), x, y, text);
   }
 
-  public void drawTextMouse(Position p, String cstr_format) {
-    drawText_native(CoordinateType.Mouse.ordinal(), p.getX(), p.getY(), cstr_format);
+  public void drawTextMouse(Position p, String text) {
+    drawText_native(CoordinateType.Mouse.ordinal(), p.getX(), p.getY(), text);
   }
 
-  public void drawTextScreen(int x, int y, String cstr_format) {
-    drawText_native(CoordinateType.Screen.ordinal(), x, y, cstr_format);
+  public void drawTextScreen(int x, int y, String text) {
+    drawText_native(CoordinateType.Screen.ordinal(), x, y, text);
   }
 
-  public void drawTextScreen(Position p, String cstr_format) {
-    drawText_native(CoordinateType.Screen.ordinal(), p.getX(), p.getY(), cstr_format);
+  public void drawTextScreen(Position p, String text) {
+    drawText_native(CoordinateType.Screen.ordinal(), p.getX(), p.getY(), text);
   }
 
   public void drawBox(CoordinateType ctype, int left, int top, int right, int bottom, Color color) {
