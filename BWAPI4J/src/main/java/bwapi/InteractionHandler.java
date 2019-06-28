@@ -298,6 +298,8 @@ public final class InteractionHandler {
 
   public native void sendText(String text);
 
+  public native void sendTextEx(boolean toAllies, String text);
+
   public native void setLocalSpeed(int speed);
 
   public native void enableLatCom(boolean enabled);

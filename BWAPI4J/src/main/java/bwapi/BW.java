@@ -1010,8 +1010,8 @@ public class BW {
     getInteractionHandler().sendText(text);
   }
 
-  public void sendTextEx(boolean toAllies, String text) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public void sendTextEx(final boolean toAllies, final String text) {
+    getInteractionHandler().sendTextEx(toAllies, text);
   }
 
   public boolean isInGame() {

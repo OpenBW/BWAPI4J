@@ -52,6 +52,12 @@ JNIEXPORT void JNICALL Java_bwapi_InteractionHandler_sendText(JNIEnv *env, jobje
   env->ReleaseStringUTFChars(message, messagechars);
 }
 
+JNIEXPORT void JNICALL Java_bwapi_InteractionHandler_sendTextEx(JNIEnv *env, jobject, jboolean toAllies, jstring message) {
+  const char *messagechars = env->GetStringUTFChars(message, 0);
+  BWAPI::Broodwar->sendTextEx(toAllies, "%s", messagechars);
+  env->ReleaseStringUTFChars(message, messagechars);
+}
+
 JNIEXPORT void JNICALL Java_bwapi_InteractionHandler_setLocalSpeed(JNIEnv *, jobject, jint speed) { BWAPI::Broodwar->setLocalSpeed(speed); }
 
 JNIEXPORT jboolean JNICALL Java_bwapi_InteractionHandler_isFlagEnabled_1native(JNIEnv *, jobject, jint flag) {
