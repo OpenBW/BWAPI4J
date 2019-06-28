@@ -25,10 +25,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import org.openbw.bwapi4j.util.Utils;
+import org.openbw.bwapi4j.util.exception.DisabledConstructorException;
 
 public final class SystemUtils {
-  private SystemUtils() throws InstantiationException {
-    Utils.throwInstantiationException();
+  private SystemUtils() throws DisabledConstructorException {
+    Utils.throwDisabledConstructorException();
   }
 
   public static boolean isWindowsPlatform() {

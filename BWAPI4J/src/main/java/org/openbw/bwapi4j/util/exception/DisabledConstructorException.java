@@ -18,12 +18,14 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-package org.openbw.bwapi4j.util;
+package org.openbw.bwapi4j.util.exception;
 
-import org.openbw.bwapi4j.util.exception.DisabledConstructorException;
+public class DisabledConstructorException extends InstantiationException {
+  public DisabledConstructorException() {
+    super();
+  }
 
-public final class Utils {
-  public static void throwDisabledConstructorException() throws DisabledConstructorException {
-    throw new DisabledConstructorException("This constructor is disabled.");
+  public DisabledConstructorException(final String message) {
+    super(message);
   }
 }

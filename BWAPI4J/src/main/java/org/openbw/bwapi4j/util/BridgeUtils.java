@@ -20,9 +20,11 @@
 
 package org.openbw.bwapi4j.util;
 
+import org.openbw.bwapi4j.util.exception.DisabledConstructorException;
+
 public final class BridgeUtils {
-  private BridgeUtils() throws InstantiationException {
-    Utils.throwInstantiationException();
+  private BridgeUtils() throws DisabledConstructorException {
+    Utils.throwDisabledConstructorException();
   }
 
   public static double parsePreservedDouble(final int i) {

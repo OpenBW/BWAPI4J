@@ -23,10 +23,12 @@ package org.openbw.bwapi4j.util;
 import static java.lang.Math.abs;
 import static java.lang.Math.sqrt;
 
+import org.openbw.bwapi4j.util.exception.DisabledConstructorException;
+
 /** Contains utility functions for basic calculations. */
 public final class MathUtils {
-  private MathUtils() throws InstantiationException {
-    Utils.throwInstantiationException();
+  private MathUtils() throws DisabledConstructorException {
+    Utils.throwDisabledConstructorException();
   }
 
   /**
