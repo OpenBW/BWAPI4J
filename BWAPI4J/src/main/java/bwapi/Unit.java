@@ -1025,7 +1025,6 @@ public class Unit implements Comparable<Unit> {
   }
 
   public boolean build(final UnitType unitType, final TilePosition target) {
-    // TODO: Double-check that we should pass the XY of a TilePosition and not a Position.
     return issueCommand(
         getID(),
         UnitCommandType.Build,
