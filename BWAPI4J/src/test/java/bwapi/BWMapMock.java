@@ -173,4 +173,21 @@ public class BWMapMock implements BWMap {
       TilePosition tilePosition, UnitType type, Unit builder, boolean checkExplored) {
     throw new UnsupportedOperationException();
   }
+
+  @Override
+  public TilePosition getBuildLocation(
+      UnitType unitType, TilePosition desiredTilePosition, int maxRange, boolean creep) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public TilePosition getBuildLocation(
+      UnitType unitType, TilePosition desiredTilePosition, int maxRange) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public TilePosition getBuildLocation(UnitType unitType, TilePosition desiredTilePosition) {
+    throw new UnsupportedOperationException();
+  }
 }
