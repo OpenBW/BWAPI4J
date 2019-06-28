@@ -174,7 +174,7 @@ JNIEXPORT jstring JNICALL Java_bwapi_BW_getPlayerName_1native(JNIEnv *env, jobje
   */
 }
 
-// TODO: Refactor to be one call for all players.
+// TODO: Refactor to be one call for all players; similar to the approach of getting all units and bullets data.
 JNIEXPORT jintArray JNICALL Java_bwapi_BW_getPlayerAdditionalData_1native(JNIEnv *env, jobject, jint playerID) {
   BUFFER_SETUP;
 
