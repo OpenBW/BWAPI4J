@@ -964,12 +964,14 @@ public class BW {
     return getBWMap().canBuildHere(tilePosition, type, builder, checkExplored);
   }
 
-  public boolean canMake(UnitType type) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  private native boolean canMake_native(int unitTypeId, int builderId);
+
+  public boolean canMake(final UnitType unitType, final Unit builder) {
+    return canMake_native(unitType.getID(), builder.getID());
   }
 
-  public boolean canMake(UnitType type, Unit builder) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean canMake(final UnitType unitType) {
+    return canMake_native(unitType.getID(), -1);
   }
 
   public boolean canResearch(TechType type, Unit unit) {

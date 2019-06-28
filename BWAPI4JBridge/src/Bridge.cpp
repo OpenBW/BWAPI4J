@@ -350,4 +350,14 @@ JNIEXPORT jintArray JNICALL Java_bwapi_BW_getUnitsInRadius_1native(JNIEnv *env, 
 
 JNIEXPORT jboolean JNICALL Java_bwapi_BW_setLastError_1native(JNIEnv *, jobject, jint errorId) { return BWAPI::Broodwar->setLastError(BWAPI::Error(errorId)); }
 
+JNIEXPORT jboolean JNICALL Java_bwapi_BW_canMake_1native(JNIEnv *, jobject, jint unitTypeId, jint builderId) {
+  if (builderId != DataBuffer::NO_VALUE) {
+    const auto &unit = BWAPI::Broodwar->getUnit(builderId);
+
+    return unit && BWAPI::Broodwar->canMake(BWAPI::UnitType(unitTypeId), unit);
+  } else {
+    return BWAPI::Broodwar->canMake(BWAPI::UnitType(unitTypeId));
+  }
+}
+
 JNIEXPORT void JNICALL Java_bwapi_BW_setCommandOptimizationLevel(JNIEnv *, jobject, jint level) { BWAPI::Broodwar->setCommandOptimizationLevel(level); }
