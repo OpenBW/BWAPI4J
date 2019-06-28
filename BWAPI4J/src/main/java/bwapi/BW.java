@@ -809,12 +809,14 @@ public class BW {
     return getInteractionHandler().getLastError();
   }
 
-  public boolean setLastError() {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  private native boolean setLastError_native(int errorId);
+
+  public boolean setLastError(final Error error) {
+    return setLastError_native(error.ordinal());
   }
 
-  public boolean setLastError(Error e) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+  public boolean setLastError() {
+    return setLastError(Error.None);
   }
 
   public int mapWidth() {

@@ -348,4 +348,6 @@ JNIEXPORT jintArray JNICALL Java_bwapi_BW_getUnitsInRadius_1native(JNIEnv *env, 
   BUFFER_RETURN;
 }
 
+JNIEXPORT jboolean JNICALL Java_bwapi_BW_setLastError_1native(JNIEnv *, jobject, jint errorId) { return BWAPI::Broodwar->setLastError(BWAPI::Error(errorId)); }
+
 JNIEXPORT void JNICALL Java_bwapi_BW_setCommandOptimizationLevel(JNIEnv *, jobject, jint level) { BWAPI::Broodwar->setCommandOptimizationLevel(level); }
