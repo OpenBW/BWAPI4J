@@ -9,7 +9,6 @@ public class DefaultUnitFactory implements UnitFactory {
 
   @Override
   public Unit createUnit(final int unitId, final UnitType unitType, final int timeSpotted) {
-    final Unit unit = new Unit(bw, unitId, unitType, timeSpotted);
-    return unit;
+    return new Unit(bw, unitId, unitType, timeSpotted);
   }
 }

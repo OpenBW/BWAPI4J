@@ -34,9 +34,9 @@ public enum Color implements WithId {
   BLACK(0),
   GREY(74);
 
-  private int rgb;
+  private final int rgb;
 
-  Color(int rgb) {
+  Color(final int rgb) {
     this.rgb = rgb;
   }
 

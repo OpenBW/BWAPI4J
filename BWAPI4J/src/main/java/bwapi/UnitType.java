@@ -459,7 +459,7 @@ public enum UnitType implements WithId {
   @BridgeValue(accessor = "upgradesWhat()")
   List<UpgradeType> upgradesWhat;
 
-  UnitType(int id) {
+  UnitType(final int id) {
     this.iD = id;
     // this.whatBuilds will be created via JNI
     this.requiredUnits = new HashMap<>();

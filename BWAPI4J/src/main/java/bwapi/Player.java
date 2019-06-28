@@ -220,9 +220,8 @@ public class Player {
         .filter(UnitType::isAddon)
         .findAny()
         .map(
-            requiredAddon -> {
-              return builder.getAddon() != null && builder.getAddon().getType() == requiredAddon;
-            })
+            requiredAddon ->
+                builder.getAddon() != null && builder.getAddon().getType() == requiredAddon)
         .orElse(true);
   }
 

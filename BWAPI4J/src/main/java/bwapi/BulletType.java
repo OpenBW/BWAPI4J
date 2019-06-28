@@ -64,9 +64,9 @@ public enum BulletType implements WithId {
   Unknown(210),
   MAX(211);
 
-  private int typeId;
+  private final int typeId;
 
-  BulletType(int typeId) {
+  BulletType(final int typeId) {
     this.typeId = typeId;
   }
 

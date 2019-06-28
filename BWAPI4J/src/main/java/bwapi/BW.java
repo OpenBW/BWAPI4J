@@ -43,8 +43,6 @@ import org.openbw.bwapi4j.util.system.SystemUtils;
 public class BW {
   private static final Logger logger = LogManager.getLogger();
 
-  private final DependencyManager dependencyManager;
-
   private BWEventListener listener;
   private InteractionHandler interactionHandler;
   private MapDrawer mapDrawer;
@@ -96,7 +94,7 @@ public class BW {
       final BWEventListener listener,
       BWAPI4J.BridgeType bridgeType,
       boolean extractBridgeDependencies) {
-    this.dependencyManager = new DependencyManager();
+    final DependencyManager dependencyManager = new DependencyManager();
 
     try {
       bridgeType =
@@ -117,7 +115,7 @@ public class BW {
                   BWAPI4J.Property.EXTRACT_DEPENDENCIES.toString(), false);
     }
 
-    this.dependencyManager.loadSharedLibraries(bridgeType, extractBridgeDependencies);
+    dependencyManager.loadSharedLibraries(bridgeType, extractBridgeDependencies);
 
     this.players = new HashMap<>();
     this.units = new HashMap<>();
