@@ -23,19 +23,19 @@ package bwapi;
 import java.util.List;
 
 public interface BWMap {
-  public String mapHash();
+  String mapHash();
 
-  public String mapFileName();
+  String mapFileName();
 
-  public String mapName();
+  String mapName();
 
-  public String mapPathName();
+  String mapPathName();
 
-  public int getGroundHeight(TilePosition position);
+  int getGroundHeight(TilePosition position);
 
-  public int getGroundHeight(int tileX, int tileY);
+  int getGroundHeight(int tileX, int tileY);
 
-  public List<TilePosition> getStartLocations();
+  List<TilePosition> getStartLocations();
 
   /**
    * Return true, if the given "walk position" is walkable. Coordinates must be within the map grid,
@@ -51,48 +51,47 @@ public interface BWMap {
 
   boolean isValidPosition(Position position);
 
-  public int mapWidth();
+  int mapWidth();
 
-  public int mapHeight();
+  int mapHeight();
 
-  public boolean isBuildable(int tileX, int tileY, boolean considerBuildings);
+  boolean isBuildable(int tileX, int tileY, boolean considerBuildings);
 
-  public boolean isBuildable(TilePosition position, boolean considerBuildings);
+  boolean isBuildable(TilePosition position, boolean considerBuildings);
 
-  public boolean isBuildable(int tileX, int tileY);
+  boolean isBuildable(int tileX, int tileY);
 
-  public boolean isBuildable(TilePosition position);
+  boolean isBuildable(TilePosition position);
 
-  public boolean isExplored(int tileX, int tileY);
+  boolean isExplored(int tileX, int tileY);
 
-  public boolean isExplored(TilePosition position);
+  boolean isExplored(TilePosition position);
 
-  public boolean isVisible(int tileX, int tileY);
+  boolean isVisible(int tileX, int tileY);
 
-  public boolean isVisible(TilePosition position);
+  boolean isVisible(TilePosition position);
 
-  public boolean hasPath(Position source, Position destination);
+  boolean hasPath(Position source, Position destination);
 
-  public boolean hasCreep(int tileX, int tileY);
+  boolean hasCreep(int tileX, int tileY);
 
-  public boolean hasCreep(TilePosition tilePosition);
+  boolean hasCreep(TilePosition tilePosition);
 
-  public boolean hasPower(int tileX, int tileY);
+  boolean hasPower(int tileX, int tileY);
 
-  public boolean hasPower(TilePosition tilePosition);
+  boolean hasPower(TilePosition tilePosition);
 
-  public boolean canBuildHere(TilePosition tilePosition, UnitType unitType);
+  boolean canBuildHere(TilePosition tilePosition, UnitType unitType);
 
-  public boolean canBuildHere(TilePosition tilePosition, UnitType unitType, Unit builder);
+  boolean canBuildHere(TilePosition tilePosition, UnitType unitType, Unit builder);
 
-  public boolean canBuildHere(
+  boolean canBuildHere(
       TilePosition tilePosition, UnitType unitType, Unit builder, boolean checkExplored);
 
-  public TilePosition getBuildLocation(
+  TilePosition getBuildLocation(
       UnitType unitType, TilePosition desiredTilePosition, int maxRange, boolean creep);
 
-  public TilePosition getBuildLocation(
-      UnitType unitType, TilePosition desiredTilePosition, int maxRange);
+  TilePosition getBuildLocation(UnitType unitType, TilePosition desiredTilePosition, int maxRange);
 
-  public TilePosition getBuildLocation(UnitType unitType, TilePosition desiredTilePosition);
+  TilePosition getBuildLocation(UnitType unitType, TilePosition desiredTilePosition);
 }

@@ -94,25 +94,16 @@ public class WalkPosition {
   public boolean equals(final Object object) {
     if (this == object) {
       return true;
-    }
-
-    if (!(object instanceof WalkPosition)) {
+    } else if (object instanceof WalkPosition) {
+      final WalkPosition that = (WalkPosition) object;
+      return this.getX() == that.getX() && this.getY() == that.getY();
+    } else {
       return false;
     }
-
-    final WalkPosition walkPosition = (WalkPosition) object;
-    if (getX() != walkPosition.getX()) {
-      return false;
-    }
-    if (getY() != walkPosition.getY()) {
-      return false;
-    }
-
-    return true;
   }
 
   @Override
   public int hashCode() {
-    return (getX() * 2048 * WalkPosition.SIZE_IN_PIXELS + getY());
+    return getX() * 2048 * WalkPosition.SIZE_IN_PIXELS + getY();
   }
 }

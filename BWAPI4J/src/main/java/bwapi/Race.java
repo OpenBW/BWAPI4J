@@ -31,15 +31,16 @@ public enum Race {
   None(7),
   Unknown(8);
 
-  private int id;
+  private final int id;
   private UnitType worker;
   private UnitType center;
   private UnitType refinery;
   private UnitType transport;
   private UnitType supplyProvider;
 
-  private Race(int id) {
+  Race(final int id) {
     this.id = id;
+
     switch (id) {
       case 0:
         this.worker = UnitType.Zerg_Drone;

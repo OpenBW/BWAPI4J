@@ -221,10 +221,7 @@ public class Player {
         .findAny()
         .map(
             requiredAddon -> {
-              if (builder.getAddon() == null || builder.getAddon().getType() != requiredAddon) {
-                return false;
-              }
-              return true;
+              return builder.getAddon() != null && builder.getAddon().getType() == requiredAddon;
             })
         .orElse(true);
   }

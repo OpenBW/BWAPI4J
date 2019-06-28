@@ -20,39 +20,38 @@
 
 package bwapi;
 
-
 public interface BWEventListener {
-  public void onStart();
+  void onStart();
 
-  public void onEnd(boolean isWinner);
+  void onEnd(boolean isWinner);
 
-  public void onFrame();
+  void onFrame();
 
-  public void onSendText(String text);
+  void onSendText(String text);
 
-  public void onReceiveText(Player player, String text);
+  void onReceiveText(Player player, String text);
 
-  public void onPlayerLeft(Player player);
+  void onPlayerLeft(Player player);
 
-  public void onNukeDetect(Position target);
+  void onNukeDetect(Position target);
 
-  public void onUnitDiscover(Unit unit);
+  void onUnitDiscover(Unit unit);
 
-  public void onUnitEvade(Unit unit);
+  void onUnitEvade(Unit unit);
 
-  public void onUnitShow(Unit unit);
+  void onUnitShow(Unit unit);
 
-  public void onUnitHide(Unit unit);
+  void onUnitHide(Unit unit);
 
-  public void onUnitCreate(Unit unit);
+  void onUnitCreate(Unit unit);
 
-  public void onUnitDestroy(Unit unit);
+  void onUnitDestroy(Unit unit);
 
-  public void onUnitMorph(Unit unit);
+  void onUnitMorph(Unit unit);
 
-  public void onUnitRenegade(Unit unit);
+  void onUnitRenegade(Unit unit);
 
-  public void onSaveGame(String gameName);
+  void onSaveGame(String gameName);
 
-  public void onUnitComplete(Unit unit);
+  void onUnitComplete(Unit unit);
 }

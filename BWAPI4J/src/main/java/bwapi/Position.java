@@ -103,25 +103,16 @@ public class Position {
   public boolean equals(final Object object) {
     if (this == object) {
       return true;
-    }
-
-    if (!(object instanceof Position)) {
+    } else if (object instanceof Position) {
+      final Position that = (Position) object;
+      return this.getX() == that.getX() && this.getY() == that.getY();
+    } else {
       return false;
     }
-
-    final Position position = (Position) object;
-    if (getX() != position.getX()) {
-      return false;
-    }
-    if (getY() != position.getY()) {
-      return false;
-    }
-
-    return true;
   }
 
   @Override
   public int hashCode() {
-    return (getX() * 2048 * TilePosition.SIZE_IN_PIXELS + getY());
+    return getX() * 2048 * TilePosition.SIZE_IN_PIXELS + getY();
   }
 }

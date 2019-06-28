@@ -104,25 +104,16 @@ public class TilePosition {
   public boolean equals(final Object object) {
     if (this == object) {
       return true;
-    }
-
-    if (!(object instanceof TilePosition)) {
+    } else if (object instanceof TilePosition) {
+      final TilePosition that = (TilePosition) object;
+      return this.getX() == that.getX() && this.getY() == that.getY();
+    } else {
       return false;
     }
-
-    final TilePosition tilePosition = (TilePosition) object;
-    if (getX() != tilePosition.getX()) {
-      return false;
-    }
-    if (getY() != tilePosition.getY()) {
-      return false;
-    }
-
-    return true;
   }
 
   @Override
   public int hashCode() {
-    return (getX() * 2048 + getY());
+    return getX() * 2048 + getY();
   }
 }
