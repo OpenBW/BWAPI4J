@@ -108,11 +108,13 @@ public class BwemDataBuffer {
     if (staticBuilding == null) {
       throw new IllegalStateException(
           "Failed to create StaticBuilding for unitId=" + unitId + ": not found");
-    } else if (!staticBuilding.getType().isBuilding() || !staticBuilding.getPlayer().isNeutral()) {
+    } else if (!staticBuilding.getType().isBuilding()
+        || (staticBuilding.getPlayer() != null && !staticBuilding.getPlayer().isNeutral())) {
       throw new IllegalStateException(
           "Failed to create StaticBuilding for unitId="
               + unitId
-              + ": unit is not a neutral building");
+              + ": unit is not a neutral building: "
+              + staticBuilding.getType().toString());
     } else {
       return new StaticBuilding(staticBuilding);
     }
