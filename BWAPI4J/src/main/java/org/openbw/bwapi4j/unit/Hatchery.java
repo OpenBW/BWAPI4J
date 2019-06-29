@@ -53,20 +53,20 @@ public class Hatchery extends BuildingImpl
    * @return list of larvae
    */
   public List<Larva> getLarva() {
-    final List<Larva> larvae = new ArrayList<>();
-
-    for (final UnitImpl unit : super.getAllUnits()) {
-      if (unit instanceof Larva) {
-        final Larva larva = (Larva) unit;
-
-        final Hatchery hatchery = larva.getHatchery();
-        if (hatchery != null && hatchery.getId() == getId()) {
-          larvae.add(larva);
-        }
-      }
-    }
-
-    return larvae;
+    return super.getAllUnits()
+            .stream()
+            .filter(u -> {
+                      if (u instanceof Larva) {
+                        final Larva larva = (Larva) u;
+                        final Hatchery hatchery = larva.getHatchery();
+                        return hatchery != null && hatchery.getId() == getId();
+                      } else {
+                        return false;
+                      }
+                    }
+            )
+            .map(u -> (Larva) u)
+            .collect(Collectors.toList());
   }
 
   public boolean researchBurrowing() {
