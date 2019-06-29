@@ -23,6 +23,7 @@ package org.openbw.bwapi4j.unit;
 import static org.openbw.bwapi4j.type.UnitCommandType.Morph;
 import static org.openbw.bwapi4j.type.UnitType.Zerg_Lair;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.openbw.bwapi4j.type.TechType;
@@ -52,11 +53,20 @@ public class Hatchery extends BuildingImpl
    * @return list of larvae
    */
   public List<Larva> getLarva() {
-    return super.getAllUnits()
-        .stream()
-        .filter(u -> u instanceof Larva && ((Larva) u).getHatchery().getId() == this.getId())
-        .map(u -> (Larva) u)
-        .collect(Collectors.toList());
+    final List<Larva> larvae = new ArrayList<>();
+
+    for (final UnitImpl unit : super.getAllUnits()) {
+      if (unit instanceof Larva) {
+        final Larva larva = (Larva) unit;
+
+        final Hatchery hatchery = larva.getHatchery();
+        if (hatchery != null && hatchery.getId() == getId()) {
+          larvae.add(larva);
+        }
+      }
+    }
+
+    return larvae;
   }
 
   public boolean researchBurrowing() {
