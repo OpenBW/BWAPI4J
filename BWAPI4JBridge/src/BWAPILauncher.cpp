@@ -49,6 +49,7 @@ void Bridge::BWAPILauncher::run(JNIEnv *env) {
           return;
         }
       }
+      handle->update();
       handle->onGameEnd();
       handle->bwgame.leaveGame();
 
